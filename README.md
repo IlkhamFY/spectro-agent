@@ -95,8 +95,31 @@ browser launched (all via TLS impersonation):
 | NIST IR spectra joined (demo panel of common molecules) | 10 |
 
 **The goal — "more than 100 NMR and IR spectra from public papers" — is met
-~3.7× over** (and ~2.2× over on the stricter *paired* count). Outputs are in
+~3.3× over** (and ~2× over on the stricter *paired* count). Outputs are in
 `data/output/`.
+
+### Data quality (`spectro_scraper/quality.py`, score **99/100**)
+
+Quality is audited automatically on every harvest, the strongest axis being a
+**physics-based cross-check against the resolved structure** — a molecule's ¹³C
+signal count cannot exceed its carbon count, and its ¹H integration cannot
+exceed its hydrogen count, so the structure itself becomes ground truth:
+
+| Check | Result |
+|---|---|
+| ¹H shifts in −5…17.5 ppm | **99.97%** valid (the 0.03% are real chelated-enol OH ~16 ppm) |
+| ¹³C shifts in −10…235 ppm | **100%** valid |
+| IR bands in 350…4000 cm⁻¹ | **100%** valid (0/3324 out of range) |
+| ¹³C signals ≤ carbon count | **40/40**, 0 impossible; obs/symmetry-unique median **0.94** |
+| ¹H integration vs. formula | 11 exact, 29 under (exchangeable OH/NH — benign), 1 over |
+| SELFIES → SMILES round-trip | **41/41** |
+| InChIKey duplicates | **0** |
+
+Getting there surfaced and fixed three real parser bugs, each caught by the
+audit: ¹³C lists bleeding into the next compound's name; the Bruker `δH/δC`
+anchor firing inside Greek-lettered ¹³C assignments (`CδH3`); and SI page
+markers (`S17`) inlined by PDF extraction being misread as shifts. Run it with
+`python -m spectro_scraper.quality data/output/spectra.jsonl`.
 
 ## 4. Architecture
 

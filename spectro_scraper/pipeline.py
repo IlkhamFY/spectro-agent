@@ -179,11 +179,18 @@ class Harvester:
                     "source_doi": rec.source_doi,
                 }, ensure_ascii=False) + "\n")
 
+        # Data-quality audit (physics + structure cross-checks).
+        from .quality import audit
+        quality = audit([r.to_dict() for r in self.records])
+        (out / f"{basename}_quality.json").write_text(json.dumps(quality, indent=2))
+
         report = {
             "stats": self.stats.as_dict(),
             "capabilities": capabilities(),
             "fetcher": self.fetcher.stats,
-            "outputs": {"records": str(jsonl), "spectro": str(spectro)},
+            "quality": quality,
+            "outputs": {"records": str(jsonl), "spectro": str(spectro),
+                        "quality": str(out / f"{basename}_quality.json")},
         }
         (out / f"{basename}_report.json").write_text(json.dumps(report, indent=2))
         return report

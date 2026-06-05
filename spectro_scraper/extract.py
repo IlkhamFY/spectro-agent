@@ -267,12 +267,17 @@ def parse_c_peaks(delta_str: str) -> list[Peak]:
 #   B) "δH(400 MHz, DMSO-d6): 9.1 ..."        /  "δC(101 MHz, ...) 137.0 ..."
 # Both may use ':' or '=' before the shift list. The regex consumes everything
 # up to (but not including) the first shift number.
+#
+# Notation B is guarded hard: δ must NOT follow a letter/digit (else it matches
+# the Greek position label inside 13C assignments like "(uD -CδH3)" or "CγH"),
+# and must be followed by a meta paren / ':' / '=' (the hallmark of the real
+# notation) -- "CδH3)" has neither, so it is correctly rejected.
 _NMR_RE = re.compile(
     r"(?:"
     r"(?P<nucA>1H|13C(?:\{1H\})?)\s*[-\s]?NMR\s*(?P<metaA>\([^)]{0,90}\))?"
     r"\s*[:=]?\s*(?:δ|delta)?\s*[:=]?\s*"
     r"|"
-    r"(?P<nucB>δ\s?[HC])\s*(?P<metaB>\([^)]{0,90}\))?\s*[:=]?\s*"
+    r"(?<![A-Za-z0-9])(?P<nucB>δ\s?[HC])(?=\s*[(:=])\s*(?P<metaB>\([^)]{0,90}\))?\s*[:=]?\s*"
     r")",
     re.IGNORECASE,
 )
@@ -337,7 +342,11 @@ def extract_records(raw_text: str) -> list[CompoundRecord]:
         nuc = "1H" if (nuc_tok.startswith("1H") or nuc_tok == "δH".upper()
                        or nuc_tok.endswith("H")) else "13C"
         meta = (m.group("metaA") or m.group("metaB") or "").strip()
-        payload = _truncate_nmr_payload(_capture_payload(text, m.end()))
+        payload = _capture_payload(text, m.end())
+        # Drop SI page markers ("S17", "S4") that PDF extraction inlines into the
+        # data, otherwise their digits are misread as chemical shifts.
+        payload = re.sub(r"\bS\s?\d{1,4}\b", " ", payload)
+        payload = _truncate_nmr_payload(payload)
         blocks.append({"nuc": nuc, "start": m.start(), "anchor_end": m.end(),
                        "meta": meta, "payload": payload})
 

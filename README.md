@@ -165,7 +165,27 @@ python -m spectro_scraper.cli --search "total synthesis" --issn 1860-5397 --rows
 
 # Demonstrate the NIST IR capstone end-to-end (saves JDX files):
 python scripts/nist_ir_demo.py
+
+# Audit data quality (structure cross-checks, shift validity, dedup):
+python -m spectro_scraper.quality data/output/spectra.jsonl
 ```
+
+### Scaling out (multi-journal, crash-safe)
+
+```bash
+# Sweep many topics across both Beilstein gold-OA journals (bjoc + bjnano),
+# with the quality gate on and disk checkpointing every 50 records.
+# Re-run with the same --out to resume; quarantined records are written aside.
+python scripts/scale_harvest.py --target 1500 --out data/scaled
+
+# Any harvest can enable the per-record validation gate:
+python -m spectro_scraper.cli --search synthesis --issn 1860-5397 --quality-gate
+```
+
+Measured throughput is ~6–7 s/paper single-stream (mostly per-host politeness),
+~6 records/paper; the binding constraint is courtesy + IR scarcity, not compute,
+so reach scales with the number of OA hosts crawled in parallel. See the gold-OA
+corpus estimate in the PR description (~10⁵–10⁶ addressable papers).
 
 ### Outputs (`data/output/`)
 * `spectra.jsonl` — full records (raw + parsed peaks + IR bands + provenance).

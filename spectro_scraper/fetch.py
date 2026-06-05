@@ -81,29 +81,35 @@ class ResilientFetcher:
     """Scrapling-backed fetcher with cache, retries and per-host throttling."""
 
     def __init__(self, cache_dir="data/cache", min_interval=1.0,
-                 max_retries=4, impersonate="chrome", allow_stealth=True):
+                 max_retries=4, impersonate="chrome", allow_stealth=True,
+                 host_concurrency=None):
         self.cache = Path(cache_dir)
         self.cache.mkdir(parents=True, exist_ok=True)
         self.min_interval = min_interval
         self.max_retries = max_retries
         self.impersonate = impersonate
         self.allow_stealth = allow_stealth and _HAVE_STEALTH
+        # Per-host request-start rate limiting (token bucket): a host's requests
+        # START no closer than min_interval apart, but the start lock is released
+        # before the (possibly slow) fetch, so up to `concurrency` requests can be
+        # in flight at once. Different hosts are fully independent. This lets a
+        # host that allows e.g. 3 req/s actually run at 3 req/s with overlap,
+        # instead of one-at-a-time. host_concurrency maps host -> max in-flight.
+        self._host_concurrency = host_concurrency or {}
         self._last_hit: dict[str, float] = {}
-        self.stats = {"requests": 0, "cache_hits": 0, "stealth": 0, "failures": 0}
-        # Thread-safety for concurrent multi-host crawling: one lock per host
-        # (held across that host's request, so same-host calls serialise and
-        # respect min_interval while *different* hosts proceed in parallel) plus
-        # a lock guarding the shared stats dict.
-        self._host_locks: dict[str, threading.Lock] = {}
+        self._start_locks: dict[str, threading.Lock] = {}
+        self._sems: dict[str, threading.BoundedSemaphore] = {}
         self._locks_guard = threading.Lock()
         self._stats_lock = threading.Lock()
+        self.stats = {"requests": 0, "cache_hits": 0, "stealth": 0, "failures": 0}
 
-    def _host_lock(self, host: str) -> threading.Lock:
+    def _host_ctrl(self, host: str):
         with self._locks_guard:
-            lk = self._host_locks.get(host)
-            if lk is None:
-                lk = self._host_locks[host] = threading.Lock()
-            return lk
+            if host not in self._start_locks:
+                self._start_locks[host] = threading.Lock()
+                k = self._host_concurrency.get(host, 1)
+                self._sems[host] = threading.BoundedSemaphore(k)
+            return self._start_locks[host], self._sems[host]
 
     def _bump(self, key: str) -> None:
         with self._stats_lock:
@@ -135,15 +141,17 @@ class ResilientFetcher:
             hdrs.update(headers)
 
         host = urlparse(url).netloc
-        host_lock = self._host_lock(host)
+        start_lock, sem = self._host_ctrl(host)
         content = b""
         status = None
         engine = "fetcher"
-        # Hold the host lock across this request: never two concurrent hits to
-        # one host, while other hosts run in parallel (per-host token bucket).
-        with host_lock:
+        # Bound in-flight requests per host with the semaphore; gate the START
+        # rate with the start lock (released before the fetch, so concurrency is
+        # allowed up to the semaphore size).
+        with sem:
             for attempt in range(self.max_retries):
-                self._wait_turn(host)
+                with start_lock:
+                    self._wait_turn(host)
                 self._bump("requests")
                 try:
                     page = Fetcher.get(url, impersonate=self.impersonate,

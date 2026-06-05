@@ -117,6 +117,30 @@ def lookup_doi(doi: str) -> Paper:
 # ---------------------------------------------------------------------------
 EUROPEPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest"
 PMC_OAI = "https://www.ncbi.nlm.nih.gov/pmc/oai/oai.cgi"
+NCBI_EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
+
+
+def _pmc_paper(num: str) -> Paper:
+    """A Paper whose full text is the NCBI PMC OAI JATS XML for PMC<num>."""
+    return Paper(
+        doi=f"PMC:{num}", title="", is_oa=True,
+        url=f"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC{num}/",
+        fulltext_xml=(f"{PMC_OAI}?verb=GetRecord&metadataPrefix=pmc"
+                      f"&identifier=oai:pubmedcentral.nih.gov:{num}"),
+    )
+
+
+def search_ncbi_pmc(term: str, retmax: int = 5000, retstart: int = 0):
+    """NCBI esearch over PMC. Returns (papers, total_hits). esearch UIDs are the
+    PMC numbers, so one cheap call enumerates thousands of PMCIDs -- the scalable
+    discovery path for a 100k-record bulk crawl."""
+    url = (f"{NCBI_EUTILS}/esearch.fcgi?db=pmc&retmode=json"
+           f"&retmax={retmax}&retstart={retstart}"
+           f"&term={urllib.parse.quote(term)}&tool=spectro-agent&email={MAILTO}")
+    data = _get_json(url)
+    res = data.get("esearchresult", {})
+    ids = res.get("idlist", [])
+    return [_pmc_paper(i) for i in ids], int(res.get("count", 0))
 
 
 def search_europepmc(query: str, page_size: int = 25,

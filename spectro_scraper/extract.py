@@ -186,6 +186,31 @@ def _is_name_fragment(tok: str) -> bool:
     return bool(re.search(r"[A-Za-z]{2,}", residue))
 
 
+def _truncate_nmr_payload(s: str) -> str:
+    """Cut an NMR shift list where the *next* compound's name begins.
+
+    SI entries run "…last shift. <IUPAC name> (label). Yield …" with no section
+    keyword between the shifts and the name, so the raw capture over-reads. We
+    mask parenthesised descriptors/assignments (so "(m, 4H, pyridine)" is not
+    mistaken for a name), find the first long lowercase word — which only occurs
+    in a chemical name, never in a shift/multiplicity/unit token — and trim back
+    to the sentence/comma boundary before it.
+    """
+    masked = s
+    for _ in range(3):                      # blank nested parens, innermost first
+        masked = re.sub(r"\([^()]*\)", lambda m: " " * len(m.group(0)), masked)
+    m = re.search(r"[a-z]{5,}", masked)     # a name word (e.g. "propane", "phenyl")
+    if not m:
+        return s.strip(" ,.;:")
+    # Cut at the last *sentence* period (".(space)") before the name -- not a
+    # decimal point and not a comma (names carry locant commas like "1,2,4-").
+    sentence_dots = [mt.start() for mt in re.finditer(r"\.(?=\s|$)", s[:m.start()])]
+    cut = sentence_dots[-1] if sentence_dots else s.rfind(",", 0, m.start())
+    if cut == -1:
+        cut = m.start()
+    return s[:cut].strip(" ,.;:")
+
+
 def parse_h_peaks(delta_str: str) -> list[Peak]:
     """Parse a 1H NMR δ-string into individual signals."""
     peaks: list[Peak] = []
@@ -312,7 +337,7 @@ def extract_records(raw_text: str) -> list[CompoundRecord]:
         nuc = "1H" if (nuc_tok.startswith("1H") or nuc_tok == "δH".upper()
                        or nuc_tok.endswith("H")) else "13C"
         meta = (m.group("metaA") or m.group("metaB") or "").strip()
-        payload = _capture_payload(text, m.end())
+        payload = _truncate_nmr_payload(_capture_payload(text, m.end()))
         blocks.append({"nuc": nuc, "start": m.start(), "anchor_end": m.end(),
                        "meta": meta, "payload": payload})
 

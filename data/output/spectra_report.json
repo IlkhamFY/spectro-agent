@@ -4,13 +4,13 @@
     "pdfs_fetched": 29,
     "pdf_bytes": 56885570,
     "records_raw": 415,
-    "records_kept": 343,
-    "with_ir": 212,
-    "with_paired": 212,
+    "records_kept": 346,
+    "with_ir": 211,
+    "with_paired": 211,
     "with_structure": 41,
     "nist_ir_joined": 0,
     "per_source": {
-      "beilstein": 342,
+      "beilstein": 345,
       "chemrxiv": 1
     }
   },

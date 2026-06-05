@@ -36,23 +36,20 @@ from spectro_scraper.fetch import ResilientFetcher                     # noqa: E
 from spectro_scraper.pipeline import _xml_to_text                      # noqa: E402
 from spectro_scraper.sources import select_adapter                     # noqa: E402
 
-# PMC OA queries. Bias HARD toward journals that print the experimental section
-# in the article *body* (so one full-text fetch yields many compounds), since
-# yield-per-paper -- not corpus size -- sets the wall-clock for 100k.
-_HIGH_YIELD_J = ('("Molecules"[Journal] OR "Int J Mol Sci"[Journal] OR '
-                 '"Pharmaceuticals (Basel)"[Journal] OR "Mar Drugs"[Journal] OR '
-                 '"Beilstein J Org Chem"[Journal] OR "Molbank"[Journal] OR '
-                 '"Org Biomol Chem"[Journal] OR "RSC Adv"[Journal] OR '
-                 '"Antibiotics (Basel)"[Journal] OR "Polymers (Basel)"[Journal])')
-PMC_TERMS = [
-    f"(1H NMR OR 13C NMR) AND {_HIGH_YIELD_J} AND open access[filter]",
-    f"NMR AND synthesis AND {_HIGH_YIELD_J} AND open access[filter]",
-    f"NMR AND yield AND {_HIGH_YIELD_J} AND open access[filter]",
-    f"NMR AND derivative AND {_HIGH_YIELD_J} AND open access[filter]",
-    # broader fallbacks (lower yield/paper, but keep the corpus deep)
-    "(1H NMR OR 13C NMR) AND synthesis AND open access[filter]",
-    "NMR AND characterization AND organic AND open access[filter]",
+# Only journals that print the experimental section in the article *body* (so
+# one full-text fetch yields many compounds). yield-per-paper -- not corpus size
+# -- sets the wall-clock for 100k, and broad PMC queries mostly return
+# NMR-in-SI papers that body-text extraction can't use. We slice each journal by
+# publication year to get past esearch's 10k-results-per-query ceiling and reach
+# the full corpus (Molecules/IJMS alone are 50k+ papers each).
+HIGH_YIELD_JOURNALS = [
+    "Molecules", "Int J Mol Sci", "Pharmaceuticals (Basel)", "Mar Drugs",
+    "Beilstein J Org Chem", "Molbank", "Org Biomol Chem", "RSC Adv",
+    "Antibiotics (Basel)", "Pharmaceutics", "Polymers (Basel)", "Metabolites",
+    "Biomolecules", "Nanomaterials (Basel)", "Materials (Basel)", "Gels (Basel)",
+    "Membranes (Basel)", "Catalysts", "Plants (Basel)", "Foods",
 ]
+YEARS = list(range(2026, 2010, -1))
 BEILSTEIN_TERMS = ["synthesis", "total synthesis", "heterocycle", "catalysis",
                    "natural product", "cycloaddition", "functionalization"]
 
@@ -107,26 +104,27 @@ def _load_resume(out: Path):
 
 
 def discover(seen_papers: set, want: int) -> list:
-    """Enumerate a big mixed-host paper pool (PMC paged + Beilstein)."""
+    """Enumerate a deep high-yield paper pool: each body-experimental journal
+    sliced by publication year (so every slice is under esearch's 10k cap)."""
     papers, dois = [], set()
-    # PMC: page esearch across terms until we have plenty of fresh PMCIDs.
-    per = 5000
-    for term in PMC_TERMS:
-        for start in (0, 5000, 10000):
+    need = max(want, 1) * 2          # over-discover to absorb low/zero-yield papers
+    for journal in HIGH_YIELD_JOURNALS:
+        for year in YEARS:
+            term = (f'"{journal}"[Journal] AND {year}[pdat] AND '
+                    f'(1H NMR OR 13C NMR) AND open access[filter]')
             try:
-                ps, total = search_ncbi_pmc(term, retmax=per, retstart=start)
-            except Exception as e:                       # noqa: BLE001
-                print(f"  ! esearch failed: {e}"); break
+                ps, total = search_ncbi_pmc(term, retmax=5000)
+            except Exception:
+                continue
             for p in ps:
                 if p.doi in seen_papers or p.doi in dois:
                     continue
                 dois.add(p.doi); papers.append(p)
-            if start >= total or len(papers) >= want * 3:
-                break
-            time.sleep(0.4)
-        if len(papers) >= want * 3:
-            break
-    # Beilstein second host.
+            time.sleep(0.34)
+            if len(papers) >= need:
+                print(f"  discovery reached {len(papers)} fresh papers", flush=True)
+                return papers
+    # Beilstein second host (small but different host -> parallel throughput).
     for issn in ("1860-5397", "2190-4286"):
         for q in BEILSTEIN_TERMS:
             try:

@@ -1,33 +1,33 @@
 {
-  "n_records": 334,
+  "n_records": 332,
   "completeness": {
-    "h_nmr": 318,
-    "c_nmr": 321,
-    "both": 306,
+    "h_nmr": 317,
+    "c_nmr": 320,
+    "both": 305,
     "ir": 201,
-    "structure": 41,
-    "pct_both": 91.6,
-    "pct_ir": 60.2
+    "structure": 98,
+    "pct_both": 91.9,
+    "pct_ir": 60.5
   },
   "shift_validity": {
-    "h_peaks": 3553,
+    "h_peaks": 3543,
     "h_out_of_range": 1,
     "h_bad_pct": 0.03,
-    "c_peaks": 4633,
+    "c_peaks": 4619,
     "c_out_of_range": 0,
     "c_bad_pct": 0.0,
     "ir_bands": 3324,
     "ir_out_of_range": 0
   },
   "structure_check": {
-    "checked": 41,
-    "c13_within_carbon_count": 40,
+    "checked": 98,
+    "c13_within_carbon_count": 91,
     "c13_impossible": 0,
-    "c13_obs_over_unique_median": 0.94,
-    "h1_integration_matches_formula": 11,
-    "h1_over_formula": 1,
-    "h1_under_formula_exchangeable": 29,
-    "selfies_roundtrip": "41/41"
+    "c13_obs_over_unique_median": 0.95,
+    "h1_integration_matches_formula": 55,
+    "h1_over_formula": 2,
+    "h1_under_formula_exchangeable": 34,
+    "selfies_roundtrip": "98/98"
   },
   "duplicates": {
     "inchikey_collisions": 0
@@ -37,5 +37,5 @@
     "unknown_multiplicity_examples": {},
     "implausible_J_over_300Hz": 0
   },
-  "quality_score": 99.0
+  "quality_score": 99.2
 }

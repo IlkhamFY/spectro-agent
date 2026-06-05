@@ -4,14 +4,14 @@
     "pdfs_fetched": 258,
     "pdf_bytes": 409255732,
     "records_raw": 1295,
-    "records_kept": 1205,
-    "with_ir": 537,
-    "with_paired": 537,
-    "with_structure": 76,
+    "records_kept": 1202,
+    "with_ir": 538,
+    "with_paired": 538,
+    "with_structure": 271,
     "nist_ir_joined": 0,
-    "quarantined": 8,
+    "quarantined": 13,
     "per_source": {
-      "beilstein": 1205
+      "beilstein": 1202
     }
   },
   "capabilities": {
@@ -20,41 +20,41 @@
     "opsin": true
   },
   "fetcher": {
-    "requests": 320,
-    "cache_hits": 100,
+    "requests": 0,
+    "cache_hits": 420,
     "stealth": 0,
     "failures": 0
   },
   "quality": {
-    "n_records": 1205,
+    "n_records": 1202,
     "completeness": {
-      "h_nmr": 1158,
-      "c_nmr": 1072,
-      "both": 1025,
-      "ir": 537,
-      "structure": 76,
-      "pct_both": 85.1,
-      "pct_ir": 44.6
+      "h_nmr": 1155,
+      "c_nmr": 1067,
+      "both": 1020,
+      "ir": 538,
+      "structure": 271,
+      "pct_both": 84.9,
+      "pct_ir": 44.8
     },
     "shift_validity": {
-      "h_peaks": 13819,
-      "h_out_of_range": 11,
-      "h_bad_pct": 0.08,
-      "c_peaks": 17818,
-      "c_out_of_range": 20,
-      "c_bad_pct": 0.11,
-      "ir_bands": 6533,
+      "h_peaks": 13784,
+      "h_out_of_range": 13,
+      "h_bad_pct": 0.09,
+      "c_peaks": 17702,
+      "c_out_of_range": 21,
+      "c_bad_pct": 0.12,
+      "ir_bands": 6542,
       "ir_out_of_range": 0
     },
     "structure_check": {
-      "checked": 76,
-      "c13_within_carbon_count": 71,
+      "checked": 271,
+      "c13_within_carbon_count": 216,
       "c13_impossible": 0,
       "c13_obs_over_unique_median": 1.0,
-      "h1_integration_matches_formula": 61,
-      "h1_over_formula": 2,
-      "h1_under_formula_exchangeable": 12,
-      "selfies_roundtrip": "76/76"
+      "h1_integration_matches_formula": 216,
+      "h1_over_formula": 6,
+      "h1_under_formula_exchangeable": 41,
+      "selfies_roundtrip": "271/271"
     },
     "duplicates": {
       "inchikey_collisions": 0
@@ -67,7 +67,7 @@
       },
       "implausible_J_over_300Hz": 0
     },
-    "quality_score": 98.9
+    "quality_score": 99.0
   },
   "outputs": {
     "records": "data/scaled/spectra.jsonl",

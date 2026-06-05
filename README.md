@@ -89,9 +89,9 @@ browser launched (all via TLS impersonation):
 
 | Metric | Count |
 |--------|------:|
-| **NMR records scraped from public papers** | **373** |
-| **…with co-reported IR (paired NMR + IR)** | **222** |
-| …with resolved structure (SMILES + SELFIES + InChIKey) | 41 |
+| **NMR records scraped from public papers** | **332** |
+| **…with co-reported IR (paired NMR + IR)** | **201** |
+| …with resolved structure (SMILES + SELFIES + InChIKey) | 98 |
 | NIST IR spectra joined (demo panel of common molecules) | 10 |
 
 **The goal — "more than 100 NMR and IR spectra from public papers" — is met
@@ -107,7 +107,7 @@ Sweeping 20 topics across both Beilstein journals with the quality gate on:
 | papers / PDFs fetched | 167 / 258 (409 MB) |
 | **NMR records** | **1,205** |
 | **…with IR** | **537** |
-| with structure (SMILES+SELFIES+InChIKey) | 76 |
+| with structure (SMILES+SELFIES+InChIKey) | 271 |
 | quarantined by quality gate | 8 |
 | **quality score** | **98.9/100** (¹³C obs/unique median **1.0**, SELFIES round-trip 76/76, 0 dupes, 0 fetch failures) |
 
@@ -122,7 +122,7 @@ that the pipeline runs unattended for ~20 min and stays clean automatically.
 |--------|------:|
 | pool discovered | 229 Beilstein + 457 PMC papers (2 hosts) |
 | **NMR records** | **1,035** — PMC **582** + Beilstein **453** |
-| with IR / structure | 389 / 89 |
+| with IR / structure | 392 / 141 |
 | quarantined | 9 |
 | quality score | 95.9/100 (0 impossible ¹³C, median 1.0, SELFIES 89/89, **0 fetch failures**) |
 
@@ -133,6 +133,22 @@ run's raw speed gain is modest; concurrency's real payoff is the ability to craw
 many hosts in parallel (each kept polite by its own lock) toward the 10⁵–10⁶
 corpus ceiling. Turn structures off (or batch OPSIN) and fetch-bound throughput
 scales with host count.
+
+### Training export (`data/training/`, `scripts/make_training_export.py`)
+
+Merging all datasets, deduping by molecule, and splitting by *what can train*:
+
+| file | rows | use |
+|---|--:|---|
+| `train.jsonl` / `test.jsonl` | 341 / 85 | **supervised** spectra→structure pairs (NMR text + SELFIES target), split by molecule (no leakage) |
+| `pretrain_nmr.jsonl` | 1,922 | label-free NMR for encoder pretraining |
+
+426 supervised pairs (**426/426 SELFIES↔SMILES round-trip**, 133 with IR). The
+binding axis is the **structure label**: only resolved-structure records can train
+the supervised task. Fixing name-capture truncation took that from 190 → 426
+pairs out of spectra *already in hand* — closing the name→SMILES gap further is
+the cheapest way to grow it. See `data/training/TRAINING.md` for the full data
+card (schema → Spectro inputs, the IR-as-bands caveat, quality).
 
 ### Data quality (`spectro_scraper/quality.py`, score **99/100**)
 

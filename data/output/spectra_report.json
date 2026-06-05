@@ -1,0 +1,32 @@
+{
+  "stats": {
+    "papers_seen": 15,
+    "pdfs_fetched": 29,
+    "pdf_bytes": 56885570,
+    "records_raw": 415,
+    "records_kept": 343,
+    "with_ir": 212,
+    "with_paired": 212,
+    "with_structure": 41,
+    "nist_ir_joined": 0,
+    "per_source": {
+      "beilstein": 342,
+      "chemrxiv": 1
+    }
+  },
+  "capabilities": {
+    "rdkit": true,
+    "selfies": true,
+    "opsin": true
+  },
+  "fetcher": {
+    "requests": 0,
+    "cache_hits": 85,
+    "stealth": 0,
+    "failures": 0
+  },
+  "outputs": {
+    "records": "data/output/spectra.jsonl",
+    "spectro": "data/output/spectra_spectro.jsonl"
+  }
+}

@@ -1,0 +1,106 @@
+"""
+Paper discovery via fully-open scholarly APIs.
+
+Genius move #2: decouple *discovery* from *fetching*. Scholarly metadata APIs
+(CrossRef, OpenAlex) are NOT behind Cloudflare and expose canonical PDF URLs.
+So we enumerate open-access organic-chemistry papers through them -- cheaply,
+politely, with no anti-bot fight -- and reserve Scrapling's TLS-impersonation
+muscle for the actual (often protected) PDF download.
+
+CrossRef is the workhorse here: it indexes ChemRxiv, Beilstein, RSC, etc., lets
+us filter by ISSN / type / open-access licence, and hands back ``link`` arrays
+that point straight at the PDF.
+"""
+
+from __future__ import annotations
+
+import json
+import time
+import urllib.parse
+import urllib.request
+from dataclasses import dataclass, field
+from typing import Optional
+
+CROSSREF = "https://api.crossref.org"
+MAILTO = "ilkhamfy@gmail.com"   # polite pool -> faster, more reliable CrossRef
+UA = f"spectro-agent/0.1 (https://chemrxiv.org; mailto:{MAILTO})"
+
+
+@dataclass
+class Paper:
+    doi: str
+    title: str
+    publisher: str = ""
+    issn: str = ""
+    url: str = ""
+    pdf_links: list[str] = field(default_factory=list)
+    is_oa: bool = False
+    license: str = ""
+
+    def best_pdf(self) -> Optional[str]:
+        return self.pdf_links[0] if self.pdf_links else None
+
+
+def _get_json(url: str, retries: int = 4) -> dict:
+    req = urllib.request.Request(url, headers={"User-Agent": UA,
+                                               "Accept": "application/json"})
+    last = None
+    for attempt in range(retries):
+        try:
+            with urllib.request.urlopen(req, timeout=40) as r:
+                return json.load(r)
+        except Exception as e:               # noqa: BLE001
+            last = e
+            time.sleep(min(2 ** attempt, 16))
+    raise RuntimeError(f"GET failed {url}: {last}")
+
+
+def _paper_from_item(it: dict) -> Paper:
+    pdfs: list[str] = []
+    for l in it.get("link", []):
+        u = l.get("URL", "")
+        if l.get("content-type") == "application/pdf" or u.lower().endswith(".pdf"):
+            if u not in pdfs:
+                pdfs.append(u)
+    lic = ""
+    for L in it.get("license", []):
+        if L.get("URL"):
+            lic = L["URL"]
+            break
+    return Paper(
+        doi=it.get("DOI", ""),
+        title=(it.get("title") or ["(untitled)"])[0],
+        publisher=it.get("publisher", ""),
+        issn=(it.get("ISSN") or [""])[0],
+        url=it.get("URL", ""),
+        pdf_links=pdfs,
+        is_oa=bool(lic),
+        license=lic,
+    )
+
+
+def search_crossref(query: str = "", issn: str = "", rows: int = 20,
+                    filters: Optional[dict] = None) -> list[Paper]:
+    """Search CrossRef works. ``issn`` scopes to a single journal."""
+    params = {
+        "rows": str(rows),
+        "select": "DOI,title,link,publisher,ISSN,URL,license",
+        "mailto": MAILTO,
+    }
+    if query:
+        params["query"] = query
+    f = {"type": "journal-article"}
+    if filters:
+        f.update(filters)
+    params["filter"] = ",".join(f"{k}:{v}" for k, v in f.items())
+    base = f"{CROSSREF}/journals/{issn}/works" if issn else f"{CROSSREF}/works"
+    url = base + "?" + urllib.parse.urlencode(params)
+    data = _get_json(url)
+    return [_paper_from_item(it) for it in data.get("message", {}).get("items", [])]
+
+
+def lookup_doi(doi: str) -> Paper:
+    """Resolve a single DOI to a Paper (works for ChemRxiv preprints too)."""
+    url = f"{CROSSREF}/works/{urllib.parse.quote(doi)}?mailto={MAILTO}"
+    data = _get_json(url)
+    return _paper_from_item(data["message"])

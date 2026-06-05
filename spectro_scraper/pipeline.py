@@ -15,7 +15,10 @@ model uses 1H/13C even when IR is absent.
 from __future__ import annotations
 
 import hashlib
+import html
 import json
+import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -25,6 +28,31 @@ from .fetch import ResilientFetcher
 from .normalize import capabilities, enrich
 from .pdf import fetch_pdf_text
 from .sources import select_adapter
+
+
+# Inline JATS formatting tags carry *no* token separation -- "1<sup>H</sup>"
+# must become "1H", not "1 H" (which would break the NMR nucleus match) and
+# "CDCl<sub>3</sub>" -> "CDCl3". Everything else (block structure) becomes a space.
+_INLINE_TAGS = re.compile(
+    r"</?(?:sup|sub|italic|bold|i|b|sc|monospace|underline|"
+    r"named-content|styled-content|inline-formula|tex-math)[^>]*>", re.IGNORECASE)
+
+
+def _xml_to_text(xml: str) -> str:
+    xml = _INLINE_TAGS.sub("", xml)          # inline formatting -> nothing
+    xml = re.sub(r"<[^>]+>", " ", xml)       # block tags -> space
+    return html.unescape(xml)                # &#x3B4; -> δ, &amp; -> & ...
+
+
+def _blob_text(fetcher: ResilientFetcher, kind: str, url: str) -> tuple[str, int]:
+    """Fetch a source blob and return (plain text, n_bytes). Handles both PDF
+    candidates and PMC full-text JATS XML (``kind == 'xml'``)."""
+    if kind == "xml":
+        res = fetcher.get(url)
+        if not res.ok:
+            return "", len(res.content)
+        return _xml_to_text(res.text), len(res.content)
+    return fetch_pdf_text(fetcher, url)
 
 
 @dataclass
@@ -68,21 +96,20 @@ class Harvester:
         """Pre-load dedup keys (InChIKeys / shift-hashes) to resume a crawl."""
         self._seen.update(keys)
 
-    def harvest_paper(self, paper: Paper) -> int:
-        self.stats.papers_seen += 1
+    def _collect(self, paper: Paper) -> tuple[str, list[CompoundRecord], int, int]:
+        """Fetch + extract + enrich for one paper. Thread-safe: touches only the
+        (thread-safe) fetcher and returns fresh records -- no shared-state writes,
+        so it can run in a worker pool. Returns (src, records, n_bytes, n_blobs)."""
         adapter = select_adapter(paper)
-        src = adapter.name
-        self.stats.per_source.setdefault(src, 0)
-        added = 0
+        out: list[CompoundRecord] = []
+        nbytes = nblobs = 0
         for kind, url in adapter.pdf_candidates(paper, self.fetcher):
-            text, nbytes = fetch_pdf_text(self.fetcher, url)
+            text, nb = _blob_text(self.fetcher, kind, url)
+            nbytes += nb
             if not text:
                 continue
-            self.stats.pdfs_fetched += 1
-            self.stats.pdf_bytes += nbytes
-            recs = extract_records(text)
-            self.stats.records_raw += len(recs)
-            for rec in recs:
+            nblobs += 1
+            for rec in extract_records(text):
                 rec.source_doi = paper.doi
                 rec.source_url = url
                 if self.resolve_structures:
@@ -91,29 +118,77 @@ class Harvester:
                     from .normalize import to_spectro_c, to_spectro_h
                     rec.spectro_h = to_spectro_h(rec)
                     rec.spectro_c = to_spectro_c(rec)
-                key = rec.inchikey or _shift_hash(rec)
-                if key in self._seen:
+                out.append(rec)
+        return adapter.name, out, nbytes, nblobs
+
+    def _merge(self, src: str, recs: list[CompoundRecord],
+               nbytes: int, nblobs: int) -> int:
+        """Dedup + quality-gate + accumulate. Main-thread only (mutates state)."""
+        self.stats.papers_seen += 1
+        self.stats.per_source.setdefault(src, 0)
+        self.stats.pdfs_fetched += nblobs
+        self.stats.pdf_bytes += nbytes
+        self.stats.records_raw += len(recs)
+        added = 0
+        for rec in recs:
+            key = rec.inchikey or _shift_hash(rec)
+            if key in self._seen:
+                continue
+            self._seen.add(key)
+            if self.quality_gate:
+                from .quality import gate
+                ok, reasons = gate(rec.to_dict())
+                if not ok:
+                    rec.quarantine_reasons = reasons
+                    self.quarantine.append(rec)
+                    self.stats.quarantined += 1
                     continue
-                self._seen.add(key)
-                if self.quality_gate:
-                    from .quality import gate
-                    ok, reasons = gate(rec.to_dict())
-                    if not ok:
-                        rec.quarantine_reasons = reasons
-                        self.quarantine.append(rec)
-                        self.stats.quarantined += 1
-                        continue
-                self.records.append(rec)
-                self.stats.per_source[src] += 1
-                added += 1
-                self.stats.records_kept += 1
-                if rec.has_ir:
-                    self.stats.with_ir += 1
-                if rec.has_paired:
-                    self.stats.with_paired += 1
-                if rec.smiles:
-                    self.stats.with_structure += 1
+            self.records.append(rec)
+            self.stats.per_source[src] += 1
+            added += 1
+            self.stats.records_kept += 1
+            if rec.has_ir:
+                self.stats.with_ir += 1
+            if rec.has_paired:
+                self.stats.with_paired += 1
+            if rec.smiles:
+                self.stats.with_structure += 1
         return added
+
+    def harvest_paper(self, paper: Paper) -> int:
+        return self._merge(*self._collect(paper))
+
+    def harvest_papers_concurrent(self, papers: list[Paper], max_workers: int = 8,
+                                  target: int | None = None,
+                                  checkpoint=None, checkpoint_every: int = 50) -> None:
+        """Multi-host concurrent harvest. Workers fetch+extract in parallel (the
+        per-host lock in ResilientFetcher keeps each host polite while different
+        hosts run together); results are merged on the main thread. The more
+        distinct hosts in ``papers``, the more real parallelism."""
+        last_ckpt = 0
+        seen_dois: set[str] = set()
+        todo = [p for p in papers if not (p.doi in seen_dois or seen_dois.add(p.doi))]
+        with ThreadPoolExecutor(max_workers=max_workers) as ex:
+            futures = {ex.submit(self._collect, p): p for p in todo}
+            for fut in as_completed(futures):
+                paper = futures[fut]
+                try:
+                    src, recs, nbytes, nblobs = fut.result()
+                except Exception as e:                       # noqa: BLE001
+                    print(f"  ! {paper.doi}: {e}")
+                    continue
+                n = self._merge(src, recs, nbytes, nblobs)
+                if n:
+                    print(f"  + {paper.doi}  [{src}]  +{n}  "
+                          f"(kept {len(self.records)}, quarantined "
+                          f"{self.stats.quarantined})", flush=True)
+                if checkpoint and len(self.records) - last_ckpt >= checkpoint_every:
+                    checkpoint(self)
+                    last_ckpt = len(self.records)
+                if target and len(self.records) >= target:
+                    break
+        if checkpoint:
+            checkpoint(self)
 
     def join_nist_ir(self, limit: int | None = None) -> int:
         """

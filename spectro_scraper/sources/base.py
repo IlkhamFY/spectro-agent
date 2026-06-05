@@ -39,9 +39,10 @@ class SourceAdapter:
 def select_adapter(paper: Paper) -> "SourceAdapter":
     from .beilstein import BeilsteinAdapter
     from .chemrxiv import ChemRxivAdapter
+    from .europepmc import EuropePMCAdapter
     from .generic import GenericAdapter
 
-    for adapter in (BeilsteinAdapter(), ChemRxivAdapter()):
+    for adapter in (EuropePMCAdapter(), BeilsteinAdapter(), ChemRxivAdapter()):
         if adapter.matches(paper):
             return adapter
     return GenericAdapter()

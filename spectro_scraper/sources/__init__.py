@@ -3,6 +3,7 @@
 from .base import SourceAdapter, select_adapter
 from .beilstein import BeilsteinAdapter
 from .chemrxiv import ChemRxivAdapter
+from .europepmc import EuropePMCAdapter
 from .generic import GenericAdapter
 
 __all__ = [
@@ -10,5 +11,6 @@ __all__ = [
     "select_adapter",
     "BeilsteinAdapter",
     "ChemRxivAdapter",
+    "EuropePMCAdapter",
     "GenericAdapter",
 ]

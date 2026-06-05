@@ -24,6 +24,7 @@ limiting.
 from __future__ import annotations
 
 import hashlib
+import threading
 import time
 from pathlib import Path
 from urllib.parse import urlparse
@@ -89,14 +90,31 @@ class ResilientFetcher:
         self.allow_stealth = allow_stealth and _HAVE_STEALTH
         self._last_hit: dict[str, float] = {}
         self.stats = {"requests": 0, "cache_hits": 0, "stealth": 0, "failures": 0}
+        # Thread-safety for concurrent multi-host crawling: one lock per host
+        # (held across that host's request, so same-host calls serialise and
+        # respect min_interval while *different* hosts proceed in parallel) plus
+        # a lock guarding the shared stats dict.
+        self._host_locks: dict[str, threading.Lock] = {}
+        self._locks_guard = threading.Lock()
+        self._stats_lock = threading.Lock()
+
+    def _host_lock(self, host: str) -> threading.Lock:
+        with self._locks_guard:
+            lk = self._host_locks.get(host)
+            if lk is None:
+                lk = self._host_locks[host] = threading.Lock()
+            return lk
+
+    def _bump(self, key: str) -> None:
+        with self._stats_lock:
+            self.stats[key] += 1
 
     # -- cache -------------------------------------------------------------
     def _cache_path(self, url: str) -> Path:
         h = hashlib.sha256(url.encode()).hexdigest()[:24]
         return self.cache / f"{h}.bin"
 
-    def _throttle(self, url: str) -> None:
-        host = urlparse(url).netloc
+    def _wait_turn(self, host: str) -> None:
         last = self._last_hit.get(host, 0.0)
         wait = self.min_interval - (time.monotonic() - last)
         if wait > 0:
@@ -108,7 +126,7 @@ class ResilientFetcher:
             headers=None) -> FetchResult:
         cpath = self._cache_path(url)
         if use_cache and cpath.exists():
-            self.stats["cache_hits"] += 1
+            self._bump("cache_hits")
             return FetchResult(url, 200, cpath.read_bytes(),
                                from_cache=True, engine="cache")
 
@@ -116,45 +134,50 @@ class ResilientFetcher:
         if headers:
             hdrs.update(headers)
 
+        host = urlparse(url).netloc
+        host_lock = self._host_lock(host)
         content = b""
         status = None
         engine = "fetcher"
-        for attempt in range(self.max_retries):
-            self._throttle(url)
-            self.stats["requests"] += 1
-            try:
-                page = Fetcher.get(url, impersonate=self.impersonate,
-                                   timeout=60, headers=hdrs)
-                status = page.status
-                body = page.body
-                content = body if isinstance(body, (bytes, bytearray)) else \
-                    (page.html_content.encode() if hasattr(page, "html_content")
-                     else str(body).encode())
-                content = bytes(content)
-                if status and 200 <= status < 300 and not _looks_like_challenge(content):
-                    break
-            except Exception:
-                status = status or 0
-            time.sleep(min(2 ** attempt, 16))
+        # Hold the host lock across this request: never two concurrent hits to
+        # one host, while other hosts run in parallel (per-host token bucket).
+        with host_lock:
+            for attempt in range(self.max_retries):
+                self._wait_turn(host)
+                self._bump("requests")
+                try:
+                    page = Fetcher.get(url, impersonate=self.impersonate,
+                                       timeout=60, headers=hdrs)
+                    status = page.status
+                    body = page.body
+                    content = body if isinstance(body, (bytes, bytearray)) else \
+                        (page.html_content.encode() if hasattr(page, "html_content")
+                         else str(body).encode())
+                    content = bytes(content)
+                    if status and 200 <= status < 300 and not _looks_like_challenge(content):
+                        break
+                except Exception:
+                    status = status or 0
+                time.sleep(min(2 ** attempt, 16))
 
-        # Escalate to a stealth browser only if still blocked.
-        if (not (status and 200 <= status < 300) or _looks_like_challenge(content)) \
-                and self.allow_stealth and not binary:
-            try:
-                self.stats["stealth"] += 1
-                page = StealthyFetcher.fetch(url, headless=True,
-                                             solve_cloudflare=True,
-                                             network_idle=True)
-                status = getattr(page, "status", 200)
-                html = page.html_content if hasattr(page, "html_content") else str(page)
-                content = html.encode("utf-8", "replace")
-                engine = "stealth"
-            except Exception:
-                pass
+            # Escalate to a stealth browser only if still blocked.
+            if (not (status and 200 <= status < 300) or _looks_like_challenge(content)) \
+                    and self.allow_stealth and not binary:
+                try:
+                    self._bump("stealth")
+                    page = StealthyFetcher.fetch(url, headless=True,
+                                                 solve_cloudflare=True,
+                                                 network_idle=True)
+                    status = getattr(page, "status", 200)
+                    html = page.html_content if hasattr(page, "html_content") else str(page)
+                    content = html.encode("utf-8", "replace")
+                    engine = "stealth"
+                except Exception:
+                    pass
 
         ok = status and 200 <= status < 300 and content
         if ok and use_cache:
             cpath.write_bytes(content)
         if not ok:
-            self.stats["failures"] += 1
+            self._bump("failures")
         return FetchResult(url, status, content, engine=engine)

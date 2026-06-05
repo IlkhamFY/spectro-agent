@@ -15,6 +15,7 @@ that point straight at the PDF.
 from __future__ import annotations
 
 import json
+import re
 import time
 import urllib.parse
 import urllib.request
@@ -36,6 +37,7 @@ class Paper:
     pdf_links: list[str] = field(default_factory=list)
     is_oa: bool = False
     license: str = ""
+    fulltext_xml: str = ""    # Europe PMC JATS full-text URL, when available
 
     def best_pdf(self) -> Optional[str]:
         return self.pdf_links[0] if self.pdf_links else None
@@ -104,3 +106,44 @@ def lookup_doi(doi: str) -> Paper:
     url = f"{CROSSREF}/works/{urllib.parse.quote(doi)}?mailto={MAILTO}"
     data = _get_json(url)
     return _paper_from_item(data["message"])
+
+
+# ---------------------------------------------------------------------------
+# Europe PMC -- a second, large, fully-open (no-Cloudflare) corpus that serves
+# JATS full-text XML directly. Crucially, MDPI/RSC/etc. articles here carry the
+# experimental section *in the body*, so one XML fetch == one paper's worth of
+# NMR/IR with no SI hunt. A different host than the publishers -> real
+# concurrency headroom.
+# ---------------------------------------------------------------------------
+EUROPEPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest"
+PMC_OAI = "https://www.ncbi.nlm.nih.gov/pmc/oai/oai.cgi"
+
+
+def search_europepmc(query: str, page_size: int = 25,
+                     oa_only: bool = True) -> list[Paper]:
+    """Search Europe PMC; return papers that have full-text XML in EPMC."""
+    q = query
+    if oa_only:
+        q = f"({query}) AND (OPEN_ACCESS:y) AND (IN_EPMC:y)"
+    url = (f"{EUROPEPMC}/search?query={urllib.parse.quote(q)}"
+           f"&format=json&pageSize={page_size}&resultType=lite")
+    data = _get_json(url)
+    out: list[Paper] = []
+    for r in data.get("resultList", {}).get("result", []):
+        pmcid = r.get("pmcid")
+        if not pmcid or r.get("inEPMC") != "Y":
+            continue
+        # Europe PMC finds the papers; NCBI's PMC OAI service serves the actual
+        # full-text JATS XML reliably (a different host -> concurrency headroom).
+        num = pmcid.replace("PMC", "")
+        title = re.sub(r"<[^>]+>", "", r.get("title", "(untitled)"))
+        out.append(Paper(
+            doi=r.get("doi", "") or f"PMC:{pmcid}",
+            title=title,
+            publisher=r.get("journalTitle", ""),
+            url=f"https://europepmc.org/article/PMC/{pmcid}",
+            is_oa=True,
+            fulltext_xml=(f"{PMC_OAI}?verb=GetRecord&metadataPrefix=pmc"
+                          f"&identifier=oai:pubmedcentral.nih.gov:{num}"),
+        ))
+    return out

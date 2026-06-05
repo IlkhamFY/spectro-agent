@@ -114,6 +114,26 @@ Sweeping 20 topics across both Beilstein journals with the quality gate on:
 i.e. **>12× the goal**, with quality holding at scale — a direct demonstration
 that the pipeline runs unattended for ~20 min and stays clean automatically.
 
+#### Multi-host concurrent run (`data/multihost/`, `scripts/multihost_harvest.py`)
+
+8 workers across **two hosts** — Beilstein + Europe PMC/NCBI full-text XML:
+
+| Metric | Count |
+|--------|------:|
+| pool discovered | 229 Beilstein + 457 PMC papers (2 hosts) |
+| **NMR records** | **1,035** — PMC **582** + Beilstein **453** |
+| with IR / structure | 389 / 89 |
+| quarantined | 9 |
+| quality score | 95.9/100 (0 impossible ¹³C, median 1.0, SELFIES 89/89, **0 fetch failures**) |
+
+The headline here is **corpus reach**: a single new adapter added a whole second
+host that out-produced the original. Honest note — with structure resolution on,
+wall-time is dominated by **OPSIN (a JVM per compound)**, not fetching, so this
+run's raw speed gain is modest; concurrency's real payoff is the ability to crawl
+many hosts in parallel (each kept polite by its own lock) toward the 10⁵–10⁶
+corpus ceiling. Turn structures off (or batch OPSIN) and fetch-bound throughput
+scales with host count.
+
 ### Data quality (`spectro_scraper/quality.py`, score **99/100**)
 
 Quality is audited automatically on every harvest, the strongest axis being a
@@ -144,10 +164,12 @@ spectro_scraper/
 ├── discover.py     # open scholarly APIs (CrossRef) → Paper(doi, pdf_links, …)
 ├── fetch.py        # ResilientFetcher: Scrapling + retry/backoff + cache + stealth fallback
 ├── pdf.py          # download + robust PDF text extraction (pypdf)
-├── sources/        # per-source adapters that locate main + SI PDFs
-│   ├── beilstein.py   #   Beilstein JOC (gold OA, IR+NMR-rich, predictable SI URLs)
+├── sources/        # per-source adapters that locate main + SI PDFs / full text
+│   ├── beilstein.py   #   Beilstein JOC + JNano (gold OA, IR+NMR-rich SI PDFs)
 │   ├── chemrxiv.py    #   ChemRxiv  (the task's named source; Cloudflare-proof)
+│   ├── europepmc.py   #   Europe PMC discovery + NCBI PMC full-text JATS XML
 │   └── generic.py
+├── quality.py      # structure-aware quality audit + per-record validation gate
 ├── extract.py      # regex engine: segment compounds, parse ¹H/¹³C NMR, IR, HRMS, yield
 ├── normalize.py    # Spectro-format strings + OPSIN→SMILES→SELFIES + InChIKey
 ├── pipeline.py     # orchestration + dedup + JSONL/Spectro output + stats
@@ -189,14 +211,25 @@ python -m spectro_scraper.quality data/output/spectra.jsonl
 ### Scaling out (multi-journal, crash-safe)
 
 ```bash
-# Sweep many topics across both Beilstein gold-OA journals (bjoc + bjnano),
-# with the quality gate on and disk checkpointing every 50 records.
-# Re-run with the same --out to resume; quarantined records are written aside.
+# Single-host sweep: many topics across both Beilstein journals (bjoc + bjnano),
+# quality gate on, disk checkpoint every 50 records, resumable via --out.
 python scripts/scale_harvest.py --target 1500 --out data/scaled
+
+# Multi-host CONCURRENT crawl across Beilstein + Europe PMC/NCBI (two hosts),
+# 8 workers; a per-host lock keeps each host polite while the hosts run in
+# parallel, so throughput scales with #hosts rather than one courtesy delay.
+python scripts/multihost_harvest.py --target 1000 --workers 8 --out data/multihost
 
 # Any harvest can enable the per-record validation gate:
 python -m spectro_scraper.cli --search synthesis --issn 1860-5397 --quality-gate
 ```
+
+**Concurrency model.** `ResilientFetcher` holds one lock per host across that
+host's request — never two concurrent hits to a host, `min_interval` respected —
+while different hosts proceed in parallel (a per-host token bucket). Workers
+fetch+extract+resolve-structure in a thread pool; results merge on the main
+thread (no shared-state locks needed). Adding hosts (PMC was the second) is what
+multiplies real throughput.
 
 Measured throughput is ~6–7 s/paper single-stream (mostly per-host politeness),
 ~6 records/paper; the binding constraint is courtesy + IR scarcity, not compute,

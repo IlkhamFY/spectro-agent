@@ -1,0 +1,41 @@
+{
+  "n_records": 1035,
+  "completeness": {
+    "h_nmr": 1014,
+    "c_nmr": 875,
+    "both": 854,
+    "ir": 389,
+    "structure": 89,
+    "pct_both": 82.5,
+    "pct_ir": 37.6
+  },
+  "shift_validity": {
+    "h_peaks": 12842,
+    "h_out_of_range": 2,
+    "h_bad_pct": 0.02,
+    "c_peaks": 13211,
+    "c_out_of_range": 1,
+    "c_bad_pct": 0.01,
+    "ir_bands": 4568,
+    "ir_out_of_range": 0
+  },
+  "structure_check": {
+    "checked": 89,
+    "c13_within_carbon_count": 62,
+    "c13_impossible": 0,
+    "c13_obs_over_unique_median": 1.0,
+    "h1_integration_matches_formula": 56,
+    "h1_over_formula": 9,
+    "h1_under_formula_exchangeable": 23,
+    "selfies_roundtrip": "89/89"
+  },
+  "duplicates": {
+    "inchikey_collisions": 0
+  },
+  "field_hygiene": {
+    "unknown_multiplicities": 0,
+    "unknown_multiplicity_examples": {},
+    "implausible_J_over_300Hz": 0
+  },
+  "quality_score": 95.9
+}

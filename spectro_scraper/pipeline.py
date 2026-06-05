@@ -168,8 +168,9 @@ class Harvester:
         last_ckpt = 0
         seen_dois: set[str] = set()
         todo = [p for p in papers if not (p.doi in seen_dois or seen_dois.add(p.doi))]
-        with ThreadPoolExecutor(max_workers=max_workers) as ex:
-            futures = {ex.submit(self._collect, p): p for p in todo}
+        ex = ThreadPoolExecutor(max_workers=max_workers)
+        futures = {ex.submit(self._collect, p): p for p in todo}
+        try:
             for fut in as_completed(futures):
                 paper = futures[fut]
                 try:
@@ -187,6 +188,12 @@ class Harvester:
                     last_ckpt = len(self.records)
                 if target and len(self.records) >= target:
                     break
+        finally:
+            # Stop as soon as the target is met: cancel queued work and don't
+            # block on in-flight fetches.
+            for f in futures:
+                f.cancel()
+            ex.shutdown(wait=False, cancel_futures=True)
         if checkpoint:
             checkpoint(self)
 

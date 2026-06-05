@@ -1,0 +1,6 @@
+{
+  "ir_triples": 6981,
+  "with_real_ir": 6981,
+  "overlap_with_nmrexp": 33,
+  "note": "experimental NMR+IR+structure from paper crawl; 33 also in NMRexp (can add IR to those)"
+}

@@ -98,6 +98,22 @@ browser launched (all via TLS impersonation):
 ~3.3× over** (and ~2× over on the stricter *paired* count). Outputs are in
 `data/output/`.
 
+#### Scaled run (`data/scaled/`, via `scripts/scale_harvest.py`)
+
+Sweeping 20 topics across both Beilstein journals with the quality gate on:
+
+| Metric | Count |
+|--------|------:|
+| papers / PDFs fetched | 167 / 258 (409 MB) |
+| **NMR records** | **1,205** |
+| **…with IR** | **537** |
+| with structure (SMILES+SELFIES+InChIKey) | 76 |
+| quarantined by quality gate | 8 |
+| **quality score** | **98.9/100** (¹³C obs/unique median **1.0**, SELFIES round-trip 76/76, 0 dupes, 0 fetch failures) |
+
+i.e. **>12× the goal**, with quality holding at scale — a direct demonstration
+that the pipeline runs unattended for ~20 min and stays clean automatically.
+
 ### Data quality (`spectro_scraper/quality.py`, score **99/100**)
 
 Quality is audited automatically on every harvest, the strongest axis being a

@@ -1,0 +1,77 @@
+{
+  "stats": {
+    "papers_seen": 167,
+    "pdfs_fetched": 258,
+    "pdf_bytes": 409255732,
+    "records_raw": 1295,
+    "records_kept": 1205,
+    "with_ir": 537,
+    "with_paired": 537,
+    "with_structure": 76,
+    "nist_ir_joined": 0,
+    "quarantined": 8,
+    "per_source": {
+      "beilstein": 1205
+    }
+  },
+  "capabilities": {
+    "rdkit": true,
+    "selfies": true,
+    "opsin": true
+  },
+  "fetcher": {
+    "requests": 320,
+    "cache_hits": 100,
+    "stealth": 0,
+    "failures": 0
+  },
+  "quality": {
+    "n_records": 1205,
+    "completeness": {
+      "h_nmr": 1158,
+      "c_nmr": 1072,
+      "both": 1025,
+      "ir": 537,
+      "structure": 76,
+      "pct_both": 85.1,
+      "pct_ir": 44.6
+    },
+    "shift_validity": {
+      "h_peaks": 13819,
+      "h_out_of_range": 11,
+      "h_bad_pct": 0.08,
+      "c_peaks": 17818,
+      "c_out_of_range": 20,
+      "c_bad_pct": 0.11,
+      "ir_bands": 6533,
+      "ir_out_of_range": 0
+    },
+    "structure_check": {
+      "checked": 76,
+      "c13_within_carbon_count": 71,
+      "c13_impossible": 0,
+      "c13_obs_over_unique_median": 1.0,
+      "h1_integration_matches_formula": 61,
+      "h1_over_formula": 2,
+      "h1_under_formula_exchangeable": 12,
+      "selfies_roundtrip": "76/76"
+    },
+    "duplicates": {
+      "inchikey_collisions": 0
+    },
+    "field_hygiene": {
+      "unknown_multiplicities": 2,
+      "unknown_multiplicity_examples": {
+        "brdt": 1,
+        "brtd": 1
+      },
+      "implausible_J_over_300Hz": 0
+    },
+    "quality_score": 98.9
+  },
+  "outputs": {
+    "records": "data/scaled/spectra.jsonl",
+    "spectro": "data/scaled/spectra_spectro.jsonl",
+    "quality": "data/scaled/spectra_quality.json"
+  }
+}

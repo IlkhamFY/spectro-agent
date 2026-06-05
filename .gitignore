@@ -1,6 +1,11 @@
 # Scrapling response cache (large, reproducible — re-fetched on demand)
 data/cache/
 
+# Bulk-crawl working files (large/streaming/resumable) — committed as gzipped
+# snapshots at milestones instead of the raw growing JSONL.
+data/bulk/spectra.jsonl
+data/bulk/seen_papers.txt
+
 # Python
 __pycache__/
 *.py[cod]

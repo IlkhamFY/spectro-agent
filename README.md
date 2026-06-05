@@ -238,7 +238,20 @@ python scripts/multihost_harvest.py --target 1000 --workers 8 --out data/multiho
 
 # Any harvest can enable the per-record validation gate:
 python -m spectro_scraper.cli --search synthesis --issn 1860-5397 --quality-gate
+
+# BULK crawl toward 100k: NCBI PMC OA (~460k chem+NMR papers) + Beilstein,
+# structure-off for speed, streaming append, resumable (re-run to continue).
+python scripts/bulk_harvest.py --target 100000 --out data/bulk --workers 10
 ```
+
+**Scaling to 100k.** `bulk_harvest.py` discovers PMCIDs via NCBI esearch over the
+PMC Open-Access subset, pulls full-text JATS XML (experimental section in the
+body), and streams records to disk. Structure resolution is **off** during the
+crawl (OPSIN's JVM-per-compound dominates wall-time) — add SELFIES labels in a
+batched pass afterwards. The binding constraint is NCBI's polite ~3 req/s, so
+100k is a multi-hour, resumable accumulation (~450–800 rec/min measured); the
+per-host token bucket means adding more full-text hosts is what raises the
+ceiling.
 
 **Concurrency model.** `ResilientFetcher` holds one lock per host across that
 host's request — never two concurrent hits to a host, `min_interval` respected —

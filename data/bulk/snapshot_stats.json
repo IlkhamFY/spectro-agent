@@ -1,5 +1,5 @@
 {
-  "records": 26278,
-  "with_ir": 8474,
-  "note": "bulk PMC+Beilstein crawl, structure-off; snapshot toward 100k"
+  "records": 33863,
+  "with_ir": 10788,
+  "note": "bulk crawl snapshot toward 100k (high-yield PMC journals + Beilstein)"
 }

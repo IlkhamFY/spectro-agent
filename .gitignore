@@ -19,3 +19,7 @@ dist/
 # OS / editor
 .DS_Store
 *.swp
+
+# NMRexp raw download (661MB) — regenerable from Zenodo
+data/nmrexp/*.parquet
+data/nmrexp/*.csv

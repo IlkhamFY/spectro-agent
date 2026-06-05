@@ -301,9 +301,12 @@ _YIELD_RE = re.compile(r"\((?:[\d.]+\s*(?:mg|g|mmol|µmol)[^)]*?)?(\d{1,3}(?:\.\
 # (e.g. "3a", "12"), which lets us tell it apart from parentheses inside the
 # name itself, e.g. "(3-phenyl-1,2,4-oxadiazol-5-yl)".
 _HEADER_RE = re.compile(
-    r"(?:^|[.\n;)]|•)\s*"
+    # Start only at a real sentence boundary -- NOT after ')' (IUPAC names are
+    # full of parens, and allowing ')' truncated names mid-token). Trailing
+    # punctuation is optional; OPSIN/PubChem validate what we capture.
+    r"(?:^|(?<=[.\n;]))[ \t]*"
     r"(?P<name>[A-Za-z0-9(\[][^.\n;]{4,200}?)\s*"
-    r"\((?P<label>\d{1,3}[a-z]?)\)\s*[.:]",
+    r"\((?P<label>\d{1,3}[a-z]?)\)\s*[.:]?",
 )
 # A "looks like a chemical name" gate before we bother OPSIN.
 _NAMEISH = re.compile(r"[a-z]{3}.*(?:yl|one|ol|al|ate|ide|ine|ane|ene|yne|acid|"
@@ -391,8 +394,15 @@ def extract_records(raw_text: str) -> list[CompoundRecord]:
             pass
         if hdr:
             name = re.sub(r"\s+", " ", hdr.group("name")).strip(" -,;:")
-            # Strip leading SI page markers ("S10 ", "2907 ") and fix "( R)-".
-            name = re.sub(r"^(?:S\s?\d{1,4}\b|\d{2,4})[\s.]+", "", name).strip()
+            # Strip SI page markers ("S10 ", "2907 ") and section numbers ("3.2.1.").
+            name = re.sub(r"^(?:S\s?\d{1,4}\b|\d{1,3}(?:\.\d{1,3})*\.?)[\s.]+", "", name).strip()
+            # Strip narrative prefixes so OPSIN sees just the chemical name.
+            name = re.sub(r"^(?:synthesis|preparation|general\s+procedure(?:\s+for)?|"
+                          r"typical\s+procedure|compound|data(?:\s+for)?|example|procedure|"
+                          r"title\s+compound|characterization(?:\s+of\s+products?)?|"
+                          r"experimental\s+details(?:\s+for(?:\s+the\s+preparation\s+of)?)?)"
+                          r"\b\s*(?:of\s+|for\s+|:\s*)?",
+                          "", name, flags=re.IGNORECASE).strip()
             name = re.sub(r"\(\s+", "(", name).replace(" )", ")")
             rec.label = hdr.group("label")
             if _NAMEISH.search(name) and 5 <= len(name) <= 200:

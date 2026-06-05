@@ -73,20 +73,62 @@ def to_spectro_c(rec: CompoundRecord) -> str | None:
     return "δ " + ", ".join(_fmt_peak_c(p) for p in rec.c_peaks)
 
 
+# Optional PubChem fallback (network) for names OPSIN can't parse -- trivial
+# names, peptides, etc. Cached on disk so repeated/￼big runs don't re-hit it.
+import json as _json
+import urllib.parse as _uparse
+import urllib.request as _urequest
+from pathlib import Path as _Path
+
+USE_PUBCHEM = False                       # opt-in; set True to enable the fallback
+_PUBCHEM_CACHE = _Path("data/cache/pubchem_names.json")
+_pubchem_mem: dict | None = None
+
+
+def _pubchem_lookup(name: str) -> str | None:
+    global _pubchem_mem
+    if _pubchem_mem is None:
+        try:
+            _pubchem_mem = _json.loads(_PUBCHEM_CACHE.read_text())
+        except Exception:
+            _pubchem_mem = {}
+    if name in _pubchem_mem:
+        return _pubchem_mem[name]
+    smi = None
+    try:
+        url = ("https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"
+               f"{_uparse.quote(name)}/property/CanonicalSMILES/TXT")
+        smi = _urequest.urlopen(url, timeout=15).read().decode().strip().splitlines()[0] or None
+    except Exception:
+        smi = None
+    _pubchem_mem[name] = smi
+    try:
+        _PUBCHEM_CACHE.parent.mkdir(parents=True, exist_ok=True)
+        _PUBCHEM_CACHE.write_text(_json.dumps(_pubchem_mem))
+    except Exception:
+        pass
+    return smi
+
+
 def name_to_smiles(name: str) -> str | None:
-    """IUPAC name -> SMILES via OPSIN (offline, no network)."""
-    if not (_HAVE_OPSIN and name):
+    """IUPAC name -> SMILES via OPSIN (offline); optional PubChem fallback."""
+    if not name:
         return None
     name = name.strip().strip(".:;,")
     if len(name) < 4 or len(name) > 200:
         return None
-    try:
-        with _warnings.catch_warnings():
-            _warnings.simplefilter("ignore")
-            smi = py2opsin(name)
-        return smi or None
-    except Exception:
-        return None
+    if _HAVE_OPSIN:
+        try:
+            with _warnings.catch_warnings():
+                _warnings.simplefilter("ignore")
+                smi = py2opsin(name)
+            if smi:
+                return smi
+        except Exception:
+            pass
+    if USE_PUBCHEM:
+        return _pubchem_lookup(name)
+    return None
 
 
 def canonical_and_keys(smiles: str) -> tuple[str | None, str | None, str | None]:

@@ -62,6 +62,9 @@ def main(argv=None) -> int:
     ap.add_argument("--nist-ir", action="store_true",
                     help="capstone: join structure-resolved records to NIST IR "
                          "spectra (JDX), mirroring Spectro's own dataset build")
+    ap.add_argument("--quality-gate", action="store_true",
+                    help="validate each record (physics + structure bounds); "
+                         "quarantine failures instead of keeping them")
     ap.add_argument("--min-interval", type=float, default=1.0,
                     help="seconds between requests to the same host")
     ap.add_argument("--no-cache", action="store_true", help="ignore the response cache")
@@ -72,7 +75,8 @@ def main(argv=None) -> int:
     if args.no_cache:
         fetcher.get = _wrap_no_cache(fetcher.get)  # type: ignore
 
-    h = Harvester(fetcher=fetcher, resolve_structures=not args.no_structures)
+    h = Harvester(fetcher=fetcher, resolve_structures=not args.no_structures,
+                  quality_gate=args.quality_gate)
 
     dois: list[str] = list(args.doi)
     if args.seeds:
@@ -102,8 +106,12 @@ def main(argv=None) -> int:
     print(f"  with IR          : {s['with_ir']}")
     print(f"  paired (NMR+IR)  : {s['with_paired']}")
     print(f"  with structure   : {s['with_structure']}")
+    if s.get('quarantined'):
+        print(f"  quarantined      : {s['quarantined']}  (failed quality gate)")
     if s.get('nist_ir_joined'):
         print(f"  + NIST IR joined : {s['nist_ir_joined']}  (full IR curves, Spectro-style)")
+    if report.get('quality'):
+        print(f"  quality score    : {report['quality'].get('quality_score')}/100")
     print(f"per source         : {s['per_source']}")
     print(f"fetcher            : {report['fetcher']}")
     print(f"outputs            : {report['outputs']}")

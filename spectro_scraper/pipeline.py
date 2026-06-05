@@ -38,6 +38,7 @@ class HarvestStats:
     with_paired: int = 0
     with_structure: int = 0
     nist_ir_joined: int = 0
+    quarantined: int = 0
     per_source: dict = field(default_factory=dict)
 
     def as_dict(self) -> dict:
@@ -54,12 +55,18 @@ def _shift_hash(rec: CompoundRecord) -> str:
 
 class Harvester:
     def __init__(self, fetcher: ResilientFetcher | None = None,
-                 resolve_structures: bool = True):
+                 resolve_structures: bool = True, quality_gate: bool = False):
         self.fetcher = fetcher or ResilientFetcher()
         self.resolve_structures = resolve_structures
+        self.quality_gate = quality_gate
         self.stats = HarvestStats()
         self._seen: set[str] = set()
         self.records: list[CompoundRecord] = []
+        self.quarantine: list[CompoundRecord] = []
+
+    def seed_seen(self, keys) -> None:
+        """Pre-load dedup keys (InChIKeys / shift-hashes) to resume a crawl."""
+        self._seen.update(keys)
 
     def harvest_paper(self, paper: Paper) -> int:
         self.stats.papers_seen += 1
@@ -88,6 +95,14 @@ class Harvester:
                 if key in self._seen:
                     continue
                 self._seen.add(key)
+                if self.quality_gate:
+                    from .quality import gate
+                    ok, reasons = gate(rec.to_dict())
+                    if not ok:
+                        rec.quarantine_reasons = reasons
+                        self.quarantine.append(rec)
+                        self.stats.quarantined += 1
+                        continue
                 self.records.append(rec)
                 self.stats.per_source[src] += 1
                 added += 1
@@ -153,6 +168,46 @@ class Harvester:
             if target and len(self.records) >= target:
                 break
 
+    def harvest_search_multi(self, queries: list[str], issns: list[str],
+                             rows: int = 40, oa_only: bool = True,
+                             target: int | None = None,
+                             checkpoint=None, checkpoint_every: int = 50) -> None:
+        """
+        Scale-out discovery: sweep many (query x journal) combinations, dedup
+        across them, and checkpoint to disk every ``checkpoint_every`` records so
+        a long crawl is crash-safe and resumable. ``checkpoint`` is a callable
+        invoked with the harvester to persist progress.
+        """
+        filters = {"has-license": "true"} if oa_only else {}
+        seen_dois: set[str] = set()
+        last_ckpt = 0
+        for issn in (issns or [""]):
+            for q in queries:
+                try:
+                    papers = search_crossref(query=q, issn=issn, rows=rows,
+                                             filters=filters)
+                except Exception as e:                       # noqa: BLE001
+                    print(f"  ! search failed q={q!r} issn={issn}: {e}")
+                    continue
+                for paper in papers:
+                    if paper.doi in seen_dois:
+                        continue
+                    seen_dois.add(paper.doi)
+                    n = self.harvest_paper(paper)
+                    if n:
+                        print(f"  + {paper.doi}  q={q[:18]!r}  +{n}  "
+                              f"(kept {len(self.records)}, quarantined "
+                              f"{self.stats.quarantined})")
+                    if checkpoint and len(self.records) - last_ckpt >= checkpoint_every:
+                        checkpoint(self)
+                        last_ckpt = len(self.records)
+                    if target and len(self.records) >= target:
+                        if checkpoint:
+                            checkpoint(self)
+                        return
+        if checkpoint:
+            checkpoint(self)
+
     # -- output ------------------------------------------------------------
     def write(self, out_dir="data/output", basename="spectra") -> dict:
         out = Path(out_dir)
@@ -178,6 +233,12 @@ class Harvester:
                     "nist_ir_npoints": rec.nist_ir_npoints,
                     "source_doi": rec.source_doi,
                 }, ensure_ascii=False) + "\n")
+
+        # Quarantined (quality-gate failures), for inspection.
+        if self.quarantine:
+            with (out / f"{basename}_quarantine.jsonl").open("w") as f:
+                for rec in self.quarantine:
+                    f.write(json.dumps(rec.to_dict(), ensure_ascii=False) + "\n")
 
         # Data-quality audit (physics + structure cross-checks).
         from .quality import audit

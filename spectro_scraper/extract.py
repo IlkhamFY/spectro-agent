@@ -118,6 +118,7 @@ class CompoundRecord:
     nist_ir_jdx: Optional[str] = None        # path to saved JCAMP-DX file
     nist_ir_npoints: Optional[int] = None
     nist_ir_xrange: Optional[list] = None    # [firstx, lastx] in cm^-1
+    quarantine_reasons: list = field(default_factory=list)  # quality-gate failures
 
     def to_dict(self) -> dict:
         d = asdict(self)

@@ -60,6 +60,46 @@ def _peak_values(peak: dict) -> list[float]:
     return [float(x) for x in re.findall(r"\d+\.?\d*", peak.get("shift", ""))]
 
 
+def gate(record: dict) -> tuple[bool, list[str]]:
+    """
+    Per-record validation gate for use during a large crawl. Returns
+    ``(passed, reasons)``. Failing records should be quarantined, not trusted.
+    Hard checks only -- physical impossibilities and gross parse failures, so
+    the gate never rejects merely-unusual-but-real chemistry.
+    """
+    reasons: list[str] = []
+    hp = record.get("h_peaks", []) or []
+    cp = record.get("c_peaks", []) or []
+    if not hp and not cp:
+        reasons.append("no_peaks")
+
+    # shift-range sanity (fraction out of physical window)
+    bad = tot = 0
+    for p in hp:
+        for v in _peak_values(p):
+            tot += 1
+            bad += not (H_MIN <= v <= H_MAX)
+    for p in cp:
+        for v in _peak_values(p):
+            tot += 1
+            bad += not (C_MIN <= v <= C_MAX)
+    if tot and bad / tot > 0.25:
+        reasons.append(f"shifts_out_of_range_{round(100*bad/tot)}pct")
+
+    # structure-bound checks (only when we have a resolved structure)
+    smi = record.get("smiles")
+    if smi:
+        counts = _carbon_and_h_counts(smi)
+        if counts:
+            nC, nH, _ = counts
+            if len(cp) > nC:                       # impossible: >1 signal per carbon
+                reasons.append(f"c13_{len(cp)}_gt_carbons_{nC}")
+            obsH = sum(p["nuclei"] for p in hp if p.get("nuclei"))
+            if obsH > 2 * max(nH, 1):              # gross over-integration
+                reasons.append(f"h1_integration_{obsH}_gt_2x_H_{nH}")
+    return (len(reasons) == 0, reasons)
+
+
 def _carbon_and_h_counts(smiles: str):
     """(total C, total H, symmetry-unique C) from a SMILES, or None."""
     if not _HAVE_RDKIT:

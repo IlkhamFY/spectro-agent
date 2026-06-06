@@ -26,3 +26,7 @@ data/nmrexp/*.csv
 
 # Uncompressed training JSONL (committed as .gz)
 data/training_*/train.jsonl
+
+# IRexp working files (committed as .gz)
+data/irexp/*.jsonl
+data/irexp/seen_papers.txt

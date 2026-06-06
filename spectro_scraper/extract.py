@@ -325,6 +325,20 @@ def _parse_ir_bands(ir_str: str) -> list[float]:
     return bands
 
 
+def _is_instrument_range(bands: list[float], raw: str) -> bool:
+    """A spectrometer scan range ('recorded from 4000 to 400 cm-1'), not a
+    compound's spectrum: very few bands spanning the full window, or phrased as
+    a range. Used to reject IR false positives from methods sections."""
+    if not bands:
+        return True
+    if len(set(bands)) <= 3 and max(bands) >= 3900 and min(bands) <= 700:
+        return True
+    if re.search(r"\b(?:record|measur|rang|region|scan|from)\w*\b[^.]{0,30}\b4000\b",
+                 raw, re.IGNORECASE):
+        return True
+    return False
+
+
 def extract_records(raw_text: str) -> list[CompoundRecord]:
     """
     Extract all per-compound spectroscopy records from a block of experimental
@@ -430,7 +444,7 @@ def extract_records(raw_text: str) -> list[CompoundRecord]:
             ir_payload = _capture_payload(whole, irm.end())
             # only accept if it actually contains cm-region numbers
             bands = _parse_ir_bands(ir_payload)
-            if bands:
+            if bands and not _is_instrument_range(bands, ir_payload):
                 rec.ir = ir_payload[:400].strip(" ,.;:")
                 rec.ir_bands = bands
         hm = _HRMS_RE.search(whole)

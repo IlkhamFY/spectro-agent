@@ -1,15 +1,30 @@
 # Spectro training data — 100k NMR + IR (data card)
 
-Two complementary datasets, both in Spectro's exact input format. Gzipped in the
-repo; `gunzip` to use.
+All in Spectro's exact input format; gzipped in the repo (`gunzip` to use).
 
 | dataset | file | records | NMR | IR | structure |
 |---|---|--:|:--:|:--:|:--:|
-| **NMRexp** (backbone) | `data/training_nmrexp/train.jsonl.gz` | **100,000** | ✅ ¹H+¹³C | ✗ | ✅ |
-| **IR triples** (paper crawl) | `data/training_ir/train.jsonl.gz` | **6,981** | ✅ | ✅ real | ✅ |
+| **FULL — every record NMR+IR** | `data/training_full/train.jsonl.gz` | **100,000** | ✅ ¹H+¹³C | ✅ all | ✅ |
+| NMRexp backbone (NMR only) | `data/training_nmrexp/train.jsonl.gz` | 100,000 | ✅ | ✗ | ✅ |
+| IR triples (experimental IR) | `data/training_ir/train.jsonl.gz` | 6,981 | ✅ | ✅ real | ✅ |
 
-Every record carries a **structure label** (SMILES + SELFIES + InChIKey), so all
-107k are directly usable for supervised `spectra → structure` training.
+**`training_full` is the headline: 100,000 records that each carry NMR *and* IR
+*and* a structure label** — directly usable for supervised `(NMR,IR) → structure`.
+Audit: 100% with NMR+IR, 100% IR bands in 400–4000 cm⁻¹, **100% SELFIES↔SMILES
+round-trip**, median 16 IR bands/record.
+
+### Where the IR comes from (`ir_source` field — be precise about this)
+
+| `ir_source` | records | what it is |
+|---|--:|---|
+| `experimental` | 40 | real IR from the paper crawl, matched to an NMRexp molecule by InChIKey |
+| `computed_fg` | 99,960 | **functional-group-computed** IR (RDKit SMARTS → characteristic bands) |
+
+Experimental IR paired with structure is genuinely scarce (NMRexp, like all large
+NMR corpora, has none), so the backbone IR is **computed** — the same route the
+177K-patent IR–NMR dataset took. This is well-aligned with Spectro: its
+`j-IR-vis` is *pretrained to detect functional-group peaks*, which is exactly what
+these bands encode. For the experimental IR-paired subset, see the 6,981 triples.
 
 ## Row schema (identical for both)
 

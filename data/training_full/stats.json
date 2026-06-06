@@ -1,0 +1,7 @@
+{
+  "records": 100000,
+  "with_NMR_and_IR": 100000,
+  "ir_experimental": 40,
+  "ir_computed_fg": 99960,
+  "note": "every record carries NMR + IR; IR is experimental where available (paper crawl), else functional-group-computed"
+}

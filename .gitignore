@@ -23,3 +23,6 @@ dist/
 # NMRexp raw download (661MB) — regenerable from Zenodo
 data/nmrexp/*.parquet
 data/nmrexp/*.csv
+
+# Uncompressed training JSONL (committed as .gz)
+data/training_*/train.jsonl

@@ -77,18 +77,34 @@ def collect(num: str):
 
 def discover_nums(seen: set, want: int) -> list:
     nums, got = [], set()
-    need = min(max(want, 1) * 3, 400000)
+    need = min(max(want, 1), 50000)        # fresh PMCIDs per round
+    def add(papers):
+        for p in papers:
+            num = (p.doi or "").split(":", 1)[-1]
+            if num and num not in seen and num not in got:
+                got.add(num); nums.append(num)
     for year in YEARS:
         for month in range(1, 13):
             term = f'{IR_MARK} AND {year}/{month:02d}[pdat] AND open access[filter]'
             try:
-                papers, _ = search_ncbi_pmc(term, retmax=9000)
+                papers, total = search_ncbi_pmc(term, retmax=9000)
             except Exception:
                 continue
-            for p in papers:
-                num = (p.doi or "").split(":", 1)[-1]
-                if num and num not in seen and num not in got:
-                    got.add(num); nums.append(num)
+            if total and total > 9000:
+                # month exceeds esearch's 10k window -> sub-slice by day to reach
+                # the papers beyond position 9000 (the previously-unreachable ones)
+                for day in range(1, 32):
+                    dterm = (f'{IR_MARK} AND {year}/{month:02d}/{day:02d}[pdat] '
+                             f'AND open access[filter]')
+                    try:
+                        dp, _ = search_ncbi_pmc(dterm, retmax=9000)
+                    except Exception:
+                        continue
+                    add(dp); time.sleep(0.2)
+                    if len(nums) >= need:
+                        return nums
+            else:
+                add(papers)
             time.sleep(0.34)
             if len(nums) >= need:
                 return nums

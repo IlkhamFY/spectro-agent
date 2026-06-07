@@ -41,6 +41,23 @@ SPECTRO = (
     "1H NMR (400 MHz, CDCl3) δ 5.47 (s, 1H), 7.29-7.51 (m, 5H)."
 )
 
+# A product compound with a *combinatorial two-letter label* "(3ab)" (substrate a
+# x reagent b) and a multi-line synthesis procedure sitting between the header and
+# the spectra -- the dominant layout for the IR-bearing products in methodology
+# papers. The name must still attach to the spectra across the procedure.
+PRODUCT = (
+    "N-Benzyl-5-(3-phenyl-1,2,4-oxadiazol-5-yl)-[1,1'-biphenyl]-3-amine (3ab). "
+    "According to general procedure A: to a solution of 1,3-diketone 1a "
+    "(0.45 mmol) and benzylamine (0.50 mmol) in acetone (5 mL) was added "
+    "TsOH (10 mol%); the mixture was stirred at 60 C for 12 h, concentrated, "
+    "and purified by flash chromatography to give a yellow solid (78%). "
+    "1H NMR (400 MHz, CDCl3) δ 8.18 (d, J = 7.7 Hz, 2H), 7.55-7.40 (m, 8H), "
+    "4.48 (s, 2H). "
+    "13C NMR (101 MHz, CDCl3) δ 176.2, 169.1, 148.5, 143.6, 48.9. "
+    "IR (mineral oil), cm-1: 3432, 1613, 1581, 1562. "
+    "Anal. Calcd for C27H21N3O."
+)
+
 
 def test_acs_single_compound():
     recs = extract_records(ACS)
@@ -100,6 +117,17 @@ def test_two_compounds_segmented():
     text = ACS + " Next compound. " + ACS.replace("3a", "3b")
     recs = extract_records(text)
     assert len(recs) == 2
+
+
+def test_product_two_letter_label_with_procedure():
+    recs = [r for r in extract_records(PRODUCT) if r.has_nmr]
+    assert len(recs) == 1
+    r = recs[0]
+    assert r.label == "3ab", f"two-letter product label lost: {r.label!r}"
+    assert r.name and r.name.startswith("N-Benzyl-5-"), (
+        f"name not captured across the procedure: {r.name!r}")
+    assert r.h_nmr and r.c_nmr and r.has_ir
+    assert 3432.0 in r.ir_bands
 
 
 def test_normalize_dehyphenation():

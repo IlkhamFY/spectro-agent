@@ -317,21 +317,43 @@ _APPEAR_RE = re.compile(
 )
 _YIELD_RE = re.compile(r"\((?:[\d.]+\s*(?:mg|g|mmol|µmol)[^)]*?)?(\d{1,3}(?:\.\d)?)\s*%\)")
 # Compound header: "<IUPAC name> (<label>). [Yield ...]" -- the dominant SI
-# convention. The label parenthetical contains ONLY digits + optional letter
-# (e.g. "3a", "12"), which lets us tell it apart from parentheses inside the
-# name itself, e.g. "(3-phenyl-1,2,4-oxadiazol-5-yl)".
+# convention. The label parenthetical contains ONLY digits + up to two letters
+# (e.g. "3a", "12", and combinatorial product labels like "3ab" = substrate a x
+# reagent b), which lets us tell it apart from parentheses inside the name
+# itself, e.g. "(3-phenyl-1,2,4-oxadiazol-5-yl)". Two-letter labels are the norm
+# in methodology papers and their products are exactly the IR-bearing compounds.
 _HEADER_RE = re.compile(
     # Start only at a real sentence boundary -- NOT after ')' (IUPAC names are
     # full of parens, and allowing ')' truncated names mid-token). Trailing
     # punctuation is optional; OPSIN/PubChem validate what we capture.
     r"(?:^|(?<=[.\n;]))[ \t]*"
     r"(?P<name>[A-Za-z0-9(\[][^.\n;]{4,200}?)\s*"
-    r"\((?P<label>\d{1,3}[a-z]?)\)\s*[.:]?",
+    r"\((?P<label>\d{1,3}[a-z]{0,2})\)\s*[.:]?",
 )
 # A "looks like a chemical name" gate before we bother OPSIN.
 _NAMEISH = re.compile(r"[a-z]{3}.*(?:yl|one|ol|al|ate|ide|ine|ane|ene|yne|acid|"
                       r"amine|amide|dione|oate|nitrile|ether|oxy|phen|benz|"
                       r"methyl|ethyl)", re.IGNORECASE)
+
+
+def _clean_name(raw: str) -> str:
+    """Normalise a captured compound-name header into a bare chemical name
+    suitable for OPSIN (strip page markers, section numbers, narrative prefixes)."""
+    name = re.sub(r"\s+", " ", raw).strip(" -,;:")
+    # Strip SI page markers ("S10 ", "2907 ") and section numbers ("3.2.1.").
+    name = re.sub(r"^(?:S\s?\d{1,4}\b|\d{1,3}(?:\.\d{1,3})*\.?)[\s.]+", "", name).strip()
+    # A page marker can also be glued mid-name ("amine (3ai) S10 N-Allyl..."): if
+    # one survives at the very front after the above, drop it too.
+    name = re.sub(r"^S\s?\d{1,4}\s+", "", name).strip()
+    # Strip narrative prefixes so OPSIN sees just the chemical name.
+    name = re.sub(r"^(?:synthesis|preparation|general\s+procedure(?:\s+for)?|"
+                  r"typical\s+procedure|compound|data(?:\s+for)?|example|procedure|"
+                  r"title\s+compound|characterization(?:\s+of\s+products?)?|"
+                  r"experimental\s+details(?:\s+for(?:\s+the\s+preparation\s+of)?)?)"
+                  r"\b\s*(?:of\s+|for\s+|:\s*)?",
+                  "", name, flags=re.IGNORECASE).strip()
+    name = re.sub(r"\(\s+", "(", name).replace(" )", ")")
+    return name
 
 _HRMS_RE = re.compile(r"HRMS[^.\n]{0,200}", re.IGNORECASE)
 _MP_RE = re.compile(r"\b[mM]\.?\s?p\.?\s*[:=]?\s*([\d]{1,3}\s*-?\s*[\d]{0,3}\s*[°]?\s?C)")
@@ -420,28 +442,29 @@ def extract_records(raw_text: str) -> list[CompoundRecord]:
                 rec.c_nmr_meta = b["meta"] or None
                 rec.c_peaks = parse_c_peaks(b["payload"])
 
-        # Look-behind window for header / appearance / yield (preceding ~400 chars).
+        # Look-behind window for appearance / yield (these sit right next to the
+        # NMR block, in both the "Name (label). Yield ..." and procedure styles).
         pre = text[max(0, cl_start - 400):cl_start]
 
-        # Compound name + label: take the header closest to the NMR block.
-        hdr = None
-        for hdr in _HEADER_RE.finditer(pre):
-            pass
-        if hdr:
-            name = re.sub(r"\s+", " ", hdr.group("name")).strip(" -,;:")
-            # Strip SI page markers ("S10 ", "2907 ") and section numbers ("3.2.1.").
-            name = re.sub(r"^(?:S\s?\d{1,4}\b|\d{1,3}(?:\.\d{1,3})*\.?)[\s.]+", "", name).strip()
-            # Strip narrative prefixes so OPSIN sees just the chemical name.
-            name = re.sub(r"^(?:synthesis|preparation|general\s+procedure(?:\s+for)?|"
-                          r"typical\s+procedure|compound|data(?:\s+for)?|example|procedure|"
-                          r"title\s+compound|characterization(?:\s+of\s+products?)?|"
-                          r"experimental\s+details(?:\s+for(?:\s+the\s+preparation\s+of)?)?)"
-                          r"\b\s*(?:of\s+|for\s+|:\s*)?",
-                          "", name, flags=re.IGNORECASE).strip()
-            name = re.sub(r"\(\s+", "(", name).replace(" )", ")")
-            rec.label = hdr.group("label")
-            if _NAMEISH.search(name) and 5 <= len(name) <= 200:
-                rec.name = name
+        # Compound name + label: widen the look-behind back to the *previous*
+        # compound's data end, so a multi-line synthesis procedure between the
+        # "Name (label)." header and the spectra (common for preparative/product
+        # compounds) doesn't push the name out of a fixed 400-char window. Take
+        # the FIRST validated header in that window -- the block's own name, ahead
+        # of any "from diketone 1a / GP A" procedure prose.
+        prev_end = spans[-1][1] if spans else 0
+        head_win = text[max(prev_end, cl_start - 1600):cl_start]
+        last_seen = None
+        for h in _HEADER_RE.finditer(head_win):
+            nm = _clean_name(h.group("name"))
+            if _NAMEISH.search(nm) and 5 <= len(nm) <= 200:
+                rec.name, rec.label = nm, h.group("label")
+                break
+            last_seen = h
+        else:
+            # No name passed the gate; still record a label if one was seen.
+            if last_seen is not None:
+                rec.label = last_seen.group("label")
 
         am = None
         for am in _APPEAR_RE.finditer(pre):

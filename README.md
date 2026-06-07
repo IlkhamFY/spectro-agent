@@ -8,6 +8,10 @@ Built on [Scrapling](https://github.com/D4Vinci/Scrapling) for Cloudflare-proof,
 **browser-free** fetching, with OPSIN/RDKit/SELFIES to close the loop from a
 reported compound all the way to a training-ready `(spectra → structure)` pair.
 
+> 🎬 **See it run:** [**DEMO.md**](DEMO.md) — a recorded end-to-end walkthrough of
+> the agent parsing one public paper into 29 structured spectra (20 full
+> multimodal), in seconds. `python scripts/demo.py`
+
 ---
 
 ## 1. The problem, understood deeply

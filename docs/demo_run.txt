@@ -1,0 +1,60 @@
+
+┌─ spectro-agent ─ live parse of a public chemistry paper ─┐
+  capabilities: {'rdkit': True, 'selfies': True, 'opsin': True}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  1 │ DISCOVER  — find the paper via the open CrossRef API (no anti-bot)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  DOI: 10.3762/bjoc.20.188
+  title    : Heterocycle-guided synthesis of <i>m</i>-hetarylanilines via three-com
+  publisher: Beilstein Institut
+  adapter  : beilstein  (knows this publisher's PDF + SI layout)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  2 │ FETCH  — Scrapling TLS-impersonation (Cloudflare-proof, no browser)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  GET https://www.beilstein-journals.org/bjoc/content/supplementary/1860-5397-20-188-S1.pdf
+  -> HTTP 200  5.57 MB  in 3 ms   (plain curl here returns 403)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  3 │ READ  — extract the experimental-section text from the PDF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  parsed 39,821 characters of experimental text
+
+  what the agent reads (raw):
+  Phenyl-3-(3-phenyl-1,2,4-oxadiazol-5-yl)propane-1,3-dione (1a). Yield 73%, beige powder, mp 132 -133 °С (lit. 134-135 °С), Rf 0.72 (PhMe/EtOAc 5:1). 1H NMR (400 MHz, CDCl3) δ 15.63 (s, 1H), 8.18 (dd, J = 7.7, 1.9 Hz, 2H), 8.10 - 8.01 (m, 2H), 7.64 (t, J = 7.3 Hz, 1H), 7.58 - 7.48 (m, 5H), 7.30 (s, 1…
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  4 │ EXTRACT  — segment compounds, parse IR + ¹H/¹³C NMR per compound
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  found 29 compounds with spectra  (29 with ¹H, 29 with ¹³C, 20 with IR)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  5 │ RESOLVE  — compound name → SMILES (OPSIN) → SELFIES + InChIKey
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  resolved 29 structures  → 20 full multimodal (IR + ¹H + ¹³C + structure)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  6 │ OUTPUT  — one structured, Spectro-ready record
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{
+  "name": "N-Benzyl-5-(3-phenyl-1,2,4-oxadiazol-5-yl)-[1,1'-biphenyl]-3-amine",
+  "label": "3aa",
+  "smiles": "c1ccc(CNc2cc(-c3ccccc3)cc(-c3nc(-c4ccccc4)no3)c2)cc1",
+  "selfies": "[C][=C][C][=C][Branch2][Ring2][#Branch2][C][N][C][=C][C][Bra…",
+  "inchikey": "OTNKFQPXPWYHOF-UHFFFAOYSA-N",
+  "h_nmr": "δ 8.26-8.11 (2H, m), 7.83 (1H, d), 7.61 (2H, dd), 7.53-7.50 (4H, m), 7.48-7.28 (8H, m), 7.08 (1H, t), 5.03 (1H, s), 4.48 (2H, s)",
+  "c_nmr": "δ 176.2 (1C, s), 169.1 (1C, s), 148.5 (1C, s), 143.6 (1C, s), 140.5 (1…",
+  "ir_bands_cm-1": [
+    3432.0,
+    1613.0,
+    1581.0,
+    1562.0,
+    1464.0,
+    1455.0,
+    1445.0
+  ],
+  "source_doi": "10.3762/bjoc.20.188"
+}
+
+└─ one paper → 29 structured spectra (20 full multimodal), in seconds, fully open ─┘

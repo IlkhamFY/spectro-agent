@@ -1,0 +1,9 @@
+{
+  "irexp_total": 119345,
+  "full_multimodal_IR_NMR_structure": 27856,
+  "supervised_IR_to_structure": 28088,
+  "train": 25280,
+  "test": 2808,
+  "ir_nmr_paired": 87075,
+  "pretrain_ir_pool": 119345
+}

@@ -36,10 +36,15 @@ from spectro_scraper.normalize import to_spectro_h, to_spectro_c     # noqa: E40
 S3 = "https://pmc-oa-opendata.s3.amazonaws.com"
 # Target papers with real per-compound IR *characterization* (a method tag), not
 # generic "cm-1"/"infrared" mentions (materials/analytical prose -> false IR).
+# High-FIDELITY real-IR section markers only (per-compound characterization),
+# spanning the solvent/notation variants. Deliberately NOT bare "cm-1"/"infrared"
+# -- those flood with materials/physics prose that yields ~0 real per-compound IR.
 IR_MARK = ('("IR (KBr" OR "IR (neat" OR "IR (ATR" OR "IR (film" OR "IR (CHCl" '
-           'OR "FT-IR (" OR "FTIR (" OR "IR (thin" OR "νmax" OR "ν max" '
-           'OR "IR (Nujol" OR "ATR-FTIR" OR "ATR-IR" OR "IR (cm" OR "IR(KBr" '
-           'OR "(KBr): " OR "(neat): " OR "(ATR): " OR "cm-1" OR "cm−1")')
+           'OR "IR (Nujol" OR "IR (CCl" OR "IR (CDCl" OR "IR (DCM" OR "IR (powder" '
+           'OR "IR (solid" OR "IR (liquid" OR "FT-IR (" OR "FTIR (" OR "IR (thin" '
+           'OR "ATR-FTIR" OR "ATR-IR" OR "DRIFT" OR "νmax" OR "ν max" OR "ṽ max" '
+           'OR "IR(KBr" OR "(KBr): " OR "(neat): " OR "(ATR): " OR "IR spectrum (" '
+           'OR "Selected IR" OR "IR data:" OR "IR (ν")')
 YEARS = list(range(2026, 2004, -1))
 
 

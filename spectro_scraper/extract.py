@@ -282,13 +282,33 @@ _NMR_RE = re.compile(
     r")",
     re.IGNORECASE,
 )
+# Match only a real IR *characterization* header -- "IR (KBr)", "FT-IR (neat)",
+# "IR νmax", "IR (ATR)/cm-1" -- NOT prose like "the FTIR spectrum shows a band at
+# 2920 cm-1". Require a method tag (in parens) OR a ν/νmax symbol OR an explicit
+# "/cm-1" right after the IR token; bare "FTIR <prose>" no longer matches.
 _IR_RE = re.compile(
     r"\b(?:ATR-?FT-?IR|FT-?IR|IR)\b\s*"
-    r"(?:\([^)]{0,45}\))?\s*"                 # (neat)/(ATR)/(KBr)/(thin film)
-    r"(?:ν̃|ν|nu|vmax|v\s?max|v)?\s*(?:max)?\s*"
-    r"(?:/?\s?cm\s?-?\s?1)?\s*[:=]?\s*",
+    r"(?:"
+    r"\((?:[^)]{0,45})\)\s*(?:ν̃|ν|vmax|v\s?max)?\s*(?:max)?\s*(?:/?\s?cm\s?-?\s?1)?"
+    r"|(?:ν̃|ν|vmax|v\s?max)\s*(?:max)?\s*(?:/?\s?cm\s?-?\s?1)?"
+    r"|/?\s?cm\s?-?\s?1"
+    r")\s*[:=]?\s*",
     re.IGNORECASE,
 )
+
+
+def _looks_like_band_list(payload: str) -> bool:
+    """A real IR band list is mostly numbers/commas/units/intensities, not prose.
+    Reject payloads dominated by words (figure descriptions, methods sentences)."""
+    head = payload[:200]
+    nums = len(re.findall(r"\d{3,4}", head))
+    # alphabetic words that are NOT IR intensity/unit/method tokens
+    words = re.findall(r"[A-Za-z]{3,}", head)
+    allowed = {"cm", "br", "vs", "vw", "sh", "str", "med", "wk", "broad", "strong",
+               "weak", "medium", "sharp", "shoulder", "KBr", "neat", "ATR", "film",
+               "nujol", "max", "and", "cm1"}
+    prose = [w for w in words if w.lower() not in {a.lower() for a in allowed}]
+    return nums >= 3 and len(prose) <= max(2, nums // 2)
 _APPEAR_RE = re.compile(
     r"\b(?:as\s+(?:a|an)\s+)?((?:colou?rless|white|yellow|pale|light|dark|red|orange|"
     r"brown|green|blue|black|off-white|pink|colorless)[\w\s-]*?"
@@ -461,7 +481,8 @@ def extract_records(raw_text: str) -> list[CompoundRecord]:
     for m in _IR_RE.finditer(text):
         payload = _capture_payload(text, m.end())
         bands = _parse_ir_bands(payload)
-        if bands and not _is_instrument_range(bands, payload):
+        if (bands and not _is_instrument_range(bands, payload)
+                and _looks_like_band_list(payload)):
             ir_blocks.append((m.start(), payload[:400].strip(" ,.;:"), bands))
 
     for pos, payload, bands in ir_blocks:

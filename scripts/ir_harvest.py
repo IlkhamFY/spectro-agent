@@ -163,12 +163,23 @@ def main(argv=None) -> int:
     fetcher = ResilientFetcher(min_interval=0.34, allow_stealth=False,
                                host_concurrency={"eutils.ncbi.nlm.nih.gov": 3,
                                                  "www.ncbi.nlm.nih.gov": 3,
+                                                 "pmc.ncbi.nlm.nih.gov": 3,
+                                                 "www.ebi.ac.uk": 3,
                                                  "www.beilstein-journals.org": 2})
     keys, seen_papers, kept, nmr = _resume(out)
     print(f"resume: {kept} IR records, {len(seen_papers)} papers done", flush=True)
     papers = discover(seen_papers, args.target - kept)
-    print(f"discovered {len(papers)} fresh IR-reporting papers (target {args.target})",
-          flush=True)
+    # Split PMC full-text load across TWO hosts (NCBI + EBI) so throughput is the
+    # SUM of their polite rates (~2x). Every other PMC paper goes to EBI.
+    n_ebi = 0
+    for i, p in enumerate(papers):
+        if i % 2 and (p.doi or "").startswith("PMC:"):
+            num = p.doi.split(":", 1)[1]
+            p.fulltext_xml = (f"https://www.ebi.ac.uk/europepmc/webservices/"
+                              f"rest/PMC{num}/fullTextXML")
+            n_ebi += 1
+    print(f"discovered {len(papers)} fresh IR papers ({n_ebi} routed to EBI, "
+          f"rest NCBI) toward {args.target}", flush=True)
 
     jf = (out / "ir.jsonl").open("a"); pf = (out / "seen_papers.txt").open("a")
     t0 = time.time(); dp = 0

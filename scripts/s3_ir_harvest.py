@@ -37,7 +37,9 @@ S3 = "https://pmc-oa-opendata.s3.amazonaws.com"
 # Target papers with real per-compound IR *characterization* (a method tag), not
 # generic "cm-1"/"infrared" mentions (materials/analytical prose -> false IR).
 IR_MARK = ('("IR (KBr" OR "IR (neat" OR "IR (ATR" OR "IR (film" OR "IR (CHCl" '
-           'OR "FT-IR (" OR "FTIR (" OR "IR (thin" OR "νmax" OR "ν max")')
+           'OR "FT-IR (" OR "FTIR (" OR "IR (thin" OR "νmax" OR "ν max" '
+           'OR "IR (Nujol" OR "ATR-FTIR" OR "ATR-IR" OR "IR (cm" OR "IR(KBr" '
+           'OR "(KBr): " OR "(neat): " OR "(ATR): " OR "cm-1" OR "cm−1")')
 YEARS = list(range(2026, 2004, -1))
 
 

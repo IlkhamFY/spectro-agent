@@ -88,13 +88,30 @@ def _collect(fetcher: ResilientFetcher, paper):
 
 def discover(seen_papers: set, want: int) -> list:
     papers, dois = [], set()
-    need = max(want, 1) * 3
+    need = min(max(want, 1) * 2, 120000)   # lean per-session pool; resume continues
     for journal in JOURNALS:
         for year in YEARS:
             term = (f'{IR_MARK} AND "{journal}"[Journal] AND {year}[pdat] '
                     f'AND open access[filter]')
             try:
                 ps, _ = search_ncbi_pmc(term, retmax=5000)
+            except Exception:
+                continue
+            for p in ps:
+                if p.doi not in seen_papers and p.doi not in dois:
+                    dois.add(p.doi); papers.append(p)
+            time.sleep(0.34)
+            if len(papers) >= need:
+                return papers
+    # Broad sweep across the WHOLE OA IR corpus (~300-580k papers), not just the
+    # 20 high-yield journals -- sliced by year/month to stay under esearch's 10k
+    # cap. This is what makes 250k reachable.
+    for year in YEARS:
+        for month in range(1, 13):
+            term = (f'{IR_MARK} AND {year}/{month:02d}[pdat] '
+                    f'AND open access[filter]')
+            try:
+                ps, _ = search_ncbi_pmc(term, retmax=9000)
             except Exception:
                 continue
             for p in ps:

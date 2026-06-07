@@ -9,25 +9,35 @@ what a chemist reported.
 
 | dataset | file | records | IR | NMR | structure |
 |---|---|--:|:--:|:--:|:--:|
-| **IRexp** | `data/irexp/irexp.jsonl.gz` | **119,345** | real | 87,075 | 28,088 |
+| **IRexp** | `data/irexp/irexp.jsonl.gz` | **121,233** | real | 87,075 | 29,982 |
 | NMRexp backbone | `data/training_nmrexp/train.jsonl.gz` | 100,000 | - | yes | yes |
 
 IRexp schema: { id, ir_bands_cm-1 (real), ir_source:"experimental", h_nmr, c_nmr,
 smiles, selfies, inchikey, has_structure, source_doi }.
 
 ## Provenance & quality
-- Scraped from PMC Open-Access full text (via the AWS PMC-OA S3 bucket) + the
-  earlier paper crawl; deduped; quality-gated (band-list density gate drops prose
-  false-positives; instrument-range filter; >=4 bands).
-- 119,345 real experimental IR band lists; 73% co-report NMR; 28,088 resolved to
-  structure (OPSIN from in-text names).
+- **119,345** records scraped from PMC Open-Access full text (via the AWS PMC-OA
+  S3 bucket) + the earlier paper crawl (all **CC-BY**); deduped; quality-gated
+  (band-list density gate drops prose false-positives; instrument-range filter;
+  >=4 bands). 73% co-report NMR; 28,088 resolved to structure (OPSIN from in-text
+  names).
+- **+1,888** records from the **Chemotion FT-IR deposit** (RADAR4Chem, DOI
+  `10.22000/OGoEQGlsZGElrgst`, **CC-BY-SA-4.0**) — open electronic-lab-notebook
+  spectra: real ATR-IR with author-curated band lists (avg 38 bands) and a
+  canonical SMILES, every one structure-resolved. Parsed with the *same*
+  extractor + gate as the paper path (`scripts/chemotion_to_irexp.py`), deduped
+  by InChIKey (only 8 overlapped the paper corpus). **License note:** these
+  carry CC-BY-SA-4.0, distinct from the CC-BY paper core, so they are an additive
+  pool here and are **not** blended into the CC-BY release split in
+  `data/irexp_release/`.
 
 ## How it compares
 - vs NMRexp (3.37M, NMR-only): IRexp is the missing IR modality, NMR-paired.
 - vs Wiley KnowItAll (250-300k, closed, IR-only): IRexp is ~half the size but
   OPEN, ML-ready, DOI-traceable, and paired with NMR + structure -- usable for
   open multimodal models, which a closed library is not.
-- Largest OPEN experimental IR set (closest prior open source: NIST ~16k).
+- Largest OPEN experimental IR set (closest prior open sources: NIST ~16k,
+  Chemotion ~2k — the latter now folded in).
 
 ## Honest ceiling
 The high-yield characterization corpus (papers reporting "IR (KBr)/FT-IR(/νmax")
@@ -40,3 +50,6 @@ licensed data -- not open text-extractable IR.
 ## Reproduce
   python scripts/s3_ir_harvest.py --target 250000 --out data/irexp   # PMC-OA S3 crawl
   python scripts/build_irexp.py --sources data/bulk/spectra.jsonl data/irexp/ir.jsonl --out data/irexp
+  # Chemotion FT-IR deposit (47MB, CC-BY-SA-4.0) -> +1,888 unique molecules:
+  #   download DOI 10.22000/OGoEQGlsZGElrgst, extract, then:
+  python scripts/chemotion_to_irexp.py   # parses + resolves -> data/chemotion/chemotion_ir.jsonl

@@ -1,7 +1,7 @@
 {
-  "records": 119345,
-  "all_experimental_IR": 119345,
+  "records": 121233,
+  "all_experimental_IR": 121233,
   "with_co_reported_NMR": 87075,
-  "with_structure": 28088,
-  "note": "IRexp: experimental IR band lists scraped from open-access papers; NMR co-reported; structure via OPSIN where named"
+  "with_structure": 29982,
+  "note": "IRexp: experimental IR band lists scraped from open-access papers (CC-BY) plus the Chemotion FT-IR deposit (RADAR4Chem, DOI 10.22000/OGoEQGlsZGElrgst, CC-BY-SA-4.0; 1,888 unique molecules, author-curated ATR-IR band lists). NMR co-reported where available; structure via OPSIN/RDKit."
 }

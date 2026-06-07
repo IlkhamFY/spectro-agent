@@ -30,3 +30,6 @@ data/training_*/train.jsonl
 # IRexp working files (committed as .gz)
 data/irexp/*.jsonl
 data/irexp/seen_papers.txt
+
+# Chemotion IR raw deposit (47MB, regenerable from DOI 10.22000/OGoEQGlsZGElrgst)
+data/chemotion/

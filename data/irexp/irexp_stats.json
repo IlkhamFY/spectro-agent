@@ -1,7 +1,7 @@
 {
-  "records": 16320,
-  "all_experimental_IR": 16320,
-  "with_co_reported_NMR": 16320,
-  "with_structure": 5778,
+  "records": 46612,
+  "all_experimental_IR": 46612,
+  "with_co_reported_NMR": 46090,
+  "with_structure": 14357,
   "note": "IRexp: experimental IR band lists scraped from open-access papers; NMR co-reported; structure via OPSIN where named"
 }

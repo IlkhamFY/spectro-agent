@@ -23,7 +23,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from py2opsin import py2opsin                              # noqa: E402
-from spectro_scraper.extract import _is_instrument_range   # noqa: E402
+from spectro_scraper.extract import _is_instrument_range, _looks_like_band_list  # noqa: E402
 from spectro_scraper.normalize import canonical_and_keys   # noqa: E402
 
 
@@ -52,9 +52,14 @@ def main(argv=None) -> int:
             except Exception:
                 continue
             bands = _ir_of(r)
+            raw = r.get("ir_raw") or r.get("ir") or ""
             if not bands or len(bands) < args.min_bands:
                 continue
-            if _is_instrument_range(bands, r.get("ir_raw") or r.get("ir") or ""):
+            if _is_instrument_range(bands, raw):
+                continue
+            # Drop legacy prose false-positives (materials/figure-caption IR) that
+            # the old loose extractor let through, using the band-list density gate.
+            if raw and not _looks_like_band_list(raw):
                 continue
             recs.append(r)
     print(f"clean experimental-IR records: {len(recs):,}", flush=True)

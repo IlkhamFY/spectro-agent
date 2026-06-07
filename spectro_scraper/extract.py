@@ -385,6 +385,7 @@ def extract_records(raw_text: str) -> list[CompoundRecord]:
         else:
             last.append(b)
 
+    spans = []   # (cl_start, cl_end, rec) for global IR assignment
     for cl in clusters:
         rec = CompoundRecord()
         cl_start = cl[0]["start"]
@@ -436,17 +437,8 @@ def extract_records(raw_text: str) -> list[CompoundRecord]:
             except ValueError:
                 pass
 
-        # Look-ahead window for IR / HRMS / mp (following ~900 chars).
-        post = text[cl_end:cl_end + 1100]
-        whole = pre + text[cl_start:cl_end] + post
-        irm = _IR_RE.search(whole)
-        if irm:
-            ir_payload = _capture_payload(whole, irm.end())
-            # only accept if it actually contains cm-region numbers
-            bands = _parse_ir_bands(ir_payload)
-            if bands and not _is_instrument_range(bands, ir_payload):
-                rec.ir = ir_payload[:400].strip(" ,.;:")
-                rec.ir_bands = bands
+        # HRMS / mp from the cluster neighbourhood.
+        whole = text[max(0, cl_start - 400):cl_end + 1100]
         hm = _HRMS_RE.search(whole)
         if hm:
             rec.hrms = hm.group(0).strip()
@@ -454,7 +446,39 @@ def extract_records(raw_text: str) -> list[CompoundRecord]:
         if mm:
             rec.mp = mm.group(1).strip()
 
+        spans.append((cl_start, cl_end, rec))
         if rec.has_nmr:
             records.append(rec)
+
+    # ---- Global IR assignment ------------------------------------------------
+    # IR is NOT just an attribute of an NMR block: many papers report IR for
+    # compounds whose IR falls outside the NMR window, and the per-cluster search
+    # both missed those and double-counted shared windows. Instead, find EVERY IR
+    # block once and assign it 1:1 to the nearest compound (preferring the one
+    # whose data it follows); IR blocks with no nearby compound become standalone
+    # IR-only records. This is the main yield lever.
+    ir_blocks = []
+    for m in _IR_RE.finditer(text):
+        payload = _capture_payload(text, m.end())
+        bands = _parse_ir_bands(payload)
+        if bands and not _is_instrument_range(bands, payload):
+            ir_blocks.append((m.start(), payload[:400].strip(" ,.;:"), bands))
+
+    for pos, payload, bands in ir_blocks:
+        best, best_d = None, None
+        for cs, ce, rec in spans:
+            if rec.ir_bands:                       # one IR per record
+                continue
+            # IR usually sits just after a compound's NMR; accept a generous span
+            if cs - 700 <= pos <= ce + 2500:
+                d = (pos - ce) if pos >= ce else (cs - pos)
+                if best_d is None or d < best_d:
+                    best_d, best = d, rec
+        if best is not None:
+            best.ir, best.ir_bands = payload, bands
+        else:
+            r = CompoundRecord()
+            r.ir, r.ir_bands = payload, bands
+            records.append(r)            # standalone IR-only record (still real IR)
 
     return records

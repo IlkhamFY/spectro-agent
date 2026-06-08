@@ -1,0 +1,7 @@
+{
+  "records": 42842,
+  "structure_resolution": "100% (by construction)",
+  "all_have": "ir_bands_cm-1 + smiles + selfies + inchikey",
+  "with_co_reported_NMR": 40491,
+  "note": "Structure-complete split of IRexp: every record carries a real experimental IR band list AND a resolved structure (SMILES/SELFIES/InChIKey via OPSIN+RDKit from in-text names). This is the training-ready (spectra -> structure) set. The parent data/irexp/ keeps all 121,233 IR records incl. those whose source text exposes no resolvable compound name."
+}

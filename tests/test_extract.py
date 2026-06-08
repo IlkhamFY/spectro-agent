@@ -134,6 +134,41 @@ def test_normalize_dehyphenation():
     assert "crosscoupling" in normalize_text("cross-\ncoupling reaction")
 
 
+# Main-text PMC convention: a *letter-prefixed* series label "(B1):" (not the
+# digit-first "(3a)" of SI), preceded by a procedure sentence. This layout
+# dominates the open-access corpus and was previously dropping the name entirely.
+PMC_LETTER_LABEL = (
+    "the product was filtered and recrystallized from ethanol. "
+    "N-Phenyl-2-[4-(piperidin-1-yl)benzylidene]hydrazine-1-carbothioamide (B1): "
+    "Yield 68%, m.p. 182-184 C. FTIR (ATR, cm-1): 3300 (N-H), 3134, 1591-1444. "
+    "1H-NMR (300 MHz, DMSO-d6, ppm) δ 8.05 (1H, s, N=CH), 9.95 (1H, s, NH). "
+    "13C-NMR (75 MHz, DMSO-d6, ppm) δ 24.37, 48.85, 175.55."
+)
+
+
+def test_pmc_letter_prefixed_label():
+    recs = [r for r in extract_records(PMC_LETTER_LABEL) if r.has_nmr]
+    assert len(recs) == 1
+    r = recs[0]
+    assert r.label == "B1", f"letter-prefixed label lost: {r.label!r}"
+    assert r.name and r.name.startswith("N-Phenyl-2-"), (
+        f"name not captured next to letter label: {r.name!r}")
+
+
+def test_clean_name_strips_narrative_lead_in():
+    from spectro_scraper.extract import _clean_name
+    # narrative colon lead-in (main-text experimental prose)
+    assert _clean_name(
+        "The physical data of the compounds 7a-c are as follows: "
+        "4-Fluorophenyl benzoate") == "4-Fluorophenyl benzoate"
+    # stacked connective + "characterization of"
+    assert _clean_name("and Characterization of 3-Chloroquinoxalin-2-amine") == \
+        "3-Chloroquinoxalin-2-amine"
+    # locant spaces + fluoro typo repaired for OPSIN
+    assert _clean_name("1, 3, 5-triazine") == "1,3,5-triazine"
+    assert "fluoro" in _clean_name("4-flourophenol")
+
+
 if __name__ == "__main__":
     import traceback
     fns = [v for k, v in sorted(globals().items()) if k.startswith("test_")]

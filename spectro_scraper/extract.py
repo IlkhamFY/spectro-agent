@@ -328,7 +328,13 @@ _HEADER_RE = re.compile(
     # punctuation is optional; OPSIN/PubChem validate what we capture.
     r"(?:^|(?<=[.\n;]))[ \t]*"
     r"(?P<name>[A-Za-z0-9(\[][^.\n;]{4,200}?)\s*"
-    r"\((?P<label>\d{1,3}[a-z]{0,2})\)\s*[.:]?",
+    # Label parenthetical, in the conventions seen across journals:
+    #   digit-first  "3a", "12", "3ab"          (SI/methodology default)
+    #   letter-first "B1", "B26", "SM3", "L-5"   (main-text series labels -- the
+    #                                             dominant PMC main-text style)
+    #   roman        "I", "IIa", "IV"
+    r"\((?P<label>(?:[A-Za-z]{1,3}[-\s]?\d{1,3}[a-z]?|\d{1,3}[a-z]{0,2}|[IVX]{1,5}[a-z]?))\)"
+    r"\s*[.:]?",
 )
 # A "looks like a chemical name" gate before we bother OPSIN.
 _NAMEISH = re.compile(r"[a-z]{3}.*(?:yl|one|ol|al|ate|ide|ine|ane|ene|yne|acid|"
@@ -340,18 +346,38 @@ def _clean_name(raw: str) -> str:
     """Normalise a captured compound-name header into a bare chemical name
     suitable for OPSIN (strip page markers, section numbers, narrative prefixes)."""
     name = re.sub(r"\s+", " ", raw).strip(" -,;:")
+    # Narrative lead-ins in main-text experimental sections end with a colon, e.g.
+    # "The physical data of the compounds 7a-c are as follows: <NAME>" or
+    # "Synthesis and characterization of X: <NAME>". IUPAC names never contain a
+    # colon, so anything before the last ": " is prose -- drop it.
+    if ": " in name:
+        name = name.rsplit(": ", 1)[-1].strip()
     # Strip SI page markers ("S10 ", "2907 ") and section numbers ("3.2.1.").
     name = re.sub(r"^(?:S\s?\d{1,4}\b|\d{1,3}(?:\.\d{1,3})*\.?)[\s.]+", "", name).strip()
     # A page marker can also be glued mid-name ("amine (3ai) S10 N-Allyl..."): if
     # one survives at the very front after the above, drop it too.
     name = re.sub(r"^S\s?\d{1,4}\s+", "", name).strip()
-    # Strip narrative prefixes so OPSIN sees just the chemical name.
-    name = re.sub(r"^(?:synthesis|preparation|general\s+procedure(?:\s+for)?|"
-                  r"typical\s+procedure|compound|data(?:\s+for)?|example|procedure|"
-                  r"title\s+compound|characterization(?:\s+of\s+products?)?|"
-                  r"experimental\s+details(?:\s+for(?:\s+the\s+preparation\s+of)?)?)"
-                  r"\b\s*(?:of\s+|for\s+|:\s*)?",
-                  "", name, flags=re.IGNORECASE).strip()
+    # Strip narrative prefixes so OPSIN sees just the chemical name. Looped, since
+    # they stack ("and characterization of the synthesis of ...") and lead with
+    # connectives ("Then,", "In addition,", "Finally,", "and ").
+    _LEAD = re.compile(
+        r"^(?:and|then|finally|next|also|in\s+addition|furthermore|moreover|"
+        r"synthesis|preparation|synthesise[d]?|synthesize[d]?|prepar(?:ation|ed)|"
+        r"general\s+procedure(?:\s+for)?|typical\s+procedure|compound|"
+        r"data(?:\s+for)?|example|procedure|title\s+compound|"
+        r"characteri[sz]ation(?:\s+of\s+products?)?|characteri[sz]ed|"
+        r"experimental\s+details?(?:\s+for(?:\s+the\s+preparation\s+of)?)?)"
+        r"\b\s*[,:]?\s*(?:of\s+|for\s+|the\s+)?",
+        flags=re.IGNORECASE)
+    for _ in range(4):
+        new = _LEAD.sub("", name).strip(" ,:")
+        if new == name:
+            break
+        name = new
+    # Repair PDF artefacts that break OPSIN: spaces inside locant lists
+    # ("1, 3, 5-triazine" -> "1,3,5-triazine") and common fluoro misspellings.
+    name = re.sub(r"(?<=\d),\s+(?=\d)", ",", name)
+    name = name.replace("flouro", "fluoro").replace("fluro", "fluoro")
     name = re.sub(r"\(\s+", "(", name).replace(" )", ")")
     return name
 

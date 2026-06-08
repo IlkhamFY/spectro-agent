@@ -1,6 +1,13 @@
 # Scrapling response cache (large, reproducible — re-fetched on demand)
 data/cache/
 
+# NMRexp raw/working artifacts from the separate NMRexp line of work — large
+# binary (661MB parquet) and derived files; not part of the IRexp branch and
+# not git-appropriate. Left local; not committed here.
+data/nmrexp/
+data/training_nmrexp/
+scripts/nmrexp_to_spectro.py
+
 # Bulk-crawl working files (large/streaming/resumable) — committed as gzipped
 # snapshots at milestones instead of the raw growing JSONL.
 data/bulk/spectra.jsonl

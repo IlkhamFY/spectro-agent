@@ -9,28 +9,40 @@ what a chemist reported.
 
 | dataset | file | records | IR | NMR | structure |
 |---|---|--:|:--:|:--:|:--:|
-| **IRexp** | `data/irexp/irexp.jsonl.gz` | **121,233** | real | 87,075 | **42,842** |
+| **IRexp** (all) | `data/irexp/irexp.jsonl.gz` | **121,233** | real | 87,075 | **43,060** |
+| **IRexp-resolved** (100%) | `data/irexp_resolved/irexp_resolved.jsonl.gz` | **43,060** | real | 40,702 | **43,060 (100%)** |
 | NMRexp backbone | `data/training_nmrexp/train.jsonl.gz` | 100,000 | - | yes | yes |
 
 IRexp schema: { id, ir_bands_cm-1 (real), ir_source:"experimental", h_nmr, c_nmr,
 smiles, selfies, inchikey, has_structure, source_doi }.
 
-**40,491 records are full multimodal elucidation triples** (IR + NMR + resolved
-structure) — ~6× the entire 6,833-molecule set Spectro was trained on.
+**`data/irexp_resolved/` is the structure-complete split: every record is
+100% structure-resolved** (real IR band list + SMILES/SELFIES/InChIKey), 40,702
+of them NMR-paired — the training-ready `(spectra → structure)` set, ~6× the
+6,833-molecule set Spectro was trained on.
 
 ## Provenance & quality
 - **119,345** records scraped from PMC Open-Access full text (via the AWS PMC-OA
   S3 bucket) + the earlier paper crawl (all **CC-BY**); deduped; quality-gated
   (band-list density gate drops prose false-positives; instrument-range filter;
   >=4 bands). 72% co-report NMR.
-- **Structure resolution: 42,842 (35%)**, up from 24%. The bulk corpus is PMC
-  *main-text* experimental sections, which label compounds with letter-prefixed
-  series labels ("…carbothioamide **(B1)**:") rather than the digit-first "(3a)"
-  of SI sections; capturing those labels + cleaning narrative lead-ins/PDF
-  artefacts before OPSIN (`scripts/reresolve_structures.py`) lifted resolution
-  ~11 points (OPSIN resolved 41,349/55,868 unique in-text names). Re-resolution
-  is additive — it matches existing records on the stable content key
-  (h_nmr, c_nmr, ir_bands) and only fills smiles/selfies/inchikey.
+- **Structure resolution: 43,060 / 121,233 (35.5%)** on the full corpus, up from
+  24%. The bulk corpus is PMC *main-text* experimental sections, which label
+  compounds with letter-prefixed series labels ("…carbothioamide **(B1)**:")
+  rather than the digit-first "(3a)" of SI sections; capturing those + cleaning
+  narrative lead-ins/PDF artefacts before resolution
+  (`scripts/maximize_resolution.py`) lifted it ~11 points. Names resolve with
+  **OPSIN** (offline, 41,361 unique names) then a **PubChem** fallback for
+  trivial/natural-product names (+239). Re-resolution is additive — it matches
+  existing records on the stable content key (h_nmr, c_nmr, ir_bands) and only
+  fills structure fields; durable caches (`ckh_name`, `name_struct_cache`) make
+  it restart-safe.
+- **Why not 100% on the full corpus:** the unresolved remainder is records whose
+  *source text exposes no resolvable compound name* — IR reported in tables /
+  figure captions / summary sentences, organometallics & polymers with no valid
+  2D structure, garbled OCR/PDF captures. Resolving those would mean guessing
+  labels (data corruption), so they stay IR-only in the parent set and are
+  excluded from the 100%-resolved split.
 - **+1,888** records from the **Chemotion FT-IR deposit** (RADAR4Chem, DOI
   `10.22000/OGoEQGlsZGElrgst`, **CC-BY-SA-4.0**) — open electronic-lab-notebook
   spectra: real ATR-IR with author-curated band lists (avg 38 bands) and a

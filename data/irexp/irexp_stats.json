@@ -2,6 +2,6 @@
   "records": 121233,
   "all_experimental_IR": 121233,
   "with_co_reported_NMR": 87075,
-  "with_structure": 42842,
-  "note": "IRexp: experimental IR band lists from open-access papers (CC-BY, PMC-OA) + Chemotion FT-IR deposit (CC-BY-SA-4.0). Structure resolution raised via improved main-text name capture (letter-prefixed series labels + narrative-prefix cleaning) re-run over source papers with OPSIN/RDKit. NMR co-reported where available."
+  "with_structure": 42844,
+  "note": "IRexp experimental IR (PMC-OA CC-BY + Chemotion CC-BY-SA). Structure resolved from in-text names via OPSIN (offline) + PubChem fallback (trivial/natural-product names). data/irexp_resolved/ is the 100%-structure-resolved split."
 }

@@ -128,20 +128,28 @@ def load_struct_cache() -> dict:
 
 
 def save_struct_cache(cache: dict):
-    with gzip.open(STRUCT_CACHE, "wt") as g:
+    tmp = STRUCT_CACHE.with_suffix(".gz.tmp")
+    with gzip.open(tmp, "wt") as g:
         for n, (smi, ik, sf) in cache.items():
             g.write(json.dumps({"n": n, "smiles": smi, "inchikey": ik,
                                 "selfies": sf}, ensure_ascii=False) + "\n")
+    os.replace(tmp, STRUCT_CACHE)   # atomic: a concurrent git-add never sees a partial file
 
 
-def pubchem(name: str) -> str | None:
+def pubchem(name: str):
+    """-> ("ok", smiles) | ("notfound", None) | ("error", None).
+
+    'error' (network/503/timeout) is retryable -- callers must NOT mark the name
+    attempted, so the next run retries instead of permanently losing it."""
+    url = ("https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"
+           f"{urllib.parse.quote(name)}/property/CanonicalSMILES/TXT")
     try:
-        url = ("https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"
-               f"{urllib.parse.quote(name)}/property/CanonicalSMILES/TXT")
-        r = urllib.request.urlopen(url, timeout=20).read().decode().strip()
-        return r.splitlines()[0] if r else None
+        r = urllib.request.urlopen(url, timeout=25).read().decode().strip()
+        return ("ok", r.splitlines()[0]) if r else ("notfound", None)
+    except urllib.error.HTTPError as e:
+        return ("notfound", None) if e.code == 404 else ("error", None)
     except Exception:
-        return None
+        return ("error", None)
 
 
 def main(argv=None) -> int:
@@ -181,26 +189,30 @@ def main(argv=None) -> int:
         print(f"PubChem fallback on {len(misses):,} OPSIN-miss names", flush=True)
 
         def pc(nm):
-            time.sleep(0.05)
-            smi = pubchem(nm)
-            if smi:
+            time.sleep(0.25)                       # ~<=5 req/s/IP across the pool
+            status, smi = pubchem(nm)
+            if status == "ok" and smi:
                 canon, ik, sf = canonical_and_keys(smi)
                 if ik and sf:
-                    return nm, (canon or smi, ik, sf)
-            return nm, None
+                    return nm, "ok", (canon or smi, ik, sf)
+                return nm, "notfound", None        # resolved to junk -> stop retrying
+            return nm, status, None
 
-        done = 0
+        done = errs = 0
         with ThreadPoolExecutor(max_workers=args.pubchem_workers) as ex:
-            for nm, res in ex.map(pc, misses):
+            for nm, status, res in ex.map(pc, misses):
                 if res:
                     cache[nm] = res
-                cache["pubchem:" + nm] = (None, None, None)  # mark attempted
+                if status != "error":
+                    cache["pubchem:" + nm] = (None, None, None)  # definitively attempted
+                else:
+                    errs += 1                       # retryable: left unmarked for next run
                 done += 1
                 if done % 1000 == 0:
                     save_struct_cache(cache)
                     got = sum(1 for v in cache.values() if v[1])
-                    print(f"  ...PubChem {done:,}/{len(misses):,} (total resolved {got:,})",
-                          flush=True)
+                    print(f"  ...PubChem {done:,}/{len(misses):,} "
+                          f"(total resolved {got:,}, retryable errs {errs:,})", flush=True)
         save_struct_cache(cache)
 
     resolved_names = {n: cache[n] for n in names if cache.get(n, (None,)*3)[1]}

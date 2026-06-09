@@ -1,0 +1,35 @@
+{"qid": "R01", "candidates": ["COC(=O)CCC(=O)C#C[Si](C)(C)C", "COC(=O)CCOCC#C[Si](C)(C)C"]}
+{"qid": "R02", "candidates": ["O=c1n(C)c2ccc(F)cc2cc1C(=O)Nc1ccccc1[N+](=O)[O-]", "O=c1[nH]c2ccc(F)cc2cc1C(=O)Nc1ccc(C)c([N+](=O)[O-])c1"]}
+{"qid": "R03", "candidates": ["Cn1cccc1/C=N/NC(=O)CC(=O)c1ccc(C)cc1-c1ccccc1O", "Cn1cccc1/C=N/NC(=O)CC(=O)c1cc(C)ccc1Oc1ccccc1"]}
+{"qid": "R04", "candidates": ["OC(=O)C(CC(C)C)NS(=O)(=O)c1ccc(C)cc1"]}
+{"qid": "R05", "candidates": ["COc1cccc(c1)C(=O)C1(C)CC1(Cl)Cl", "COc1cccc(c1)C(=O)C1(C)C(Cl)C1Cl"]}
+{"qid": "R06", "candidates": ["COCOc1cccc(C#CC)c1C=O", "O=Cc1cccc(C#CC)c1OCOC", "O=Cc1cccc(OCOC)c1C#CC"]}
+{"qid": "R07", "candidates": ["COc1cc(CCC(=O)CCCCCCC)ccc1O"]}
+{"qid": "R08", "candidates": ["Oc1ccccc1CNc1ccc(Cl)cc1S(N)(=O)=O", "Oc1ccccc1CNc1cc(Cl)ccc1S(N)(=O)=O", "Oc1ccccc1CNc1ccc(S(N)(=O)=O)cc1Cl"]}
+{"qid": "R09", "candidates": ["OCc1ccccc1CNS(=O)(=O)c1ccccc1Br", "OCc1cccc(CNS(=O)(=O)c2ccccc2Br)c1"]}
+{"qid": "R10", "candidates": ["CC(C)N1CC(=Cc2ccc(F)cc2)C(=O)C(=Cc2ccc(F)cc2)C1"]}
+{"qid": "R11", "candidates": ["O=C(Nc1nc2ccccc2s1)c1ccc(-c2ccccc2)cc1C(F)(F)F", "O=C(Nc1nc2ccccc2s1)c1cc(-c2ccccc2)cc(c1)C(F)(F)F", "O=C(Nc1nc2ccccc2s1)c1ccc(C(F)(F)F)c(-c2ccccc2)c1"]}
+{"qid": "R12", "candidates": ["CCOC(=O)c1ccc2cc3c(cc2c1)C(=O)N(Cc1ccccc1)C3(O)C(F)(F)F", "CCOC(=O)c1ccc2c(c1)cc1c(c2)C(=O)N(Cc2ccccc2)C1(O)C(F)(F)F"]}
+{"qid": "R13", "candidates": ["c1ccccc1Cn1nnc(CCCN2CCC(CC2)N(CCC)C2CCN(CCCc3nnn(Cc4ccccc4)n3)CC2)n1", "c1ccccc1Cn1nnc(CCCCN2CCC(CC2)N(C)C2CCN(CCCCc3nnn(Cc4ccccc4)n3)CC2)n1"]}
+{"qid": "R14", "candidates": ["C=CC(=O)c1ccccc1/C=C/C(=O)c1ccccc1", "C=CC(=O)c1ccccc1C(=O)/C=C/c1ccccc1", "C=CC(=O)c1ccc(cc1)/C=C/C(=O)c1ccccc1"]}
+{"qid": "R15", "candidates": ["CCCn1c(-c2ccccc2)nc2ccccc21", "CCCn1nc(-c2ccccc2)c2ccccc21"]}
+{"qid": "R16", "candidates": ["c1ccccc1N1CCN=C1"]}
+{"qid": "R17", "candidates": ["CCN(CC)C(=O)c1cc(-c2ccccc2)c2ccc3cc(-c4ccc(C)cc4)cc4ccc1c2c34", "CCN(CC)C(=O)c1cc(-c2ccc(C)cc2)c2ccc3cc(-c4ccccc4)cc4ccc1c2c34", "CCN(CC)C(=O)c1ccc2ccc3ccc(-c4ccc(-c5ccc(C)cc5)cc4)c4ccc1c2c34"]}
+{"qid": "R18", "candidates": ["O=[N+]([O-])c1ccccc1OCC1COC1", "OCC1(c2ccccc2[N+](=O)[O-])COC1", "O=[N+]([O-])c1ccccc1C1OCCCO1"]}
+{"qid": "R19", "candidates": ["CCCCCCCCCCCc1ccc(cc1)C(=O)NS(=O)(=O)c1ccc(Cl)cc1", "CCCCCCCCCCCc1ccc(cc1)S(=O)(=O)NC(=O)c1ccc(Cl)cc1"]}
+{"qid": "R20", "candidates": ["CC(=O)C(Br)=NNc1ccc(Cl)cc1", "CC(=O)C(Cl)=NNc1ccc(Br)cc1"]}
+{"qid": "R21", "candidates": ["O=S(=O)(Oc1cc(F)c(F)cc1[Si](C)(C)C)c1ccc(Cl)cc1", "O=S(=O)(Oc1ccc(F)c(F)c1[Si](C)(C)C)c1ccc(Cl)cc1", "O=S(=O)(Oc1c(F)cc([Si](C)(C)C)cc1F)c1ccc(Cl)cc1"]}
+{"qid": "R22", "candidates": ["O=C1NC(c2ccccc2)C=C(c2ccc(Cl)cc2)N1", "O=C1NC(c2ccc(Cl)cc2)C=C(c2ccccc2)N1", "O=C1NC(c2ccccc2)C(=Cc2ccc(Cl)cc2)N1"]}
+{"qid": "R23", "candidates": ["COc1ccccc1Oc1ccc(OC)cc1Br", "COc1ccccc1Oc1ccc(OC)c(Br)c1", "COc1ccccc1Oc1cc(Br)c(OC)cc1"]}
+{"qid": "R24", "candidates": ["C#CC(C)c1ccc(-c2ccccc2F)cc1OC", "C#CC(C)c1cc(OC)ccc1-c1ccccc1F", "C#CC(C)c1ccc(OC)cc1-c1ccccc1F"]}
+{"qid": "R25", "candidates": ["CC(C)(C)NC(=O)c1cccnc1", "CC(C)(C)NC(=O)c1ccncc1", "CC(C)(C)NC(=O)c1ccccn1"]}
+{"qid": "R26", "candidates": ["O=C1c2ccccc2NC(c2ccccc2[N+](=O)[O-])N1", "O=C1c2ccccc2NC(c2cccc([N+](=O)[O-])c2)N1", "O=C1c2ccccc2NC(c2ccc([N+](=O)[O-])cc2)N1"]}
+{"qid": "R27", "candidates": ["COc1ccc2c(c1)C1C(=O)CC(C(=O)OCC[Si](C)(C)C)N1C(=O)OCc1ccccc1N2C", "COc1ccc(C2C(=O)C=C(C(=O)OCC[Si](C)(C)C)N2C(=O)OCc2ccccc2)cc1NC"]}
+{"qid": "R28", "candidates": ["FC(F)(F)c1ccccc1CCCI", "FC(F)(F)c1ccc(CCCI)cc1", "FC(F)(F)c1cccc(CCCI)c1"]}
+{"qid": "R29", "candidates": ["O=C(OC(C)(C)C)C1CN(C)CC1c1ccccc1[N+](=O)[O-]", "O=C(OC(C)(C)C)C1CCN(C)C1c1ccccc1[N+](=O)[O-]", "O=C(OC(C)(C)C)C1(c2ccccc2[N+](=O)[O-])CCCN1C"]}
+{"qid": "R30", "candidates": ["O=C1Nc2ccccc2C1(Cc1cn(C)c2ccccc12)NS(=O)(=O)c1ccc(Br)cc1", "O=S(=O)(Nc1ccc(Br)cc1)c1ccc(O)c2c1c(Cc1cn(C)c3ccccc13)c[nH]2"]}
+{"qid": "R31", "candidates": ["C=CCN1c2ccccc2N(Cc3ccc(O)cc3)C(=O)C1(C=C)c1ccc(OC)c(OC)c1", "C=CCN1c2ccccc2N(Cc3ccccc3)C(=O)C1(C=C)c1ccc(OC)c(OC)c1O", "C=CC(C=C)(C(=O)N(C)C)N(Cc1ccccc1)c1ccc(OC)c(OC)c1"]}
+{"qid": "R32", "candidates": ["CC(=O)C(Cl)=NNc1ccc(C)cc1", "CC(=O)/C(Cl)=N/Nc1ccc(C)cc1"]}
+{"qid": "R33", "candidates": ["O=C(c1ccccc1)C1(c2ccc(Cl)cc2)C(C(=O)c2ccccc2)(c2ccccc2)N(c2ccccc2)C1(C(=O)Oc1ccccc1)c1ccc(Cl)cc1"]}
+{"qid": "R34", "candidates": ["Nc1cc(Br)c(Br)cc1NS(=O)(=O)c1ccc(C)cc1", "Cc1ccc(cc1)S(=O)(=O)Nc1cc(Br)c(N)cc1Br"]}
+{"qid": "R35", "candidates": ["CC(C)C(NC(=O)OC(C)(C)C)C(=O)NCc1ccccc1"]}

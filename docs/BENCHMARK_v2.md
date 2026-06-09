@@ -1,5 +1,12 @@
 # Benchmark v2 — methodology-aligned to Anthropic, on real IRexp data
 
+> **⚠️ Superseded in part by [BENCHMARK_v3](BENCHMARK_v3.md).** The 5% / "regiochemistry
+> wall" below was largely a *single-pass solver artifact* (one fatigued context
+> solving all 20, no tools). Running the identical task as **decoupled per-compound
+> Opus agents with RDKit formula-checking** raises exact recovery to **40%** (55% on
+> simple). The difficulty gradient is real; the "≈0% wall" was not. Read v3.
+
+
 **One line:** after aligning to Anthropic's protocol (top-3 ranked candidates,
 J-resolved ¹H NMR, simple/complex strata), blind elucidation on 20 fresh real
 compounds recovers the exact constitution **1/20 (5%)** — essentially unchanged

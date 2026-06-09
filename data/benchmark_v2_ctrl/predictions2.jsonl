@@ -1,0 +1,20 @@
+{"qid": "R01", "candidates": ["CCOC(=O)c1sc(N)c2c1CCC1=C2C(c2ccccc2Cl)C(C#N)=C(N)O1", "CCOC(=O)c1sc(N)c2c1CCC1=C2C(c2ccc(Cl)cc2)C(C#N)=C(N)O1"]}
+{"qid": "R02", "candidates": ["O=C1N(C)C(=O)c2ccccc2N1O", "O=C1OC(=O)c2ccccc2N1CN"]}
+{"qid": "R03", "candidates": ["C#CCOC(=O)N(S(=O)C)C(C)(C)C"]}
+{"qid": "R04", "candidates": ["COc1ccc(cc1)-c1coc2cc(O)cc(O)c2c1=O", "COc1cc(O)c2c(=O)cc(-c3ccccc3O)oc2c1"]}
+{"qid": "R05", "candidates": ["CCOC(=O)Cc1cc(CCC(=O)CCCCCC)ccc1OC"]}
+{"qid": "R06", "candidates": ["C=C(C)C(=O)Nc1ccccc1/C(=C)/N=C(\\SCCc1ccc(C)cc1)c1ccccc1", "C=C(C)C(=O)Nc1ccc(C)cc1/C(=C)/N=C(\\SCCc1ccccc1)c1ccccc1"]}
+{"qid": "R07", "candidates": ["O=C1C=CCCN1c1ncccc1", "O=C1C=Cc2cccnc2N1CC"]}
+{"qid": "R08", "candidates": ["Cc1cc(SC#N)ccc1O", "Cc1ccc(O)c(SC#N)c1", "Cc1ccc(SC#N)cc1O"]}
+{"qid": "R09", "candidates": ["Oc1ccc2cc(-c3ccccc3)ncc2c1", "Oc1ccc2cnc(-c3ccccc3)cc2c1", "Oc1ccc2nc(-c3ccccc3)ccc2c1"]}
+{"qid": "R10", "candidates": ["Cc1ccc(Cn2cc(-c3ccccc3)nc2Sc2nnc(-c3ccccn3)n2C)cc1", "Cc1ccc(CSc2nnc(-c3ccccc3)n2-c2cccc3[nH]c(C)nc23)cc1"]}
+{"qid": "R11", "candidates": ["O=[N+]([O-])c1ccc(cc1)S(=O)(=O)NC(=N)N(C(C)C)C(C)C", "O=[N+]([O-])c1ccc(cc1)S(=O)(=O)N=C(N)N(C(C)C)C(C)C"]}
+{"qid": "R12", "candidates": ["COc1c(C)c(C)c(C)c(CC=C)c1OC", "COc1c(C)c(CC=C)c(C)c(C)c1OC"]}
+{"qid": "R13", "candidates": ["O=C1NC(C(C)C)CCN(C(C)C)CC1C(C)C", "CC(C)C1CN(C(C)C)CCC(C(C)C)NC1=O", "O=C1NC(C(C)C)CN(C(C)C)CCC1C(C)C"]}
+{"qid": "R14", "candidates": ["CCOC(=O)CCC(C)=CCCCO[Si](c1ccccc1)(c1ccccc1)C(C)(C)C", "CCOC(=O)CCCC(C)=CCCO[Si](c1ccccc1)(c1ccccc1)C(C)(C)C"]}
+{"qid": "R15", "candidates": ["O=C(CBr)c1ccccc1C"]}
+{"qid": "R16", "candidates": ["CC(=O)Cc1ccc(o1)C(O[Si](C)(C)C(C)(C)C)C(C)C", "CC(=O)Cc1ccc(o1)C(C(C)C)O[Si](C)(C)C(C)(C)C"]}
+{"qid": "R17", "candidates": ["Cc1ccc(cc1)Oc1ccc([N+](=O)[O-])cc1SC#N", "Cc1ccc(cc1)Oc1cc(SC#N)cc([N+](=O)[O-])c1"]}
+{"qid": "R18", "candidates": ["CCCCn1nc(-c2ccc(-c3ccc(OC)cc3)cc2)nc1-c2ccc(-c3ccc(OC)cc3)cc2"]}
+{"qid": "R19", "candidates": ["COC(=O)C(=C)c1c(-c2ccccc2)nc(-c2ccc(F)cc2)c2ccccc12", "COC(=O)C(=C)c1c(-c2ccc(F)cc2)nc(-c2ccccc2)c2ccccc12"]}
+{"qid": "R20", "candidates": ["[O-]C(=O)C(F)(F)F.[O-]C(=O)C(F)(F)F.O=C(CCCCC(=O)NCCC[NH2+]C(Cc1ccccc1)c1ccccc1)NCCC[NH2+]C(Cc1ccccc1)c1ccccc1"]}

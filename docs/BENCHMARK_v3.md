@@ -1,11 +1,33 @@
 # Benchmark v3 — decoupled multi-agent solver (corrects v1/v2)
 
-**One line:** running the elucidation as **8 independent Claude-Opus solver agents
-(one per batch, fresh context, RDKit-for-formula-check, blind & closed-book)**
-instead of one fatigued single pass raises exact recovery from **5% to 40%**
-(top-3) / **27% top-1** on 40 fresh real compounds — **55% / 40% on the simple
-stratum**. The earlier "regiochemistry wall" was largely a *solver-effort
-artifact*, not an information limit.
+**One line:** running the elucidation as **independent Claude-Opus solver agents
+(one batch each, fresh context, RDKit-for-formula-check, blind & closed-book)**
+instead of one fatigued single pass roughly **triples** exact recovery. A
+within-compound control (same 20 molecules) shows **5% → 15%**; pooled over
+**60** decoupled-agent compounds the figure is **31% recovered / 23% top-1**.
+The "regiochemistry wall" of v1/v2 was partly a *solver-effort artifact* — but
+the single n=40 "40%" draw below was an **easy sample**; the honest number is
+~30%, with large sample-to-sample variance.
+
+> **Read this first (the control corrects the headline).** The n=40 v3 run scored
+> 40%, but a **within-compound control** — decoupled agents re-solving the
+> *identical* 20 compounds I scored 5% on in v2 — landed at **15%**, not 40%. So
+> the v3 40% was substantially an easier compound draw, and the *true*
+> methodology lift (single-pass → decoupled, same molecules) is **5% → 15% (3×)**.
+> Pooled across both decoupled samples (n=60): **31% recovered, 23% top-1.**
+>
+> | run | solver | n | recovered | top-1 |
+> |---|---|--:|--:|--:|
+> | v2 | single-pass (me) | 20 | 5% | 0% |
+> | **v2-control** | **decoupled agents, same 20** | 20 | **15%** | **15%** |
+> | v3 | decoupled agents (easier draw) | 40 | 40% | 27% |
+> | **pooled decoupled** | **agents** | **60** | **31%** | **23%** |
+>
+> Two real effects, disentangled: **(a) methodology** — decoupled per-compound
+> solving ~3× single-pass on identical molecules; **(b) sample variance** — at
+> n=20–40 the number swings 15–40%, so any single small benchmark over- or
+> under-states. The difficulty gradient (simple > complex) holds in both samples.
+> Validity: all 12 solver agents grep-verified for **0 web / 0 answer-key access**.
 
 ## Why v3 (and why it's free)
 v1/v2 had me (the orchestrator) solve every compound in a single context — no

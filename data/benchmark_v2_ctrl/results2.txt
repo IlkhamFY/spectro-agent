@@ -1,0 +1,28 @@
+
+=== BENCHMARK v2  (formula + IR + J-rich 1H + 13C, top-3 candidates) ===
+
+qid  diff     recov  top1  bestTani best-candidate
+R01  complex  ·      ·     0.743    CCOC(=O)c1sc(N)c2c1CCC1=C2C(c2ccccc2Cl)C(C
+R02  simple   ·      ·     0.18     O=C1OC(=O)c2ccccc2N1CN
+R03  simple   ·      ·     0.39     C#CCOC(=O)N(S(=O)C)C(C)(C)C
+R04  complex  ·      ·     0.5      COc1ccc(cc1)-c1coc2cc(O)cc(O)c2c1=O
+R05  complex  ·      ·     0.518    CCOC(=O)Cc1cc(CCC(=O)CCCCCC)ccc1OC
+R06  complex  ·      ·     0.241    C=C(C)C(=O)Nc1ccc(C)cc1/C(=C)/N=C(\SCCc1cc
+R07  simple   ·      ·     0.513    O=C1C=CCCN1c1ncccc1
+R08  simple   YES    YES   1.0      Cc1cc(SC#N)ccc1O
+R09  complex  ·      ·     0.528    Oc1ccc2nc(-c3ccccc3)ccc2c1
+R10  complex  ·      ·     0.171    Cc1ccc(CSc2nnc(-c3ccccc3)n2-c2cccc3[nH]c(C
+R11  simple   ·      ·     0.595    O=[N+]([O-])c1ccc(cc1)S(=O)(=O)N=C(N)N(C(C
+R12  simple   ·      ·     0.769    COc1c(C)c(CC=C)c(C)c(C)c1OC
+R13  simple   ·      ·     0.261    O=C1NC(C(C)C)CCN(C(C)C)CC1C(C)C
+R14  complex  YES    YES   1.0      CCOC(=O)CCC(C)=CCCCO[Si](c1ccccc1)(c1ccccc
+R15  simple   ·      ·     0.455    O=C(CBr)c1ccccc1C
+R16  simple   YES    YES   1.0      CC(=O)Cc1ccc(o1)C(O[Si](C)(C)C(C)(C)C)C(C)
+R17  simple   ·      ·     0.66     Cc1ccc(cc1)Oc1ccc([N+](=O)[O-])cc1SC#N
+R18  complex  ·      ·     0.385    CCCCn1nc(-c2ccc(-c3ccc(OC)cc3)cc2)nc1-c2cc
+R19  complex  ·      ·     0.182    COC(=O)C(=C)c1c(-c2ccccc2)nc(-c2ccc(F)cc2)
+R20  complex  ·      ·     0.564    [O-]C(=O)C(F)(F)F.[O-]C(=O)C(F)(F)F.O=C(CC
+
+overall recovered (top-3): 3/20 (15%)   top-1 exact: 3/20 (15%)
+  simple  : recovered 2/10 (20%)  top1 2/10 (20%)  meanBestTani 0.582
+  complex : recovered 1/10 (10%)  top1 1/10 (10%)  meanBestTani 0.483

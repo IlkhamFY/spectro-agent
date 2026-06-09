@@ -45,9 +45,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from spectro_scraper.extract import extract_records                    # noqa: E402
 from spectro_scraper.normalize import to_spectro_h, to_spectro_c        # noqa: E402
 
+import glob
 GOLD = Path("data/irexp_resolved/irexp_resolved.jsonl.gz")
-BDIR = Path("data/benchmark_v2")
-Q, A, P = BDIR / "questions2.jsonl", BDIR / "answers2.jsonl", BDIR / "predictions2.jsonl"
+BDIR = Path("data/benchmark_v2")        # overridden by --outdir
+Q = A = P = None                        # set in _paths()
+
+
+def _paths(outdir: str):
+    global BDIR, Q, A, P
+    BDIR = Path(outdir)
+    Q, A, P = BDIR / "questions2.jsonl", BDIR / "answers2.jsonl", BDIR / "predictions2.jsonl"
 S3 = "https://pmc-oa-opendata.s3.amazonaws.com"
 CACHE = Path("data/cache/pmc_text")
 
@@ -105,13 +112,14 @@ def raw_1h_for(gold: dict) -> str | None:
 def sample2(n: int, seed: int):
     random.seed(seed)
     pool = {"simple": [], "complex": []}
-    # exclude any compound already revealed in the v1 pilot (no contamination)
+    # exclude every compound already revealed in ANY prior benchmark run
     seen = set()
-    pilot = Path("data/benchmark/answers.jsonl")
-    if pilot.exists():
-        for l in pilot.open():
+    for af in glob.glob("data/benchmark*/answers*.jsonl"):
+        if Path(af) == A:
+            continue
+        for l in open(af):
             seen.add(json.loads(l)["inchikey"][:14])
-    print(f"excluding {len(seen)} pilot compounds from the pool", flush=True)
+    print(f"excluding {len(seen)} previously-seen compounds from the pool", flush=True)
     for line in gzip.open(GOLD, "rt"):
         r = json.loads(line)
         smi = r.get("smiles")
@@ -210,6 +218,8 @@ def score2():
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); sub = ap.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("sample2"); s.add_argument("--n", type=int, default=20); s.add_argument("--seed", type=int, default=23)
-    sub.add_parser("score2")
+    s.add_argument("--outdir", default="data/benchmark_v2")
+    sc = sub.add_parser("score2"); sc.add_argument("--outdir", default="data/benchmark_v2")
     a = ap.parse_args()
+    _paths(a.outdir)
     sample2(a.n, a.seed) if a.cmd == "sample2" else score2()

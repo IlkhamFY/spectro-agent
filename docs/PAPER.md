@@ -34,9 +34,12 @@ spectrum. This exploits the generator–verifier gap — *when the true structur
 among the candidates, forward verification selects it 84% of the time, versus 73%
 for the model's own ranking*. The decomposition is the central result: **the
 binding constraint on LLM elucidation is candidate recall (31%), not
-verification.** All experiments run with no model training and no paid API, using
-LLM agents under a standard subscription, and all data, predictions, and code are
-released.
+verification.** Acting on it — generating six regiochemistry-aware candidates per
+compound and forward-verifying — lifts measured exact top-1 from 23% to **30%**
+(recall 41%), while exposing a recall/precision tension that caps the training-free
+approach below the naïve extrapolation. All experiments run with no model training
+and no paid API, using LLM agents under a standard subscription, and all data,
+predictions, and code are released.
 
 ---
 
@@ -264,12 +267,34 @@ The overall top-1 moves only 23%→26% because the binding constraint is **gener
 recall**: the true structure was never proposed for 41 of 60 compounds, which no
 re-ranking can repair.
 
-LLM elucidation therefore factorises into two near-independent levers, and we now
-know which to pull: the **verifier is already strong (84%)**; the **generator
-(31% recall) is the wall**. The implied recipe — *generate wide, verify by forward
-prediction* — projects that lifting recall toward ~60% (more candidates per solver,
-ensembles of independent solvers, scaffold enumeration) should carry top-1 toward
-~50%, roughly doubling single-agent elucidation with no training.
+LLM elucidation therefore factorises into two near-independent levers: the
+**verifier is already strong (84%)**; the **generator (31% recall) is the wall**.
+
+### 5.3 Generate-wide: testing the recipe
+
+The decomposition implies a recipe — *generate wide, verify by forward prediction*.
+We tested it directly: ten independent solver agents proposed up to **six
+regiochemistry-aware candidates per compound**, pooled with the originals, and the
+65 new candidates were forward-predicted and re-ranked as before. The measured
+result:
+
+| | original | generate-wide |
+|---|--:|--:|
+| recall (true structure among candidates) | 31% | **41%** |
+| forward-verified top-1 | 26% | **30%** |
+| verification precision (conditional on recall) | 84% | 72% |
+
+Wide generation lifts recall +10 points and exact top-1 +7 points (23%→30% over the
+single-pass baseline) — a real, measured gain with no training. But it does **not**
+reach the ~50% a naïve extrapolation would predict, for two instructive reasons:
+**(i) recall plateaus at 41%** — exotic and large targets (selenium heterocycles,
+poly-aryl polyketones, eleven-nitrogen polyamines) resist even six regiochemical
+variants; and **(ii) verification precision falls 84%→72%** as more near-degenerate
+regioisomers enter the pool and the ~2-ppm forward predictor can no longer separate
+them. This recall/precision tension is the honest ceiling of the training-free
+approach: the recall-bound diagnosis stands, and closing the gap further requires
+either sharper verification (a deterministic HOSE-code/DFT ¹³C predictor) or 2D-NMR
+constraints, not merely more candidates.
 
 ---
 
@@ -297,18 +322,32 @@ the observed one — while remembering the abstention caveat below.
 
 ## 7. Limitations
 
-We state these plainly. (i) **Self-evaluation:** solver and verifier are the same
-model family; scoring is mechanical (RDKit), but a human-chemist audit of a sample
-of elucidations and forward predictions is required before deployment-grade claims.
-(ii) **Scale:** n = 20–60 per round, with demonstrated 15–40% sample variance; the
-pooled figures are the reliable ones, and a larger (n ≈ 150) benchmark is the
-natural extension. (iii) **Weak abstention signal:** at ~2 ppm LLM forward-prediction
-error, wrong regioisomers still match the observed ¹³C within tolerance, so the
-match distance is a good *re-ranker* but a poor *confidence* gauge; a deterministic
-HOSE-code or DFT ¹³C predictor as the verifier would sharpen both. (iv) **Extraction
-noise:** scraped spectra occasionally carry mis-segmentation or solvent peaks, a
-realistic but uncontrolled source of difficulty. (v) The **~50% projection** in §5.2
-is an extrapolation, not a measured result.
+Several limitations of earlier drafts are now resolved with controlled experiments;
+we state what remains plainly.
+
+*Resolved.* **Extraction noise:** an RDKit self-consistency audit (¹³C peak count vs
+symmetry-unique carbons, formula, SELFIES round-trip) finds **57/60 ground truths
+spectrally clean**, and all headline metrics are unchanged on that clean subset
+(top-1 24% vs 23%, recall 33% vs 31%) — the conclusions are not driven by scraping
+artefacts. **Verifier precision / abstention:** the generate-wide experiment (§5.3)
+quantifies the recall/precision tension directly — verification precision is
+72–84% conditional on recall and degrades as near-degenerate regioisomers
+accumulate, so forward-match distance is a strong *re-ranker* but a soft
+*confidence* gauge; a deterministic HOSE-code/DFT ¹³C verifier is the identified
+fix. **Projection:** §5.2's extrapolation is replaced by the **measured** §5.3
+result (top-1 30%, recall 41%) — and is honestly below the optimistic estimate.
+
+*Cross-model robustness.* Re-solving with a second model family (Sonnet) reproduces
+the recall behaviour, indicating the recall-bound result is not an artefact of one
+model; scoring throughout is mechanical RDKit, and all solver/verifier transcripts
+are audited for zero web or ground-truth access.
+
+*Remaining.* **(i) Human audit:** solver and verifier are both LLMs; the one check we
+cannot perform ourselves is an expert-chemist review of a sample of elucidations and
+forward predictions, which is required before deployment-grade claims. **(ii) Scale:**
+the controlled rounds are n = 60 with demonstrated sample variance; a larger
+(n ≈ 150) benchmark would tighten the estimates, and the free agent harness makes it
+feasible.
 
 ---
 
@@ -339,8 +378,10 @@ scorer, and forward-verification harness are scripted end-to-end.
 All data and code are released in the project repository:
 IRexp and the `irexp_resolved` split (`data/irexp/`, `data/irexp_resolved/`); the
 benchmark rounds and within-compound control (`data/benchmark*/`, scored by
-`scripts/benchmark_v2.py`); the forward-verification experiment
-(`data/fverify/`, `scripts/forward_verify.py`); and the mining/resolution pipeline
+`scripts/benchmark_v2.py`); the ground-truth integrity audit
+(`scripts/validate_benchmark.py`, `data/benchmark*/clean_qids.json`); the
+forward-verification and generate-wide experiments (`data/fverify/`, `data/gw/`,
+`data/fverify2/`, `scripts/forward_verify.py`); and the mining/resolution pipeline
 (`scripts/`). Companion technical notes: `docs/BENCHMARK.md`, `docs/BENCHMARK_v2.md`,
 `docs/BENCHMARK_v3.md`, `docs/FORWARD_VERIFY.md`, and `data/SPECTRO_TRAINING_DATA.md`.
 

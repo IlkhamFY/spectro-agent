@@ -1,0 +1,10 @@
+Cross-model independence check (limitation i): a second model family (Sonnet)
+re-solved compounds V3-R07..R12 (6, the hardest available subset; Sonnet batch-1
+still running for the full 12) under the identical blind, closed-book protocol.
+
+  recall on V3-R07..R12 (n=6):  Sonnet 1/6   Opus 2/6   union 2/6
+
+Both models are comparably, independently low on this hard subset, and Sonnet adds
+no recall beyond Opus -- consistent with the recall-bound regime being a property
+of the task/data, not an artefact of one model. (Scoring is mechanical RDKit;
+transcripts audited for 0 web / 0 answer access.)

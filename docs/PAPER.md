@@ -337,10 +337,10 @@ accumulate, so forward-match distance is a strong *re-ranker* but a soft
 fix. **Projection:** §5.2's extrapolation is replaced by the **measured** §5.3
 result (top-1 30%, recall 41%) — and is honestly below the optimistic estimate.
 
-*Cross-model robustness.* Re-solving with a second model family (Sonnet) reproduces
-the recall behaviour, indicating the recall-bound result is not an artefact of one
-model; scoring throughout is mechanical RDKit, and all solver/verifier transcripts
-are audited for zero web or ground-truth access.
+*Independence checks.* Scoring throughout is mechanical RDKit (not LLM-judged), and
+all solver/verifier transcripts are audited for zero web access and zero
+ground-truth access; a second model family (Sonnet) is included as an independent
+cross-model solver to test that the recall-bound result is not specific to one model.
 
 *Remaining.* **(i) Human audit:** solver and verifier are both LLMs; the one check we
 cannot perform ourselves is an expert-chemist review of a sample of elucidations and

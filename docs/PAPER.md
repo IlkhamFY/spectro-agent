@@ -339,8 +339,10 @@ result (top-1 30%, recall 41%) — and is honestly below the optimistic estimate
 
 *Independence checks.* Scoring throughout is mechanical RDKit (not LLM-judged), and
 all solver/verifier transcripts are audited for zero web access and zero
-ground-truth access; a second model family (Sonnet) is included as an independent
-cross-model solver to test that the recall-bound result is not specific to one model.
+ground-truth access. A second model family (Sonnet) re-solved a 12-compound subset
+under the identical protocol and is comparably recall-bound (recall 33% vs Opus
+41%, with cross-family ensembling adding no recall), indicating the recall-bound
+result is a property of the task, not an artefact of one model.
 
 *Remaining.* **(i) Human audit:** solver and verifier are both LLMs; the one check we
 cannot perform ourselves is an expert-chemist review of a sample of elucidations and

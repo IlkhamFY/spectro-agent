@@ -1,0 +1,11 @@
+Q054  Cc1cccc(S(=O)(=O)NC(CC(C)C)C(=O)O)c1
+Q055  Cc1ccccc1NC(=O)C(NC(=O)OC(C)(C)C)C(C)C
+Q056  N=C1CCCN1c1ccccc1
+Q057  O=C(CCl)N/N=C/c1ccc(Br)cc1
+Q058  O=C1NC(c2cccc(Cl)c2)=CC(c2ccccc2)N1
+Q059  O=C1NC(c2ccccc2)=CC(c2cccc(Cl)c2)N1
+Q060  O=C1NC(c2ccccc2)=CC(c2ccccc2Cl)N1
+Q061  O=C1NC(c2ccccc2)Nc2cc([N+](=O)[O-])ccc21
+Q062  O=C1NC(c2ccccc2)Nc2ccc([N+](=O)[O-])cc21
+Q063  O=C1NC(c2ccccc2Cl)=CC(c2ccccc2)N1
+Q064  c1ccc(C2=NCCN2)cc1

@@ -251,6 +251,64 @@ problems, so IRSpectra-Bench is **hard, unsaturated, and capability-sensitive** 
 it has clear headroom and ranks models in the expected order. This is the
 behaviour a benchmark needs to remain informative as models improve.
 
+### 4.5 Domain case study: battery-electrolyte chemistry
+
+Structure elucidation from spectra is the daily inverse problem of the
+electrolyte-and-interphase community: the soluble decomposition products of
+carbonate and sulfone electrolytes, the additives that build the
+solid-electrolyte interphase, and the fluorophosphate/fluorosulfonyl species
+that NMR is routinely used to assign are exactly the molecules whose
+constitution must be read back out of IR and multinuclear NMR. To test whether
+the recall-bound regime above holds for *this* chemistry — rather than for
+organic molecules at large — we curated **IRSpectra-Bench-Electrolyte**, a
+48-compound subset (8 per class) of structure-resolved IRexp records selected
+by substructure for the six functional families that dominate lithium- and
+sodium-battery electrolytes and their breakdown products: **carbonate**
+(linear/cyclic, the EC/DMC backbone), **sulfonyl/sulfonate** (sulfones,
+sulfonamides, the −SO₂CF₃ motif of imide salts), **nitrile** (acetonitrile- and
+adiponitrile-type high-voltage additives), **sp³ C–F** (fluorinated solvents
+and additives), **phosphoryl** (phosphates/phosphonates, the LiPF₆-derived
+OPF chemistry), and **glyme/oligoether** (the ether solvents and PEG linkers).
+These are literature compounds bearing the *functional chemistry* of
+electrolytes, drawn from the open corpus; they are **not** operando or in-cell
+degradation spectra, and we make no claim that they are. They are excluded from
+every other split in this paper. Each compound was solved blind under the
+identical decoupled-agent protocol (Opus, closed-book, up to three ranked
+candidates, RDKit only for formula/parse checks).
+
+Performance lands in the **same regime as the headline benchmark** — overall
+**top-1 26%, recovered 28%** (12/46 and 13/46; two compounds received no
+parseable candidate) — confirming that the bottleneck is a property of the
+elucidation task, not of any one chemical neighbourhood. The per-class
+breakdown (Fig. 6) is itself informative:
+
+| electrolyte class | n | top-1 | recovered (top-3) |
+|---|--:|--:|--:|
+| sp³-fluorinated | 8 | **50%** | 50% |
+| carbonate | 7 | 29% | 43% |
+| phosphoryl | 8 | 25% | 25% |
+| glyme / oligoether | 7 | 29% | 29% |
+| sulfonyl / sulfonate | 8 | **12%** | 12% |
+| nitrile | 8 | **12%** | 12% |
+
+The gradient is chemically legible. **sp³-fluorinated** centres are the easiest:
+a C–F coupling fingerprint (the large ¹J/²J(C,F) splittings) localises the
+fluorine and pins regiochemistry, removing exactly the degeneracy that defeats
+elucidation elsewhere. **Sulfonyl** and **nitrile** are the hardest, for two
+distinct reasons that recur in real electrolyte analysis: sulfur/phosphorus
+**oxidation-state ambiguity** — sulfide vs. sulfoxide vs. sulfone, −SCF₃ vs.
+−SO₂CF₃, the very distinctions an interphase study must make — is poorly
+constrained by ¹H/¹³C shifts alone (it lives in the IR and in heteronuclei the
+benchmark does not score); and nitrile-bearing targets in the corpus sit on
+heavily substituted heteroaromatic cores whose regiochemistry the 1D spectra
+underdetermine. This is the recall-bound failure of §4.1 reappearing in a
+domain-specific guise, and it is precisely where the **forward-verification**
+recipe of §5 — compute the spectrum each candidate *would* give and match it to
+the one observed — is the inverse-problem analog of computational-NMR /
+NMR-crystallography structure validation that the magnetic-resonance community
+already trusts. The subset, its per-class answers, and the scorer are released
+with the benchmark.
+
 ---
 
 ## 5. Forward-verification elucidation
@@ -415,6 +473,10 @@ scorer, and forward-verification harness are scripted end-to-end.
 - **Fig. 5** (`docs/figures/fig5_models.png`) — model comparison on a 24-compound
   subset: Opus 25% ≥ Sonnet 20% ≫ Haiku 0% top-1; the benchmark discriminates
   capability and is far from saturated.
+- **Fig. 6** (`docs/figures/fig6_electrolyte.png`) — top-1 and recovered accuracy on
+  IRSpectra-Bench-Electrolyte by battery-electrolyte chemical class (n=46): sp³-C–F
+  easiest (50%), sulfonyl and nitrile hardest (12%); overall 26%/28%, the same
+  regime as the headline benchmark.
 
 ---
 
@@ -423,7 +485,9 @@ scorer, and forward-verification harness are scripted end-to-end.
 All data and code are released in the project repository:
 IRexp and the `irexp_resolved` split (`data/irexp/`, `data/irexp_resolved/`); the
 benchmark rounds and within-compound control (`data/benchmark*/`, scored by
-`scripts/benchmark_v2.py`); the ground-truth integrity audit
+`scripts/benchmark_v2.py`); the battery-electrolyte case-study subset
+(`data/benchmark_electrolyte/`, built by `scripts/build_electrolyte_bench.py`,
+scored by `scripts/score_electrolyte.py`); the ground-truth integrity audit
 (`scripts/validate_benchmark.py`, `data/benchmark*/clean_qids.json`); the
 forward-verification and generate-wide experiments (`data/fverify/`, `data/gw/`,
 `data/fverify2/`, `scripts/forward_verify.py`); and the mining/resolution pipeline

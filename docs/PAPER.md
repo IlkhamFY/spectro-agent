@@ -40,7 +40,14 @@ binding constraint on LLM elucidation is candidate recall (31%), not
 verification.** Acting on it — generating six regiochemistry-aware candidates per
 compound and forward-verifying — lifts measured exact top-1 from 23% to **30%**
 (recall 41%), while exposing a recall/precision tension that caps the training-free
-approach below the naïve extrapolation. All experiments run with no model training
+approach below the naïve extrapolation. We then stress-test the finding in a
+**battery-electrolyte domain** — a 48-compound subset spanning the carbonate,
+sulfonyl, nitrile, fluorinated, phosphoryl, and glyme functional classes central to
+electrolyte chemistry — where accuracy holds at the same level (**26% top-1**) along
+a chemically interpretable gradient (sp³-C–F easiest at 50%; sulfonyl and nitrile
+hardest at 12%), and we cast forward-verification as the training-free analog of the
+computational-NMR / NMR-crystallography validation that chemists already trust. All
+experiments run with no model training
 and no paid API, using LLM agents under a standard subscription, and all data,
 predictions, and code are released.
 

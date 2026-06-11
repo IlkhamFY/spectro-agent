@@ -275,19 +275,28 @@ optimistic prior reports, whose per-problem API calls implicitly used method (b)
 ### 4.4 Model comparison: the benchmark discriminates capability
 
 A benchmark is only useful if it separates models. On a fixed 24-compound subset
-solved blind by three models under the identical protocol (Fig. 5):
+solved blind by four Claude models — spanning a wide capability range, including the
+newest (Fable 5) — under the identical protocol (Fig. 5):
 
 | model | top-1 | recovered |
 |---|--:|--:|
-| Claude Opus | **25%** | 29% |
+| Claude Fable 5 | **45%** | 54% |
+| Claude Opus | 25% | 29% |
 | Claude Sonnet | 20% | 25% |
 | Claude Haiku | **0%** | 4% |
 
-Two signals matter here. First, **two frontier models agree** (Opus 25%, Sonnet
-20%) — the recall-bound, ~25% regime is not an artefact of a single model.
-Second, a smaller model is **floored at 0% exact** (4% recovered) on the same
-problems, so IRSpectra-Bench is **hard, unsaturated, and capability-sensitive** —
-it has clear headroom and ranks models in the expected order. This is the
+Three signals matter here. First, the four models rank in **monotonic capability
+order** (Fable ≫ Opus > Sonnet ≫ Haiku), and the smallest is **floored at 0% exact**
+(4% recovered) on the same problems — so the benchmark is **capability-sensitive**
+and not a coin-flip. Second, two mid-tier frontier models agree closely (Opus 25%,
+Sonnet 20%), so the recall-bound ~25% regime of §4.1 is **not an artefact of a single
+model**. Third, the newest model nearly **doubles** the next-best top-1 (45% vs 25%
+on identical compounds) yet still misses the majority — IRSpectra-Bench is **hard and
+far from saturated even for the strongest model available**, with clear headroom. We
+ran four Claude-family models because they are callable for free under one
+subscription; a true cross-vendor sweep (GPT-, Gemini-class, open models) needs API
+access we deliberately did without, but the monotonic, large capability spread makes
+it unlikely the recall-bound pattern is specific to one model lineage. This is the
 behaviour a benchmark needs to remain informative as models improve.
 
 ### 4.5 Domain case study: battery-electrolyte chemistry
@@ -511,11 +520,14 @@ result is a property of the task, not an artefact of one model.
 
 *Remaining.* **(i) Human audit:** solver and verifier are both LLMs; the one check we
 cannot perform ourselves is an expert-chemist review of a sample of elucidations and
-forward predictions, which is required before deployment-grade claims. **(ii) Single
-model:** the headline uses one frontier model (Claude Opus); the cross-model check is
-a 12-compound subset, and a full multi-model sweep (GPT-class, Gemini-class, open
-models) would broaden the claim — though the recall-bound, complexity-graded pattern
-is unlikely to be model-specific. **(iii) Domain-subset scope:** the
+forward predictions, which is required before deployment-grade claims. **(ii)
+Single vendor:** the headline uses one frontier model (Claude Opus) and the
+cross-model comparison spans **four Claude-family models** (§4.4: Fable 5 45% ≫ Opus
+25% > Sonnet 20% ≫ Haiku 0% on a common 24-compound subset); a true cross-*vendor*
+sweep (GPT-class, Gemini-class, open models) needs API access we deliberately did
+without, but the large, monotonic capability spread within one family makes it
+unlikely the recall-bound, complexity-graded pattern is specific to one model
+lineage. **(iii) Domain-subset scope:** the
 battery-electrolyte case study (§4.5) comprises *literature compounds bearing
 electrolyte-relevant functional chemistry* drawn from the open corpus — not operando
 or in-cell decomposition spectra — so it demonstrates functional-class transfer of
@@ -561,9 +573,10 @@ scorer, and forward-verification harness are scripted end-to-end.
   single-pass → decoupled agents → generate-wide + forward-verify (5%→23%→30%).
 - **Fig. 4** (`docs/figures/fig4_dataset.png`) — IRexp composition: IR records →
   NMR-paired → structure-linked → full quadruples.
-- **Fig. 5** (`docs/figures/fig5_models.png`) — model comparison on a 24-compound
-  subset: Opus 25% ≥ Sonnet 20% ≫ Haiku 0% top-1; the benchmark discriminates
-  capability and is far from saturated.
+- **Fig. 5** (`docs/figures/fig5_models.png`) — four-model comparison on a 24-compound
+  subset: Fable 5 45% ≫ Opus 25% > Sonnet 20% ≫ Haiku 0% top-1; the benchmark
+  discriminates capability monotonically and is far from saturated even for the
+  newest model.
 - **Fig. 6** (`docs/figures/fig6_electrolyte.png`) — top-1 and recovered accuracy on
   IRSpectra-Bench-Electrolyte by battery-electrolyte chemical class (n=46): sp³-C–F
   easiest (50%), sulfonyl and nitrile hardest (12%); overall 26%/28%, the same

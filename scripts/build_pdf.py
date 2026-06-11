@@ -19,8 +19,9 @@ FIGS = [
      "decoupled agents $\\to$ generate-wide + forward-verify (5\\%/23\\%/30\\%)."),
     ("fig4_dataset.png", "IRexp composition: IR records, NMR-paired, structure-linked, "
      "and full IR+$^1$H+$^{13}$C+structure quadruples."),
-    ("fig5_models.png", "Model comparison on a 24-compound subset: Opus 25\\% $\\geq$ "
-     "Sonnet 20\\% $\\gg$ Haiku 0\\% top-1; the benchmark discriminates capability."),
+    ("fig5_models.png", "Four-model comparison on a 24-compound subset: Fable 5 45\\% "
+     "$\\gg$ Opus 25\\% $>$ Sonnet 20\\% $\\gg$ Haiku 0\\% top-1; capability-sensitive "
+     "and far from saturated even for the newest model."),
     ("fig6_electrolyte.png", "IRSpectra-Bench-Electrolyte by battery-electrolyte class "
      "(n=46): sp$^3$-C--F easiest (50\\%), sulfonyl and nitrile hardest (12\\%)."),
 ]

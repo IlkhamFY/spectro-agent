@@ -1,0 +1,10 @@
+N = 194 compounds (combined rounds)
+
+ALL      n=194  top1 28.4% [22-35]   recall 33.5% [27-40]   meanTani 0.59
+simple   n= 98  top1 48.0% [39-57]   recall 54.1% [44-63]   meanTani 0.73
+complex  n= 96  top1  8.3% [3-15]   recall 12.5% [6-20]   meanTani 0.45
+
+by size:
+  <=15   n= 38  top1 60.5%  recall 68.4%
+  16-25  n= 99  top1 28.3%  recall 34.3%
+  >25    n= 57  top1 7.0%  recall 8.8%

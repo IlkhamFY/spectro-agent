@@ -1,0 +1,32 @@
+{
+  "M-R33": [
+    "CCc1c(C)c(=O)c(NC(=O)c2ccccc2C(F)(F)F)c(C)c1=O",
+    "CCc1c(C)c(=O)c2ccccc2c(=O)c1NC(=O)C(F)(F)F",
+    "CCOC(=O)c1c(C)c(NC(=O)C(F)(F)F)c(=O)c2ccccc2c1=O"
+  ],
+  "M-R34": [
+    "O=C(NN=Cc1ccc(O)cc1)c1ccccc1",
+    "Oc1ccc(C=NNC(=O)c2ccccc2)cc1",
+    "O=C(NN=Cc1ccc(O)cc1)c1ccccc1"
+  ],
+  "M-R35": [
+    "CC(C)=CCOC(=O)c1ccc2OCOc2c1.O=C1c2ccccc2C(=O)c2ccccc21",
+    "O=C1c2ccccc2C(=O)c2c1cccc2N(CC=C(C)C)CC=C(C)C",
+    "CC(C)=CN(CC(C)=C)c1cccc2c1C(=O)c1ccccc1C2=O"
+  ],
+  "M-R36": [
+    "CC1ON=C(c2ccccc2)N1NCC(C)C",
+    "CC1ON2C(c3ccccc3)=NN(C2C(C)C)1",
+    "C/C(O)=N/N=C(\\c1ccccc1)NCC(C)C"
+  ],
+  "M-R37": [
+    "OCC(=Cc1ccccc1)CNS(=O)(=O)c1ccccc1Br",
+    "OCC(CNS(=O)(=O)c1ccccc1)=Cc1ccccc1Br",
+    "Brc1ccccc1C=C(CO)CNS(=O)(=O)c1ccccc1"
+  ],
+  "M-R38": [
+    "CCc1ccc(/C=C(\\[N+](=O)[O-])C(=O)OCC)cc1",
+    "CCOC(=O)C([N+](=O)[O-])=Cc1ccc(CC)cc1",
+    "CCc1ccc(C=C([N+](=O)[O-])C(=O)OCC)cc1"
+  ]
+}

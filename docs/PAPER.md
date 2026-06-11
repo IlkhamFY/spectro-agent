@@ -233,6 +233,24 @@ plus tool access roughly triples apparent performance — also explains part of 
 gap to
 optimistic prior reports, whose per-problem API calls implicitly used method (b).
 
+### 4.4 Model comparison: the benchmark discriminates capability
+
+A benchmark is only useful if it separates models. On a fixed 24-compound subset
+solved blind by three models under the identical protocol (Fig. 5):
+
+| model | top-1 | recovered |
+|---|--:|--:|
+| Claude Opus | **25%** | 29% |
+| Claude Sonnet | 20% | 25% |
+| Claude Haiku | **0%** | 4% |
+
+Two signals matter here. First, **two frontier models agree** (Opus 25%, Sonnet
+20%) — the recall-bound, ~25% regime is not an artefact of a single model.
+Second, a smaller model is **floored at 0% exact** (4% recovered) on the same
+problems, so IRSpectra-Bench is **hard, unsaturated, and capability-sensitive** —
+it has clear headroom and ranks models in the expected order. This is the
+behaviour a benchmark needs to remain informative as models improve.
+
 ---
 
 ## 5. Forward-verification elucidation
@@ -394,6 +412,9 @@ scorer, and forward-verification harness are scripted end-to-end.
   single-pass → decoupled agents → generate-wide + forward-verify (5%→23%→30%).
 - **Fig. 4** (`docs/figures/fig4_dataset.png`) — IRexp composition: IR records →
   NMR-paired → structure-linked → full quadruples.
+- **Fig. 5** (`docs/figures/fig5_models.png`) — model comparison on a 24-compound
+  subset: Opus 25% ≥ Sonnet 20% ≫ Haiku 0% top-1; the benchmark discriminates
+  capability and is far from saturated.
 
 ---
 

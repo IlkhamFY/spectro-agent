@@ -444,6 +444,13 @@ training and improves with each model. IRexp's IR modality and 2D-NMR-ready
 provenance position it for the obvious next step: supplying the HMBC/COSY/NOESY
 constraints that would attack regiochemistry at the source.
 
+That the bottleneck reproduces almost exactly inside a single application domain
+(§4.5: 26% top-1 on battery-electrolyte chemistry, against 28% overall) is itself
+evidence that it is structural rather than incidental — and it makes the
+forward-verification recipe directly relevant to the magnetic-resonance workflows
+(electrolyte-decomposition assignment, NMR crystallography) where computing a
+candidate's spectrum to confirm it is already standard practice.
+
 For practitioners, two operational findings transfer immediately: solve each problem
 in a fresh context with tool access (≈3× over a single long context), and trust a
 proposed structure in proportion to how well its forward-predicted spectrum matches
@@ -481,7 +488,12 @@ forward predictions, which is required before deployment-grade claims. **(ii) Si
 model:** the headline uses one frontier model (Claude Opus); the cross-model check is
 a 12-compound subset, and a full multi-model sweep (GPT-class, Gemini-class, open
 models) would broaden the claim — though the recall-bound, complexity-graded pattern
-is unlikely to be model-specific.
+is unlikely to be model-specific. **(iii) Domain-subset scope:** the
+battery-electrolyte case study (§4.5) comprises *literature compounds bearing
+electrolyte-relevant functional chemistry* drawn from the open corpus — not operando
+or in-cell decomposition spectra — so it demonstrates functional-class transfer of
+the elucidation bottleneck, not direct assignment of authentic interphase/degradation
+products, which would require a dedicated operando spectral set.
 
 ---
 
@@ -493,7 +505,12 @@ and SELFIES, with an optional cached PubChem fallback. Durable content-keyed cac
 make resolution additive and restart-safe.
 
 **Benchmark and agents.** Problems were sampled from `irexp_resolved`, stratified by
-RDKit ring analysis, with cross-round de-duplication by InChIKey. Solver and
+RDKit ring analysis, with cross-round de-duplication by InChIKey. The
+battery-electrolyte subset (§4.5) was drawn from the same corpus by SMARTS
+substructure filters for six electrolyte functional classes (carbonate,
+sulfonyl/sulfonate, nitrile, sp³ C–F, phosphoryl, glyme/oligoether), balanced to
+eight compounds per class, excluding every compound used elsewhere, and J-enriched
+and spectrally validated identically to the main rounds. Solver and
 forward-prediction agents were independent Claude-Opus sub-agents invoked under a
 consumer subscription; agents were instructed closed-book and audited via
 transcript grep for zero web/answer access. Scoring used RDKit InChIKey-connectivity

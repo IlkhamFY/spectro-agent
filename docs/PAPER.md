@@ -89,6 +89,38 @@ spend — making every experiment cheaply reproducible.
 3. **Forward-verification elucidation**, a training-free generator–verifier method,
    and the finding that **recall, not verification, bounds current performance**.
 
+### 1.1 Related work
+
+**Trained spectra→structure models.** The dominant line trains sequence or graph
+decoders to emit structures from spectra: *Spectro* (¹H/¹³C/IR→SELFIES)¹, the
+multitask CNN+transformer of routine 1D-NMR¹¹, and set/graph transformers such as
+NMRTrans¹². These reach high accuracy *in-distribution* but require a labelled
+spectra→structure corpus, which is exactly the scarce resource our IRexp pipeline
+targets, and they are retrained per modality. Closest in spirit to our multimodal
+setting is **NMIRacle**¹³, a generative model conditioned jointly on IR + ¹H + ¹³C;
+it is a strong trained baseline, whereas our contribution is the *open experimental-IR
+data it (and others) can train on*, plus a *training-free* protocol and a blind
+benchmark to measure it.
+
+**LLMs as elucidators.** General-purpose LLMs have been applied off-the-shelf —
+Anthropic's forward/inverse study², SpectraLLM and MolSpectLLM (multimodal LLMs over
+multi-spectral input)¹⁴, and knowledge-enhanced tree-search reasoning¹⁵.
+Contemporary multimodal *benchmarks* have also begun to appear. Our evaluation
+differs in being built on **real, literature-mined experimental spectra** (not
+simulated or curated puzzle sets), **blind and mechanically scored** with bootstrap
+CIs, **complexity-stratified**, and explicitly **reconciled** against the optimistic
+prior report it most resembles² — and in isolating *where* performance is lost
+(recall vs. verification) rather than reporting a single aggregate.
+
+**Computational NMR for structure validation.** Our forward-verification method is
+the LLM analog of a workflow chemists already trust: assign a structure by computing
+the spectrum each candidate *would* give and matching it to experiment. In solution,
+this is the DP4 / DP4+ probabilistic framework over GIAO-DFT shifts¹⁶ ¹⁷; in the
+solid state it is **NMR crystallography**, where GIPAW-computed shifts adjudicate
+between candidate structures¹⁸ ¹⁹. We replace the quantum-chemical predictor with a
+forward LLM, trading accuracy for zero setup cost, and inherit the same core
+principle — *verification by forward prediction is easier than inverse generation*.
+
 ---
 
 ## 2. The IRexp dataset
@@ -332,6 +364,14 @@ SMILES alone (candidates shuffled and anonymised so isomers of one target never
 co-occur; pure reasoning, no tools), and matched predicted to observed ¹³C with a
 symmetric chamfer distance over peak sets.
 
+Conceptually this is **NMR-crystallography logic with an LLM in place of the quantum
+chemistry**: where DP4/DP4+ rank candidates by GIAO-DFT shifts¹⁶ ¹⁷ and NMR
+crystallography adjudicates polymorphs and connectivity by GIPAW-computed shifts¹⁸ ¹⁹,
+we rank by the shifts a forward LLM predicts. The trade is deliberate — we forgo the
+≈1–2 ppm accuracy and rigorous error model of DFT for a predictor that runs in
+seconds at zero setup, and we quantify below exactly how far that cheaper verifier
+carries the inverse problem.
+
 ### 5.2 Result
 
 On the 60 benchmark compounds (126 candidate structures from the solver agents):
@@ -509,3 +549,23 @@ forward-verification and generate-wide experiments (`data/fverify/`, `data/gw/`,
 9. Rogers, D.; Hahn, M. *Extended-connectivity fingerprints.* J. Chem. Inf. Model.
    2010, 50, 742.
 10. Wang, X. et al. *Self-consistency improves chain-of-thought reasoning.* ICLR 2023.
+11. *Accurate and efficient structure elucidation from routine one-dimensional NMR
+    spectra using multitask machine learning.* arXiv:2408.08284, 2024.
+12. *NMRTrans: structure elucidation from experimental NMR spectra via set
+    transformers.* arXiv:2602.10158, 2026.
+13. Ottomano, F.; Li, Y.; Ganose, A. M. *NMIRacle: multi-modal generative molecular
+    elucidation from IR and NMR spectra.* arXiv:2512.19733, 2025.
+14. *SpectraLLM / MolSpectLLM: multimodal language models for molecular structure
+    elucidation from multi-spectral input.* arXiv:2508.08441; arXiv:2509.21861, 2025.
+15. *Boosting LLM molecular structure elucidation with knowledge-enhanced tree-search
+    reasoning.* arXiv:2506.23056, 2025.
+16. Smith, S. G.; Goodman, J. M. *Assigning stereochemistry to single diastereoisomers
+    by GIAO NMR calculation: the DP4 probability.* J. Am. Chem. Soc. 2010, 132, 12946.
+17. Grimblat, N.; Zanardi, M. M.; Sarotti, A. M. *Beyond DP4: an improved probability
+    for the stereochemical assignment of isomeric compounds (DP4+).* J. Org. Chem.
+    2015, 80, 12526.
+18. Pickard, C. J.; Mauri, F. *All-electron magnetic response with pseudopotentials:
+    NMR chemical shifts (GIPAW).* Phys. Rev. B 2001, 63, 245101.
+19. Ashbrook, S. E.; McKay, D. *Combining solid-state NMR spectroscopy with
+    first-principles calculations — a guide to NMR crystallography.* Chem. Commun.
+    2016, 52, 7186.

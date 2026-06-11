@@ -1,0 +1,27 @@
+Deterministic HOSE-code-style 13C verifier (nmrshiftdb2-trained) — ablation
+===========================================================================
+Predictor: RDKit Morgan radial-environment bins (sphere r=4..1, min 3 samples,
+hybridisation prior fallback), trained on nmrshiftdb2 assigned 13C spectra.
+  training: 31,000 molecules, 332,595 assigned carbons, 263,366 environment bins
+  held-out accuracy: MAE 3.23 ppm, median 1.73 ppm (17,456 carbons / 1,647 mols)
+
+Re-ranking the §5.2 candidate set (60 compounds, 126 candidates):
+  recall (true in candidate set):           19/60 (31%)
+  top-1, solver self-rank:                  14/60 (23%)
+  top-1, HOSE-verified re-rank:             14/60 (23%)
+  conditional on recall (n=19):
+    solver self-rank:                       14/19 (73%)
+    HOSE-verified:                          14/19 (73%)
+    LLM forward-verifier (for comparison):  16/19 (84%)
+
+Why the deterministic verifier does NOT beat the LLM here — coverage:
+  fraction of the 2,244 benchmark candidate carbons whose environment is matched
+  at each sphere depth (deeper = more specific = more accurate):
+    r=4: 2%   r=3: 27%   r=2: 39%   r=1: 28%   prior-fallback: 1%
+  Only 2% match at the most specific sphere; 67% resolve only at coarse r<=2,
+  which cannot distinguish the regioisomers the verifier must separate. The
+  benchmark's exotic chemistry is under-represented in nmrshiftdb2, so a generic
+  lookup predictor degrades to coarse environments exactly where discrimination
+  is needed — whereas the LLM forward-predictor generalises across novel scaffolds.
+Conclusion: the identified fix is NOT a generic HOSE lookup; it requires either
+DFT-level (compound-specific) shift accuracy or orthogonal 2D-NMR constraints.

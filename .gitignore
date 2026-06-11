@@ -41,3 +41,5 @@ data/irexp/seen_papers.txt
 # Chemotion IR raw deposit (47MB, regenerable from DOI 10.22000/OGoEQGlsZGElrgst)
 data/chemotion/
 py2opsin_temp_input.txt
+data/nmrshiftdb/nmrshiftdb2.sd
+data/nmrshiftdb/hose_c13.json.gz

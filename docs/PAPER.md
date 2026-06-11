@@ -424,8 +424,31 @@ variants; and **(ii) verification precision falls 84%→72%** as more near-degen
 regioisomers enter the pool and the ~2-ppm forward predictor can no longer separate
 them. This recall/precision tension is the honest ceiling of the training-free
 approach: the recall-bound diagnosis stands, and closing the gap further requires
-either sharper verification (a deterministic HOSE-code/DFT ¹³C predictor) or 2D-NMR
-constraints, not merely more candidates.
+either sharper verification or 2D-NMR constraints, not merely more candidates.
+
+### 5.4 Does a deterministic verifier help? A HOSE-code ablation
+
+§5.3 and a natural reading of the verifier-precision story suggest an obvious fix:
+swap the LLM forward-predictor for a *deterministic* ¹³C predictor with a rigorous
+error model. We tested the canonical choice — a **HOSE-code-style lookup trained on
+nmrshiftdb2** (RDKit radial-environment bins, spheres r=4→1 with a hybridisation
+prior fallback; 31,000 molecules, 332,595 assigned carbons; held-out **MAE 3.23 ppm,
+median 1.73 ppm**) — as a drop-in replacement for the verifier, re-ranking the same
+§5.2 candidates.
+
+It does **not** help. The HOSE verifier recovers **14/19 (73%)** of the in-set
+compounds — identical to the solver's own ranking and *below* the LLM verifier's
+**16/19 (84%)** on the same set. The reason is coverage, not the method: of the 2,244
+candidate carbons, only **2%** match a training environment at the most specific
+sphere (r=4) and **67%** resolve only at coarse spheres (r≤2), because the benchmark's
+exotic chemistry (selenium heterocycles, polyaryl ketones, large polyamines) is
+under-represented in nmrshiftdb2. A coarse environment cannot separate the regioisomers
+the verifier exists to separate, so the deterministic predictor degrades to the
+self-rank baseline exactly where discrimination is needed — whereas the LLM
+forward-predictor generalises across novel scaffolds. The practical lesson is the
+opposite of the naïve one: on hard, real chemistry the LLM's *breadth* is an asset for
+verification, and the genuine fix is sharper still — **compound-specific (DFT-level)
+shift accuracy or orthogonal 2D-NMR constraints**, not a generic lookup table.
 
 ---
 
@@ -471,8 +494,12 @@ artefacts. **Verifier precision / abstention:** the generate-wide experiment (§
 quantifies the recall/precision tension directly — verification precision is
 72–84% conditional on recall and degrades as near-degenerate regioisomers
 accumulate, so forward-match distance is a strong *re-ranker* but a soft
-*confidence* gauge; a deterministic HOSE-code/DFT ¹³C verifier is the identified
-fix. **Projection:** §5.2's extrapolation is replaced by the **measured** §5.3
+*confidence* gauge. We further tested the obvious deterministic fix (§5.4): a
+nmrshiftdb2-trained HOSE-code ¹³C predictor does **not** beat the LLM verifier
+(73% vs 84% conditional), because its specific-environment coverage collapses on the
+benchmark's exotic chemistry — so the identified fix is compound-specific DFT-level
+accuracy or 2D-NMR constraints, not a generic lookup. **Projection:** §5.2's
+extrapolation is replaced by the **measured** §5.3
 result (top-1 30%, recall 41%) — and is honestly below the optimistic estimate.
 
 *Independence checks.* Scoring throughout is mechanical RDKit (not LLM-judged), and
@@ -554,7 +581,9 @@ benchmark rounds and within-compound control (`data/benchmark*/`, scored by
 scored by `scripts/score_electrolyte.py`); the ground-truth integrity audit
 (`scripts/validate_benchmark.py`, `data/benchmark*/clean_qids.json`); the
 forward-verification and generate-wide experiments (`data/fverify/`, `data/gw/`,
-`data/fverify2/`, `scripts/forward_verify.py`); and the mining/resolution pipeline
+`data/fverify2/`, `scripts/forward_verify.py`); the deterministic HOSE-code verifier
+ablation (`scripts/hose_predict.py`, `data/fverify/hose_results.txt`); and the
+mining/resolution pipeline
 (`scripts/`). Companion technical notes: `docs/BENCHMARK.md`, `docs/BENCHMARK_v2.md`,
 `docs/BENCHMARK_v3.md`, `docs/FORWARD_VERIFY.md`, and `data/SPECTRO_TRAINING_DATA.md`.
 

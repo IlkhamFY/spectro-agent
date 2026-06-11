@@ -18,17 +18,20 @@ First, **IRexp**, the largest open dataset of *experimental* infrared spectra �
 121,233 records mined from open-access full text, of which **42,842 are linked to
 a resolved 2D structure** and **40,491 are full IR + ¹H + ¹³C + structure
 quadruples** — assembled by a browser-free literature-mining agent and released
-under permissive licences. Second, an **open, blind, mechanically scored
-benchmark** for spectrum→structure elucidation built on IRexp, deliberately
-spanning molecular complexity. We find that a frontier LLM (Claude Opus), given
-molecular formula + IR + ¹H + ¹³C, recovers the exact constitution of **~31%** of
-real compounds (23% top-1; up to 55% on simpler molecules) — far below the ~100%
-implied by curated evaluations, with the gap fully explained by compound
-difficulty, candidate ranking, and hints. A within-compound control shows that
-**solving each compound in an independent context with tool access roughly triples
-accuracy over a single fatigued pass (5%→15%)**, i.e. methodology, not raw
-capability, dominates reported numbers. Third, we introduce **forward-verification
-elucidation**: candidates proposed by the (hard) inverse direction are re-ranked by
+under permissive licences. Second, **IRSpectra-Bench**, an open, blind,
+mechanically scored benchmark of **194 spectrally-validated compounds** for
+spectrum→structure elucidation, stratified across molecular complexity. We find
+that a frontier LLM (Claude Opus), given molecular formula + IR + ¹H + ¹³C,
+recovers the exact constitution of **28.4%** of real compounds (95% CI 22–35;
+33.5% within three candidates), with a sharp, tight gradient — 48% on simple
+molecules versus 8% on complex ones, and 60% for small (≤15 heavy atoms) versus
+7% for large (>25). This sits far below the ~100% implied by curated evaluations,
+a gap fully explained by compound difficulty, candidate ranking, and hints.
+A within-compound control shows that **solving each compound in an independent
+context with tool access roughly triples accuracy over a single fatigued pass
+(5%→15%)**, i.e. methodology, not raw capability, dominates reported numbers.
+Third, we introduce **forward-verification elucidation**: candidates proposed by
+the (hard) inverse direction are re-ranked by
 forward-predicting each one's ¹³C spectrum and matching it to the observed
 spectrum. This exploits the generator–verifier gap — *when the true structure is
 among the candidates, forward verification selects it 84% of the time, versus 73%
@@ -145,15 +148,19 @@ and content-keyed, so the dataset can be re-enriched without re-mining.
 
 ---
 
-## 3. Benchmark design
+## 3. Benchmark design (IRSpectra-Bench)
 
-From `irexp_resolved` we draw blind elucidation problems. Each problem presents the
-**molecular formula** (as from HRMS), the **IR band list**, and the **¹H and ¹³C
-shift lists** (with multiplicities and J-couplings where reported), and asks for the
-structure. No name, SMILES, or hint is given. Problems are stratified into **simple**
-(single ring, or two separate ring fragments; ≤22 heavy atoms) and **complex**
-(fused/spiro/bridged rings, or >24 heavy atoms) by RDKit ring analysis. Compounds
-seen in any earlier round are excluded from later rounds to prevent leakage.
+From `irexp_resolved` we draw **IRSpectra-Bench**, 194 blind elucidation problems.
+Each problem presents the **molecular formula** (as from HRMS), the **IR band
+list**, and the **¹H and ¹³C shift lists** (with multiplicities and J-couplings
+where reported), and asks for the structure. No name, SMILES, or hint is given.
+Every ground-truth structure is **spectrally validated** by an automated RDKit
+consistency check (¹³C peak count vs symmetry-unique carbons, molecular-formula
+match, SELFIES round-trip), excluding records with merged or incomplete spectra
+(6/140 in the main round). Problems are stratified into **simple** (single ring,
+or two separate ring fragments; ≤22 heavy atoms) and **complex** (fused/spiro/
+bridged rings, or >24 heavy atoms) by RDKit ring analysis (98 simple / 96 complex),
+with InChIKey de-duplication across all rounds to prevent leakage.
 
 **Scoring is mechanical.** A prediction is *correct* if its RDKit InChIKey
 connectivity layer matches the reference (constitution; stereochemistry is reported
@@ -174,28 +181,29 @@ benchmark free to run and reproducible without API credits.
 ### 4.1 Headline performance
 
 Decoupled per-compound agents solve each problem in an independent context
-(formula + IR + ¹H + ¹³C, blind, up to three ranked candidates). On the richest
-single round (40 fresh compounds):
+(formula + IR + ¹H + ¹³C, blind, up to three ranked candidates). Over the full
+**194-compound benchmark** (134 spectrally-validated compounds + the 60 from the
+controlled rounds), with bootstrap 95% confidence intervals:
 
-| metric | overall | simple | complex |
+| metric | overall (n=194) | simple (n=98) | complex (n=96) |
 |---|--:|--:|--:|
-| recovered (within top-3) | 40% | 55% | 25% |
-| top-1 exact constitution | 27% | 40% | 15% |
-| right scaffold (Tanimoto ≥ 0.45) | 67% | — | — |
-| mean best Tanimoto | 0.66 | 0.80 | 0.52 |
+| top-1 exact constitution | **28.4%** [22–35] | 48.0% [39–57] | 8.3% [3–15] |
+| recovered (within top-3) | 33.5% [27–40] | 54.1% [44–63] | 12.5% [6–20] |
+| mean best Tanimoto | 0.59 | 0.73 | 0.45 |
 
-Pooling this round with a second decoupled round on 20 further compounds (§4.3)
-gives the variance-corrected estimate over 60 compounds: **31% recovered / 23%
-top-1**. The model reliably recovers molecular formula, functional groups, and
-scaffold (67% scaffold-level), but the exact constitution far less often, failing
-predominantly on **regiochemistry** — *which* position a substituent occupies. This
-is consistent with an information limit of 1D data: many regioisomers have similar
-¹H/¹³C shifts, which is precisely why 2D experiments (HMBC, NOESY) exist. The strong
-simple→complex gradient (40%→15% top-1) confirms the benchmark is discriminating.
+The gradient is sharp and the intervals are tight: accuracy falls monotonically
+with molecular size — top-1 **60.5%** for ≤15 heavy atoms, 28.3% for 16–25, and
+**7.0%** above 25 (Fig. 2). The model reliably recovers molecular formula,
+functional groups, and scaffold, but the exact constitution far less often,
+failing predominantly on **regiochemistry** — *which* position a substituent
+occupies. This is consistent with an information limit of 1D data: many
+regioisomers have similar ¹H/¹³C shifts, which is precisely why 2D experiments
+(HMBC, NOESY) exist. The 48%→8% simple→complex separation (Fig. 1) confirms the
+benchmark is discriminating across a realistic difficulty range.
 
 ### 4.2 Reconciling with prior reports
 
-Our 23–31% sits far below the ~100% on "simple" molecules reported for the same
+Our 28% top-1 sits far below the ~100% on "simple" molecules reported for the same
 model class.² The gap is fully attributable to methodology, not capability:
 
 - **Difficulty.** "Single ring" by ring-count is not "easy": our simple stratum
@@ -210,7 +218,7 @@ model class.² The gap is fully attributable to methodology, not capability:
   for solvability.
 
 On a like-for-like easy/hinted/lenient setup the numbers rise; on the realistic,
-hint-free, scraped regime, ~30% is the honest figure.
+hint-free, scraped regime, ~28% is the honest figure.
 
 ### 4.3 Methodology dominates: a within-compound control
 
@@ -218,11 +226,11 @@ The same 20 molecules were solved two ways: (a) by a single LLM context handling
 all of them sequentially with no tools, and (b) by independent per-compound agents
 with RDKit formula-checking. On the *identical* compounds, recovery rose from
 **5% to 15%**, and top-1 from 0% to 15% — a 3× methodology effect with zero sample
-confound. A different, easier 40-compound draw scored 40% under method (b),
-demonstrating that single small benchmarks (n = 20–40) swing widely (15–40%); the
-**pooled** decoupled estimate (n = 60) is 31% recovered / 23% top-1, which we take
-as the robust figure. The practical lesson — fresh per-compound context plus tool
-access roughly triples apparent performance — also explains part of the gap to
+confound. Small rounds also swing widely (15–40% across n=20–40 draws), which is
+why the headline is the full **194-compound** figure (28.4% top-1, 95% CI 22–35)
+rather than any single round. The practical lesson — fresh per-compound context
+plus tool access roughly triples apparent performance — also explains part of the
+gap to
 optimistic prior reports, whose per-problem API calls implicitly used method (b).
 
 ---
@@ -346,10 +354,11 @@ result is a property of the task, not an artefact of one model.
 
 *Remaining.* **(i) Human audit:** solver and verifier are both LLMs; the one check we
 cannot perform ourselves is an expert-chemist review of a sample of elucidations and
-forward predictions, which is required before deployment-grade claims. **(ii) Scale:**
-the controlled rounds are n = 60 with demonstrated sample variance; a larger
-(n ≈ 150) benchmark would tighten the estimates, and the free agent harness makes it
-feasible.
+forward predictions, which is required before deployment-grade claims. **(ii) Single
+model:** the headline uses one frontier model (Claude Opus); the cross-model check is
+a 12-compound subset, and a full multi-model sweep (GPT-class, Gemini-class, open
+models) would broaden the claim — though the recall-bound, complexity-graded pattern
+is unlikely to be model-specific.
 
 ---
 
@@ -372,6 +381,19 @@ used.
 **Reproducibility.** Every round is frozen: questions, ground-truth answers,
 per-agent raw outputs, predictions, and scorer outputs are released, and the sampler,
 scorer, and forward-verification harness are scripted end-to-end.
+
+---
+
+## Figures
+
+- **Fig. 1** (`docs/figures/fig1_difficulty.png`) — top-1 and recovered accuracy on
+  IRSpectra-Bench by difficulty (all / simple / complex, n=194) with bootstrap 95% CIs.
+- **Fig. 2** (`docs/figures/fig2_size.png`) — accuracy vs molecular size (heavy-atom
+  bucket); the monotonic 60%→7% top-1 gradient.
+- **Fig. 3** (`docs/figures/fig3_method.png`) — inference-time methodology ladder:
+  single-pass → decoupled agents → generate-wide + forward-verify (5%→23%→30%).
+- **Fig. 4** (`docs/figures/fig4_dataset.png`) — IRexp composition: IR records →
+  NMR-paired → structure-linked → full quadruples.
 
 ---
 

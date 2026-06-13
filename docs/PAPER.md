@@ -82,9 +82,10 @@ performance under matched and mismatched methodologies (§4), isolating a large
 solver-methodology effect with a within-compound control. We then introduce
 forward-verification elucidation (§5), a training-free method that turns the model's
 *strong* direction (forward prediction) against its *weak* one (inverse
-regiochemistry), and use it to localise the bottleneck. Throughout, the solver and
-verifier are LLM agents run under a consumer subscription — no fine-tuning, no API
-spend — making every experiment cheaply reproducible.
+regiochemistry), and use it to localise the bottleneck. **Figure 1** summarises the
+end-to-end design. Throughout, the solver and verifier are LLM agents run under a
+consumer subscription — no fine-tuning, no API spend — making every experiment cheaply
+reproducible.
 
 **Contributions.**
 1. **IRexp** — the largest open experimental-IR dataset (121,233 records; 42,842
@@ -180,7 +181,7 @@ is not.
 
 A structure-complete split, **`irexp_resolved`** (42,842 records, 100%
 structure-linked), is the training-/benchmark-ready subset and is ~6× the
-6,833-molecule set used to train Spectro.¹ Provenance is 119,345 PMC-OA records
+6,833-molecule set used to train Spectro¹ (Fig. 2). Provenance is 119,345 PMC-OA records
 (CC-BY) plus 1,888 Chemotion records (CC-BY-SA); the two licences are kept as
 separable pools. Each record is DOI-/accession-traceable. Re-resolution is additive
 and content-keyed, so the dataset can be re-enriched without re-mining.
@@ -232,12 +233,12 @@ controlled rounds), with bootstrap 95% confidence intervals:
 
 The gradient is sharp and the intervals are tight: accuracy falls monotonically
 with molecular size — top-1 **60.5%** for ≤15 heavy atoms, 28.3% for 16–25, and
-**7.0%** above 25 (Fig. 2). The model reliably recovers molecular formula,
+**7.0%** above 25 (Fig. 4). The model reliably recovers molecular formula,
 functional groups, and scaffold, but the exact constitution far less often,
 failing predominantly on **regiochemistry** — *which* position a substituent
 occupies. This is consistent with an information limit of 1D data: many
 regioisomers have similar ¹H/¹³C shifts, which is precisely why 2D experiments
-(HMBC, NOESY) exist. The 48%→8% simple→complex separation (Fig. 1) confirms the
+(HMBC, NOESY) exist. The 48%→8% simple→complex separation (Fig. 3) confirms the
 benchmark is discriminating across a realistic difficulty range.
 
 ### 4.2 Reconciling with prior reports
@@ -374,7 +375,10 @@ verifier loop:
 
 This mirrors how a chemist confirms a structure ("if it were that isomer, C-3 would
 be at ~120 ppm; we observe 135, so it is the other"), exploits the standard
-principle that verification is easier than generation, and requires no training. We
+principle that verification is easier than generation, and requires no training.
+**Figure 7** shows the mechanism on a real benchmark pair — the picolinamide /
+nicotinamide regioisomers, which the inverse task cannot separate but whose
+forward-predicted ¹³C spectra match the observed one at 0.42 vs 1.30 ppm. We
 implemented the verifier as independent LLM agents that predict ¹³C shift lists from
 SMILES alone (candidates shuffled and anonymised so isomers of one target never
 co-occur; pure reasoning, no tools), and matched predicted to observed ¹³C with a
@@ -425,7 +429,7 @@ result:
 | verification precision (conditional on recall) | 84% | 72% |
 
 Wide generation lifts recall +10 points and exact top-1 +7 points (23%→30% over the
-single-pass baseline) — a real, measured gain with no training. But it does **not**
+single-pass baseline; Fig. 8) — a real, measured gain with no training. But it does **not**
 reach the ~50% a naïve extrapolation would predict, for two instructive reasons:
 **(i) recall plateaus at 41%** — exotic and large targets (selenium heterocycles,
 poly-aryl polyketones, eleven-nitrogen polyamines) resist even six regiochemical
@@ -565,14 +569,15 @@ scorer, and forward-verification harness are scripted end-to-end.
 
 ## Figures
 
-- **Fig. 1** (`docs/figures/fig1_difficulty.png`) — top-1 and recovered accuracy on
+- **Fig. 1** (`docs/figures/fig0_overview.png`) — study design: open multimodal data
+  (IRexp) → blind, complexity-stratified benchmark → decoupled blind solving →
+  forward-verification re-ranking; training-free throughout.
+- **Fig. 2** (`docs/figures/fig4_dataset.png`) — IRexp composition: IR records →
+  NMR-paired → structure-linked → full IR+¹H+¹³C+structure quadruples.
+- **Fig. 3** (`docs/figures/fig1_difficulty.png`) — top-1 and recovered accuracy on
   IRSpectra-Bench by difficulty (all / simple / complex, n=194) with bootstrap 95% CIs.
-- **Fig. 2** (`docs/figures/fig2_size.png`) — accuracy vs molecular size (heavy-atom
+- **Fig. 4** (`docs/figures/fig2_size.png`) — accuracy vs molecular size (heavy-atom
   bucket); the monotonic 60%→7% top-1 gradient.
-- **Fig. 3** (`docs/figures/fig3_method.png`) — inference-time methodology ladder:
-  single-pass → decoupled agents → generate-wide + forward-verify (5%→23%→30%).
-- **Fig. 4** (`docs/figures/fig4_dataset.png`) — IRexp composition: IR records →
-  NMR-paired → structure-linked → full quadruples.
 - **Fig. 5** (`docs/figures/fig5_models.png`) — four-model comparison on a 24-compound
   subset: Fable 5 45% ≫ Opus 25% > Sonnet 20% ≫ Haiku 0% top-1; the benchmark
   discriminates capability monotonically and is far from saturated even for the
@@ -581,6 +586,12 @@ scorer, and forward-verification harness are scripted end-to-end.
   IRSpectra-Bench-Electrolyte by battery-electrolyte chemical class (n=46): sp³-C–F
   easiest (50%), sulfonyl and nitrile hardest (12%); overall 26%/28%, the same
   regime as the headline benchmark.
+- **Fig. 7** (`docs/figures/fig_mechanism.png`) — forward-verification on a real
+  benchmark regioisomer pair (picolinamide vs nicotinamide): forward-predicted ¹³C
+  matches the true isomer (chamfer 0.42 vs 1.30 ppm), the LLM analog of
+  NMR-crystallography.
+- **Fig. 8** (`docs/figures/fig3_method.png`) — inference-time methodology ladder:
+  single-pass → decoupled agents → generate-wide + forward-verify (5%→23%→30%).
 
 ---
 

@@ -202,9 +202,10 @@ solver-methodology effect with a within-compound control. We then
 introduce forward-verification elucidation (§5), a training-free method
 that turns the model's \emph{strong} direction (forward prediction)
 against its \emph{weak} one (inverse regiochemistry), and use it to
-localise the bottleneck. Throughout, the solver and verifier are LLM
-agents run under a consumer subscription --- no fine-tuning, no API
-spend --- making every experiment cheaply reproducible.
+localise the bottleneck. \textbf{Figure 1} summarises the end-to-end
+design. Throughout, the solver and verifier are LLM agents run under a
+consumer subscription --- no fine-tuning, no API spend --- making every
+experiment cheaply reproducible.
 
 \textbf{Contributions.} 1. \textbf{IRexp} --- the largest open
 experimental-IR dataset (121,233 records; 42,842 structure-linked;
@@ -329,10 +330,10 @@ full IR + ¹H + ¹³C + structure quadruples & \textbf{40,491} \\
 A structure-complete split, \textbf{\texttt{irexp\_resolved}} (42,842
 records, 100\% structure-linked), is the training-/benchmark-ready
 subset and is \textasciitilde6× the 6,833-molecule set used to train
-Spectro.¹ Provenance is 119,345 PMC-OA records (CC-BY) plus 1,888
-Chemotion records (CC-BY-SA); the two licences are kept as separable
-pools. Each record is DOI-/accession-traceable. Re-resolution is
-additive and content-keyed, so the dataset can be re-enriched without
+Spectro¹ (Fig. 2). Provenance is 119,345 PMC-OA records (CC-BY) plus
+1,888 Chemotion records (CC-BY-SA); the two licences are kept as
+separable pools. Each record is DOI-/accession-traceable. Re-resolution
+is additive and content-keyed, so the dataset can be re-enriched without
 re-mining.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
@@ -412,14 +413,14 @@ mean best Tanimoto & 0.59 & 0.73 & 0.45 \\
 
 The gradient is sharp and the intervals are tight: accuracy falls
 monotonically with molecular size --- top-1 \textbf{60.5\%} for ≤15
-heavy atoms, 28.3\% for 16--25, and \textbf{7.0\%} above 25 (Fig. 2).
+heavy atoms, 28.3\% for 16--25, and \textbf{7.0\%} above 25 (Fig. 4).
 The model reliably recovers molecular formula, functional groups, and
 scaffold, but the exact constitution far less often, failing
 predominantly on \textbf{regiochemistry} --- \emph{which} position a
 substituent occupies. This is consistent with an information limit of 1D
 data: many regioisomers have similar ¹H/¹³C shifts, which is precisely
 why 2D experiments (HMBC, NOESY) exist. The 48\%→8\% simple→complex
-separation (Fig. 1) confirms the benchmark is discriminating across a
+separation (Fig. 3) confirms the benchmark is discriminating across a
 realistic difficulty range.
 
 \subsubsection{4.2 Reconciling with prior
@@ -605,11 +606,15 @@ predicted and observed ¹³C → return the best match.
 This mirrors how a chemist confirms a structure (``if it were that
 isomer, C-3 would be at \textasciitilde120 ppm; we observe 135, so it is
 the other''), exploits the standard principle that verification is
-easier than generation, and requires no training. We implemented the
-verifier as independent LLM agents that predict ¹³C shift lists from
-SMILES alone (candidates shuffled and anonymised so isomers of one
-target never co-occur; pure reasoning, no tools), and matched predicted
-to observed ¹³C with a symmetric chamfer distance over peak sets.
+easier than generation, and requires no training. \textbf{Figure 7}
+shows the mechanism on a real benchmark pair --- the picolinamide /
+nicotinamide regioisomers, which the inverse task cannot separate but
+whose forward-predicted ¹³C spectra match the observed one at 0.42 vs
+1.30 ppm. We implemented the verifier as independent LLM agents that
+predict ¹³C shift lists from SMILES alone (candidates shuffled and
+anonymised so isomers of one target never co-occur; pure reasoning, no
+tools), and matched predicted to observed ¹³C with a symmetric chamfer
+distance over peak sets.
 
 Conceptually this is \textbf{NMR-crystallography logic with an LLM in
 place of the quantum chemistry}: where DP4/DP4+ rank candidates by
@@ -679,18 +684,19 @@ verification precision (conditional on recall) & 84\% & 72\% \\
 }
 
 Wide generation lifts recall +10 points and exact top-1 +7 points
-(23\%→30\% over the single-pass baseline) --- a real, measured gain with
-no training. But it does \textbf{not} reach the \textasciitilde50\% a
-naïve extrapolation would predict, for two instructive reasons:
-\textbf{(i) recall plateaus at 41\%} --- exotic and large targets
-(selenium heterocycles, poly-aryl polyketones, eleven-nitrogen
-polyamines) resist even six regiochemical variants; and \textbf{(ii)
-verification precision falls 84\%→72\%} as more near-degenerate
-regioisomers enter the pool and the \textasciitilde2-ppm forward
-predictor can no longer separate them. This recall/precision tension is
-the honest ceiling of the training-free approach: the recall-bound
-diagnosis stands, and closing the gap further requires either sharper
-verification or 2D-NMR constraints, not merely more candidates.
+(23\%→30\% over the single-pass baseline; Fig. 8) --- a real, measured
+gain with no training. But it does \textbf{not} reach the
+\textasciitilde50\% a naïve extrapolation would predict, for two
+instructive reasons: \textbf{(i) recall plateaus at 41\%} --- exotic and
+large targets (selenium heterocycles, poly-aryl polyketones,
+eleven-nitrogen polyamines) resist even six regiochemical variants; and
+\textbf{(ii) verification precision falls 84\%→72\%} as more
+near-degenerate regioisomers enter the pool and the \textasciitilde2-ppm
+forward predictor can no longer separate them. This recall/precision
+tension is the honest ceiling of the training-free approach: the
+recall-bound diagnosis stands, and closing the gap further requires
+either sharper verification or 2D-NMR constraints, not merely more
+candidates.
 
 \subsubsection{5.4 Does a deterministic verifier help? A HOSE-code
 ablation}\label{does-a-deterministic-verifier-help-a-hose-code-ablation}
@@ -847,21 +853,22 @@ scripted end-to-end.
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Fig. 1} (\texttt{docs/figures/fig1\_difficulty.png}) --- top-1
+  \textbf{Fig. 1} (\texttt{docs/figures/fig0\_overview.png}) --- study
+  design: open multimodal data (IRexp) → blind, complexity-stratified
+  benchmark → decoupled blind solving → forward-verification re-ranking;
+  training-free throughout.
+\item
+  \textbf{Fig. 2} (\texttt{docs/figures/fig4\_dataset.png}) --- IRexp
+  composition: IR records → NMR-paired → structure-linked → full
+  IR+¹H+¹³C+structure quadruples.
+\item
+  \textbf{Fig. 3} (\texttt{docs/figures/fig1\_difficulty.png}) --- top-1
   and recovered accuracy on IRSpectra-Bench by difficulty (all / simple
   / complex, n=194) with bootstrap 95\% CIs.
 \item
-  \textbf{Fig. 2} (\texttt{docs/figures/fig2\_size.png}) --- accuracy vs
+  \textbf{Fig. 4} (\texttt{docs/figures/fig2\_size.png}) --- accuracy vs
   molecular size (heavy-atom bucket); the monotonic 60\%→7\% top-1
   gradient.
-\item
-  \textbf{Fig. 3} (\texttt{docs/figures/fig3\_method.png}) ---
-  inference-time methodology ladder: single-pass → decoupled agents →
-  generate-wide + forward-verify (5\%→23\%→30\%).
-\item
-  \textbf{Fig. 4} (\texttt{docs/figures/fig4\_dataset.png}) --- IRexp
-  composition: IR records → NMR-paired → structure-linked → full
-  quadruples.
 \item
   \textbf{Fig. 5} (\texttt{docs/figures/fig5\_models.png}) ---
   four-model comparison on a 24-compound subset: Fable 5 45\% ≫ Opus
@@ -874,6 +881,16 @@ scripted end-to-end.
   battery-electrolyte chemical class (n=46): sp³-C--F easiest (50\%),
   sulfonyl and nitrile hardest (12\%); overall 26\%/28\%, the same
   regime as the headline benchmark.
+\item
+  \textbf{Fig. 7} (\texttt{docs/figures/fig\_mechanism.png}) ---
+  forward-verification on a real benchmark regioisomer pair
+  (picolinamide vs nicotinamide): forward-predicted ¹³C matches the true
+  isomer (chamfer 0.42 vs 1.30 ppm), the LLM analog of
+  NMR-crystallography.
+\item
+  \textbf{Fig. 8} (\texttt{docs/figures/fig3\_method.png}) ---
+  inference-time methodology ladder: single-pass → decoupled agents →
+  generate-wide + forward-verify (5\%→23\%→30\%).
 \end{itemize}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
@@ -975,32 +992,33 @@ pipeline (\texttt{scripts/}). Companion technical notes:
 
 \begin{figure}
 \centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 1. Top-1 and recovered accuracy on IRSpectra-Bench by difficulty (all / simple / complex, n=194) with bootstrap 95\% CIs.}]{docs/figures/fig1_difficulty.png}
-\caption{\textbf{Fig. 1.} Top-1 and recovered accuracy on
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 1. Study design: open multimodal data (IRexp) \textbackslash to blind, complexity-stratified benchmark \textbackslash to decoupled blind solving \textbackslash to forward-verification re-ranking; training-free throughout.}]{docs/figures/fig0_overview.png}
+\caption{\textbf{Fig. 1.} Study design: open multimodal data (IRexp)
+\(\to\) blind, complexity-stratified benchmark \(\to\) decoupled blind
+solving \(\to\) forward-verification re-ranking; training-free
+throughout.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 2. IRexp composition: IR records, NMR-paired, structure-linked, and full IR+\^{}1H+\^{}\{13\}C+structure quadruples.}]{docs/figures/fig4_dataset.png}
+\caption{\textbf{Fig. 2.} IRexp composition: IR records, NMR-paired,
+structure-linked, and full IR+\(^1\)H+\(^{13}\)C+structure quadruples.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 3. Top-1 and recovered accuracy on IRSpectra-Bench by difficulty (all / simple / complex, n=194) with bootstrap 95\% CIs.}]{docs/figures/fig1_difficulty.png}
+\caption{\textbf{Fig. 3.} Top-1 and recovered accuracy on
 IRSpectra-Bench by difficulty (all / simple / complex, n=194) with
 bootstrap 95\% CIs.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 2. Accuracy versus molecular size; the monotonic 60\%\$\$7\% top-1 gradient with heavy-atom count.}]{docs/figures/fig2_size.png}
-\caption{\textbf{Fig. 2.} Accuracy versus molecular size; the monotonic
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 4. Accuracy versus molecular size; the monotonic 60\%\$\$7\% top-1 gradient with heavy-atom count.}]{docs/figures/fig2_size.png}
+\caption{\textbf{Fig. 4.} Accuracy versus molecular size; the monotonic
 60\%\$\to\$7\% top-1 gradient with heavy-atom count.}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 3. Inference-time methodology ladder: single-pass \textbackslash to decoupled agents \textbackslash to generate-wide + forward-verify (5\%/23\%/30\%).}]{docs/figures/fig3_method.png}
-\caption{\textbf{Fig. 3.} Inference-time methodology ladder: single-pass
-\(\to\) decoupled agents \(\to\) generate-wide + forward-verify
-(5\%/23\%/30\%).}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 4. IRexp composition: IR records, NMR-paired, structure-linked, and full IR+\^{}1H+\^{}\{13\}C+structure quadruples.}]{docs/figures/fig4_dataset.png}
-\caption{\textbf{Fig. 4.} IRexp composition: IR records, NMR-paired,
-structure-linked, and full IR+\(^1\)H+\(^{13}\)C+structure quadruples.}
 \end{figure}
 
 \begin{figure}
@@ -1018,6 +1036,23 @@ model.}
 \caption{\textbf{Fig. 6.} IRSpectra-Bench-Electrolyte by
 battery-electrolyte class (n=46): sp\(^3\)-C--F easiest (50\%), sulfonyl
 and nitrile hardest (12\%).}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 7. Forward-verification on a real benchmark regioisomer pair (picolinamide vs nicotinamide): forward-predicted \^{}\{13\}C matches the true isomer (chamfer 0.42 vs 1.30 ppm) --- the LLM analog of NMR-crystallography.}]{docs/figures/fig_mechanism.png}
+\caption{\textbf{Fig. 7.} Forward-verification on a real benchmark
+regioisomer pair (picolinamide vs nicotinamide): forward-predicted
+\(^{13}\)C matches the true isomer (chamfer 0.42 vs 1.30 ppm) --- the
+LLM analog of NMR-crystallography.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 8. Inference-time methodology ladder: single-pass \textbackslash to decoupled agents \textbackslash to generate-wide + forward-verify (5\%/23\%/30\%).}]{docs/figures/fig3_method.png}
+\caption{\textbf{Fig. 8.} Inference-time methodology ladder: single-pass
+\(\to\) decoupled agents \(\to\) generate-wide + forward-verify
+(5\%/23\%/30\%).}
 \end{figure}
 
 \end{document}

@@ -11,19 +11,25 @@ TECTONIC = "/tmp/tectonic"
 OUT = "docs/paper.pdf"
 
 FIGS = [
+    ("fig0_overview.png", "Study design: open multimodal data (IRexp) $\\to$ blind, "
+     "complexity-stratified benchmark $\\to$ decoupled blind solving $\\to$ "
+     "forward-verification re-ranking; training-free throughout."),
+    ("fig4_dataset.png", "IRexp composition: IR records, NMR-paired, structure-linked, "
+     "and full IR+$^1$H+$^{13}$C+structure quadruples."),
     ("fig1_difficulty.png", "Top-1 and recovered accuracy on IRSpectra-Bench by "
      "difficulty (all / simple / complex, n=194) with bootstrap 95\\% CIs."),
     ("fig2_size.png", "Accuracy versus molecular size; the monotonic 60\\%$\\to$7\\% "
      "top-1 gradient with heavy-atom count."),
-    ("fig3_method.png", "Inference-time methodology ladder: single-pass $\\to$ "
-     "decoupled agents $\\to$ generate-wide + forward-verify (5\\%/23\\%/30\\%)."),
-    ("fig4_dataset.png", "IRexp composition: IR records, NMR-paired, structure-linked, "
-     "and full IR+$^1$H+$^{13}$C+structure quadruples."),
     ("fig5_models.png", "Four-model comparison on a 24-compound subset: Fable 5 45\\% "
      "$\\gg$ Opus 25\\% $>$ Sonnet 20\\% $\\gg$ Haiku 0\\% top-1; capability-sensitive "
      "and far from saturated even for the newest model."),
     ("fig6_electrolyte.png", "IRSpectra-Bench-Electrolyte by battery-electrolyte class "
      "(n=46): sp$^3$-C--F easiest (50\\%), sulfonyl and nitrile hardest (12\\%)."),
+    ("fig_mechanism.png", "Forward-verification on a real benchmark regioisomer pair "
+     "(picolinamide vs nicotinamide): forward-predicted $^{13}$C matches the true "
+     "isomer (chamfer 0.42 vs 1.30 ppm) --- the LLM analog of NMR-crystallography."),
+    ("fig3_method.png", "Inference-time methodology ladder: single-pass $\\to$ "
+     "decoupled agents $\\to$ generate-wide + forward-verify (5\\%/23\\%/30\\%)."),
 ]
 
 UNI = {

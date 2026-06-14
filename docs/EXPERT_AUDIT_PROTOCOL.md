@@ -9,14 +9,22 @@ blinded, pre-registered, and mechanically scorable.
 
 ## Panel and scope
 
+This protocol is **generated and frozen** — run `python scripts/make_audit_sample.py`
+to (re)produce the blinded package under `data/audit/` (`sample.jsonl`, the separate
+`key.jsonl`, rendered `structures/`, and `scoring_sheet.md`); see
+[`data/audit/README.md`](../data/audit/README.md).
+
 - **Reviewers:** 3 synthetic/analytical chemists (PhD-level), independent, no prior
   exposure to the benchmark answers.
-- **Sample:** 30 compounds drawn stratified from IRSpectra-Bench — 15 simple, 15
-  complex — fixed by `seed` and released as `data/audit/sample.jsonl` (so the draw is
-  reproducible and pre-registered, not cherry-picked).
+- **Sample:** 30 compounds drawn stratified (15 simple, 15 complex; seed = 0) from the
+  60-compound forward-verification set — the split that carries both the model's ranked
+  candidates and the observed spectra — released as `data/audit/sample.jsonl`, so the
+  draw is reproducible and pre-registered, not cherry-picked. Of the 30, **9 are
+  recall-positive** (true structure among the candidates) and feed Task 2; the full
+  set offers 19 recall-positive compounds for a higher-power panel.
 - **Per compound, each reviewer sees:** formula + IR + ¹H + ¹³C (the exact solver
-  prompt) and the model's **top-ranked candidate SMILES rendered as a 2D structure**,
-  with model identity and the ground-truth hidden.
+  prompt) and the model's **top-ranked candidate rendered as a 2D structure**,
+  with model identity and the ground truth hidden (`key.jsonl` withheld).
 
 ## Task 1 — elucidation correctness (validates §4)
 
@@ -36,7 +44,8 @@ regiochemistry-bottleneck claim with human judgement rather than only string mat
 
 ## Task 2 — verifier calibration (validates §5)
 
-For the 19 recall-positive compounds, present the reviewer with the **candidate set**
+For the recall-positive compounds (9 in the frozen sample; up to 19 across the full
+forward-verify set), present the reviewer with the **candidate set**
 (true + distractors, shuffled, unlabelled) and ask them to rank by spectral fit, then
 compare:
 

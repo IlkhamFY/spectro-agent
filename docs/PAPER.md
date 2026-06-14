@@ -41,9 +41,10 @@ verification.** Acting on it — generating six regiochemistry-aware candidates 
 compound and forward-verifying — lifts measured exact top-1 from 23% to **30%**
 (recall 41%), while exposing a recall/precision tension that caps the training-free
 approach below the naïve extrapolation. We then stress-test the finding in a
-**battery-electrolyte domain** — a 48-compound subset spanning the carbonate,
-sulfonyl, nitrile, fluorinated, phosphoryl, and glyme functional classes central to
-electrolyte chemistry — where accuracy holds at the same level (**26% top-1**) along
+**battery-electrolyte domain** — a curated subset (48 compounds, 46 scored) spanning
+the carbonate, sulfonyl, nitrile, fluorinated, phosphoryl, and glyme functional
+classes central to electrolyte chemistry — where accuracy holds at the same level
+(**26% top-1**) along
 a chemically interpretable gradient (sp³-C–F easiest at 50%; sulfonyl and nitrile
 hardest at 12%), and we cast forward-verification as the training-free analog of the
 computational-NMR / NMR-crystallography validation that chemists already trust. All
@@ -136,7 +137,7 @@ principle — *verification by forward prediction is easier than inverse generat
 ### 2.1 Motivation
 
 Open experimental IR is scarce: the largest freely available collections are the
-NIST WebBook (~16k gas-phase spectra) and the Chemotion electronic-lab-notebook
+NIST WebBook⁸ (~16k gas-phase spectra) and the Chemotion electronic-lab-notebook⁷
 deposit (~2k). Commercial libraries (e.g. Wiley KnowItAll, ~10⁵ spectra) are large
 but closed and unusable for open model development. NMR is comparatively abundant,
 but IR — which directly encodes functional groups complementary to NMR — has no
@@ -149,15 +150,15 @@ remarkably stable textual convention in the experimental sections of organic
 chemistry papers. We exploit this with a browser-free harvesting agent:
 
 - **Discovery.** Open-access primary literature is enumerated through the NCBI
-  E-utilities and harvested in bulk from the PMC Open-Access Subset on AWS S3
+  E-utilities and harvested in bulk from the PMC Open-Access Subset⁶ on AWS S3
   (plain HTTPS, no anti-bot, fully redistributable CC-BY content), supplemented by
   the Chemotion FT-IR deposit (RADAR4Chem, CC-BY-SA-4.0).
 - **Extraction.** A deterministic parser segments experimental text into
   per-compound records and extracts IR wavenumbers and ¹H/¹³C shift lists, with
   quality gates that reject instrument scan-range artefacts and prose
   false-positives (band-list density, ≥4 bands, plausible 400–4000 cm⁻¹ window).
-- **Structure resolution.** In-text IUPAC names are converted to SMILES with OPSIN,
-  canonicalised with RDKit (InChIKey, SELFIES), with a PubChem fallback for
+- **Structure resolution.** In-text IUPAC names are converted to SMILES with OPSIN³,
+  canonicalised with RDKit⁴ (InChIKey, SELFIES⁵), with a PubChem fallback for
   trivial/natural-product names. A key engineering finding was that the dominant
   open-access main-text convention labels compounds with *letter-prefixed* series
   labels (e.g. "…carbothioamide **(B1)**:") rather than the digit-first "(3a)" of
@@ -204,7 +205,7 @@ with InChIKey de-duplication across all rounds to prevent leakage.
 
 **Scoring is mechanical.** A prediction is *correct* if its RDKit InChIKey
 connectivity layer matches the reference (constitution; stereochemistry is reported
-separately). We also report Morgan(2, 2048) Tanimoto to the reference as a graded
+separately). We also report Morgan(2, 2048)⁹ Tanimoto to the reference as a graded
 "right scaffold/family" signal, and, where multiple ranked candidates are allowed,
 *recovered* = the reference appears among them (matching the protocol of ref. 2).
 
@@ -231,15 +232,15 @@ controlled rounds), with bootstrap 95% confidence intervals:
 | recovered (within top-3) | 33.5% [27–40] | 54.1% [44–63] | 12.5% [6–20] |
 | mean best Tanimoto | 0.59 | 0.73 | 0.45 |
 
-The gradient is sharp and the intervals are tight: accuracy falls monotonically
-with molecular size — top-1 **60.5%** for ≤15 heavy atoms, 28.3% for 16–25, and
-**7.0%** above 25 (Fig. 4). The model reliably recovers molecular formula,
-functional groups, and scaffold, but the exact constitution far less often,
-failing predominantly on **regiochemistry** — *which* position a substituent
-occupies. This is consistent with an information limit of 1D data: many
-regioisomers have similar ¹H/¹³C shifts, which is precisely why 2D experiments
-(HMBC, NOESY) exist. The 48%→8% simple→complex separation (Fig. 3) confirms the
-benchmark is discriminating across a realistic difficulty range.
+The gradient is sharp and the intervals are tight. The 48%→8% simple→complex
+separation (Fig. 3) confirms the benchmark is discriminating across a realistic
+difficulty range, and accuracy falls monotonically with molecular size in step with
+it — top-1 **60.5%** for ≤15 heavy atoms, 28.3% for 16–25, and **7.0%** above 25
+(Fig. 4). The model reliably recovers molecular formula, functional groups, and
+scaffold, but the exact constitution far less often, failing predominantly on
+**regiochemistry** — *which* position a substituent occupies. This is consistent
+with an information limit of 1D data: many regioisomers have similar ¹H/¹³C shifts,
+which is precisely why 2D experiments (HMBC, NOESY) exist.
 
 ### 4.2 Reconciling with prior reports
 
@@ -259,6 +260,28 @@ model class.² The gap is fully attributable to methodology, not capability:
 
 On a like-for-like easy/hinted/lenient setup the numbers rise; on the realistic,
 hint-free, scraped regime, ~28% is the honest figure.
+
+**Versus trained models — a bound, not a leaderboard.** A like-for-like comparison
+against specialised trained models is not available: no system has been scored on an
+identical test set, and published numbers differ in the three respects that most move
+the score — spectrum realism (simulated/curated vs. real), hints, and how "exact
+match" is defined. The strongest trained baselines report their accuracy
+*in-distribution on simulated spectra*. Spectro (¹H/¹³C/IR→SELFIES, 6,833 training
+molecules) reaches ~90% top-1 exact recovery — but on a 1,366-molecule held-out split
+whose IR is plotted from reference data and whose NMR is software-*predicted*, not
+experimental¹; and NMIRacle, which like us conditions jointly on IR+¹H+¹³C with *no*
+hints, reports 48% top-1 / 66% top-15 exact-SMILES recovery — again on held-out
+molecules from a *simulated* corpus drawn from the training distribution¹³. We measure
+28.4% top-1 (33.5% top-3; 30% with forward verification) on **blind, real,
+literature-mined experimental** spectra of out-of-distribution compounds. These are
+not comparable as a leaderboard; read as a *bound on the simulated-to-real gap*, the
+contrast suggests that high in-distribution accuracies substantially overstate
+real-world performance — the same gap we document for the LLM above. The instability
+of the metric itself reinforces the caution: on the MolPuzzle benchmark (IR+MS+¹H+¹³C
+with the molecular formula given), reported exact-match accuracy for a single model
+(GPT-4o) ranges from 1.4%²⁰ to 27.8%¹⁵ depending only on the scoring harness — a ~20×
+swing that is itself the argument for the single, fully specified, mechanically scored
+protocol we adopt.
 
 ### 4.3 Methodology dominates: a within-compound control
 
@@ -310,12 +333,13 @@ that NMR is routinely used to assign are exactly the molecules whose
 constitution must be read back out of IR and multinuclear NMR. To test whether
 the recall-bound regime above holds for *this* chemistry — rather than for
 organic molecules at large — we curated **IRSpectra-Bench-Electrolyte**, a
-48-compound subset (8 per class) of structure-resolved IRexp records selected
+48-compound subset (eight per class as curated; two later yielded no parseable
+candidate, leaving **46 scored**) of structure-resolved IRexp records selected
 by substructure for the six functional families that dominate lithium- and
 sodium-battery electrolytes and their breakdown products: **carbonate**
 (linear/cyclic, the EC/DMC backbone), **sulfonyl/sulfonate** (sulfones,
 sulfonamides, the −SO₂CF₃ motif of imide salts), **nitrile** (acetonitrile- and
-adiponitrile-type high-voltage additives), **sp³ C–F** (fluorinated solvents
+adiponitrile-type high-voltage additives), **sp³-C–F** (fluorinated solvents
 and additives), **phosphoryl** (phosphates/phosphonates, the LiPF₆-derived
 OPF chemistry), and **glyme/oligoether** (the ether solvents and PEG linkers).
 These are literature compounds bearing the *functional chemistry* of
@@ -333,14 +357,14 @@ breakdown (Fig. 6) is itself informative:
 
 | electrolyte class | n | top-1 | recovered (top-3) |
 |---|--:|--:|--:|
-| sp³-fluorinated | 8 | **50%** | 50% |
+| sp³-C–F | 8 | **50%** | 50% |
 | carbonate | 7 | 29% | 43% |
 | phosphoryl | 8 | 25% | 25% |
 | glyme / oligoether | 7 | 29% | 29% |
 | sulfonyl / sulfonate | 8 | **12%** | 12% |
 | nitrile | 8 | **12%** | 12% |
 
-The gradient is chemically legible. **sp³-fluorinated** centres are the easiest:
+The gradient is chemically legible. **sp³-C–F** centres are the easiest:
 a C–F coupling fingerprint (the large ¹J/²J(C,F) splittings) localises the
 fluorine and pins regiochemistry, removing exactly the degeneracy that defeats
 elucidation elsewhere. **Sulfonyl** and **nitrile** are the hardest, for two
@@ -429,7 +453,8 @@ result:
 | verification precision (conditional on recall) | 84% | 72% |
 
 Wide generation lifts recall +10 points and exact top-1 +7 points (23%→30% over the
-single-pass baseline; Fig. 8) — a real, measured gain with no training. But it does **not**
+self-ranking baseline on the same 60 compounds; Fig. 8) — a real, measured gain with
+no training. But it does **not**
 reach the ~50% a naïve extrapolation would predict, for two instructive reasons:
 **(i) recall plateaus at 41%** — exotic and large targets (selenium heterocycles,
 poly-aryl polyketones, eleven-nitrogen polyamines) resist even six regiochemical
@@ -468,8 +493,9 @@ shift accuracy or orthogonal 2D-NMR constraints**, not a generic lookup table.
 ## 6. Discussion
 
 LLMs are not "solving structure elucidation" on realistic 1D data, but neither are
-they failing: they are reliable **scaffold-level** elucidators (67%) and good
-**verifiers** (84% conditional), with exact recovery throttled by candidate recall
+they failing: they are reliable **scaffold-level** elucidators (mean best Tanimoto 0.59; 0.73 on
+simple molecules) and good **verifiers** (84% conditional), with exact recovery
+throttled by candidate recall
 and by the regiochemical underdetermination intrinsic to 1D NMR. This reframes the
 engineering problem. Rather than training a bespoke spectra→structure model — a
 target the frontier already meets at the scaffold level and that ages out each model
@@ -499,7 +525,7 @@ the observed one — while remembering the abstention caveat below.
 Several limitations of earlier drafts are now resolved with controlled experiments;
 we state what remains plainly.
 
-*Resolved.* **Extraction noise:** an RDKit self-consistency audit (¹³C peak count vs
+*Resolved.* **Extraction noise:** an RDKit self-consistency audit¹⁰ (¹³C peak count vs
 symmetry-unique carbons, formula, SELFIES round-trip) finds **57/60 ground truths
 spectrally clean**, and all headline metrics are unchanged on that clean subset
 (top-1 24% vs 23%, recall 33% vs 31%) — the conclusions are not driven by scraping
@@ -551,9 +577,10 @@ make resolution additive and restart-safe.
 RDKit ring analysis, with cross-round de-duplication by InChIKey. The
 battery-electrolyte subset (§4.5) was drawn from the same corpus by SMARTS
 substructure filters for six electrolyte functional classes (carbonate,
-sulfonyl/sulfonate, nitrile, sp³ C–F, phosphoryl, glyme/oligoether), balanced to
-eight compounds per class, excluding every compound used elsewhere, and J-enriched
-and spectrally validated identically to the main rounds. Solver and
+sulfonyl/sulfonate, nitrile, sp³-C–F, phosphoryl, glyme/oligoether), balanced to
+eight compounds per class (48 curated; 46 scored after two yielded no parseable
+candidate), excluding every compound used elsewhere, and J-enriched and spectrally
+validated identically to the main rounds. Solver and
 forward-prediction agents were independent Claude-Opus sub-agents invoked under a
 consumer subscription; agents were instructed closed-book and audited via
 transcript grep for zero web/answer access. Scoring used RDKit InChIKey-connectivity
@@ -646,3 +673,5 @@ mining/resolution pipeline
 19. Ashbrook, S. E.; McKay, D. *Combining solid-state NMR spectroscopy with
     first-principles calculations — a guide to NMR crystallography.* Chem. Commun.
     2016, 52, 7186.
+20. Guo, K. et al. *MolPuzzle: a benchmark for molecular structure elucidation with
+    multimodal large language models.* NeurIPS 2024 (Datasets and Benchmarks Track).

@@ -44,7 +44,8 @@ UNI = {
 }
 
 def header():
-    lines = [r"\usepackage{newunicodechar}", r"\usepackage{graphicx}"]
+    lines = [r"\usepackage{newunicodechar}", r"\usepackage{graphicx}",
+             r"\renewcommand{\figurename}{Fig.}"]
     for ch, cmd in UNI.items():
         lines.append(f"\\newunicodechar{{{ch}}}{{{cmd}}}")
     return "\n".join(lines)
@@ -55,7 +56,7 @@ def main():
     for i, (fn, cap) in enumerate(FIGS, 1):
         path = f"docs/figures/{fn}"
         if os.path.exists(path):
-            md += f"![**Fig. {i}.** {cap}]({path}){{width=82%}}\n\n"
+            md += f"![{cap}]({path}){{width=82%}}\n\n"
 
     with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as mf:
         mf.write(md); md_path = mf.name

@@ -69,6 +69,7 @@
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \usepackage{newunicodechar}
 \usepackage{graphicx}
+\renewcommand{\figurename}{Fig.}
 \newunicodechar{±}{\ensuremath{\pm}}
 \newunicodechar{×}{\ensuremath{\times}}
 \newunicodechar{−}{\ensuremath{-}}
@@ -992,66 +993,63 @@ pipeline (\texttt{scripts/}). Companion technical notes:
 
 \begin{figure}
 \centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 1. Study design: open multimodal data (IRexp) \textbackslash to blind, complexity-stratified benchmark \textbackslash to decoupled blind solving \textbackslash to forward-verification re-ranking; training-free throughout.}]{docs/figures/fig0_overview.png}
-\caption{\textbf{Fig. 1.} Study design: open multimodal data (IRexp)
-\(\to\) blind, complexity-stratified benchmark \(\to\) decoupled blind
-solving \(\to\) forward-verification re-ranking; training-free
-throughout.}
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Study design: open multimodal data (IRexp) \textbackslash to blind, complexity-stratified benchmark \textbackslash to decoupled blind solving \textbackslash to forward-verification re-ranking; training-free throughout.}]{docs/figures/fig0_overview.png}
+\caption{Study design: open multimodal data (IRexp) \(\to\) blind,
+complexity-stratified benchmark \(\to\) decoupled blind solving \(\to\)
+forward-verification re-ranking; training-free throughout.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 2. IRexp composition: IR records, NMR-paired, structure-linked, and full IR+\^{}1H+\^{}\{13\}C+structure quadruples.}]{docs/figures/fig4_dataset.png}
-\caption{\textbf{Fig. 2.} IRexp composition: IR records, NMR-paired,
-structure-linked, and full IR+\(^1\)H+\(^{13}\)C+structure quadruples.}
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={IRexp composition: IR records, NMR-paired, structure-linked, and full IR+\^{}1H+\^{}\{13\}C+structure quadruples.}]{docs/figures/fig4_dataset.png}
+\caption{IRexp composition: IR records, NMR-paired, structure-linked,
+and full IR+\(^1\)H+\(^{13}\)C+structure quadruples.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 3. Top-1 and recovered accuracy on IRSpectra-Bench by difficulty (all / simple / complex, n=194) with bootstrap 95\% CIs.}]{docs/figures/fig1_difficulty.png}
-\caption{\textbf{Fig. 3.} Top-1 and recovered accuracy on
-IRSpectra-Bench by difficulty (all / simple / complex, n=194) with
-bootstrap 95\% CIs.}
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Top-1 and recovered accuracy on IRSpectra-Bench by difficulty (all / simple / complex, n=194) with bootstrap 95\% CIs.}]{docs/figures/fig1_difficulty.png}
+\caption{Top-1 and recovered accuracy on IRSpectra-Bench by difficulty
+(all / simple / complex, n=194) with bootstrap 95\% CIs.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 4. Accuracy versus molecular size; the monotonic 60\%\$\$7\% top-1 gradient with heavy-atom count.}]{docs/figures/fig2_size.png}
-\caption{\textbf{Fig. 4.} Accuracy versus molecular size; the monotonic
-60\%\$\to\$7\% top-1 gradient with heavy-atom count.}
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Accuracy versus molecular size; the monotonic 60\%\$\$7\% top-1 gradient with heavy-atom count.}]{docs/figures/fig2_size.png}
+\caption{Accuracy versus molecular size; the monotonic 60\%\$\to\$7\%
+top-1 gradient with heavy-atom count.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 5. Four-model comparison on a 24-compound subset: Fable 5 45\% \textbackslash gg Opus 25\% \textgreater{} Sonnet 20\% \textbackslash gg Haiku 0\% top-1; capability-sensitive and far from saturated even for the newest model.}]{docs/figures/fig5_models.png}
-\caption{\textbf{Fig. 5.} Four-model comparison on a 24-compound subset:
-Fable 5 45\% \(\gg\) Opus 25\% \(>\) Sonnet 20\% \(\gg\) Haiku 0\%
-top-1; capability-sensitive and far from saturated even for the newest
-model.}
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Four-model comparison on a 24-compound subset: Fable 5 45\% \textbackslash gg Opus 25\% \textgreater{} Sonnet 20\% \textbackslash gg Haiku 0\% top-1; capability-sensitive and far from saturated even for the newest model.}]{docs/figures/fig5_models.png}
+\caption{Four-model comparison on a 24-compound subset: Fable 5 45\%
+\(\gg\) Opus 25\% \(>\) Sonnet 20\% \(\gg\) Haiku 0\% top-1;
+capability-sensitive and far from saturated even for the newest model.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 6. IRSpectra-Bench-Electrolyte by battery-electrolyte class (n=46): sp\^{}3-C--F easiest (50\%), sulfonyl and nitrile hardest (12\%).}]{docs/figures/fig6_electrolyte.png}
-\caption{\textbf{Fig. 6.} IRSpectra-Bench-Electrolyte by
-battery-electrolyte class (n=46): sp\(^3\)-C--F easiest (50\%), sulfonyl
-and nitrile hardest (12\%).}
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={IRSpectra-Bench-Electrolyte by battery-electrolyte class (n=46): sp\^{}3-C--F easiest (50\%), sulfonyl and nitrile hardest (12\%).}]{docs/figures/fig6_electrolyte.png}
+\caption{IRSpectra-Bench-Electrolyte by battery-electrolyte class
+(n=46): sp\(^3\)-C--F easiest (50\%), sulfonyl and nitrile hardest
+(12\%).}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 7. Forward-verification on a real benchmark regioisomer pair (picolinamide vs nicotinamide): forward-predicted \^{}\{13\}C matches the true isomer (chamfer 0.42 vs 1.30 ppm) --- the LLM analog of NMR-crystallography.}]{docs/figures/fig_mechanism.png}
-\caption{\textbf{Fig. 7.} Forward-verification on a real benchmark
-regioisomer pair (picolinamide vs nicotinamide): forward-predicted
-\(^{13}\)C matches the true isomer (chamfer 0.42 vs 1.30 ppm) --- the
-LLM analog of NMR-crystallography.}
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Forward-verification on a real benchmark regioisomer pair (picolinamide vs nicotinamide): forward-predicted \^{}\{13\}C matches the true isomer (chamfer 0.42 vs 1.30 ppm) --- the LLM analog of NMR-crystallography.}]{docs/figures/fig_mechanism.png}
+\caption{Forward-verification on a real benchmark regioisomer pair
+(picolinamide vs nicotinamide): forward-predicted \(^{13}\)C matches the
+true isomer (chamfer 0.42 vs 1.30 ppm) --- the LLM analog of
+NMR-crystallography.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Fig. 8. Inference-time methodology ladder: single-pass \textbackslash to decoupled agents \textbackslash to generate-wide + forward-verify (5\%/23\%/30\%).}]{docs/figures/fig3_method.png}
-\caption{\textbf{Fig. 8.} Inference-time methodology ladder: single-pass
-\(\to\) decoupled agents \(\to\) generate-wide + forward-verify
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Inference-time methodology ladder: single-pass \textbackslash to decoupled agents \textbackslash to generate-wide + forward-verify (5\%/23\%/30\%).}]{docs/figures/fig3_method.png}
+\caption{Inference-time methodology ladder: single-pass \(\to\)
+decoupled agents \(\to\) generate-wide + forward-verify
 (5\%/23\%/30\%).}
 \end{figure}
 

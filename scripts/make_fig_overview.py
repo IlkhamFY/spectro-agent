@@ -70,10 +70,6 @@ ax.text(50, 13.5, "Training-free  ·  no fine-tuning  ·  no paid API  —  LLM 
         "subscription, fully reproducible", ha="center", va="center", fontsize=10.6,
         color=NAVY, fontweight="bold")
 
-ax.text(2, 4.2, "Figure 1.  Study design: open multimodal data → blind, stratified benchmark → "
-        "decoupled blind solving → forward-verification re-ranking.",
-        fontsize=9.2, color=GREY)
-
 plt.tight_layout()
 plt.savefig("docs/figures/fig0_overview.png", dpi=170, bbox_inches="tight")
 print("wrote docs/figures/fig0_overview.png")

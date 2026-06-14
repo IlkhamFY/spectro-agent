@@ -25,7 +25,7 @@ def molimg(smi):
     return np.asarray(Draw.MolToImage(m, size=(220, 150)))
 
 fig = plt.figure(figsize=(10.4, 6.6))
-gs = fig.add_gridspec(3, 1, hspace=0.42, left=0.30, right=0.97, top=0.87, bottom=0.20)
+gs = fig.add_gridspec(3, 1, hspace=0.42, left=0.30, right=0.97, top=0.87, bottom=0.11)
 axes = [fig.add_subplot(gs[i]) for i in range(3)]
 XMAX = 175
 
@@ -72,11 +72,6 @@ fig.legend(handles=[Line2D([0],[0],color="#c9d4db",lw=4.5,label="observed (refer
                     Line2D([0],[0],color=GREEN,lw=2,label="predicted, true isomer"),
                     Line2D([0],[0],color=RED,lw=2,label="predicted, wrong isomer")],
            loc="upper left", bbox_to_anchor=(0.30,0.99), ncol=3, frameon=False, fontsize=8.6)
-
-fig.text(0.30, 0.045,
-         "Figure 2.  Forward-verification breaks a regiochemistry tie the inverse task cannot — "
-         "the LLM analog of NMR-crystallography.",
-         fontsize=8.8, color="#5b6b75")
 
 plt.savefig("docs/figures/fig_mechanism.png", dpi=170, bbox_inches="tight")
 print("wrote docs/figures/fig_mechanism.png")

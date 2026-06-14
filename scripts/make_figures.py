@@ -35,13 +35,14 @@ ax.set_xlabel("heavy atoms"); ax.set_ylabel("accuracy (%)"); ax.set_ylim(0,80); 
 ax.set_title("Accuracy falls with molecular size")
 plt.tight_layout(); plt.savefig("docs/figures/fig2_size.png",dpi=150); plt.close()
 
-# Fig 3: method ladder (from frozen prior results)
-labels=["single-pass\n(no tools)","decoupled\nagents","generate-wide\n+ forward-verify"]
-vals=[5,23,30]
+# Fig 3: forward-verification inference ladder, all on the SAME 60 compounds
+labels=["solver\nself-ranking","+ forward-\nverify","+ generate-wide\n+ verify"]
+vals=[23,26,30]
 fig,ax=plt.subplots(figsize=(4.6,3.4))
-ax.bar(labels,vals,color=["#bbb","#89c2d9","#2a6f97"])
+ax.bar(labels,vals,color=["#a9d6e5","#61a5c2","#2a6f97"])
 for i,v in enumerate(vals): ax.text(i,v+1,f"{v}%",ha="center")
-ax.set_ylabel("exact top-1 (%)"); ax.set_ylim(0,40); ax.set_title("Inference-time methodology, no training")
+ax.set_ylabel("exact top-1 (%)"); ax.set_ylim(0,40)
+ax.set_title("Inference-time scaling (same 60 compounds)")
 plt.tight_layout(); plt.savefig("docs/figures/fig3_method.png",dpi=150); plt.close()
 
 # Fig 4: IRexp dataset composition

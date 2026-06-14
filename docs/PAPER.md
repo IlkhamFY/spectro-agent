@@ -617,8 +617,9 @@ scorer, and forward-verification harness are scripted end-to-end.
   benchmark regioisomer pair (picolinamide vs nicotinamide): forward-predicted ¹³C
   matches the true isomer (chamfer 0.42 vs 1.30 ppm), the LLM analog of
   NMR-crystallography.
-- **Fig. 8** (`docs/figures/fig3_method.png`) — inference-time methodology ladder:
-  single-pass → decoupled agents → generate-wide + forward-verify (5%→23%→30%).
+- **Fig. 8** (`docs/figures/fig3_method.png`) — forward-verification inference ladder
+  on the same 60 compounds: solver self-ranking → + forward-verify → + generate-wide
+  (23%/26%/30% top-1).
 
 ---
 

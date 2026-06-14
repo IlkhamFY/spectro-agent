@@ -28,8 +28,9 @@ FIGS = [
     ("fig_mechanism.png", "Forward-verification on a real benchmark regioisomer pair "
      "(picolinamide vs nicotinamide): forward-predicted $^{13}$C matches the true "
      "isomer (chamfer 0.42 vs 1.30 ppm) --- the LLM analog of NMR-crystallography."),
-    ("fig3_method.png", "Inference-time methodology ladder: single-pass $\\to$ "
-     "decoupled agents $\\to$ generate-wide + forward-verify (5\\%/23\\%/30\\%)."),
+    ("fig3_method.png", "Forward-verification inference ladder on the same 60 "
+     "compounds: solver self-ranking $\\to$ + forward-verify $\\to$ + generate-wide "
+     "(23\\%/26\\%/30\\% top-1)."),
 ]
 
 UNI = {

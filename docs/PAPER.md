@@ -303,20 +303,27 @@ A benchmark is only useful if it separates models. On a fixed 24-compound subset
 solved blind by four Claude models — spanning a wide capability range, including the
 newest (Fable 5) — under the identical protocol (Fig. 5):
 
-| model | top-1 | recovered |
-|---|--:|--:|
-| Claude Fable 5 | **45%** | 54% |
-| Claude Opus | 25% | 29% |
-| Claude Sonnet | 20% | 25% |
-| Claude Haiku | **0%** | 4% |
+| model | top-1 | recovered | top-1 95% CI |
+|---|--:|--:|--:|
+| Claude Fable 5 | **45%** | 54% | [25, 67] |
+| Claude Opus | 25% | 29% | [8, 42] |
+| Claude Sonnet | 20% | 25% | [4, 38] |
+| Claude Haiku | **0%** | 4% | [0, 0] |
 
 Three signals matter here. First, the four models rank in **monotonic capability
-order** (Fable ≫ Opus > Sonnet ≫ Haiku), and the smallest is **floored at 0% exact**
-(4% recovered) on the same problems — so the benchmark is **capability-sensitive**
-and not a coin-flip. Second, two mid-tier frontier models agree closely (Opus 25%,
-Sonnet 20%), so the recall-bound ~25% regime of §4.1 is **not an artefact of a single
-model**. Third, the newest model nearly **doubles** the next-best top-1 (45% vs 25%
-on identical compounds) yet still misses the majority — IRSpectra-Bench is **hard and
+order**, and the outcomes are **strictly nested** (Haiku ⊂ Sonnet ⊂ Opus ⊂ Fable —
+each stronger model solves a superset of the compounds the weaker one does), with the
+smallest **floored at 0% exact** (4% recovered) on the same problems — so the
+benchmark is **capability-sensitive** and not a coin-flip. The nesting makes the
+*ranking* robust, but at n=24 the subset is **underpowered to separate adjacent
+models**: by McNemar's exact test only the Fable-vs-Haiku gap survives
+multiple-comparison correction (Holm-adjusted p=0.006), Fable-vs-Opus is not
+significant (p=0.063), and Opus vs Sonnet are statistically indistinguishable — the
+bootstrap CIs above overlap accordingly. Second, two mid-tier frontier models agree
+closely (Opus 25%, Sonnet 20%), so the recall-bound ~25% regime of §4.1 is **not an
+artefact of a single model**. Third, the newest model nearly **doubles** the
+next-best top-1 (45% vs 25% on identical compounds; a large but, at this n,
+not-yet-significant gap) yet still misses the majority — IRSpectra-Bench is **hard and
 far from saturated even for the strongest model available**, with clear headroom. We
 ran four Claude-family models because they are callable for free under one
 subscription; a true cross-vendor sweep (GPT-, Gemini-class, open models) needs API
@@ -489,6 +496,40 @@ opposite of the naïve one: on hard, real chemistry the LLM's *breadth* is an as
 verification, and the genuine fix is sharper still — **compound-specific (DFT-level)
 shift accuracy or orthogonal 2D-NMR constraints**, not a generic lookup table.
 
+### 5.5 Negative control and selective prediction
+
+**Permutation negative control (Y-randomisation analog).** A re-ranker earns the
+interpretation that it exploits genuine predicted-vs-observed ¹³C agreement only if
+that agreement is destroyed under a label-shuffle. Borrowing the Y-randomisation
+discipline of QSAR validation, we permuted which observed ¹³C spectrum each candidate
+set is scored against and re-ran the verifier 1,000 times. Conditional-on-recall
+precision falls from the true **84.2% (16/19)** to a permuted mean of **66.5%** (95%
+range 52.6–78.9%), empirical **p = 0.024** — the verifier acts on real spectral
+agreement, not a candidate-list artefact. The honest caveat is the height of the
+chance floor: because recall-positive compounds carry few and near-identical
+(regioisomeric) candidates, a random pairing still lands on the correct structure
+~66% of the time, so the verifier's genuine margin over chance is **~18 points**, not
+the full 84% — the effect is real and significant, but its absolute size should be
+read against this high baseline.
+
+**Selective prediction (accuracy at coverage).** The chamfer match-distance doubles
+as a confidence signal. Scoring each compound by its **chamfer margin** (the gap
+between the second-best and best predicted-vs-observed distance, large when one
+candidate fits decisively better) and abstaining on the least-confident compounds,
+top-1 accuracy rises monotonically with selectivity (n=60):
+
+| coverage | top-1 accuracy |
+|---|--:|
+| 100% (no abstention) | 26.7% |
+| 75% | 28.9% |
+| 50% | 30.0% |
+| 25% (most confident) | **40.0%** |
+
+Restricting to the most confident quartile lifts top-1 from 26.7% to **40.0%**.
+Forward-match distance therefore serves as an abstention gauge: a chemist can triage
+where the verifier is trustworthy and route the low-margin remainder to orthogonal
+evidence (2D-NMR), consistent with the recall/precision tension of §5.3.
+
 ---
 
 ## 6. Discussion
@@ -506,6 +547,19 @@ that expose specific failure modes (here, regiochemistry and recall), and (ii)
 training and improves with each model. IRexp's IR modality and 2D-NMR-ready
 provenance position it for the obvious next step: supplying the HMBC/COSY/NOESY
 constraints that would attack regiochemistry at the source.
+
+**Protocol over fashionable levers.** That *how* the problem is posed and verified —
+decoupled per-compound solving, generate-and-verify — moves accuracy more than raw
+model capability echoes a recurring lesson across cheminformatics: careful pipeline
+and protocol design dominates the fashionable component. The same pattern appears in
+molecular property prediction, where a recent systematic benchmark reports that
+learned, pretrained molecular embeddings rarely outperform classical ECFP
+fingerprints once evaluation is controlled²¹ — the modelling fashion underperforms the
+well-engineered baseline. We read our within-compound control (§4.3) and
+forward-verification recipe (§5) in the same light: the durable gains in LLM
+elucidation come from honest benchmarking and inference-time scaffolding rather than
+from waiting on the next, larger model. We draw this parallel narrowly and claim no
+formal equivalence between the two settings.
 
 That the bottleneck reproduces almost exactly inside a single application domain
 (§4.5: 26% top-1 on battery-electrolyte chemistry, against 28% overall) is itself
@@ -544,17 +598,24 @@ result (top-1 30%, recall 41%) — and is honestly below the optimistic estimate
 
 *Independence checks.* Scoring throughout is mechanical RDKit (not LLM-judged), and
 all solver/verifier transcripts are audited for zero web access and zero
-ground-truth access. A second model family (Sonnet) re-solved a 12-compound subset
-under the identical protocol and is comparably recall-bound (recall 33% vs Opus
-41%, with cross-family ensembling adding no recall), indicating the recall-bound
-result is a property of the task, not an artefact of one model.
+ground-truth access. To confirm that the forward-verifier's measured advantage
+reflects real predicted-vs-observed spectral agreement rather than leakage or a
+candidate-list artefact, we ran a permutation negative control (Y-randomisation
+analog, §5.5): permuting which observed ¹³C spectrum each candidate set is scored
+against, over 1,000 permutations, collapses conditional-on-recall precision from
+84.2% to a chance mean of 66.5% (p=0.024) — the signal vanishes under label-shuffle,
+as a correctly isolated blind evaluation requires. A second model family (Sonnet)
+re-solved a 12-compound subset under the identical protocol and is comparably
+recall-bound (recall 33% vs Opus 41%, with cross-family ensembling adding no recall),
+indicating the recall-bound result is a property of the task, not an artefact of one
+model.
 
 *Remaining.* **(i) Human audit:** solver and verifier are both LLMs; the one check we
 cannot perform ourselves is an expert-chemist review of a sample of elucidations and
 forward predictions, which is required before deployment-grade claims. **(ii)
 Single vendor:** the headline uses one frontier model (Claude Opus) and the
-cross-model comparison spans **four Claude-family models** (§4.4: Fable 5 45% ≫ Opus
-25% > Sonnet 20% ≫ Haiku 0% on a common 24-compound subset); a true cross-*vendor*
+cross-model comparison spans **four Claude-family models** (§4.4: Fable 5 45% > Opus
+25% > Sonnet 20% > Haiku 0% on a common 24-compound subset, strictly nested); a true cross-*vendor*
 sweep (GPT-class, Gemini-class, open models) needs API access we deliberately did
 without, but the large, monotonic capability spread within one family makes it
 unlikely the recall-bound, complexity-graded pattern is specific to one model
@@ -607,7 +668,7 @@ scorer, and forward-verification harness are scripted end-to-end.
 - **Fig. 4** (`docs/figures/fig2_size.png`) — accuracy vs molecular size (heavy-atom
   bucket); the monotonic 60%→7% top-1 gradient.
 - **Fig. 5** (`docs/figures/fig5_models.png`) — four-model comparison on a 24-compound
-  subset: Fable 5 45% ≫ Opus 25% > Sonnet 20% ≫ Haiku 0% top-1; the benchmark
+  subset: Fable 5 45% > Opus 25% > Sonnet 20% > Haiku 0% top-1 (strictly nested); the benchmark
   discriminates capability monotonically and is far from saturated even for the
   newest model.
 - **Fig. 6** (`docs/figures/fig6_electrolyte.png`) — top-1 and recovered accuracy on
@@ -677,3 +738,5 @@ mining/resolution pipeline
     2016, 52, 7186.
 20. Guo, K. et al. *MolPuzzle: a benchmark for molecular structure elucidation with
     multimodal large language models.* NeurIPS 2024 (Datasets and Benchmarks Track).
+21. *Benchmarking pretrained molecular embedding models for molecular representation
+    learning.* arXiv:2508.06199, 2025.

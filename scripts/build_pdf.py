@@ -21,8 +21,8 @@ FIGS = [
     ("fig2_size.png", "Accuracy versus molecular size; the monotonic 60\\%$\\to$7\\% "
      "top-1 gradient with heavy-atom count."),
     ("fig5_models.png", "Four-model comparison on a 24-compound subset: Fable 5 45\\% "
-     "$\\gg$ Opus 25\\% $>$ Sonnet 20\\% $\\gg$ Haiku 0\\% top-1; capability-sensitive "
-     "and far from saturated even for the newest model."),
+     "$>$ Opus 25\\% $>$ Sonnet 20\\% $>$ Haiku 0\\% top-1 (strictly nested; "
+     "underpowered to separate adjacent models at n=24)."),
     ("fig6_electrolyte.png", "IRSpectra-Bench-Electrolyte by battery-electrolyte class "
      "(n=46): sp$^3$-C--F easiest (50\\%), sulfonyl and nitrile hardest (12\\%)."),
     ("fig_mechanism.png", "Forward-verification on a real benchmark regioisomer pair "

@@ -61,7 +61,9 @@ and LLM evaluation upon request.
 Thank you for your consideration.
 
 Sincerely,
-Ilkham F. (corresponding author), on behalf of the authors
+Ilkham Yabbarov (corresponding author) and Rodrigo A. Vargas-Hernández
+Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada
+ilkhamfy@gmail.com
 
 ---
 

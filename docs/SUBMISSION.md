@@ -22,8 +22,9 @@ sentences there.
 
 ## Pre-submission checklist
 
-- [ ] **Author block** — replace `Affiliation TBD` in `docs/PAPER.md` and finalize the
-      author line in `docs/COVER_LETTER.md` (full names, affiliations, ORCIDs).
+- [x] **Author block** — Ilkham Yabbarov; Rodrigo A. Vargas-Hernández (Dept. of
+      Chemistry and Chemical Biology, McMaster University). Still to add: **ORCIDs**
+      and confirm whether to use an institutional corresponding-author email.
 - [x] **Cover letter + significance statement** — `docs/COVER_LETTER.md` (finalize
       author/affiliation + competing-interests/referees lines).
 - [x] **Graphical abstract** — `docs/figures/graphical_abstract.png` + TOC text above.

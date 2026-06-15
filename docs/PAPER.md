@@ -1,7 +1,7 @@
 # An open multimodal benchmark for LLM molecular structure elucidation reveals a recall-bound bottleneck that forward verification exploits
 
-**Ilkham F.**¹ *(corresponding: ilkhamfy@gmail.com)*
-¹ Affiliation TBD
+**Ilkham Yabbarov**¹ *(corresponding: ilkhamfy@gmail.com)*, **Rodrigo A. Vargas-Hernández**¹
+¹ Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada
 
 *Manuscript draft prepared for Digital Discovery (RSC).*
 

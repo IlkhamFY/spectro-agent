@@ -13,50 +13,20 @@ to fill in before submission.
   > spectra. The bottleneck is candidate *recall*, not verification — and
   > forward-predicting each candidate's ¹³C breaks regiochemistry ties, training-free.
 
-## Cover letter (template)
+## Cover letter
 
-> 〈Date〉
->
-> Dear Editors of *Digital Discovery*,
->
-> Please consider our manuscript, **"An open multimodal benchmark for LLM molecular
-> structure elucidation reveals a recall-bound bottleneck that forward verification
-> exploits,"** for publication as a full paper.
->
-> Recent reports claim that general-purpose LLMs can elucidate molecular structures
-> from spectra, but the supporting evaluations are small, curated, NMR-only, and
-> hinted. We address the question a practising chemist actually faces — *recover the
-> structure from an arbitrary experimental spectrum* — with three contributions of
-> direct interest to the *Digital Discovery* readership:
->
-> 1. **IRexp**, the largest open dataset of experimental infrared spectra (121,233
->    records; 42,842 structure-linked), released under permissive licences with a
->    reproducible mining pipeline.
-> 2. **IRSpectra-Bench**, the first blind, mechanically scored, complexity-stratified
->    benchmark of LLM structure elucidation on real spectra (194 compounds), which
->    reconciles the gap to optimistic prior reports.
-> 3. **Forward-verification elucidation**, a training-free generator–verifier method,
->    and the central finding that **candidate recall — not verification — bounds
->    current performance**.
->
-> All experiments use LLM agents under a standard consumer subscription, with no model
-> training and no paid API, and all data, predictions, and code are released, making
-> every result cheaply reproducible. We believe this combination of an open resource,
-> an honest benchmark, and a mechanistic finding fits the journal's scope at the
-> interface of machine learning and chemistry.
->
-> This work is original, not under consideration elsewhere, and all authors approve
-> the submission. We declare 〈no competing interests / the following interests〉.
-> We suggest as potential reviewers: 〈names + affiliations + emails〉.
->
-> Sincerely,
-> 〈Ilkham F.〉, 〈affiliation〉 — corresponding author (ilkhamfy@gmail.com)
+The full cover letter and significance statement live in
+[`docs/COVER_LETTER.md`](COVER_LETTER.md) (already written). Before submission, only
+finalize the author/affiliation line and the competing-interests / suggested-referees
+sentences there.
 
 ## Pre-submission checklist
 
-- [ ] **Author block** — replace `Affiliation TBD` in `docs/PAPER.md` (and the cover
-      letter) with full names, affiliations, and ORCIDs.
-- [ ] **Graphical abstract** — `docs/figures/graphical_abstract.png` + TOC text above.
+- [ ] **Author block** — replace `Affiliation TBD` in `docs/PAPER.md` and finalize the
+      author line in `docs/COVER_LETTER.md` (full names, affiliations, ORCIDs).
+- [x] **Cover letter + significance statement** — `docs/COVER_LETTER.md` (finalize
+      author/affiliation + competing-interests/referees lines).
+- [x] **Graphical abstract** — `docs/figures/graphical_abstract.png` + TOC text above.
 - [x] **Figures** — 8 numbered figures, first-mention order, clean captions
       (`docs/figures/`, embedded in `docs/paper.pdf`).
 - [x] **References** — 20 entries, all cited and defined.

@@ -14,6 +14,30 @@ reported compound all the way to a training-ready `(spectra → structure)` pair
 
 ---
 
+## What's in this repository
+
+This repo began as the spectra-harvesting agent documented below (§1–8), and now also
+holds the **full study built on that data** — an open dataset, a blind benchmark, a
+training-free elucidation method, and the manuscript:
+
+| Component | Where |
+|---|---|
+| **Manuscript** — *An open multimodal benchmark for LLM molecular structure elucidation…* | [`docs/PAPER.md`](docs/PAPER.md) · [`docs/paper.pdf`](docs/paper.pdf) |
+| **IRexp** — largest open experimental-IR dataset (121,233 records; 42,842 structure-linked) | [`data/irexp/`](data/irexp), [`data/irexp_resolved/`](data/irexp_resolved) |
+| **IRSpectra-Bench** — blind, complexity-stratified benchmark (194 compounds) + electrolyte subset | [`data/benchmark*/`](data), [`docs/BENCHMARK.md`](docs/BENCHMARK.md) |
+| **Forward-verification elucidation** — training-free generator–verifier method | [`scripts/forward_verify.py`](scripts/forward_verify.py), [`docs/FORWARD_VERIFY.md`](docs/FORWARD_VERIFY.md) |
+| **Figures** (8 + graphical abstract) — fully regenerable | [`docs/figures/`](docs/figures), `scripts/make_*.py`, `scripts/build_pdf.py` |
+| **Expert-audit package** — blinded, reproducible human-validation kit | [`data/audit/`](data/audit), [`docs/EXPERT_AUDIT_PROTOCOL.md`](docs/EXPERT_AUDIT_PROTOCOL.md) |
+| **Submission** — cover letter, TOC text, checklist | [`docs/COVER_LETTER.md`](docs/COVER_LETTER.md), [`docs/SUBMISSION.md`](docs/SUBMISSION.md) |
+| **Mining agent** (how IRexp is built; §1–8 below) | [`spectro_scraper/`](spectro_scraper) |
+
+**Headline result:** a frontier LLM recovers the exact constitution of **28.4%** of
+real, blind IR+¹H+¹³C spectra (95% CI 22–35); the bottleneck is candidate **recall**
+(31%), not verification (84% conditional), and forward-verification lifts top-1 to
+30% — all training-free, no paid API. Rebuild the PDF with `python scripts/build_pdf.py`.
+
+---
+
 ## 1. The problem, understood deeply
 
 ### What Spectro is

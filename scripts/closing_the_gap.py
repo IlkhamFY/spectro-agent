@@ -101,6 +101,14 @@ def main():
     pool_sizes.sort()
     print(f"\n  enumerated pool size: median {pool_sizes[len(pool_sizes)//2]}, "
           f"max {pool_sizes[-1]}")
+    # the cheap verifier backfires; project top-1 under a strong (LLM, 0.84) verifier
+    print(f"\n  projected top-1 @ strong verifier (0.84 x recall; OPTIMISTIC -- assumes")
+    print(f"  precision holds on the larger pool, which it typically does not):")
+    print(f"    original    : {0.84*base_recall:4.0f}/{N}  ({pc(0.84*base_recall)})")
+    print(f"    + enumerate : {0.84*enum_recall:4.0f}/{N}  ({pc(0.84*enum_recall)})")
+    print("  => enumeration is recall-bound at ~42%; the residual same-formula misses are")
+    print("     deeper constitutional rearrangements (generation, not enumeration), and the")
+    print("     gain needs a precise verifier -- the cheap HOSE one regresses (above).")
 
 if __name__ == "__main__":
     main()

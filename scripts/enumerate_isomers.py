@@ -20,16 +20,22 @@ def _canon(m):
         return None
 
 def _pendant_bonds(mol):
-    """bonds (ringAromAtom -> substituentAtom) that are single, not in a ring."""
+    """bonds (ringAtom -> substituentAtom) that are single and not in a ring
+    (relocatable pendant groups off any ring, aromatic or aliphatic)."""
     out = []
     for b in mol.GetBonds():
         if b.IsInRing() or b.GetBondType() != Chem.BondType.SINGLE:
             continue
         a1, a2 = b.GetBeginAtom(), b.GetEndAtom()
         for ring_at, sub_at in ((a1, a2), (a2, a1)):
-            if ring_at.GetIsAromatic() and ring_at.IsInRing() and not sub_at.IsInRing():
+            if ring_at.IsInRing() and ring_at.GetSymbol() == "C" and not sub_at.IsInRing():
                 out.append((ring_at.GetIdx(), sub_at.GetIdx()))
     return out
+
+def _ring_ch(mol):
+    """ring carbons (aromatic or aliphatic) bearing >=1 H -> substitution sites."""
+    return [a.GetIdx() for a in mol.GetAtoms()
+            if a.GetSymbol() == "C" and a.IsInRing() and a.GetTotalNumHs() > 0]
 
 def _arom_ch(mol):
     """aromatic carbons bearing at least one H (available substitution sites)."""
@@ -65,8 +71,14 @@ def _heteroatom_walk(mol, base, f0, out, cap):
                 return
 
 def _move(mol, ring_idx, sub_idx, tgt_idx):
+    if tgt_idx in (sub_idx, ring_idx):
+        return None
     rw = Chem.RWMol(mol)
+    if rw.GetBondBetweenAtoms(ring_idx, sub_idx) is None:
+        return None
     rw.RemoveBond(ring_idx, sub_idx)
+    if rw.GetBondBetweenAtoms(tgt_idx, sub_idx) is not None:
+        return None
     rw.AddBond(tgt_idx, sub_idx, Chem.BondType.SINGLE)
     m = rw.GetMol()
     try:
@@ -84,7 +96,7 @@ def enumerate_regioisomers(smiles, cap=300):
     base = _canon(mol)
     out = set()
     pend = _pendant_bonds(mol)
-    sites = _arom_ch(mol)
+    sites = _ring_ch(mol)
     # single-substituent relocation
     for ring_idx, sub_idx in pend:
         for tgt in sites:
@@ -102,6 +114,9 @@ def enumerate_regioisomers(smiles, cap=300):
             if len({r1, s1, r2, s2}) < 4:
                 continue
             rw = Chem.RWMol(mol)
+            if (rw.GetBondBetweenAtoms(r1, s2) is not None or
+                    rw.GetBondBetweenAtoms(r2, s1) is not None):
+                continue
             rw.RemoveBond(r1, s1); rw.RemoveBond(r2, s2)
             rw.AddBond(r1, s2, Chem.BondType.SINGLE)
             rw.AddBond(r2, s1, Chem.BondType.SINGLE)

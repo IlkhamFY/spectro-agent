@@ -409,6 +409,7 @@ top-1 exact constitution & \textbf{28.4\%} {[}22--35{]} & 48.0\%
 {[}39--57{]} & 8.3\% {[}3--15{]} \\
 recovered (within top-3) & 33.5\% {[}27--40{]} & 54.1\% {[}44--63{]} &
 12.5\% {[}6--20{]} \\
+scaffold-level (best Tanimoto ≥ 0.45) & 56\% & 73\% & 39\% \\
 mean best Tanimoto & 0.59 & 0.73 & 0.45 \\
 \end{longtable}
 }
@@ -763,15 +764,16 @@ table.
 
 LLMs are not ``solving structure elucidation'' on realistic 1D data, but
 neither are they failing: they are reliable \textbf{scaffold-level}
-elucidators (mean best Tanimoto 0.59; 0.73 on simple molecules) and good
-\textbf{verifiers} (84\% conditional), with exact recovery throttled by
-candidate recall and by the regiochemical underdetermination intrinsic
-to 1D NMR. This reframes the engineering problem. Rather than training a
-bespoke spectra→structure model --- a target the frontier already meets
-at the scaffold level and that ages out each model generation --- the
-durable levers are (i) \textbf{open, hard, honestly scored benchmarks}
-that expose specific failure modes (here, regiochemistry and recall),
-and (ii) \textbf{inference-time scaffolding} (decoupled solving,
+elucidators (scaffold-correct on 56\% of compounds --- 73\% of simple
+ones; mean best Tanimoto 0.59) and good \textbf{verifiers} (84\%
+conditional), with exact recovery throttled by candidate recall and by
+the regiochemical underdetermination intrinsic to 1D NMR. This reframes
+the engineering problem. Rather than training a bespoke
+spectra→structure model --- a target the frontier already meets at the
+scaffold level and that ages out each model generation --- the durable
+levers are (i) \textbf{open, hard, honestly scored benchmarks} that
+expose specific failure modes (here, regiochemistry and recall), and
+(ii) \textbf{inference-time scaffolding} (decoupled solving,
 generate-and-verify) that needs no training and improves with each
 model. IRexp's IR modality and 2D-NMR-ready provenance position it for
 the obvious next step: supplying the HMBC/COSY/NOESY constraints that

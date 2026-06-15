@@ -230,6 +230,7 @@ controlled rounds), with bootstrap 95% confidence intervals:
 |---|--:|--:|--:|
 | top-1 exact constitution | **28.4%** [22–35] | 48.0% [39–57] | 8.3% [3–15] |
 | recovered (within top-3) | 33.5% [27–40] | 54.1% [44–63] | 12.5% [6–20] |
+| scaffold-level (best Tanimoto ≥ 0.45) | 56% | 73% | 39% |
 | mean best Tanimoto | 0.59 | 0.73 | 0.45 |
 
 The gradient is sharp and the intervals are tight. The 48%→8% simple→complex
@@ -493,9 +494,9 @@ shift accuracy or orthogonal 2D-NMR constraints**, not a generic lookup table.
 ## 6. Discussion
 
 LLMs are not "solving structure elucidation" on realistic 1D data, but neither are
-they failing: they are reliable **scaffold-level** elucidators (mean best Tanimoto 0.59; 0.73 on
-simple molecules) and good **verifiers** (84% conditional), with exact recovery
-throttled by candidate recall
+they failing: they are reliable **scaffold-level** elucidators (scaffold-correct on 56% of
+compounds — 73% of simple ones; mean best Tanimoto 0.59) and good **verifiers**
+(84% conditional), with exact recovery throttled by candidate recall
 and by the regiochemical underdetermination intrinsic to 1D NMR. This reframes the
 engineering problem. Rather than training a bespoke spectra→structure model — a
 target the frontier already meets at the scaffold level and that ages out each model

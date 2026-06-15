@@ -70,7 +70,8 @@ if __name__=="__main__":
         p,lo,hi=boot(sub, lambda s: rate(s,'top1'))
         pr,rlo,rhi=boot(sub, lambda s: rate(s,'rec'))
         mt=sum(r['tani'] for r in sub)/len(sub) if sub else 0
-        print(f"{label:8} n={len(sub):3}  top1 {p:4.1f}% [{lo:.0f}-{hi:.0f}]   recall {pr:4.1f}% [{rlo:.0f}-{rhi:.0f}]   meanTani {mt:.2f}")
+        scaf=100*sum(r['tani']>=0.45 for r in sub)/len(sub) if sub else 0
+        print(f"{label:8} n={len(sub):3}  top1 {p:4.1f}% [{lo:.0f}-{hi:.0f}]   recall {pr:4.1f}% [{rlo:.0f}-{rhi:.0f}]   scaffold(>=0.45) {scaf:4.0f}%   meanTani {mt:.2f}")
     print("\nby size:")
     for b in ["<=15","16-25",">25"]:
         sub=[r for r in R if r['hac']==b]

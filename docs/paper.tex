@@ -130,39 +130,39 @@ spectra --- 121,233 records mined from open-access full text, of which
 are full IR + ¹H + ¹³C + structure quadruples} --- assembled by a
 browser-free literature-mining agent and released under permissive
 licences. Second, \textbf{IRSpectra-Bench}, an open, blind, mechanically
-scored benchmark of \textbf{194 spectrally-validated compounds} for
-spectrum→structure elucidation, stratified across molecular complexity.
-We find that a frontier LLM (Claude Opus), given molecular formula + IR
-+ ¹H + ¹³C, recovers the exact constitution of \textbf{28.4\%} of real
-compounds (95\% CI 22--35; 33.5\% within three candidates), with a
-sharp, tight gradient --- 48\% on simple molecules versus 8\% on complex
-ones, and 60\% for small (≤15 heavy atoms) versus 7\% for large
-(\textgreater25). This sits far below the \textasciitilde100\% implied
-by curated evaluations, a gap fully explained by compound difficulty,
-candidate ranking, and hints. A within-compound control shows that
-\textbf{solving each compound in an independent context with tool access
-roughly triples accuracy over a single fatigued pass (5\%→15\%)},
-i.e.~methodology, not raw capability, dominates reported numbers. Third,
-we introduce \textbf{forward-verification elucidation}: candidates
-proposed by the (hard) inverse direction are re-ranked by
-forward-predicting each one's ¹³C spectrum and matching it to the
-observed spectrum. This exploits the generator--verifier gap ---
-\emph{when the true structure is among the candidates, forward
-verification selects it 84\% of the time, versus 73\% for the model's
-own ranking}. The decomposition is the central result: \textbf{the
-binding constraint on LLM elucidation is candidate recall (31\%), not
-verification.} Acting on it --- generating six regiochemistry-aware
-candidates per compound and forward-verifying --- lifts measured exact
-top-1 from 23\% to \textbf{30\%} (recall 41\%), while exposing a
-recall/precision tension that caps the training-free approach below the
-naïve extrapolation. We then stress-test the finding in a
-\textbf{battery-electrolyte domain} --- a curated subset (48 compounds,
-46 scored) spanning the carbonate, sulfonyl, nitrile, fluorinated,
-phosphoryl, and glyme functional classes central to electrolyte
-chemistry --- where accuracy holds at the same level (\textbf{26\%
-top-1}) along a chemically interpretable gradient (sp³-C--F easiest at
-50\%; sulfonyl and nitrile hardest at 12\%), and we cast
-forward-verification as the training-free analog of the
+scored benchmark of \textbf{194 compounds} (134 spectrally-validated
+plus a 60-compound controlled set) for spectrum→structure elucidation,
+stratified across molecular complexity. We find that a frontier LLM
+(Claude Opus), given molecular formula + IR + ¹H + ¹³C, recovers the
+exact constitution of \textbf{28.4\%} of real compounds (95\% CI 22--35;
+33.5\% within three candidates), with a sharp, tight gradient --- 48\%
+on simple molecules versus 8\% on complex ones, and 60\% for small (≤15
+heavy atoms) versus 7\% for large (\textgreater25). This sits far below
+the \textasciitilde100\% implied by curated evaluations, a gap fully
+explained by compound difficulty, candidate ranking, and hints. A
+within-compound control shows that \textbf{solving each compound in an
+independent context with tool access roughly triples accuracy over a
+single fatigued pass (5\%→15\%)}, i.e.~methodology, not raw capability,
+dominates reported numbers. Third, we introduce
+\textbf{forward-verification elucidation}: candidates proposed by the
+(hard) inverse direction are re-ranked by forward-predicting each one's
+¹³C spectrum and matching it to the observed spectrum. This exploits the
+generator--verifier gap --- \emph{when the true structure is among the
+candidates, forward verification selects it 84\% of the time, versus
+73\% for the model's own ranking}. The decomposition is the central
+result: \textbf{the binding constraint on LLM elucidation is candidate
+recall (31\%), not verification.} Acting on it --- generating six
+regiochemistry-aware candidates per compound and forward-verifying ---
+lifts measured exact top-1 from 23\% to \textbf{30\%} (recall 41\%),
+while exposing a recall/precision tension that caps the training-free
+approach below the naïve extrapolation. We then stress-test the finding
+in a \textbf{battery-electrolyte domain} --- a curated subset (48
+compounds, 46 scored) spanning the carbonate, sulfonyl, nitrile,
+fluorinated, phosphoryl, and glyme functional classes central to
+electrolyte chemistry --- where accuracy holds at the same level
+(\textbf{26\% top-1}) along a chemically interpretable gradient
+(sp³-C--F easiest at 50\%; sulfonyl and nitrile hardest at 12\%), and we
+cast forward-verification as the training-free analog of the
 computational-NMR / NMR-crystallography validation that chemists already
 trust. All experiments run with no model training and no paid API, using
 LLM agents under a standard subscription, and all data, predictions, and
@@ -349,11 +349,15 @@ blind elucidation problems. Each problem presents the \textbf{molecular
 formula} (as from HRMS), the \textbf{IR band list}, and the \textbf{¹H
 and ¹³C shift lists} (with multiplicities and J-couplings where
 reported), and asks for the structure. No name, SMILES, or hint is
-given. Every ground-truth structure is \textbf{spectrally validated} by
-an automated RDKit consistency check (¹³C peak count vs symmetry-unique
-carbons, molecular-formula match, SELFIES round-trip), excluding records
-with merged or incomplete spectra (6/140 in the main round). Problems
-are stratified into \textbf{simple} (single ring, or two separate ring
+given. Every main-round ground-truth structure is \textbf{spectrally
+validated} by an automated RDKit consistency check (¹³C peak count vs
+symmetry-unique carbons, molecular-formula match, SELFIES round-trip),
+excluding records with merged or incomplete spectra (6/140 in the main
+round, leaving 134). The 60 compounds of the controlled rounds are
+retained as fixed, pre-registered sets for the difficulty and
+within-compound controls, with the same self-consistency audit reported
+separately rather than used to exclude (57/60 pass; §7). Problems are
+stratified into \textbf{simple} (single ring, or two separate ring
 fragments; ≤22 heavy atoms) and \textbf{complex} (fused/spiro/ bridged
 rings, or \textgreater24 heavy atoms) by RDKit ring analysis (98 simple
 / 96 complex), with InChIKey de-duplication across all rounds to prevent

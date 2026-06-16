@@ -14,6 +14,12 @@ def fp(s):
     return AllChem.GetMorganFingerprintAsBitVect(m,2,2048) if m else None
 
 def load():
+    # COHORT (n=194, by design; see PAPER.md §3): the MAIN round is spectrally-validated,
+    # i.e. filtered to clean_qids (134 of 140; 6 dropped) and to solved problems. The two
+    # CONTROLLED rounds (benchmark_v3, benchmark_v2_ctrl) are fixed, pre-registered sets
+    # used whole (60 compounds) for the difficulty/within-compound controls; their
+    # self-consistency audit is reported separately (57/60 pass, §7), NOT used to exclude.
+    # This asymmetry is intentional, not a missing filter.
     rows=[]
     # main round: answers + per-batch raw predictions (keyed "M-<qid>")
     a={json.loads(l)["qid"]:json.loads(l) for l in open("data/benchmark_main/answers2.jsonl")}
@@ -23,17 +29,20 @@ def load():
         try:
             for k,v in json.load(open(f)).items(): pred[k]=v
         except Exception: pass
+    n_main=0
     for qid,ans in a.items():
-        if qid not in clean: continue
+        if qid not in clean: continue         # main round: spectrally-validated only
         cands=pred.get(f"M-{qid}")
         if cands is None: continue            # not yet solved
-        rows.append((ans,cands))
-    # original rounds
+        rows.append((ans,cands)); n_main+=1
+    # controlled rounds: used whole (pre-registered), not clean-filtered
+    n_ctrl=0
     for d in ["data/benchmark_v3","data/benchmark_v2_ctrl"]:
         a={json.loads(l)["qid"]:json.loads(l) for l in open(f"{d}/answers2.jsonl")}
         p={json.loads(l)["qid"]:json.loads(l) for l in open(f"{d}/predictions2.jsonl")}
         for qid,ans in a.items():
-            rows.append((ans,p[qid].get("candidates",[])))
+            rows.append((ans,p[qid].get("candidates",[]))); n_ctrl+=1
+    print(f"cohort: {n_main} validated (main) + {n_ctrl} controlled = {len(rows)}")
     return rows
 
 def hac_bucket(smi):

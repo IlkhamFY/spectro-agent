@@ -19,7 +19,8 @@ First, **IRexp**, the largest open dataset of *experimental* infrared spectra �
 a resolved 2D structure** and **40,491 are full IR + ¹H + ¹³C + structure
 quadruples** — assembled by a browser-free literature-mining agent and released
 under permissive licences. Second, **IRSpectra-Bench**, an open, blind,
-mechanically scored benchmark of **194 spectrally-validated compounds** for
+mechanically scored benchmark of **194 compounds** (134 spectrally-validated plus a
+60-compound controlled set) for
 spectrum→structure elucidation, stratified across molecular complexity. We find
 that a frontier LLM (Claude Opus), given molecular formula + IR + ¹H + ¹³C,
 recovers the exact constitution of **28.4%** of real compounds (95% CI 22–35;
@@ -195,10 +196,13 @@ From `irexp_resolved` we draw **IRSpectra-Bench**, 194 blind elucidation problem
 Each problem presents the **molecular formula** (as from HRMS), the **IR band
 list**, and the **¹H and ¹³C shift lists** (with multiplicities and J-couplings
 where reported), and asks for the structure. No name, SMILES, or hint is given.
-Every ground-truth structure is **spectrally validated** by an automated RDKit
+Every main-round ground-truth structure is **spectrally validated** by an automated RDKit
 consistency check (¹³C peak count vs symmetry-unique carbons, molecular-formula
 match, SELFIES round-trip), excluding records with merged or incomplete spectra
-(6/140 in the main round). Problems are stratified into **simple** (single ring,
+(6/140 in the main round, leaving 134). The 60 compounds of the controlled rounds are
+retained as fixed, pre-registered sets for the difficulty and within-compound controls,
+with the same self-consistency audit reported separately rather than used to exclude
+(57/60 pass; §7). Problems are stratified into **simple** (single ring,
 or two separate ring fragments; ≤22 heavy atoms) and **complex** (fused/spiro/
 bridged rings, or >24 heavy atoms) by RDKit ring analysis (98 simple / 96 complex),
 with InChIKey de-duplication across all rounds to prevent leakage.

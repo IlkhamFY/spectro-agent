@@ -1,0 +1,362 @@
+{
+"M001": {
+"src": "data/benchmark_v2_ctrl:R01",
+"difficulty": "complex",
+"true_smiles": "CCOC(=O)c1c(N)sc2c1CCC1=C2C(c2ccccc2Cl)C(C#N)=C(N)O1",
+"true_ik": "SIVKWXBQLXGFDH-UHFFFAOYSA-N"
+},
+"M002": {
+"src": "data/benchmark_v2_ctrl:R04",
+"difficulty": "complex",
+"true_smiles": "COc1cc(-c2coc3cc(O)ccc3c2=O)ccc1O",
+"true_ik": "MUYAUELJBWQNDH-UHFFFAOYSA-N"
+},
+"M003": {
+"src": "data/benchmark_v2_ctrl:R05",
+"difficulty": "complex",
+"true_smiles": "CCCCCCCCC(=O)c1cc(OC)ccc1CC(=O)OCC",
+"true_ik": "QOQUYOGYGJWSDX-UHFFFAOYSA-N"
+},
+"M004": {
+"src": "data/benchmark_v2_ctrl:R06",
+"difficulty": "complex",
+"true_smiles": "C=C(c1cccc(C)c1)c1c(-c2ccccc2)n(C(=C)CCSC)n(-c2ccccc2)c1=O",
+"true_ik": "GLFTZCJNOHQARU-UHFFFAOYSA-N"
+},
+"M005": {
+"src": "data/benchmark_v2_ctrl:R09",
+"difficulty": "complex",
+"true_smiles": "Oc1ccc2ncc(-c3ccccc3)cc2c1",
+"true_ik": "ASQZRVFOICQYQL-UHFFFAOYSA-N"
+},
+"M006": {
+"src": "data/benchmark_v2_ctrl:R10",
+"difficulty": "complex",
+"true_smiles": "Cc1ccc(-c2[nH]c3c(c(-c4cccs4)nn3C)c2-c2c(-c3cccs3)nn(C)c2N)cc1",
+"true_ik": "LSIDHVYRPPMXHD-UHFFFAOYSA-N"
+},
+"M007": {
+"src": "data/benchmark_v2_ctrl:R14",
+"difficulty": "complex",
+"true_smiles": "CCOC(=O)CC/C(C)=C/CCCO[Si](c1ccccc1)(c1ccccc1)C(C)(C)C",
+"true_ik": "FUNJREMUGBTUAC-HZHRSRAPSA-N"
+},
+"M008": {
+"src": "data/benchmark_v2_ctrl:R18",
+"difficulty": "complex",
+"true_smiles": "CCCCn1c(-c2ccc(-c3ccccc3OC)cc2)nnc1-c1ccc(-c2ccccc2OC)cc1",
+"true_ik": "UHWOZURBVOGHLB-UHFFFAOYSA-N"
+},
+"M009": {
+"src": "data/benchmark_v2_ctrl:R19",
+"difficulty": "complex",
+"true_smiles": "Cn1c(=O)c2c(c3ccccc31)O/C(=C\\c1cccc(F)c1)C2c1ccccc1",
+"true_ik": "IDKQNXYMBLIUGC-QNGOZBTKSA-N"
+},
+"M010": {
+"src": "data/benchmark_v2_ctrl:R20",
+"difficulty": "complex",
+"true_smiles": "O=C(CC(c1ccccc1)c1ccccc1)NCCC[NH2+]CCCC[NH2+]CCCNC(=O)CC(c1ccccc1)c1ccccc1.O=C([O-])C(F)(F)F.O=C([O-])C(F)(F)F",
+"true_ik": "PTHFPRJTGJMZQZ-UHFFFAOYSA-N"
+},
+"M011": {
+"src": "data/benchmark_v3:R02",
+"difficulty": "complex",
+"true_smiles": "C=C1C(C(N)=O)=C(O)c2ccc([N+](=O)[O-])cc2N1c1cccc(F)c1",
+"true_ik": "OHRJJUKJBNHUEY-UHFFFAOYSA-N"
+},
+"M012": {
+"src": "data/benchmark_v3:R03",
+"difficulty": "complex",
+"true_smiles": "Cc1ccc(C(=O)c2ccc(CC(=O)NN=Cc3ccccc3O)n2C)cc1",
+"true_ik": "QBNQGGLBVUUHGL-UHFFFAOYSA-N"
+},
+"M013": {
+"src": "data/benchmark_v3:R10",
+"difficulty": "complex",
+"true_smiles": "CC(C)N1C/C(=C\\c2ccc(F)cc2)C(=O)/C(=C/c2ccc(F)cc2)C1",
+"true_ik": "RRHSEVXTBDLMRI-GDAWTGGTSA-N"
+},
+"M014": {
+"src": "data/benchmark_v3:R11",
+"difficulty": "complex",
+"true_smiles": "O=C(Nc1cc(C(F)(F)F)ccc1-c1nc2ccccc2s1)c1ccccc1",
+"true_ik": "WKDLZUQNEISDPJ-UHFFFAOYSA-N"
+},
+"M015": {
+"src": "data/benchmark_v3:R12",
+"difficulty": "complex",
+"true_smiles": "CCOc1ccc2nc(CC(O)(c3cc4ccccc4oc3=O)C(F)(F)F)ccc2c1",
+"true_ik": "YLFUMQAAGBNUEW-UHFFFAOYSA-N"
+},
+"M016": {
+"src": "data/benchmark_v3:R13",
+"difficulty": "complex",
+"true_smiles": "Cc1nc(C)c(Cn2cc(CCCN3CCN(C)CC3)nn2)c(-c2ccccc2)c1Cn1cc(CCCN2CCN(C)CC2)nn1",
+"true_ik": "WKPVAPHJTSPILX-UHFFFAOYSA-N"
+},
+"M017": {
+"src": "data/benchmark_v3:R15",
+"difficulty": "complex",
+"true_smiles": "CCCn1c(-c2ccccc2)nc2ccccc21",
+"true_ik": "HARLAWKYJLQWEE-UHFFFAOYSA-N"
+},
+"M018": {
+"src": "data/benchmark_v3:R17",
+"difficulty": "complex",
+"true_smiles": "CCN(CC)C(=O)c1cc2c(ccc3c4ccccc4ccc23)cc1-c1cc2ccccc2cc1C",
+"true_ik": "GBNSWLWQDWJXHK-UHFFFAOYSA-N"
+},
+"M019": {
+"src": "data/benchmark_v3:R19",
+"difficulty": "complex",
+"true_smiles": "CCCCCCCCCCCc1ccccc1C(=O)NS(=O)(=O)c1ccc(Cl)cc1",
+"true_ik": "VSLCVYWJAPYNNF-UHFFFAOYSA-N"
+},
+"M020": {
+"src": "data/benchmark_v3:R21",
+"difficulty": "complex",
+"true_smiles": "C[Si](C)(C)c1cc(F)c(F)cc1OS(=O)(=O)c1ccc(Cl)cc1",
+"true_ik": "KNVQXQJTYYFDHW-UHFFFAOYSA-N"
+},
+"M021": {
+"src": "data/benchmark_v3:R22",
+"difficulty": "complex",
+"true_smiles": "O=C1NC(c2ccccc2)=CC(c2ccc(Cl)cc2)N1",
+"true_ik": "BAICBJRGRFSPOS-UHFFFAOYSA-N"
+},
+"M022": {
+"src": "data/benchmark_v3:R26",
+"difficulty": "complex",
+"true_smiles": "O=C1NC(c2cccc([N+](=O)[O-])c2)Nc2ccccc21",
+"true_ik": "RWJOFNWQYVCJJG-UHFFFAOYSA-N"
+},
+"M023": {
+"src": "data/benchmark_v3:R27",
+"difficulty": "complex",
+"true_smiles": "COc1cc2c(cc1OCc1ccccc1)N(COCC[Si](C)(C)C)C(=O)[C@@H]1CC(=O)CN1C2=O",
+"true_ik": "JZIQZMNSYQKGMG-QFIPXVFZSA-N"
+},
+"M024": {
+"src": "data/benchmark_v3:R30",
+"difficulty": "complex",
+"true_smiles": "Cn1cc(C(c2cc(Br)ccc2OS(N)(=O)=O)c2c[nH]c3ccccc23)c2ccccc21",
+"true_ik": "FCHHKNZGSDSTJC-UHFFFAOYSA-N"
+},
+"M025": {
+"src": "data/benchmark_v3:R31",
+"difficulty": "complex",
+"true_smiles": "COCN1CCc2c(n(Cc3ccccc3)c3ccccc23)-c2cc(OC)c(OC)cc2C1=O",
+"true_ik": "RRDSZADEXNESTC-UHFFFAOYSA-N"
+},
+"M026": {
+"src": "data/benchmark_v3:R33",
+"difficulty": "complex",
+"true_smiles": "O=C1C2=C(O[C@H]3[C@@H]([C@H]2c2ccc(Cl)cc2)[C@H](c2ccccc2)C2(C(=O)c4ccccc4C2=O)[C@H](c2ccc(Cl)cc2)N3Cc2ccccc2)c2ccccc21",
+"true_ik": "VIXGCWDQKSHFDQ-QBRGDNHTSA-N"
+},
+"M027": {
+"src": "data/benchmark_v3:R36",
+"difficulty": "complex",
+"true_smiles": "COc1ccc(NC(=O)Cn2cc(CSc3nc4ccccc4c4nc5ccccc5n34)nn2)cc1",
+"true_ik": "FSWZNGJSUVGMTE-UHFFFAOYSA-N"
+},
+"M028": {
+"src": "data/benchmark_v3:R37",
+"difficulty": "complex",
+"true_smiles": "Cc1cc(C)c(-n2c(=[Se])n(-c3ccc(C(F)(F)F)cn3)c3ccccc32)c(C)c1",
+"true_ik": "LNHUGLQODFKOHA-UHFFFAOYSA-N"
+},
+"M029": {
+"src": "data/benchmark_v3:R38",
+"difficulty": "complex",
+"true_smiles": "CC(C)Cc1ccc(C(C)C(=O)NNS(=O)(=O)c2cc(Cl)ccc2Cl)cc1",
+"true_ik": "WFKVKYSLDVCRFA-UHFFFAOYSA-N"
+},
+"M030": {
+"src": "data/benchmark_v3:R39",
+"difficulty": "complex",
+"true_smiles": "O=C1C(c2ccccc2)=C(c2ccccc2)/C1=C1/c2ccccc2-c2nc3cc(Cl)c(Cl)cc3nc21",
+"true_ik": "IBZWQLHMVOXEBS-BYYHNAKLSA-N"
+},
+"M031": {
+"src": "data/benchmark_v2_ctrl:R02",
+"difficulty": "simple",
+"true_smiles": "COc1ccccc1-c1n[nH]c(=O)o1",
+"true_ik": "WDGXQLRGLSROSS-UHFFFAOYSA-N"
+},
+"M032": {
+"src": "data/benchmark_v2_ctrl:R03",
+"difficulty": "simple",
+"true_smiles": "C#CCOC(=O)N=S(C)(=O)C(C)(C)C",
+"true_ik": "CZSDNQBHBVSUQW-UHFFFAOYSA-N"
+},
+"M033": {
+"src": "data/benchmark_v2_ctrl:R07",
+"difficulty": "simple",
+"true_smiles": "C=C1CCN(c2ccccn2)C1=O",
+"true_ik": "XXRPSYJNVLSOFL-UHFFFAOYSA-N"
+},
+"M034": {
+"src": "data/benchmark_v2_ctrl:R08",
+"difficulty": "simple",
+"true_smiles": "Cc1cc(SC#N)ccc1O",
+"true_ik": "WEAMLHXSIBDPGN-UHFFFAOYSA-N"
+},
+"M035": {
+"src": "data/benchmark_v2_ctrl:R11",
+"difficulty": "simple",
+"true_smiles": "CC(C)NC(=NS(=O)(=O)c1ccc([N+](=O)[O-])cc1)NC(C)C",
+"true_ik": "DSYJPHVBBWCTDC-UHFFFAOYSA-N"
+},
+"M036": {
+"src": "data/benchmark_v2_ctrl:R12",
+"difficulty": "simple",
+"true_smiles": "C=CCc1c(C)c(OC)c(C)c(C)c1OC",
+"true_ik": "UZCZZXDAQSQBIK-UHFFFAOYSA-N"
+},
+"M037": {
+"src": "data/benchmark_v2_ctrl:R13",
+"difficulty": "simple",
+"true_smiles": "CC(C)C[C@@H]1N[C@H](CC(C)C)C(=O)N[C@@H]1C(C)C",
+"true_ik": "GHNFQFAWPOCNIL-BFHYXJOUSA-N"
+},
+"M038": {
+"src": "data/benchmark_v2_ctrl:R15",
+"difficulty": "simple",
+"true_smiles": "Cc1cccc(C(=O)CBr)c1",
+"true_ik": "BANFRNTVKCHZDE-UHFFFAOYSA-N"
+},
+"M039": {
+"src": "data/benchmark_v2_ctrl:R16",
+"difficulty": "simple",
+"true_smiles": "CC(=O)Cc1ccc(C(O[Si](C)(C)C(C)(C)C)C(C)C)o1",
+"true_ik": "JTCTYFIGRUPIRH-UHFFFAOYSA-N"
+},
+"M040": {
+"src": "data/benchmark_v2_ctrl:R17",
+"difficulty": "simple",
+"true_smiles": "Cc1cc([N+](=O)[O-])ccc1Oc1ccc(SC#N)cc1",
+"true_ik": "AVUHPRKZTSXKCO-UHFFFAOYSA-N"
+},
+"M041": {
+"src": "data/benchmark_v3:R01",
+"difficulty": "simple",
+"true_smiles": "COC(=O)C(=O)CCC=C[Si](C)(C)C",
+"true_ik": "PCMNCHDUHUNRFC-UHFFFAOYSA-N"
+},
+"M042": {
+"src": "data/benchmark_v3:R04",
+"difficulty": "simple",
+"true_smiles": "Cc1ccc(S(=O)(=O)NC(CC(C)C)C(=O)O)cc1",
+"true_ik": "DNBHSCLUHQKGMD-UHFFFAOYSA-N"
+},
+"M043": {
+"src": "data/benchmark_v3:R05",
+"difficulty": "simple",
+"true_smiles": "COc1cccc(C(=O)C2(C)CC2(Cl)Cl)c1",
+"true_ik": "PNIUFOBUXGGCBB-UHFFFAOYSA-N"
+},
+"M044": {
+"src": "data/benchmark_v3:R06",
+"difficulty": "simple",
+"true_smiles": "CC#Cc1cccc(OCOC)c1C=O",
+"true_ik": "ZUYLLRMFGBUNON-UHFFFAOYSA-N"
+},
+"M045": {
+"src": "data/benchmark_v3:R07",
+"difficulty": "simple",
+"true_smiles": "CCCCCCCC(=O)CCc1ccc(O)c(OC)c1",
+"true_ik": "CZNLTCTYLMYLHL-UHFFFAOYSA-N"
+},
+"M046": {
+"src": "data/benchmark_v3:R08",
+"difficulty": "simple",
+"true_smiles": "NS(=O)(=O)c1cccc(NCc2cccc(Cl)c2O)c1",
+"true_ik": "UGDMHLNNNDVGEW-UHFFFAOYSA-N"
+},
+"M047": {
+"src": "data/benchmark_v3:R09",
+"difficulty": "simple",
+"true_smiles": "O=S(=O)(NCc1ccccc1Br)c1ccccc1CO",
+"true_ik": "BORDUNBVHUKUFB-UHFFFAOYSA-N"
+},
+"M048": {
+"src": "data/benchmark_v3:R14",
+"difficulty": "simple",
+"true_smiles": "C=C/C=C(/C(=O)C(=O)c1ccccc1)c1ccccc1",
+"true_ik": "WRDWJPPPDLXCGU-CXUHLZMHSA-N"
+},
+"M049": {
+"src": "data/benchmark_v3:R16",
+"difficulty": "simple",
+"true_smiles": "C1=NCCN1c1ccccc1",
+"true_ik": "YJBAUTPCBIGXHL-UHFFFAOYSA-N"
+},
+"M050": {
+"src": "data/benchmark_v3:R18",
+"difficulty": "simple",
+"true_smiles": "O=[N+]([O-])c1ccccc1COC1COC1",
+"true_ik": "UJHHNBRKTZRQBY-UHFFFAOYSA-N"
+},
+"M051": {
+"src": "data/benchmark_v3:R20",
+"difficulty": "simple",
+"true_smiles": "CC(=O)/C(Cl)=N/Nc1ccc(Br)cc1",
+"true_ik": "KNZABGDOPMGFMU-LCYFTJDESA-N"
+},
+"M052": {
+"src": "data/benchmark_v3:R23",
+"difficulty": "simple",
+"true_smiles": "COc1ccc(Oc2ccccc2Br)cc1OC",
+"true_ik": "QGMVCIPHFSPCNW-UHFFFAOYSA-N"
+},
+"M053": {
+"src": "data/benchmark_v3:R24",
+"difficulty": "simple",
+"true_smiles": "C#CC(C)c1ccc(-c2ccc(F)cc2)cc1OC",
+"true_ik": "QOAFIMQURXVHFV-UHFFFAOYSA-N"
+},
+"M054": {
+"src": "data/benchmark_v3:R25",
+"difficulty": "simple",
+"true_smiles": "CC(C)(C)NC(=O)c1ccccn1",
+"true_ik": "IDSCGIREUASONG-UHFFFAOYSA-N"
+},
+"M055": {
+"src": "data/benchmark_v3:R28",
+"difficulty": "simple",
+"true_smiles": "FC(F)(F)c1cccc(CCCI)c1",
+"true_ik": "DDKCKJSOISOIHM-UHFFFAOYSA-N"
+},
+"M056": {
+"src": "data/benchmark_v3:R29",
+"difficulty": "simple",
+"true_smiles": "CN1CC[C@](C(=O)OC(C)(C)C)(c2ccccc2[N+](=O)[O-])C1",
+"true_ik": "JSXKCVFIJZJVAW-MRXNPFEDSA-N"
+},
+"M057": {
+"src": "data/benchmark_v3:R32",
+"difficulty": "simple",
+"true_smiles": "CC(=O)/C(Cl)=N/Nc1ccc(C)cc1",
+"true_ik": "SZUGRZADBSQNJK-RAXLEYEMSA-N"
+},
+"M058": {
+"src": "data/benchmark_v3:R34",
+"difficulty": "simple",
+"true_smiles": "Cc1ccc(S(=O)(=O)Nc2cc(Br)c(Br)cc2N)cc1",
+"true_ik": "HQFFWDKTYKWEHI-UHFFFAOYSA-N"
+},
+"M059": {
+"src": "data/benchmark_v3:R35",
+"difficulty": "simple",
+"true_smiles": "CC(C)[C@H](NC(=O)OC(C)(C)C)C(=O)NCc1ccccc1",
+"true_ik": "LVVZIICHFJJLNA-AWEZNQCLSA-N"
+},
+"M060": {
+"src": "data/benchmark_v3:R40",
+"difficulty": "simple",
+"true_smiles": "O=C(OCC=Cc1ccccc1)c1cnccn1",
+"true_ik": "AXBBVSCMYIMTNY-UHFFFAOYSA-N"
+}
+}

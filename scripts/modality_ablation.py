@@ -94,6 +94,9 @@ def score():
         print("need at least out_full.json; have:", have); return
     # paired top-1 vectors over compounds present in ALL available conditions
     ids = [m for m in truth if all(m in outs[c] for c in have)]
+    if not ids:
+        print("no compounds present in all available conditions — check that out_*.json "
+              "are keyed by the M### ids from key.json."); return
     def top1(cond, m):
         cs = [_ik(s) for s in (outs[cond].get(m) or [])[:1]]
         return int(bool(cs) and cs[0] == truth[m])

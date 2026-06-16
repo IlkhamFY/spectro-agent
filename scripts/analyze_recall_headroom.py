@@ -48,9 +48,15 @@ for ans, cands in rows:
     true = ans["smiles"]
     tf, tsc, tscg = formula(true), scaffold(true), scaffold(true, True)
     same_formula = any(formula(c) == tf for c in cs if c)
-    same_scaff   = any(scaffold(c) == tsc for c in cs if c)
-    same_scaff_g = any(scaffold(c, True) == tscg for c in cs if c)
-    iso_of_cand  = any(formula(c) == tf and scaffold(c, True) == tscg for c in cs if c)
+    same_scaff   = tsc is not None and any(scaffold(c) == tsc for c in cs if c)
+    same_scaff_g = tscg is not None and any(scaffold(c, True) == tscg for c in cs if c)
+    # ENUMERABLE proxy: same formula AND same (non-None) generic scaffold. NOTE this is
+    # an UPPER BOUND — generic-scaffold equality is looser than what the ring-pendant /
+    # heteroatom-walk enumerator can actually reach (e.g. it cannot break an ethyl into
+    # two methyls). The realised reach is measured directly by closing_the_gap.py
+    # (recall 33.5% -> 41.8%); treat the ceiling below as optimistic, not achieved.
+    iso_of_cand  = tscg is not None and any(
+        formula(c) == tf and scaffold(c, True) == tscg for c in cs if c)
     best_t = max([tani(true, c) for c in cs if c] or [0.0])
     misses.append(dict(diff=ans["difficulty"], same_formula=same_formula,
                        same_scaff=same_scaff, same_scaff_g=same_scaff_g,
@@ -72,7 +78,8 @@ for thr in (0.6, 0.7, 0.8):
 
 enum = sum(m['iso_of_cand'] for m in misses)
 ceil = recalled + enum
-print(f"\nProjected recall CEILING of 'enumerate isomers around model candidates + verify':")
-print(f"  {recalled} (current) + {enum} (enumerable misses) = {ceil}/{N}  ({pct(ceil,N)})")
-print("  (upper bound on recall; realized top-1 then bounded by verifier precision ~0.84)")
-print(f"  => optimistic top-1 ceiling ~ {0.84*ceil:.0f}/{N} = {pct(0.84*ceil,N)}")
+print(f"\nOPTIMISTIC recall upper bound of 'enumerate isomers around candidates + verify':")
+print(f"  {recalled} (current) + {enum} (formula+scaffold-matched misses) = {ceil}/{N}  ({pct(ceil,N)})")
+print("  WARNING: this is a LOOSE upper bound — generic-scaffold equality overcounts what the")
+print("  enumerator can actually build. The REALISED reach is measured by closing_the_gap.py")
+print("  (recall 33.5% -> 41.8%); use that, not this ceiling, as the achievable figure.")

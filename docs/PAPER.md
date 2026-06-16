@@ -307,7 +307,7 @@ newest (Fable 5) — under the identical protocol (Fig. 5):
 |---|--:|--:|--:|
 | Claude Fable 5 | **45%** | 54% | [25, 67] |
 | Claude Opus | 25% | 29% | [8, 42] |
-| Claude Sonnet | 20% | 25% | [4, 38] |
+| Claude Sonnet | 20% | 25% | [8, 38] |
 | Claude Haiku | **0%** | 4% | [0, 0] |
 
 Three signals matter here. First, the four models rank in **monotonic capability
@@ -496,39 +496,33 @@ opposite of the naïve one: on hard, real chemistry the LLM's *breadth* is an as
 verification, and the genuine fix is sharper still — **compound-specific (DFT-level)
 shift accuracy or orthogonal 2D-NMR constraints**, not a generic lookup table.
 
-### 5.5 Negative control and selective prediction
+### 5.5 Negative control
 
 **Permutation negative control (Y-randomisation analog).** A re-ranker earns the
 interpretation that it exploits genuine predicted-vs-observed ¹³C agreement only if
-that agreement is destroyed under a label-shuffle. Borrowing the Y-randomisation
-discipline of QSAR validation, we permuted which observed ¹³C spectrum each candidate
-set is scored against and re-ran the verifier 1,000 times. Conditional-on-recall
-precision falls from the true **84.2% (16/19)** to a permuted mean of **66.5%** (95%
-range 52.6–78.9%), empirical **p = 0.024** — the verifier acts on real spectral
-agreement, not a candidate-list artefact. The honest caveat is the height of the
-chance floor: because recall-positive compounds carry few and near-identical
-(regioisomeric) candidates, a random pairing still lands on the correct structure
-~66% of the time, so the verifier's genuine margin over chance is **~18 points**, not
-the full 84% — the effect is real and significant, but its absolute size should be
-read against this high baseline.
+that agreement is destroyed when the pairing is broken. Borrowing the Y-randomisation
+discipline of QSAR validation, we re-paired — as a *derangement*, so no compound keeps
+its own spectrum — which observed ¹³C spectrum each candidate set is scored against,
+and re-ran the verifier 1,000 times. Conditional-on-recall precision falls from the
+true **84.2% (16/19)** to a permuted mean of **66.4%** (95% range 52.6–78.9%; one-sided
+empirical p = 0.019, two-sided p = 0.038) — the verifier acts on real spectral
+agreement, not a candidate-list artefact. The honest caveat is the height of the chance
+floor: because recall-positive compounds carry few and near-identical (regioisomeric)
+candidates, even a random pairing lands on the correct structure ~66% of the time, so
+the verifier's genuine margin over chance is **~18 points**, not the full 84% — real and
+significant, but to be read against this high baseline.
 
-**Selective prediction (accuracy at coverage).** The chamfer match-distance doubles
-as a confidence signal. Scoring each compound by its **chamfer margin** (the gap
-between the second-best and best predicted-vs-observed distance, large when one
-candidate fits decisively better) and abstaining on the least-confident compounds,
-top-1 accuracy rises monotonically with selectivity (n=60):
-
-| coverage | top-1 accuracy |
-|---|--:|
-| 100% (no abstention) | 26.7% |
-| 75% | 28.9% |
-| 50% | 30.0% |
-| 25% (most confident) | **40.0%** |
-
-Restricting to the most confident quartile lifts top-1 from 26.7% to **40.0%**.
-Forward-match distance therefore serves as an abstention gauge: a chemist can triage
-where the verifier is trustworthy and route the low-margin remainder to orthogonal
-evidence (2D-NMR), consistent with the recall/precision tension of §5.3.
+**Confidence calibration (a negative result).** We also asked whether the chamfer
+match-distance doubles as a confidence signal that would support selective prediction.
+It does not. Ranking the 48 multi-candidate compounds by their chamfer margin (the gap
+between the best and second-best predicted-vs-observed distance) and answering only the
+most-confident fraction leaves top-1 essentially flat and non-monotonic with coverage
+(≈21% overall, neither rising nor falling reliably as the threshold tightens).
+Compounds with a single proposed candidate have no margin at all and must be excluded;
+an earlier analysis that retained them produced a spurious "improvement" that was
+entirely an artefact of those trivial cases. We therefore do **not** claim the verifier
+distance as a calibrated abstention gauge — a sharper, DFT/2D-NMR-grounded confidence
+estimate (§5.4) remains the route to reliable selective prediction.
 
 ---
 
@@ -601,10 +595,10 @@ all solver/verifier transcripts are audited for zero web access and zero
 ground-truth access. To confirm that the forward-verifier's measured advantage
 reflects real predicted-vs-observed spectral agreement rather than leakage or a
 candidate-list artefact, we ran a permutation negative control (Y-randomisation
-analog, §5.5): permuting which observed ¹³C spectrum each candidate set is scored
-against, over 1,000 permutations, collapses conditional-on-recall precision from
-84.2% to a chance mean of 66.5% (p=0.024) — the signal vanishes under label-shuffle,
-as a correctly isolated blind evaluation requires. A second model family (Sonnet)
+analog, §5.5): re-pairing — as a derangement — which observed ¹³C spectrum each
+candidate set is scored against, over 1,000 permutations, collapses conditional-on-recall
+precision from 84.2% to a chance mean of 66.4% (two-sided p=0.038) — the signal weakens
+to the chance floor under label-shuffle, as a correctly isolated blind evaluation requires. A second model family (Sonnet)
 re-solved a 12-compound subset under the identical protocol and is comparably
 recall-bound (recall 33% vs Opus 41%, with cross-family ensembling adding no recall),
 indicating the recall-bound result is a property of the task, not an artefact of one

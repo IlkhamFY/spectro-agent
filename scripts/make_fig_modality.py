@@ -27,10 +27,15 @@ def main(d="data/modality"):
     truth = {m: ik(v["true_smiles"]) for m, v in key.items()}
     outs = {c: (json.load(open(f"{d}/out_{c}.json")) if os.path.exists(f"{d}/out_{c}.json") else None)
             for c, _ in CONDS}
-    if outs["full"] is None or all(outs[c] is None for c, _ in CONDS[1:]):
-        print(f"no solver outputs in {d}/out_*.json yet — run the experiment first "
-              f"(see docs/MODALITY_ABLATION.md). No figure written."); return
-    ids = [m for m in truth if all(outs[c] is not None and m in outs[c] for c, _ in CONDS)]
+    if any(outs[c] is None for c, _ in CONDS):
+        missing = [c for c, _ in CONDS if outs[c] is None]
+        print(f"missing solver outputs {missing} in {d}/out_*.json — run the full "
+              f"leave-one-out set first (see docs/MODALITY_ABLATION.md). No figure written.")
+        return
+    ids = [m for m in truth if all(m in outs[c] for c, _ in CONDS)]
+    if not ids:
+        print(f"no compounds present in all four conditions in {d}/ — no figure written.")
+        return
     t1, rec = [], []
     for c, _ in CONDS:
         t1.append(np.mean([(lambda cs: bool(cs) and cs[0] == truth[m])

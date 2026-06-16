@@ -3,7 +3,8 @@
 regenerate Fig 5. Models: Claude Opus / Sonnet / Haiku / Fable 5 (all via the
 Agent tool under one subscription; no API). InChIKey-connectivity scoring,
 identical blind protocol per model."""
-import json, glob, sys
+import json, glob, sys, math, random
+from itertools import combinations
 from rdkit import Chem
 from rdkit import RDLogger; RDLogger.DisableLog("rdApp.*")
 
@@ -31,25 +32,64 @@ def load(glb):
             pass
     return d
 
+def _mcnemar(b, c):
+    """exact two-sided McNemar p on discordant counts."""
+    n = b + c
+    if n == 0:
+        return 1.0
+    k = min(b, c)
+    return min(1.0, 2 * sum(math.comb(n, i) for i in range(k + 1)) / (2 ** n))
+
+def stats(vec, B=10000, seed=0):
+    """Reproduce the §4.4 bootstrap 95% CIs and pairwise McNemar/Holm p-values."""
+    rng = random.Random(seed)
+    n = len(next(iter(vec.values())))
+    order = [m for m in ["Fable", "Opus", "Sonnet", "Haiku"] if m in vec]
+    print(f"\nBootstrap 95% CI (top-1, {B} resamples of {n} compounds):")
+    for m in order:
+        v = vec[m]
+        boots = sorted(sum(v[rng.randrange(n)] for _ in range(n)) / n for _ in range(B))
+        lo, hi = boots[int(.025 * B)], boots[int(.975 * B)]
+        print(f"  {m:7} {100*sum(v)/n:5.1f}%  [{100*lo:.0f}, {100*hi:.0f}]")
+    print("Pairwise McNemar (exact two-sided) + Holm:")
+    pairs = []
+    for a, b in combinations(order, 2):
+        va, vb = vec[a], vec[b]
+        bcell = sum(x and not y for x, y in zip(va, vb))   # a right, b wrong
+        ccell = sum(y and not x for x, y in zip(va, vb))   # a wrong, b right
+        pairs.append((a, b, bcell, ccell, _mcnemar(bcell, ccell)))
+    # Holm-Bonferroni
+    pairs.sort(key=lambda r: r[4])
+    M = len(pairs)
+    for i, (a, b, bc, cc, p) in enumerate(pairs):
+        holm = min(1.0, p * (M - i))
+        print(f"  {a:6} vs {b:6}  b={bc} c={cc}  p={p:.4f}  Holm={holm:.4f}")
+
 def main():
     ans = {json.loads(l)["qid"]: json.loads(l)
            for l in open("data/benchmark_main/answers2.jsonl")}
     gold = {q: ans[q]["inchikey"][:14] for q in SUBSET if q in ans}
     res = {}
+    vec = {}                                # model -> per-compound top-1 bool vector
     for model, glb in SRC.items():
         pred = load(glb)
         if not any(q in pred for q in SUBSET):
             continue                       # model not yet collected
-        t1 = rec = n = 0
+        v = []
+        rec = 0
         for q in SUBSET:
             cs = (pred.get(q) or [])[:3]
-            n += 1
-            t1 += bool(cs) and ik(cs[0]) == gold[q]
+            v.append(bool(cs) and ik(cs[0]) == gold[q])
             rec += any(ik(s) == gold[q] for s in cs)
-        res[model] = [t1, rec]
-        print(f"{model:7} n={n}  top-1 {t1}/{n} ({100*t1//n}%)  recovered {rec}/{n} ({100*rec//n}%)")
+        vec[model] = v
+        res[model] = [sum(v), rec]
+        n = len(SUBSET)
+        print(f"{model:7} n={n}  top-1 {sum(v)}/{n} ({100*sum(v)//n}%)  recovered {rec}/{n} ({100*rec//n}%)")
     json.dump({"n": len(SUBSET), "results": res},
               open("data/benchmark_main/model_comparison.json", "w"))
+
+    if "--stats" in sys.argv and vec:
+        stats(vec)
 
     if "--fig" in sys.argv and res:
         import matplotlib; matplotlib.use("Agg")

@@ -6,6 +6,10 @@ You are shown, for each compound, the exact spectra given to the model and one o
 more candidate **structures** (rendered images in `structures/`). You do **not**
 see which is correct. See `README.md` / `docs/EXPERT_AUDIT_PROTOCOL.md` for the rubric.
 
+IMPORTANT: where a compound has a Task 2, complete the Task-2 ranking **before**
+looking at the Task-1 structure — the model's top-1 is one of the Task-2 candidates,
+so ranking first keeps your Task-2 judgement independent of the model's choice.
+
 ## A01  (complex, 24 heavy atoms)
 
 - **Formula:** C20H30O4
@@ -141,18 +145,18 @@ Structure: `structures/A08_top1.png`
 - **¹H NMR:** 7.91 (d, J = 8.6 Hz, 2H), 7.58 (d, J = 8.6 Hz, 2H), 7.21 (t, J = 9.7 Hz, 1H), 7.02 (dd, J = 10.9 Hz, 6.2 Hz, 1H), 0.25 (s, 9H); 13C{1H} NMR (75 MHz, CDCl3): δ 150.3 (dd, J = 252.0 Hz, 14.3 Hz, ArF), 149.5 (dd, J = 7.5 Hz, 3.0 Hz, ArF), 148.5 (dd, J = 248.6 Hz, 11.6 Hz, ArF), 141.4, 134.6, 129.8, 129.8 (d, J = 2.3 Hz, ArF), 129.7, 123.2 (d, J = 15.8 Hz, ArF), 109.8 (d, J = 20.3 Hz, ArF), -0.9
 - **¹³C NMR:** δ 150.3 (1C, dd), 149.5 (1C, dd), 148.5 (1C, dd), 141.4 (1C, s), 134.6 (1C, s), 129.8 (1C, s), 129.8 (1C, d), 129.7 (1C, s), 123.2 (1C, d), 109.8 (1C, d), -0.9 (1C, s)
 
+### Task 2 — rank the candidate set by spectral fit (best first) — DO FIRST
+`structures/A09_candA.png` = **A**  `structures/A09_candB.png` = **B**  `structures/A09_candC.png` = **C**
+
+- Your ranking (best → worst), by letter: ______________________________
+- Confidence in your top pick (1–5): **____**
+
 ### Task 1 — is the model's proposed structure consistent with the spectra?
 Structure: `structures/A09_top1.png`
 
 - Consistency with ALL spectra (1=contradicted … 5=fully): **____**
 - Verdict (circle): correct / wrong-regiochemistry / wrong-scaffold / uninterpretable
 - Single most diagnostic peak (support or refute): ______________________________
-
-### Task 2 — rank the candidate set by spectral fit (best first)
-`structures/A09_candA.png` = **A**  `structures/A09_candB.png` = **B**  `structures/A09_candC.png` = **C**
-
-- Your ranking (best → worst), by letter: ______________________________
-- Confidence in your top pick (1–5): **____**
 
 ---
 
@@ -307,18 +311,18 @@ Structure: `structures/A18_top1.png`
 - **¹H NMR:** 6.11 (1H, d, J = 3.2 Hz), 6.09 (1H, d, J = 3.2 Hz), 4.27 (1H, d, J = 6.9 Hz), 3.66 (2H, s), 2.14 (3H, s), 2.00 (1H, octuplet, J = 6.7 Hz), 0.94 (3H, d, J = 6.7 Hz), 0.87 (9H, s), 0.79 (3H, d, J = 6.7 Hz), 0.03 (3H, s), -0.12 (3H, s)
 - **¹³C NMR:** δ 204.4 (1C, s), 156.7 (1C, s), 146.8 (1C, s), 108.6 (1C, s), 107.5 (1C, s), 74.1 (1C, s), 43.5 (1C, s), 34.3 (1C, s), 28.9 (1C, s), 25.8 (1C, s), 18.7 (1C, s), 18.3 (1C, s), 18.2 (1C, s), -4.9 (1C, s), -5.2 (1C, s)
 
+### Task 2 — rank the candidate set by spectral fit (best first) — DO FIRST
+`structures/A19_candA.png` = **A**
+
+- Your ranking (best → worst), by letter: ______________________________
+- Confidence in your top pick (1–5): **____**
+
 ### Task 1 — is the model's proposed structure consistent with the spectra?
 Structure: `structures/A19_top1.png`
 
 - Consistency with ALL spectra (1=contradicted … 5=fully): **____**
 - Verdict (circle): correct / wrong-regiochemistry / wrong-scaffold / uninterpretable
 - Single most diagnostic peak (support or refute): ______________________________
-
-### Task 2 — rank the candidate set by spectral fit (best first)
-`structures/A19_candA.png` = **A**
-
-- Your ranking (best → worst), by letter: ______________________________
-- Confidence in your top pick (1–5): **____**
 
 ---
 
@@ -345,18 +349,18 @@ Structure: `structures/A20_top1.png`
 - **¹H NMR:** 7.97 (d, J = 8.60 Hz, 1H, NH), 7.61 (d, J = 8.55 Hz, 2H, Ar-H), 7.31 (d, J = 8.55 Hz, 2H, ArH), 3.60 (m, 1H, CH-CO2H), 2.33 (s, 3H, CH3-Ar), 1.53 (m, 1H, CH), 1.34 (m, 2H, CH2), 0.76 (d, J = 6.85 Hz, 3H, CH3), 0.65 (d, J = 6.30 Hz, 3H, CH3)
 - **¹³C NMR:** δ 173.8 (1C, s), 142.9 (1C, s), 138.9 (1C, s), 129.9 (1C, s), 128.6 (1C, s), 127.0 (1C, s), 126.0 (1C, s), 54.5 (1C, s), 41.5 (1C, s), 24.4 (1C, s), 23.1 (1C, s), 21.6 (1C, s)
 
+### Task 2 — rank the candidate set by spectral fit (best first) — DO FIRST
+`structures/A21_candA.png` = **A**
+
+- Your ranking (best → worst), by letter: ______________________________
+- Confidence in your top pick (1–5): **____**
+
 ### Task 1 — is the model's proposed structure consistent with the spectra?
 Structure: `structures/A21_top1.png`
 
 - Consistency with ALL spectra (1=contradicted … 5=fully): **____**
 - Verdict (circle): correct / wrong-regiochemistry / wrong-scaffold / uninterpretable
 - Single most diagnostic peak (support or refute): ______________________________
-
-### Task 2 — rank the candidate set by spectral fit (best first)
-`structures/A21_candA.png` = **A**
-
-- Your ranking (best → worst), by letter: ______________________________
-- Confidence in your top pick (1–5): **____**
 
 ---
 
@@ -367,18 +371,18 @@ Structure: `structures/A21_top1.png`
 - **¹H NMR:** 1.49 (d, J = 7.5 Hz, 1H), 1.65 (s, 3H), 2.29 (d, J = 7.5 Hz, 1H), 3.89 (s, 3H), 7.15-7.18 (m, 1H), 7.44-7.48 (m, 2H), 7.54-7.55 (m, 1H); 13C{1H} NMR (125 MHz, CDCl3): δ = 20.8, 29.6, 39.8, 55.4, 62.5, 113.7, 120.1, 122.3, 129.7, 135.8, 159.9, 195.3
 - **¹³C NMR:** δ 20.8 (1C, s), 29.6 (1C, s), 39.8 (1C, s), 55.4 (1C, s), 62.5 (1C, s), 113.7 (1C, s), 120.1 (1C, s), 122.3 (1C, s), 129.7 (1C, s), 135.8 (1C, s), 159.9 (1C, s), 195.3 (1C, s)
 
+### Task 2 — rank the candidate set by spectral fit (best first) — DO FIRST
+`structures/A22_candA.png` = **A**  `structures/A22_candB.png` = **B**
+
+- Your ranking (best → worst), by letter: ______________________________
+- Confidence in your top pick (1–5): **____**
+
 ### Task 1 — is the model's proposed structure consistent with the spectra?
 Structure: `structures/A22_top1.png`
 
 - Consistency with ALL spectra (1=contradicted … 5=fully): **____**
 - Verdict (circle): correct / wrong-regiochemistry / wrong-scaffold / uninterpretable
 - Single most diagnostic peak (support or refute): ______________________________
-
-### Task 2 — rank the candidate set by spectral fit (best first)
-`structures/A22_candA.png` = **A**  `structures/A22_candB.png` = **B**
-
-- Your ranking (best → worst), by letter: ______________________________
-- Confidence in your top pick (1–5): **____**
 
 ---
 
@@ -389,18 +393,18 @@ Structure: `structures/A22_top1.png`
 - **¹H NMR:** 10.60 (s, 1H), 7.39 (t, J = 8.1 Hz, 1H), 7.15 (d, J = 7.1, 1H), 7.13 (d, J = 7.3, 1H), 5.27 (s, 2H), 3.50 (s, 3H), 2.12 (s, 3H); 13C{1H} NMR (101 MHz, CDCl3) δ 190.7, 158.5, 134.2, 127.53, 127.49, 126.3, 115.1, 95.0, 93.2, 77.1, 56.6, 4.9
 - **¹³C NMR:** δ 190.7 (1C, s), 158.5 (1C, s), 134.2 (1C, s), 127.53 (1C, s), 127.49 (1C, s), 126.3 (1C, s), 115.1 (1C, s), 95.0 (1C, s), 93.2 (1C, s), 77.1 (1C, s), 56.6 (1C, s), 4.9 (1C, s)
 
+### Task 2 — rank the candidate set by spectral fit (best first) — DO FIRST
+`structures/A23_candA.png` = **A**  `structures/A23_candB.png` = **B**  `structures/A23_candC.png` = **C**
+
+- Your ranking (best → worst), by letter: ______________________________
+- Confidence in your top pick (1–5): **____**
+
 ### Task 1 — is the model's proposed structure consistent with the spectra?
 Structure: `structures/A23_top1.png`
 
 - Consistency with ALL spectra (1=contradicted … 5=fully): **____**
 - Verdict (circle): correct / wrong-regiochemistry / wrong-scaffold / uninterpretable
 - Single most diagnostic peak (support or refute): ______________________________
-
-### Task 2 — rank the candidate set by spectral fit (best first)
-`structures/A23_candA.png` = **A**  `structures/A23_candB.png` = **B**  `structures/A23_candC.png` = **C**
-
-- Your ranking (best → worst), by letter: ______________________________
-- Confidence in your top pick (1–5): **____**
 
 ---
 
@@ -459,18 +463,18 @@ Structure: `structures/A26_top1.png`
 - **¹H NMR:** 8.21 (s, 1H), 7.90-7.89 (d, J = 7.8 Hz, 1H), 7.86-7.84 (t, J = 6.6 Hz, 2H), 7.79-7.77 (m, 1H), 7.55-7.51 (m, 2H), 6.23 (br s, 1H), 1.52 (s, 9H)
 - **¹³C NMR:** δ 163.6 (1C, s), 151.0 (1C, s), 147.9 (1C, s), 137.9 (1C, s), 126.0 (1C, s), 121.9 (1C, s), 51.0 (1C, s), 28.9 (1C, s)
 
+### Task 2 — rank the candidate set by spectral fit (best first) — DO FIRST
+`structures/A27_candA.png` = **A**  `structures/A27_candB.png` = **B**  `structures/A27_candC.png` = **C**
+
+- Your ranking (best → worst), by letter: ______________________________
+- Confidence in your top pick (1–5): **____**
+
 ### Task 1 — is the model's proposed structure consistent with the spectra?
 Structure: `structures/A27_top1.png`
 
 - Consistency with ALL spectra (1=contradicted … 5=fully): **____**
 - Verdict (circle): correct / wrong-regiochemistry / wrong-scaffold / uninterpretable
 - Single most diagnostic peak (support or refute): ______________________________
-
-### Task 2 — rank the candidate set by spectral fit (best first)
-`structures/A27_candA.png` = **A**  `structures/A27_candB.png` = **B**  `structures/A27_candC.png` = **C**
-
-- Your ranking (best → worst), by letter: ______________________________
-- Confidence in your top pick (1–5): **____**
 
 ---
 
@@ -481,18 +485,18 @@ Structure: `structures/A27_top1.png`
 - **¹H NMR:** 2.14 (quintet, 2H, -CH2), 2.80 (t, J = 7.3, 2H, -CH2), 3.41 (t, J = 6.6, 2H, -CH2), 7.39-7.49 (m, 4H, ArH)
 - **¹³C NMR:** δ 141.34 (1C, s), 132.01 (1C, s), 131.02 (1C, q), 128.97 (1C, s), 125.53 (1C, s), 123.26 (1C, s), 36.02 (1C, s), 34.55 (1C, s), 5.72 (1C, s)
 
+### Task 2 — rank the candidate set by spectral fit (best first) — DO FIRST
+`structures/A28_candA.png` = **A**  `structures/A28_candB.png` = **B**  `structures/A28_candC.png` = **C**
+
+- Your ranking (best → worst), by letter: ______________________________
+- Confidence in your top pick (1–5): **____**
+
 ### Task 1 — is the model's proposed structure consistent with the spectra?
 Structure: `structures/A28_top1.png`
 
 - Consistency with ALL spectra (1=contradicted … 5=fully): **____**
 - Verdict (circle): correct / wrong-regiochemistry / wrong-scaffold / uninterpretable
 - Single most diagnostic peak (support or refute): ______________________________
-
-### Task 2 — rank the candidate set by spectral fit (best first)
-`structures/A28_candA.png` = **A**  `structures/A28_candB.png` = **B**  `structures/A28_candC.png` = **C**
-
-- Your ranking (best → worst), by letter: ______________________________
-- Confidence in your top pick (1–5): **____**
 
 ---
 
@@ -503,18 +507,18 @@ Structure: `structures/A28_top1.png`
 - **¹H NMR:** 7.64 (d, J = 7.63 Hz, 2H), 7.31 (d, J = 7.78 Hz, 2H), 7.02 (s, 1H), 6.66 (s, 1H), 5.93 (bs, 1H), 4.16 (bs, 2H), 2.46 (s, 3H)
 - **¹³C NMR:** δ 144.8 (1C, s), 144.6 (1C, s), 135.1 (1C, s), 132.7 (1C, s), 129.8 (1C, s), 127.5 (1C, s), 124.7 (1C, s), 121.1 (1C, s), 121.0 (1C, s), 111.1 (1C, s), 21.6 (1C, s)
 
+### Task 2 — rank the candidate set by spectral fit (best first) — DO FIRST
+`structures/A29_candA.png` = **A**  `structures/A29_candB.png` = **B**
+
+- Your ranking (best → worst), by letter: ______________________________
+- Confidence in your top pick (1–5): **____**
+
 ### Task 1 — is the model's proposed structure consistent with the spectra?
 Structure: `structures/A29_top1.png`
 
 - Consistency with ALL spectra (1=contradicted … 5=fully): **____**
 - Verdict (circle): correct / wrong-regiochemistry / wrong-scaffold / uninterpretable
 - Single most diagnostic peak (support or refute): ______________________________
-
-### Task 2 — rank the candidate set by spectral fit (best first)
-`structures/A29_candA.png` = **A**  `structures/A29_candB.png` = **B**
-
-- Your ranking (best → worst), by letter: ______________________________
-- Confidence in your top pick (1–5): **____**
 
 ---
 
@@ -525,17 +529,17 @@ Structure: `structures/A29_top1.png`
 - **¹H NMR:** 7.30-7.25 (m, 2H), 7.23-7.20 (m, 3H), 6.94 (br, 1H), 5.32 (d, J = 8.65 Hz, 1H), 4.45-4.41 (m, 1H), 4.34-4.30 (m, 1H), 3.97 (t, J = 7.75 Hz, 1H), 2.10-2.05 (m, 1H), 1.38 (s, 9H), 0.93 (d, J = 6.70 Hz, 3H), 0.89 (d, J = 6.70 Hz, 3H)
 - **¹³C NMR:** δ 172.0 (1C, s), 156.2 (1C, s), 138.2 (1C, s), 128.7 (1C, s), 127.7 (1C, s), 127.6 (1C, s), 127.5 (1C, s), 79.9 (1C, s), 60.2 (1C, s), 43.4 (1C, s), 31.0 (1C, s), 28.5 (1C, s), 19.5 (1C, s), 18.2 (1C, s)
 
+### Task 2 — rank the candidate set by spectral fit (best first) — DO FIRST
+`structures/A30_candA.png` = **A**
+
+- Your ranking (best → worst), by letter: ______________________________
+- Confidence in your top pick (1–5): **____**
+
 ### Task 1 — is the model's proposed structure consistent with the spectra?
 Structure: `structures/A30_top1.png`
 
 - Consistency with ALL spectra (1=contradicted … 5=fully): **____**
 - Verdict (circle): correct / wrong-regiochemistry / wrong-scaffold / uninterpretable
 - Single most diagnostic peak (support or refute): ______________________________
-
-### Task 2 — rank the candidate set by spectral fit (best first)
-`structures/A30_candA.png` = **A**
-
-- Your ranking (best → worst), by letter: ______________________________
-- Confidence in your top pick (1–5): **____**
 
 ---

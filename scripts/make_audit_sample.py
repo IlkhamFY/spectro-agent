@@ -80,40 +80,47 @@ def main():
         recall = any(x["is_true"] for x in c["cands"])
         n_recall += recall
 
-        # Task 1: render the model's top-1 (blind, unlabelled)
+        # Task 1: render the model's top-1 (blind, unlabelled image only)
         render(c["top1"], f"{STRUCT}/{aid}_top1.png")
 
-        # Task 2 (recall-positive only): shuffle full candidate set, render each
-        cand_block = None
+        # Task 2 (recall-positive only): shuffle full candidate set, render each.
+        # Separate RNG stream so shuffling is decoupled from the sampling draw.
+        cand_labels = None
+        key_cands = None
+        key_true_label = None
         if recall:
             shuffled = c["cands"][:]
-            rng.shuffle(shuffled)
-            cand_block = []
-            true_idx = -1
+            random.Random(SEED + 1000 + i).shuffle(shuffled)   # per-compound, decoupled
+            cand_labels, key_cands = [], []
             for j, x in enumerate(shuffled):
+                if j >= len(CAND_LABELS):       # guard: more candidates than labels
+                    break
                 lbl = CAND_LABELS[j]
                 render(x["smiles"], f"{STRUCT}/{aid}_cand{lbl}.png")
-                cand_block.append({"label": lbl, "smiles": x["smiles"]})
-                if x["is_true"]: true_idx = j
-            key_true_label = CAND_LABELS[true_idx] if true_idx >= 0 else None
+                cand_labels.append(lbl)
+                key_cands.append({"label": lbl, "smiles": x["smiles"], "is_true": x["is_true"]})
+                if x["is_true"]: key_true_label = lbl
 
+        # BLIND record: spectra + image references only — NO SMILES, NO model-pick id.
         blind.append({
             "audit_id": aid, "difficulty": c["difficulty"],
             "heavy_atoms": c["heavy_atoms"], "formula": p.get("formula"),
             "ir_bands_cm-1": p.get("ir_bands_cm-1"), "h_nmr": p.get("h_nmr"),
             "c_nmr": p.get("c_nmr"),
-            "model_top1_smiles": c["top1"],
+            "task1_structure_image": f"{aid}_top1.png",
             "n_candidates": len(c["cands"]),
             "task2_applicable": recall,
-            "candidates_shuffled": cand_block,    # None if not recall-positive
+            "task2_candidate_labels": cand_labels,    # None if not recall-positive
         })
+        # KEY (held out, git-ignored): all structures + answers live here only.
         key.append({
             "audit_id": aid, "source": f'{c["dir"]}:{c["qid"]}',
             "true_smiles": c["true_smiles"], "true_inchikey": c["true_inchikey"],
             "model_top1_smiles": c["top1"],
             "top1_correct": _same(c["top1"], c["true_inchikey"]),
             "recall_positive": recall,
-            "true_candidate_label": (key_true_label if recall else None),
+            "true_candidate_label": key_true_label,
+            "candidates": key_cands,
         })
 
     with open(f"{OUT}/sample.jsonl", "w") as f:
@@ -143,6 +150,10 @@ def write_scoring_sheet(blind):
          "You are shown, for each compound, the exact spectra given to the model and one or",
          "more candidate **structures** (rendered images in `structures/`). You do **not**",
          "see which is correct. See `README.md` / `docs/EXPERT_AUDIT_PROTOCOL.md` for the rubric.",
+         "",
+         "IMPORTANT: where a compound has a Task 2, complete the Task-2 ranking **before**",
+         "looking at the Task-1 structure — the model's top-1 is one of the Task-2 candidates,",
+         "so ranking first keeps your Task-2 judgement independent of the model's choice.",
          ""]
     for b in blind:
         aid = b["audit_id"]
@@ -150,21 +161,21 @@ def write_scoring_sheet(blind):
               f"- **Formula:** {b['formula']}",
               f"- **IR (cm⁻¹):** {b['ir_bands_cm-1']}",
               f"- **¹H NMR:** {b['h_nmr']}",
-              f"- **¹³C NMR:** {b['c_nmr']}", "",
-              "### Task 1 — is the model's proposed structure consistent with the spectra?",
+              f"- **¹³C NMR:** {b['c_nmr']}", ""]
+        if b["task2_applicable"]:
+            opts = "  ".join(f"`structures/{aid}_cand{lbl}.png` = **{lbl}**"
+                             for lbl in b["task2_candidate_labels"])
+            L += ["### Task 2 — rank the candidate set by spectral fit (best first) — DO FIRST",
+                  opts, "",
+                  "- Your ranking (best → worst), by letter: ______________________________",
+                  "- Confidence in your top pick (1–5): **____**", ""]
+        L += ["### Task 1 — is the model's proposed structure consistent with the spectra?",
               f"Structure: `structures/{aid}_top1.png`", "",
               "- Consistency with ALL spectra (1=contradicted … 5=fully): **____**",
               "- Verdict (circle): correct / wrong-regiochemistry / wrong-scaffold / uninterpretable",
               "- Single most diagnostic peak (support or refute): ______________________________",
-              ""]
-        if b["task2_applicable"]:
-            opts = "  ".join(f"`structures/{aid}_cand{c['label']}.png` = **{c['label']}**"
-                             for c in b["candidates_shuffled"])
-            L += ["### Task 2 — rank the candidate set by spectral fit (best first)",
-                  opts, "",
-                  "- Your ranking (best → worst), by letter: ______________________________",
-                  "- Confidence in your top pick (1–5): **____**", ""]
-        L += ["---", ""]
+              "",
+              "---", ""]
     open(f"{OUT}/scoring_sheet.md", "w").write("\n".join(L))
 
 if __name__ == "__main__":

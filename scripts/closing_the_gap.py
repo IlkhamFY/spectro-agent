@@ -73,12 +73,17 @@ def main():
         recalled = any(ik(c) == t for c in cands)
         base_recall += recalled
 
-        # enumerate regioisomers around each candidate
-        pool = list(dict.fromkeys(cands))      # de-dup, preserve order
+        # enumerate regioisomers around each candidate; canonicalize before de-dup so
+        # non-canonical raw candidates don't double-count against canonical isomers
+        def _canon(s):
+            m = Chem.MolFromSmiles(s) if s else None
+            return Chem.MolToSmiles(m) if m else s
+        pool = list(dict.fromkeys(_canon(c) for c in cands))
         for c in cands:
             for iso in enum.enumerate_regioisomers(c, cap=200):
-                if iso not in pool:
-                    pool.append(iso)
+                ciso = _canon(iso)
+                if ciso not in pool:
+                    pool.append(ciso)
         pool_sizes.append(len(pool))
         enum_recalled = any(ik(p) == t for p in pool)
         enum_recall += enum_recalled

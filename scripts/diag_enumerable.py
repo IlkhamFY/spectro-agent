@@ -49,7 +49,6 @@ for qid, true, cands, obs in rows:
         missed += 1
         if shown < 18:
             shown += 1
-            arom = Chem.MolFromSmiles(match[0]).GetAromaticAtoms()
             print(f"[{qid}]  cand: {match[0]}")
             print(f"        true: {true}")
 print(f"\nenumerable misses: {miss_enumerable}   recovered by enumerator: {recovered}   "

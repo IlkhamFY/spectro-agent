@@ -43,3 +43,7 @@ data/chemotion/
 py2opsin_temp_input.txt
 data/nmrshiftdb/nmrshiftdb2.sd
 data/nmrshiftdb/hose_c13.json.gz
+
+# Expert-audit / modality answer keys — held out from reviewers (regenerate via the prepare scripts)
+data/audit/key.jsonl
+data/modality/key.json

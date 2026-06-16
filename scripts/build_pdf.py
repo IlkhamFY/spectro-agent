@@ -54,7 +54,7 @@ def header():
 def main():
     md = open("docs/PAPER.md").read()
     md += "\n\n\\clearpage\n\n# Figure plates\n\n"
-    for i, (fn, cap) in enumerate(FIGS, 1):
+    for fn, cap in FIGS:
         path = f"docs/figures/{fn}"
         if os.path.exists(path):
             md += f"![{cap}]({path}){{width=82%}}\n\n"

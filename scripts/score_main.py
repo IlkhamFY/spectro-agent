@@ -44,8 +44,8 @@ def metrics(rows):
     res=[]
     for ans,cands in rows:
         t=ik(ans["smiles"]); cs=cands[:3]
-        top1=bool(cs) and ik(cs[0])==t
-        rec=any(ik(s)==t for s in cs)
+        top1=bool(cs) and t is not None and ik(cs[0])==t          # guard: never let None==None match
+        rec=t is not None and any(ik(s)==t for s in cs)
         af=fp(ans["smiles"]); best=0.0
         for s in cs:
             pf=fp(s)

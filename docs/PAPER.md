@@ -700,6 +700,28 @@ ablation (`scripts/hose_predict.py`, `data/fverify/hose_results.txt`); and the
 mining/resolution pipeline
 (`scripts/`). Companion technical notes: `docs/BENCHMARK.md`, `docs/BENCHMARK_v2.md`,
 `docs/BENCHMARK_v3.md`, `docs/FORWARD_VERIFY.md`, and `data/SPECTRO_TRAINING_DATA.md`.
+The verifier negative-control and selective-prediction analyses
+(`scripts/verifier_diagnostics.py`), the recall-headroom and scaffold-enumeration
+study (`scripts/analyze_recall_headroom.py`, `scripts/enumerate_isomers.py`,
+`scripts/closing_the_gap.py`), the modality-ablation harness
+(`scripts/modality_ablation.py`, `docs/MODALITY_ABLATION.md`), and the blinded
+expert-audit package (`data/audit/`, `docs/EXPERT_AUDIT_PROTOCOL.md`) are released
+likewise. A persistent archival DOI for the dataset will be minted on submission.
+
+## Author Contributions
+
+*(CRediT — authors to confirm/adjust.)* **I.Y.:** conceptualization, methodology,
+software, formal analysis, investigation, data curation, visualization, writing —
+original draft. **R.A.V.-H.:** conceptualization, methodology, supervision, writing —
+review and editing.
+
+## Conflicts of Interest
+
+The authors declare no competing interests.
+
+## Acknowledgements
+
+*(To be completed: funding sources and compute/infrastructure acknowledgements.)*
 
 ## References
 

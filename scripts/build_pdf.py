@@ -10,27 +10,32 @@ import os, subprocess, tempfile, pypandoc
 TECTONIC = "/tmp/tectonic"
 OUT = "docs/paper.pdf"
 
+# Main-text figures (numbered Fig. 1-5)
 FIGS = [
     ("fig0_overview.png", "Study design: open multimodal data (IRexp) $\\to$ blind, "
      "complexity-stratified benchmark $\\to$ decoupled blind solving $\\to$ "
      "forward-verification re-ranking; training-free throughout."),
-    ("fig4_dataset.png", "IRexp composition: IR records, NMR-paired, structure-linked, "
-     "and full IR+$^1$H+$^{13}$C+structure quadruples."),
     ("fig1_difficulty.png", "Top-1 and recovered accuracy on IRSpectra-Bench by "
      "difficulty (all / simple / complex, n=194) with bootstrap 95\\% CIs."),
-    ("fig2_size.png", "Accuracy versus molecular size; the monotonic 60\\%$\\to$7\\% "
-     "top-1 gradient with heavy-atom count."),
     ("fig5_models.png", "Four-model comparison on a 24-compound subset: Fable 5 45\\% "
      "$>$ Opus 25\\% $>$ Sonnet 20\\% $>$ Haiku 0\\% top-1 (strictly nested; "
      "underpowered to separate adjacent models at n=24)."),
-    ("fig6_electrolyte.png", "IRSpectra-Bench-Electrolyte by battery-electrolyte class "
-     "(n=46): sp$^3$-C--F easiest (50\\%), sulfonyl and nitrile hardest (12\\%)."),
     ("fig_mechanism.png", "Forward-verification on a real benchmark regioisomer pair "
      "(picolinamide vs nicotinamide): forward-predicted $^{13}$C matches the true "
-     "isomer (chamfer 0.42 vs 1.30 ppm) --- the LLM analog of NMR-crystallography."),
+     "isomer (chamfer 0.42 vs 1.30 ppm) --- an analog of NMR-crystallography."),
     ("fig3_method.png", "Forward-verification inference ladder on the same 60 "
      "compounds: solver self-ranking $\\to$ + forward-verify $\\to$ + generate-wide "
      "(23\\%/26\\%/30\\% top-1)."),
+]
+
+# Supporting-Information figures (numbered Fig. S1-S3)
+SI_FIGS = [
+    ("fig4_dataset.png", "IRexp composition: IR records, NMR-paired, structure-linked, "
+     "and full IR+$^1$H+$^{13}$C+structure quadruples."),
+    ("fig2_size.png", "Accuracy versus molecular size; the monotonic 60\\%$\\to$7\\% "
+     "top-1 gradient with heavy-atom count."),
+    ("fig6_electrolyte.png", "IRSpectra-Bench-Electrolyte by battery-electrolyte class "
+     "(n=46): sp$^3$-C--F easiest (50\\%), sulfonyl and nitrile hardest (12\\%)."),
 ]
 
 UNI = {
@@ -58,6 +63,15 @@ def main():
         path = f"docs/figures/{fn}"
         if os.path.exists(path):
             md += f"![{cap}]({path}){{width=82%}}\n\n"
+    # Supporting-Information figures, renumbered Fig. S1, S2, ...
+    if any(os.path.exists(f"docs/figures/{fn}") for fn, _ in SI_FIGS):
+        md += ("\n\n\\clearpage\n\n"
+               "```{=latex}\n\\renewcommand{\\thefigure}{S\\arabic{figure}}"
+               "\\setcounter{figure}{0}\n```\n\n# Supporting Information figures\n\n")
+        for fn, cap in SI_FIGS:
+            path = f"docs/figures/{fn}"
+            if os.path.exists(path):
+                md += f"![{cap}]({path}){{width=82%}}\n\n"
 
     with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as mf:
         mf.write(md); md_path = mf.name

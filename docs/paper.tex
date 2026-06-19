@@ -105,8 +105,8 @@
 \begin{document}
 
 \section{An open multimodal benchmark for LLM molecular structure
-elucidation reveals a recall-bound bottleneck that forward verification
-exploits}\label{an-open-multimodal-benchmark-for-llm-molecular-structure-elucidation-reveals-a-recall-bound-bottleneck-that-forward-verification-exploits}
+elucidation: recall, not verification, is the
+bottleneck}\label{an-open-multimodal-benchmark-for-llm-molecular-structure-elucidation-recall-not-verification-is-the-bottleneck}
 
 \textbf{Ilkham Yabbarov}¹ \emph{(corresponding: ilkhamfy@gmail.com)},
 \textbf{Rodrigo A. Vargas-Hernández}¹ ¹ Department of Chemistry and
@@ -381,7 +381,7 @@ full IR + ¹H + ¹³C + structure quadruples & \textbf{40,491} \\
 A structure-complete split, \textbf{\texttt{irexp\_resolved}} (42,842
 records, 100\% structure-linked), is the training-/benchmark-ready
 subset and is \textasciitilde6× the 6,833-molecule set used to train
-Spectro¹ (Fig. 2). Provenance is 119,345 PMC-OA records (CC-BY) plus
+Spectro¹ (Fig. S1). Provenance is 119,345 PMC-OA records (CC-BY) plus
 1,888 Chemotion records (CC-BY-SA); the two licences are kept as
 separable pools. Each record is DOI-/accession-traceable. Re-resolution
 is additive and content-keyed, so the dataset can be re-enriched without
@@ -512,11 +512,11 @@ overlapping intervals, so the asymmetric inclusion of the pre-registered
 controlled sets does not drive the result.
 
 The gradient is sharp and the intervals are tight. The 48\%→8\%
-simple→complex separation (Fig. 3) confirms the benchmark is
+simple→complex separation (Fig. 2) confirms the benchmark is
 discriminating across a realistic difficulty range, and accuracy falls
 monotonically with molecular size in step with it --- top-1
 \textbf{60.5\%} for ≤15 heavy atoms, 28.3\% for 16--25, and
-\textbf{7.0\%} above 25 (Fig. 4). The model reliably recovers molecular
+\textbf{7.0\%} above 25 (Fig. S2). The model reliably recovers molecular
 formula, functional groups, and scaffold, but the exact constitution far
 less often, failing predominantly on \textbf{regiochemistry} ---
 \emph{which} position a substituent occupies. This is consistent with an
@@ -609,7 +609,7 @@ extremes)}\label{model-comparison-the-benchmark-ranks-capability-and-separates-t
 A benchmark is only useful if it separates models. On a fixed
 24-compound subset solved blind by four Claude models --- spanning a
 wide capability range, including the newest (Fable 5) --- under the
-identical protocol (Fig. 5):
+identical protocol (Fig. 3):
 
 \textbf{Table 3. Four-model comparison on a fixed 24-compound subset}
 under the identical blind protocol.
@@ -690,7 +690,7 @@ benchmark} --- overall \textbf{top-1 26\%, recovered 28\%} (12/46 and
 13/46; two compounds received no parseable candidate; at n=46 the 95\%
 CI is wide and overlaps the headline) --- consistent with the bottleneck
 being a property of the elucidation task rather than of any one chemical
-neighbourhood. The per-class breakdown (Fig. 6) is itself informative:
+neighbourhood. The per-class breakdown (Fig. S3) is itself informative:
 
 \textbf{Table 4. Per-class performance on IRSpectra-Bench-Electrolyte
 (n=46).}
@@ -755,7 +755,7 @@ predicted and observed ¹³C → return the best match.
 This mirrors how a chemist confirms a structure (``if it were that
 isomer, C-3 would be at \textasciitilde120 ppm; we observe 135, so it is
 the other''), exploits the standard principle that verification is
-easier than generation, and requires no training. \textbf{Figure 7}
+easier than generation, and requires no training. \textbf{Figure 4}
 shows the mechanism on a real benchmark pair --- the picolinamide /
 nicotinamide regioisomers, which the inverse task cannot separate but
 whose forward-predicted ¹³C spectra match the observed one at 0.42 vs
@@ -862,7 +862,7 @@ verification precision (conditional on recall) & 84\% & 72\% \\
 
 Wide generation lifts recall +10 points and exact top-1 +7 points
 (23\%→30\% over the self-ranking baseline on the same 60 compounds; Fig.
-8) --- a real, measured gain with no training. But it does \textbf{not}
+5) --- a real, measured gain with no training. But it does \textbf{not}
 reach the \textasciitilde50\% a naïve extrapolation would predict, for
 two instructive reasons: \textbf{(i) recall plateaus at 41\%} --- exotic
 and large targets (selenium heterocycles, poly-aryl polyketones,
@@ -1155,7 +1155,7 @@ scripted end-to-end.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\subsection{Figures}\label{figures}
+\subsection{Figures (main text)}\label{figures-main-text}
 
 \begin{itemize}
 \tightlist
@@ -1165,41 +1165,45 @@ scripted end-to-end.
   benchmark → decoupled blind solving → forward-verification re-ranking;
   training-free throughout.
 \item
-  \textbf{Fig. 2} (\texttt{docs/figures/fig4\_dataset.png}) --- IRexp
-  composition: IR records → NMR-paired → structure-linked → full
-  IR+¹H+¹³C+structure quadruples.
-\item
-  \textbf{Fig. 3} (\texttt{docs/figures/fig1\_difficulty.png}) --- top-1
+  \textbf{Fig. 2} (\texttt{docs/figures/fig1\_difficulty.png}) --- top-1
   and recovered accuracy on IRSpectra-Bench by difficulty (all / simple
   / complex, n=194) with bootstrap 95\% CIs.
 \item
-  \textbf{Fig. 4} (\texttt{docs/figures/fig2\_size.png}) --- accuracy vs
-  molecular size (heavy-atom bucket); the monotonic 60\%→7\% top-1
-  gradient.
-\item
-  \textbf{Fig. 5} (\texttt{docs/figures/fig5\_models.png}) ---
+  \textbf{Fig. 3} (\texttt{docs/figures/fig5\_models.png}) ---
   four-model comparison on a 24-compound subset: Fable 5 45\%
   \textgreater{} Opus 25\% \textgreater{} Sonnet 20\% \textgreater{}
-  Haiku 0\% top-1 (strictly nested); the benchmark discriminates
-  capability monotonically and is far from saturated even for the newest
-  model.
+  Haiku 0\% top-1 (strictly nested); capability-sensitive but
+  underpowered to separate adjacent models at n=24.
 \item
-  \textbf{Fig. 6} (\texttt{docs/figures/fig6\_electrolyte.png}) ---
-  top-1 and recovered accuracy on IRSpectra-Bench-Electrolyte by
-  battery-electrolyte chemical class (n=46): sp³-C--F easiest (50\%),
-  sulfonyl and nitrile hardest (12\%); overall 26\%/28\%, the same
-  regime as the headline benchmark.
-\item
-  \textbf{Fig. 7} (\texttt{docs/figures/fig\_mechanism.png}) ---
+  \textbf{Fig. 4} (\texttt{docs/figures/fig\_mechanism.png}) ---
   forward-verification on a real benchmark regioisomer pair
   (picolinamide vs nicotinamide): forward-predicted ¹³C matches the true
-  isomer (chamfer 0.42 vs 1.30 ppm), the LLM analog of
-  NMR-crystallography.
+  isomer (chamfer 0.42 vs 1.30 ppm), an analog of NMR-crystallography.
 \item
-  \textbf{Fig. 8} (\texttt{docs/figures/fig3\_method.png}) ---
+  \textbf{Fig. 5} (\texttt{docs/figures/fig3\_method.png}) ---
   forward-verification inference ladder on the same 60 compounds: solver
   self-ranking → + forward-verify → + generate-wide (23\%/26\%/30\%
   top-1).
+\end{itemize}
+
+\subsection{Supporting Information
+figures}\label{supporting-information-figures}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Fig. S1} (\texttt{docs/figures/fig4\_dataset.png}) --- IRexp
+  composition: IR records → NMR-paired → structure-linked → full
+  IR+¹H+¹³C+structure quadruples.
+\item
+  \textbf{Fig. S2} (\texttt{docs/figures/fig2\_size.png}) --- accuracy
+  vs molecular size (heavy-atom bucket); the monotonic 60\%→7\% top-1
+  gradient.
+\item
+  \textbf{Fig. S3} (\texttt{docs/figures/fig6\_electrolyte.png}) ---
+  top-1 and recovered accuracy on IRSpectra-Bench-Electrolyte by
+  battery-electrolyte chemical class (n=46): sp³-C--F easiest (50\%),
+  sulfonyl and nitrile hardest (12\%); overall 26\%/28\%.
 \end{itemize}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
@@ -1285,75 +1289,96 @@ acknowledgements.)}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  \emph{Spectro: transformer-based molecular structure elucidation from
-  spectra.} ChemRxiv, 2024, doi:10.26434/chemrxiv-2024-37v2j.
+  Chacko, E.; Sondhi, R.; Praveen, A.; Luska, K. L.; Vargas Hernández,
+  R. A. \emph{Spectro: a multi-modal approach for molecule elucidation
+  using IR and NMR data.} ChemRxiv, 2024,
+  doi:10.26434/chemrxiv-2024-37v2j.
 \item
   Kamber, D. (Anthropic). \emph{Making Claude a Chemist: how Claude
   performs on NMR prediction and structure elucidation.}
   Non-peer-reviewed company white paper, 5 June 2026.
   anthropic.com/research/making-claude-a-chemist.
 \item
-  Lowe, D. M. et al.~\emph{Name to Structure (OPSIN).} J. Chem. Inf.
-  Model. 2011, 51, 739.
+  Lowe, D. M.; Corbett, P. T.; Murray-Rust, P.; Glen, R. C.
+  \emph{Chemical name to structure: OPSIN, an open source solution.} J.
+  Chem. Inf. Model. 2011, 51, 739--753, doi:10.1021/ci100384d.
 \item
-  Landrum, G. \emph{RDKit: Open-source cheminformatics.} rdkit.org.
+  Landrum, G. \emph{RDKit: open-source cheminformatics.} rdkit.org.
 \item
-  Krenn, M. et al.~\emph{SELFIES.} Mach. Learn.: Sci. Technol. 2020, 1,
-  045024.
+  Krenn, M.; Häse, F.; Nigam, A.; Friederich, P.; Aspuru-Guzik, A.
+  \emph{Self-referencing embedded strings (SELFIES): a 100\% robust
+  molecular string representation.} Mach. Learn.: Sci. Technol. 2020, 1,
+  045024, doi:10.1088/2632-2153/aba947.
 \item
   \emph{NCBI PMC Open Access Subset.} National Library of Medicine.
 \item
-  \emph{Chemotion repository / RADAR4Chem},
-  doi:10.22000/OGoEQGlsZGElrgst.
+  \emph{Chemotion repository / RADAR4Chem: FT-IR spectroscopy data},
+  2024, doi:10.22000/OGoEQGlsZGElrgst.
 \item
   \emph{NIST Chemistry WebBook}, SRD 69.
 \item
   Rogers, D.; Hahn, M. \emph{Extended-connectivity fingerprints.} J.
-  Chem. Inf. Model. 2010, 50, 742.
+  Chem. Inf. Model. 2010, 50, 742--754, doi:10.1021/ci100050t.
 \item
-  Wang, X. et al.~\emph{Self-consistency improves chain-of-thought
-  reasoning.} ICLR 2023.
+  Wang, X.; Wei, J.; Schuurmans, D.; Le, Q.; Chi, E.; Narang, S.;
+  Chowdhery, A.; Zhou, D. \emph{Self-consistency improves
+  chain-of-thought reasoning in language models.} ICLR 2023;
+  arXiv:2203.11171.
 \item
+  Hu, F.; Chen, M. S.; Rotskoff, G. M.; Kanan, M. W.; Markland, T. E.
   \emph{Accurate and efficient structure elucidation from routine
   one-dimensional NMR spectra using multitask machine learning.}
   arXiv:2408.08284, 2024.
 \item
-  \emph{NMRTrans: structure elucidation from experimental NMR spectra
-  via set transformers.} arXiv:2602.10158, 2026.
+  Yang, L.; Yang, Z.; Xie, J.; Wang, Y.; Gao, B.; Fu, T.; Wei, X.; Sun,
+  J.; Wu, J.; He, C.; Li, Y.; Gu, Q. \emph{NMRTrans: structure
+  elucidation from experimental NMR spectra via set transformers.}
+  arXiv:2602.10158, 2026.
 \item
   Ottomano, F.; Li, Y.; Ganose, A. M. \emph{NMIRacle: multi-modal
   generative molecular elucidation from IR and NMR spectra.}
   arXiv:2512.19733, 2025.
 \item
-  \emph{SpectraLLM / MolSpectLLM: multimodal language models for
-  molecular structure elucidation from multi-spectral input.}
-  arXiv:2508.08441; arXiv:2509.21861, 2025.
+  Su, Y.; Chen, J.; Jiang, Z.; Zhong, Z.; Wang, L.; Liu, Q.; Zhang, Z.
+  \emph{SpectraLLM: uncovering the ability of LLMs for molecular
+  structure elucidation from multi-spectral data.} arXiv:2508.08441,
+  2025. Shen, S.; Xie, J.; Yang, Z.; Zhang, A.; Sun, S.; Gao, B.; Fu,
+  T.; Qi, B.; Li, Y. \emph{MolSpectLLM: a molecular foundation model
+  bridging spectroscopy, molecule elucidation, and 3D structure
+  generation.} arXiv:2509.21861, 2025.
 \item
-  \emph{Boosting LLM molecular structure elucidation with
-  knowledge-enhanced tree-search reasoning.} arXiv:2506.23056, 2025.
+  Zhuang, X.; Wu, B.; Cui, J.; Feng, K.; Li, X.; Xing, H.; Ding, K.;
+  Zhang, Q.; Chen, H. \emph{Boosting LLMs' molecular structure
+  elucidation with knowledge-enhanced tree-search reasoning.}
+  arXiv:2506.23056, 2025.
 \item
   Smith, S. G.; Goodman, J. M. \emph{Assigning stereochemistry to single
   diastereoisomers by GIAO NMR calculation: the DP4 probability.} J. Am.
-  Chem. Soc. 2010, 132, 12946.
+  Chem. Soc. 2010, 132, 12946--12959, doi:10.1021/ja105035r.
 \item
   Grimblat, N.; Zanardi, M. M.; Sarotti, A. M. \emph{Beyond DP4: an
   improved probability for the stereochemical assignment of isomeric
-  compounds (DP4+).} J. Org. Chem. 2015, 80, 12526.
+  compounds (DP4+).} J. Org. Chem. 2015, 80, 12526--12534,
+  doi:10.1021/acs.joc.5b02396.
 \item
   Pickard, C. J.; Mauri, F. \emph{All-electron magnetic response with
   pseudopotentials: NMR chemical shifts (GIPAW).} Phys. Rev.~B 2001, 63,
-  245101.
+  245101, doi:10.1103/PhysRevB.63.245101.
 \item
   Ashbrook, S. E.; McKay, D. \emph{Combining solid-state NMR
   spectroscopy with first-principles calculations --- a guide to NMR
-  crystallography.} Chem. Commun. 2016, 52, 7186.
+  crystallography.} Chem. Commun. 2016, 52, 7186--7204,
+  doi:10.1039/c6cc02542k.
 \item
-  Guo, K. et al.~\emph{MolPuzzle: a benchmark for molecular structure
-  elucidation with multimodal large language models.} NeurIPS 2024
-  (Datasets and Benchmarks Track).
+  Guo, K.; Nan, B.; Zhou, Y.; Guo, T.; Guo, Z.; Surve, M.; Liang, Z.;
+  Chawla, N. V.; Wiest, O.; Zhang, X. \emph{Can LLMs solve molecule
+  puzzles? A multimodal benchmark for molecular structure elucidation
+  (MolPuzzle).} Advances in Neural Information Processing Systems 37
+  (NeurIPS 2024), Datasets and Benchmarks Track; OpenReview t1mAXb4Cop.
 \item
-  \emph{Benchmarking pretrained molecular embedding models for molecular
-  representation learning.} arXiv:2508.06199, 2025.
+  Praski, M.; Adamczyk, J.; Czech, W. \emph{Benchmarking pretrained
+  molecular embedding models for molecular representation learning.}
+  arXiv:2508.06199, 2025.
 \item
   \emph{Spectral Database for Organic Compounds (SDBS).} National
   Institute of Advanced Industrial Science and Technology (AIST), Japan.
@@ -1375,23 +1400,9 @@ forward-verification re-ranking; training-free throughout.}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={IRexp composition: IR records, NMR-paired, structure-linked, and full IR+\^{}1H+\^{}\{13\}C+structure quadruples.}]{docs/figures/fig4_dataset.png}
-\caption{IRexp composition: IR records, NMR-paired, structure-linked,
-and full IR+\(^1\)H+\(^{13}\)C+structure quadruples.}
-\end{figure}
-
-\begin{figure}
-\centering
 \includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Top-1 and recovered accuracy on IRSpectra-Bench by difficulty (all / simple / complex, n=194) with bootstrap 95\% CIs.}]{docs/figures/fig1_difficulty.png}
 \caption{Top-1 and recovered accuracy on IRSpectra-Bench by difficulty
 (all / simple / complex, n=194) with bootstrap 95\% CIs.}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Accuracy versus molecular size; the monotonic 60\%\$\$7\% top-1 gradient with heavy-atom count.}]{docs/figures/fig2_size.png}
-\caption{Accuracy versus molecular size; the monotonic 60\%\$\to\$7\%
-top-1 gradient with heavy-atom count.}
 \end{figure}
 
 \begin{figure}
@@ -1404,18 +1415,10 @@ nested; underpowered to separate adjacent models at n=24).}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={IRSpectra-Bench-Electrolyte by battery-electrolyte class (n=46): sp\^{}3-C--F easiest (50\%), sulfonyl and nitrile hardest (12\%).}]{docs/figures/fig6_electrolyte.png}
-\caption{IRSpectra-Bench-Electrolyte by battery-electrolyte class
-(n=46): sp\(^3\)-C--F easiest (50\%), sulfonyl and nitrile hardest
-(12\%).}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Forward-verification on a real benchmark regioisomer pair (picolinamide vs nicotinamide): forward-predicted \^{}\{13\}C matches the true isomer (chamfer 0.42 vs 1.30 ppm) --- the LLM analog of NMR-crystallography.}]{docs/figures/fig_mechanism.png}
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Forward-verification on a real benchmark regioisomer pair (picolinamide vs nicotinamide): forward-predicted \^{}\{13\}C matches the true isomer (chamfer 0.42 vs 1.30 ppm) --- an analog of NMR-crystallography.}]{docs/figures/fig_mechanism.png}
 \caption{Forward-verification on a real benchmark regioisomer pair
 (picolinamide vs nicotinamide): forward-predicted \(^{13}\)C matches the
-true isomer (chamfer 0.42 vs 1.30 ppm) --- the LLM analog of
+true isomer (chamfer 0.42 vs 1.30 ppm) --- an analog of
 NMR-crystallography.}
 \end{figure}
 
@@ -1425,6 +1428,35 @@ NMR-crystallography.}
 \caption{Forward-verification inference ladder on the same 60 compounds:
 solver self-ranking \(\to\) + forward-verify \(\to\) + generate-wide
 (23\%/26\%/30\% top-1).}
+\end{figure}
+
+\clearpage
+
+\renewcommand{\thefigure}{S\arabic{figure}}\setcounter{figure}{0}
+
+\section{Supporting Information
+figures}\label{supporting-information-figures-1}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={IRexp composition: IR records, NMR-paired, structure-linked, and full IR+\^{}1H+\^{}\{13\}C+structure quadruples.}]{docs/figures/fig4_dataset.png}
+\caption{IRexp composition: IR records, NMR-paired, structure-linked,
+and full IR+\(^1\)H+\(^{13}\)C+structure quadruples.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Accuracy versus molecular size; the monotonic 60\%\$\$7\% top-1 gradient with heavy-atom count.}]{docs/figures/fig2_size.png}
+\caption{Accuracy versus molecular size; the monotonic 60\%\$\to\$7\%
+top-1 gradient with heavy-atom count.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={IRSpectra-Bench-Electrolyte by battery-electrolyte class (n=46): sp\^{}3-C--F easiest (50\%), sulfonyl and nitrile hardest (12\%).}]{docs/figures/fig6_electrolyte.png}
+\caption{IRSpectra-Bench-Electrolyte by battery-electrolyte class
+(n=46): sp\(^3\)-C--F easiest (50\%), sulfonyl and nitrile hardest
+(12\%).}
 \end{figure}
 
 \end{document}

@@ -1,0 +1,36 @@
+IRexp / IRSpectra-Bench — data licensing and attribution
+=========================================================
+
+This dataset redistributes ONLY extracted numeric data (IR band lists, 1H/13C shift
+lists, and resolved structures as SMILES/SELFIES/InChIKey) together with each record's
+source DOI/accession. No source full text, figures, or PDFs are redistributed.
+
+Two separable, individually-labelled source pools
+-------------------------------------------------
+1. PMC Open-Access Subset  — 119,345 records — CC-BY-4.0
+   https://www.ncbi.nlm.nih.gov/pmc/tools/openftlist/
+2. Chemotion RADAR4Chem FT-IR deposit — 1,888 records — CC-BY-SA-4.0
+   DOI 10.22000/OGoEQGlsZGElrgst   (VERIFY this DOI resolves before release)
+
+The pools are kept separate so downstream users can take the CC-BY pool alone where the
+ShareAlike obligation is unwanted. Any combined or Chemotion-derived redistribution must
+be released under CC-BY-SA-4.0 (the more restrictive compatible licence).
+
+Attribution
+-----------
+Re-users must (a) cite the dataset via its archival Zenodo DOI (see PAPER.md
+"Data and code availability"), and (b) attribute the originating publications via each
+record's `source_doi` field, per CC-BY / CC-BY-SA.
+
+Code
+----
+The code in this repository is released under [TODO: MIT or Apache-2.0 — authors to
+confirm and add a top-level LICENSE file accordingly].
+
+TODO before public release
+--------------------------
+- Add a top-level LICENSE for the code (MIT/Apache-2.0).
+- Either add a per-record `licence` field, or ship the two pools as physically separate
+  files (e.g. irexp_pmc_ccby.jsonl.gz / irexp_chemotion_ccbysa.jsonl.gz) so the
+  "separable pools" claim is literally true on disk.
+- Confirm the Chemotion/RADAR4Chem DOI resolves.

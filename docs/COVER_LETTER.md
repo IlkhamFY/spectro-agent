@@ -14,13 +14,14 @@ demonstration.
 
 **What is new.**
 
-1. **IRexp** — to our knowledge the largest open dataset of *experimental* infrared
-   spectra (121,233 records; 42,842 structure-linked; 40,491 full IR + ¹H + ¹³C +
-   structure quadruples), mined from open-access literature by a browser-free agent
-   and released under permissive licences. Open, structure-linked experimental IR has
-   been a standing gap; IRexp is ~6× the largest comparable open resource and is
-   directly reusable for training the multimodal models that motivate this area
-   (e.g. NMIRacle).
+1. **IRexp** — to our knowledge the largest *permissively-licensed, redistributable*
+   dataset of *experimental* infrared spectra (121,233 records; 42,842 structure-linked;
+   40,491 full IR + ¹H + ¹³C + structure quadruples), mined from open-access literature
+   by a browser-free agent and released under permissive licences. Larger view-only
+   databases exist (AIST SDBS, ~54k FT-IR) but are not bulk-downloadable or
+   redistributable; *open, structure-linked, ML-ready* experimental IR has been a
+   standing gap. IRexp is directly reusable for training the multimodal models that
+   motivate this area (e.g. NMIRacle).
 
 2. **IRSpectra-Bench** — an open, blind, mechanically scored, complexity-stratified
    benchmark of 194 spectrally-validated compounds. Under it, a frontier LLM recovers
@@ -50,7 +51,8 @@ API — only LLM agents under a standard subscription — and all data, agent
 transcripts, predictions, figures, and scoring/mining code are released. This matches
 *Digital Discovery*'s emphasis on open, reproducible computational methodology, and we
 believe the combination of an open dataset, an honestly-scored benchmark that
-reconciles an optimistic prior report, and a training-free method with a clear,
+reconciles an optimistic but non-peer-reviewed industrial report against the
+peer-reviewed benchmark record, and a training-free method with a clear,
 actionable diagnosis will be of broad interest to your readership.
 
 The work is original, not under consideration elsewhere, and all authors approve the
@@ -71,7 +73,8 @@ ilkhamfy@gmail.com
 
 Claims that large language models can "read" spectra and name molecules have outpaced
 the evidence, which rests on small, curated, hinted, NMR-only tests. This work
-supplies what was missing: the largest open experimental-IR dataset, a blind and
+supplies what was missing: the largest permissively-licensed, redistributable
+experimental-IR dataset, a blind and
 mechanically scored benchmark on real literature spectra, and an honest accounting
 that explains the gap between optimistic demonstrations and realistic performance. Its
 central finding — that the binding constraint is *candidate recall*, not verification,

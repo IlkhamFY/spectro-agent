@@ -361,6 +361,8 @@ driver (as used to build prior 10³-scale sets) is not.
 
 \subsubsection{2.3 Contents and licensing}\label{contents-and-licensing}
 
+\textbf{Table 1. IRexp dataset contents and provenance.}
+
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}lr@{}}
 \toprule\noalign{}
@@ -468,6 +470,9 @@ context (formula + IR + ¹H + ¹³C, blind, up to three ranked candidates).
 Over the full \textbf{194-compound benchmark} (134 spectrally-validated
 compounds + the 60 from the controlled rounds), with bootstrap 95\%
 confidence intervals:
+
+\textbf{Table 2. Headline elucidation performance on IRSpectra-Bench
+(n=194)}, overall and by difficulty stratum, with bootstrap 95\% CIs.
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
@@ -606,6 +611,9 @@ A benchmark is only useful if it separates models. On a fixed
 wide capability range, including the newest (Fable 5) --- under the
 identical protocol (Fig. 5):
 
+\textbf{Table 3. Four-model comparison on a fixed 24-compound subset}
+under the identical blind protocol.
+
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}lrrr@{}}
 \toprule\noalign{}
@@ -683,6 +691,9 @@ benchmark} --- overall \textbf{top-1 26\%, recovered 28\%} (12/46 and
 CI is wide and overlaps the headline) --- consistent with the bottleneck
 being a property of the elucidation task rather than of any one chemical
 neighbourhood. The per-class breakdown (Fig. 6) is itself informative:
+
+\textbf{Table 4. Per-class performance on IRSpectra-Bench-Electrolyte
+(n=46).}
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}lrrr@{}}
@@ -772,6 +783,9 @@ uncalibrated verifier carries the inverse problem.
 On the 60 benchmark compounds (126 candidate structures from the solver
 agents):
 
+\textbf{Table 5. Forward-verification decomposition} on the 60
+forward-verify compounds.
+
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}lr@{}}
 \toprule\noalign{}
@@ -813,6 +827,8 @@ ten independent solver agents proposed up to \textbf{six
 regiochemistry-aware candidates per compound}, pooled with the
 originals, and the 65 new candidates were forward-predicted and
 re-ranked as before. The measured result:
+
+\textbf{Table 6. Generate-wide vs original} on the same 60 compounds.
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}lrr@{}}
@@ -1107,6 +1123,15 @@ Scoring used RDKit InChIKey-connectivity matching and Morgan(2, 2048)
 Tanimoto; forward-verification used a symmetric chamfer distance over
 ¹³C peak sets. No model was trained or fine-tuned; no paid API was used.
 
+\emph{Models and versions.} All experiments used Anthropic Claude models
+via the consumer subscription (Claude Code / claude.ai). The §4.4
+comparison spanned, in capability order, Claude Haiku, Claude Sonnet,
+Claude Opus, and Claude Fable 5; the headline benchmark (§4.1) and
+forward-verification (§5) used Claude Opus. Exact model snapshot
+identifiers and the access window are recorded in
+\texttt{docs/MODELS.md} so the benchmark can be re-run against the same
+checkpoints.
+
 \textbf{Reproducibility.} Every round is frozen: questions, ground-truth
 answers, per-agent raw outputs, predictions, and scorer outputs are
 released, and the sampler, scorer, and forward-verification harness are
@@ -1194,8 +1219,32 @@ scaffold-enumeration study
 (\texttt{scripts/modality\_ablation.py},
 \texttt{docs/MODALITY\_ABLATION.md}), and the blinded expert-audit
 package (\texttt{data/audit/}, \texttt{docs/EXPERT\_AUDIT\_PROTOCOL.md})
-are released likewise. A persistent archival DOI for the dataset will be
-minted on submission.
+are released likewise. \textbf{Archival deposit:} a complete frozen
+snapshot (dataset, benchmark, answer keys, predictions, scripts,
+figure-regeneration, and the expert-audit package) will be archived on
+Zenodo under DOI \textbf{{[}TODO: 10.5281/zenodo.XXXXXXX --- mint on
+submission{]}}; the GitHub repository is the development mirror and the
+Zenodo record the citable version of record. (The held-out answer keys
+\texttt{data/audit/key.jsonl} and \texttt{data/modality/key.json} are
+deposited but flagged ``withhold from blinded reviewers''.)
+
+\subsection{Licensing and attribution}\label{licensing-and-attribution}
+
+IRexp is derived from two open-access source pools and redistributed
+under terms compatible with each (see \texttt{data/NOTICE}). \textbf{(a)
+Redistribution:} we release only \emph{extracted numeric data} --- IR
+band lists, ¹H/¹³C shift lists, and resolved structures
+(SMILES/SELFIES/InChIKey) --- plus each record's source DOI/accession,
+not source full text, figures, or PDFs. \textbf{(b) Two separable
+pools:} 119,345 records derive from the PMC Open-Access Subset
+(\textbf{CC-BY-4.0}) and 1,888 from the Chemotion RADAR4Chem FT-IR
+deposit (\textbf{CC-BY-SA-4.0}); the pools are kept separate and
+individually labelled, so users may take the CC-BY pool alone, while any
+combined or Chemotion-derived release carries CC-BY-SA-4.0 to honour the
+ShareAlike term. Code is released under {[}TODO: MIT / Apache-2.0 ---
+authors to confirm{]}. \textbf{(c) Attribution:} re-users must cite this
+dataset (Zenodo DOI above) and attribute the original publications via
+each record's \texttt{source\_doi}.
 
 \subsection{Author Contributions}\label{author-contributions}
 

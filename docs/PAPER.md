@@ -208,6 +208,8 @@ is not.
 
 ### 2.3 Contents and licensing
 
+**Table 1. IRexp dataset contents and provenance.**
+
 | field | value |
 |---|--:|
 | experimental IR records | **121,233** |
@@ -289,6 +291,8 @@ Decoupled per-compound agents solve each problem in an independent context
 (formula + IR + ¹H + ¹³C, blind, up to three ranked candidates). Over the full
 **194-compound benchmark** (134 spectrally-validated compounds + the 60 from the
 controlled rounds), with bootstrap 95% confidence intervals:
+
+**Table 2. Headline elucidation performance on IRSpectra-Bench (n=194)**, overall and by difficulty stratum, with bootstrap 95% CIs.
 
 | metric | overall (n=194) | simple (n=98) | complex (n=96) |
 |---|--:|--:|--:|
@@ -379,6 +383,8 @@ A benchmark is only useful if it separates models. On a fixed 24-compound subset
 solved blind by four Claude models — spanning a wide capability range, including the
 newest (Fable 5) — under the identical protocol (Fig. 5):
 
+**Table 3. Four-model comparison on a fixed 24-compound subset** under the identical blind protocol.
+
 | model | top-1 | recovered | top-1 95% CI |
 |---|--:|--:|--:|
 | Claude Fable 5 | **45%** | 54% | [25, 67] |
@@ -439,6 +445,8 @@ parseable candidate; at n=46 the 95% CI is wide and overlaps the headline) —
 consistent with the bottleneck being a property of the elucidation task rather than
 of any one chemical neighbourhood. The per-class
 breakdown (Fig. 6) is itself informative:
+
+**Table 4. Per-class performance on IRSpectra-Bench-Electrolyte (n=46).**
 
 | electrolyte class | n | top-1 | recovered (top-3) |
 |---|--:|--:|--:|
@@ -508,6 +516,8 @@ problem.
 
 On the 60 benchmark compounds (126 candidate structures from the solver agents):
 
+**Table 5. Forward-verification decomposition** on the 60 forward-verify compounds.
+
 | | value |
 |---|--:|
 | generation recall (true structure among candidates) | **31%** |
@@ -535,6 +545,8 @@ tested it directly: ten independent solver agents proposed up to **six
 regiochemistry-aware candidates per compound**, pooled with the originals, and the
 65 new candidates were forward-predicted and re-ranked as before. The measured
 result:
+
+**Table 6. Generate-wide vs original** on the same 60 compounds.
 
 | | original | generate-wide |
 |---|--:|--:|
@@ -772,6 +784,13 @@ matching and Morgan(2, 2048) Tanimoto; forward-verification used a symmetric cha
 distance over ¹³C peak sets. No model was trained or fine-tuned; no paid API was
 used.
 
+*Models and versions.* All experiments used Anthropic Claude models via the consumer
+subscription (Claude Code / claude.ai). The §4.4 comparison spanned, in capability
+order, Claude Haiku, Claude Sonnet, Claude Opus, and Claude Fable 5; the headline
+benchmark (§4.1) and forward-verification (§5) used Claude Opus. Exact model snapshot
+identifiers and the access window are recorded in `docs/MODELS.md` so the benchmark can
+be re-run against the same checkpoints.
+
 **Reproducibility.** Every round is frozen: questions, ground-truth answers,
 per-agent raw outputs, predictions, and scorer outputs are released, and the sampler,
 scorer, and forward-verification harness are scripted end-to-end.
@@ -828,7 +847,27 @@ study (`scripts/analyze_recall_headroom.py`, `scripts/enumerate_isomers.py`,
 `scripts/closing_the_gap.py`), the modality-ablation harness
 (`scripts/modality_ablation.py`, `docs/MODALITY_ABLATION.md`), and the blinded
 expert-audit package (`data/audit/`, `docs/EXPERT_AUDIT_PROTOCOL.md`) are released
-likewise. A persistent archival DOI for the dataset will be minted on submission.
+likewise. **Archival deposit:** a complete frozen snapshot (dataset, benchmark, answer
+keys, predictions, scripts, figure-regeneration, and the expert-audit package) will be
+archived on Zenodo under DOI **[TODO: 10.5281/zenodo.XXXXXXX — mint on submission]**;
+the GitHub repository is the development mirror and the Zenodo record the citable
+version of record. (The held-out answer keys `data/audit/key.jsonl` and
+`data/modality/key.json` are deposited but flagged "withhold from blinded reviewers".)
+
+## Licensing and attribution
+
+IRexp is derived from two open-access source pools and redistributed under terms
+compatible with each (see `data/NOTICE`). **(a) Redistribution:** we release only
+*extracted numeric data* — IR band lists, ¹H/¹³C shift lists, and resolved structures
+(SMILES/SELFIES/InChIKey) — plus each record's source DOI/accession, not source full
+text, figures, or PDFs. **(b) Two separable pools:** 119,345 records derive from the PMC
+Open-Access Subset (**CC-BY-4.0**) and 1,888 from the Chemotion RADAR4Chem FT-IR deposit
+(**CC-BY-SA-4.0**); the pools are kept separate and individually labelled, so users may
+take the CC-BY pool alone, while any combined or Chemotion-derived release carries
+CC-BY-SA-4.0 to honour the ShareAlike term. Code is released under
+[TODO: MIT / Apache-2.0 — authors to confirm]. **(c) Attribution:** re-users must cite
+this dataset (Zenodo DOI above) and attribute the original publications via each record's
+`source_doi`.
 
 ## Author Contributions
 

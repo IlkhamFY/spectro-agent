@@ -1,32 +1,33 @@
-# spectro-agent
+# spectro-agent — IRexp · IRSpectra-Bench · forward-verification
 
-**An efficient agent that harvests paired ¹H / ¹³C NMR + IR spectra from public
-chemistry papers — in the exact format the [Spectro](https://chemrxiv.org/doi/full/10.26434/chemrxiv-2024-37v2j)
-molecule-elucidation model consumes.**
+**An open, blind benchmark for LLM molecular structure elucidation from real spectra —
+together with the literature-mined dataset (IRexp) and the training-free
+forward-verification method behind it.** A frontier LLM recovers the exact constitution
+of ~28% of *real, blind* IR + ¹H + ¹³C spectra; we show the binding constraint is
+candidate **recall**, not verification.
 
-Built on [Scrapling](https://github.com/D4Vinci/Scrapling) for Cloudflare-proof,
-**browser-free** fetching, with OPSIN/RDKit/SELFIES to close the loop from a
-reported compound all the way to a training-ready `(spectra → structure)` pair.
+📄 **Manuscript:** [`docs/paper.pdf`](docs/paper.pdf) · source [`docs/PAPER.md`](docs/PAPER.md)
+&nbsp;|&nbsp; 🎬 **Spectra-mining demo:** [`DEMO.md`](DEMO.md) (`python scripts/demo.py`)
 
-> 🎬 **See it run:** [**DEMO.md**](DEMO.md) — a recorded end-to-end walkthrough of
-> the agent parsing one public paper into 29 structured spectra (20 full
-> multimodal), in seconds. `python scripts/demo.py`
+Built with [Scrapling](https://github.com/D4Vinci/Scrapling) (Cloudflare-proof,
+browser-free mining) + OPSIN/RDKit/SELFIES, and Claude agents under a consumer
+subscription — no fine-tuning, no paid API.
 
 ---
 
 ## What's in this repository
 
-This repo began as the spectra-harvesting agent documented below (§1–8), and now also
-holds the **full study built on that data** — an open dataset, a blind benchmark, a
-training-free elucidation method, and the manuscript:
+This repository holds the full study — an open dataset, a blind benchmark, a
+training-free elucidation method, and the manuscript — together with the literature-mining
+agent that builds the dataset (documented in §1–8 below):
 
 | Component | Where |
 |---|---|
 | **Manuscript** — *An open multimodal benchmark for LLM molecular structure elucidation…* | [`docs/PAPER.md`](docs/PAPER.md) · [`docs/paper.pdf`](docs/paper.pdf) |
-| **IRexp** — largest open experimental-IR dataset (121,233 records; 42,842 structure-linked) | [`data/irexp/`](data/irexp), [`data/irexp_resolved/`](data/irexp_resolved) |
+| **IRexp** — largest *permissively-licensed* experimental-IR dataset (121,233 records; 42,842 structure-linked) | [`data/irexp/`](data/irexp), [`data/irexp_resolved/`](data/irexp_resolved) |
 | **IRSpectra-Bench** — blind, complexity-stratified benchmark (194 compounds) + electrolyte subset | [`data/benchmark*/`](data), [`docs/BENCHMARK.md`](docs/BENCHMARK.md) |
 | **Forward-verification elucidation** — training-free generator–verifier method | [`scripts/forward_verify.py`](scripts/forward_verify.py), [`docs/FORWARD_VERIFY.md`](docs/FORWARD_VERIFY.md) |
-| **Figures** (8 + graphical abstract) — fully regenerable | [`docs/figures/`](docs/figures), `scripts/make_*.py`, `scripts/build_pdf.py` |
+| **Figures** (5 main + 3 SI + graphical abstract) — fully regenerable | [`docs/figures/`](docs/figures), `scripts/make_*.py`, `scripts/build_pdf.py` |
 | **Expert-audit package** — blinded, reproducible human-validation kit | [`data/audit/`](data/audit), [`docs/EXPERT_AUDIT_PROTOCOL.md`](docs/EXPERT_AUDIT_PROTOCOL.md) |
 | **Submission** — cover letter, TOC text, checklist | [`docs/COVER_LETTER.md`](docs/COVER_LETTER.md), [`docs/SUBMISSION.md`](docs/SUBMISSION.md) |
 | **Mining agent** (how IRexp is built; §1–8 below) | [`spectro_scraper/`](spectro_scraper) |

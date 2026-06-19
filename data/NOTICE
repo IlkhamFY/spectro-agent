@@ -24,12 +24,10 @@ record's `source_doi` field, per CC-BY / CC-BY-SA.
 
 Code
 ----
-The code in this repository is released under [TODO: MIT or Apache-2.0 — authors to
-confirm and add a top-level LICENSE file accordingly].
+The code in this repository is released under the MIT License (see top-level LICENSE).
 
 TODO before public release
 --------------------------
-- Add a top-level LICENSE for the code (MIT/Apache-2.0).
 - Either add a per-record `licence` field, or ship the two pools as physically separate
   files (e.g. irexp_pmc_ccby.jsonl.gz / irexp_chemotion_ccbysa.jsonl.gz) so the
   "separable pools" claim is literally true on disk.

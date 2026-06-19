@@ -797,7 +797,7 @@ distance over ¹³C peak sets. No model was trained or fine-tuned; no paid API w
 used.
 
 *Models and versions.* All experiments used Anthropic Claude models via the consumer
-subscription (Claude Code / claude.ai). The §4.4 comparison spanned, in capability
+subscription (claude.ai). The §4.4 comparison spanned, in capability
 order, Claude Haiku, Claude Sonnet, Claude Opus, and Claude Fable 5; the headline
 benchmark (§4.1) and forward-verification (§5) used Claude Opus. Exact model snapshot
 identifiers and the access window are recorded in `docs/MODELS.md` so the benchmark can
@@ -850,9 +850,8 @@ scored by `scripts/score_electrolyte.py`); the ground-truth integrity audit
 forward-verification and generate-wide experiments (`data/fverify/`, `data/gw/`,
 `data/fverify2/`, `scripts/forward_verify.py`); the deterministic HOSE-code verifier
 ablation (`scripts/hose_predict.py`, `data/fverify/hose_results.txt`); and the
-mining/resolution pipeline
-(`scripts/`). Companion technical notes: `docs/BENCHMARK.md`, `docs/BENCHMARK_v2.md`,
-`docs/BENCHMARK_v3.md`, `docs/FORWARD_VERIFY.md`, and `data/SPECTRO_TRAINING_DATA.md`.
+dataset-mining pipeline (`spectro_scraper/`). Companion technical notes:
+`docs/BENCHMARK.md` and `docs/FORWARD_VERIFY.md`.
 The verifier negative-control and selective-prediction analyses
 (`scripts/verifier_diagnostics.py`), the recall-headroom and scaffold-enumeration
 study (`scripts/analyze_recall_headroom.py`, `scripts/enumerate_isomers.py`,
@@ -876,8 +875,7 @@ text, figures, or PDFs. **(b) Two separable pools:** 119,345 records derive from
 Open-Access Subset (**CC-BY-4.0**) and 1,888 from the Chemotion RADAR4Chem FT-IR deposit
 (**CC-BY-SA-4.0**); the pools are kept separate and individually labelled, so users may
 take the CC-BY pool alone, while any combined or Chemotion-derived release carries
-CC-BY-SA-4.0 to honour the ShareAlike term. Code is released under
-[TODO: MIT / Apache-2.0 — authors to confirm]. **(c) Attribution:** re-users must cite
+CC-BY-SA-4.0 to honour the ShareAlike term. Code is released under the MIT License. **(c) Attribution:** re-users must cite
 this dataset (Zenodo DOI above) and attribute the original publications via each record's
 `source_doi`.
 

@@ -1,9 +1,0 @@
-{
-  "unique_records": 1922,
-  "supervised_pairs_total": 426,
-  "train": 341,
-  "test": 85,
-  "supervised_with_ir": 133,
-  "supervised_with_nist_curve": 1,
-  "pretrain_nmr_pool": 1922
-}

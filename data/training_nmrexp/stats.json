@@ -1,7 +1,0 @@
-{
-  "records": 100000,
-  "source": "NMRexp Zenodo 17296666",
-  "has_structure": 100000,
-  "has_ir": 0,
-  "note": "NMR+structure from NMRexp (their validated peak parse); IR to be joined by InChIKey"
-}

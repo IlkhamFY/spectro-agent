@@ -1,7 +1,7 @@
 # Generator–verifier elucidation: forward-predict to break the regiochemistry wall
 
 **Idea.** Inverse elucidation (spectra→structure) is the model's *hard* direction
-and is isomer-blind on 1D data (BENCHMARK_v2/v3). But the **forward** direction
+and is isomer-blind on 1D data. But the **forward** direction
 (structure→spectrum) is its *easy* direction — Anthropic measured Opus at ~1.4 ppm
 ¹³C, beating commercial tools. And **regioisomers have different predicted ¹³C
 shifts.** So invert the asymmetry: let the solver propose candidates, then *verify*

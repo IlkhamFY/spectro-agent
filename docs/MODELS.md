@@ -1,7 +1,7 @@
 # Models and versions
 
 All experiments used Anthropic Claude models accessed via the Claude consumer
-subscription (Claude Code / claude.ai), invoked as independent sub-agents — no API, no
+subscription (claude.ai), invoked as independent sub-agents — no API, no
 fine-tuning. For reproducibility, record the exact model snapshot identifiers and the
 access window here before submission. **[TODO: authors fill in the bracketed values —
 do not guess.]**
@@ -15,7 +15,7 @@ do not guess.]**
 | cross-model comparison (§4.4) | Claude Haiku | `claude-haiku-[TODO]` | weakest (0% top-1) |
 
 - **Access window:** [TODO: START–END, e.g. February–May 2026].
-- **Harness:** Claude Code sub-agents (decoupled per-compound contexts; closed-book).
+- **Harness:** consumer-subscription sub-agents (decoupled per-compound contexts; closed-book).
 - Replace the bracketed identifiers with the exact snapshot strings actually used so the
   benchmark can be re-run against the same checkpoints. These are not stated in the
   manuscript or build scripts and must be supplied by the authors.

@@ -501,6 +501,18 @@ SMILES alone (candidates shuffled and anonymised so isomers of one target never
 co-occur; pure reasoning, no tools), and matched predicted to observed ¹³C with a
 symmetric chamfer distance over peak sets.
 
+For balance — and because conditional precision is 72–84%, not 100% — the verifier also
+produces clear **false positives** on near-degenerate pairs. On the
+2-(nitrophenyl)-2,3-dihydroquinazolin-4(1*H*)-one targets (C₁₄H₁₁N₃O₃), the forward
+predictor cannot separate the *ortho*- and *meta*-nitrophenyl regioisomers: their
+predicted ¹³C lie within its ~2 ppm error, and it ranks the wrong (2-nitrophenyl) isomer
+first by a chamfer of 1.35 ppm versus 1.36 ppm for the true (3-nitrophenyl) one — a
+0.01 ppm margin, i.e. effectively a coin flip. This is the precision-loss mechanism of
+§5.3 made concrete: when candidates are near-degenerate the cheap predictor cannot
+resolve them, and it is exactly these cases — not generation failures — that a sharper
+(DFT-level) or 2D-NMR-grounded verifier would need to fix. We report it alongside the
+success so the gain is read against its failure mode, not in isolation.
+
 Conceptually this is **analogous to NMR-crystallography logic, with an LLM in place of
 the quantum chemistry** — an analogy, not an equivalence: where DP4/DP4+ rank candidates
 by GIAO-DFT shifts¹⁶ ¹⁷ and NMR crystallography adjudicates polymorphs and connectivity

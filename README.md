@@ -18,6 +18,8 @@ recall, not verification; a training-free generate-and-verify step lifts top-1 f
   subset: blind questions, answer keys, and model predictions.
 - `data/fverify/`, `data/gw/` - forward-verification and generate-wide results.
 - `data/audit/`, `docs/EXPERT_AUDIT_PROTOCOL.md` - blinded expert-validation kit.
+- `docs/CROSS_VENDOR.md` - turnkey protocol to replicate the recall/verification
+  decomposition on other vendors (GPT, Gemini, open-weight).
 - `scripts/` - scoring, forward-verification, and figure/PDF regeneration.
 - `spectro_scraper/` - the dataset-mining pipeline.
 

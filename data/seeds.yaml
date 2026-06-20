@@ -1,0 +1,31 @@
+# Curated open-access seed papers for the Spectro spectra harvest.
+#
+# Selected by an automated IR x NMR co-occurrence scan over Beilstein J. Org.
+# Chem. (gold OA, CC-BY). `paired` = compounds reporting BOTH NMR and IR -- the
+# ideal Spectro training sample. Counts are indicative (from the scan) and may
+# drift slightly as the extractor improves.
+#
+#   run:  python -m spectro_scraper.cli --seeds data/seeds.yaml --target 150
+
+dois:
+  # ---- IR-rich (paired NMR + IR) -------------------------------------------
+  - doi: 10.3762/bjoc.20.188   # paired~21  IR~21  NMR~59   <- richest paired source
+  - doi: 10.3762/bjoc.17.181   # paired~7   IR~7   NMR~82   <- richest NMR source
+  - doi: 10.3762/bjoc.15.263   # paired~9   IR~9   NMR~18
+  - doi: 10.3762/bjoc.16.15    # paired~9   IR~9   NMR~14
+  - doi: 10.3762/bjoc.12.104   # paired~10  IR~10  NMR~12
+  - doi: 10.3762/bjoc.10.130   # paired~8   IR~8   NMR~8
+  - doi: 10.3762/bjoc.14.87    # paired~6   IR~6   NMR~6
+  - doi: 10.3762/bjoc.17.22    # paired~2   IR~2   NMR~17
+  - doi: 10.3762/bjoc.18.147   # IR~12  NMR~12  (Bruker δH/δC notation)
+
+  # ---- High-volume NMR (IR absent, still valid Spectro input) ---------------
+  - doi: 10.3762/bjoc.8.231    # NMR~42
+  - doi: 10.3762/bjoc.16.139   # NMR~42
+  - doi: 10.3762/bjoc.21.210   # NMR~39
+  - doi: 10.3762/bjoc.19.136   # NMR~34
+  - doi: 10.3762/bjoc.15.47    # NMR~29
+
+  # ---- ChemRxiv (the task's named source; Cloudflare-gated, fetched via
+  #      Scrapling TLS impersonation). The Spectro preprint itself. -----------
+  - doi: 10.26434/chemrxiv-2024-37v2j   # Spectro paper (demonstrates ChemRxiv path)

@@ -1,0 +1,34 @@
+
+=== ELUCIDATION BENCHMARK (21 compounds, IR+1H+13C+formula, blind) ===
+
+qid  bucket         exact  stereo Tanimoto  predicted
+Q01  medium (18-28) ·      ·      0.227    O=[N+]([O-])c1cc(C(F)(F)F)ccc1OCCNc1ccc(Cl)cc1
+Q02  large (>28)    ·      ·      0.511    O=C(NCc1ccccc1)c1cccnc1[Se][Se]c1ncccc1C(=O)NC
+Q03  medium (18-28) ·      ·      0.5      O=C1CCN(C(=O)OC(C)(C)C)C1CCc1ccccc1
+Q04  small (<18)    YES    YES    1.0      O=Cc1n[nH]c2ccc(Br)cc12
+Q05  large (>28)    ·      ·      0.246    Cc1ccc(-c2cc(-c3ccccc3)nc(N)c2C#N)cc1
+Q06  large (>28)    ·      ·      0.735    CCC(=O)Oc1cc(OC(=O)CC)c2c(=O)cc(-c3ccccc3)oc2c
+Q07  large (>28)    ·      ·      0.4      CCOP(=O)(OCC)C(Cc1ccccc1)NC(=O)C(N)CC(C)C
+Q08  small (<18)    ·      ·      0.302    CCCC=C(CC)c1ccccc1C
+Q09  medium (18-28) ·      ·      0.419    O=C1NCC(Oc2ccccc2)c2ccccc21
+Q10  medium (18-28) ·      ·      0.209    CCOC(=O)CNC(=O)c1cccc(-c2ccc([N+](=O)[O-])cc2[
+Q11  large (>28)    ·      ·      0.161    OC(=O)c1ccccc1SCCCCCCCCCCCCCCN
+Q12  large (>28)    ·      ·      0.227    COc1ccccc1C(=Cc1ccc(Cl)cc1)c1cc2ccccc2cc1OC
+Q13  small (<18)    ·      ·      0.26     CC(=O)N(C)c1ccccc1SC#N
+Q14  medium (18-28) ·      ·      0.353    O=c1[nH]c(-c2ccc(F)cc2)nc2ccccc12
+Q15  small (<18)    ·      ·      0.05     CC(=O)C(C#N)=CC=C(C)C
+Q16  small (<18)    ·      ·      0.183    O=C1SC(=Cc2ccccc2Br)C(=O)N1CC=C
+Q17  medium (18-28) ·      ·      0.269    O=C(Cn1ccc2ccccc21)n1ccnc1-c1ccccc1
+Q18  medium (18-28) ·      ·      0.385    Nc1nc(-c2ccccc2)nc(-c2ccc(C)cc2)n1
+Q19  large (>28)    ·      ·      0.211    OC(=O)Cn1c(C)cc(C)c1/C=N/c1ccc(Br)cc1
+Q20  small (<18)    ·      ·      0.575    COc1ccc(C(=O)OCC#C)cc1
+Q21  small (<18)    ·      ·      0.596    O=C(NNC(=S)NCC=C)c1cccnc1
+
+exact constitution match : 1/21  (4%)
+exact incl. stereochem    : 1/21  (4%)
+mean Tanimoto (Morgan)    : 0.372
+
+by molecule size:
+  small (<18)    exact 1/7 (14%)   meanTani 0.424
+  medium (18-28) exact 0/7 (0%)   meanTani 0.337
+  large (>28)    exact 0/7 (0%)   meanTani 0.356

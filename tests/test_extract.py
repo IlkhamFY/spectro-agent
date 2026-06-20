@@ -1,0 +1,185 @@
+"""
+Unit tests for the extraction + normalisation engine.
+
+These use *golden strings* drawn from the real reporting conventions seen across
+Beilstein / ChemRxiv / RSC papers -- including the Spectro paper's own example
+-- so the parser's behaviour is pinned without needing the network.
+"""
+
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from spectro_scraper.extract import (  # noqa: E402
+    extract_records, parse_h_peaks, parse_c_peaks, normalize_text,
+)
+from spectro_scraper.normalize import to_spectro_h, to_spectro_c  # noqa: E402
+
+
+# Standard ACS/RSC format: "1H NMR (...) δ ... 13C NMR (...) δ ... IR ..."
+ACS = (
+    "4-phenylbutan-2-one (3a). Colorless oil (85% yield). "
+    "1H NMR (400 MHz, CDCl3) δ 7.85 (d, J = 8.0 Hz, 2H), 7.29-7.51 (m, 5H), "
+    "2.96 (t, J = 7.5 Hz, 2H), 2.13 (s, 3H). "
+    "13C NMR (101 MHz, CDCl3) δ 208.1, 141.2, 128.5, 126.1, 45.3, 30.1. "
+    "IR (neat) ν 3024, 1715, 1602, 1452 cm-1. "
+    "HRMS (ESI) calcd for C10H12O 148.0888."
+)
+
+# Bruker δH / δC notation with '=' and assignment labels, IR before NMR.
+BRUKER = (
+    "Mp = 263 C; IR (ATR): 3295, 2922, 1715, 1670, 1599 cm-1; "
+    "δH(400 MHz, DMSO-d6): 9.10 (s, 1H, NH), 7.78 (ddd, J = 7.8, 1.4 Hz, 1H, 6-H), "
+    "7.54-7.49 (m, 5H, H arom). "
+    "δC(101 MHz, DMSO-d6): 165.2, 143.1, 128.7, 122.4."
+)
+
+# The Spectro paper's own canonical example (13C before 1H, count-first format).
+SPECTRO = (
+    "13C NMR (101 MHz, CDCl3) δ 73.9, 94.8, 126.5, 127.8, 128.4, 134.6. "
+    "1H NMR (400 MHz, CDCl3) δ 5.47 (s, 1H), 7.29-7.51 (m, 5H)."
+)
+
+# A product compound with a *combinatorial two-letter label* "(3ab)" (substrate a
+# x reagent b) and a multi-line synthesis procedure sitting between the header and
+# the spectra -- the dominant layout for the IR-bearing products in methodology
+# papers. The name must still attach to the spectra across the procedure.
+PRODUCT = (
+    "N-Benzyl-5-(3-phenyl-1,2,4-oxadiazol-5-yl)-[1,1'-biphenyl]-3-amine (3ab). "
+    "According to general procedure A: to a solution of 1,3-diketone 1a "
+    "(0.45 mmol) and benzylamine (0.50 mmol) in acetone (5 mL) was added "
+    "TsOH (10 mol%); the mixture was stirred at 60 C for 12 h, concentrated, "
+    "and purified by flash chromatography to give a yellow solid (78%). "
+    "1H NMR (400 MHz, CDCl3) δ 8.18 (d, J = 7.7 Hz, 2H), 7.55-7.40 (m, 8H), "
+    "4.48 (s, 2H). "
+    "13C NMR (101 MHz, CDCl3) δ 176.2, 169.1, 148.5, 143.6, 48.9. "
+    "IR (mineral oil), cm-1: 3432, 1613, 1581, 1562. "
+    "Anal. Calcd for C27H21N3O."
+)
+
+
+def test_acs_single_compound():
+    recs = extract_records(ACS)
+    assert len(recs) == 1
+    r = recs[0]
+    assert r.h_nmr and r.c_nmr and r.ir
+    assert r.has_paired
+    assert len(r.h_peaks) == 4
+    assert len(r.c_peaks) == 6
+    assert 1715.0 in r.ir_bands and 3024.0 in r.ir_bands
+
+
+def test_h_peak_parsing():
+    peaks = parse_h_peaks("7.85 (d, J = 8.0 Hz, 2H), 2.13 (s, 3H)")
+    assert peaks[0].shift == "7.85"
+    assert peaks[0].multiplicity == "d"
+    assert peaks[0].nuclei == 2
+    assert peaks[0].j == [8.0]
+    assert peaks[1].nuclei == 3 and peaks[1].multiplicity == "s"
+
+
+def test_c_peak_parsing():
+    peaks = parse_c_peaks("208.1, 141.2, 128.7 (q, J = 282.0 Hz)")
+    assert [p.shift for p in peaks] == ["208.1", "141.2", "128.7"]
+    assert peaks[2].multiplicity == "q"
+    assert peaks[2].j == [282.0]
+
+
+def test_bruker_delta_notation():
+    recs = extract_records(BRUKER)
+    assert len(recs) == 1
+    r = recs[0]
+    assert r.h_nmr and r.c_nmr, "δH/δC notation must be recognised"
+    assert r.has_ir and 1715.0 in r.ir_bands
+    assert r.mp is not None
+
+
+def test_spectro_example_single_record():
+    recs = extract_records(SPECTRO)
+    # 13C-then-1H ordering must still collapse to ONE compound
+    assert len(recs) == 1
+    r = recs[0]
+    assert r.h_nmr and r.c_nmr
+
+
+def test_spectro_format_ordering():
+    recs = extract_records(ACS)
+    sh = to_spectro_h(recs[0])
+    sc = to_spectro_c(recs[0])
+    # integration-first, Spectro-style: "7.85 (2H, d)"
+    assert "(2H, d)" in sh
+    assert "(3H, s)" in sh
+    assert sc.startswith("δ ") and "(1C, s)" in sc
+
+
+def test_two_compounds_segmented():
+    text = ACS + " Next compound. " + ACS.replace("3a", "3b")
+    recs = extract_records(text)
+    assert len(recs) == 2
+
+
+def test_product_two_letter_label_with_procedure():
+    recs = [r for r in extract_records(PRODUCT) if r.has_nmr]
+    assert len(recs) == 1
+    r = recs[0]
+    assert r.label == "3ab", f"two-letter product label lost: {r.label!r}"
+    assert r.name and r.name.startswith("N-Benzyl-5-"), (
+        f"name not captured across the procedure: {r.name!r}")
+    assert r.h_nmr and r.c_nmr and r.has_ir
+    assert 3432.0 in r.ir_bands
+
+
+def test_normalize_dehyphenation():
+    assert "crosscoupling" in normalize_text("cross-\ncoupling reaction")
+
+
+# Main-text PMC convention: a *letter-prefixed* series label "(B1):" (not the
+# digit-first "(3a)" of SI), preceded by a procedure sentence. This layout
+# dominates the open-access corpus and was previously dropping the name entirely.
+PMC_LETTER_LABEL = (
+    "the product was filtered and recrystallized from ethanol. "
+    "N-Phenyl-2-[4-(piperidin-1-yl)benzylidene]hydrazine-1-carbothioamide (B1): "
+    "Yield 68%, m.p. 182-184 C. FTIR (ATR, cm-1): 3300 (N-H), 3134, 1591-1444. "
+    "1H-NMR (300 MHz, DMSO-d6, ppm) δ 8.05 (1H, s, N=CH), 9.95 (1H, s, NH). "
+    "13C-NMR (75 MHz, DMSO-d6, ppm) δ 24.37, 48.85, 175.55."
+)
+
+
+def test_pmc_letter_prefixed_label():
+    recs = [r for r in extract_records(PMC_LETTER_LABEL) if r.has_nmr]
+    assert len(recs) == 1
+    r = recs[0]
+    assert r.label == "B1", f"letter-prefixed label lost: {r.label!r}"
+    assert r.name and r.name.startswith("N-Phenyl-2-"), (
+        f"name not captured next to letter label: {r.name!r}")
+
+
+def test_clean_name_strips_narrative_lead_in():
+    from spectro_scraper.extract import _clean_name
+    # narrative colon lead-in (main-text experimental prose)
+    assert _clean_name(
+        "The physical data of the compounds 7a-c are as follows: "
+        "4-Fluorophenyl benzoate") == "4-Fluorophenyl benzoate"
+    # stacked connective + "characterization of"
+    assert _clean_name("and Characterization of 3-Chloroquinoxalin-2-amine") == \
+        "3-Chloroquinoxalin-2-amine"
+    # locant spaces + fluoro typo repaired for OPSIN
+    assert _clean_name("1, 3, 5-triazine") == "1,3,5-triazine"
+    assert "fluoro" in _clean_name("4-flourophenol")
+
+
+if __name__ == "__main__":
+    import traceback
+    fns = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
+    passed = 0
+    for fn in fns:
+        try:
+            fn()
+            print(f"PASS {fn.__name__}")
+            passed += 1
+        except Exception:
+            print(f"FAIL {fn.__name__}")
+            traceback.print_exc()
+    print(f"\n{passed}/{len(fns)} tests passed")
+    sys.exit(0 if passed == len(fns) else 1)

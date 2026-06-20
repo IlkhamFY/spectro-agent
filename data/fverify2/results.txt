@@ -1,0 +1,17 @@
+GENERATE-WIDE + FORWARD-VERIFICATION (expanded pool, 60 compounds)
+
+                                          original      generate-wide
+recall (true structure in candidate set)   19/60 (31%)   25/60 (41%)
+forward-verified top-1                      16/60 (26%)   18/60 (30%)
+self-rank top-1 (baseline)                  14/60 (23%)        -
+verification precision (cond. on recall)    16/19 (84%)   18/25 (72%)
+
+Method: 10 Opus agents proposed up to 6 regiochemistry-aware candidates/compound
+(pooled with the original <=3). 65 new candidates forward-predicted (13C, blind,
+pure reasoning) and re-ranked by chamfer match to observed 13C.
+
+Finding: wide generation lifts recall +10 pts and top-1 +7 pts (measured), but
+NOT to the ~50% projected. Two reasons: (1) recall plateaus at 41% -- exotic/large
+compounds (Se-heterocycles, polyaryl ketones, 11-N polyamines) resist even 6
+regio-variants; (2) verification precision falls 84%->72% as more close
+regioisomeric distractors enter the pool. The recall-bound diagnosis holds.

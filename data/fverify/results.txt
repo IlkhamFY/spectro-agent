@@ -1,0 +1,14 @@
+compounds: 60
+  ceiling (true in candidate set): 19/60 (31%)  <- generation recall
+  top-1, solver self-rank:         14/60 (23%)
+  top-1, FORWARD-VERIFIED rerank:  16/60 (26%)
+
+  CONDITIONAL on true-in-set (the verifier's actual job, n=19):
+    solver self-rank picks it: 14/19 (73%)
+    forward-verify picks it:   16/19 (84%)  <- the generator-verifier gap
+
+calibration (verified pick correctness vs forward-match distance):
+  match dist 0-2 ppm: 14/44 correct (31%)
+  match dist 2-4 ppm: 0/8 correct (0%)
+  match dist 4-8 ppm: 1/5 correct (20%)
+  match dist 8-999 ppm: 1/3 correct (33%)

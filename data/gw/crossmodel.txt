@@ -1,0 +1,13 @@
+Cross-model independence check (limitation i): a second model family (Sonnet)
+re-solved compounds V3-R01..R12 (n=12) under the identical blind, closed-book,
+6-candidate protocol used for the Opus generate-wide pass.
+
+  recall on V3-R01..R12 (n=12):
+    Opus    5/12 (41%)
+    Sonnet  4/12 (33%)
+    union   5/12 (41%)   <- two-family ensemble adds no recall
+
+Both families are comparably recall-bound; Sonnet's hits are a subset of Opus's,
+so cross-family ensembling does not lift recall on this subset. The recall-bound
+result is a property of the task/data, not an artefact of one model. Scoring is
+mechanical RDKit; all transcripts audited for 0 web / 0 ground-truth access.

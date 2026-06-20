@@ -1,0 +1,49 @@
+# Scrapling response cache (large, reproducible — re-fetched on demand)
+data/cache/
+
+# NMRexp raw/working artifacts from the separate NMRexp line of work — large
+# binary (661MB parquet) and derived files; not part of the IRexp branch and
+# not git-appropriate. Left local; not committed here.
+data/nmrexp/
+data/training_nmrexp/
+scripts/nmrexp_to_spectro.py
+
+# Bulk-crawl working files (large/streaming/resumable) — committed as gzipped
+# snapshots at milestones instead of the raw growing JSONL.
+data/bulk/spectra.jsonl
+data/bulk/seen_papers.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/
+
+# OS / editor
+.DS_Store
+*.swp
+
+# NMRexp raw download (661MB) — regenerable from Zenodo
+data/nmrexp/*.parquet
+data/nmrexp/*.csv
+
+# Uncompressed training JSONL (committed as .gz)
+data/training_*/train.jsonl
+
+# IRexp working files (committed as .gz)
+data/irexp/*.jsonl
+data/irexp/seen_papers.txt
+
+# Chemotion IR raw deposit (47MB, regenerable from DOI 10.22000/OGoEQGlsZGElrgst)
+data/chemotion/
+py2opsin_temp_input.txt
+data/nmrshiftdb/nmrshiftdb2.sd
+data/nmrshiftdb/hose_c13.json.gz
+
+# Expert-audit / modality answer keys — held out from reviewers (regenerate via the prepare scripts)
+data/audit/key.jsonl
+data/modality/key.json

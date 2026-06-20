@@ -7,6 +7,8 @@ import json, glob
 from collections import defaultdict
 from rdkit import Chem
 from rdkit import RDLogger; RDLogger.DisableLog("rdApp.*")
+import figstyle as fs
+fs.apply()
 
 def ik(s):
     m = Chem.MolFromSmiles(s) if s else None
@@ -35,28 +37,28 @@ for qid, ans in a.items():
     by[cl][0] += 1; by[cl][1] += a1; by[cl][2] += ar
 
 # pretty class labels
-NICE = {"carbonate": "carbonate", "sulfonyl": "sulfonyl/\nsulfonate",
-        "nitrile": "nitrile", "fluorinated": "sp3-fluorinated",
-        "phosphoryl": "phosphoryl", "glyme": "glyme/\noligoether"}
-order = sorted(by, key=lambda c: -(100 * by[c][1] / by[c][0]) if by[c][0] else 0)
+NICE = {"carbonate": "carbonate", "sulfonyl": "sulfonyl",
+        "nitrile": "nitrile", "fluorinated": "sp³-C–F",
+        "phosphoryl": "phosphoryl", "glyme": "glyme"}
+order = sorted(by, key=lambda c: (100 * by[c][1] / by[c][0]) if by[c][0] else 0)  # ascending -> best on top after invert
 labels = [NICE.get(c, c) for c in order]
 top1 = [100 * by[c][1] / by[c][0] if by[c][0] else 0 for c in order]
 recov = [100 * by[c][2] / by[c][0] if by[c][0] else 0 for c in order]
 ns = [by[c][0] for c in order]
 
-plt.rcParams.update({"font.size": 11, "axes.grid": True, "grid.alpha": 0.3})
-fig, ax = plt.subplots(figsize=(6.2, 3.8))
+fig, ax = plt.subplots(figsize=(3.6, 2.7))
+ax.set_axisbelow(True); ax.xaxis.grid(True, color=fs.FAINT, linewidth=0.6)
 y = np.arange(len(order)); h = 0.38
-ax.barh(y + h / 2, recov, h, color="#89c2d9", label="recovered (top-3)")
-ax.barh(y - h / 2, top1, h, color="#2a6f97", label="exact top-1")
-for i, (n, p) in enumerate(zip(ns, top1)):
-    ax.text(1, y[i] - h / 2, f" n={n}", va="center", fontsize=8, color="white")
+ax.barh(y + h/2, recov, h, color=fs.SKY, label="recovered (top-3)", zorder=3)
+ax.barh(y - h/2, top1, h, color=fs.BLUE, label="exact top-1", zorder=3)
+for i, n in enumerate(ns):
+    ax.text(max(recov[i], top1[i]) + 1.5, y[i], f"n={n}", va="center", ha="left",
+            fontsize=6, color=fs.MUTED)
 ax.set_yticks(y); ax.set_yticklabels(labels)
-ax.set_xlabel("accuracy (%)"); ax.set_xlim(0, 80)
-ax.invert_yaxis()
-ax.legend(frameon=False, fontsize=9, loc="lower right")
-ax.set_title(f"Elucidation by electrolyte class (n={N})")
-plt.tight_layout(); plt.savefig("docs/figures/fig6_electrolyte.png", dpi=150)
+ax.set_xlabel("accuracy (%)"); ax.set_xlim(0, 72)
+ax.legend(loc="lower right", handlelength=1.0)
+ax.set_title("Accuracy varies ~4× across electrolyte classes")
+plt.tight_layout(); plt.savefig("docs/figures/fig6_electrolyte.png")
 plt.close()
 ov1 = 100 * t1 // max(N, 1); ovr = 100 * rec // max(N, 1)
 print(f"wrote docs/figures/fig6_electrolyte.png  (n={N}, top-1 {ov1}%, recovered {ovr}%)")

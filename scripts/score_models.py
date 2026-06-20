@@ -95,21 +95,26 @@ def main():
         import matplotlib; matplotlib.use("Agg")
         import matplotlib.pyplot as plt
         import numpy as np
-        order = [m for m in ["Opus", "Sonnet", "Fable", "Haiku"] if m in res]
+        import figstyle as fs
+        fs.apply()
+        order = [m for m in ["Fable", "Opus", "Sonnet", "Haiku"] if m in res]
         n = len(SUBSET)
         t1 = [100 * res[m][0] / n for m in order]
         rc = [100 * res[m][1] / n for m in order]
         x = np.arange(len(order)); w = 0.38
-        plt.rcParams.update({"font.size": 11, "axes.grid": True, "grid.alpha": 0.3})
-        fig, ax = plt.subplots(figsize=(5.2, 3.6))
-        ax.bar(x - w/2, t1, w, color="#2a6f97", label="exact top-1")
-        ax.bar(x + w/2, rc, w, color="#89c2d9", label="recovered (top-3)")
-        for i, v in enumerate(t1): ax.text(x[i]-w/2, v+1, f"{v:.0f}", ha="center", fontsize=8)
+        fig, ax = plt.subplots(figsize=(3.6, 2.7)); fs.ygrid(ax)
+        t1cols = [fs.ORANGE if m == "Fable" else fs.BLUE for m in order]
+        b1 = ax.bar(x - w/2, t1, w, color=t1cols, zorder=3)
+        ax.bar(x + w/2, rc, w, color=fs.SKY, zorder=3)
+        fs.barlabels(ax, b1, fmt="{:.0f}", dy=1)
         ax.set_xticks(x); ax.set_xticklabels(order)
-        ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 55)
-        ax.legend(frameon=False, fontsize=9)
-        ax.set_title(f"Cross-model comparison (n={n}, identical blind protocol)")
-        plt.tight_layout(); plt.savefig("docs/figures/fig5_models.png", dpi=150)
+        ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 60)
+        ax.text(0.97, 0.96, "exact top-1", transform=ax.transAxes, color=fs.BLUE,
+                fontsize=6.5, va="top", ha="right")
+        ax.text(0.97, 0.88, "recovered (top-3)", transform=ax.transAxes, color=fs.SKY,
+                fontsize=6.5, va="top", ha="right")
+        ax.set_title("Cross-model comparison (n=24)")
+        plt.tight_layout(); plt.savefig("docs/figures/fig5_models.png")
         print("wrote docs/figures/fig5_models.png")
 
 if __name__ == "__main__":

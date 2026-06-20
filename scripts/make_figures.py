@@ -1,57 +1,76 @@
 #!/usr/bin/env python3
-"""Publication figures for the benchmark paper."""
+"""Benchmark figures (difficulty, size, inference ladder, dataset funnel) in the shared
+Nature-grade style. One message per figure, direct labels, restrained colour."""
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import json, random
+import numpy as np, random
+import figstyle as fs
 from score_main import load, metrics, boot  # noqa
+
+fs.apply()
 random.seed(0)
-R=metrics(load())
-def rate(rs,k): return 100*sum(r[k] for r in rs)/len(rs) if rs else 0
-plt.rcParams.update({"font.size":11,"axes.spomednable" if False else "axes.grid":True,"grid.alpha":0.3})
+R = metrics(load())
+def rate(rs, k): return 100*sum(r[k] for r in rs)/len(rs) if rs else 0
 
-# Fig 1: by difficulty, top-1 & recall with bootstrap CI
-groups=[("All",R),("Simple",[r for r in R if r['diff']=='simple']),("Complex",[r for r in R if r['diff']=='complex'])]
-fig,ax=plt.subplots(figsize=(5.2,3.6))
-import numpy as np
-x=np.arange(len(groups)); w=0.38
-for i,(key,col,lab) in enumerate([("top1","#2a6f97","exact top-1"),("rec","#89c2d9","recovered (top-3)")]):
-    pts=[];los=[];his=[]
-    for _,sub in groups:
-        p,lo,hi=boot(sub, lambda s: rate(s,key)); pts.append(p);los.append(p-lo);his.append(hi-p)
-    ax.bar(x+(i-0.5)*w, pts, w, yerr=[los,his], capsize=4, color=col, label=lab)
+# Fig 1 - accuracy by difficulty (top-1 & recovered, bootstrap CIs)
+groups = [("All", R), ("Simple", [r for r in R if r['diff'] == 'simple']),
+          ("Complex", [r for r in R if r['diff'] == 'complex'])]
+fig, ax = plt.subplots(figsize=(3.6, 2.7)); fs.ygrid(ax)
+x = np.arange(len(groups)); w = 0.38
+for i, (key, col, lab) in enumerate([("top1", fs.BLUE, "exact top-1"),
+                                     ("rec", fs.SKY, "recovered (top-3)")]):
+    pts, los, his = [], [], []
+    for _, sub in groups:
+        p, lo, hi = boot(sub, lambda s: rate(s, key)); pts.append(p); los.append(p-lo); his.append(hi-p)
+    ax.bar(x+(i-0.5)*w, pts, w, yerr=[los, his], capsize=2.5,
+           error_kw=dict(lw=0.8, ecolor=fs.INK), color=col, label=lab, zorder=3)
 ax.set_xticks(x); ax.set_xticklabels([f"{g[0]}\n(n={len(g[1])})" for g in groups])
-ax.set_ylabel("accuracy (%)"); ax.set_ylim(0,80); ax.legend(frameon=False,fontsize=9)
-ax.set_title("LLM structure elucidation on real spectra")
-plt.tight_layout(); plt.savefig("docs/figures/fig1_difficulty.png",dpi=150); plt.close()
+ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 70)
+ax.legend(loc="upper right", handlelength=1.0)
+ax.set_title("Accuracy splits sharply by difficulty")
+plt.tight_layout(); plt.savefig("docs/figures/fig1_difficulty.png"); plt.close()
 
-# Fig 2: by molecule size
-buckets=["<=15","16-25",">25"]
-fig,ax=plt.subplots(figsize=(5,3.4))
-sub=lambda b:[r for r in R if r['hac']==b]
-ax.plot(buckets,[rate(sub(b),'top1') for b in buckets],"o-",color="#2a6f97",label="exact top-1")
-ax.plot(buckets,[rate(sub(b),'rec') for b in buckets],"s--",color="#89c2d9",label="recovered")
-for b in buckets: ax.annotate(f"n={len(sub(b))}",(b,2),ha="center",fontsize=8,color="gray")
-ax.set_xlabel("heavy atoms"); ax.set_ylabel("accuracy (%)"); ax.set_ylim(0,80); ax.legend(frameon=False)
+# Fig 2 - accuracy vs molecular size (direct-labelled lines)
+buckets = ["≤15", "16-25", ">25"]
+sub = lambda b: [r for r in R if r['hac'] == ("<=15" if b == "≤15" else b)]
+t1 = [rate(sub(b), 'top1') for b in buckets]; rc = [rate(sub(b), 'rec') for b in buckets]
+fig, ax = plt.subplots(figsize=(3.6, 2.7))
+ax.plot(buckets, rc, "s--", color=fs.SKY, mfc="white", mec=fs.SKY)
+ax.plot(buckets, t1, "o-", color=fs.BLUE)
+ax.annotate("recovered", (2, rc[-1]), xytext=(4, 2), textcoords="offset points",
+            color=fs.SKY, fontsize=7, va="bottom", ha="right")
+ax.annotate("exact top-1", (2, t1[-1]), xytext=(4, -2), textcoords="offset points",
+            color=fs.BLUE, fontsize=7, va="top", ha="right")
+for i, b in enumerate(buckets):
+    ax.annotate(f"n={len(sub(b))}", (i, 1.5), ha="center", fontsize=6.5, color=fs.MUTED)
+ax.set_xlabel("heavy atoms"); ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 75)
 ax.set_title("Accuracy falls with molecular size")
-plt.tight_layout(); plt.savefig("docs/figures/fig2_size.png",dpi=150); plt.close()
+plt.tight_layout(); plt.savefig("docs/figures/fig2_size.png"); plt.close()
 
-# Fig 3: forward-verification inference ladder, all on the SAME 60 compounds
-labels=["solver\nself-ranking","+ forward-\nverify","+ generate-wide\n+ verify"]
-vals=[23,26,30]
-fig,ax=plt.subplots(figsize=(4.6,3.4))
-ax.bar(labels,vals,color=["#a9d6e5","#61a5c2","#2a6f97"])
-for i,v in enumerate(vals): ax.text(i,v+1,f"{v}%",ha="center")
-ax.set_ylabel("exact top-1 (%)"); ax.set_ylim(0,40)
-ax.set_title("Inference-time scaling (same 60 compounds)")
-plt.tight_layout(); plt.savefig("docs/figures/fig3_method.png",dpi=150); plt.close()
+# Fig 3 - inference-time scaling on the same 60 compounds (one metric -> one accent)
+labels = ["solver\nself-rank", "+ forward-\nverify", "+ generate-\nwide"]
+vals = [23, 26, 30]
+fig, ax = plt.subplots(figsize=(3.3, 2.7)); fs.ygrid(ax)
+cols = [fs.MUTED, fs.MUTED, fs.BLUE]
+bars = ax.bar(labels, vals, width=0.6, color=cols, zorder=3)
+fs.barlabels(ax, bars, fmt="{:.0f}%", dy=0.6)
+ax.set_ylabel("exact top-1 (%)"); ax.set_ylim(0, 38)
+ax.set_title("Inference-time scaling (same 60)")
+plt.tight_layout(); plt.savefig("docs/figures/fig3_method.png"); plt.close()
 
-# Fig 4: IRexp dataset composition
-import gzip
-tot=121233; nmr=87075; struct=42842; trip=40491
-fig,ax=plt.subplots(figsize=(4.8,3.2))
-cats=["IR records","+ NMR","+ structure","full quad"]; v=[tot,nmr,struct,trip]
-ax.bar(cats,v,color=["#013a63","#2a6f97","#468faf","#89c2d9"])
-for i,val in enumerate(v): ax.text(i,val+2000,f"{val//1000}k",ha="center",fontsize=9)
-ax.set_ylabel("records"); ax.set_title("IRexp: largest open experimental-IR dataset")
-plt.xticks(rotation=15); plt.tight_layout(); plt.savefig("docs/figures/fig4_dataset.png",dpi=150); plt.close()
-print("wrote 4 figures to docs/figures/")
+# Fig 4 - IRexp funnel (horizontal, k-formatted, payload bar highlighted)
+cats = ["IR records", "+ NMR", "+ structure", "full quad"]
+v = [121233, 87075, 42842, 40491]
+fig, ax = plt.subplots(figsize=(3.6, 2.5))
+y = np.arange(len(cats))[::-1]
+cols = [fs.MUTED, fs.MUTED, fs.MUTED, fs.BLUE]
+ax.barh(y, v, height=0.62, color=cols, zorder=3)
+ax.set_axisbelow(True); ax.xaxis.grid(True, color=fs.FAINT, linewidth=0.6); ax.yaxis.grid(False)
+for yi, val in zip(y, v):
+    ax.text(val + 2500, yi, f"{val/1000:.0f}k", va="center", ha="left", fontsize=7, color=fs.INK)
+ax.set_yticks(y); ax.set_yticklabels(cats)
+ax.set_xlim(0, 140000); ax.set_xticks([])
+ax.spines["bottom"].set_visible(False)
+ax.set_title("IRexp: 121k records → 40k full quadruples")
+plt.tight_layout(); plt.savefig("docs/figures/fig4_dataset.png"); plt.close()
+print("wrote fig1_difficulty, fig2_size, fig3_method, fig4_dataset")

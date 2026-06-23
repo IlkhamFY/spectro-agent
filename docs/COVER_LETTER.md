@@ -1,7 +1,7 @@
 # Cover letter — *Digital Discovery* (RSC)
 
-**Re: Submission of "An open multimodal benchmark for LLM molecular structure
-elucidation: recall, not verification, is the bottleneck"**
+**Re: Submission of "Recall, not verification, is the bottleneck in LLM molecular
+structure elucidation from real spectra"**
 
 Dear Editor,
 

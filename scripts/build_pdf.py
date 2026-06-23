@@ -12,9 +12,10 @@ OUT = "docs/paper.pdf"
 
 # Main-text figures (numbered Fig. 1-5)
 FIGS = [
-    ("fig0_overview.png", "Study design: open multimodal data (IRexp) $\\to$ blind, "
-     "complexity-stratified benchmark $\\to$ decoupled blind solving $\\to$ "
-     "forward-verification re-ranking; training-free throughout."),
+    ("fig_wall.png", "The diagnosis in one glance: shown a candidate set, the model "
+     "\\emph{verifies} the true structure 84\\% of the time, yet \\emph{proposes} it "
+     "for only 31\\% of compounds. Recall, not verification, is the wall "
+     "(53-point gap)."),
     ("fig1_difficulty.png", "Top-1 and recovered accuracy on IRSpectra-Bench by "
      "difficulty (all / simple / complex, n=194) with bootstrap 95\\% CIs."),
     ("fig5_models.png", "Four-model comparison on a 24-compound subset: Fable 5 45\\% "
@@ -28,8 +29,11 @@ FIGS = [
      "(23\\%/26\\%/30\\% top-1)."),
 ]
 
-# Supporting-Information figures (numbered Fig. S1-S3)
+# Supporting-Information figures (numbered Fig. S1-S4)
 SI_FIGS = [
+    ("fig0_overview.png", "Study design: open multimodal data (IRexp) $\\to$ blind, "
+     "complexity-stratified benchmark $\\to$ decoupled blind solving $\\to$ "
+     "forward-verification re-ranking; training-free throughout."),
     ("fig4_dataset.png", "IRexp composition: IR records, NMR-paired, structure-linked, "
      "and full IR+$^1$H+$^{13}$C+structure quadruples."),
     ("fig2_size.png", "Accuracy versus molecular size; the monotonic 60\\%$\\to$7\\% "
@@ -42,11 +46,15 @@ UNI = {
     "±": r"\ensuremath{\pm}", "×": r"\ensuremath{\times}", "−": r"\ensuremath{-}",
     "→": r"\ensuremath{\rightarrow}", "≈": r"\ensuremath{\approx}",
     "≤": r"\ensuremath{\leq}", "≥": r"\ensuremath{\geq}", "≫": r"\ensuremath{\gg}",
+    "⊂": r"\ensuremath{\subset}",
     "¹": r"\textsuperscript{1}", "²": r"\textsuperscript{2}", "³": r"\textsuperscript{3}",
     "⁴": r"\textsuperscript{4}", "⁵": r"\textsuperscript{5}", "⁶": r"\textsuperscript{6}",
     "⁷": r"\textsuperscript{7}", "⁸": r"\textsuperscript{8}", "⁹": r"\textsuperscript{9}",
     "⁰": r"\textsuperscript{0}", "⁻": r"\textsuperscript{$-$}",
-    "₂": r"\textsubscript{2}", "₃": r"\textsubscript{3}", "₆": r"\textsubscript{6}",
+    "₀": r"\textsubscript{0}", "₁": r"\textsubscript{1}", "₂": r"\textsubscript{2}",
+    "₃": r"\textsubscript{3}", "₄": r"\textsubscript{4}", "₅": r"\textsubscript{5}",
+    "₆": r"\textsubscript{6}", "₇": r"\textsubscript{7}", "₈": r"\textsubscript{8}",
+    "₉": r"\textsubscript{9}",
 }
 
 def header():

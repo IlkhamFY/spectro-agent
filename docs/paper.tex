@@ -78,6 +78,7 @@
 \newunicodechar{≤}{\ensuremath{\leq}}
 \newunicodechar{≥}{\ensuremath{\geq}}
 \newunicodechar{≫}{\ensuremath{\gg}}
+\newunicodechar{⊂}{\ensuremath{\subset}}
 \newunicodechar{¹}{\textsuperscript{1}}
 \newunicodechar{²}{\textsuperscript{2}}
 \newunicodechar{³}{\textsuperscript{3}}
@@ -89,9 +90,16 @@
 \newunicodechar{⁹}{\textsuperscript{9}}
 \newunicodechar{⁰}{\textsuperscript{0}}
 \newunicodechar{⁻}{\textsuperscript{$-$}}
+\newunicodechar{₀}{\textsubscript{0}}
+\newunicodechar{₁}{\textsubscript{1}}
 \newunicodechar{₂}{\textsubscript{2}}
 \newunicodechar{₃}{\textsubscript{3}}
+\newunicodechar{₄}{\textsubscript{4}}
+\newunicodechar{₅}{\textsubscript{5}}
 \newunicodechar{₆}{\textsubscript{6}}
+\newunicodechar{₇}{\textsubscript{7}}
+\newunicodechar{₈}{\textsubscript{8}}
+\newunicodechar{₉}{\textsubscript{9}}
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
@@ -104,9 +112,9 @@
 
 \begin{document}
 
-\section{An open multimodal benchmark for LLM molecular structure
-elucidation: recall, not verification, is the
-bottleneck}\label{an-open-multimodal-benchmark-for-llm-molecular-structure-elucidation-recall-not-verification-is-the-bottleneck}
+\section{Recall, not verification, is the bottleneck in LLM molecular
+structure elucidation from real
+spectra}\label{recall-not-verification-is-the-bottleneck-in-llm-molecular-structure-elucidation-from-real-spectra}
 
 \textbf{Ilkham Yabbarov}¹ \emph{(corresponding: ilkhamfy@gmail.com)},
 \textbf{Rodrigo A. Vargas-Hernández}¹ ¹ Department of Chemistry and
@@ -118,63 +126,35 @@ Chemical Biology, McMaster University, Hamilton, Ontario, Canada
 
 \subsection{Abstract}\label{abstract}
 
-Large language models (LLMs) have been reported to predict NMR spectra
-and propose molecular structures from them, but the supporting
-evaluation is small, curated, NMR-only, hinted, and drawn from a single
-model family --- leaving the real-world question open: given an
-unfiltered experimental spectrum from the literature, how often does a
-frontier LLM recover the correct structure? We address this with three
-contributions. First, \textbf{IRexp}, to our knowledge the largest
-\emph{permissively-licensed, redistributable} dataset of
-\emph{experimental} infrared spectra --- 121,233 records mined from
-open-access full text, of which \textbf{42,842 are linked to a resolved
-2D structure} and \textbf{40,491 are full IR + ¹H + ¹³C + structure
-quadruples} --- assembled by a browser-free literature-mining agent and
-released under permissive licences (larger view-only databases exist but
-are not bulk-redistributable; §2.1). Second, \textbf{IRSpectra-Bench},
-an open, blind, mechanically scored benchmark of \textbf{194 compounds}
-(134 spectrally-validated plus a 60-compound controlled set) for
-spectrum→structure elucidation, stratified across molecular complexity.
-We find that a frontier LLM (Claude Opus), given molecular formula + IR
-+ ¹H + ¹³C, recovers the exact constitution of \textbf{28.4\%} of real
-compounds (95\% CI 22--35; 33.5\% within three candidates), with a
-sharp, tight gradient --- 48\% on simple molecules versus 8\% on complex
-ones, and 60\% for small (≤15 heavy atoms) versus 7\% for large
-(\textgreater25). This sits far below the \textasciitilde100\% implied
-by curated evaluations, a gap we attribute largely to compound
-difficulty, candidate ranking, and hints; a within-compound control
-shows that \textbf{solving each compound in an independent context with
-tool access roughly triples accuracy over a single fatigued pass
-(5\%→15\%)}, i.e.~methodology, not raw capability, dominates reported
-numbers. Third, we use a training-free \textbf{forward-verification}
-probe (we fine-tune nothing; the LLM is pretrained) to \emph{localise}
-this gap rather than close it: candidates from the (hard) inverse
-direction are re-ranked by forward-predicting each one's ¹³C spectrum
-and matching it to the observed one. The decomposition is our central
-diagnostic finding --- \textbf{in our measurements the binding
-constraint is candidate recall, not verification}: when the true
-structure is among the candidates, forward verification selects it 84\%
-of the time versus 73\% for the model's own ranking --- a real but
-bounded gain --- while the true structure is generated for only 31\% of
-compounds. Acting on it (generating six regiochemistry-aware candidates
-and forward-verifying) lifts measured exact top-1 from 23\% to
-\textbf{30\%} (recall 41\%), a genuine no-training improvement that
-nonetheless stays \emph{below its own ceiling} (recall plateaus;
-verification precision falls 84\%→72\% as near-degenerate regioisomers
-accumulate), and the match distance does \textbf{not} double as a
-calibrated confidence signal (selective prediction is null). The honest
-summary is a \emph{diagnosis plus a bounded improvement}, not a
-solution. We confirm the same recall-bound regime in a
-\textbf{battery-electrolyte domain} (46 scored compounds, \textbf{26\%
-top-1}, the same broad regime, overlapping the headline CI) along a
-chemically interpretable gradient (sp³-C--F easiest at 50\%; sulfonyl
-and nitrile hardest at 12\%), and cast forward-verification as a
-training-free \emph{analog} --- not an equivalent --- of the
-computational-NMR / NMR-crystallography validation chemists trust,
-sharing its forward-prediction principle but forgoing DFT's calibrated
-error model. All experiments run with no model training and no paid API,
-using LLM agents under a standard subscription, and all data,
-predictions, and code are released as an open resource.
+Given a real, unedited infrared and NMR spectrum from the published
+literature, how often does a frontier large language model (here,
+Claude) recover the correct molecular structure? We find: \textbf{28\%
+of the time} (top-1; 95\% CI 22--35) --- far below the near-100\%
+implied by curated demonstrations. The bottleneck is not the model's
+judgment but its \emph{proposal}: shown the candidate set,
+forward-verification picks the true structure \textbf{84\%} of the time,
+yet the true structure is generated for only \textbf{31\%} of compounds.
+\textbf{Recall, not verification, is the wall.} We establish this with
+three contributions. First, \textbf{IRexp} --- the largest
+permissively-licensed, redistributable dataset of \emph{experimental}
+infrared spectra (121,233 records; 42,842 structure-linked; 40,491 full
+IR + ¹H + ¹³C + structure quadruples), mined from open-access
+literature. Second, \textbf{IRSpectra-Bench} --- an open, blind,
+mechanically scored benchmark of 194 compounds, complexity-stratified,
+on which accuracy splits sharply (48\% simple vs 8\% complex); a
+within-compound control shows that solving each compound in a fresh
+context with tools roughly triples accuracy over one long context
+(5\%→15\%), so methodology --- not raw capability --- dominates reported
+numbers. Third, a training-free \textbf{forward-verification} method
+that acts on the diagnosis: generating regiochemistry-aware candidates
+and re-ranking by predicted-versus-observed ¹³C lifts top-1 from 23\% to
+\textbf{30\%} --- a real but bounded gain that, by direct measurement,
+cannot exceed a recall/precision ceiling without sharper (DFT-level)
+verification or 2D-NMR. The recall-bound regime reproduces in a
+battery-electrolyte domain (n=46, 26\% top-1). Every result is
+single-vendor (Claude); a cross-vendor test is the key open question.
+All experiments use no model training and no paid API, and all data,
+predictions, and code are released.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -215,18 +195,21 @@ solver-methodology effect with a within-compound control. We then
 introduce forward-verification elucidation (§5), a training-free method
 that turns the model's \emph{strong} direction (forward prediction)
 against its \emph{weak} one (inverse regiochemistry), and use it to
-localise the bottleneck. \textbf{Figure 1} summarises the end-to-end
-design. Throughout, the solver and verifier are LLM agents run under a
-consumer subscription --- no fine-tuning, no API spend --- making every
-experiment cheaply reproducible. This is, by construction, a
-data-science and open-resource contribution in the remit of
-\emph{Digital Discovery}: an openly licensed, structure-linked spectral
-dataset; a pre-registered, mechanically scored benchmark with released
-ground truth and scorer; and an end-to-end reproducible, training-free,
-zero-paid-API methodology in which every figure regenerates from the
-released code and predictions. We prioritise an honest, reusable
-measurement of where current models stand over a leaderboard-topping
-number.
+localise the bottleneck. The central finding is a sharp asymmetry: shown
+a candidate set, the model \emph{verifies} the correct structure 84\% of
+the time, yet \emph{proposes} it for only 31\% of compounds --- recall,
+not verification, is the wall (Fig. 1). The end-to-end study design is
+summarised in Fig. S1. Throughout, the solver and verifier are LLM
+agents run under a consumer subscription --- no fine-tuning, no API
+spend --- making every experiment cheaply reproducible. This is, by
+construction, a data-science and open-resource contribution in the remit
+of \emph{Digital Discovery}: an openly licensed, structure-linked
+spectral dataset; a pre-registered, mechanically scored benchmark with
+released ground truth and scorer; and an end-to-end reproducible,
+training-free, zero-paid-API methodology in which every figure
+regenerates from the released code and predictions. We prioritise an
+honest, reusable measurement of where current models stand over a
+leaderboard-topping number.
 
 \textbf{Contributions.} 1. \textbf{IRexp} --- the largest openly
 \emph{redistributable} experimental-IR dataset (121,233 records; 42,842
@@ -381,7 +364,7 @@ full IR + ¹H + ¹³C + structure quadruples & \textbf{40,491} \\
 A structure-complete split, \textbf{\texttt{irexp\_resolved}} (42,842
 records, 100\% structure-linked), is the training-/benchmark-ready
 subset and is \textasciitilde6× the 6,833-molecule set used to train
-Spectro¹ (Fig. S1). Provenance is 119,345 PMC-OA records (CC-BY) plus
+Spectro¹ (Fig. S2). Provenance is 119,345 PMC-OA records (CC-BY) plus
 1,888 Chemotion records (CC-BY-SA); the two licences are kept as
 separable pools. Each record is DOI-/accession-traceable. Re-resolution
 is additive and content-keyed, so the dataset can be re-enriched without
@@ -516,7 +499,7 @@ simple→complex separation (Fig. 2) confirms the benchmark is
 discriminating across a realistic difficulty range, and accuracy falls
 monotonically with molecular size in step with it --- top-1
 \textbf{60.5\%} for ≤15 heavy atoms, 28.3\% for 16--25, and
-\textbf{7.0\%} above 25 (Fig. S2). The model reliably recovers molecular
+\textbf{7.0\%} above 25 (Fig. S3). The model reliably recovers molecular
 formula, functional groups, and scaffold, but the exact constitution far
 less often, failing predominantly on \textbf{regiochemistry} ---
 \emph{which} position a substituent occupies. This is consistent with an
@@ -690,7 +673,7 @@ benchmark} --- overall \textbf{top-1 26\%, recovered 28\%} (12/46 and
 13/46; two compounds received no parseable candidate; at n=46 the 95\%
 CI is wide and overlaps the headline) --- consistent with the bottleneck
 being a property of the elucidation task rather than of any one chemical
-neighbourhood. The per-class breakdown (Fig. S3) is itself informative:
+neighbourhood. The per-class breakdown (Fig. S4) is itself informative:
 
 \textbf{Table 4. Per-class performance on IRSpectra-Bench-Electrolyte
 (n=46).}
@@ -830,7 +813,7 @@ re-ranking can repair.
 
 LLM elucidation therefore factorises into two near-independent levers:
 the \textbf{verifier is already strong (84\%)}; the \textbf{generator
-(31\% recall) is the wall}.
+(31\% recall) is the wall} (Fig. 1).
 
 \subsubsection{5.3 Generate-wide: testing the
 recipe}\label{generate-wide-testing-the-recipe}
@@ -1159,10 +1142,11 @@ scripted end-to-end.
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Fig. 1} (\texttt{docs/figures/fig0\_overview.png}) --- study
-  design: open multimodal data (IRexp) → blind, complexity-stratified
-  benchmark → decoupled blind solving → forward-verification re-ranking;
-  training-free throughout.
+  \textbf{Fig. 1} (\texttt{docs/figures/fig\_wall.png}) --- the
+  diagnosis in one glance: shown a candidate set the model
+  \emph{verifies} the true structure 84\% of the time, yet
+  \emph{proposes} it for only 31\% of compounds. Recall, not
+  verification, is the wall (53-point gap).
 \item
   \textbf{Fig. 2} (\texttt{docs/figures/fig1\_difficulty.png}) --- top-1
   and recovered accuracy on IRSpectra-Bench by difficulty (all / simple
@@ -1191,15 +1175,20 @@ figures}\label{supporting-information-figures}
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Fig. S1} (\texttt{docs/figures/fig4\_dataset.png}) --- IRexp
+  \textbf{Fig. S1} (\texttt{docs/figures/fig0\_overview.png}) --- study
+  design: open multimodal data (IRexp) → blind, complexity-stratified
+  benchmark → decoupled blind solving → forward-verification re-ranking;
+  training-free throughout.
+\item
+  \textbf{Fig. S2} (\texttt{docs/figures/fig4\_dataset.png}) --- IRexp
   composition: IR records → NMR-paired → structure-linked → full
   IR+¹H+¹³C+structure quadruples.
 \item
-  \textbf{Fig. S2} (\texttt{docs/figures/fig2\_size.png}) --- accuracy
+  \textbf{Fig. S3} (\texttt{docs/figures/fig2\_size.png}) --- accuracy
   vs molecular size (heavy-atom bucket); the monotonic 60\%→7\% top-1
   gradient.
 \item
-  \textbf{Fig. S3} (\texttt{docs/figures/fig6\_electrolyte.png}) ---
+  \textbf{Fig. S4} (\texttt{docs/figures/fig6\_electrolyte.png}) ---
   top-1 and recovered accuracy on IRSpectra-Bench-Electrolyte by
   battery-electrolyte chemical class (n=46): sp³-C--F easiest (50\%),
   sulfonyl and nitrile hardest (12\%); overall 26\%/28\%.
@@ -1389,10 +1378,11 @@ acknowledgements.)}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Study design: open multimodal data (IRexp) \textbackslash to blind, complexity-stratified benchmark \textbackslash to decoupled blind solving \textbackslash to forward-verification re-ranking; training-free throughout.}]{docs/figures/fig0_overview.png}
-\caption{Study design: open multimodal data (IRexp) \(\to\) blind,
-complexity-stratified benchmark \(\to\) decoupled blind solving \(\to\)
-forward-verification re-ranking; training-free throughout.}
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={The diagnosis in one glance: shown a candidate set, the model  the true structure 84\% of the time, yet  it for only 31\% of compounds. Recall, not verification, is the wall (53-point gap).}]{docs/figures/fig_wall.png}
+\caption{The diagnosis in one glance: shown a candidate set, the model
+\emph{verifies} the true structure 84\% of the time, yet \emph{proposes}
+it for only 31\% of compounds. Recall, not verification, is the wall
+(53-point gap).}
 \end{figure}
 
 \begin{figure}
@@ -1433,6 +1423,14 @@ solver self-ranking \(\to\) + forward-verify \(\to\) + generate-wide
 
 \section{Supporting Information
 figures}\label{supporting-information-figures-1}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Study design: open multimodal data (IRexp) \textbackslash to blind, complexity-stratified benchmark \textbackslash to decoupled blind solving \textbackslash to forward-verification re-ranking; training-free throughout.}]{docs/figures/fig0_overview.png}
+\caption{Study design: open multimodal data (IRexp) \(\to\) blind,
+complexity-stratified benchmark \(\to\) decoupled blind solving \(\to\)
+forward-verification re-ranking; training-free throughout.}
+\end{figure}
 
 \begin{figure}
 \centering

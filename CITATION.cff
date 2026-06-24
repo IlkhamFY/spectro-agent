@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this dataset or code, please cite it as below."
+type: dataset
+title: "IRexp, IRSpectra-Bench, and forward-verification for LLM molecular structure elucidation"
+abstract: >-
+  Open data and code for the manuscript "Recall, not verification, is the bottleneck
+  in LLM molecular structure elucidation from real spectra": the IRexp experimental-IR
+  dataset, the blind IRSpectra-Bench benchmark, model predictions, and the
+  training-free forward-verification method.
+authors:
+  - family-names: Yabbarov
+    given-names: Ilkham
+    affiliation: "Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada"
+    email: ilkhamfy@gmail.com
+    # orcid: "https://orcid.org/0000-0000-0000-0000"  # TODO: add before publishing
+  - family-names: Vargas-Hernández
+    given-names: Rodrigo A.
+    affiliation: "Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"  # TODO: add before publishing
+repository-code: "https://github.com/IlkhamFY/spectro-agent"
+license: CC-BY-4.0
+keywords:
+  - structure elucidation
+  - nuclear magnetic resonance
+  - infrared spectroscopy
+  - large language models
+  - benchmark
+  - cheminformatics
+  - forward verification
+# doi: "10.5281/zenodo.XXXXXXX"  # TODO: add once minted, then update docs/PAPER.md line 845

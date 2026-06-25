@@ -1,9 +1,8 @@
 # Draft subsection — "A trained generator breaks the recall wall" (extends §5.3)
 
-*Proposed addition for author review. Conservative headline uses the deterministic HOSE
-verifier (§5.4), already in the repo; the stronger LLM-forward-verify number (Phase 2,
-`forward_verify_gen.py`) is pending one out-of-band prediction run. Not yet merged into
-PAPER.md — positioning (a trained model in a training-free paper) is the authors' call.*
+*Proposed addition for author review. Two verifiers are reported: the deterministic HOSE
+verifier (§5.4, in-repo) and the LLM forward-verifier (§5.1). Not yet merged into PAPER.md —
+positioning (a trained model in a training-free paper) is the authors' call.*
 
 ---
 

@@ -46,7 +46,9 @@ def main():
     with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as mf:
         mf.write(md); md_path = mf.name
     with tempfile.NamedTemporaryFile("w", suffix=".tex", delete=False) as hf:
-        hf.write(bp.header() + "\n\\newunicodechar{§}{\\S}\n"); h_path = hf.name
+        hf.write(bp.header() + "\n\\newunicodechar{§}{\\S}"
+                 "\n\\newunicodechar{∩}{\\ensuremath{\\cap}}"
+                 "\n\\newunicodechar{Δ}{\\ensuremath{\\Delta}}\n"); h_path = hf.name
     args = [f"--pdf-engine={bp.TECTONIC}", "-V", "geometry:margin=1in", "-V", "fontsize=11pt",
             "-V", "linkcolor=blue", "-V", "urlcolor=blue", "-V", "colorlinks=true",
             "-V", "subparagraph", "-H", h_path]

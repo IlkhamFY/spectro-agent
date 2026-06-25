@@ -33,20 +33,26 @@ FIGS = [
 SI_FIGS = [
     ("fig0_overview.png", "Study design: open multimodal data (IRexp) $\\to$ blind, "
      "complexity-stratified benchmark $\\to$ decoupled blind solving $\\to$ "
-     "forward-verification re-ranking; training-free throughout."),
+     "forward-verification re-ranking; training-free core pipeline."),
     ("fig4_dataset.png", "IRexp composition: IR records, NMR-paired, structure-linked, "
      "and full IR+$^1$H+$^{13}$C+structure quadruples."),
     ("fig2_size.png", "Accuracy versus molecular size; the monotonic 60\\%$\\to$7\\% "
      "top-1 gradient with heavy-atom count."),
     ("fig6_electrolyte.png", "IRSpectra-Bench-Electrolyte by battery-electrolyte class "
      "(n=46): sp$^3$-C--F easiest (50\\%), sulfonyl and nitrile hardest (12\\%)."),
+    ("fig_generator_probe.png", "Trained-generator probe (\\S5.6; a complement, not part "
+     "of the training-free protocol). Candidate recall and deterministic-HOSE top-1 on "
+     "the 194-compound benchmark for Claude / + scaffold enumeration / + trained "
+     "generator: enumeration's near-degenerate isomers collapse the verifier "
+     "(28.4$\\to$16.0\\%) while the generator's formula-correct candidates convert "
+     "(28.4$\\to$35.1\\%)."),
 ]
 
 UNI = {
     "±": r"\ensuremath{\pm}", "×": r"\ensuremath{\times}", "−": r"\ensuremath{-}",
     "→": r"\ensuremath{\rightarrow}", "≈": r"\ensuremath{\approx}",
     "≤": r"\ensuremath{\leq}", "≥": r"\ensuremath{\geq}", "≫": r"\ensuremath{\gg}",
-    "⊂": r"\ensuremath{\subset}",
+    "⊂": r"\ensuremath{\subset}", "∩": r"\ensuremath{\cap}",
     "¹": r"\textsuperscript{1}", "²": r"\textsuperscript{2}", "³": r"\textsuperscript{3}",
     "⁴": r"\textsuperscript{4}", "⁵": r"\textsuperscript{5}", "⁶": r"\textsuperscript{6}",
     "⁷": r"\textsuperscript{7}", "⁸": r"\textsuperscript{8}", "⁹": r"\textsuperscript{9}",

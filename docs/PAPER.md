@@ -26,11 +26,15 @@ tools roughly triples accuracy over one long context (5%→15%), so methodology 
 capability — dominates reported numbers. Third, a training-free **forward-verification**
 method that acts on the diagnosis: generating regiochemistry-aware candidates and
 re-ranking by predicted-versus-observed ¹³C lifts top-1 from 23% to **30%** — a real but
-bounded gain that, by direct measurement, cannot exceed a recall/precision ceiling
-without sharper (DFT-level) verification or 2D-NMR. The recall-bound regime reproduces
-in a battery-electrolyte domain (n=46, 26% top-1). Every result is single-vendor
-(Claude); a cross-vendor test is the key open question. All experiments use no model
-training and no paid API, and all data, predictions, and code are released.
+bounded gain that, within the training-free regime, cannot exceed a recall/precision
+ceiling. That ceiling is *elicitation-specific, not intrinsic*: a small generator
+fine-tuned on IRexp lifts recall from 41% to 56% and forward-verified top-1 from 30% to
+41% (SI), and the released data is the active ingredient (a simulated-pretrained model
+recovers 0/248 structures zero-shot, 25% after IRexp fine-tuning). The recall-bound
+regime reproduces in a battery-electrolyte domain (n=46, 26% top-1). Every result is
+single-vendor (Claude); a cross-vendor test is the key open question. The core protocol
+uses no model training and no paid API — the trained-generator probe is the sole,
+clearly-fenced exception — and all data, predictions, and code are released.
 
 ---
 
@@ -70,7 +74,7 @@ shown a candidate set, the model *verifies* the correct structure 84% of the tim
 yet *proposes* it for only 31% of compounds — recall, not verification, is the wall
 (Fig. 1). The end-to-end study design is summarised in Fig. S1. Throughout, the
 solver and verifier are LLM agents run under a
-consumer subscription — no fine-tuning, no API spend — making every experiment cheaply
+consumer subscription — no fine-tuning, no API spend — making the core protocol cheaply
 reproducible. This is, by construction, a data-science and open-resource contribution
 in the remit of *Digital Discovery*: an openly licensed, structure-linked spectral
 dataset; a pre-registered, mechanically scored benchmark with released ground truth
@@ -612,6 +616,42 @@ entirely an artefact of those trivial cases. We therefore do **not** claim the v
 distance as a calibrated abstention gauge — a sharper, DFT/2D-NMR-grounded confidence
 estimate (§5.4) remains the route to reliable selective prediction.
 
+### 5.6 Is the recall wall task-intrinsic? A trained-generator probe
+
+The ceiling above is a property of *training-free LLM elicitation*; it leaves open
+whether the ~41% recall plateau is intrinsic to 1D-data elucidation or specific to how
+LLMs are elicited. We test this with a complementary probe — a small (~16M-parameter)
+¹H/¹³C→SMILES transformer (simulated-spectra pretraining, then fine-tuned on IRexp;
+ensemble of four), held **deliberately separate from the training-free protocol**. Its
+candidates are filtered to the given molecular formula, pooled with Claude's, and
+re-ranked by the same verifiers.
+
+The generator supplies candidates enumeration cannot. On the 194-compound benchmark the
+true structure enters the candidate pool for **54.1%** of compounds (versus 41.8% for
+scaffold enumeration and 33.5% for Claude alone). Crucially, where enumeration's
+near-degenerate regioisomers *collapse* the deterministic HOSE verifier
+(top-1 28.4%→16.0%, the §5.3 precision-loss mechanism), the generator's formula-correct,
+¹³C-separable candidates **convert**: HOSE top-1 rises **28.4%→35.1%** (McNemar exact
+p=0.015; +6.7 points, 95% CI [+2.1, +11.9]; Fig. S5). With the stronger LLM
+forward-prediction verifier on the 60 forward-verify compounds, recall rises 41%→**56%**
+and forward-verified top-1 30%→**41%** at essentially unchanged conditional precision
+(72%→73%) — the higher recall converts to top-1 rather than being lost to verifier
+confusion.
+
+Two controls guard against memorisation, both reproducible from the released bundle
+(`contrib/generator_probe`): (i) the fine-tuning split removes every benchmark
+InChIKey-14 (train∩benchmark = 0, val∩benchmark = 0), and **none of the 40
+newly-recovered compounds appear in either training stage** (0/40 in simulated
+pretraining, 0/40 in fine-tuning); (ii) the simulated-pretrained model alone recovers
+**0/248** benchmark structures zero-shot, rising to 25% only after IRexp fine-tuning.
+The IRexp data — not the architecture — is the active ingredient, and the recall ceiling
+is therefore **elicitation-specific, not task-intrinsic**. We report this as a probe,
+not part of the headline training-free protocol; it answers whether the wall is
+breakable, not whether to abandon training-free methods. (The released public split
+`irexp_release/train` does *not* hold out the benchmark — it overlaps it by 117/200
+InChIKey-14 — so downstream users must de-leak as in `build_exp_manifest.py`; see Data
+and code availability.)
+
 ---
 
 ## 6. Discussion
@@ -637,7 +677,11 @@ that expose specific failure modes (here, regiochemistry and recall), and (ii)
 **inference-time scaffolding** (decoupled solving, generate-and-verify) that needs no
 training and improves with each model. IRexp's IR modality and 2D-NMR-ready
 provenance position it for the obvious next step: supplying the HMBC/COSY/NOESY
-constraints that would attack regiochemistry at the source.
+constraints that would attack regiochemistry at the source. Our trained-generator probe
+(§5.6) sharpens the point: the recall wall is *elicitation-specific, not task-intrinsic*
+— a small generator fine-tuned on IRexp lifts it (recall 41→56%) — and because that gain
+comes entirely from the released data (0→25% with fine-tuning, 0/248 without), it is the
+**open dataset**, not a bespoke architecture, that does the work when training does help.
 
 **Protocol over fashionable levers.** That *how* the problem is posed and verified —
 decoupled per-compound solving, generate-and-verify — moves accuracy more than raw
@@ -775,8 +819,9 @@ forward-prediction agents were independent Claude-Opus sub-agents invoked under 
 consumer subscription; agents were instructed closed-book and audited via
 transcript grep for zero web/answer access. Scoring used RDKit InChIKey-connectivity
 matching and Morgan(2, 2048) Tanimoto; forward-verification used a symmetric chamfer
-distance over ¹³C peak sets. No model was trained or fine-tuned; no paid API was
-used.
+distance over ¹³C peak sets. The core protocol trains no model and uses no paid API;
+the §5.6 trained-generator probe is the sole, separately-trained exception, reported as
+a complement and fenced from the headline results.
 
 *Models and versions.* All experiments used Anthropic Claude models via the consumer
 subscription (claude.ai). The §4.4 comparison spanned, in capability
@@ -812,7 +857,7 @@ scorer, and forward-verification harness are scripted end-to-end.
 
 - **Fig. S1** (`docs/figures/fig0_overview.png`) — study design: open multimodal data
   (IRexp) → blind, complexity-stratified benchmark → decoupled blind solving →
-  forward-verification re-ranking; training-free throughout.
+  forward-verification re-ranking; training-free core pipeline.
 - **Fig. S2** (`docs/figures/fig4_dataset.png`) — IRexp composition: IR records →
   NMR-paired → structure-linked → full IR+¹H+¹³C+structure quadruples.
 - **Fig. S3** (`docs/figures/fig2_size.png`) — accuracy vs molecular size (heavy-atom
@@ -820,6 +865,12 @@ scorer, and forward-verification harness are scripted end-to-end.
 - **Fig. S4** (`docs/figures/fig6_electrolyte.png`) — top-1 and recovered accuracy on
   IRSpectra-Bench-Electrolyte by battery-electrolyte chemical class (n=46): sp³-C–F
   easiest (50%), sulfonyl and nitrile hardest (12%); overall 26%/28%.
+- **Fig. S5** (`docs/figures/fig_generator_probe.png`) — trained-generator probe (§5.6;
+  a complement, not part of the training-free protocol): candidate recall and
+  deterministic-HOSE top-1 on the 194-compound benchmark for Claude / + scaffold
+  enumeration / + trained generator. Enumeration's near-degenerate isomers collapse the
+  verifier (28.4→16.0%) while the generator's formula-correct candidates convert
+  (28.4→35.1%).
 
 ---
 
@@ -843,7 +894,15 @@ study (`scripts/analyze_recall_headroom.py`, `scripts/enumerate_isomers.py`,
 `scripts/closing_the_gap.py`), the modality-ablation harness
 (`scripts/modality_ablation.py`, `docs/MODALITY_ABLATION.md`), and the blinded
 expert-audit package (`data/audit/`, `docs/EXPERT_AUDIT_PROTOCOL.md`) are released
-likewise. **Archival deposit:** a complete frozen snapshot (dataset, benchmark, answer
+likewise. The §5.6 trained-generator probe ships as a self-contained bundle
+(`contrib/generator_probe/`): generator candidates, the de-leaked split with its
+InChIKey-14 manifest, and the verification scripts
+(`scripts/closing_the_gap_gen.py`, `scripts/forward_verify_gen.py`,
+`scripts/verify_leakage_exact40.py`); model checkpoints are deposited on Zenodo.
+Downstream note: the public `irexp_release/train` split does **not** hold out
+IRSpectra-Bench (117/200 InChIKey-14 overlap); de-leak with
+`contrib/generator_probe/build_exp_manifest.py` before training models that will be
+evaluated on the benchmark. **Archival deposit:** a complete frozen snapshot (dataset, benchmark, answer
 keys, predictions, scripts, figure-regeneration, and the expert-audit package) will be
 archived on Zenodo under DOI **[TODO: 10.5281/zenodo.XXXXXXX — mint on submission]**;
 the GitHub repository is the development mirror and the Zenodo record the citable

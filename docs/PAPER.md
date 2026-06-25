@@ -89,7 +89,10 @@ leaderboard-topping number.
 2. An **open multimodal benchmark** and the first blind, mechanically scored,
    complexity-stratified evaluation of frontier-LLM structure elucidation on real data
    — measured in depth on one model family (Claude) — reconciling the gap to optimistic
-   prior reports.
+   prior reports. Crucially, the ground truth is experimental structures from the
+   published literature, resolved deterministically (OPSIN/RDKit) and expert-audited:
+   no LLM curates the labels or scores the predictions. The model is the system under
+   test, not the source of its own answers.
 3. A **diagnostic decomposition** of LLM elucidation into recall and verification,
    showing that **recall — not verification — bounds current performance**, obtained via
    a training-free forward-verification probe that yields a bounded improvement (top-1

@@ -1,0 +1,83 @@
+Learned (GNN) 13C forward-verifier — the §5.4 ablation's missing "learned" arm
+==============================================================================
+Predictor: message-passing GNN (MPNN, 4 layers, hidden 256, GRU node update,
+bond features), per-carbon 13C regression. Trained on the SAME nmrshiftdb2 dump as
+the §5.4 HOSE lookup (scripts/gnn_predict.py; data/nmrshiftdb/nmrshiftdb2.sd).
+  training set:   32,647 mols / 350,313 assigned carbons  (= the HOSE set; HOSE's
+                  "31,000 / 332,595" is this minus its random 5% held-out split)
+  split:          29,383 train / 1,632 val / 1,632 test  (by molecule, seed 5)
+  HELD-OUT TEST:  MAE 1.70 ppm, median 1.02 ppm   <-- vs HOSE 3.23 / 1.73
+                  i.e. a literature-competitive, independently-competent predictor,
+                  so a benchmark result is interpretable (not an undertraining null).
+
+Re-ranking the SAME §5.2 candidate set (60 compounds, 126 candidates) — APPLES-TO-
+APPLES with §5.4 (identical eval set; only the predictor method changes):
+
+  recall (true in candidate set):           19/60 (31%)
+  top-1, solver self-rank:                  14/60 (23%)
+  top-1, GNN-verified re-rank:              16/60 (26%)
+  conditional on recall (n=19):
+    solver self-rank:                       14/19 (73%)
+    HOSE-verified (lookup, §5.4):           14/19 (73%)
+    GNN-verified (learned, same data):      16/19 (84%)   <-- closes the HOSE->LLM gap
+    LLM forward-verifier (§5.2):            16/19 (84%)
+
+The headline: a LEARNED predictor trained on the SAME data as the deterministic HOSE
+lookup recovers the full LLM-verifier precision (73% -> 84%) that the lookup could not.
+This REVISES §5.4's reading ("coverage, not method ... not a generic lookup table"):
+holding training data and eval set fixed, swapping lookup -> learned-generalising
+closes the entire gap. So method (generalisation across novel environments), not only
+coverage, governed the deterministic verifier's failure. The lookup degraded to coarse
+spheres on the benchmark's exotic chemistry; the GNN interpolates those same
+environments continuously and reaches the LLM's breadth at zero LLM cost.
+
+Honest caveats (the result is directional, n=19):
+  - +2 vs HOSE = 14/19 -> 16/19. Per-compound margins (GNN best vs 2nd-best chamfer):
+      GAINS vs HOSE:  v3:R21  margin 0.79 ppm (decisive)
+                      ctrl:R08 0.21 ppm,  ctrl:R14 0.33 ppm  (tight)
+      LOSS  vs HOSE:  v3:R26  margin 0.08 ppm  (near-degenerate; GNN lost a coin-flip)
+    GNN and LLM both score 84% but on partly DIFFERENT compounds (GNN wins R20/R21/R25;
+    LLM wins R22/R28) — two independent verifiers concurring on the precision, not one.
+  - Several decisive margins sit below the predictor's 1.70 ppm MAE, so individual
+    flips are fragile. On n=19 this is confirmatory of the LLM number, not a precise
+    quantitative gain. The precision ceiling of §5.3/§5.5 still holds: near-degenerate
+    regioisomers (R22/R26/R28) remain unresolved at ~1-2 ppm forward accuracy, which is
+    exactly where the paper says DFT-level or 2D-NMR is required.
+
+Leakage check (the decisive control for a LEARNED verifier — a GNN can memorise a
+specific molecule's spectrum where the HOSE bin-average cannot, so train/test overlap
+would manufacture this exact "learned beats lookup" result):
+  IK-14( all 126 candidates )  ∩  IK-14( 31,739 unique training mols )  =  0
+  Every TRUE structure is held out, and all candidates of the three GNN-beats-HOSE
+  wins (v3:R21, ctrl:R08, ctrl:R14) are absent from training (0/N leaked each).
+  => the 73%->84% gain is generalisation to unseen, out-of-distribution chemistry, NOT
+  exact-structure memorisation.
+
+  Analog-leakage check (beyond exact IK-14 — Morgan(2,2048) Tanimoto NN to training,
+  Bemis-Murcko scaffold):
+    - 126 candidates: Tanimoto-NN to training median 0.44, max 0.87; only 3% >=0.7 and
+      0 identical (NN=1.0). No memorisation-grade neighbours; the moderate median just
+      reflects shared literature chemistry space.
+    - The three GNN-beats-HOSE wins sit AT the median, not elevated: true-structure NN
+      = 0.46 (v3:R21), 0.45 (ctrl:R08), 0.47 (ctrl:R14). Analog-memorisation would put
+      the wins at HIGH NN; they are mid-pack -> the +2 is not explained by training
+      proximity.
+    - GNN FAILURES are not the low-NN (OOD) compounds: R28 (NN 0.56) fails while R21
+      (0.46) succeeds -> failures track near-degenerate regiochemistry (§5.3/§5.5
+      precision mechanism), not training distance/coverage.
+    - Murcko scaffold shared with training for 61/126 candidates (weak signal: common
+      aromatic cores); the wins' low Tanimoto despite scaffold overlap confirms the
+      specific structures stay distinct.
+
+Negative control (§5.5 Y-randomisation, derangement of observed spectra, 1000 perms):
+  GNN conditional precision under label-shuffle: mean 58.6%, 95% range 42.1-73.7%.
+  The real 84% lies above the 97.5th percentile (73.7%) -> the GNN re-ranker acts on
+  genuine predicted-vs-observed agreement, not a candidate-list artefact (one-sided
+  p < 0.05). Chance floor differs from §5.5's 66.4% because the GNN's per-candidate
+  predictions differ from the LLM's; the test is re-run for this predictor.
+
+Reproduce:
+  scripts/gnn_predict.py extract   # SDF -> data/nmrshiftdb/c13_dataset.jsonl
+  scripts/gnn_predict.py train     # -> data/nmrshiftdb/gnn_c13.pt (+ held-out MAE)
+  scripts/gnn_predict.py score     # the table above
+  scripts/gnn_predict.py control   # Y-randomisation

@@ -81,3 +81,4 @@ Reproduce:
   scripts/gnn_predict.py train     # -> data/nmrshiftdb/gnn_c13.pt (+ held-out MAE)
   scripts/gnn_predict.py score     # the table above
   scripts/gnn_predict.py control   # Y-randomisation
+  scripts/gnn_predict.py leakage   # de-leak: IK-14 overlap (0/126) + Tanimoto-NN + Murcko

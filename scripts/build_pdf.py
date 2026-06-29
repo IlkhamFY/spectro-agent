@@ -46,6 +46,11 @@ SI_FIGS = [
      "generator: enumeration's near-degenerate isomers collapse the verifier "
      "(28.4$\\to$16.0\\%) while the generator's formula-correct candidates convert "
      "(28.4$\\to$35.1\\%)."),
+    ("fig_verifier.png", "Learned-verifier probe (\\S5.7; a complement, not part of the "
+     "training-free protocol). (A) Conditional-on-recall top-1 (n=19) across four "
+     "verifiers: a GNN trained on the same nmrshiftdb2 data as the HOSE lookup recovers "
+     "the LLM verifier's 84\\% that the lookup (73\\%) could not. (B) Held-out $^{13}$C "
+     "MAE --- the learned model is roughly 2$\\times$ sharper (1.70 vs 3.23 ppm)."),
 ]
 
 UNI = {
@@ -53,6 +58,7 @@ UNI = {
     "→": r"\ensuremath{\rightarrow}", "≈": r"\ensuremath{\approx}",
     "≤": r"\ensuremath{\leq}", "≥": r"\ensuremath{\geq}", "≫": r"\ensuremath{\gg}",
     "⊂": r"\ensuremath{\subset}", "∩": r"\ensuremath{\cap}",
+    "∼": r"\ensuremath{\sim}",
     "¹": r"\textsuperscript{1}", "²": r"\textsuperscript{2}", "³": r"\textsuperscript{3}",
     "⁴": r"\textsuperscript{4}", "⁵": r"\textsuperscript{5}", "⁶": r"\textsuperscript{6}",
     "⁷": r"\textsuperscript{7}", "⁸": r"\textsuperscript{8}", "⁹": r"\textsuperscript{9}",

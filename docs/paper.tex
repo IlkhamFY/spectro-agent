@@ -80,6 +80,7 @@
 \newunicodechar{≫}{\ensuremath{\gg}}
 \newunicodechar{⊂}{\ensuremath{\subset}}
 \newunicodechar{∩}{\ensuremath{\cap}}
+\newunicodechar{∼}{\ensuremath{\sim}}
 \newunicodechar{¹}{\textsuperscript{1}}
 \newunicodechar{²}{\textsuperscript{2}}
 \newunicodechar{³}{\textsuperscript{3}}
@@ -893,10 +894,16 @@ exists to separate, so the deterministic predictor degrades to the
 self-rank baseline exactly where discrimination is needed --- whereas
 the LLM forward-predictor generalises across novel scaffolds. The
 practical lesson is the opposite of the naïve one: on hard, real
-chemistry the LLM's \emph{breadth} is an asset for verification, and the
-genuine fix is sharper still --- \textbf{compound-specific (DFT-level)
-shift accuracy or orthogonal 2D-NMR constraints}, not a generic lookup
-table.
+chemistry the LLM's \emph{breadth} is an asset for verification. We show
+next (§5.7), however, that the failure is \textbf{method, not only
+coverage}: a \emph{learned} ¹³C model trained on the \emph{same}
+nmrshiftdb2 data generalises across these environments and recovers the
+LLM verifier's precision --- so a cheap learned predictor, not
+necessarily DFT-level shift accuracy or 2D-NMR, suffices to \emph{match}
+the LLM verifier. What none of these reach is the
+near-degenerate-regioisomer precision ceiling (§5.3/§5.5), where
+DFT-level accuracy or orthogonal 2D-NMR constraints remain the genuine
+fix.
 
 \subsubsection{5.5 Negative control}\label{negative-control}
 
@@ -977,6 +984,70 @@ methods. (The released public split \texttt{irexp\_release/train} does
 \emph{not} hold out the benchmark --- it overlaps it by 117/200
 InChIKey-14 --- so downstream users must de-leak as in
 \texttt{build\_exp\_manifest.py}; see Data and code availability.)
+
+\subsubsection{5.7 A learned ¹³C verifier recovers the precision the
+lookup could
+not}\label{a-learned-uxb9uxb3c-verifier-recovers-the-precision-the-lookup-could-not}
+
+§5.4 leaves one test unrun: the HOSE predictor is a \emph{lookup}; would
+a \emph{learned} model trained on the \textbf{same nmrshiftdb2 data}
+generalise across the under-represented environments where the lookup
+degrades? We train a small message-passing GNN (4 layers, per-carbon ¹³C
+regression) on the identical dump that builds the §5.4 table; on a
+held-out split it predicts ¹³C at \textbf{MAE 1.70 ppm} (median 1.02)
+--- roughly twice as sharp as the lookup's 3.23 ppm, an
+independently-competent predictor. Dropped into the verifier slot on the
+\textbf{same §5.2 candidate set}, holding training data and evaluation
+fixed so that only the method changes:
+
+\textbf{Table 7. Verifier comparison, conditional on recall (n=19), on
+the identical §5.2 set.}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lrr@{}}
+\toprule\noalign{}
+verifier & top-1 \textbar{} recall & held-out ¹³C MAE \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+solver self-ranking & 14/19 (73\%) & --- \\
+deterministic HOSE \emph{lookup} (§5.4) & 14/19 (73\%) & 3.23 ppm \\
+\textbf{learned GNN (same data)} & \textbf{16/19 (84\%)} & \textbf{1.70
+ppm} \\
+LLM forward-verifier (§5.2) & 16/19 (84\%) & --- \\
+\end{longtable}
+}
+
+The learned model recovers the full \textbf{73\%→84\%} precision the
+lookup could not, matching the LLM verifier (Fig. S6). The §5.4 reading
+is therefore too strong: the deterministic verifier's failure was
+substantially \textbf{method} --- generalisation across novel
+environments --- not coverage alone, and a cheap learned predictor on
+the same data suffices to match the LLM, without the compound-specific
+DFT accuracy or 2D-NMR §5.4 reaches for. The GNN and the LLM reach 84\%
+on \emph{partly different} compounds (two independent verifiers
+concurring, not one), and the gain is \textbf{generalisation, not
+memorisation}: candidate--training overlap is \textbf{0/126} by
+InChIKey-14 (we confirm zero overlap against the entire nmrshiftdb2
+database; every true structure and all three GNN-wins are absent),
+Morgan-Tanimoto nearest-neighbour to training is a modest 0.44 median
+with the wins sitting \emph{at} --- not above --- the median, and a
+Y-randomisation control (1,000 derangements) places the real 84\% above
+the 97.5th percentile of the chance distribution (one-sided
+p\textless0.05).
+
+We report this as a trained complement, like §5.6. The decisive
+comparison is n=19, so the +2 over the lookup is \textbf{confirmatory of
+the LLM number, not a precise quantitative gain} (one decisive win at
+0.79 ppm, two tight, one 0.08-ppm coin-flip loss). Near-degenerate
+regioisomers (R22/R26/R28) remain unresolved at \textasciitilde1--2 ppm
+forward accuracy, so the precision ceiling of §5.3/§5.5 stands --- the
+GNN reaches the LLM verifier's quality \emph{cheaply}, it does not break
+that ceiling. Artifacts and both leakage checks are released
+(\texttt{scripts/gnn\_predict.py},
+\texttt{data/fverify/gnn\_results.txt},
+\texttt{data/nmrshiftdb/gnn\_c13.pt}; \texttt{docs/VERIFIER\_PROBE.md}).
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -1063,13 +1134,16 @@ experiment (§5.3) quantifies the recall/precision tension directly ---
 verification precision is 72--84\% conditional on recall and degrades as
 near-degenerate regioisomers accumulate, so forward-match distance is a
 strong \emph{re-ranker} but a soft \emph{confidence} gauge. We further
-tested the obvious deterministic fix (§5.4): a nmrshiftdb2-trained
-HOSE-code ¹³C predictor does \textbf{not} beat the LLM verifier (73\% vs
-84\% conditional), because its specific-environment coverage collapses
-on the benchmark's exotic chemistry --- so the identified fix is
-compound-specific DFT-level accuracy or 2D-NMR constraints, not a
-generic lookup. \textbf{Projection:} §5.2's extrapolation is replaced by
-the \textbf{measured} §5.3 result (top-1 30\%, recall 41\%) --- and is
+tested non-LLM verifiers (§5.4, §5.7): a nmrshiftdb2-trained HOSE-code
+\emph{lookup} does \textbf{not} beat the LLM verifier (73\% vs 84\%
+conditional), but a \emph{learned} GNN on the same data \textbf{does}
+recover it (84\%, §5.7) --- so the deterministic failure was method, not
+only coverage, and a cheap learned predictor matches the LLM verifier
+without DFT-level shifts or 2D-NMR. What remains beyond all of them is
+the near-degenerate-regiochemistry precision ceiling, where DFT-level
+accuracy or 2D-NMR constraints are still the genuine fix.
+\textbf{Projection:} §5.2's extrapolation is replaced by the
+\textbf{measured} §5.3 result (top-1 30\%, recall 41\%) --- and is
 honestly below the optimistic estimate.
 
 \emph{Independence checks.} Scoring throughout is mechanical RDKit (not
@@ -1264,6 +1338,14 @@ figures}\label{supporting-information-figures}
   trained generator. Enumeration's near-degenerate isomers collapse the
   verifier (28.4→16.0\%) while the generator's formula-correct
   candidates convert (28.4→35.1\%).
+\item
+  \textbf{Fig. S6} (\texttt{docs/figures/fig\_verifier.png}) ---
+  learned-verifier probe (§5.7; a complement, not part of the
+  training-free protocol). (A) Conditional-on-recall top-1 (n=19) for
+  the four verifiers: a GNN trained on the same nmrshiftdb2 data as the
+  HOSE lookup recovers the LLM verifier's 84\% the lookup (73\%) could
+  not. (B) Why: held-out ¹³C MAE --- the learned model is
+  \textasciitilde2× sharper (1.70 vs 3.23 ppm).
 \end{itemize}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
@@ -1307,15 +1389,21 @@ deposited on Zenodo. Downstream note: the public
 \texttt{irexp\_release/train} split does \textbf{not} hold out
 IRSpectra-Bench (117/200 InChIKey-14 overlap); de-leak with
 \texttt{contrib/generator\_probe/build\_exp\_manifest.py} before
-training models that will be evaluated on the benchmark.
-\textbf{Archival deposit:} a complete frozen snapshot (dataset,
-benchmark, answer keys, predictions, scripts, figure-regeneration, and
-the expert-audit package) will be archived on Zenodo under DOI
-\textbf{{[}TODO: 10.5281/zenodo.XXXXXXX --- mint on submission{]}}; the
-GitHub repository is the development mirror and the Zenodo record the
-citable version of record. (The held-out answer keys
-\texttt{data/audit/key.jsonl} and \texttt{data/modality/key.json} are
-deposited but flagged ``withhold from blinded reviewers''.)
+training models that will be evaluated on the benchmark. The §5.7
+learned-verifier probe ships its full reproducer ---
+\texttt{scripts/gnn\_predict.py} (extract/train/score/control), the
+trained model \texttt{data/nmrshiftdb/gnn\_c13.pt}, per-compound results
+and both leakage checks (\texttt{data/fverify/gnn\_results.txt}), and
+the write-up \texttt{docs/VERIFIER\_PROBE.md}; the GNN trains on the
+same nmrshiftdb2 dump as the §5.4 HOSE lookup. \textbf{Archival
+deposit:} a complete frozen snapshot (dataset, benchmark, answer keys,
+predictions, scripts, figure-regeneration, and the expert-audit package)
+will be archived on Zenodo under DOI \textbf{{[}TODO:
+10.5281/zenodo.XXXXXXX --- mint on submission{]}}; the GitHub repository
+is the development mirror and the Zenodo record the citable version of
+record. (The held-out answer keys \texttt{data/audit/key.jsonl} and
+\texttt{data/modality/key.json} are deposited but flagged ``withhold
+from blinded reviewers''.)
 
 \subsection{Licensing and attribution}\label{licensing-and-attribution}
 
@@ -1546,6 +1634,17 @@ on the 194-compound benchmark for Claude / + scaffold enumeration / +
 trained generator: enumeration's near-degenerate isomers collapse the
 verifier
 (28.4\$\to\(16.0\%) while the generator's formula-correct candidates convert (28.4\)\to\$35.1\%).}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.82\linewidth,height=\textheight,keepaspectratio,alt={Learned-verifier probe (5.7; a complement, not part of the training-free protocol). (A) Conditional-on-recall top-1 (n=19) across four verifiers: a GNN trained on the same nmrshiftdb2 data as the HOSE lookup recovers the LLM verifier's 84\% that the lookup (73\%) could not. (B) Held-out \^{}\{13\}C MAE --- the learned model is roughly 2\textbackslash times sharper (1.70 vs 3.23 ppm).}]{docs/figures/fig_verifier.png}
+\caption{Learned-verifier probe (\S5.7; a complement, not part of the
+training-free protocol). (A) Conditional-on-recall top-1 (n=19) across
+four verifiers: a GNN trained on the same nmrshiftdb2 data as the HOSE
+lookup recovers the LLM verifier's 84\% that the lookup (73\%) could
+not. (B) Held-out \(^{13}\)C MAE --- the learned model is roughly
+2\(\times\) sharper (1.70 vs 3.23 ppm).}
 \end{figure}
 
 \end{document}

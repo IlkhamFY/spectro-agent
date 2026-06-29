@@ -13,7 +13,7 @@ recall, not verification; a training-free generate-and-verify step lifts top-1 f
 
 - `docs/paper.pdf` (source `docs/PAPER.md`) - the manuscript.
 - `data/irexp/`, `data/irexp_resolved/` - IRexp: 121,233 experimental-IR records,
-  42,842 linked to a resolved structure, mined from open-access literature.
+  43,060 linked to a resolved structure, mined from open-access literature.
 - `data/benchmark_*/` - IRSpectra-Bench (194 compounds) and the battery-electrolyte
   subset: blind questions, answer keys, and model predictions.
 - `data/fverify/`, `data/gw/` - forward-verification and generate-wide results.

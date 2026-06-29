@@ -60,7 +60,7 @@ plt.tight_layout(); plt.savefig("docs/figures/fig3_method.png"); plt.close()
 
 # Fig 4 - IRexp funnel (horizontal, k-formatted, payload bar highlighted)
 cats = ["IR records", "+ NMR", "+ structure", "full quad"]
-v = [121233, 87075, 42842, 40491]
+v = [121233, 87075, 43060, 33201]
 fig, ax = plt.subplots(figsize=(3.6, 2.5))
 y = np.arange(len(cats))[::-1]
 cols = [fs.MUTED, fs.MUTED, fs.MUTED, fs.BLUE]
@@ -71,6 +71,6 @@ for yi, val in zip(y, v):
 ax.set_yticks(y); ax.set_yticklabels(cats)
 ax.set_xlim(0, 140000); ax.set_xticks([])
 ax.spines["bottom"].set_visible(False)
-ax.set_title("IRexp: 121k records → 40k full quadruples")
+ax.set_title("IRexp: 121k records → 33k full quadruples")
 plt.tight_layout(); plt.savefig("docs/figures/fig4_dataset.png"); plt.close()
 print("wrote fig1_difficulty, fig2_size, fig3_method, fig4_dataset")

@@ -22,13 +22,9 @@ axA.axhline(73, ls="--", lw=0.8, color=fs.MUTED, zorder=1)
 axA.set_xticks(xA); axA.set_xticklabels(labelsA)
 axA.set_ylim(0, 100); axA.set_yticks([0, 25, 50, 75, 100])
 axA.set_ylabel("top-1 | recall (%)")
-axA.set_title("Learned predictor matches the LLM verifier")
-axA.annotate("matches the\nLLM verifier", xy=(2, 84), xytext=(1.4, 96),
-             ha="center", va="top", fontsize=6.3, color=fs.BLUE,
-             arrowprops=dict(arrowstyle="->", color=fs.BLUE, lw=0.8))
-axA.text(0.97, 0.04, "n=19 · same §5.2 set", transform=axA.transAxes, ha="right",
-         va="bottom", fontsize=6.5, color=fs.MUTED)
-fs.panel(axA, "A")
+axA.text(0.97, 0.04, "n=19, same §5.2 set", transform=axA.transAxes, ha="right",
+         va="bottom", fontsize=6.5, color=fs.MUTED)  # message in caption; no title
+fs.panel(axA, "a")
 
 # Panel B — held-out 13C MAE (lower is better): the mechanism
 labelsB = ["HOSE\nlookup", "learned\nGNN"]
@@ -40,10 +36,9 @@ fs.ygrid(axB); fs.barlabels(axB, bB, fmt="{:.2f}", dy=0.06, size=7)
 axB.set_xticks(xB); axB.set_xticklabels(labelsB)
 axB.set_ylim(0, 4.0); axB.set_yticks([0, 1, 2, 3, 4])
 axB.set_ylabel("held-out $^{13}$C MAE (ppm)")
-axB.set_title("Why: the learned model is sharper")
 axB.text(0.97, 0.96, "lower = better", transform=axB.transAxes, ha="right",
          va="top", fontsize=6.5, color=fs.MUTED)
-fs.panel(axB, "B")
+fs.panel(axB, "b")
 
 plt.tight_layout()
 plt.savefig("docs/figures/fig_verifier.png")

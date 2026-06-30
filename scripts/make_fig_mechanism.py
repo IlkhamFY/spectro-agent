@@ -30,7 +30,7 @@ XMAX = 175
 
 # panel a - observed
 axes[0].vlines(OBS, 0, 1, color=fs.INK, lw=1.6)
-axes[0].set_title("Observed $^{13}$C   ·   C$_{10}$H$_{14}$N$_2$O", fontsize=8, loc="left")
+axes[0].set_title("observed $^{13}$C,  C$_{10}$H$_{14}$N$_2$O", fontsize=7, loc="left")
 fs.panel(axes[0], "a", x=-0.30, y=1.04)
 
 # panels b, c - predicted vs observed ghost
@@ -39,9 +39,9 @@ for ax, lett, (pred, smi, name, dist), col, mark in [
         (axes[2], "c", FALSE, fs.VERMIL, "rejected")]:
     ax.vlines(OBS, 0, 1, color=fs.FAINT, lw=4.0)          # observed reference
     ax.vlines(pred, 0, 1, color=col, lw=1.6)
-    ax.set_title(name, fontsize=8, color=col, loc="left")
-    ax.text(0.995, 0.86, f"chamfer {dist:.2f} ppm · {mark}", transform=ax.transAxes,
-            ha="right", va="top", fontsize=8, color=col, fontweight="bold")
+    ax.set_title(name, fontsize=7, color=col, loc="left")
+    ax.text(0.995, 0.86, f"chamfer {dist:.2f} ppm, {mark}", transform=ax.transAxes,
+            ha="right", va="top", fontsize=7, color=col)
     ax.add_artist(AnnotationBbox(OffsetImage(molimg(smi), zoom=0.52), (-0.155, 0.5),
                   xycoords="axes fraction", frameon=True, box_alignment=(0.5, 0.5),
                   bboxprops=dict(edgecolor=col, lw=1.2)))

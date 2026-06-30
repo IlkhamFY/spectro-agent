@@ -27,7 +27,7 @@ for i, (key, col, lab) in enumerate([("top1", fs.BLUE, "exact top-1"),
 ax.set_xticks(x); ax.set_xticklabels([f"{g[0]}\n(n={len(g[1])})" for g in groups])
 ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 70)
 ax.legend(loc="upper right", handlelength=1.0)
-ax.set_title("Accuracy splits sharply by difficulty")
+# message in caption (Nature style); no in-panel title
 plt.tight_layout(); plt.savefig("docs/figures/fig1_difficulty.png"); plt.close()
 
 # Fig 2 - accuracy vs molecular size (direct-labelled lines)
@@ -44,7 +44,7 @@ ax.annotate("exact top-1", (2, t1[-1]), xytext=(4, -2), textcoords="offset point
 for i, b in enumerate(buckets):
     ax.annotate(f"n={len(sub(b))}", (i, 1.5), ha="center", fontsize=6.5, color=fs.MUTED)
 ax.set_xlabel("heavy atoms"); ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 75)
-ax.set_title("Accuracy falls with molecular size")
+# message in caption; no in-panel title
 plt.tight_layout(); plt.savefig("docs/figures/fig2_size.png"); plt.close()
 
 # Fig 3 - inference-time scaling on the same 60 compounds (one metric -> one accent)
@@ -55,7 +55,7 @@ cols = [fs.MUTED, fs.MUTED, fs.BLUE]
 bars = ax.bar(labels, vals, width=0.6, color=cols, zorder=3)
 fs.barlabels(ax, bars, fmt="{:.0f}%", dy=0.6)
 ax.set_ylabel("exact top-1 (%)"); ax.set_ylim(0, 38)
-ax.set_title("Inference-time scaling (same 60)")
+# message in caption; no in-panel title
 plt.tight_layout(); plt.savefig("docs/figures/fig3_method.png"); plt.close()
 
 # Fig 4 - IRexp funnel (horizontal, k-formatted, payload bar highlighted)
@@ -71,6 +71,6 @@ for yi, val in zip(y, v):
 ax.set_yticks(y); ax.set_yticklabels(cats)
 ax.set_xlim(0, 140000); ax.set_xticks([])
 ax.spines["bottom"].set_visible(False)
-ax.set_title("IRexp: 121k records → 33k full quadruples")
+# message in caption; no in-panel title
 plt.tight_layout(); plt.savefig("docs/figures/fig4_dataset.png"); plt.close()
 print("wrote fig1_difficulty, fig2_size, fig3_method, fig4_dataset")

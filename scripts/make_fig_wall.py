@@ -19,11 +19,10 @@ for b, v in zip(bars, vals):
     ax.text(b.get_x() + b.get_width()/2, v + 2, f"{v}%", ha="center", va="bottom",
             fontsize=9, color=fs.INK)
 
-# the gap = "the wall", drawn in the space between the two bars
-ax.annotate("", xy=(0.5, 84), xytext=(0.5, 31),
+# the gap = "the wall": double-arrow in the white gap, label in clear space above it
+ax.annotate("", xy=(0.5, 83), xytext=(0.5, 32),
             arrowprops=dict(arrowstyle="<->", color=fs.INK, lw=0.9))
-ax.text(0.57, 57.5, "the wall", ha="left", va="center",
-        fontsize=7, color=fs.INK)
+ax.text(0.5, 86, "the wall", ha="center", va="bottom", fontsize=7, color=fs.INK)
 
 ax.set_xticks(x)
 ax.set_xticklabels(["proposes it\n(generation recall)", "verifies it\n(precision | recall)"])

@@ -17,20 +17,19 @@ fs.ygrid(ax)
 
 for b, v in zip(bars, vals):
     ax.text(b.get_x() + b.get_width()/2, v + 2, f"{v}%", ha="center", va="bottom",
-            fontsize=11, fontweight="bold", color=b.get_facecolor())
+            fontsize=9, color=fs.INK)
 
-# the gap = "the wall"
-ax.annotate("", xy=(0, 84), xytext=(0, 31),
-            arrowprops=dict(arrowstyle="<->", color=fs.INK, lw=1.0))
-ax.text(0.08, 57.5, "the wall\n53-point gap", ha="left", va="center",
-        fontsize=7.5, color=fs.INK, fontweight="bold")
+# the gap = "the wall", drawn in the space between the two bars
+ax.annotate("", xy=(0.5, 84), xytext=(0.5, 31),
+            arrowprops=dict(arrowstyle="<->", color=fs.INK, lw=0.9))
+ax.text(0.57, 57.5, "the wall", ha="left", va="center",
+        fontsize=7, color=fs.INK)
 
 ax.set_xticks(x)
-ax.set_xticklabels(["Proposes it\n(generation recall)", "Verifies it\n(precision | recall)"])
+ax.set_xticklabels(["proposes it\n(generation recall)", "verifies it\n(precision | recall)"])
 ax.set_ylim(0, 100)
 ax.set_ylabel("% of compounds")
 ax.set_yticks([0, 25, 50, 75, 100])
-ax.set_title("Recall is the wall, not verification")
 
 plt.tight_layout()
 plt.savefig("docs/figures/fig_wall.png")

@@ -24,15 +24,15 @@ fs.barlabels(ax, b2, fmt="{:.1f}", dy=1)
 # baseline + collapse/lift call-outs
 ax.axhline(28.4, color=fs.MUTED, lw=0.7, ls=(0, (4, 3)), zorder=2)
 ax.annotate("verifier collapses", xy=(1 + w/2, 16.0), xytext=(1 + w/2, 30),
-            ha="center", va="bottom", fontsize=6.5, color=fs.VERMIL,
-            arrowprops=dict(arrowstyle="->", color=fs.VERMIL, lw=0.9))
+            ha="center", va="bottom", fontsize=6, color=fs.MUTED,
+            arrowprops=dict(arrowstyle="->", color=fs.MUTED, lw=0.7))
 ax.annotate("recall converts", xy=(2 + w/2, 35.1), xytext=(2 - 0.02, 48),
-            ha="center", va="bottom", fontsize=6.5, color=fs.GREEN,
-            arrowprops=dict(arrowstyle="->", color=fs.GREEN, lw=0.9))
+            ha="center", va="bottom", fontsize=6, color=fs.MUTED,
+            arrowprops=dict(arrowstyle="->", color=fs.MUTED, lw=0.7))
 
 ax.set_xticks(x); ax.set_xticklabels(pools)
 ax.set_ylabel("% of 194 compounds"); ax.set_ylim(0, 64); ax.set_yticks([0, 20, 40, 60])
 ax.legend(loc="upper left", handlelength=1.0, fontsize=6.5)
-ax.set_title("A trained generator converts recall into top-1")
+# message in caption; no in-panel title
 plt.tight_layout(); plt.savefig("docs/figures/fig_generator_probe.png")
 print("wrote docs/figures/fig_generator_probe.png")

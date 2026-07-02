@@ -57,7 +57,7 @@ for i, n in enumerate(ns):
 ax.set_yticks(y); ax.set_yticklabels(labels)
 ax.set_xlabel("accuracy (%)"); ax.set_xlim(0, 72)
 ax.legend(loc="lower right", handlelength=1.0)
-ax.set_title("Accuracy varies ~4× across electrolyte classes")
+# message in caption; no in-panel title
 plt.tight_layout(); plt.savefig("docs/figures/fig6_electrolyte.png")
 plt.close()
 ov1 = 100 * t1 // max(N, 1); ovr = 100 * rec // max(N, 1)

@@ -113,7 +113,8 @@ def main():
                 fontsize=6.5, va="top", ha="right")
         ax.text(0.97, 0.88, "recovered (top-3)", transform=ax.transAxes, color=fs.SKY,
                 fontsize=6.5, va="top", ha="right")
-        ax.set_title("Cross-model comparison (n=24)")
+        ax.text(0.02, 0.98, "n=24", transform=ax.transAxes, ha="left", va="top",
+                fontsize=6.5, color=fs.MUTED)  # neutral n; message in caption
         plt.tight_layout(); plt.savefig("docs/figures/fig5_models.png")
         print("wrote docs/figures/fig5_models.png")
 

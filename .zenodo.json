@@ -1,10 +1,14 @@
 {
-  "title": "Recall, not verification, is the bottleneck in LLM molecular structure elucidation from real spectra: IRexp dataset, IRSpectra-Bench, and forward-verification code",
+  "title": "Recall, not verification, is the bottleneck when frontier LLMs elucidate molecular structures from real spectra: IRexp dataset, IRSpectra-Bench, and forward-verification code",
   "upload_type": "dataset",
-  "description": "Open data and code for the manuscript \"Recall, not verification, is the bottleneck in LLM molecular structure elucidation from real spectra.\" Includes IRexp (121,233 experimental-IR records; 42,842 structure-linked; 40,491 IR + 1H + 13C + structure quadruples), the blind IRSpectra-Bench benchmark (194 compounds) and its battery-electrolyte subset, model predictions, the forward-verification and HOSE-code verifier code, and all figure/scoring/mining scripts. Spectra are redistributed under their source licences (PMC Open-Access Subset, CC-BY-4.0; Chemotion/RADAR4Chem, CC-BY-SA-4.0), kept as separable pools; each record carries its source DOI/accession for attribution. Code is released under the MIT License (see LICENSE). NOTE: the held-out expert-audit and modality answer keys are intentionally excluded; the 152 MB nmrshiftdb2.sd snapshot and the built hose_c13.json.gz HOSE table are uploaded as separate files because they are not tracked in the GitHub repository.",
+  "description": "Open data and code for the manuscript \"Recall, not verification, is the bottleneck when frontier LLMs elucidate molecular structures from real spectra.\" Includes IRexp (121,233 experimental-IR records; 43,060 structure-linked; 33,201 full IR + 1H + 13C + structure quadruples), the blind IRSpectra-Bench benchmark (194 compounds) and its battery-electrolyte subset, model predictions, the forward-verification and HOSE-code verifier code, and all figure/scoring/mining scripts. Spectra are redistributed under their source licences (PMC Open-Access Subset, CC-BY-4.0; Chemotion/RADAR4Chem, CC-BY-SA-4.0), kept as separable pools; each record carries its source DOI/accession for attribution. Code is released under the MIT License (see LICENSE). NOTE: the held-out expert-audit and modality answer keys are intentionally excluded; the 152 MB nmrshiftdb2.sd snapshot and the built hose_c13.json.gz HOSE table are uploaded as separate files because they are not tracked in the GitHub repository.",
   "creators": [
     {
       "name": "Yabbarov, Ilkham",
+      "affiliation": "Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada"
+    },
+    {
+      "name": "Sondhi, Rudra",
       "affiliation": "Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada"
     },
     {

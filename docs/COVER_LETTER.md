@@ -1,7 +1,7 @@
 # Cover letter — *Digital Discovery* (RSC)
 
-**Re: Submission of "Recall, not verification, is the bottleneck in LLM molecular
-structure elucidation from real spectra"**
+**Re: Submission of "Recall, not verification, is the bottleneck when frontier LLMs
+elucidate molecular structures from real spectra"**
 
 Dear Editor,
 
@@ -63,7 +63,7 @@ and LLM evaluation upon request.
 Thank you for your consideration.
 
 Sincerely,
-Ilkham Yabbarov (corresponding author) and Rodrigo A. Vargas-Hernández
+Ilkham Yabbarov (corresponding author), Rudra Sondhi, and Rodrigo A. Vargas-Hernández
 Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada
 ilkhamfy@gmail.com
 

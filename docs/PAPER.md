@@ -1,9 +1,7 @@
-# Recall, not verification, is the bottleneck in LLM molecular structure elucidation from real spectra
+# Recall, not verification, is the bottleneck when frontier LLMs elucidate molecular structures from real spectra
 
-**Ilkham Yabbarov**¹ *(corresponding: ilkhamfy@gmail.com)*, **Rodrigo A. Vargas-Hernández**¹
+**Ilkham Yabbarov**¹ *(corresponding: ilkhamfy@gmail.com)*, **Rudra Sondhi**¹, **Rodrigo A. Vargas-Hernández**¹
 ¹ Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada
-
-*Manuscript draft prepared for Digital Discovery (RSC).*
 
 ---
 
@@ -21,15 +19,17 @@ First, **IRexp** — the largest permissively-licensed, redistributable dataset 
 IR + ¹H + ¹³C + structure quadruples), mined from open-access literature. Second,
 **IRSpectra-Bench** — an open, blind, mechanically scored benchmark of 194 compounds,
 complexity-stratified, on which accuracy splits sharply (48% simple vs 8% complex);
-a within-compound control shows that solving each compound in a fresh context with
-tools roughly triples accuracy over one long context (5%→15%), so reported numbers are
-highly sensitive to methodology, not raw capability alone. Third, a training-free
-**forward-verification** method that acts on the diagnosis: generating
-regiochemistry-aware candidates and re-ranking by predicted-vs-observed ¹³C lifts top-1
-from 23% to **30%** — a real but bounded gain: within the training-free regime, accuracy
-is capped by the product of generation recall and verification precision. That ceiling is *elicitation-specific, not intrinsic*: a small generator
-fine-tuned on IRexp lifts recall from 41% to 56% and forward-verified top-1 from 30% to
-41% (SI), and the released data is the active ingredient (a simulated-pretrained model
+a within-compound control shows that solving each compound in a fresh context with tools
+increases accuracy over one long context (5%→15%, i.e. 1/20→3/20; directional at n=20),
+so reported numbers are sensitive to methodology, not raw capability alone. Third, a
+training-free **forward-verification** method that acts on the diagnosis: on the 60-compound
+forward-verify subset, generating regiochemistry-aware candidates and re-ranking by
+predicted-vs-observed ¹³C lifts top-1 from 23% to **30%** — a real but bounded gain:
+within the training-free regime, accuracy is capped by the product of generation recall
+and verification precision. That ceiling is *elicitation-specific, not intrinsic*: a small generator
+fine-tuned on IRexp lifts recall from 41% to 56% (SI; with a corresponding rise in
+forward-verified top-1, pending deposit of the forward-prediction step), and the
+released data is the active ingredient (a simulated-pretrained model
 recovers 0/248 structures zero-shot, 25% after IRexp fine-tuning). The recall-bound
 regime reproduces in a battery-electrolyte domain (n=46, 26% top-1). Every result is
 single-vendor (Claude); a cross-vendor test is the key open question. The core protocol
@@ -126,14 +126,19 @@ puzzles with the molecular formula supplied). These establish that the task is w
 benchmarking and that LLMs can be scored on multi-spectral input; we claim priority on
 neither. What is new here is three things that, to our knowledge, no prior benchmark
 combines. **(i) Real, literature-mined experimental spectra at scale:** prior
-multimodal benchmarks and trained baselines¹ ¹³ rely on simulated, software-predicted,
+multimodal benchmarks and trained baselines¹ ¹³ ²³ rely on simulated, software-predicted,
 or hand-curated puzzle spectra, whereas IRSpectra-Bench is drawn from IRexp's
 experimental IR + ¹H + ¹³C of out-of-distribution compounds, so it measures the
-simulated-to-real gap rather than in-distribution skill. **(ii) Blind, fully specified,
-mechanical scoring:** reported MolPuzzle exact-match accuracy for one model (GPT-4o)
-ranges from 1.4%²⁰ to 27.8%¹⁵ depending only on the scoring harness — a ~20× swing —
-which is itself the argument for the single, pre-registered, RDKit-InChIKey protocol
-with bootstrap CIs that we adopt and release. **(iii) A recall/verification
+simulated-to-real gap rather than in-distribution skill. The closest trained precedent,
+Alberts et al.²³, learns an IR→structure transformer from ~635k *simulated* spectra with
+a 3,453-spectrum experimental fine-tune (top-1 44% on 6–13 heavy atoms); IRexp instead
+releases experimental IR at scale as an open, redistributable resource and pairs it with
+a blind LLM benchmark. **(ii) Blind, fully specified, mechanical scoring:** reported
+accuracies on the same task vary enormously with inference method and scoring harness —
+GPT-4o on MolPuzzle ranges from 1.4%²⁰ to 27.8%¹⁵, the latter using knowledge-enhanced
+tree-search reasoning¹⁵ — so numbers across papers are not directly comparable; we
+therefore fix and release a single, pre-registered, RDKit-InChIKey protocol with
+bootstrap CIs. **(iii) A recall/verification
 decomposition:** existing benchmarks report a single aggregate score, whereas we factor
 performance into generation recall and verification precision and show *where* the task
 is lost — the result that transfers across models, domains, and verifier choices.
@@ -179,7 +184,7 @@ chemistry papers. We exploit this with a browser-free harvesting agent:
   quality gates that reject instrument scan-range artefacts and prose
   false-positives (band-list density, ≥4 bands, plausible 400–4000 cm⁻¹ window).
 - **Structure resolution.** In-text IUPAC names are converted to SMILES with OPSIN³,
-  canonicalised with RDKit⁴ (InChIKey, SELFIES⁵), with a PubChem fallback for
+  canonicalised with RDKit⁴ (InChIKey, SELFIES⁵), with a PubChem²⁶ fallback for
   trivial/natural-product names. A key engineering finding was that the dominant
   open-access main-text convention labels compounds with *letter-prefixed* series
   labels (e.g. "…carbothioamide **(B1)**:") rather than the digit-first "(3a)" of
@@ -348,9 +353,9 @@ literature-mined experimental** spectra of out-of-distribution compounds. These 
 not comparable as a leaderboard; read as a *bound on the simulated-to-real gap*, the
 contrast suggests that high in-distribution accuracies substantially overstate
 real-world performance — the same gap we document for the LLM above. The instability
-of the metric itself reinforces the caution: the same ~20× MolPuzzle scoring swing
-documented in §1.1 (GPT-4o: 1.4%²⁰–27.8%¹⁵) bounds how much weight any single unaudited
-near-100% claim (ref 2) can bear.
+of the metric itself reinforces the caution: the same ~20× MolPuzzle swing documented in
+§1.1 (GPT-4o: 1.4%²⁰–27.8%¹⁵, method- and harness-dependent) bounds how much weight any
+single unaudited near-100% claim (ref 2) can bear.
 
 ### 4.3 Methodology dominates: a within-compound control
 
@@ -530,7 +535,9 @@ On the 60 benchmark compounds (126 candidate structures from the solver agents):
 
 The decomposition is the finding. **When the true structure is among the
 candidates, forward verification selects it 84% of the time, versus 73% for the
-model's own ranking (+11 points)** — a real, exploitable generator–verifier gap.
+model's own ranking (+11 points)** — a real, exploitable generator–verifier gap
+(the 84% sits ~18 points above the 66% derangement chance floor of §5.5, given how few
+and near-degenerate the recall-positive candidate sets are).
 The overall top-1 moves only 23%→26% because the binding constraint is **generation
 recall**: the true structure was never proposed for 41 of 60 compounds, which no
 re-ranking can repair.
@@ -574,8 +581,8 @@ either sharper verification or 2D-NMR constraints, not merely more candidates.
 
 §5.3 and a natural reading of the verifier-precision story suggest an obvious fix:
 swap the LLM forward-predictor for a *deterministic* ¹³C predictor with a rigorous
-error model. We tested the canonical choice — a **HOSE-code-style lookup trained on
-nmrshiftdb2** (RDKit radial-environment bins, spheres r=4→1 with a hybridisation
+error model. We tested the canonical choice — a **HOSE-code²⁵-style lookup trained on
+nmrshiftdb2²⁴** (RDKit radial-environment bins, spheres r=4→1 with a hybridisation
 prior fallback; 31,000 molecules, 332,595 assigned carbons; held-out **MAE 3.23 ppm,
 median 1.73 ppm**) — as a drop-in replacement for the verifier, re-ranking the same
 §5.2 candidates.
@@ -644,10 +651,12 @@ near-degenerate regioisomers *collapse* the deterministic HOSE verifier
 (top-1 28.4%→16.0%, the §5.3 precision-loss mechanism), the generator's formula-correct,
 ¹³C-separable candidates **convert**: HOSE top-1 rises **28.4%→35.1%** (McNemar exact
 p=0.015; +6.7 points, 95% CI [+2.1, +11.9]; Fig. S5). With the stronger LLM
-forward-prediction verifier on the 60 forward-verify compounds, recall rises 41%→**56%**
-and forward-verified top-1 30%→**41%** at essentially unchanged conditional precision
-(72%→73%) — the higher recall converts to top-1 rather than being lost to verifier
-confusion.
+forward-prediction verifier on the 60 forward-verify compounds, recall rises 41%→**56%**;
+the corresponding forward-verified top-1 (measured at **41%**, precision 72%→73%) was
+obtained with blind in-house prediction agents and is reported as **provisional** pending
+deposit of those forward-prediction outputs and a re-run under the pinned model snapshot
+(the released `forward_verify_gen.py` reproduces the recall arm and the deterministic
+HOSE re-rank; the LLM forward-prediction JSONs are not yet in the bundle).
 
 Two controls guard against memorisation, both reproducible from the released bundle
 (`contrib/generator_probe`): (i) the fine-tuning split removes every benchmark
@@ -994,8 +1003,10 @@ this dataset (Zenodo DOI above) and attribute the original publications via each
 
 **I.Y.:** conceptualization, methodology,
 software, formal analysis, investigation, data curation, visualization, writing —
-original draft. **R.A.V.-H.:** conceptualization, methodology, supervision, writing —
-review and editing.
+original draft. **R.S.:** methodology, software, formal analysis, investigation,
+validation (trained-generator and learned-verifier probes, §5.6–§5.7), writing —
+review and editing. **R.A.V.-H.:** conceptualization, methodology, supervision,
+writing — review and editing.
 
 ## Conflicts of Interest
 
@@ -1071,3 +1082,13 @@ The authors declare no competing interests.
 22. *Spectral Database for Organic Compounds (SDBS).* National Institute of Advanced
     Industrial Science and Technology (AIST), Japan. https://sdbs.db.aist.go.jp
     (accessed 2026; view-only, not bulk-redistributable).
+23. Alberts, M.; Laino, T.; Vaucher, A. C. *Leveraging infrared spectroscopy for
+    automated structure elucidation.* Commun. Chem. 2024, 7, 268,
+    doi:10.1038/s42004-024-01341-w.
+24. Kuhn, S.; Schlörer, N. E. *Facilitating quality control for spectra assignments of
+    small organic molecules: nmrshiftdb2.* Magn. Reson. Chem. 2015, 53, 582–589,
+    doi:10.1002/mrc.4263.
+25. Bremser, W. *HOSE — a novel substructure code.* Anal. Chim. Acta 1978, 103,
+    355–365, doi:10.1016/S0003-2670(01)83100-7.
+26. Kim, S.; Chen, J.; Cheng, T. et al. *PubChem 2023 update.* Nucleic Acids Res.
+    2023, 51, D1373–D1380, doi:10.1093/nar/gkac956.

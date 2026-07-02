@@ -22,7 +22,7 @@ for b, v in zip(bars, vals):
 # the gap = "the wall", drawn in the space between the two bars
 ax.annotate("", xy=(0.5, 84), xytext=(0.5, 31),
             arrowprops=dict(arrowstyle="<->", color=fs.INK, lw=0.9))
-ax.text(0.57, 57.5, "53-point\ngap", ha="left", va="center",
+ax.text(0.57, 57.5, "the wall", ha="left", va="center",
         fontsize=7, color=fs.INK)
 
 ax.set_xticks(x)

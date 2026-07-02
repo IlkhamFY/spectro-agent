@@ -21,14 +21,10 @@ b2 = ax.bar(x + w/2, top1,  w, color=fs.BLUE, zorder=3, label="HOSE top-1")
 fs.barlabels(ax, b1, fmt="{:.1f}", dy=1)
 fs.barlabels(ax, b2, fmt="{:.1f}", dy=1)
 
-# baseline + collapse/lift call-outs
-ax.axhline(28.4, color=fs.MUTED, lw=0.7, ls=(0, (4, 3)), zorder=2)
-ax.annotate("verifier collapses", xy=(1 + w/2, 16.0), xytext=(1 + w/2, 30),
-            ha="center", va="bottom", fontsize=6, color=fs.MUTED,
-            arrowprops=dict(arrowstyle="->", color=fs.MUTED, lw=0.7))
-ax.annotate("recall converts", xy=(2 + w/2, 35.1), xytext=(2 - 0.02, 48),
-            ha="center", va="bottom", fontsize=6, color=fs.MUTED,
-            arrowprops=dict(arrowstyle="->", color=fs.MUTED, lw=0.7))
+# Claude-only baseline reference; the collapse-vs-convert story lives in the caption
+ax.axhline(28.4, color=fs.MUTED, lw=0.6, ls=(0, (4, 3)), zorder=2)
+ax.text(0.015, 30.0, "Claude top-1 (28.4%)", transform=ax.get_yaxis_transform(),
+        fontsize=6, color=fs.MUTED, va="bottom", ha="left")
 
 ax.set_xticks(x); ax.set_xticklabels(pools)
 ax.set_ylabel("% of 194 compounds"); ax.set_ylim(0, 64); ax.set_yticks([0, 20, 40, 60])

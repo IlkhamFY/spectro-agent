@@ -26,18 +26,18 @@ FIGS = [
      "(picolinamide vs nicotinamide): forward-predicted $^{13}$C matches the true "
      "isomer (chamfer 0.42 vs 1.30 ppm) --- an analog of NMR-crystallography."),
     ("fig3_method.png", "Forward-verification inference ladder on the same 60 "
-     "compounds: solver self-ranking $\\to$ + forward-verify $\\to$ + generate-wide "
+     "compounds: solver self-ranking → + forward-verify → + generate-wide "
      "(23\\%/26\\%/30\\% top-1)."),
 ]
 
 # Supporting-Information figures (numbered Fig. S1-S4)
 SI_FIGS = [
-    ("fig0_overview.png", "Study design: open multimodal data (IRexp) $\\to$ blind, "
-     "complexity-stratified benchmark $\\to$ decoupled blind solving $\\to$ "
+    ("fig0_overview.png", "Study design: open multimodal data (IRexp) → blind, "
+     "complexity-stratified benchmark → decoupled blind solving → "
      "forward-verification re-ranking; training-free core pipeline."),
     ("fig4_dataset.png", "IRexp composition: IR records, NMR-paired, structure-linked, "
      "and full IR+$^1$H+$^{13}$C+structure quadruples."),
-    ("fig2_size.png", "Accuracy versus molecular size; the monotonic 60\\%$\\to$7\\% "
+    ("fig2_size.png", "Accuracy versus molecular size; the monotonic 60\\%→7\\% "
      "top-1 gradient with heavy-atom count."),
     ("fig6_electrolyte.png", "IRSpectra-Bench-Electrolyte by battery-electrolyte class "
      "(n=46): sp$^3$-C--F easiest (50\\%), sulfonyl and nitrile hardest (12\\%)."),
@@ -45,8 +45,8 @@ SI_FIGS = [
      "of the training-free protocol). Candidate recall and deterministic-HOSE top-1 on "
      "the 194-compound benchmark for Claude / + scaffold enumeration / + trained "
      "generator: enumeration's near-degenerate isomers collapse the verifier "
-     "(28.4$\\to$16.0\\%) while the generator's formula-correct candidates convert "
-     "(28.4$\\to$35.1\\%)."),
+     "(28.4→16.0\\%) while the generator's formula-correct candidates convert "
+     "(28.4→35.1\\%)."),
     ("fig_verifier.png", "Learned-verifier probe (\\S5.7; a complement, not part of the "
      "training-free protocol). (A) Conditional-on-recall top-1 (n=19) across four "
      "verifiers: a GNN trained on the same nmrshiftdb2 data as the HOSE lookup recovers "

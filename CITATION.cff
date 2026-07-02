@@ -4,7 +4,7 @@ type: dataset
 title: "IRexp, IRSpectra-Bench, and forward-verification for LLM molecular structure elucidation"
 abstract: >-
   Open data and code for the manuscript "Recall, not verification, is the bottleneck
-  in LLM molecular structure elucidation from real spectra": the IRexp experimental-IR
+  when frontier LLMs elucidate molecular structures from real spectra": the IRexp experimental-IR
   dataset, the blind IRSpectra-Bench benchmark, model predictions, and the
   training-free forward-verification method.
 authors:

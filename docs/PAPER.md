@@ -1,4 +1,4 @@
-# Recall, not verification, is the bottleneck in LLM molecular structure elucidation from real spectra
+# Recall, not verification, is the bottleneck when frontier LLMs elucidate molecular structures from real spectra
 
 **Ilkham Yabbarov**¹ *(corresponding: ilkhamfy@gmail.com)*, **Rudra Sondhi**¹, **Rodrigo A. Vargas-Hernández**¹
 ¹ Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada

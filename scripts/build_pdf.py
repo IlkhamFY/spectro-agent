@@ -26,18 +26,18 @@ FIGS = [
      "(picolinamide vs nicotinamide): forward-predicted $^{13}$C matches the true "
      "isomer (chamfer 0.42 vs 1.30 ppm) --- an analog of NMR-crystallography."),
     ("fig3_method.png", "Forward-verification inference ladder on the same 60 "
-     "compounds: solver self-ranking $\\to$ + forward-verify $\\to$ + generate-wide "
+     "compounds: solver self-ranking → + forward-verify → + generate-wide "
      "(23\\%/26\\%/30\\% top-1)."),
 ]
 
 # Supporting-Information figures (numbered Fig. S1-S4)
 SI_FIGS = [
-    ("fig0_overview.png", "Study design: open multimodal data (IRexp) $\\to$ blind, "
-     "complexity-stratified benchmark $\\to$ decoupled blind solving $\\to$ "
+    ("fig0_overview.png", "Study design: open multimodal data (IRexp) → blind, "
+     "complexity-stratified benchmark → decoupled blind solving → "
      "forward-verification re-ranking; training-free core pipeline."),
     ("fig4_dataset.png", "IRexp composition: IR records, NMR-paired, structure-linked, "
      "and full IR+$^1$H+$^{13}$C+structure quadruples."),
-    ("fig2_size.png", "Accuracy versus molecular size; the monotonic 60\\%$\\to$7\\% "
+    ("fig2_size.png", "Accuracy versus molecular size; the monotonic 60\\%→7\\% "
      "top-1 gradient with heavy-atom count."),
     ("fig6_electrolyte.png", "IRSpectra-Bench-Electrolyte by battery-electrolyte class "
      "(n=46): sp$^3$-C--F easiest (50\\%), sulfonyl and nitrile hardest (12\\%)."),
@@ -45,8 +45,8 @@ SI_FIGS = [
      "of the training-free protocol). Candidate recall and deterministic-HOSE top-1 on "
      "the 194-compound benchmark for Claude / + scaffold enumeration / + trained "
      "generator: enumeration's near-degenerate isomers collapse the verifier "
-     "(28.4$\\to$16.0\\%) while the generator's formula-correct candidates convert "
-     "(28.4$\\to$35.1\\%)."),
+     "(28.4→16.0\\%) while the generator's formula-correct candidates convert "
+     "(28.4→35.1\\%)."),
     ("fig_verifier.png", "Learned-verifier probe (\\S5.7; a complement, not part of the "
      "training-free protocol). (A) Conditional-on-recall top-1 (n=19) across four "
      "verifiers: a GNN trained on the same nmrshiftdb2 data as the HOSE lookup recovers "
@@ -70,6 +70,18 @@ UNI = {
     "₉": r"\textsubscript{9}",
 }
 
+TEXTWIDTH_IN = 6.3   # \textwidth at 1-inch margins on US-letter
+
+def fig_width(path):
+    """Render each figure at its native design size (px / dpi), capped at the text
+    width — never upscaled. Upscaling a small figure is what makes lines and type look
+    chunky; journals place figures at 1:1."""
+    from PIL import Image
+    im = Image.open(path)
+    dpi = (im.info.get("dpi") or (600, 600))[0] or 600
+    w_in = im.size[0] / dpi
+    return f"{min(w_in, TEXTWIDTH_IN):.2f}in"
+
 def header():
     lines = [r"\usepackage{newunicodechar}", r"\usepackage{graphicx}",
              r"\renewcommand{\figurename}{Fig.}"]
@@ -83,7 +95,7 @@ def main():
     for fn, cap in FIGS:
         path = f"docs/figures/{fn}"
         if os.path.exists(path):
-            md += f"![{cap}]({path}){{width=82%}}\n\n"
+            md += f"![{cap}]({path}){{width={fig_width(path)}}}\n\n"
     # Supporting-Information figures, renumbered Fig. S1, S2, ...
     if any(os.path.exists(f"docs/figures/{fn}") for fn, _ in SI_FIGS):
         md += ("\n\n\\clearpage\n\n"
@@ -92,7 +104,7 @@ def main():
         for fn, cap in SI_FIGS:
             path = f"docs/figures/{fn}"
             if os.path.exists(path):
-                md += f"![{cap}]({path}){{width=82%}}\n\n"
+                md += f"![{cap}]({path}){{width={fig_width(path)}}}\n\n"
 
     with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as mf:
         mf.write(md); md_path = mf.name

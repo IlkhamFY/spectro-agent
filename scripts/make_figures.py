@@ -15,15 +15,15 @@ def rate(rs, k): return 100*sum(r[k] for r in rs)/len(rs) if rs else 0
 # Fig 1 - accuracy by difficulty (top-1 & recovered, bootstrap CIs)
 groups = [("All", R), ("Simple", [r for r in R if r['diff'] == 'simple']),
           ("Complex", [r for r in R if r['diff'] == 'complex'])]
-fig, ax = plt.subplots(figsize=(3.6, 2.7)); fs.ygrid(ax)
-x = np.arange(len(groups)); w = 0.38
+fig, ax = plt.subplots(figsize=(3.4, 2.5)); fs.ygrid(ax)
+x = np.arange(len(groups)); w = 0.32
 for i, (key, col, lab) in enumerate([("top1", fs.BLUE, "exact top-1"),
                                      ("rec", fs.SKY, "recovered (top-3)")]):
     pts, los, his = [], [], []
     for _, sub in groups:
         p, lo, hi = boot(sub, lambda s: rate(s, key)); pts.append(p); los.append(p-lo); his.append(hi-p)
-    ax.bar(x+(i-0.5)*w, pts, w, yerr=[los, his], capsize=2.5,
-           error_kw=dict(lw=0.8, ecolor=fs.INK), color=col, label=lab, zorder=3)
+    ax.bar(x+(i-0.5)*w, pts, w, yerr=[los, his], capsize=1.8,
+           error_kw=dict(lw=0.6, ecolor=fs.INK, capthick=0.6), color=col, label=lab, zorder=3)
 ax.set_xticks(x); ax.set_xticklabels([f"{g[0]}\n(n={len(g[1])})" for g in groups])
 ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 70)
 ax.legend(loc="upper right", handlelength=1.0)
@@ -34,16 +34,18 @@ plt.tight_layout(); plt.savefig("docs/figures/fig1_difficulty.png"); plt.close()
 buckets = ["≤15", "16-25", ">25"]
 sub = lambda b: [r for r in R if r['hac'] == ("<=15" if b == "≤15" else b)]
 t1 = [rate(sub(b), 'top1') for b in buckets]; rc = [rate(sub(b), 'rec') for b in buckets]
-fig, ax = plt.subplots(figsize=(3.6, 2.7))
+fig, ax = plt.subplots(figsize=(3.4, 2.5))
 ax.plot(buckets, rc, "s--", color=fs.SKY, mfc="white", mec=fs.SKY)
 ax.plot(buckets, t1, "o-", color=fs.BLUE)
-ax.annotate("recovered", (2, rc[-1]), xytext=(4, 2), textcoords="offset points",
-            color=fs.SKY, fontsize=7, va="bottom", ha="right")
-ax.annotate("exact top-1", (2, t1[-1]), xytext=(4, -2), textcoords="offset points",
-            color=fs.BLUE, fontsize=7, va="top", ha="right")
-for i, b in enumerate(buckets):
-    ax.annotate(f"n={len(sub(b))}", (i, 1.5), ha="center", fontsize=6.5, color=fs.MUTED)
-ax.set_xlabel("heavy atoms"); ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 75)
+# direct labels at the LEFT end, where the two series are well separated (68 vs 60)
+ax.annotate("recovered (top-3)", (0, rc[0]), xytext=(6, 4), textcoords="offset points",
+            color=fs.SKY, fontsize=7, va="bottom", ha="left")
+ax.annotate("exact top-1", (0, t1[0]), xytext=(6, -9), textcoords="offset points",
+            color=fs.BLUE, fontsize=7, va="top", ha="left")
+ax.set_xticks(range(len(buckets)))
+ax.set_xticklabels([f"{b}\n(n={len(sub(b))})" for b in buckets])
+ax.set_xlabel("heavy atoms", labelpad=1); ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 75)
+ax.margins(x=0.10)
 # message in caption; no in-panel title
 plt.tight_layout(); plt.savefig("docs/figures/fig2_size.png"); plt.close()
 

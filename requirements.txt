@@ -4,6 +4,11 @@ pypdf>=4.0                    # PDF text extraction
 pdfminer.six>=20221105       # fallback PDF text extraction
 PyYAML>=6.0                  # seed lists / config
 
+# Figures / manuscript build
+matplotlib>=3.7
+SciencePlots>=2.1            # Nature/Science journal base style (scripts/figstyle.py)
+pypandoc>=1.11               # PAPER.md -> PDF (needs pandoc + tectonic on PATH)
+
 # Optional chemistry stack (graceful degradation if absent) -- enables
 # IUPAC-name -> SMILES -> SELFIES + InChIKey dedup (the exact Spectro targets)
 rdkit>=2023.3

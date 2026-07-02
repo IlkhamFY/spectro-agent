@@ -13,6 +13,10 @@ authors:
     affiliation: "Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada"
     email: ilkhamfy@gmail.com
     # orcid: "https://orcid.org/0000-0000-0000-0000"  # TODO: add before publishing
+  - family-names: Sondhi
+    given-names: Rudra
+    affiliation: "Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"  # TODO: add before publishing
   - family-names: Vargas-Hernández
     given-names: Rodrigo A.
     affiliation: "Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada"

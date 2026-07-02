@@ -1,9 +1,7 @@
 # Recall, not verification, is the bottleneck in LLM molecular structure elucidation from real spectra
 
-**Ilkham Yabbarov**¹ *(corresponding: ilkhamfy@gmail.com)*, **Rodrigo A. Vargas-Hernández**¹
+**Ilkham Yabbarov**¹ *(corresponding: ilkhamfy@gmail.com)*, **Rudra Sondhi**¹, **Rodrigo A. Vargas-Hernández**¹
 ¹ Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada
-
-*Manuscript draft prepared for Digital Discovery (RSC).*
 
 ---
 
@@ -994,8 +992,10 @@ this dataset (Zenodo DOI above) and attribute the original publications via each
 
 **I.Y.:** conceptualization, methodology,
 software, formal analysis, investigation, data curation, visualization, writing —
-original draft. **R.A.V.-H.:** conceptualization, methodology, supervision, writing —
-review and editing.
+original draft. **R.S.:** methodology, software, formal analysis, investigation,
+validation (trained-generator and learned-verifier probes, §5.6–§5.7), writing —
+review and editing. **R.A.V.-H.:** conceptualization, methodology, supervision,
+writing — review and editing.
 
 ## Conflicts of Interest
 

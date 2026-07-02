@@ -70,6 +70,18 @@ UNI = {
     "₉": r"\textsubscript{9}",
 }
 
+TEXTWIDTH_IN = 6.3   # \textwidth at 1-inch margins on US-letter
+
+def fig_width(path):
+    """Render each figure at its native design size (px / dpi), capped at the text
+    width — never upscaled. Upscaling a small figure is what makes lines and type look
+    chunky; journals place figures at 1:1."""
+    from PIL import Image
+    im = Image.open(path)
+    dpi = (im.info.get("dpi") or (600, 600))[0] or 600
+    w_in = im.size[0] / dpi
+    return f"{min(w_in, TEXTWIDTH_IN):.2f}in"
+
 def header():
     lines = [r"\usepackage{newunicodechar}", r"\usepackage{graphicx}",
              r"\renewcommand{\figurename}{Fig.}"]
@@ -83,7 +95,7 @@ def main():
     for fn, cap in FIGS:
         path = f"docs/figures/{fn}"
         if os.path.exists(path):
-            md += f"![{cap}]({path}){{width=82%}}\n\n"
+            md += f"![{cap}]({path}){{width={fig_width(path)}}}\n\n"
     # Supporting-Information figures, renumbered Fig. S1, S2, ...
     if any(os.path.exists(f"docs/figures/{fn}") for fn, _ in SI_FIGS):
         md += ("\n\n\\clearpage\n\n"
@@ -92,7 +104,7 @@ def main():
         for fn, cap in SI_FIGS:
             path = f"docs/figures/{fn}"
             if os.path.exists(path):
-                md += f"![{cap}]({path}){{width=82%}}\n\n"
+                md += f"![{cap}]({path}){{width={fig_width(path)}}}\n\n"
 
     with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as mf:
         mf.write(md); md_path = mf.name

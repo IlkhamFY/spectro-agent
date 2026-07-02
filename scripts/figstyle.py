@@ -34,22 +34,24 @@ def apply():
         "font.size": 7,
         "axes.titlesize": 7, "axes.labelsize": 7,
         "xtick.labelsize": 7, "ytick.labelsize": 7, "legend.fontsize": 6.5,
-        "axes.edgecolor": INK, "axes.linewidth": 0.8,
+        "axes.edgecolor": INK, "axes.linewidth": 0.5,
         "axes.spines.top": False, "axes.spines.right": False,
-        "axes.titlelocation": "left", "axes.titlepad": 6, "axes.titleweight": "normal",
+        "axes.titlelocation": "left", "axes.titlepad": 5, "axes.titleweight": "normal",
         "axes.labelcolor": INK, "axes.titlecolor": INK, "text.color": INK,
         "xtick.color": INK, "ytick.color": INK,
         "xtick.direction": "out", "ytick.direction": "out",
-        "xtick.major.size": 3, "ytick.major.size": 3,
-        "xtick.major.width": 0.8, "ytick.major.width": 0.8,
-        "axes.grid": False, "legend.frameon": False,
-        "lines.linewidth": 1.6, "lines.markersize": 5, "patch.linewidth": 0,
+        "xtick.major.size": 2.5, "ytick.major.size": 2.5,
+        "xtick.major.width": 0.5, "ytick.major.width": 0.5,
+        "xtick.major.pad": 2.5, "ytick.major.pad": 2.5,
+        "axes.grid": False, "legend.frameon": False, "legend.handlelength": 1.1,
+        "legend.handletextpad": 0.5, "legend.labelspacing": 0.35,
+        "lines.linewidth": 1.2, "lines.markersize": 4, "patch.linewidth": 0,
     })
 
 def ygrid(ax):
-    """Faint y-only gridline behind bars."""
+    """Whisper-faint y-only reference lines behind bars (Nature: minimal)."""
     ax.set_axisbelow(True)
-    ax.yaxis.grid(True, color=FAINT, linewidth=0.6)
+    ax.yaxis.grid(True, color=FAINT, linewidth=0.4)
     ax.xaxis.grid(False)
 
 def panel(ax, letter, x=-0.16, y=1.04):

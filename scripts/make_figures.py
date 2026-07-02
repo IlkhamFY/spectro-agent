@@ -15,15 +15,15 @@ def rate(rs, k): return 100*sum(r[k] for r in rs)/len(rs) if rs else 0
 # Fig 1 - accuracy by difficulty (top-1 & recovered, bootstrap CIs)
 groups = [("All", R), ("Simple", [r for r in R if r['diff'] == 'simple']),
           ("Complex", [r for r in R if r['diff'] == 'complex'])]
-fig, ax = plt.subplots(figsize=(3.6, 2.7)); fs.ygrid(ax)
-x = np.arange(len(groups)); w = 0.38
+fig, ax = plt.subplots(figsize=(3.4, 2.5)); fs.ygrid(ax)
+x = np.arange(len(groups)); w = 0.32
 for i, (key, col, lab) in enumerate([("top1", fs.BLUE, "exact top-1"),
                                      ("rec", fs.SKY, "recovered (top-3)")]):
     pts, los, his = [], [], []
     for _, sub in groups:
         p, lo, hi = boot(sub, lambda s: rate(s, key)); pts.append(p); los.append(p-lo); his.append(hi-p)
-    ax.bar(x+(i-0.5)*w, pts, w, yerr=[los, his], capsize=2.5,
-           error_kw=dict(lw=0.8, ecolor=fs.INK), color=col, label=lab, zorder=3)
+    ax.bar(x+(i-0.5)*w, pts, w, yerr=[los, his], capsize=1.8,
+           error_kw=dict(lw=0.6, ecolor=fs.INK, capthick=0.6), color=col, label=lab, zorder=3)
 ax.set_xticks(x); ax.set_xticklabels([f"{g[0]}\n(n={len(g[1])})" for g in groups])
 ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 70)
 ax.legend(loc="upper right", handlelength=1.0)

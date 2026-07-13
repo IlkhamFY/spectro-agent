@@ -91,30 +91,38 @@ def main():
     if "--stats" in sys.argv and vec:
         stats(vec)
 
-    if "--fig" in sys.argv and res:
+    if "--fig" in sys.argv and vec:
+        # Dot + bootstrap-95%-CI forest (NOT bars): at n=24 the CIs overlap heavily, so
+        # the plot must show that adjacent models are not separable, not imply a ranking.
         import matplotlib; matplotlib.use("Agg")
         import matplotlib.pyplot as plt
-        import numpy as np
         import figstyle as fs
         fs.apply()
-        order = [m for m in ["Fable", "Opus", "Sonnet", "Haiku"] if m in res]
-        n = len(SUBSET)
-        t1 = [100 * res[m][0] / n for m in order]
-        rc = [100 * res[m][1] / n for m in order]
-        x = np.arange(len(order)); w = 0.38
-        fig, ax = plt.subplots(figsize=(3.6, 2.7)); fs.ygrid(ax)
-        t1cols = [fs.ORANGE if m == "Fable" else fs.BLUE for m in order]
-        b1 = ax.bar(x - w/2, t1, w, color=t1cols, zorder=3)
-        ax.bar(x + w/2, rc, w, color=fs.SKY, zorder=3)
-        fs.barlabels(ax, b1, fmt="{:.0f}", dy=1)
-        ax.set_xticks(x); ax.set_xticklabels(order)
-        ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 60)
-        ax.text(0.97, 0.96, "exact top-1", transform=ax.transAxes, color=fs.BLUE,
-                fontsize=6.5, va="top", ha="right")
-        ax.text(0.97, 0.88, "recovered (top-3)", transform=ax.transAxes, color=fs.SKY,
-                fontsize=6.5, va="top", ha="right")
-        ax.text(0.02, 0.98, "n=24", transform=ax.transAxes, ha="left", va="top",
-                fontsize=6.5, color=fs.MUTED)  # neutral n; message in caption
+        order = [m for m in ["Fable", "Opus", "Sonnet", "Haiku"] if m in vec]
+        n = len(SUBSET); rng = random.Random(0); B = 10000
+        def _ci(v):
+            p = 100 * sum(v) / n
+            bs = sorted(100 * sum(v[rng.randrange(n)] for _ in range(n)) / n for _ in range(B))
+            return p, bs[int(.025 * B)], bs[int(.975 * B)]
+        t1 = {m: _ci(vec[m]) for m in order}
+        rc = {m: 100 * res[m][1] / n for m in order}
+        ys = list(range(len(order) - 1, -1, -1))          # Fable at top
+        fig, ax = plt.subplots(figsize=(3.5, 2.4))
+        ax.set_axisbelow(True); ax.xaxis.grid(True, color=fs.FAINT, linewidth=0.5)
+        for y, m in zip(ys, order):
+            p, lo, hi = t1[m]
+            col = fs.ORANGE if m == "Fable" else fs.MUTED   # Fable = hero; others neutral
+            ax.errorbar(p, y, xerr=[[p - lo], [hi - p]], fmt="o", ms=5, color=col,
+                        ecolor=col, elinewidth=1.0, capsize=2.5, capthick=0.9, zorder=3)
+            ax.plot(rc[m], y, "o", ms=5, mfc="white", mec=fs.SKY, mew=1.0, zorder=2)
+            ax.text(p, y + 0.24, f"{p:.0f}", ha="center", va="bottom", fontsize=6.5, color=fs.INK)
+        ax.set_yticks(ys); ax.set_yticklabels(order)
+        ax.set_xlabel("accuracy (%)"); ax.set_xlim(-4, 72); ax.set_ylim(-0.6, len(order) - 0.4)
+        ax.plot([], [], "o", ms=5, color=fs.MUTED, label="exact top-1 (95% CI)")
+        ax.plot([], [], "o", ms=5, mfc="white", mec=fs.SKY, mew=1.0, label="recovered (top-3)")
+        ax.legend(loc="lower right", fontsize=6, handlelength=1.0)
+        ax.text(0.02, 0.04, "n=24 · adjacent models n.s. after Holm", transform=ax.transAxes,
+                ha="left", va="bottom", fontsize=6, color=fs.MUTED)
         plt.tight_layout(); plt.savefig("docs/figures/fig5_models.png")
         print("wrote docs/figures/fig5_models.png")
 

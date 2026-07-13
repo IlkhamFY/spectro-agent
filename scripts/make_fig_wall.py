@@ -1,34 +1,39 @@
 #!/usr/bin/env python3
-"""Hero figure - the diagnosis in one glance: the model can VERIFY the right structure
-(84% when shown it) but rarely PROPOSES it (31% recall). Recall is the wall."""
+"""Hero figure (Fig 1) — the diagnosis as an icon array of the 60 forward-verify
+compounds, so the DENOMINATORS are shown, not asserted. Of 60 real spectra:
+41 the true structure is never proposed ("the wall"), 3 are recalled but mis-ranked,
+16 are recalled AND verified (16/60 = 26% exact top-1 end-to-end; 16/19 = 84% of
+recalled). This avoids the two-bar 31%-vs-84% chart, whose different denominators
+(19/60 vs 16/19) misread as a single shared rate."""
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyArrowPatch
 import figstyle as fs
 
 fs.apply()
-fig, ax = plt.subplots(figsize=(3.5, 2.9))
+NCOL = 10
+# bottom-to-top fill: 41 never-proposed (grey), 3 mis-ranked (vermilion), 16 verified (green)
+colours = [fs.MUTED] * 41 + [fs.VERMIL] * 3 + [fs.GREEN] * 16
+xs = [i % NCOL for i in range(60)]
+ys = [i // NCOL for i in range(60)]
 
-x = [0, 1]
-vals = [31, 84]
-cols = [fs.VERMIL, fs.GREEN]
-bars = ax.bar(x, vals, width=0.62, color=cols, zorder=3)
-fs.ygrid(ax)
+fig, ax = plt.subplots(figsize=(4.6, 2.7))
+ax.scatter(xs, ys, s=62, c=colours, marker="s", edgecolor="white", linewidth=0.7, zorder=3)
+ax.set_xlim(-0.8, 20.4); ax.set_ylim(-0.9, 6.0)
+ax.set_aspect("equal"); ax.axis("off")
 
-for b, v in zip(bars, vals):
-    ax.text(b.get_x() + b.get_width()/2, v + 2, f"{v}%", ha="center", va="bottom",
-            fontsize=9, color=fs.INK)
+# direct, colour-matched labels on the right, aligned to each band (no legend box)
+lx = 11.2
+ax.text(lx, 5.0, "16", color=fs.GREEN, fontsize=11, fontweight="bold", va="center")
+ax.text(lx + 1.35, 5.15, "recalled and verified", color=fs.GREEN, fontsize=7, va="center")
+ax.text(lx + 1.35, 4.55, "16/60 = 26% exact top-1", color=fs.GREEN, fontsize=6, va="center")
+ax.text(lx, 3.7, "3", color=fs.VERMIL, fontsize=10, fontweight="bold", va="center")
+ax.text(lx + 1.35, 3.7, "recalled but mis-ranked", color=fs.VERMIL, fontsize=7, va="center")
+ax.text(lx, 1.85, "41", color=fs.MUTED, fontsize=11, fontweight="bold", va="center")
+ax.text(lx + 1.35, 2.25, "never proposed", color=fs.INK, fontsize=7, va="center")
+ax.text(lx + 1.35, 1.55, "“the wall”", color=fs.INK, fontsize=8.5, fontweight="bold", va="center")
+ax.text(lx + 1.35, 0.85, "recall 31%; of those, 84% verify", color=fs.MUTED, fontsize=6, va="center")
 
-# the gap = "the wall": double-arrow in the white gap, label in clear space above it
-ax.annotate("", xy=(0.5, 83), xytext=(0.5, 32),
-            arrowprops=dict(arrowstyle="<->", color=fs.INK, lw=0.9))
-ax.text(0.5, 86, "the wall", ha="center", va="bottom", fontsize=7, color=fs.INK)
-
-ax.set_xticks(x)
-ax.set_xticklabels(["proposes it\n(generation recall)", "verifies it\n(precision | recall)"])
-ax.set_ylim(0, 100)
-ax.set_ylabel("% of compounds")
-ax.set_yticks([0, 25, 50, 75, 100])
+ax.text(-0.4, 5.85, "60 real spectra", color=fs.INK, fontsize=6.5, va="bottom", ha="left")
 
 plt.tight_layout()
 plt.savefig("docs/figures/fig_wall.png")

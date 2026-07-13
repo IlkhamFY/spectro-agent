@@ -12,11 +12,12 @@ OUT = "docs/paper.pdf"
 
 # Main-text figures (numbered Fig. 1-5)
 FIGS = [
-    ("fig_wall.png", "The diagnosis in one glance: shown a candidate set, the model "
-     "\\emph{verifies} the true structure 84\\% of the time it is in the candidate set "
-     "(conditional on recall, n=19; roughly 18 pt above the derangement floor of \\S5.5), "
-     "yet the model \\emph{proposes} it for only 31\\% of compounds (n=60). Recall, not "
-     "verification, is the wall."),
+    ("fig_wall.png", "The diagnosis as an icon array of the 60 forward-verify "
+     "compounds. The true structure is never proposed for 41 (grey) --- \\emph{the "
+     "wall} --- recalled but mis-ranked for 3 (vermilion), and recalled and verified "
+     "for 16 (green). Forward-verification therefore recovers 16/60 = 26\\% exact top-1 "
+     "end-to-end: the model proposes the true structure for only 31\\% of compounds "
+     "and, of those, verifies 84\\%. Recall, not verification, is the wall."),
     ("fig1_difficulty.png", "Top-1 and recovered accuracy on IRSpectra-Bench by "
      "difficulty (all / simple / complex, n=194) with bootstrap 95\\% CIs."),
     ("fig5_models.png", "Four-model comparison on a 24-compound subset: Fable 5 45\\% "

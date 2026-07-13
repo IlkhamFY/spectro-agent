@@ -48,14 +48,12 @@ ns = [by[c][0] for c in order]
 
 fig, ax = plt.subplots(figsize=(fs.COL1, 2.6))
 ax.set_axisbelow(True); ax.xaxis.grid(True, color=fs.FAINT, linewidth=0.6)
-y = np.arange(len(order)); h = 0.38
-ax.barh(y + h/2, recov, h, color=fs.SKY, label="recovered (top-3)", zorder=3)
-ax.barh(y - h/2, top1, h, color=fs.BLUE, label="exact top-1", zorder=3)
-for i, n in enumerate(ns):
-    ax.text(max(recov[i], top1[i]) + 1.5, y[i], f"n={n}", va="center", ha="left",
-            fontsize=fs.FS_SMALL, color=fs.MUTED)
-ax.set_yticks(y); ax.set_yticklabels(labels)
-ax.set_xlabel("accuracy (%)"); ax.set_xlim(0, 72)
+y = np.arange(len(order)); c = 0.40; bh = 0.36     # 0.04 surface gap between the pair
+ax.barh(y + c/2, recov, bh, color=fs.SKY, label="recovered (top-3)", zorder=3)
+ax.barh(y - c/2, top1, bh, color=fs.BLUE, label="exact top-1", zorder=3)
+# n folded into the category label (like Fig 2), so nothing floats over the bars
+ax.set_yticks(y); ax.set_yticklabels([f"{lab}  (n={n})" for lab, n in zip(labels, ns)])
+ax.set_xlabel("accuracy (%)"); ax.set_xlim(0, 60)
 ax.legend(loc="lower right", handlelength=1.0)
 # message in caption; no in-panel title
 plt.tight_layout(); plt.savefig("docs/figures/fig6_electrolyte.png")

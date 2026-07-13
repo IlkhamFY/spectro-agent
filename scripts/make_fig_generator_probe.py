@@ -14,10 +14,10 @@ pools  = ["Claude\nonly", "+ scaffold\nenumeration", "+ trained\ngenerator"]
 recall = [33.5, 41.8, 54.1]
 top1   = [28.4, 16.0, 35.1]          # deterministic HOSE re-rank (real, not projected)
 
-x = np.arange(len(pools)); w = 0.38
+x = np.arange(len(pools)); c = 0.40; bw = 0.36   # 0.04 surface gap between the pair
 fig, ax = plt.subplots(figsize=(fs.COL1, 2.6)); fs.ygrid(ax)
-b1 = ax.bar(x - w/2, recall, w, color=fs.SKY, zorder=3, label="candidate recall")
-b2 = ax.bar(x + w/2, top1,  w, color=fs.BLUE, zorder=3, label="HOSE top-1")
+b1 = ax.bar(x - c/2, recall, bw, color=fs.SKY, zorder=3, label="candidate recall")
+b2 = ax.bar(x + c/2, top1,  bw, color=fs.BLUE, zorder=3, label="HOSE top-1")
 fs.barlabels(ax, b1, fmt="{:.1f}", dy=1)
 fs.barlabels(ax, b2, fmt="{:.1f}", dy=1)
 

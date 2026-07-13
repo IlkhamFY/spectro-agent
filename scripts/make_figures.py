@@ -16,13 +16,13 @@ def rate(rs, k): return 100*sum(r[k] for r in rs)/len(rs) if rs else 0
 groups = [("All", R), ("Simple", [r for r in R if r['diff'] == 'simple']),
           ("Complex", [r for r in R if r['diff'] == 'complex'])]
 fig, ax = plt.subplots(figsize=(fs.COL1, 2.5)); fs.ygrid(ax)
-x = np.arange(len(groups)); w = 0.32
+x = np.arange(len(groups)); c = 0.34; bw = 0.31   # 0.03 surface gap between the pair
 for i, (key, col, lab) in enumerate([("top1", fs.BLUE, "exact top-1"),
                                      ("rec", fs.SKY, "recovered (top-3)")]):
     pts, los, his = [], [], []
     for _, sub in groups:
         p, lo, hi = boot(sub, lambda s: rate(s, key)); pts.append(p); los.append(p-lo); his.append(hi-p)
-    ax.bar(x+(i-0.5)*w, pts, w, yerr=[los, his], capsize=1.8,
+    ax.bar(x+(i-0.5)*c, pts, bw, yerr=[los, his], capsize=1.8,
            error_kw=dict(lw=0.6, ecolor=fs.INK, capthick=0.6), color=col, label=lab, zorder=3)
 ax.set_xticks(x); ax.set_xticklabels([f"{g[0]}\n(n={len(g[1])})" for g in groups])
 ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 70)

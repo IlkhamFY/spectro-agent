@@ -36,6 +36,12 @@ gs = fig.add_gridspec(3, 1, hspace=0.55, left=0.30, right=0.97, top=0.90, bottom
 axes = [fig.add_subplot(gs[i]) for i in range(3)]
 XMAX = 175
 
+# faint vertical guides at each observed shift -> the stack reads as true small-multiples:
+# a predicted stick either lands on a guide (matches) or drifts off it (mismatch)
+for ax in axes:
+    for o in OBS:
+        ax.axvline(o, color="#ededed", lw=0.5, zorder=0)
+
 # panel a - observed
 axes[0].vlines(OBS, 0, 1, color=fs.INK, lw=1.6)
 axes[0].set_title("observed $^{13}$C,  C$_{10}$H$_{14}$N$_2$O", fontsize=7, loc="left")

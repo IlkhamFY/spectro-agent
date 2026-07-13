@@ -7,16 +7,18 @@ Run from the repo root:  python3 scripts/build_pdf.py
 """
 import os, subprocess, tempfile, pypandoc
 
-TECTONIC = "/tmp/tectonic"
+# PDF engine: tectonic by default; override with PDF_ENGINE=xelatex for a texlive host.
+TECTONIC = os.environ.get("PDF_ENGINE", "/tmp/tectonic")
 OUT = "docs/paper.pdf"
 
 # Main-text figures (numbered Fig. 1-5)
 FIGS = [
-    ("fig_wall.png", "The diagnosis in one glance: shown a candidate set, the model "
-     "\\emph{verifies} the true structure 84\\% of the time it is in the candidate set "
-     "(conditional on recall, n=19; roughly 18 pt above the derangement floor of \\S5.5), "
-     "yet the model \\emph{proposes} it for only 31\\% of compounds (n=60). Recall, not "
-     "verification, is the wall."),
+    ("fig_wall.png", "The diagnosis as an icon array of the 60 forward-verify "
+     "compounds. The true structure is never proposed for 41 (grey) --- \\emph{the "
+     "wall} --- recalled but mis-ranked for 3 (vermilion), and recalled and verified "
+     "for 16 (green). Forward-verification therefore recovers 16/60 = 26\\% exact top-1 "
+     "end-to-end: the model proposes the true structure for only 31\\% of compounds "
+     "and, of those, verifies 84\\%. Recall, not verification, is the wall."),
     ("fig1_difficulty.png", "Top-1 and recovered accuracy on IRSpectra-Bench by "
      "difficulty (all / simple / complex, n=194) with bootstrap 95\\% CIs."),
     ("fig5_models.png", "Four-model comparison on a 24-compound subset: Fable 5 45\\% "
@@ -60,6 +62,10 @@ UNI = {
     "≤": r"\ensuremath{\leq}", "≥": r"\ensuremath{\geq}", "≫": r"\ensuremath{\gg}",
     "⊂": r"\ensuremath{\subset}", "∩": r"\ensuremath{\cap}",
     "∼": r"\ensuremath{\sim}",
+    # Greek — Latin Modern roman lacks these glyphs, so route through math mode
+    "χ": r"\ensuremath{\chi}", "μ": r"\ensuremath{\mu}", "σ": r"\ensuremath{\sigma}",
+    "Δ": r"\ensuremath{\Delta}", "α": r"\ensuremath{\alpha}", "β": r"\ensuremath{\beta}",
+    "λ": r"\ensuremath{\lambda}", "ν": r"\ensuremath{\nu}",
     "¹": r"\textsuperscript{1}", "²": r"\textsuperscript{2}", "³": r"\textsuperscript{3}",
     "⁴": r"\textsuperscript{4}", "⁵": r"\textsuperscript{5}", "⁶": r"\textsuperscript{6}",
     "⁷": r"\textsuperscript{7}", "⁸": r"\textsuperscript{8}", "⁹": r"\textsuperscript{9}",

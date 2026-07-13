@@ -385,7 +385,10 @@ newest (Fable 5) — under the identical protocol (Fig. 3):
 | Claude Fable 5 | **45%** | 54% | [25, 67] |
 | Claude Opus | 25% | 29% | [8, 42] |
 | Claude Sonnet | 20% | 25% | [8, 38] |
-| Claude Haiku | **0%** | 4% | [0, 0] |
+| Claude Haiku | **0%** | 4% | [0, 14] |
+
+CIs are bootstrap except Haiku's, which is the Clopper–Pearson exact interval for 0/24
+(the percentile bootstrap is degenerate at a boundary count of zero).
 
 Three signals matter here. First, the four models rank in **monotonic capability
 order**, and the outcomes are **strictly nested** (Haiku ⊂ Sonnet ⊂ Opus ⊂ Fable —
@@ -453,7 +456,10 @@ breakdown (Fig. S4) is itself informative:
 | sulfonyl / sulfonate | 8 | **12%** | 12% |
 | nitrile | 8 | **12%** | 12% |
 
-The gradient is chemically legible. **sp³-C–F** centres are the easiest:
+At n=7–8 per class these per-class differences are within sampling noise (six-class
+χ² p≈0.56; best-vs-worst Fisher exact p≈0.28), so the ordering is a hypothesis-generating
+pattern rather than an established ranking. Read that way, it is chemically legible.
+**sp³-C–F** centres are the easiest:
 a C–F coupling fingerprint (the large ¹J/²J(C,F) splittings) localises the
 fluorine and pins regiochemistry, removing exactly the degeneracy that defeats
 elucidation elsewhere. **Sulfonyl** and **nitrile** are the hardest, for two
@@ -534,10 +540,13 @@ On the 60 benchmark compounds (126 candidate structures from the solver agents):
 | **conditional on recall — forward-verification** | 16/19 (**84%**) |
 
 The decomposition is the finding. **When the true structure is among the
-candidates, forward verification selects it 84% of the time, versus 73% for the
-model's own ranking (+11 points)** — a real, exploitable generator–verifier gap
-(the 84% sits ~18 points above the 66% derangement chance floor of §5.5, given how few
-and near-degenerate the recall-positive candidate sets are).
+candidates, forward verification selects it in 16 of 19 cases (84%)** — high in
+absolute terms and ~18 points above the 66% derangement chance floor of §5.5 (given how
+few and near-degenerate the recall-positive candidate sets are). It also edges the
+model's own self-ranking (14/19, 73%), but that +11-point margin is a two-compound
+difference at n=19 and is **not** statistically significant (McNemar exact p≈0.63); the
+load-bearing claim is that verification precision is high in absolute terms while recall
+binds — not that forward-verification beats self-ranking.
 The overall top-1 moves only 23%→26% because the binding constraint is **generation
 recall**: the true structure was never proposed for 41 of 60 compounds, which no
 re-ranking can repair.

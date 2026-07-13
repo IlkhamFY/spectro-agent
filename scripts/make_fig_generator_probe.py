@@ -21,9 +21,11 @@ b2 = ax.bar(x + w/2, top1,  w, color=fs.BLUE, zorder=3, label="HOSE top-1")
 fs.barlabels(ax, b1, fmt="{:.1f}", dy=1)
 fs.barlabels(ax, b2, fmt="{:.1f}", dy=1)
 
-# Claude-only baseline reference; the collapse-vs-convert story lives in the caption
+# Claude-only baseline reference; the collapse-vs-convert story lives in the caption.
+# Label sits in the clear band above the group-1 bars (below the legend), left of the
+# scaffold recall bar, so it never collides with the 28.4 value label on its own bar.
 ax.axhline(28.4, color=fs.MUTED, lw=0.6, ls=(0, (4, 3)), zorder=2)
-ax.text(0.015, 30.0, "Claude top-1 (28.4%)", transform=ax.get_yaxis_transform(),
+ax.text(0.015, 44.5, "Claude-only top-1 (28.4%)", transform=ax.get_yaxis_transform(),
         fontsize=6, color=fs.MUTED, va="bottom", ha="left")
 
 ax.set_xticks(x); ax.set_xticklabels(pools)

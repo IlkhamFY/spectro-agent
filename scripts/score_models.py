@@ -107,22 +107,23 @@ def main():
         t1 = {m: _ci(vec[m]) for m in order}
         rc = {m: 100 * res[m][1] / n for m in order}
         ys = list(range(len(order) - 1, -1, -1))          # Fable at top
-        fig, ax = plt.subplots(figsize=(3.5, 2.4))
+        fig, ax = plt.subplots(figsize=(fs.COL1, 2.5))
         ax.set_axisbelow(True); ax.xaxis.grid(True, color=fs.FAINT, linewidth=0.5)
         for y, m in zip(ys, order):
             p, lo, hi = t1[m]
-            col = fs.ORANGE if m == "Fable" else fs.MUTED   # Fable = hero; others neutral
+            col = fs.ORANGE if m == "Fable" else fs.BLUE   # top-1 = blue; Fable = the one hero
             ax.errorbar(p, y, xerr=[[p - lo], [hi - p]], fmt="o", ms=5, color=col,
                         ecolor=col, elinewidth=1.0, capsize=2.5, capthick=0.9, zorder=3)
             ax.plot(rc[m], y, "o", ms=5, mfc="white", mec=fs.SKY, mew=1.0, zorder=2)
-            ax.text(p, y + 0.24, f"{p:.0f}", ha="center", va="bottom", fontsize=6.5, color=fs.INK)
+            ax.text(p, y + 0.26, f"{p:.0f}", ha="center", va="bottom",
+                    fontsize=fs.FS_SMALL, color=fs.INK)
         ax.set_yticks(ys); ax.set_yticklabels(order)
         ax.set_xlabel("accuracy (%)"); ax.set_xlim(-4, 72); ax.set_ylim(-0.6, len(order) - 0.4)
-        ax.plot([], [], "o", ms=5, color=fs.MUTED, label="exact top-1 (95% CI)")
+        ax.plot([], [], "o", ms=5, color=fs.BLUE, label="exact top-1 (95% CI)")
         ax.plot([], [], "o", ms=5, mfc="white", mec=fs.SKY, mew=1.0, label="recovered (top-3)")
-        ax.legend(loc="lower right", fontsize=6, handlelength=1.0)
+        ax.legend(loc="lower right", fontsize=fs.FS_SMALL, handlelength=1.0)
         ax.text(0.02, 0.04, "n=24 · adjacent models n.s. after Holm", transform=ax.transAxes,
-                ha="left", va="bottom", fontsize=6, color=fs.MUTED)
+                ha="left", va="bottom", fontsize=fs.FS_SMALL, color=fs.MUTED)
         plt.tight_layout(); plt.savefig("docs/figures/fig5_models.png")
         print("wrote docs/figures/fig5_models.png")
 

@@ -42,8 +42,8 @@ def molimg(smi):
                       min(im.width, bbox[2] + pad), min(im.height, bbox[3] + pad)))
     return np.asarray(im)
 
-fig = plt.figure(figsize=(5.6, 3.9))
-gs = fig.add_gridspec(3, 1, hspace=0.42, left=0.30, right=0.975, top=0.88, bottom=0.135)
+fig = plt.figure(figsize=(fs.COL2, 3.7))
+gs = fig.add_gridspec(3, 1, hspace=0.42, left=0.27, right=0.98, top=0.88, bottom=0.13)
 axes = [fig.add_subplot(gs[i]) for i in range(3)]
 XMAX = 172
 

@@ -15,7 +15,7 @@ def rate(rs, k): return 100*sum(r[k] for r in rs)/len(rs) if rs else 0
 # Fig 1 - accuracy by difficulty (top-1 & recovered, bootstrap CIs)
 groups = [("All", R), ("Simple", [r for r in R if r['diff'] == 'simple']),
           ("Complex", [r for r in R if r['diff'] == 'complex'])]
-fig, ax = plt.subplots(figsize=(3.4, 2.5)); fs.ygrid(ax)
+fig, ax = plt.subplots(figsize=(fs.COL1, 2.5)); fs.ygrid(ax)
 x = np.arange(len(groups)); w = 0.32
 for i, (key, col, lab) in enumerate([("top1", fs.BLUE, "exact top-1"),
                                      ("rec", fs.SKY, "recovered (top-3)")]):
@@ -34,14 +34,14 @@ plt.tight_layout(); plt.savefig("docs/figures/fig1_difficulty.png"); plt.close()
 buckets = ["≤15", "16-25", ">25"]
 sub = lambda b: [r for r in R if r['hac'] == ("<=15" if b == "≤15" else b)]
 t1 = [rate(sub(b), 'top1') for b in buckets]; rc = [rate(sub(b), 'rec') for b in buckets]
-fig, ax = plt.subplots(figsize=(3.4, 2.5))
+fig, ax = plt.subplots(figsize=(fs.COL1, 2.5))
 ax.plot(buckets, rc, "s--", color=fs.SKY, mfc="white", mec=fs.SKY)
 ax.plot(buckets, t1, "o-", color=fs.BLUE)
 # direct labels at the LEFT end, where the two series are well separated (68 vs 60)
-ax.annotate("recovered (top-3)", (0, rc[0]), xytext=(6, 4), textcoords="offset points",
-            color=fs.SKY, fontsize=7, va="bottom", ha="left")
-ax.annotate("exact top-1", (0, t1[0]), xytext=(6, -9), textcoords="offset points",
-            color=fs.BLUE, fontsize=7, va="top", ha="left")
+ax.annotate("recovered (top-3)", (0, rc[0]), xytext=(6, 5), textcoords="offset points",
+            color=fs.SKY, fontsize=fs.FS_BODY, va="bottom", ha="left")
+ax.annotate("exact top-1", (0, t1[0]), xytext=(10, -26), textcoords="offset points",
+            color=fs.BLUE, fontsize=fs.FS_BODY, va="top", ha="left")
 ax.set_xticks(range(len(buckets)))
 ax.set_xticklabels([f"{b}\n(n={len(sub(b))})" for b in buckets])
 ax.set_xlabel("heavy atoms", labelpad=1); ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 75)
@@ -52,7 +52,7 @@ plt.tight_layout(); plt.savefig("docs/figures/fig2_size.png"); plt.close()
 # Fig 3 - inference-time scaling on the same 60 compounds (one metric -> one accent)
 labels = ["solver\nself-rank", "+ forward-\nverify", "+ generate-\nwide"]
 vals = [23, 26, 30]
-fig, ax = plt.subplots(figsize=(3.3, 2.7)); fs.ygrid(ax)
+fig, ax = plt.subplots(figsize=(fs.COL1, 2.6)); fs.ygrid(ax)
 cols = [fs.MUTED, fs.MUTED, fs.BLUE]
 bars = ax.bar(labels, vals, width=0.6, color=cols, zorder=3)
 fs.barlabels(ax, bars, fmt="{:.0f}%", dy=0.6)
@@ -63,7 +63,7 @@ plt.tight_layout(); plt.savefig("docs/figures/fig3_method.png"); plt.close()
 # Fig 4 - IRexp funnel (horizontal, k-formatted, payload bar highlighted)
 cats = ["IR records", "+ NMR", "+ structure", "full quad"]
 v = [121233, 87075, 43060, 33201]
-fig, ax = plt.subplots(figsize=(3.6, 2.5))
+fig, ax = plt.subplots(figsize=(fs.COL1, 2.5))
 y = np.arange(len(cats))[::-1]
 cols = [fs.MUTED, fs.MUTED, fs.MUTED, fs.BLUE]
 ax.barh(y, v, height=0.62, color=cols, zorder=3)

@@ -46,14 +46,14 @@ top1 = [100 * by[c][1] / by[c][0] if by[c][0] else 0 for c in order]
 recov = [100 * by[c][2] / by[c][0] if by[c][0] else 0 for c in order]
 ns = [by[c][0] for c in order]
 
-fig, ax = plt.subplots(figsize=(3.6, 2.7))
+fig, ax = plt.subplots(figsize=(fs.COL1, 2.6))
 ax.set_axisbelow(True); ax.xaxis.grid(True, color=fs.FAINT, linewidth=0.6)
 y = np.arange(len(order)); h = 0.38
 ax.barh(y + h/2, recov, h, color=fs.SKY, label="recovered (top-3)", zorder=3)
 ax.barh(y - h/2, top1, h, color=fs.BLUE, label="exact top-1", zorder=3)
 for i, n in enumerate(ns):
     ax.text(max(recov[i], top1[i]) + 1.5, y[i], f"n={n}", va="center", ha="left",
-            fontsize=6, color=fs.MUTED)
+            fontsize=fs.FS_SMALL, color=fs.MUTED)
 ax.set_yticks(y); ax.set_yticklabels(labels)
 ax.set_xlabel("accuracy (%)"); ax.set_xlim(0, 72)
 ax.legend(loc="lower right", handlelength=1.0)

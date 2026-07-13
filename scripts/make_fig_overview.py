@@ -16,15 +16,20 @@ stages = [
     ("Forward-verify", "predict ¹³C,\nre-rank candidates", fs.ACCENT),
 ]
 
-fig, ax = plt.subplots(figsize=(7.0, 1.7))
+fig = plt.figure(figsize=(fs.COL2, 1.5))
+ax = fig.add_axes([0, 0, 1, 1])           # fill the frame; no tight-crop margins
 ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.axis("off")
-xs = [12, 38, 63, 88]
+xs = [10, 36.7, 63.3, 90]
 for (title, sub, col), x in zip(stages, xs):
-    ax.text(x, 60, title, ha="center", va="center", fontsize=9, fontweight="bold", color=col)
-    ax.text(x, 38, sub, ha="center", va="top", fontsize=6.8, color=fs.MUTED)
+    ax.text(x, 62, title, ha="center", va="center", fontsize=fs.FS_EMPH,
+            fontweight="bold", color=col)
+    ax.text(x, 44, sub, ha="center", va="top", fontsize=fs.FS_SMALL, color=fs.MUTED)
+# arrows of fixed length centred in each gap, so all three read identically and
+# clear the (variable-width) stage labels
 for x0, x1 in zip(xs[:-1], xs[1:]):
-    ax.add_patch(FancyArrowPatch((x0 + 12, 60), (x1 - 12, 60), arrowstyle="-|>",
-                 mutation_scale=9, lw=1.0, color=fs.INK, shrinkA=0, shrinkB=0))
+    m = (x0 + x1) / 2
+    ax.add_patch(FancyArrowPatch((m - 3.5, 62), (m + 3.5, 62), arrowstyle="-|>",
+                 mutation_scale=10, lw=1.1, color=fs.INK, shrinkA=0, shrinkB=0))
 
 plt.savefig("docs/figures/fig0_overview.png")
 print("wrote docs/figures/fig0_overview.png")

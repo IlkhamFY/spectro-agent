@@ -30,9 +30,20 @@ PURPLE = "#CC79A7"   # spare 5th category
 # semantic aliases
 PRIMARY, SECONDARY, ACCENT, GOOD, BAD = BLUE, SKY, ORANGE, GREEN, VERMIL
 
-SINGLE  = (3.35, 2.6)
-ONEHALF = (5.0, 3.0)
-DOUBLE  = (7.0, 3.2)
+# ---- canonical column widths (inches) -------------------------------------
+# Every figure is authored at exactly ONE of these so, placed 1:1 in the PDF,
+# their type renders at an identical physical size. No in-between widths.
+COL1 = 3.30    # single column (~85 mm)
+COL2 = 6.30    # full width  (== \textwidth at 1-in margins)
+SINGLE  = (3.30, 2.5)
+DOUBLE  = (6.30, 3.0)
+
+# ---- type scale (points) --------------------------------------------------
+# The ONLY sizes any figure may use, so text is coherent across the whole set.
+FS_BODY  = 7    # axis labels, tick labels, most text
+FS_SMALL = 6    # secondary annotations, n= notes
+FS_PANEL = 8    # bold panel letters (a, b, c)
+FS_EMPH  = 9    # a single emphasised figure where hierarchy genuinely helps
 
 def apply():
     # Cutting-edge journal base: SciencePlots' Nature style (thin lines, 7 pt, tight),
@@ -43,8 +54,12 @@ def apply():
     except Exception:
         pass
     mpl.rcParams.update({
-        "figure.dpi": 150, "savefig.dpi": 600, "savefig.bbox": "tight",
-        "savefig.pad_inches": 0.02,
+        # Force "standard" (NOT "tight") to override SciencePlots' nature style, which
+        # sets bbox=tight. A tight bbox trims each figure to its own content, so the
+        # placed width — and thus on-page type size — drifts per figure. With "standard"
+        # the saved size == figsize exactly, so authoring at COL1/COL2 gives identical
+        # on-page type everywhere.
+        "figure.dpi": 150, "savefig.dpi": 600, "savefig.bbox": "standard",
         "figure.facecolor": "white", "savefig.facecolor": "white",
         "font.family": "sans-serif",
         "font.sans-serif": ["Liberation Sans", "Helvetica", "Arial", "FreeSans"],
@@ -77,10 +92,10 @@ def ygrid(ax):
     ax.xaxis.grid(False)
 
 def panel(ax, letter, x=-0.16, y=1.04):
-    ax.text(x, y, letter, transform=ax.transAxes, fontsize=8, fontweight="bold",
+    ax.text(x, y, letter, transform=ax.transAxes, fontsize=FS_PANEL, fontweight="bold",
             va="bottom", ha="left", color=INK)
 
-def barlabels(ax, bars, fmt="{:.0f}", dy=1.0, size=6.5, color=None):
+def barlabels(ax, bars, fmt="{:.0f}", dy=1.0, size=FS_SMALL, color=None):
     for b in bars:
         ax.text(b.get_x() + b.get_width()/2, b.get_height() + dy, fmt.format(b.get_height()),
                 ha="center", va="bottom", fontsize=size, color=color or INK)

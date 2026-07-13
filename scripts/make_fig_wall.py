@@ -1,44 +1,51 @@
 #!/usr/bin/env python3
-"""Hero figure (Fig 1) — the diagnosis as an icon array of the 60 forward-verify
-compounds, so the DENOMINATORS are shown, not asserted. Of 60 real spectra:
-41 the true structure is never proposed ("the wall"), 3 are recalled but mis-ranked,
-16 are recalled AND verified (16/60 = 26% exact top-1 end-to-end; 16/19 = 84% of
-recalled). This avoids the two-bar 31%-vs-84% chart, whose different denominators
-(19/60 vs 16/19) misread as a single shared rate. Full-column width."""
+"""Hero figure (Fig 1) — the diagnosis as a single part-to-whole bar of all 60
+forward-verify compounds, so the denominators are shown, not asserted. Of 60 real
+spectra the true structure is verified top-1 for 16 (green), recalled but mis-ranked
+for 3 (vermilion), and never proposed for 41 (grey) — "the wall", 68% of the bar.
+Recall is 19/60 = 31%; of those recalled, 84% verify -> 16/60 = 26% exact top-1.
+The point is visual: the wall dominates, so recall (not verification) is the limit."""
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.patches import FancyArrowPatch
 import figstyle as fs
 
 fs.apply()
-NCOL = 10
-# bottom-to-top fill: 41 never-proposed (grey), 3 mis-ranked (vermilion), 16 verified (green)
-colours = [fs.MUTED] * 41 + [fs.VERMIL] * 3 + [fs.GREEN] * 16
-xs = [i % NCOL for i in range(60)]
-ys = [i // NCOL for i in range(60)]
 
-fig = plt.figure(figsize=(fs.COL2, 2.5))
-ax = fig.add_axes([0, 0, 1, 1])          # fill the frame; no default subplot margins
-ax.scatter(xs, ys, s=250, c=colours, marker="s", edgecolor="white", linewidth=0.9, zorder=3)
-# data box aspect (17.6 : 7.0 = 2.51) matches the figure aspect (6.30 : 2.50) so the
-# equal-aspect squares fill the frame with only a thin uniform margin
-ax.set_xlim(-0.9, 16.7); ax.set_ylim(-0.6, 6.4)
-ax.set_aspect("equal"); ax.axis("off")
+GAP = 0.14                     # white surface gap between segments (~2 px at 600 dpi)
+segs = [(0, 16, fs.GREEN, "verified"),
+        (16, 3, fs.VERMIL, "mis-ranked"),
+        (19, 41, fs.MUTED, "never proposed")]
 
-# direct, colour-matched labels on the right, aligned to each band (no legend box)
-lx = 10.6
-tx = lx + 0.95
-ax.text(lx, 5.0, "16", color=fs.GREEN, fontsize=fs.FS_EMPH, fontweight="bold", va="center")
-ax.text(tx, 5.15, "recalled and verified", color=fs.GREEN, fontsize=fs.FS_BODY, va="center")
-ax.text(tx, 4.55, "16/60 = 26% exact top-1", color=fs.GREEN, fontsize=fs.FS_SMALL, va="center")
-ax.text(lx, 3.7, "3", color=fs.VERMIL, fontsize=fs.FS_EMPH, fontweight="bold", va="center")
-ax.text(tx, 3.7, "recalled but mis-ranked", color=fs.VERMIL, fontsize=fs.FS_BODY, va="center")
-ax.text(lx, 1.7, "41", color=fs.MUTED, fontsize=fs.FS_EMPH, fontweight="bold", va="center")
-ax.text(tx, 2.1, "never proposed", color=fs.INK, fontsize=fs.FS_BODY, va="center")
-ax.text(tx, 1.5, "“the wall”", color=fs.INK, fontsize=fs.FS_BODY, fontweight="bold", va="center")
-ax.text(tx, 0.85, "recall 31%; of those, 84% verify", color=fs.MUTED,
-        fontsize=fs.FS_SMALL, va="center")
+fig = plt.figure(figsize=(fs.COL2, 1.95))
+ax = fig.add_axes([0.015, 0.06, 0.97, 0.9])
+ax.set_xlim(-0.4, 60.4); ax.set_ylim(-1.65, 2.25); ax.axis("off")
 
-ax.text(-0.4, 5.85, "60 real spectra", color=fs.INK, fontsize=fs.FS_SMALL, va="bottom", ha="left")
+Y0, H = 0.0, 1.0
+for x, w, col, _ in segs:
+    ax.add_patch(plt.Rectangle((x + GAP, Y0), w - GAP, H, facecolor=col, edgecolor="none"))
+
+# bracket over the 19 recalled (green + vermilion), the key sub-total
+bx0, bx1, by = 0 + GAP, 19, 1.28
+ax.plot([bx0, bx0, bx1, bx1], [by - 0.12, by, by, by - 0.12], color=fs.INK, lw=0.8)
+ax.text((bx0 + bx1) / 2, by + 0.08, "19 recalled = 31%   ·   of these, 84% verify",
+        ha="center", va="bottom", fontsize=fs.FS_SMALL, color=fs.INK)
+
+# segment labels below, aligned to each segment's centre
+def below(xc, n, word, col, y1=-0.2):
+    ax.text(xc, y1, n, ha="center", va="top", fontsize=fs.FS_EMPH, fontweight="bold", color=col)
+    ax.text(xc, y1 - 0.62, word, ha="center", va="top", fontsize=fs.FS_BODY, color=col)
+
+below(8, "16", "verified — 26% top-1", fs.GREEN)
+below(39.5, "41", "never proposed — “the wall”", fs.INK)
+
+# the narrow mis-ranked segment: a short leader out to a clear label
+ax.add_patch(FancyArrowPatch((17.5, 1.0), (23.5, 1.62), arrowstyle="-",
+             lw=0.6, color=fs.VERMIL, shrinkA=0, shrinkB=2))
+ax.text(23.9, 1.66, "3 mis-ranked", ha="left", va="center",
+        fontsize=fs.FS_SMALL, color=fs.VERMIL)
+
+ax.text(-0.2, 2.12, "60 real spectra", ha="left", va="top", fontsize=fs.FS_SMALL, color=fs.MUTED)
 
 plt.savefig("docs/figures/fig_wall.png")
 print("wrote docs/figures/fig_wall.png")

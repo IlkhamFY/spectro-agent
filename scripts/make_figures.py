@@ -30,21 +30,19 @@ ax.legend(loc="upper right", handlelength=1.0)
 # message in caption (Nature style); no in-panel title
 plt.tight_layout(); plt.savefig("docs/figures/fig1_difficulty.png"); plt.close()
 
-# Fig 2 - accuracy vs molecular size (direct-labelled lines)
+# Fig 2 - accuracy vs molecular size. Both lines descend left->right, so the
+# upper-right corner is empty: put the legend there (direct labels on such steep,
+# converging lines can't avoid crossing them).
 buckets = ["≤15", "16-25", ">25"]
 sub = lambda b: [r for r in R if r['hac'] == ("<=15" if b == "≤15" else b)]
 t1 = [rate(sub(b), 'top1') for b in buckets]; rc = [rate(sub(b), 'rec') for b in buckets]
 fig, ax = plt.subplots(figsize=(fs.COL1, 2.5))
-ax.plot(buckets, rc, "s--", color=fs.SKY, mfc="white", mec=fs.SKY)
-ax.plot(buckets, t1, "o-", color=fs.BLUE)
-# direct labels at the LEFT end, where the two series are well separated (68 vs 60)
-ax.annotate("recovered (top-3)", (0, rc[0]), xytext=(6, 5), textcoords="offset points",
-            color=fs.SKY, fontsize=fs.FS_BODY, va="bottom", ha="left")
-ax.annotate("exact top-1", (0, t1[0]), xytext=(10, -26), textcoords="offset points",
-            color=fs.BLUE, fontsize=fs.FS_BODY, va="top", ha="left")
+ax.plot(buckets, rc, "s--", color=fs.SKY, mfc="white", mec=fs.SKY, label="recovered (top-3)")
+ax.plot(buckets, t1, "o-", color=fs.BLUE, label="exact top-1")
+ax.legend(loc="upper right", handlelength=1.8, borderaxespad=0.4)
 ax.set_xticks(range(len(buckets)))
 ax.set_xticklabels([f"{b}\n(n={len(sub(b))})" for b in buckets])
-ax.set_xlabel("heavy atoms", labelpad=1); ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 75)
+ax.set_xlabel("heavy atoms", labelpad=1); ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 78)
 ax.margins(x=0.10)
 # message in caption; no in-panel title
 plt.tight_layout(); plt.savefig("docs/figures/fig2_size.png"); plt.close()

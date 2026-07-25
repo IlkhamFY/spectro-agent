@@ -463,14 +463,17 @@ breakdown (Fig. S4) is itself informative:
 
 **Table 4. Per-class performance on IRSpectra-Bench-Electrolyte (n=46).**
 
-| electrolyte class | n | top-1 | recovered (top-3) |
-|---|--:|--:|--:|
-| sp³-C–F | 8 | **50%** | 50% |
-| carbonate | 7 | 29% | 43% |
-| phosphoryl | 8 | 25% | 25% |
-| glyme / oligoether | 7 | 29% | 29% |
-| sulfonyl / sulfonate | 8 | **12%** | 12% |
-| nitrile | 8 | **12%** | 12% |
+| electrolyte class | n | top-1 | 95% CI | recovered (top-3) | 95% CI |
+|---|--:|--:|--:|--:|--:|
+| sp³-C–F | 8 | **50%** | [22, 78] | 50% | [22, 78] |
+| carbonate | 7 | 29% | [8, 64] | 43% | [16, 75] |
+| phosphoryl | 8 | 25% | [7, 59] | 25% | [7, 59] |
+| glyme / oligoether | 7 | 29% | [8, 64] | 29% | [8, 64] |
+| sulfonyl / sulfonate | 8 | **12%** | [2, 47] | 12% | [2, 47] |
+| nitrile | 8 | **12%** | [2, 47] | 12% | [2, 47] |
+
+Intervals are Wilson score intervals for a binomial proportion, appropriate at these
+counts where the percentile bootstrap is degenerate. They overlap almost completely.
 
 At n=7–8 per class these per-class differences are within sampling noise (six-class
 χ² p≈0.56; best-vs-worst Fisher exact p≈0.28), so the ordering is a hypothesis-generating
@@ -783,10 +786,14 @@ constraints that would attack regiochemistry at the source. Our trained-generato
 comes entirely from the released data (0→25% with fine-tuning, 0/248 without), it is the
 **open dataset**, not a bespoke architecture, that does the work when training does help.
 
-**Protocol over fashionable levers.** That *how* a problem is posed and verified —
-decoupled per-compound solving, generate-and-verify — moves accuracy more than raw model
-capability does echoes a recurring lesson across cheminformatics: careful pipeline and
-protocol design tends to dominate the fashionable component. The same pattern appears in
+**Protocol is a lever of the same order as capability.** How a problem is posed and
+verified — bounded, reset contexts with tool access; generate-and-verify — moves accuracy
+enough that it must be reported alongside any capability claim. We do *not* claim it
+dominates capability: on the fixed 24-compound subset the model axis spans 0% to 45%
+top-1 (Table 3), a wider range than the 5%→15% protocol effect in §4.3, and the two are
+measured on different sets. The point is that a number quoted without its protocol is
+uninterpretable, which echoes a recurring lesson across cheminformatics: careful pipeline
+and protocol design competes with the fashionable component. The same pattern appears in
 molecular property prediction, where a recent systematic benchmark reports that
 learned, pretrained molecular embeddings rarely outperform classical ECFP
 fingerprints once evaluation is controlled[@praski2025embeddings] — the modelling fashion underperforms the
@@ -805,9 +812,11 @@ candidate's spectrum to confirm it is already standard practice.
 
 For practitioners, two operational findings transfer immediately: solve each problem
 in bounded, frequently-reset contexts with tool access (5%→15%, 1/20→3/20,
-directional at n=20, §4.3), and trust a
-proposed structure in proportion to how well its forward-predicted spectrum matches
-the observed one — while remembering the abstention caveat below.
+directional at n=20, §4.3), and use forward-predicted-vs-observed
+¹³C agreement to *re-rank* candidates, not to decide whether to trust the winner. §5.5
+is explicit on this: match distance is a strong relative re-ranker but failed as an
+absolute confidence gauge in our selective-prediction test, so it does not support
+abstention thresholds.
 
 ---
 
@@ -888,13 +897,9 @@ machine-validated (RDKit InChIKey) but not yet human-validated.
 **(iii) Single vendor and an underpowered cross-model comparison.** Every number comes
 from one vendor's models. The headline (28.4% top-1) is a single frontier model (Claude
 Opus), and the cross-model evidence (§4.4) is four **Claude-family** models on a shared
-**24-compound** subset. That comparison is statistically underpowered: only the extreme
-Fable-vs-Haiku contrast survives multiple-comparison correction (Holm-adjusted p=0.006);
-Fable-vs-Opus is not significant (uncorrected p=0.063, Holm-adjusted p=0.19) and Opus-vs-Sonnet are indistinguishable,
-with overlapping bootstrap CIs. What is robust is the **ranking** — outcomes are strictly
-nested (Haiku ⊂ Sonnet ⊂ Opus ⊂ Fable) and the weakest floors at 0% — so the benchmark
-is capability-sensitive; what is *not* established at n=24 is the size of any adjacent
-gap. Quantitative claims should therefore be read as holding **for the Claude family**,
+**24-compound** subset. As §4.4 sets out, that comparison is underpowered: the
+ranking is robust (strictly nested, weakest floored at 0%) but no adjacent gap is
+established at n=24. Quantitative claims should therefore be read as holding **for the Claude family**,
 and a true cross-**vendor** sweep (GPT-, Gemini-class, open-weight models) — the test of
 whether the pattern is a property of the task rather than one lineage — was forgone
 because it needs paid API access incompatible with our zero-cost protocol; we flag it as
@@ -907,10 +912,12 @@ functional-class transfer of the elucidation bottleneck, not direct assignment o
 authentic interphase/degradation products, which would require a dedicated operando set.
 
 **(v) Constitution-only scoring:** correctness is judged on InChIKey connectivity, so a
-correct-constitution / wrong-stereochemistry prediction is counted correct. This affects
-at most the 10.3% (20/194) of targets with a defined stereocentre and is intrinsic to
-what 1D NMR/IR can determine; a stereochemistry-sensitive benchmark would need
-2D/chiroptical data.
+correct-constitution / wrong-stereochemistry prediction is counted correct. Scoring the
+full InChIKey instead gives 21.1% top-1 (§3), 7.3 points lower, so the headline should be
+read as an upper bound on full-stereochemistry accuracy. We keep constitution as the
+headline because 1D NMR/IR rarely determines absolute configuration — the 10.3% (20/194)
+of targets with a defined stereocentre would be penalised for information the prompt
+never carried — but a stereochemistry-sensitive benchmark would need 2D/chiroptical data.
 
 **(vi) Single-sample scoring:** each headline compound is scored from one solver
 prediction set (one decoupled run), so reported top-1/recall carry no run-to-run

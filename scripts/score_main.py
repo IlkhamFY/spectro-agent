@@ -2,13 +2,21 @@
 """Statistically-powered scoring across all benchmark rounds: top-1 / recall /
 Tanimoto by difficulty and molecule size, with bootstrap 95% CIs. Unifies the
 benchmark_main (134) + benchmark_v3 (40) + benchmark_v2_ctrl (20) rounds."""
-import json, glob, random
+import json, glob, random, sys
 from rdkit import Chem
 from rdkit import RDLogger; RDLogger.DisableLog("rdApp.*")
 from rdkit.Chem import AllChem, DataStructs
 
+# Scoring layer. Default: InChIKey connectivity (first 14 chars) = constitution, the
+# headline metric (PAPER.md §3). With --stereo: the FULL InChIKey, i.e. stereochemistry
+# -sensitive, which PAPER.md §3 reports as the strict lower bound.
+STEREO = "--stereo" in sys.argv
+
 def ik(s):
-    m=Chem.MolFromSmiles(s) if s else None; return Chem.MolToInchiKey(m)[:14] if m else None
+    m=Chem.MolFromSmiles(s) if s else None
+    if not m: return None
+    k=Chem.MolToInchiKey(m)
+    return k if STEREO else k[:14]
 def fp(s):
     m=Chem.MolFromSmiles(s) if s else None
     return AllChem.GetMorganFingerprintAsBitVect(m,2,2048) if m else None
@@ -72,7 +80,8 @@ def boot(vals, f, n=2000):
 if __name__=="__main__":
     random.seed(0)
     R=metrics(load())
-    print(f"N = {len(R)} compounds (combined rounds)\n")
+    layer = "FULL InChIKey (stereochemistry-sensitive)" if STEREO else "InChIKey connectivity (constitution)"
+    print(f"N = {len(R)} compounds (combined rounds)   scoring layer: {layer}\n")
     def rate(rs,key): return 100*sum(r[key] for r in rs)/len(rs) if rs else 0
     for label,sub in [("ALL",R),("simple",[r for r in R if r['diff']=='simple']),
                       ("complex",[r for r in R if r['diff']=='complex'])]:

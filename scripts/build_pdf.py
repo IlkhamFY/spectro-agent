@@ -133,6 +133,18 @@ def header():
 
 def main():
     md = open("docs/PAPER.md").read()
+    # RSC requires a table-of-contents (graphical abstract) entry: one image plus a
+    # <=250-character text summary. Appended as its own page so the submission bundle
+    # carries it; journals lift it out of the PDF.
+    toc = "docs/figures/graphical_abstract.png"
+    if os.path.exists(toc):
+        md += ("\n\n\\clearpage\n\n# Table of contents entry\n\n"
+               f"![]({toc}){{width={fig_width(toc)}}}\n\n"
+               "A frontier LLM recovers the correct molecular constitution from real, "
+               "blind IR + \u00b9H + \u00b9\u00b3C literature spectra for 28% of 194 compounds. "
+               "The bottleneck is candidate *recall*, not verification: forward-predicting "
+               "\u00b9\u00b3C and re-ranking selects the true structure 84% of the time it is "
+               "proposed \u2014 but it is proposed only 31% of the time.\n\n")
     md += "\n\n\\clearpage\n\n# Figure plates\n\n"
     for fn, cap in FIGS:
         path = f"docs/figures/{fn}"

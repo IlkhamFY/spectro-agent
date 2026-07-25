@@ -1,48 +1,48 @@
-{"qid": "E01", "smiles": "CCOP(=O)(OCC)[C@@](F)(Br)[C@@H](N[C@H](C)c1ccccc1)c1ccccc1", "inchikey": "QJWBTRDJAXAILV", "difficulty": "complex", "eclass": "fluorinated"}
-{"qid": "E02", "smiles": "O=C(Cc1c[nH]c2ccc(Br)cc12)NCCC[NH2+]CCCCCCCC[NH2+]CCCNC(=O)Cc1c[nH]c2ccc(Br)cc12.O=C([O-])C(F)(F)F.O=C([O-])C(F)(F)F", "inchikey": "YMPNEHKEUOHPON", "difficulty": "complex", "eclass": "fluorinated"}
-{"qid": "E03", "smiles": "N#CC1=C(N)C(=Cc2cn(-c3ccccc3)nc2-c2ccccc2)C(N)=NC1=O", "inchikey": "GYFHGPNQALNRKH", "difficulty": "complex", "eclass": "nitrile"}
-{"qid": "E04", "smiles": "C#CCO/N=C/c1c(O)c(Cl)cc2c(C(F)(F)F)cc(=O)oc12", "inchikey": "XPHFSTPJZKWHPF", "difficulty": "complex", "eclass": "fluorinated"}
-{"qid": "E05", "smiles": "CCOP(=O)(OCC)[C@]1(c2ccccc2)N=CC[C@@H]1C(=O)Nc1ccc(F)c(Cl)c1", "inchikey": "VIEUEUUVIGVGDW", "difficulty": "complex", "eclass": "phosphoryl"}
-{"qid": "E06", "smiles": "O=C(O)c1cccc(-n2cc(-c3ccc(-c4cccc5c4OCCO5)cc3)nn2)c1", "inchikey": "WXPZXTOVTSRRQM", "difficulty": "complex", "eclass": "glyme"}
-{"qid": "E07", "smiles": "COC(=O)OC(C#N)c1ccc([N+](=O)[O-])cc1", "inchikey": "BJJOMBSVFAMVSA", "difficulty": "simple", "eclass": "carbonate"}
-{"qid": "E08", "smiles": "CC(=O)c1nn(-c2ccccc2)c2c(C)c(C#N)c(=O)[nH]c12", "inchikey": "VESCNGUUGVRKOK", "difficulty": "complex", "eclass": "nitrile"}
-{"qid": "E09", "smiles": "CC1=C(C#N)C(=O)N(C)/C(=N/c2ccccc2)C1=CNc1ccccc1", "inchikey": "FBTBLYLNMICHTJ", "difficulty": "complex", "eclass": "nitrile"}
-{"qid": "E10", "smiles": "COc1ccc(-c2cccc3c2OP(=O)(O)CC=C3)cc1", "inchikey": "MPIMLVGHBHMHSD", "difficulty": "complex", "eclass": "phosphoryl"}
-{"qid": "E11", "smiles": "CC(C)(C)OC(=O)Oc1ccc(N(C(=O)OC(C)(C)C)C2=CC(=O)CCC2)cc1", "inchikey": "BEGMIDXNANOBQZ", "difficulty": "complex", "eclass": "carbonate"}
-{"qid": "E12", "smiles": "CCCc1ccc(C2=NN3C(=NS(=O)(=O)c4cnccc43)N=C2O)cc1", "inchikey": "SVQSUZNLHZKTGT", "difficulty": "complex", "eclass": "sulfonyl"}
-{"qid": "E13", "smiles": "CC(=O)O[C@@H]1CC[C@@]2(C)[C@H](CC[C@@H]3[C@@H]2CC[C@]2(C)[C@@H]([C@H](C)CCC(=O)OCCOCCO)CC[C@@H]32)C1", "inchikey": "YXUWGRSTFXZYPI", "difficulty": "complex", "eclass": "glyme"}
-{"qid": "E14", "smiles": "COc1ccc(C2=NN(c3ccc(S(N)(=O)=O)cc3)C(c3cc4c([nH]3)CC(C)(C)CC4=O)C2)cc1", "inchikey": "MKWPRTIWLCPPRL", "difficulty": "complex", "eclass": "sulfonyl"}
-{"qid": "E15", "smiles": "O=C(CP(=O)(c1ccccc1)c1ccccc1)NN=C1C(=O)Nc2ccc(Br)cc21", "inchikey": "IIWZXGBYLAZPNS", "difficulty": "complex", "eclass": "phosphoryl"}
-{"qid": "E16", "smiles": "CC(C)(CC(=O)CP(=O)([O-])[O-])[C@H]1CC[C@H](CO[Si](c2ccccc2)(c2ccccc2)C(C)(C)C)O1", "inchikey": "DKFKEZYFWWLVKS", "difficulty": "complex", "eclass": "phosphoryl"}
-{"qid": "E17", "smiles": "O=[N+]([O-])c1ccc(S(=O)(=O)n2c(-c3ccsc3)c([Se]c3ccccc3)c3c4ccccc4ccc32)cc1", "inchikey": "PHCUJWUPWSGOKW", "difficulty": "complex", "eclass": "sulfonyl"}
-{"qid": "E18", "smiles": "CCOC(=O)C1=CCC2=C(C=C1)CC(C(=O)Oc1ccc(C#N)cc1)C2", "inchikey": "LQTKMDWWIMVBOP", "difficulty": "complex", "eclass": "nitrile"}
-{"qid": "E19", "smiles": "CCOP(=O)(OCC)C(O)CCn1cc(Cn2cnc3c(Cl)nc(N)nc32)nn1", "inchikey": "PYZGNWJKGPMOFH", "difficulty": "complex", "eclass": "phosphoryl"}
-{"qid": "E20", "smiles": "COC(=O)Oc1ccc(/C=C2\\CN(C)CCC2=O)cc1OC", "inchikey": "IIDTVYHJAWIFHM", "difficulty": "simple", "eclass": "carbonate"}
-{"qid": "E21", "smiles": "COc1ccccc1C1Nc2nncn2C(N)=C1C#N", "inchikey": "HOPNOYVMYGSBNH", "difficulty": "complex", "eclass": "nitrile"}
-{"qid": "E22", "smiles": "O=C(OCC1=C(c2ccccc2)C(=O)c2ccccc2S1(=O)=O)Oc1ccc(/C=C/c2cc(O)cc(O)c2)cc1", "inchikey": "VHOXPBVUBPEEAL", "difficulty": "complex", "eclass": "carbonate"}
-{"qid": "E23", "smiles": "CCOP(=O)(CCCn1cc(CN2C(=O)c3cccc4cc([N+](=O)[O-])cc(c34)C2=O)nn1)OCC", "inchikey": "USQXMVOEADSXQM", "difficulty": "complex", "eclass": "phosphoryl"}
-{"qid": "E24", "smiles": "COc1ccc(C2(c3ccc(OS(=O)(=O)C(F)(F)F)cc3)CS(=O)(=O)C2)cc1", "inchikey": "VPSMRXUAHXATEZ", "difficulty": "complex", "eclass": "sulfonyl"}
-{"qid": "E25", "smiles": "CCOC(=O)c1cc2ccccc2n1CC1COC(=O)O1", "inchikey": "PTUPEVBZAFYNGK", "difficulty": "complex", "eclass": "carbonate"}
-{"qid": "E26", "smiles": "COCCOCCOCCn1c2cc3c(=O)oc(=O)c4ccc5c6ccc7c(=O)oc(=O)c8cc1c(c6c78)c2c5c43", "inchikey": "DNNUCMKTEQFMQX", "difficulty": "complex", "eclass": "glyme"}
-{"qid": "E27", "smiles": "N#Cc1c(-c2ccc([N+](=O)[O-])cc2)noc1N", "inchikey": "TYUYGMXJWRNSAM", "difficulty": "simple", "eclass": "nitrile"}
-{"qid": "E28", "smiles": "Cc1cc(S(=O)(=O)NC#N)c(SCc2ccc3ccccc3n2)cc1Cl.[K]", "inchikey": "YMLBWUWWHHZKBX", "difficulty": "complex", "eclass": "sulfonyl"}
-{"qid": "E29", "smiles": "CCOC(=O)c1c(Cl)c2ccccc2n1CC1COC(=O)O1", "inchikey": "LKYLNFONBUDBSZ", "difficulty": "complex", "eclass": "carbonate"}
-{"qid": "E30", "smiles": "Cc1ccc(-c2cc(-c3ccc(F)cc3)nc(C)c2C(N)=NS(=O)(=O)c2ccc(C)cc2)cc1", "inchikey": "VDFXVNXRIKBALS", "difficulty": "complex", "eclass": "sulfonyl"}
-{"qid": "E31", "smiles": "COc1ccc2c(Nc3ccc(S(=O)(=O)Nc4ccc5cn[nH]c5c4)cc3)ccnc2c1", "inchikey": "RWFRQJZOOCGKBZ", "difficulty": "complex", "eclass": "sulfonyl"}
-{"qid": "E32", "smiles": "COC(=O)c1cc([Te]C(F)(F)F)cc([N+](=O)[O-])c1", "inchikey": "ANJZRWSGPZCYNV", "difficulty": "simple", "eclass": "fluorinated"}
-{"qid": "E33", "smiles": "CCOC(=O)C(C)(F)c1ccc(C)cc1", "inchikey": "QMWSGWYBXFQHPS", "difficulty": "simple", "eclass": "fluorinated"}
-{"qid": "E34", "smiles": "O=C1NC=C(C(=O)c2ccc3c(c2)OCCO3)C(c2ccccc2[N+](=O)[O-])N1", "inchikey": "YFJYAAPBXRAGGT", "difficulty": "complex", "eclass": "glyme"}
-{"qid": "E35", "smiles": "CCOC(=O)c1[nH]c2ccccc2c1SC(F)(F)F", "inchikey": "NOLHWEJQJMEXDR", "difficulty": "complex", "eclass": "fluorinated"}
-{"qid": "E36", "smiles": "O=C(CCCCCCCCCCCOCCOCCOCCOCCOCc1ccccc1)Nc1cc(C(=O)O)cc(C(=O)O)c1", "inchikey": "WGOHSUIMSTZZTK", "difficulty": "complex", "eclass": "glyme"}
-{"qid": "E37", "smiles": "CCOP(=O)(CCCCn1cc(CN2C(=O)c3cccc4cc(N)cc(c34)C2=O)nn1)OCC", "inchikey": "JGNLEXCWYFBILE", "difficulty": "complex", "eclass": "phosphoryl"}
-{"qid": "E38", "smiles": "COc1ccc(C=C[C@@H](O)[C@H](O)c2ccc3c(c2)OCCO3)cc1", "inchikey": "VDMFREJMXQKOFG", "difficulty": "complex", "eclass": "glyme"}
-{"qid": "E39", "smiles": "CCOP(=O)(C/C=C(C)/C=C/C1=C(C)C(O[Si](C)(C)C(C)(C)C)CCC1(C)C)OCC", "inchikey": "KHXMMYPDADJUAB", "difficulty": "complex", "eclass": "phosphoryl"}
-{"qid": "E40", "smiles": "C=C(C(=O)OC)C(OC(=O)OC(C)(C)C)c1ccccc1C#Cc1ccccc1", "inchikey": "RMCKJSMBCXHFFH", "difficulty": "complex", "eclass": "carbonate"}
-{"qid": "E41", "smiles": "CCOC(=O)c1cc2cc(Cl)ccc2n1CC1COC(=O)O1", "inchikey": "MSKAXFUVNCOCRA", "difficulty": "complex", "eclass": "carbonate"}
-{"qid": "E42", "smiles": "COc1ccc(-c2ccccc2C#N)c(C(=O)c2ccccc2)c1", "inchikey": "UHWAXUSQURJCGN", "difficulty": "complex", "eclass": "nitrile"}
-{"qid": "E43", "smiles": "COc1ccc(S(=O)(=O)N2CCCC(c3nnc(SCC(=O)NC4CCCCC4)o3)C2)cc1", "inchikey": "QTTZTOGQOHRYBR", "difficulty": "complex", "eclass": "sulfonyl"}
-{"qid": "E44", "smiles": "OCC#Cc1ccc(C(F)(F)F)cc1", "inchikey": "VEEPNQSOSPXYDQ", "difficulty": "simple", "eclass": "fluorinated"}
-{"qid": "E45", "smiles": "O=C(c1ccc(C(F)(F)F)cc1)c1c(O)ccc2c1-c1cccc3cccc-2c13", "inchikey": "HDKXGLMCYYFQDN", "difficulty": "complex", "eclass": "fluorinated"}
-{"qid": "E46", "smiles": "COc1ccc([C@H]2Cc3c(oc(=O)n3-c3ccc(Cl)cc3)[C@H](C)C2(C#N)C#N)cc1", "inchikey": "FOAWHJFBFDFHTH", "difficulty": "complex", "eclass": "nitrile"}
-{"qid": "E47", "smiles": "CCCCn1ccn(CCOCCOC(=O)C(C)(C)C)c1=[Se]", "inchikey": "VSICLYPKAHDKRZ", "difficulty": "simple", "eclass": "glyme"}
-{"qid": "E48", "smiles": "O=Cc1ccc(OCc2cccc(-c3ccc4c(c3)OCCO4)c2F)c(Br)c1", "inchikey": "LXWCVRPLMXIKOF", "difficulty": "complex", "eclass": "glyme"}
+{"qid": "E01", "smiles": "CCOP(=O)(OCC)[C@@](F)(Br)[C@@H](N[C@H](C)c1ccccc1)c1ccccc1", "inchikey": "QJWBTRDJAXAILV", "difficulty": "complex", "eclass": "fluorinated", "source_doi": "PMC:10385471"}
+{"qid": "E02", "smiles": "O=C(Cc1c[nH]c2ccc(Br)cc12)NCCC[NH2+]CCCCCCCC[NH2+]CCCNC(=O)Cc1c[nH]c2ccc(Br)cc12.O=C([O-])C(F)(F)F.O=C([O-])C(F)(F)F", "inchikey": "YMPNEHKEUOHPON", "difficulty": "complex", "eclass": "fluorinated", "source_doi": "PMC:10452110"}
+{"qid": "E03", "smiles": "N#CC1=C(N)C(=Cc2cn(-c3ccccc3)nc2-c2ccccc2)C(N)=NC1=O", "inchikey": "GYFHGPNQALNRKH", "difficulty": "complex", "eclass": "nitrile", "source_doi": "PMC:6321587"}
+{"qid": "E04", "smiles": "C#CCO/N=C/c1c(O)c(Cl)cc2c(C(F)(F)F)cc(=O)oc12", "inchikey": "XPHFSTPJZKWHPF", "difficulty": "complex", "eclass": "fluorinated", "source_doi": "PMC:7828289"}
+{"qid": "E05", "smiles": "CCOP(=O)(OCC)[C@]1(c2ccccc2)N=CC[C@@H]1C(=O)Nc1ccc(F)c(Cl)c1", "inchikey": "VIEUEUUVIGVGDW", "difficulty": "complex", "eclass": "phosphoryl", "source_doi": "PMC:11831594"}
+{"qid": "E06", "smiles": "O=C(O)c1cccc(-n2cc(-c3ccc(-c4cccc5c4OCCO5)cc3)nn2)c1", "inchikey": "WXPZXTOVTSRRQM", "difficulty": "complex", "eclass": "glyme", "source_doi": "PMC:7735735"}
+{"qid": "E07", "smiles": "COC(=O)OC(C#N)c1ccc([N+](=O)[O-])cc1", "inchikey": "BJJOMBSVFAMVSA", "difficulty": "simple", "eclass": "carbonate", "source_doi": "PMC:6273017"}
+{"qid": "E08", "smiles": "CC(=O)c1nn(-c2ccccc2)c2c(C)c(C#N)c(=O)[nH]c12", "inchikey": "VESCNGUUGVRKOK", "difficulty": "complex", "eclass": "nitrile", "source_doi": "PMC:6263266"}
+{"qid": "E09", "smiles": "CC1=C(C#N)C(=O)N(C)/C(=N/c2ccccc2)C1=CNc1ccccc1", "inchikey": "FBTBLYLNMICHTJ", "difficulty": "complex", "eclass": "nitrile", "source_doi": "PMC:6245304"}
+{"qid": "E10", "smiles": "COc1ccc(-c2cccc3c2OP(=O)(O)CC=C3)cc1", "inchikey": "MPIMLVGHBHMHSD", "difficulty": "complex", "eclass": "phosphoryl", "source_doi": "PMC:10478600"}
+{"qid": "E11", "smiles": "CC(C)(C)OC(=O)Oc1ccc(N(C(=O)OC(C)(C)C)C2=CC(=O)CCC2)cc1", "inchikey": "BEGMIDXNANOBQZ", "difficulty": "complex", "eclass": "carbonate", "source_doi": "PMC:6362434"}
+{"qid": "E12", "smiles": "CCCc1ccc(C2=NN3C(=NS(=O)(=O)c4cnccc43)N=C2O)cc1", "inchikey": "SVQSUZNLHZKTGT", "difficulty": "complex", "eclass": "sulfonyl", "source_doi": "PMC:6273831"}
+{"qid": "E13", "smiles": "CC(=O)O[C@@H]1CC[C@@]2(C)[C@H](CC[C@@H]3[C@@H]2CC[C@]2(C)[C@@H]([C@H](C)CCC(=O)OCCOCCO)CC[C@@H]32)C1", "inchikey": "YXUWGRSTFXZYPI", "difficulty": "complex", "eclass": "glyme", "source_doi": "PMC:7911507"}
+{"qid": "E14", "smiles": "COc1ccc(C2=NN(c3ccc(S(N)(=O)=O)cc3)C(c3cc4c([nH]3)CC(C)(C)CC4=O)C2)cc1", "inchikey": "MKWPRTIWLCPPRL", "difficulty": "complex", "eclass": "sulfonyl", "source_doi": "PMC:6270532"}
+{"qid": "E15", "smiles": "O=C(CP(=O)(c1ccccc1)c1ccccc1)NN=C1C(=O)Nc2ccc(Br)cc21", "inchikey": "IIWZXGBYLAZPNS", "difficulty": "complex", "eclass": "phosphoryl", "source_doi": "PMC:12249729"}
+{"qid": "E16", "smiles": "CC(C)(CC(=O)CP(=O)([O-])[O-])[C@H]1CC[C@H](CO[Si](c2ccccc2)(c2ccccc2)C(C)(C)C)O1", "inchikey": "DKFKEZYFWWLVKS", "difficulty": "complex", "eclass": "phosphoryl", "source_doi": "PMC:7203982"}
+{"qid": "E17", "smiles": "O=[N+]([O-])c1ccc(S(=O)(=O)n2c(-c3ccsc3)c([Se]c3ccccc3)c3c4ccccc4ccc32)cc1", "inchikey": "PHCUJWUPWSGOKW", "difficulty": "complex", "eclass": "sulfonyl", "source_doi": "PMC:9941895"}
+{"qid": "E18", "smiles": "CCOC(=O)C1=CCC2=C(C=C1)CC(C(=O)Oc1ccc(C#N)cc1)C2", "inchikey": "LQTKMDWWIMVBOP", "difficulty": "complex", "eclass": "nitrile", "source_doi": "PMC:3388855"}
+{"qid": "E19", "smiles": "CCOP(=O)(OCC)C(O)CCn1cc(Cn2cnc3c(Cl)nc(N)nc32)nn1", "inchikey": "PYZGNWJKGPMOFH", "difficulty": "complex", "eclass": "phosphoryl", "source_doi": "PMC:6332235"}
+{"qid": "E20", "smiles": "COC(=O)Oc1ccc(/C=C2\\CN(C)CCC2=O)cc1OC", "inchikey": "IIDTVYHJAWIFHM", "difficulty": "simple", "eclass": "carbonate", "source_doi": "PMC:8508995"}
+{"qid": "E21", "smiles": "COc1ccccc1C1Nc2nncn2C(N)=C1C#N", "inchikey": "HOPNOYVMYGSBNH", "difficulty": "complex", "eclass": "nitrile", "source_doi": "PMC:12922760"}
+{"qid": "E22", "smiles": "O=C(OCC1=C(c2ccccc2)C(=O)c2ccccc2S1(=O)=O)Oc1ccc(/C=C/c2cc(O)cc(O)c2)cc1", "inchikey": "VHOXPBVUBPEEAL", "difficulty": "complex", "eclass": "carbonate", "source_doi": "PMC:6044813"}
+{"qid": "E23", "smiles": "CCOP(=O)(CCCn1cc(CN2C(=O)c3cccc4cc([N+](=O)[O-])cc(c34)C2=O)nn1)OCC", "inchikey": "USQXMVOEADSXQM", "difficulty": "complex", "eclass": "phosphoryl", "source_doi": "PMC:6273621"}
+{"qid": "E24", "smiles": "COc1ccc(C2(c3ccc(OS(=O)(=O)C(F)(F)F)cc3)CS(=O)(=O)C2)cc1", "inchikey": "VPSMRXUAHXATEZ", "difficulty": "complex", "eclass": "sulfonyl", "source_doi": "PMC:11536365"}
+{"qid": "E25", "smiles": "CCOC(=O)c1cc2ccccc2n1CC1COC(=O)O1", "inchikey": "PTUPEVBZAFYNGK", "difficulty": "complex", "eclass": "carbonate", "source_doi": "PMC:12138336"}
+{"qid": "E26", "smiles": "COCCOCCOCCn1c2cc3c(=O)oc(=O)c4ccc5c6ccc7c(=O)oc(=O)c8cc1c(c6c78)c2c5c43", "inchikey": "DNNUCMKTEQFMQX", "difficulty": "complex", "eclass": "glyme", "source_doi": "PMC:8228590"}
+{"qid": "E27", "smiles": "N#Cc1c(-c2ccc([N+](=O)[O-])cc2)noc1N", "inchikey": "TYUYGMXJWRNSAM", "difficulty": "simple", "eclass": "nitrile", "source_doi": "PMC:6768021"}
+{"qid": "E28", "smiles": "Cc1cc(S(=O)(=O)NC#N)c(SCc2ccc3ccccc3n2)cc1Cl.[K]", "inchikey": "YMLBWUWWHHZKBX", "difficulty": "complex", "eclass": "sulfonyl", "source_doi": "PMC:6332020"}
+{"qid": "E29", "smiles": "CCOC(=O)c1c(Cl)c2ccccc2n1CC1COC(=O)O1", "inchikey": "LKYLNFONBUDBSZ", "difficulty": "complex", "eclass": "carbonate", "source_doi": "PMC:12138336"}
+{"qid": "E30", "smiles": "Cc1ccc(-c2cc(-c3ccc(F)cc3)nc(C)c2C(N)=NS(=O)(=O)c2ccc(C)cc2)cc1", "inchikey": "VDFXVNXRIKBALS", "difficulty": "complex", "eclass": "sulfonyl", "source_doi": "PMC:11328002"}
+{"qid": "E31", "smiles": "COc1ccc2c(Nc3ccc(S(=O)(=O)Nc4ccc5cn[nH]c5c4)cc3)ccnc2c1", "inchikey": "RWFRQJZOOCGKBZ", "difficulty": "complex", "eclass": "sulfonyl", "source_doi": "PMC:10219129"}
+{"qid": "E32", "smiles": "COC(=O)c1cc([Te]C(F)(F)F)cc([N+](=O)[O-])c1", "inchikey": "ANJZRWSGPZCYNV", "difficulty": "simple", "eclass": "fluorinated", "source_doi": "PMC:9709198"}
+{"qid": "E33", "smiles": "CCOC(=O)C(C)(F)c1ccc(C)cc1", "inchikey": "QMWSGWYBXFQHPS", "difficulty": "simple", "eclass": "fluorinated", "source_doi": "PMC:6268090"}
+{"qid": "E34", "smiles": "O=C1NC=C(C(=O)c2ccc3c(c2)OCCO3)C(c2ccccc2[N+](=O)[O-])N1", "inchikey": "YFJYAAPBXRAGGT", "difficulty": "complex", "eclass": "glyme", "source_doi": "PMC:6647008"}
+{"qid": "E35", "smiles": "CCOC(=O)c1[nH]c2ccccc2c1SC(F)(F)F", "inchikey": "NOLHWEJQJMEXDR", "difficulty": "complex", "eclass": "fluorinated", "source_doi": "PMC:10804413"}
+{"qid": "E36", "smiles": "O=C(CCCCCCCCCCCOCCOCCOCCOCCOCc1ccccc1)Nc1cc(C(=O)O)cc(C(=O)O)c1", "inchikey": "WGOHSUIMSTZZTK", "difficulty": "complex", "eclass": "glyme", "source_doi": "PMC:8494077"}
+{"qid": "E37", "smiles": "CCOP(=O)(CCCCn1cc(CN2C(=O)c3cccc4cc(N)cc(c34)C2=O)nn1)OCC", "inchikey": "JGNLEXCWYFBILE", "difficulty": "complex", "eclass": "phosphoryl", "source_doi": "PMC:6273621"}
+{"qid": "E38", "smiles": "COc1ccc(C=C[C@@H](O)[C@H](O)c2ccc3c(c2)OCCO3)cc1", "inchikey": "VDMFREJMXQKOFG", "difficulty": "complex", "eclass": "glyme", "source_doi": "PMC:9029353"}
+{"qid": "E39", "smiles": "CCOP(=O)(C/C=C(C)/C=C/C1=C(C)C(O[Si](C)(C)C(C)(C)C)CCC1(C)C)OCC", "inchikey": "KHXMMYPDADJUAB", "difficulty": "complex", "eclass": "phosphoryl", "source_doi": "PMC:9693700"}
+{"qid": "E40", "smiles": "C=C(C(=O)OC)C(OC(=O)OC(C)(C)C)c1ccccc1C#Cc1ccccc1", "inchikey": "RMCKJSMBCXHFFH", "difficulty": "complex", "eclass": "carbonate", "source_doi": "PMC:6644149"}
+{"qid": "E41", "smiles": "CCOC(=O)c1cc2cc(Cl)ccc2n1CC1COC(=O)O1", "inchikey": "MSKAXFUVNCOCRA", "difficulty": "complex", "eclass": "carbonate", "source_doi": "PMC:12138336"}
+{"qid": "E42", "smiles": "COc1ccc(-c2ccccc2C#N)c(C(=O)c2ccccc2)c1", "inchikey": "UHWAXUSQURJCGN", "difficulty": "complex", "eclass": "nitrile", "source_doi": "PMC:11969277"}
+{"qid": "E43", "smiles": "COc1ccc(S(=O)(=O)N2CCCC(c3nnc(SCC(=O)NC4CCCCC4)o3)C2)cc1", "inchikey": "QTTZTOGQOHRYBR", "difficulty": "complex", "eclass": "sulfonyl", "source_doi": "PMC:12895000"}
+{"qid": "E44", "smiles": "OCC#Cc1ccc(C(F)(F)F)cc1", "inchikey": "VEEPNQSOSPXYDQ", "difficulty": "simple", "eclass": "fluorinated", "source_doi": "PMC:6833020"}
+{"qid": "E45", "smiles": "O=C(c1ccc(C(F)(F)F)cc1)c1c(O)ccc2c1-c1cccc3cccc-2c13", "inchikey": "HDKXGLMCYYFQDN", "difficulty": "complex", "eclass": "fluorinated", "source_doi": "PMC:9087347"}
+{"qid": "E46", "smiles": "COc1ccc([C@H]2Cc3c(oc(=O)n3-c3ccc(Cl)cc3)[C@H](C)C2(C#N)C#N)cc1", "inchikey": "FOAWHJFBFDFHTH", "difficulty": "complex", "eclass": "nitrile", "source_doi": "PMC:3317676"}
+{"qid": "E47", "smiles": "CCCCn1ccn(CCOCCOC(=O)C(C)(C)C)c1=[Se]", "inchikey": "VSICLYPKAHDKRZ", "difficulty": "simple", "eclass": "glyme", "source_doi": "PMC:9969179"}
+{"qid": "E48", "smiles": "O=Cc1ccc(OCc2cccc(-c3ccc4c(c3)OCCO4)c2F)c(Br)c1", "inchikey": "LXWCVRPLMXIKOF", "difficulty": "complex", "eclass": "glyme", "source_doi": "PMC:7584369"}

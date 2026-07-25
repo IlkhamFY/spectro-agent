@@ -16,9 +16,17 @@ fs.apply()
 OBS = [28.9, 51.0, 121.9, 126.0, 137.9, 147.9, 151.0, 163.6]
 
 def molimg(smi, sz=(200, 150)):
-    return np.asarray(Draw.MolToImage(Chem.MolFromSmiles(smi), size=sz))
+    """Monochrome, matching Fig. 4: colour is reserved for the selected/rejected coding."""
+    from rdkit.Chem.Draw import rdMolDraw2D
+    import io
+    from PIL import Image
+    d = rdMolDraw2D.MolDraw2DCairo(*sz)
+    o = d.drawOptions(); o.useBWAtomPalette(); o.bondLineWidth = 1
+    rdMolDraw2D.PrepareAndDrawMolecule(d, Chem.MolFromSmiles(smi))
+    d.FinishDrawing()
+    return np.asarray(Image.open(io.BytesIO(d.GetDrawingText())).convert("RGB"))
 
-fig, ax = plt.subplots(figsize=(7.2, 3.0))
+fig, ax = plt.subplots(figsize=(fs.COL2, 2.6))   # full-column width, on the shared grid
 ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.axis("off")
 
 ax.text(50, 96, "Structure elucidation from real IR + NMR spectra with a frontier LLM",

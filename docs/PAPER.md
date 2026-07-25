@@ -7,30 +7,37 @@
 
 ## Abstract
 
-Given a real, unedited infrared and NMR spectrum from the published literature, how
-often does a frontier large language model (here, Claude) recover the correct molecular
-structure? We find: **28% of the time** (top-1, n=194; 95% CI 22–35) — far below the near-100%
-implied by curated demonstrations. The bottleneck is not the model's judgment but its
-*proposal*: when the true structure is among the candidates, forward-verification selects it **84%**
-of the time, yet the model generates it for only **31%** of compounds.
+Given the molecular formula together with the infrared band list and ¹H/¹³C shift
+lists exactly as reported in an open-access paper, how often does a frontier large
+language model (here, Claude) recover the correct molecular *constitution*? We find:
+**28% of the time** (top-1, n=194; 95% CI 22–35) — far below the near-100% implied by
+curated demonstrations. The bottleneck is not the model's judgment but its *proposal*:
+on a 60-compound forward-verification subset the model proposes the true structure for
+only **19 of 60** compounds (31%, 95% CI 21–44), and where it does, forward-verification
+selects it in **16 of 19** (84%, 95% CI 62–94, against a 66% derangement floor, §5.5).
 **Recall, not verification, is the wall.** We establish this with three contributions.
 First, **IRexp** — the largest permissively-licensed, redistributable dataset of
 *experimental* infrared spectra (121,233 records; 43,060 structure-linked; 33,201 full
 IR + ¹H + ¹³C + structure quadruples), mined from open-access literature. Second,
 **IRSpectra-Bench** — an open, blind, mechanically scored benchmark of 194 compounds,
 complexity-stratified, on which accuracy splits sharply (48% simple vs 8% complex);
-a within-compound control shows that solving each compound in a fresh context with tools
+a within-compound control shows that solving compounds in bounded, frequently-reset
+contexts with tools
 increases accuracy over one long context (5%→15%, i.e. 1/20→3/20; directional at n=20),
 so reported numbers are sensitive to methodology, not raw capability alone. Third, a
-training-free **forward-verification** method that acts on the diagnosis: on the 60-compound
-forward-verify subset, generating regiochemistry-aware candidates and re-ranking by
-predicted-vs-observed ¹³C lifts top-1 from 23% to **30%** — a real but bounded gain:
-within the training-free regime, accuracy is capped by the product of generation recall
-and verification precision. That ceiling is *elicitation-specific, not intrinsic*: a small generator
-fine-tuned on IRexp lifts recall from 41% to 56% (SI; with a corresponding rise in
-forward-verified top-1, pending deposit of the forward-prediction step), and the
-released data is the active ingredient (a simulated-pretrained model
-recovers 0/248 structures zero-shot, 25% after IRexp fine-tuning). The recall-bound
+training-free **forward-verification** method that acts on the diagnosis: on the
+60-compound forward-verify subset, generating regiochemistry-aware candidates and
+re-ranking by predicted-vs-observed ¹³C raises candidate recall from 31% to 41% and
+moves top-1 from 23% to **30%** (14/60 → 18/60; directional, not resolved at this
+sample size — McNemar exact p=0.125 even under the most favourable nesting assumption).
+The gain is real but bounded, because within the training-free regime accuracy is
+capped by the product of generation recall and verification precision. The *recall*
+factor is a property of training-free elicitation rather than an established limit of
+the task: a small generator fine-tuned on IRexp raises candidate recall from 33.5% to
+54.1% and, pooled under a deterministic ¹³C re-ranker, lifts top-1 from 28.4% to
+**35.1%** (n=194; McNemar exact p=0.015; §5.6) — the highest full-benchmark accuracy we
+report. But the wall moves rather than falls: the true structure is still outside the
+candidate pool for 46% of compounds, and the precision factor is untouched. The recall-bound
 regime reproduces in a battery-electrolyte domain (n=46, 26% top-1). Every result is
 single-vendor (Claude); a cross-vendor test is the key open question. The core protocol
 uses no model training and no paid API — two clearly-fenced probes (a trained generator,
@@ -244,10 +251,16 @@ leakage.
 connectivity layer (first 14 characters) matches the reference — i.e. we score
 *constitution* (atom-and-bond connectivity); stereochemistry is reported separately.
 This is a deliberate floor: a candidate with the correct constitution but wrong
-stereochemistry counts as correct. The exposure is bounded — only 10.3% (20/194) of
-benchmark answers carry a *defined* (assigned R/S) stereocentre (29.9% any potential) —
-and 1D ¹H/¹³C/IR rarely fixes absolute configuration, so a stereochemistry-aware score
-is neither well-posed from the given data nor materially different on this set.
+stereochemistry counts as correct. We report the strict alternative rather than assert
+it is immaterial. Scoring the *full* InChIKey (stereochemistry-sensitive) gives
+**21.1% top-1 and 25.8% recovered** (41/194 and 50/194), against 28.4% / 33.5% at the
+connectivity layer — 7.3 points lower, so the choice of layer is not immaterial and the
+constitution figure should be read as an upper bound on full-stereochemistry accuracy.
+We nevertheless take constitution as the headline metric because 1D ¹H/¹³C/IR rarely
+fixes absolute configuration, so a stereochemistry-aware score is not well-posed from
+the given data: only 10.3% (20/194) of benchmark answers carry a *defined* (assigned
+R/S) stereocentre, and a model is penalised there for information the prompt never
+contained. Both numbers are produced by `scripts/score_main.py --stereo`.
 
 **Metrics.** We report five quantities. **Top-1 (exact constitution)** is the fraction
 of compounds whose single best-ranked candidate matches the reference at the InChIKey
@@ -281,8 +294,11 @@ reproducible without API credits.
 
 ### 4.1 Headline performance
 
-Decoupled per-compound agents solve each problem in an independent context
-(formula + IR + ¹H + ¹³C, blind, up to three ranked candidates). Over the full
+Solver agents work blind from formula + IR + ¹H + ¹³C and return up to three ranked
+candidates. Each agent handles a small batch of problems in a bounded context that is
+reset between batches (2–12 compounds per context in the released run; see
+`data/benchmark_main/raw/`), rather than one long context over the whole benchmark —
+the arm §4.3 shows matters. Over the full
 **194-compound benchmark** (134 spectrally-validated compounds + the 60 from the
 controlled rounds), with bootstrap 95% confidence intervals:
 
@@ -360,8 +376,8 @@ single unaudited near-100% claim[@kamber2026chemist] can bear.
 ### 4.3 Methodology dominates: a within-compound control
 
 The same 20 molecules were solved two ways: (a) by a single LLM context handling
-all of them sequentially with no tools, and (b) by independent per-compound agents
-with RDKit formula-checking. On the *identical* compounds, recovery rose from
+all of them sequentially with no tools, and (b) by four independent agents of five
+compounds each, with RDKit formula-checking — i.e. bounded, reset contexts. On the *identical* compounds, recovery rose from
 **5% to 15%** (1/20 → 3/20) and top-1 from 0% to 15% (0/20 → 3/20) — a 3× methodology
 effect with zero sample confound, though on a small set (the 15% point estimate carries
 a Wilson 95% CI of roughly 5–36%), so it is read as a directional within-compound
@@ -573,10 +589,16 @@ result:
 | forward-verified top-1 | 26% | **30%** |
 | verification precision (conditional on recall) | 84% | 72% |
 
-Wide generation lifts recall +10 points (31%→41%) and exact top-1 +7 points over the
-self-ranking baseline (23%→30%) — equivalently +4 over the original forward-verified
-top-1 (26%→30%, Table 6) — on the same 60 compounds (Fig. 5); a real, measured gain with
-no training. But it does **not**
+Wide generation lifts recall +10 points (31%→41%, i.e. 19/60→25/60) and exact top-1
++7 points over the self-ranking baseline (23%→30%, 14/60→18/60) — equivalently +4 over
+the original forward-verified top-1 (26%→30%, 16/60→18/60, Table 6) — on the same 60
+compounds (Fig. 5), with no training. **These top-1 differences are directional, not
+statistically resolved at n=60:** the 14/60→18/60 improvement is a four-compound
+difference, which reaches only McNemar exact p=0.125 even under the most favourable
+assumption that the stages are perfectly nested (no compound lost); the 16/60→18/60
+step reaches p=0.5. The recall gain is the better-supported effect. We therefore read
+the ladder as a demonstration that the *mechanism* works and that recall is the movable
+factor, not as a precise measurement of the size of the top-1 gain. But it does **not**
 reach the ~50% a naïve extrapolation would predict, for two instructive reasons:
 **(i) recall plateaus at 41%** — exotic and large targets (selenium heterocycles,
 poly-aryl polyketones, eleven-nitrogen polyamines) resist even six regiochemical
@@ -702,11 +724,16 @@ fixed so that only the method changes:
 | LLM forward-verifier (§5.2) | 16/19 (84%) | — |
 
 The learned model recovers the full **73%→84%** precision the lookup could not, matching
-the LLM verifier (Fig. S6). The §5.4 reading is therefore too strong: the deterministic
-verifier's failure was substantially **method** — generalisation across novel
-environments — not coverage alone, and a cheap learned predictor on the same data
-suffices to match the LLM, without the compound-specific DFT accuracy or 2D-NMR §5.4
-reaches for. The GNN and the LLM reach 84% on *partly different* compounds (two
+the LLM verifier (Fig. S6). **This is a two-compound difference at n=19 and is not
+statistically resolved** (14/19→16/19; McNemar exact p=0.5 even under the most
+favourable nesting assumption) — the same standard by which §5.2 declines to separate
+its own adjacent conditions. We therefore read it as *suggestive and directional*: it
+is consistent with the deterministic verifier's failure being substantially **method**
+— generalisation across novel environments — rather than coverage alone, and with a
+cheap learned predictor on the same data being sufficient to match the LLM without the
+compound-specific DFT accuracy or 2D-NMR §5.4 reaches for. It does not establish that
+conclusion, and §5.4's coverage reading is not excluded; separating the two would need
+a substantially larger conditional-on-recall set. The GNN and the LLM reach 84% on *partly different* compounds (two
 independent verifiers concurring, not one), and the gain is **generalisation, not
 memorisation**: candidate–training overlap is **0/126** by InChIKey-14 (we confirm zero
 overlap against the entire nmrshiftdb2 database; every true structure and all three
@@ -777,7 +804,8 @@ forward-verification recipe directly relevant to the magnetic-resonance workflow
 candidate's spectrum to confirm it is already standard practice.
 
 For practitioners, two operational findings transfer immediately: solve each problem
-in a fresh context with tool access (5%→15%, ≈3×, §4.3), and trust a
+in bounded, frequently-reset contexts with tool access (5%→15%, 1/20→3/20,
+directional at n=20, §4.3), and trust a
 proposed structure in proportion to how well its forward-predicted spectrum matches
 the observed one — while remembering the abstention caveat below.
 
@@ -798,9 +826,10 @@ quantifies the recall/precision tension directly — verification precision is
 accumulate, so forward-match distance is a strong *re-ranker* but a soft
 *confidence* gauge. We further tested non-LLM verifiers (§5.4, §5.7): a
 nmrshiftdb2-trained HOSE-code *lookup* does **not** beat the LLM verifier (73% vs 84%
-conditional), but a *learned* GNN on the same data **does** recover it (84%, §5.7) — so
-the deterministic failure was method, not only coverage, and a cheap learned predictor
-matches the LLM verifier without DFT-level shifts or 2D-NMR. What remains beyond all of
+conditional), while a *learned* GNN on the same data reaches 84% (§5.7) — a
+two-compound difference at n=19 that is directional only (p=0.5), so it is suggestive
+that the deterministic failure was method rather than coverage alone, not a
+demonstration of it. What remains beyond all of
 them is the near-degenerate-regiochemistry precision ceiling, where DFT-level accuracy or
 2D-NMR constraints are still the genuine fix. **Projection:** §5.2's
 extrapolation is replaced by the **measured** §5.3
@@ -914,9 +943,12 @@ scorer, and forward-verification harness are scripted end-to-end.
 
 ## Figures (main text)
 
-- **Fig. 1** (`docs/figures/fig_wall.png`) — the diagnosis in one glance: shown a
-  candidate set the model *verifies* the true structure 84% of the time, yet *proposes*
-  it for only 31% of compounds. Recall, not verification, is the wall (53-point gap).
+- **Fig. 1** (`docs/figures/fig_wall.png`) — the diagnosis in one glance, as a
+  part-to-whole bar of the 60 forward-verify compounds: 16 verified top-1, 3 recalled
+  but mis-ranked, 41 never proposed — *the wall*, 68% of the bar. Generation recall is
+  19/60 (31%); conditional verification precision is 16/19 (84%); their product is the
+  26% end-to-end top-1. The two rates have different denominators and are not
+  differenced.
 - **Fig. 2** (`docs/figures/fig1_difficulty.png`) — top-1 and recovered accuracy on
   IRSpectra-Bench by difficulty (all / simple / complex, n=194) with bootstrap 95% CIs.
 - **Fig. 3** (`docs/figures/fig5_models.png`) — four-model comparison on a 24-compound

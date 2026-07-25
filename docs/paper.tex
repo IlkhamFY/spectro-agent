@@ -1617,11 +1617,30 @@ editing.
 
 The authors declare no competing interests.
 
+\hypertarget{use-of-ai-tools}{%
+\subsection{Use of AI tools}\label{use-of-ai-tools}}
+
+This work studies a large language model, and LLMs were also used as
+instruments and as writing aids; we state both roles explicitly.
+\textbf{As an object of study:} all reported elucidation,
+forward-prediction and verification results were produced by Claude
+models invoked under the protocol of §3 and §8 --- these are the
+measurements the paper reports, not assistance in producing it.
+\textbf{As a writing aid:} the authors used an LLM-based coding
+assistant for figure generation, analysis scripting, manuscript
+copy-editing, and for the internal review pass that produced several of
+the corrections recorded in the repository history. \textbf{No text,
+number, figure or citation in this manuscript was accepted without
+author verification against the released data and code}; every
+quantitative claim regenerates from the scripts in \texttt{scripts/}.
+The authors take full responsibility for the content.
+
 \hypertarget{acknowledgements}{%
 \subsection{Acknowledgements}\label{acknowledgements}}
 
-\emph{(To be completed: funding sources and compute/infrastructure
-acknowledgements.)}
+\emph{(To be completed before submission: funding sources,
+compute/infrastructure, and any individual acknowledgements. ---
+AUTHORS)}
 
 \hypertarget{references}{%
 \subsection{References}\label{references}}
@@ -1788,6 +1807,19 @@ preprint, DOI:
 \href{https://doi.org/10.48550/arXiv.2508.06199}{10.48550/arXiv.2508.06199}.}
 
 \end{CSLReferences}
+
+\clearpage
+
+\hypertarget{table-of-contents-entry}{%
+\section{Table of contents entry}\label{table-of-contents-entry}}
+
+\includegraphics[width=6.3in,height=\textheight]{docs/figures/graphical_abstract.png}
+
+A frontier LLM recovers the correct molecular constitution from real,
+blind IR + ¹H + ¹³C literature spectra for 28\% of 194 compounds. The
+bottleneck is candidate \emph{recall}, not verification:
+forward-predicting ¹³C and re-ranking selects the true structure 84\% of
+the time it is proposed --- but it is proposed only 31\% of the time.
 
 \clearpage
 

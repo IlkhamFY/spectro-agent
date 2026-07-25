@@ -1082,9 +1082,24 @@ writing — review and editing.
 
 The authors declare no competing interests.
 
+## Use of AI tools
+
+This work studies a large language model, and LLMs were also used as instruments and as
+writing aids; we state both roles explicitly. **As an object of study:** all reported
+elucidation, forward-prediction and verification results were produced by Claude models
+invoked under the protocol of §3 and §8 — these are the measurements the paper reports,
+not assistance in producing it. **As a writing aid:** the authors used an LLM-based
+coding assistant for figure generation, analysis scripting, manuscript copy-editing, and
+for the internal review pass that produced several of the corrections recorded in the
+repository history. **No text, number, figure or citation in this manuscript was accepted
+without author verification against the released data and code**; every quantitative claim
+regenerates from the scripts in `scripts/`. The authors take full responsibility for the
+content.
+
 ## Acknowledgements
 
-*(To be completed: funding sources and compute/infrastructure acknowledgements.)*
+*(To be completed before submission: funding sources, compute/infrastructure, and any
+individual acknowledgements. — AUTHORS)*
 
 ## References
 

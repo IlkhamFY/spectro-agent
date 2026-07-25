@@ -45,11 +45,11 @@ Determining a molecule's structure from its spectra is a central, time-consuming
 task in synthetic and analytical chemistry. The dominant machine-learning approach
 trains specialised encoder–decoder models to map spectra to structures; the recent
 *Spectro* model, for example, learns ¹H/¹³C/IR → SELFIES from a corpus of 6,833
-molecules.¹ In parallel, general-purpose LLMs have been reported to perform the
+molecules.[@chacko2024spectro] In parallel, general-purpose LLMs have been reported to perform the
 same task off-the-shelf: a 2026 industrial white paper (a non-peer-reviewed company
 report) found that Claude Opus matched or beat commercial NMR-prediction software in
 the forward direction (structure→spectrum, ±0.08 ppm ¹H) and "recovered all eight
-simpler structures on every attempt" in the inverse direction (spectrum→structure).²
+simpler structures on every attempt" in the inverse direction (spectrum→structure).[@kamber2026chemist]
 We treat its numbers as a motivating claim to be tested against peer-reviewed
 benchmarks, not as an established baseline.
 
@@ -107,36 +107,36 @@ models stand over a leaderboard-topping number.
 ### 1.1 Related work
 
 **Trained spectra→structure models.** The dominant line trains sequence or graph
-decoders to emit structures from spectra: *Spectro* (¹H/¹³C/IR→SELFIES)¹, the
-multitask CNN+transformer of routine 1D-NMR¹¹, and set/graph transformers such as
-NMRTrans¹². These reach high accuracy *in-distribution* but require a labelled
+decoders to emit structures from spectra: *Spectro* (¹H/¹³C/IR→SELFIES)[@chacko2024spectro], the
+multitask CNN+transformer of routine 1D-NMR[@hu2024multitask], and set/graph transformers such as
+NMRTrans[@yang2026nmrtrans]. These reach high accuracy *in-distribution* but require a labelled
 spectra→structure corpus, which is exactly the scarce resource our IRexp pipeline
 targets, and they are retrained per modality. Closest in spirit to our multimodal
-setting is **NMIRacle**¹³, a generative model conditioned jointly on IR + ¹H + ¹³C;
+setting is **NMIRacle**[@ottomano2025nmiracle], a generative model conditioned jointly on IR + ¹H + ¹³C;
 it is a strong trained baseline, whereas our contribution is the *open experimental-IR
 data it (and others) can train on*, plus a *training-free* protocol and a blind
 benchmark to measure it.
 
 **LLMs as elucidators, and how this work differs.** General-purpose LLMs have been
-applied off-the-shelf — Anthropic's forward/inverse white paper² (ref 2),
+applied off-the-shelf — Anthropic's forward/inverse white paper[@kamber2026chemist],
 SpectraLLM and MolSpectLLM (multimodal LLMs over multi-spectral
-input)¹⁴, and knowledge-enhanced tree-search reasoning¹⁵ — and dedicated multimodal
-*benchmarks* now exist, most prominently **MolPuzzle**²⁰ (IR+MS+¹H+¹³C elucidation
+input)[@su2025spectrallm; @shen2025molspectllm], and knowledge-enhanced tree-search reasoning[@zhuang2025treesearch] — and dedicated multimodal
+*benchmarks* now exist, most prominently **MolPuzzle**[@guo2024molpuzzle] (IR+MS+¹H+¹³C elucidation
 puzzles with the molecular formula supplied). These establish that the task is worth
 benchmarking and that LLMs can be scored on multi-spectral input; we claim priority on
 neither. What is new here is three things that, to our knowledge, no prior benchmark
 combines. **(i) Real, literature-mined experimental spectra at scale:** prior
-multimodal benchmarks and trained baselines¹ ¹³ ²³ rely on simulated, software-predicted,
+multimodal benchmarks and trained baselines[@chacko2024spectro; @ottomano2025nmiracle; @alberts2024ir] rely on simulated, software-predicted,
 or hand-curated puzzle spectra, whereas IRSpectra-Bench is drawn from IRexp's
 experimental IR + ¹H + ¹³C of out-of-distribution compounds, so it measures the
 simulated-to-real gap rather than in-distribution skill. The closest trained precedent,
-Alberts et al.²³, learns an IR→structure transformer from ~635k *simulated* spectra with
+Alberts et al.[@alberts2024ir], learns an IR→structure transformer from ~635k *simulated* spectra with
 a 3,453-spectrum experimental fine-tune (top-1 44% on 6–13 heavy atoms); IRexp instead
 releases experimental IR at scale as an open, redistributable resource and pairs it with
 a blind LLM benchmark. **(ii) Blind, fully specified, mechanical scoring:** reported
 accuracies on the same task vary enormously with inference method and scoring harness —
-GPT-4o on MolPuzzle ranges from 1.4%²⁰ to 27.8%¹⁵, the latter using knowledge-enhanced
-tree-search reasoning¹⁵ — so numbers across papers are not directly comparable; we
+GPT-4o on MolPuzzle ranges from 1.4%[@guo2024molpuzzle] to 27.8%[@zhuang2025treesearch], the latter using knowledge-enhanced
+tree-search reasoning[@zhuang2025treesearch] — so numbers across papers are not directly comparable; we
 therefore fix and release a single, pre-registered, RDKit-InChIKey protocol with
 bootstrap CIs. **(iii) A recall/verification
 decomposition:** existing benchmarks report a single aggregate score, whereas we factor
@@ -146,9 +146,9 @@ is lost — the result that transfers across models, domains, and verifier choic
 **Computational NMR for structure validation.** Our forward-verification method is
 the LLM analog of a workflow chemists already trust: assign a structure by computing
 the spectrum each candidate *would* give and matching it to experiment. In solution,
-this is the DP4 / DP4+ probabilistic framework over GIAO-DFT shifts¹⁶ ¹⁷; in the
+this is the DP4 / DP4+ probabilistic framework over GIAO-DFT shifts[@smith2010dp4; @grimblat2015dp4plus]; in the
 solid state it is **NMR crystallography**, where GIPAW-computed shifts adjudicate
-between candidate structures¹⁸ ¹⁹. We replace the quantum-chemical predictor with a
+between candidate structures[@pickard2001gipaw; @ashbrook2016nmrcryst]. We replace the quantum-chemical predictor with a
 forward LLM, trading accuracy for zero setup cost, and inherit the same core
 principle — *verification by forward prediction is easier than inverse generation*.
 
@@ -159,8 +159,8 @@ principle — *verification by forward prediction is easier than inverse generat
 ### 2.1 Motivation
 
 Open experimental IR is scarce *in a redistributable, ML-ready form*. The largest
-freely *downloadable* collections are the NIST WebBook⁸ (~16k IR spectra) and the
-Chemotion electronic-lab-notebook⁷ deposit (~2k). The AIST SDBS²² is larger (~54k
+freely *downloadable* collections are the NIST WebBook[@nist_webbook] (~16k IR spectra) and the
+Chemotion electronic-lab-notebook[@chemotion2024] deposit (~2k). The AIST SDBS[@sdbs] is larger (~54k
 FT-IR, all structure-linked) but is *view-only*: it caps downloads at 50 spectra/day,
 forbids commercial use, and ships no permissive licence or bulk export, so it cannot be
 used to train or redistribute open models at scale. Commercial libraries (e.g. Wiley
@@ -176,15 +176,15 @@ remarkably stable textual convention in the experimental sections of organic
 chemistry papers. We exploit this with a browser-free harvesting agent:
 
 - **Discovery.** Open-access primary literature is enumerated through the NCBI
-  E-utilities and harvested in bulk from the PMC Open-Access Subset⁶ on AWS S3
+  E-utilities and harvested in bulk from the PMC Open-Access Subset[@pmc_oa] on AWS S3
   (plain HTTPS, no anti-bot, fully redistributable CC-BY content), supplemented by
   the Chemotion FT-IR deposit (RADAR4Chem, CC-BY-SA-4.0).
 - **Extraction.** A deterministic parser segments experimental text into
   per-compound records and extracts IR wavenumbers and ¹H/¹³C shift lists, with
   quality gates that reject instrument scan-range artefacts and prose
   false-positives (band-list density, ≥4 bands, plausible 400–4000 cm⁻¹ window).
-- **Structure resolution.** In-text IUPAC names are converted to SMILES with OPSIN³,
-  canonicalised with RDKit⁴ (InChIKey, SELFIES⁵), with a PubChem²⁶ fallback for
+- **Structure resolution.** In-text IUPAC names are converted to SMILES with OPSIN[@lowe2011opsin],
+  canonicalised with RDKit[@landrum_rdkit] (InChIKey, SELFIES[@krenn2020selfies]), with a PubChem[@kim2023pubchem] fallback for
   trivial/natural-product names. A key engineering finding was that the dominant
   open-access main-text convention labels compounds with *letter-prefixed* series
   labels (e.g. "…carbothioamide **(B1)**:") rather than the digit-first "(3a)" of
@@ -211,7 +211,7 @@ is not.
 
 A structure-complete split, **`irexp_resolved`** (43,060 records, 100%
 structure-linked), is the training-/benchmark-ready subset and is ~6× the
-6,833-molecule set used to train Spectro¹ (Fig. S2). Provenance is 119,345 PMC-OA records
+6,833-molecule set used to train Spectro[@chacko2024spectro] (Fig. S2). Provenance is 119,345 PMC-OA records
 (CC-BY) plus 1,888 Chemotion records (CC-BY-SA); the two licences are kept as
 separable pools. Each record is DOI-/accession-traceable. Re-resolution is additive
 and content-keyed, so the dataset can be re-enriched without re-mining.
@@ -253,14 +253,14 @@ is neither well-posed from the given data nor materially different on this set.
 of compounds whose single best-ranked candidate matches the reference at the InChIKey
 connectivity layer. **Recovered (top-3)** is the fraction for which the reference
 appears among the up-to-three ranked candidates returned (matching the lenient
-"recovery" protocol of ref. 2). **Generation recall** is the fraction for which the
+"recovery" protocol of ref. [@kamber2026chemist]). **Generation recall** is the fraction for which the
 reference is present in the candidate pool *before* re-ranking — the ceiling any
 verifier can reach. **Conditional-on-recall precision** is the verifier's hit rate over
 recall-positive compounds only, isolating verification quality from generation. The
 forward verifier ranks candidates by a symmetric **chamfer distance** between predicted
 and observed ¹³C peak sets (for each predicted peak, the distance to its nearest
 observed peak, summed, and symmetrically for each observed peak; lower is better, with
-no equal-count requirement). We also report Morgan(2, 2048)⁹ Tanimoto as a graded
+no equal-count requirement). We also report Morgan(2, 2048)[@rogers2010ecfp] Tanimoto as a graded
 "right scaffold/family" signal. CIs are bootstrap 95% over compounds; model-vs-model
 differences use McNemar's exact test with Holm correction.
 
@@ -316,9 +316,9 @@ which is precisely why 2D experiments (HMBC, NOESY) exist.
 ### 4.2 Reconciling with prior reports
 
 Our 28% top-1 sits far below the ~100% on "simple" molecules reported, in a
-non-peer-reviewed company white paper, for the same model class.² Because that figure
+non-peer-reviewed company white paper, for the same model class.[@kamber2026chemist] Because that figure
 has not been independently scored, we reconcile it against the *peer-reviewed* record
-(the MolPuzzle benchmark²⁰ and its re-scorings¹⁵, and the trained baselines¹ ¹³) rather
+(the MolPuzzle benchmark[@guo2024molpuzzle] and its re-scorings[@zhuang2025treesearch], and the trained baselines[@chacko2024spectro; @ottomano2025nmiracle]) rather
 than treating it as settled. The gap is largely attributable to methodology and scoring
 choices, not raw capability:
 
@@ -344,9 +344,9 @@ match" is defined. The strongest trained baselines report their accuracy
 *in-distribution on simulated spectra*. Spectro (¹H/¹³C/IR→SELFIES, 6,833 training
 molecules) reaches ~90% top-1 exact recovery — but on a 1,366-molecule held-out split
 whose IR is plotted from reference data and whose NMR is software-*predicted*, not
-experimental¹; and NMIRacle, which like us conditions jointly on IR+¹H+¹³C with *no*
+experimental[@chacko2024spectro]; and NMIRacle, which like us conditions jointly on IR+¹H+¹³C with *no*
 hints, reports 48% top-1 / 66% top-15 exact-SMILES recovery — again on held-out
-molecules from a *simulated* corpus drawn from the training distribution¹³. We measure
+molecules from a *simulated* corpus drawn from the training distribution[@ottomano2025nmiracle]. We measure
 28.4% top-1 (33.5% top-3) on the full n=194 benchmark — rising to 30% with forward
 verification on the n=60 forward-verify set (§5) — on **blind, real,
 literature-mined experimental** spectra of out-of-distribution compounds. These are
@@ -354,8 +354,8 @@ not comparable as a leaderboard; read as a *bound on the simulated-to-real gap*,
 contrast suggests that high in-distribution accuracies substantially overstate
 real-world performance — the same gap we document for the LLM above. The instability
 of the metric itself reinforces the caution: the same ~20× MolPuzzle swing documented in
-§1.1 (GPT-4o: 1.4%²⁰–27.8%¹⁵, method- and harness-dependent) bounds how much weight any
-single unaudited near-100% claim (ref 2) can bear.
+§1.1 (GPT-4o: 1.4%[@guo2024molpuzzle]–27.8%[@zhuang2025treesearch], method- and harness-dependent) bounds how much weight any
+single unaudited near-100% claim[@kamber2026chemist] can bear.
 
 ### 4.3 Methodology dominates: a within-compound control
 
@@ -484,7 +484,7 @@ with the benchmark.
 ### 5.1 Method
 
 The inverse direction is the model's hard, isomer-blind direction; the **forward**
-direction (structure→spectrum) is its easy, accurate one.² Regioisomers, crucially,
+direction (structure→spectrum) is its easy, accurate one.[@kamber2026chemist] Regioisomers, crucially,
 have *different* forward-predicted ¹³C shifts. We therefore close a generator–
 verifier loop:
 
@@ -516,8 +516,8 @@ resolve them, and it is exactly these cases — not generation failures — that
 
 Conceptually this is **analogous to NMR-crystallography logic, with an LLM in place of
 the quantum chemistry** — an analogy, not an equivalence: where DP4/DP4+ rank candidates
-by GIAO-DFT shifts¹⁶ ¹⁷ and NMR crystallography adjudicates polymorphs and connectivity
-by GIPAW-computed shifts¹⁸ ¹⁹, we rank by the shifts a forward LLM predicts. The shared
+by GIAO-DFT shifts[@smith2010dp4; @grimblat2015dp4plus] and NMR crystallography adjudicates polymorphs and connectivity
+by GIPAW-computed shifts[@pickard2001gipaw; @ashbrook2016nmrcryst], we rank by the shifts a forward LLM predicts. The shared
 principle is *verification by forward prediction*; what we do **not** inherit is DFT's
 calibrated error model. The trade is deliberate — we forgo the ≈1–2 ppm accuracy and the
 rigorous, probabilistic error model of DFT (the very thing that lets DP4 emit a
@@ -559,7 +559,7 @@ LLM elucidation therefore factorises into two near-independent levers: the
 
 The decomposition implies a recipe — *generate wide, verify by forward prediction* — a
 chemistry analog of self-consistency sampling, where many independent generations are
-pooled and the answer is chosen by agreement rather than from a single pass.¹⁰ We
+pooled and the answer is chosen by agreement rather than from a single pass.[@wang2023selfconsistency] We
 tested it directly: ten independent solver agents proposed up to **six
 regiochemistry-aware candidates per compound**, pooled with the originals, and the
 65 new candidates were forward-predicted and re-ranked as before. The measured
@@ -590,8 +590,8 @@ either sharper verification or 2D-NMR constraints, not merely more candidates.
 
 §5.3 and a natural reading of the verifier-precision story suggest an obvious fix:
 swap the LLM forward-predictor for a *deterministic* ¹³C predictor with a rigorous
-error model. We tested the canonical choice — a **HOSE-code²⁵-style lookup trained on
-nmrshiftdb2²⁴** (RDKit radial-environment bins, spheres r=4→1 with a hybridisation
+error model. We tested the canonical choice — a **HOSE-code[@bremser1978hose]-style lookup trained on
+nmrshiftdb2[@kuhn2015nmrshiftdb2]** (RDKit radial-environment bins, spheres r=4→1 with a hybridisation
 prior fallback; 31,000 molecules, 332,595 assigned carbons; held-out **MAE 3.23 ppm,
 median 1.73 ppm**) — as a drop-in replacement for the verifier, re-ranking the same
 §5.2 candidates.
@@ -762,7 +762,7 @@ capability does echoes a recurring lesson across cheminformatics: careful pipeli
 protocol design tends to dominate the fashionable component. The same pattern appears in
 molecular property prediction, where a recent systematic benchmark reports that
 learned, pretrained molecular embeddings rarely outperform classical ECFP
-fingerprints once evaluation is controlled²¹ — the modelling fashion underperforms the
+fingerprints once evaluation is controlled[@praski2025embeddings] — the modelling fashion underperforms the
 well-engineered baseline. We read our within-compound control (§4.3) and
 forward-verification recipe (§5) in the same light: the durable gains in LLM
 elucidation come from honest benchmarking and inference-time scaffolding rather than
@@ -1027,77 +1027,9 @@ The authors declare no competing interests.
 
 ## References
 
-1. Chacko, E.; Sondhi, R.; Praveen, A.; Luska, K. L.; Vargas Hernández, R. A.
-   *Spectro: a multi-modal approach for molecule elucidation using IR and NMR data.*
-   ChemRxiv, 2024, doi:10.26434/chemrxiv-2024-37v2j.
-2. Kamber, D. (Anthropic). *Making Claude a Chemist: how Claude performs on NMR
-   prediction and structure elucidation.* Non-peer-reviewed company white paper,
-   5 June 2026. anthropic.com/research/making-claude-a-chemist.
-3. Lowe, D. M.; Corbett, P. T.; Murray-Rust, P.; Glen, R. C. *Chemical name to
-   structure: OPSIN, an open source solution.* J. Chem. Inf. Model. 2011, 51,
-   739–753, doi:10.1021/ci100384d.
-4. Landrum, G. et al. *RDKit: open-source cheminformatics.* https://www.rdkit.org
-   (accessed 2026).
-5. Krenn, M.; Häse, F.; Nigam, A.; Friederich, P.; Aspuru-Guzik, A. *Self-referencing
-   embedded strings (SELFIES): a 100% robust molecular string representation.*
-   Mach. Learn.: Sci. Technol. 2020, 1, 045024, doi:10.1088/2632-2153/aba947.
-6. *NCBI PMC Open Access Subset.* National Library of Medicine.
-   https://www.ncbi.nlm.nih.gov/pmc/tools/openftlist/ (accessed 2026).
-7. *Chemotion repository / RADAR4Chem: FT-IR spectroscopy data*, 2024,
-   doi:10.22000/OGoEQGlsZGElrgst.
-8. *NIST Chemistry WebBook, SRD 69.* https://webbook.nist.gov (accessed 2026),
-   doi:10.18434/T4D303.
-9. Rogers, D.; Hahn, M. *Extended-connectivity fingerprints.* J. Chem. Inf. Model.
-   2010, 50, 742–754, doi:10.1021/ci100050t.
-10. Wang, X.; Wei, J.; Schuurmans, D.; Le, Q.; Chi, E.; Narang, S.; Chowdhery, A.;
-    Zhou, D. *Self-consistency improves chain-of-thought reasoning in language models.*
-    ICLR 2023; arXiv:2203.11171.
-11. Hu, F.; Chen, M. S.; Rotskoff, G. M.; Kanan, M. W.; Markland, T. E. *Accurate and
-    efficient structure elucidation from routine one-dimensional NMR spectra using
-    multitask machine learning.* arXiv:2408.08284, 2024.
-12. Yang, L.; Yang, Z.; Xie, J.; Wang, Y.; Gao, B.; Fu, T.; Wei, X.; Sun, J.; Wu, J.;
-    He, C.; Li, Y.; Gu, Q. *NMRTrans: structure elucidation from experimental NMR
-    spectra via set transformers.* arXiv:2602.10158, 2026.
-13. Ottomano, F.; Li, Y.; Ganose, A. M. *NMIRacle: multi-modal generative molecular
-    elucidation from IR and NMR spectra.* arXiv:2512.19733, 2025.
-14. Su, Y.; Chen, J.; Jiang, Z.; Zhong, Z.; Wang, L.; Liu, Q.; Zhang, Z. *SpectraLLM:
-    uncovering the ability of LLMs for molecular structure elucidation from
-    multi-spectral data.* arXiv:2508.08441, 2025. Shen, S.; Xie, J.; Yang, Z.;
-    Zhang, A.; Sun, S.; Gao, B.; Fu, T.; Qi, B.; Li, Y. *MolSpectLLM: a molecular
-    foundation model bridging spectroscopy, molecule elucidation, and 3D structure
-    generation.* arXiv:2509.21861, 2025.
-15. Zhuang, X.; Wu, B.; Cui, J.; Feng, K.; Li, X.; Xing, H.; Ding, K.; Zhang, Q.;
-    Chen, H. *Boosting LLMs' molecular structure elucidation with knowledge-enhanced
-    tree-search reasoning.* arXiv:2506.23056, 2025.
-16. Smith, S. G.; Goodman, J. M. *Assigning stereochemistry to single diastereoisomers
-    by GIAO NMR calculation: the DP4 probability.* J. Am. Chem. Soc. 2010, 132,
-    12946–12959, doi:10.1021/ja105035r.
-17. Grimblat, N.; Zanardi, M. M.; Sarotti, A. M. *Beyond DP4: an improved probability
-    for the stereochemical assignment of isomeric compounds (DP4+).* J. Org. Chem.
-    2015, 80, 12526–12534, doi:10.1021/acs.joc.5b02396.
-18. Pickard, C. J.; Mauri, F. *All-electron magnetic response with pseudopotentials:
-    NMR chemical shifts (GIPAW).* Phys. Rev. B 2001, 63, 245101,
-    doi:10.1103/PhysRevB.63.245101.
-19. Ashbrook, S. E.; McKay, D. *Combining solid-state NMR spectroscopy with
-    first-principles calculations — a guide to NMR crystallography.* Chem. Commun.
-    2016, 52, 7186–7204, doi:10.1039/c6cc02542k.
-20. Guo, K.; Nan, B.; Zhou, Y.; Guo, T.; Guo, Z.; Surve, M.; Liang, Z.; Chawla, N. V.;
-    Wiest, O.; Zhang, X. *Can LLMs solve molecule puzzles? A multimodal benchmark for
-    molecular structure elucidation (MolPuzzle).* Advances in Neural Information
-    Processing Systems 37 (NeurIPS 2024), Datasets and Benchmarks Track;
-    OpenReview t1mAXb4Cop.
-21. Praski, M.; Adamczyk, J.; Czech, W. *Benchmarking pretrained molecular embedding
-    models for molecular representation learning.* arXiv:2508.06199, 2025.
-22. *Spectral Database for Organic Compounds (SDBS).* National Institute of Advanced
-    Industrial Science and Technology (AIST), Japan. https://sdbs.db.aist.go.jp
-    (accessed 2026; view-only, not bulk-redistributable).
-23. Alberts, M.; Laino, T.; Vaucher, A. C. *Leveraging infrared spectroscopy for
-    automated structure elucidation.* Commun. Chem. 2024, 7, 268,
-    doi:10.1038/s42004-024-01341-w.
-24. Kuhn, S.; Schlörer, N. E. *Facilitating quality control for spectra assignments of
-    small organic molecules: nmrshiftdb2.* Magn. Reson. Chem. 2015, 53, 582–589,
-    doi:10.1002/mrc.4263.
-25. Bremser, W. *HOSE — a novel substructure code.* Anal. Chim. Acta 1978, 103,
-    355–365, doi:10.1016/S0003-2670(01)83100-7.
-26. Kim, S.; Chen, J.; Cheng, T. et al. *PubChem 2023 update.* Nucleic Acids Res.
-    2023, 51, D1373–D1380, doi:10.1093/nar/gkac956.
+<!-- Generated by pandoc --citeproc from docs/references.bib using the Royal Society of
+     Chemistry CSL style (docs/rsc.csl). Do not hand-number: cite with [@key] in the text
+     and the list below is built automatically, in citation order. -->
+
+::: {#refs}
+:::

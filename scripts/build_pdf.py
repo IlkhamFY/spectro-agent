@@ -89,9 +89,44 @@ def fig_width(path):
     w_in = im.size[0] / dpi
     return f"{min(w_in, TEXTWIDTH_IN):.2f}in"
 
+PREPRINT_SERVERS = {"arxiv", "chemrxiv", "biorxiv", "medrxiv"}
+
+
+def bibliography(tmpdir):
+    """docs/references.bib -> CSL JSON, retyping preprints so they render correctly.
+
+    pandoc's BibTeX reader cannot emit CSL type "article", which is the branch the RSC
+    style uses for preprints ("arXiv, 2024, preprint, arXiv:2408.08284, DOI: ..."); every
+    BibTeX type maps to article-journal/report/webpage instead, which drops the year and
+    the preprint label. So we convert to CSL JSON and retype entries whose container is a
+    preprint server. references.bib stays the human-editable source of truth.
+    """
+    import json
+    raw = subprocess.run(["pandoc", "docs/references.bib", "-f", "biblatex",
+                          "-t", "csljson"], capture_output=True, text=True, check=True)
+    entries = json.loads(raw.stdout)
+    for e in entries:
+        server = (e.get("container-title") or "").strip()
+        if server.lower() in PREPRINT_SERVERS:
+            e["type"] = "article"                 # -> the CSL preprint branch
+            e["publisher"] = server
+            if e.get("eprint"):
+                e["number"] = e.pop("eprint")
+            e.pop("container-title", None)
+    out = os.path.join(tmpdir, "references.json")
+    with open(out, "w") as f:
+        json.dump(entries, f)
+    return out
+
+
 def header():
     lines = [r"\usepackage{newunicodechar}", r"\usepackage{graphicx}",
-             r"\renewcommand{\figurename}{Fig.}"]
+             r"\renewcommand{\figurename}{Fig.}",
+             # Long unbreakable DOIs in the reference list cannot hyphenate, so a
+             # justified paragraph stretches interword space to one-word-per-line.
+             # Set the generated bibliography ragged-right instead.
+             r"\usepackage{etoolbox}",
+             r"\AtBeginEnvironment{CSLReferences}{\raggedright\sloppy}"]
     for ch, cmd in UNI.items():
         lines.append(f"\\newunicodechar{{{ch}}}{{{cmd}}}")
     return "\n".join(lines)
@@ -117,9 +152,16 @@ def main():
         mf.write(md); md_path = mf.name
     with tempfile.NamedTemporaryFile("w", suffix=".tex", delete=False) as hf:
         hf.write(header()); h_path = hf.name
+    bibdir = tempfile.mkdtemp()
+    bib = bibliography(bibdir)
 
     args = [
         f"--pdf-engine={TECTONIC}",
+        # Citations: [@key] in PAPER.md -> numbered RSC-style list, built from the
+        # bibliography. Numbering is never hand-maintained.
+        "--citeproc",
+        f"--bibliography={bib}",
+        "--csl=docs/rsc.csl",
         "-V", "geometry:margin=1in", "-V", "fontsize=11pt",
         "-V", "linkcolor=blue", "-V", "urlcolor=blue", "-V", "colorlinks=true",
         "-V", "subparagraph",
@@ -131,6 +173,9 @@ def main():
     pypandoc.convert_file(md_path, "latex", format="markdown",
                           outputfile="docs/paper.tex",
                           extra_args=["-s", "-H", h_path,
+                                      "--citeproc",
+                                      f"--bibliography={bib}",
+                                      "--csl=docs/rsc.csl",
                                       "-V", "geometry:margin=1in",
                                       "-V", "fontsize=11pt"])
     os.unlink(md_path); os.unlink(h_path)

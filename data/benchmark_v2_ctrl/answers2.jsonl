@@ -1,20 +1,20 @@
-{"qid": "R01", "smiles": "CCOC(=O)c1c(N)sc2c1CCC1=C2C(c2ccccc2Cl)C(C#N)=C(N)O1", "inchikey": "SIVKWXBQLXGFDH-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 29}
-{"qid": "R02", "smiles": "COc1ccccc1-c1n[nH]c(=O)o1", "inchikey": "WDGXQLRGLSROSS-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 14}
-{"qid": "R03", "smiles": "C#CCOC(=O)N=S(C)(=O)C(C)(C)C", "inchikey": "CZSDNQBHBVSUQW-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 14}
-{"qid": "R04", "smiles": "COc1cc(-c2coc3cc(O)ccc3c2=O)ccc1O", "inchikey": "MUYAUELJBWQNDH-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 21}
-{"qid": "R05", "smiles": "CCCCCCCCC(=O)c1cc(OC)ccc1CC(=O)OCC", "inchikey": "QOQUYOGYGJWSDX-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 24}
-{"qid": "R06", "smiles": "C=C(c1cccc(C)c1)c1c(-c2ccccc2)n(C(=C)CCSC)n(-c2ccccc2)c1=O", "inchikey": "GLFTZCJNOHQARU-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 33}
-{"qid": "R07", "smiles": "C=C1CCN(c2ccccn2)C1=O", "inchikey": "XXRPSYJNVLSOFL-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 13}
-{"qid": "R08", "smiles": "Cc1cc(SC#N)ccc1O", "inchikey": "WEAMLHXSIBDPGN-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 11}
-{"qid": "R09", "smiles": "Oc1ccc2ncc(-c3ccccc3)cc2c1", "inchikey": "ASQZRVFOICQYQL-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 17}
-{"qid": "R10", "smiles": "Cc1ccc(-c2[nH]c3c(c(-c4cccs4)nn3C)c2-c2c(-c3cccs3)nn(C)c2N)cc1", "inchikey": "LSIDHVYRPPMXHD-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 33}
-{"qid": "R11", "smiles": "CC(C)NC(=NS(=O)(=O)c1ccc([N+](=O)[O-])cc1)NC(C)C", "inchikey": "DSYJPHVBBWCTDC-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 22}
-{"qid": "R12", "smiles": "C=CCc1c(C)c(OC)c(C)c(C)c1OC", "inchikey": "UZCZZXDAQSQBIK-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 16}
-{"qid": "R13", "smiles": "CC(C)C[C@@H]1N[C@H](CC(C)C)C(=O)N[C@@H]1C(C)C", "inchikey": "GHNFQFAWPOCNIL-BFHYXJOUSA-N", "difficulty": "simple", "heavy_atoms": 18}
-{"qid": "R14", "smiles": "CCOC(=O)CC/C(C)=C/CCCO[Si](c1ccccc1)(c1ccccc1)C(C)(C)C", "inchikey": "FUNJREMUGBTUAC-HZHRSRAPSA-N", "difficulty": "complex", "heavy_atoms": 31}
-{"qid": "R15", "smiles": "Cc1cccc(C(=O)CBr)c1", "inchikey": "BANFRNTVKCHZDE-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 11}
-{"qid": "R16", "smiles": "CC(=O)Cc1ccc(C(O[Si](C)(C)C(C)(C)C)C(C)C)o1", "inchikey": "JTCTYFIGRUPIRH-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 21}
-{"qid": "R17", "smiles": "Cc1cc([N+](=O)[O-])ccc1Oc1ccc(SC#N)cc1", "inchikey": "AVUHPRKZTSXKCO-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 20}
-{"qid": "R18", "smiles": "CCCCn1c(-c2ccc(-c3ccccc3OC)cc2)nnc1-c1ccc(-c2ccccc2OC)cc1", "inchikey": "UHWOZURBVOGHLB-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 37}
-{"qid": "R19", "smiles": "Cn1c(=O)c2c(c3ccccc31)O/C(=C\\c1cccc(F)c1)C2c1ccccc1", "inchikey": "IDKQNXYMBLIUGC-QNGOZBTKSA-N", "difficulty": "complex", "heavy_atoms": 29}
-{"qid": "R20", "smiles": "O=C(CC(c1ccccc1)c1ccccc1)NCCC[NH2+]CCCC[NH2+]CCCNC(=O)CC(c1ccccc1)c1ccccc1.O=C([O-])C(F)(F)F.O=C([O-])C(F)(F)F", "inchikey": "PTHFPRJTGJMZQZ-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 60}
+{"qid": "R01", "smiles": "CCOC(=O)c1c(N)sc2c1CCC1=C2C(c2ccccc2Cl)C(C#N)=C(N)O1", "inchikey": "SIVKWXBQLXGFDH-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 29, "source_doi": "PMC:8370666"}
+{"qid": "R02", "smiles": "COc1ccccc1-c1n[nH]c(=O)o1", "inchikey": "WDGXQLRGLSROSS-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 14, "source_doi": "PMC:5498654"}
+{"qid": "R03", "smiles": "C#CCOC(=O)N=S(C)(=O)C(C)(C)C", "inchikey": "CZSDNQBHBVSUQW-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 14, "source_doi": "PMC:9724092"}
+{"qid": "R04", "smiles": "COc1cc(-c2coc3cc(O)ccc3c2=O)ccc1O", "inchikey": "MUYAUELJBWQNDH-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 21, "source_doi": "PMC:8038373"}
+{"qid": "R05", "smiles": "CCCCCCCCC(=O)c1cc(OC)ccc1CC(=O)OCC", "inchikey": "QOQUYOGYGJWSDX-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 24, "source_doi": "PMC:6045468"}
+{"qid": "R06", "smiles": "C=C(c1cccc(C)c1)c1c(-c2ccccc2)n(C(=C)CCSC)n(-c2ccccc2)c1=O", "inchikey": "GLFTZCJNOHQARU-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 33, "source_doi": "PMC:9082452"}
+{"qid": "R07", "smiles": "C=C1CCN(c2ccccn2)C1=O", "inchikey": "XXRPSYJNVLSOFL-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 13, "source_doi": "PMC:12169685"}
+{"qid": "R08", "smiles": "Cc1cc(SC#N)ccc1O", "inchikey": "WEAMLHXSIBDPGN-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 11, "source_doi": "PMC:7774286"}
+{"qid": "R09", "smiles": "Oc1ccc2ncc(-c3ccccc3)cc2c1", "inchikey": "ASQZRVFOICQYQL-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 17, "source_doi": "PMC:6152025"}
+{"qid": "R10", "smiles": "Cc1ccc(-c2[nH]c3c(c(-c4cccs4)nn3C)c2-c2c(-c3cccs3)nn(C)c2N)cc1", "inchikey": "LSIDHVYRPPMXHD-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 33, "source_doi": "PMC:4059248"}
+{"qid": "R11", "smiles": "CC(C)NC(=NS(=O)(=O)c1ccc([N+](=O)[O-])cc1)NC(C)C", "inchikey": "DSYJPHVBBWCTDC-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 22, "source_doi": "PMC:10384224"}
+{"qid": "R12", "smiles": "C=CCc1c(C)c(OC)c(C)c(C)c1OC", "inchikey": "UZCZZXDAQSQBIK-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 16, "source_doi": "PMC:7036988"}
+{"qid": "R13", "smiles": "CC(C)C[C@@H]1N[C@H](CC(C)C)C(=O)N[C@@H]1C(C)C", "inchikey": "GHNFQFAWPOCNIL-BFHYXJOUSA-N", "difficulty": "simple", "heavy_atoms": 18, "source_doi": "PMC:3778392"}
+{"qid": "R14", "smiles": "CCOC(=O)CC/C(C)=C/CCCO[Si](c1ccccc1)(c1ccccc1)C(C)(C)C", "inchikey": "FUNJREMUGBTUAC-HZHRSRAPSA-N", "difficulty": "complex", "heavy_atoms": 31, "source_doi": "PMC:5224347"}
+{"qid": "R15", "smiles": "Cc1cccc(C(=O)CBr)c1", "inchikey": "BANFRNTVKCHZDE-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 11, "source_doi": "PMC:13036782"}
+{"qid": "R16", "smiles": "CC(=O)Cc1ccc(C(O[Si](C)(C)C(C)(C)C)C(C)C)o1", "inchikey": "JTCTYFIGRUPIRH-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 21, "source_doi": "PMC:11597928"}
+{"qid": "R17", "smiles": "Cc1cc([N+](=O)[O-])ccc1Oc1ccc(SC#N)cc1", "inchikey": "AVUHPRKZTSXKCO-UHFFFAOYSA-N", "difficulty": "simple", "heavy_atoms": 20, "source_doi": "PMC:10242756"}
+{"qid": "R18", "smiles": "CCCCn1c(-c2ccc(-c3ccccc3OC)cc2)nnc1-c1ccc(-c2ccccc2OC)cc1", "inchikey": "UHWOZURBVOGHLB-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 37, "source_doi": "PMC:6384732"}
+{"qid": "R19", "smiles": "Cn1c(=O)c2c(c3ccccc31)O/C(=C\\c1cccc(F)c1)C2c1ccccc1", "inchikey": "IDKQNXYMBLIUGC-QNGOZBTKSA-N", "difficulty": "complex", "heavy_atoms": 29, "source_doi": "PMC:9302472"}
+{"qid": "R20", "smiles": "O=C(CC(c1ccccc1)c1ccccc1)NCCC[NH2+]CCCC[NH2+]CCCNC(=O)CC(c1ccccc1)c1ccccc1.O=C([O-])C(F)(F)F.O=C([O-])C(F)(F)F", "inchikey": "PTHFPRJTGJMZQZ-UHFFFAOYSA-N", "difficulty": "complex", "heavy_atoms": 60, "source_doi": "PMC:10052977"}

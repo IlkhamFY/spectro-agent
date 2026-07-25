@@ -851,7 +851,29 @@ recall-bound (recall 33% vs Opus 41% on those compounds), consistent with the re
 being a property of the task rather than of one model. As this is within the Claude family,
 it speaks to model-instance robustness, not cross-vendor generality.
 
-*Remaining.* **(i) Human audit — prepared but not yet run.** Solver and verifier are
+*Remaining.* **(i) Pretraining contamination is bounded by argument, not by a
+control.** Every benchmark compound was mined from open-access literature (each item now
+carries its source accession in `answers2.jsonl`, added by `scripts/add_provenance.py`,
+248/248 traced), and that literature is plausibly inside the training corpus of any
+frontier model — including the one under test. We have **not** run a contamination
+control for the headline solver, and we do not claim one: the memorisation checks in
+§5.6 and §5.7 cover the *trained probes* (candidate–training overlap 0/126 by
+InChIKey-14, Y-randomisation), not the LLM. Three observations bound how much
+contamination can explain, none of them decisive. (a) Accuracy is 28.4%, not the
+near-ceiling a lookup of memorised answers would give. (b) Accuracy tracks *structural*
+difficulty — 60.5% at ≤15 heavy atoms falling monotonically to 7.0% above 25, and 48%
+simple vs 8% complex — rather than tracking publication prominence, which is the pattern
+recall-from-memory would predict. (c) The failure mode is chemically systematic
+(consistent regioisomers, §4.2), which is what reasoning-under-ambiguity looks like and
+not what retrieval looks like. The decisive experiment is a **formula-only arm**: give
+the model the molecular formula with the spectra withheld and measure top-1. Any
+accuracy materially above the combinatorial baseline is memorisation, since the formula
+alone does not determine constitution. The harness for it exists
+(`scripts/modality_ablation.py`, prompts in `data/modality/`) and the arm is specified
+but **not yet run**; until it is, the headline number should be read as an upper bound
+on genuine spectral reasoning.
+
+**(ii) Human audit — prepared but not yet run.** Solver and verifier are
 both LLMs, so the one validation we cannot perform ourselves is an expert-chemist review
 of a sample of elucidations and forward predictions. We have therefore **built and
 frozen** a blinded, pre-registered audit package — a difficulty-stratified 30-compound
@@ -863,7 +885,7 @@ regioisomers, §4; forward verification is a trustworthy re-ranker, §5). **We h
 yet run the panel**; until expert results are in, those claims should be read as
 machine-validated (RDKit InChIKey) but not yet human-validated.
 
-**(ii) Single vendor and an underpowered cross-model comparison.** Every number comes
+**(iii) Single vendor and an underpowered cross-model comparison.** Every number comes
 from one vendor's models. The headline (28.4% top-1) is a single frontier model (Claude
 Opus), and the cross-model evidence (§4.4) is four **Claude-family** models on a shared
 **24-compound** subset. That comparison is statistically underpowered: only the extreme
@@ -878,25 +900,25 @@ whether the pattern is a property of the task rather than one lineage — was fo
 because it needs paid API access incompatible with our zero-cost protocol; we flag it as
 the most important external-validity experiment left open.
 
-**(iii) Domain-subset scope:** the battery-electrolyte case study (§4.5) comprises
+**(iv) Domain-subset scope:** the battery-electrolyte case study (§4.5) comprises
 *literature compounds bearing electrolyte-relevant functional chemistry* drawn from the
 open corpus — not operando or in-cell decomposition spectra — so it demonstrates
 functional-class transfer of the elucidation bottleneck, not direct assignment of
 authentic interphase/degradation products, which would require a dedicated operando set.
 
-**(iv) Constitution-only scoring:** correctness is judged on InChIKey connectivity, so a
+**(v) Constitution-only scoring:** correctness is judged on InChIKey connectivity, so a
 correct-constitution / wrong-stereochemistry prediction is counted correct. This affects
 at most the 10.3% (20/194) of targets with a defined stereocentre and is intrinsic to
 what 1D NMR/IR can determine; a stereochemistry-sensitive benchmark would need
 2D/chiroptical data.
 
-**(v) Single-sample scoring:** each headline compound is scored from one solver
+**(vi) Single-sample scoring:** each headline compound is scored from one solver
 prediction set (one decoupled run), so reported top-1/recall carry no run-to-run
 (LLM-sampling) variance estimate — the bootstrap CIs reflect compound sampling only. The
 generate-wide experiment (§5.3) pools ten independent generation passes (recall
 31%→41%), indicating generator stochasticity that single-pass scoring understates.
 
-**(vi) Chemical-space coverage:** the benchmark is drawn from open-access organic
+**(vii) Chemical-space coverage:** the benchmark is drawn from open-access organic
 methodology and total-synthesis literature, covering small-to-medium drug-like and
 synthetic-organic space; it is **not** representative of organometallic/coordination
 compounds, large biomolecules (peptides, oligonucleotides, oligosaccharides), or

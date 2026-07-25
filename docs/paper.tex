@@ -697,6 +697,18 @@ A benchmark is only useful if it separates models. On a fixed
 wide capability range, including the newest (Fable 5) --- under the
 identical protocol (Fig. 3):
 
+One asymmetry must be disclosed, because §4.3 shows the variable it
+concerns has a large effect. The three comparison models each solved the
+24 compounds as four six-compound contexts, whereas the Opus column
+reuses the headline run, in which those same 24 items were packed as one
+six-compound and two twelve-compound contexts. Context packing is
+exactly the factor §4.3 measures at 5\%→15\%, so the Opus point estimate
+is not strictly protocol-matched to the other three and, if anything, is
+the arm handicapped by longer contexts. This does not affect the nesting
+or the Fable-vs-Haiku contrast, but a clean re-run of the Opus arm under
+four six-compound contexts is the right fix and is listed as outstanding
+in \texttt{docs/MODELS.md}.
+
 \textbf{Table 3. Four-model comparison on a fixed 24-compound subset}
 under the identical blind protocol.
 
@@ -1436,9 +1448,14 @@ each reported as a complement and fenced from the headline results.
 via the consumer subscription (claude.ai). The §4.4 comparison spanned,
 in capability order, Claude Haiku, Claude Sonnet, Claude Opus, and
 Claude Fable 5; the headline benchmark (§4.1) and forward-verification
-(§5) used Claude Opus. Exact model snapshot identifiers and the access
-window are recorded in \texttt{docs/MODELS.md} so the benchmark can be
-re-run against the same checkpoints.
+(§5) used Claude Opus. \texttt{docs/MODELS.md} records, for each
+experiment, the model used, its data directory, the collection date, the
+harness and tool access, and the scoring code path; all LLM predictions
+were collected between 2026-06-09 and 2026-06-11 (UTC). Decoding
+parameters are not exposed by the subscription harness and were neither
+set nor recorded, so re-running reproduces the protocol distributionally
+rather than exactly; the dated model snapshot identifiers are listed
+there as the outstanding items to be pinned on submission.
 
 \textbf{Reproducibility.} Every round is frozen: questions, ground-truth
 answers, per-agent raw outputs, predictions, and scorer outputs are

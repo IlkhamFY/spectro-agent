@@ -175,40 +175,32 @@ compounds (31\%, 95\% CI 21--44), and where it does,
 forward-verification selects it in \textbf{16 of 19} (84\%, 95\% CI
 62--94, against a 66\% derangement floor, §5.5). \textbf{Recall, not
 verification, is the wall.} We establish this with three contributions.
-First, \textbf{IRexp} --- the largest permissively-licensed,
-redistributable dataset of \emph{experimental} infrared spectra (121,233
-records; 43,060 structure-linked; 33,201 full IR + ¹H + ¹³C + structure
-quadruples), mined from open-access literature. Second,
-\textbf{IRSpectra-Bench} --- an open, blind, mechanically scored
-benchmark of 194 compounds, complexity-stratified, on which accuracy
-splits sharply (48\% simple vs 8\% complex); a within-compound control
-shows that solving compounds in bounded, frequently-reset contexts with
-tools increases accuracy over one long context (5\%→15\%,
-i.e.~1/20→3/20; directional at n=20), so reported numbers are sensitive
-to methodology, not raw capability alone. Third, a training-free
-\textbf{forward-verification} method that acts on the diagnosis: on the
-60-compound forward-verify subset, generating regiochemistry-aware
-candidates and re-ranking by predicted-vs-observed ¹³C raises candidate
-recall from 31\% to 41\% and moves top-1 from 23\% to \textbf{30\%}
-(14/60 → 18/60; directional, not resolved at this sample size ---
-McNemar exact p=0.125 even under the most favourable nesting
-assumption). The gain is real but bounded, because within the
+First, \textbf{IRexp} --- the largest openly redistributable collection
+of \emph{experimental} infrared \textbf{band lists} (121,233 records, a
+third structure-linked), mined from open-access literature and released
+with its mining pipeline (§2). Second, \textbf{IRSpectra-Bench} --- an
+open, blind, mechanically scored benchmark of 194 compounds on which
+accuracy splits sharply by structural complexity, and a within-compound
+control showing that reported numbers are sensitive to how a problem is
+posed, not to raw capability alone (§3--§4). Third, a training-free
+\textbf{forward-verification} method that acts on the diagnosis:
+generating regiochemistry-aware candidates and re-ranking them by
+predicted-versus-observed ¹³C raises both candidate recall and top-1,
+though at this sample size the top-1 gain is directional rather than
+resolved (§5.3). The gain is real but bounded, because within the
 training-free regime accuracy is capped by the product of generation
-recall and verification precision. The \emph{recall} factor is a
-property of training-free elicitation rather than an established limit
-of the task: a small generator fine-tuned on IRexp raises candidate
-recall from 33.5\% to 54.1\% and, pooled under a deterministic ¹³C
-re-ranker, lifts top-1 from 28.4\% to \textbf{35.1\%} (n=194; McNemar
-exact p=0.015; §5.6) --- the highest full-benchmark accuracy we report.
-But the wall moves rather than falls: the true structure is still
-outside the candidate pool for 46\% of compounds, and the precision
-factor is untouched. The recall-bound regime reproduces in a
-battery-electrolyte domain (n=46, 26\% top-1). Every result is
-single-vendor (Claude); a cross-vendor test is the key open question.
-The core protocol uses no model training and no paid API --- two
-clearly-fenced probes (a trained generator, §5.6, and a learned
-verifier, §5.7) are the only exceptions --- and all data, predictions,
-and code are released.
+recall and verification precision. That ceiling is a property of
+training-free elicitation rather than an established limit of the task:
+a small generator fine-tuned on IRexp lifts recall substantially and
+gives the highest full-benchmark accuracy we report (§5.6). But the wall
+moves rather than falls --- the true structure remains outside the
+candidate pool for roughly half of compounds, and verification precision
+is untouched. The recall-bound regime reproduces in a
+battery-electrolyte domain (§4.5). Every result is single-vendor
+(Claude); a cross-vendor test is the key open question. The core
+protocol uses no model training and no paid API --- two clearly-fenced
+probes (§5.4, §5.6) are the only exceptions --- and all data,
+predictions, and code are released.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -257,11 +249,17 @@ structure 84\% of the time, yet \emph{proposes} it for only 31\% of
 compounds --- recall, not verification, is the wall (Fig. 1). The
 end-to-end study design is summarised in Fig. S1. Throughout, the solver
 and verifier are LLM agents run under a consumer subscription --- no
-fine-tuning, no API spend --- making the core protocol cheaply
-reproducible; two trained probes (§5.6, §5.7) are reported separately as
-fenced complements. By construction this is an open-resource
-contribution in the remit of \emph{Digital Discovery}: an openly
-licensed, structure-linked spectral dataset; a pre-registered,
+fine-tuning, no API spend. That makes the protocol cheap to
+\emph{re-run}, but cheap is not the same as reproducible: the
+subscription harness pins no model snapshot, exposes no temperature or
+seed, and carries an undisclosed product system prompt, so an outside
+group reproduces it distributionally rather than exactly (§8). What
+\emph{is} exactly reproducible is the scoring --- all predictions,
+ground truth and scorers are released, so every number in this paper
+regenerates from the released artifacts. Two trained probes (§5.6, §5.7)
+are reported separately as fenced complements. By construction this is
+an open-resource contribution in the remit of \emph{Digital Discovery}:
+an openly licensed, structure-linked spectral dataset; a pre-registered,
 mechanically scored benchmark with released ground truth and scorer; and
 a training-free, zero-paid-API core pipeline (with two trained probes
 fenced in the SI) in which every figure regenerates from the released
@@ -362,21 +360,40 @@ by forward prediction is easier than inverse generation}.
 \hypertarget{motivation}{%
 \subsubsection{2.1 Motivation}\label{motivation}}
 
+\textbf{What an IRexp record is.} Each record is a \textbf{band list}
+--- the peak positions in cm⁻¹ that an author transcribed into the text
+of a paper (e.g.~``IR (KBr): 3373, 3045, 2914, 1664 cm⁻¹'') --- together
+with the ¹H/¹³C shift lists reported alongside it and, where resolvable,
+the compound's 2D structure. \textbf{IRexp contains no absorbance
+traces.} This is the form in which experimental IR is overwhelmingly
+\emph{published}, and it is the form a language model consumes, but it
+is a different object from a digitised spectrum and the two should not
+be counted against one another.
+
 Open experimental IR is scarce \emph{in a redistributable, ML-ready
-form}. The largest freely \emph{downloadable} collections are the NIST
-WebBook\textsuperscript{15} (\textasciitilde16k IR spectra) and the
-Chemotion electronic-lab-notebook\textsuperscript{16} deposit
-(\textasciitilde2k). The AIST SDBS\textsuperscript{17} is larger
-(\textasciitilde54k FT-IR, all structure-linked) but is
-\emph{view-only}: it caps downloads at 50 spectra/day, forbids
-commercial use, and ships no permissive licence or bulk export, so it
-cannot be used to train or redistribute open models at scale. Commercial
-libraries (e.g.~Wiley KnowItAll, \textasciitilde10⁵ spectra) are larger
-still but closed. IR --- which directly encodes functional groups
-complementary to NMR --- has thus had no large,
-\emph{permissively-licensed}, structure-linked, bulk-reusable resource.
-IRexp fills this gap, and to our knowledge is the largest \emph{openly
-redistributable} experimental-IR collection by raw record count.
+form}, and the existing resources divide into two kinds that are not
+directly comparable.
+
+\emph{Digitised spectra (absorbance traces).} The largest freely
+downloadable collections are the NIST WebBook\textsuperscript{15}
+(\textasciitilde16k IR spectra) and the Chemotion
+electronic-lab-notebook deposit\textsuperscript{16} (\textasciitilde2k).
+The AIST SDBS\textsuperscript{17} is larger (\textasciitilde54k FT-IR,
+all structure-linked) but is \emph{view-only}: it caps downloads at 50
+spectra/day, forbids commercial use, and ships no permissive licence or
+bulk export, so it cannot be used to train or redistribute open models
+at scale. Commercial libraries (e.g.~Wiley KnowItAll, \textasciitilde10⁵
+spectra) are larger still but closed. \textbf{On this axis IRexp is not
+the largest resource, and does not compete: SDBS alone holds more
+structure-linked spectra than IRexp holds structure-linked band lists.}
+
+\emph{Band lists.} Against text-derived peak-list resources, no large,
+permissively-licensed, structure-linked, bulk-reusable IR collection
+existed. IRexp fills that gap, and to our knowledge is the largest
+\emph{openly redistributable} collection of experimental IR \textbf{band
+lists} by record count. The claim is scoped to that object type
+deliberately; the contribution is redistributable scale in the
+published-data modality, not a spectral library.
 
 \hypertarget{construction}{%
 \subsubsection{2.2 Construction}\label{construction}}
@@ -426,20 +443,53 @@ licensing}\label{contents-and-licensing}}
 
 \textbf{Table 1. IRexp dataset contents and provenance.}
 
-\begin{longtable}[]{@{}lr@{}}
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
 \toprule\noalign{}
-field & value \\
+\begin{minipage}[b]{\linewidth}\raggedright
+field
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+value
+\end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-experimental IR records & \textbf{121,233} \\
+experimental IR band-list records & \textbf{121,233} \\
 \ldots co-reporting ¹H and/or ¹³C NMR & 87,075 (72\%) \\
 \ldots with a resolved 2D structure & \textbf{43,060 (35.5\%)} \\
 \ldots of these, with ¹H and/or ¹³C NMR & \textbf{40,702} \\
 \ldots of these, with both ¹H and ¹³C (full quadruples) &
 \textbf{33,201} \\
+& \\
+\emph{by provenance:} author-transcribed from PMC-OA text (CC-BY) &
+119,345 \\
+\emph{by provenance:} peak-picked from Chemotion ELN deposits (CC-BY-SA)
+& 1,888 \\
 \end{longtable}
+
+Both pools are stored in the same band-list form, but they are not the
+same object and we keep them separable. The PMC pool is transcribed from
+the experimental section of a paper and carries a median of 9 bands per
+record; the Chemotion pool derives from deposited spectra and, being
+peak-picked rather than author-selected, carries a median of 39. Users
+training on band density should treat the pools separately (the
+\texttt{ir\_source} and \texttt{license} fields distinguish them).
+
+\textbf{Extraction fidelity is measured, not assumed.} Because every
+record cites its source accession and PMC is open, transcription can be
+checked directly. On a seed-fixed random sample of 60 PMC-sourced
+records (\texttt{scripts/audit\_extraction.py\ -\/-n\ 60\ -\/-seed\ 0}),
+we re-fetched each source article and asked whether every recorded
+wavenumber appears in that article's text: \textbf{560/560 bands and
+60/60 records were confirmed} (Wilson 95\% CI 99.3--100\% and 94--100\%
+respectively). This bounds \emph{transcription} error --- hallucinated,
+mis-parsed or unit-mangled values --- at under 1\% of bands. It does
+\textbf{not} measure whether the parser found every IR string in every
+paper, which is a recall question that requires human reading; that
+manual audit is prepared but not yet run (§7). The audit record is
+released at \texttt{data/audit/extraction\_audit.json}.
 
 A structure-complete split, \textbf{\texttt{irexp\_resolved}} (43,060
 records, 100\% structure-linked), is the training-/benchmark-ready
@@ -1000,43 +1050,85 @@ recall-bound diagnosis stands, and closing the gap further requires
 either sharper verification or 2D-NMR constraints, not merely more
 candidates.
 
-\hypertarget{does-a-deterministic-verifier-help-a-hose-code-ablation}{%
-\subsubsection{5.4 Does a deterministic verifier help? A HOSE-code
-ablation}\label{does-a-deterministic-verifier-help-a-hose-code-ablation}}
+\hypertarget{non-llm-verifiers-a-deterministic-lookup-and-a-learned-model}{%
+\subsubsection{5.4 Non-LLM verifiers: a deterministic lookup and a
+learned
+model}\label{non-llm-verifiers-a-deterministic-lookup-and-a-learned-model}}
 
-§5.3 and a natural reading of the verifier-precision story suggest an
-obvious fix: swap the LLM forward-predictor for a \emph{deterministic}
-¹³C predictor with a rigorous error model. We tested the canonical
-choice --- a \textbf{HOSE-code\textsuperscript{25}-style lookup trained
-on nmrshiftdb2\textsuperscript{26}} (RDKit radial-environment bins,
-spheres r=4→1 with a hybridisation prior fallback; 31,000 molecules,
-332,595 assigned carbons; held-out \textbf{MAE 3.23 ppm, median 1.73
-ppm}) --- as a drop-in replacement for the verifier, re-ranking the same
-§5.2 candidates.
+§5.3 suggests an obvious fix: swap the LLM forward-predictor for a
+non-LLM ¹³C predictor with a rigorous error model. We test two, both
+trained on the \textbf{same nmrshiftdb2 dump}\textsuperscript{25} and
+both dropped into the verifier slot on the \textbf{same §5.2 candidate
+set}, so that only the predictor changes.
 
-It does \textbf{not} help. The HOSE verifier recovers \textbf{14/19
-(73\%)} of the in-set compounds --- identical to the solver's own
-ranking and \emph{below} the LLM verifier's \textbf{16/19 (84\%)} on the
-same set. The reason is coverage, not the method: of the 2,244 candidate
-carbons, only \textbf{2\%} match a training environment at the most
-specific sphere (r=4) and \textbf{67\%} resolve only at coarse spheres
-(r≤2), because the benchmark's exotic chemistry (selenium heterocycles,
-polyaryl ketones, large polyamines) is under-represented in nmrshiftdb2.
-A coarse environment cannot separate the regioisomers the verifier
-exists to separate, so the deterministic predictor degrades to the
-self-rank baseline exactly where discrimination is needed --- whereas
-the LLM forward-predictor generalises across novel scaffolds. The
-practical lesson is the opposite of the naïve one: on hard, real
-chemistry the LLM's \emph{breadth} is an asset for verification. We show
-next (§5.7), however, that the failure is \textbf{method, not only
-coverage}: a \emph{learned} ¹³C model trained on the \emph{same}
-nmrshiftdb2 data generalises across these environments and recovers the
-LLM verifier's precision --- so a cheap learned predictor, not
-necessarily DFT-level shift accuracy or 2D-NMR, suffices to \emph{match}
-the LLM verifier. What none of these reach is the
-near-degenerate-regioisomer precision ceiling (§5.3/§5.5), where
+The first is the canonical choice: a
+\textbf{HOSE-code\textsuperscript{26}-style lookup} (RDKit
+radial-environment bins, spheres r=4→1 with a hybridisation prior
+fallback; 31,000 molecules, 332,595 assigned carbons; held-out MAE 3.23
+ppm, median 1.73). The second is a small \textbf{message-passing GNN} (4
+layers, per-carbon ¹³C regression) trained on the identical dump, which
+reaches held-out MAE 1.70 ppm (median 1.02) --- roughly twice as sharp,
+and an independently competent predictor.
+
+\textbf{Table 7. Verifier comparison, conditional on recall (n=19), on
+the identical §5.2 set.}
+
+\begin{longtable}[]{@{}lrr@{}}
+\toprule\noalign{}
+verifier & top-1 \textbar{} recall & held-out ¹³C MAE \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+solver self-ranking & 14/19 (73\%) & --- \\
+deterministic HOSE \emph{lookup} & 14/19 (73\%) & 3.23 ppm \\
+\textbf{learned GNN (same data)} & \textbf{16/19 (84\%)} & \textbf{1.70
+ppm} \\
+LLM forward-verifier (§5.2) & 16/19 (84\%) & --- \\
+\end{longtable}
+
+The lookup does not help: it matches the solver's own ranking and sits
+below the LLM verifier. Its diagnosis is coverage --- of the 2,244
+candidate carbons, only \textbf{2\%} match a training environment at the
+most specific sphere (r=4) and \textbf{67\%} resolve only at coarse
+spheres (r≤2), because the benchmark's exotic chemistry (selenium
+heterocycles, polyaryl ketones, large polyamines) is under-represented
+in nmrshiftdb2. A coarse environment cannot separate the regioisomers
+the verifier exists to separate.
+
+The learned model, on the same data, reaches the LLM verifier's 84\%
+(Fig. S6). \textbf{That is a two-compound difference at n=19 and is not
+statistically resolved} (McNemar exact p=0.5 even under the most
+favourable nesting assumption) --- the same standard by which §5.2
+declines to separate its own adjacent conditions. Taken together the two
+rows are \emph{suggestive and directional}: they are consistent with the
+lookup's failure being substantially \textbf{method} --- an inability to
+generalise across novel environments --- rather than coverage alone, and
+with a cheap learned predictor being sufficient to match the LLM without
+compound-specific DFT accuracy or 2D-NMR. They do not establish it, and
+the coverage reading is not excluded; separating the two would need a
+substantially larger conditional-on-recall set. What none of these reach
+is the near-degenerate-regioisomer precision ceiling (§5.3/§5.5), where
 DFT-level accuracy or orthogonal 2D-NMR constraints remain the genuine
 fix.
+
+The GNN and the LLM reach 84\% on \emph{partly different} compounds (two
+independent verifiers concurring, not one), and the result is
+\textbf{generalisation, not memorisation}: candidate--training overlap
+is \textbf{0/126} by InChIKey-14 (zero overlap against the entire
+nmrshiftdb2 database; every true structure and all three GNN-wins
+absent), Morgan-Tanimoto nearest-neighbour to training is a modest 0.44
+median with the wins sitting \emph{at} --- not above --- the median, and
+a Y-randomisation control (1,000 derangements) places the real 84\%
+above the 97.5th percentile of the chance distribution (mean 58.6\%,
+95\% range 42.1--73.7\%; one-sided p\textless0.05). The margins are thin
+(one decisive win at 0.79 ppm, two tight, one 0.08-ppm coin-flip loss),
+so the +2 is confirmatory of the LLM number rather than a precise
+quantitative gain. Like §5.6, the learned verifier is a \textbf{trained
+complement}, reported outside the training-free protocol. Artifacts and
+both leakage checks are released (\texttt{scripts/gnn\_predict.py},
+\texttt{data/fverify/gnn\_results.txt},
+\texttt{data/nmrshiftdb/gnn\_c13.pt}; \texttt{docs/VERIFIER\_PROBE.md}).
 
 \hypertarget{negative-control}{%
 \subsubsection{5.5 Negative control}\label{negative-control}}
@@ -1123,77 +1215,6 @@ methods. (The released public split \texttt{irexp\_release/train} does
 \emph{not} hold out the benchmark --- it overlaps it by 117/200
 InChIKey-14 --- so downstream users must de-leak as in
 \texttt{build\_exp\_manifest.py}; see Data and code availability.)
-
-\hypertarget{a-learned-uxb9uxb3c-verifier-recovers-the-precision-the-lookup-could-not}{%
-\subsubsection{5.7 A learned ¹³C verifier recovers the precision the
-lookup could
-not}\label{a-learned-uxb9uxb3c-verifier-recovers-the-precision-the-lookup-could-not}}
-
-§5.4 leaves one test unrun: the HOSE predictor is a \emph{lookup}; would
-a \emph{learned} model trained on the \textbf{same nmrshiftdb2 data}
-generalise across the under-represented environments where the lookup
-degrades? We train a small message-passing GNN (4 layers, per-carbon ¹³C
-regression) on the identical dump that builds the §5.4 table; on a
-held-out split it predicts ¹³C at \textbf{MAE 1.70 ppm} (median 1.02)
---- roughly twice as sharp as the lookup's 3.23 ppm, an
-independently-competent predictor. Dropped into the verifier slot on the
-\textbf{same §5.2 candidate set}, holding training data and evaluation
-fixed so that only the method changes:
-
-\textbf{Table 7. Verifier comparison, conditional on recall (n=19), on
-the identical §5.2 set.}
-
-\begin{longtable}[]{@{}lrr@{}}
-\toprule\noalign{}
-verifier & top-1 \textbar{} recall & held-out ¹³C MAE \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-solver self-ranking & 14/19 (73\%) & --- \\
-deterministic HOSE \emph{lookup} (§5.4) & 14/19 (73\%) & 3.23 ppm \\
-\textbf{learned GNN (same data)} & \textbf{16/19 (84\%)} & \textbf{1.70
-ppm} \\
-LLM forward-verifier (§5.2) & 16/19 (84\%) & --- \\
-\end{longtable}
-
-The learned model recovers the full \textbf{73\%→84\%} precision the
-lookup could not, matching the LLM verifier (Fig. S6). \textbf{This is a
-two-compound difference at n=19 and is not statistically resolved}
-(14/19→16/19; McNemar exact p=0.5 even under the most favourable nesting
-assumption) --- the same standard by which §5.2 declines to separate its
-own adjacent conditions. We therefore read it as \emph{suggestive and
-directional}: it is consistent with the deterministic verifier's failure
-being substantially \textbf{method} --- generalisation across novel
-environments --- rather than coverage alone, and with a cheap learned
-predictor on the same data being sufficient to match the LLM without the
-compound-specific DFT accuracy or 2D-NMR §5.4 reaches for. It does not
-establish that conclusion, and §5.4's coverage reading is not excluded;
-separating the two would need a substantially larger
-conditional-on-recall set. The GNN and the LLM reach 84\% on
-\emph{partly different} compounds (two independent verifiers concurring,
-not one), and the gain is \textbf{generalisation, not memorisation}:
-candidate--training overlap is \textbf{0/126} by InChIKey-14 (we confirm
-zero overlap against the entire nmrshiftdb2 database; every true
-structure and all three GNN-wins are absent), Morgan-Tanimoto
-nearest-neighbour to training is a modest 0.44 median with the wins
-sitting \emph{at} --- not above --- the median, and a Y-randomisation
-control (1,000 derangements) places the real 84\% above the 97.5th
-percentile of the chance distribution (mean 58.6\%, 95\% range
-42.1--73.7\%; one-sided p\textless0.05).
-
-We report this as a trained complement, like §5.6. The decisive
-comparison is n=19, so the +2 over the lookup is \textbf{confirmatory of
-the LLM number, not a precise quantitative gain} (one decisive win at
-0.79 ppm, two tight, one 0.08-ppm coin-flip loss). Near-degenerate
-regioisomers (e.g.~R22/R26/R28) sit at or below the \textasciitilde1--2
-ppm forward accuracy and are resolved only by coin-flip margins, so the
-precision ceiling of §5.3/§5.5 stands --- the GNN reaches the LLM
-verifier's quality \emph{cheaply}, it does not break that ceiling.
-Artifacts and both leakage checks are released
-(\texttt{scripts/gnn\_predict.py},
-\texttt{data/fverify/gnn\_results.txt},
-\texttt{data/nmrshiftdb/gnn\_c13.pt}; \texttt{docs/VERIFIER\_PROBE.md}).
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -1291,16 +1312,16 @@ the recall/precision tension directly --- verification precision is
 72--84\% conditional on recall and degrades as near-degenerate
 regioisomers accumulate, so forward-match distance is a strong
 \emph{re-ranker} but a soft \emph{confidence} gauge. We further tested
-non-LLM verifiers (§5.4, §5.7): a nmrshiftdb2-trained HOSE-code
-\emph{lookup} does \textbf{not} beat the LLM verifier (73\% vs 84\%
-conditional), while a \emph{learned} GNN on the same data reaches 84\%
-(§5.7) --- a two-compound difference at n=19 that is directional only
-(p=0.5), so it is suggestive that the deterministic failure was method
-rather than coverage alone, not a demonstration of it. What remains
-beyond all of them is the near-degenerate-regiochemistry precision
-ceiling, where DFT-level accuracy or 2D-NMR constraints are still the
-genuine fix. \textbf{Projection:} §5.2's extrapolation is replaced by
-the \textbf{measured} §5.3 result (top-1 30\%, recall 41\%) --- and is
+non-LLM verifiers (§5.4): a nmrshiftdb2-trained HOSE-code \emph{lookup}
+does \textbf{not} beat the LLM verifier (73\% vs 84\% conditional),
+while a \emph{learned} GNN on the same data reaches 84\% --- a
+two-compound difference at n=19 that is directional only (p=0.5), so it
+is suggestive that the deterministic failure was method rather than
+coverage alone, not a demonstration of it. What remains beyond all of
+them is the near-degenerate-regiochemistry precision ceiling, where
+DFT-level accuracy or 2D-NMR constraints are still the genuine fix.
+\textbf{Projection:} §5.2's extrapolation is replaced by the
+\textbf{measured} §5.3 result (top-1 30\%, recall 41\%) --- and is
 honestly below the optimistic estimate.
 
 \emph{Independence checks.} Scoring throughout is mechanical RDKit (not
@@ -1350,14 +1371,19 @@ it exists (\texttt{scripts/modality\_ablation.py}, prompts in
 run}; until it is, the headline number should be read as an upper bound
 on genuine spectral reasoning.
 
-\textbf{(ii) Human audit --- prepared but not yet run.} Solver and
-verifier are both LLMs, so the one validation we cannot perform
-ourselves is an expert-chemist review of a sample of elucidations and
-forward predictions. We have therefore \textbf{built and frozen} a
-blinded, pre-registered audit package --- a difficulty-stratified
-30-compound sample (9 recall-positive), rendered candidate structures, a
-separate withheld answer key, and a mechanical scoring sheet ---
-released at \texttt{data/audit/} with its protocol at
+\textbf{(ii) Human audit --- prepared but not yet run.} This covers two
+things we have not validated by hand: the elucidation and
+forward-prediction outputs, and the \emph{recall} side of dataset
+extraction (whether the parser found every IR string in every source
+paper). Transcription fidelity of the records we do hold is measured and
+high (§2.3), but record-level recall is not, and only reading papers can
+settle it. Solver and verifier are both LLMs, so the one validation we
+cannot perform ourselves is an expert-chemist review of a sample of
+elucidations and forward predictions. We have therefore \textbf{built
+and frozen} a blinded, pre-registered audit package --- a
+difficulty-stratified 30-compound sample (9 recall-positive), rendered
+candidate structures, a separate withheld answer key, and a mechanical
+scoring sheet --- released at \texttt{data/audit/} with its protocol at
 \texttt{docs/EXPERT\_AUDIT\_PROTOCOL.md} (regenerable via
 \texttt{scripts/make\_audit\_sample.py}), designed to test the two
 load-bearing claims (misses are predominantly consistent regioisomers,
@@ -1440,7 +1466,7 @@ closed-book and audited via automated transcript search for zero
 web/answer access. Scoring used RDKit InChIKey-connectivity matching and
 Morgan(2, 2048) Tanimoto; forward-verification used a symmetric chamfer
 distance over ¹³C peak sets. The core protocol trains no model and uses
-no paid API; the two trained probes --- the §5.6 generator and the §5.7
+no paid API; the two trained probes --- the §5.6 generator and the §5.4
 learned ¹³C verifier --- are the only separately-trained exceptions,
 each reported as a complement and fenced from the headline results.
 
@@ -1533,7 +1559,7 @@ figures}\label{supporting-information-figures}}
   candidates convert (28.4→35.1\%).
 \item
   \textbf{Fig. S6} (\texttt{docs/figures/fig\_verifier.png}) ---
-  learned-verifier probe (§5.7; a complement, not part of the
+  learned-verifier probe (§5.4; a complement, not part of the
   training-free protocol). (A) Conditional-on-recall top-1 (n=19) for
   the four verifiers: a GNN trained on the same nmrshiftdb2 data as the
   HOSE lookup recovers the LLM verifier's 84\% that the lookup (73\%)
@@ -1583,7 +1609,7 @@ deposited on Zenodo. Downstream note: the public
 \texttt{irexp\_release/train} split does \textbf{not} hold out
 IRSpectra-Bench (117/200 InChIKey-14 overlap); de-leak with
 \texttt{contrib/generator\_probe/build\_exp\_manifest.py} before
-training models that will be evaluated on the benchmark. The §5.7
+training models that will be evaluated on the benchmark. The §5.4
 learned-verifier probe ships its full reproducer ---
 \texttt{scripts/gnn\_predict.py} (extract/train/score/control), the
 trained model \texttt{data/nmrshiftdb/gnn\_c13.pt}, per-compound results
@@ -1625,9 +1651,9 @@ attribute the original publications via each record's
 analysis, investigation, data curation, visualization, writing ---
 original draft. \textbf{R.S.:} methodology, software, formal analysis,
 investigation, validation (trained-generator and learned-verifier
-probes, §5.6--§5.7), writing --- review and editing. \textbf{R.A.V.-H.:}
-conceptualization, methodology, supervision, writing --- review and
-editing.
+probes, §5.4 and §5.6), writing --- review and editing.
+\textbf{R.A.V.-H.:} conceptualization, methodology, supervision, writing
+--- review and editing.
 
 \hypertarget{conflicts-of-interest}{%
 \subsection{Conflicts of Interest}\label{conflicts-of-interest}}
@@ -1807,15 +1833,15 @@ M. Hahn, \emph{J. Chem. Inf. Model.}, 2010, \textbf{50}, 742--754}.}
 Narang, A. Chowdhery and D. Zhou, in \emph{International conference on
 learning representations (ICLR)}, 2023.}
 
-\leavevmode\vadjust pre{\hypertarget{ref-bremser1978hose}{}}%
-\CSLLeftMargin{25 }%
-\CSLRightInline{\href{https://doi.org/10.1016/S0003-2670(01)83100-7}{W.
-Bremser, \emph{Anal. Chim. Acta}, 1978, \textbf{103}, 355--365}.}
-
 \leavevmode\vadjust pre{\hypertarget{ref-kuhn2015nmrshiftdb2}{}}%
-\CSLLeftMargin{26 }%
+\CSLLeftMargin{25 }%
 \CSLRightInline{\href{https://doi.org/10.1002/mrc.4263}{S. Kuhn and N.
 E. Schlörer, \emph{Magn. Reson. Chem.}, 2015, \textbf{53}, 582--589}.}
+
+\leavevmode\vadjust pre{\hypertarget{ref-bremser1978hose}{}}%
+\CSLLeftMargin{26 }%
+\CSLRightInline{\href{https://doi.org/10.1016/S0003-2670(01)83100-7}{W.
+Bremser, \emph{Anal. Chim. Acta}, 1978, \textbf{103}, 355--365}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-praski2025embeddings}{}}%
 \CSLLeftMargin{27 }%
@@ -1939,7 +1965,7 @@ convert (28.4→35.1\%).}
 \begin{figure}
 \centering
 \includegraphics[width=6.3in,height=\textheight]{docs/figures/fig_verifier.png}
-\caption{Learned-verifier probe (\S5.7; a complement, not part of the
+\caption{Learned-verifier probe (\S5.4; a complement, not part of the
 training-free protocol). (A) Conditional-on-recall top-1 (n=19) across
 four verifiers: a GNN trained on the same nmrshiftdb2 data as the HOSE
 lookup recovers the LLM verifier's 84\% that the lookup (73\%) could

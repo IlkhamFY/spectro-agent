@@ -50,7 +50,7 @@ SI_FIGS = [
      "generator: enumeration's near-degenerate isomers collapse the verifier "
      "(28.4→16.0\\%) while the generator's formula-correct candidates convert "
      "(28.4→35.1\\%)."),
-    ("fig_verifier.png", "Learned-verifier probe (\\S5.7; a complement, not part of the "
+    ("fig_verifier.png", "Learned-verifier probe (\\S5.4; a complement, not part of the "
      "training-free protocol). (A) Conditional-on-recall top-1 (n=19) across four "
      "verifiers: a GNN trained on the same nmrshiftdb2 data as the HOSE lookup recovers "
      "the LLM verifier's 84\\% that the lookup (73\\%) could not. (B) Held-out $^{13}$C "

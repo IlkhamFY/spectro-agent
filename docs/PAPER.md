@@ -641,7 +641,8 @@ result:
 Wide generation lifts recall +10 points (31%→41%, i.e. 19/60→25/60) and exact top-1
 +7 points over the self-ranking baseline (23%→30%, 14/60→18/60) — equivalently +4 over
 the original forward-verified top-1 (26%→30%, 16/60→18/60, Table 6) — on the same 60
-compounds (Fig. 5), with no training. **These top-1 differences are directional, not
+compounds (Fig. 5), with no training. Table 6 regenerates from the released artifacts via
+`scripts/score_generate_wide.py`. **These top-1 differences are directional, not
 statistically resolved at n=60:** the 14/60→18/60 improvement is a four-compound
 difference, which reaches only McNemar exact p=0.125 even under the most favourable
 assumption that the stages are perfectly nested (no compound lost); the 16/60→18/60

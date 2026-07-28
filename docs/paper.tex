@@ -1350,32 +1350,38 @@ consistent with the recall bound being a property of the task rather
 than of one model. As this is within the Claude family, it speaks to
 model-instance robustness, not cross-vendor generality.
 
-\emph{Remaining.} \textbf{(i) Pretraining contamination is bounded by
-argument, not by a control.} Every benchmark compound was mined from
-open-access literature (each item now carries its source accession in
-\texttt{answers2.jsonl}, added by \texttt{scripts/add\_provenance.py},
-248/248 traced), and that literature is plausibly inside the training
-corpus of any frontier model --- including the one under test. We have
-\textbf{not} run a contamination control for the headline solver, and we
-do not claim one: the memorisation checks in §5.6 and §5.7 cover the
-\emph{trained probes} (candidate--training overlap 0/126 by InChIKey-14,
-Y-randomisation), not the LLM. Three observations bound how much
-contamination can explain, none of them decisive. (a) Accuracy is
-28.4\%, not the near-ceiling a lookup of memorised answers would give.
-(b) Accuracy tracks \emph{structural} difficulty --- 60.5\% at ≤15 heavy
-atoms falling monotonically to 7.0\% above 25, and 48\% simple vs 8\%
-complex --- rather than tracking publication prominence, which is the
-pattern recall-from-memory would predict. (c) The failure mode is
-chemically systematic (consistent regioisomers, §4.2), which is what
-reasoning-under-ambiguity looks like and not what retrieval looks like.
-The decisive experiment is a \textbf{formula-only arm}: give the model
-the molecular formula with the spectra withheld and measure top-1. Any
-accuracy materially above the combinatorial baseline is memorisation,
-since the formula alone does not determine constitution. The harness for
-it exists (\texttt{scripts/modality\_ablation.py}, prompts in
-\texttt{data/modality/}) and the arm is specified but \textbf{not yet
-run}; until it is, the headline number should be read as an upper bound
-on genuine spectral reasoning.
+\emph{Remaining.} \textbf{(i) Pretraining contamination: a formula-only
+control, and what it does not settle.} Every benchmark compound was
+mined from open-access literature (each item carries its source
+accession, 248/248 traced), so a frontier model may have encountered it
+in training. We therefore ran the decisive cheap control: a
+\textbf{formula-only arm}, in which the solver receives the molecular
+formula and nothing else under the same blind protocol with every
+spectral channel masked (\texttt{scripts/modality\_ablation.py},
+condition \texttt{formulaonly}; solvers were barred from reading any
+repository file or searching the web). A formula does not determine
+constitution, so accuracy materially above the floor would indicate
+recall rather than reasoning.
+
+On the same 60 compounds, formula-only top-1 is \textbf{3/60 (5.0\%)}
+against \textbf{14/60 (23.3\%)} with the spectra. The outcomes are
+perfectly nested: eleven compounds are solved with the spectra and not
+without, and \textbf{none} the other way round (McNemar exact p=0.001).
+The spectra, not the formula, carry the signal.
+
+The 5\% is not zero and we do not round it away. All three successes are
+compounds whose composition is close to determining: a
+2-(trimethylsilyl)aryl sulfonate whose Si/S/Cl/F₂ combination is a
+near-unique benzyne-precursor signature, N-tosyl leucine, and a vanillyl
+alkanone. That is chemical inference from an unusual formula, which is
+not the same as having memorised this benchmark --- but this experiment
+cannot separate the two. What the control does establish is a bound: on
+this set, pure formula-level recall accounts for at most about a fifth
+of the headline accuracy, and removing the spectra destroys the rest. It
+does not exclude memorisation contributing to the remainder, and a
+per-compound comparison against model training cutoffs remains open. The
+control record is released at
+\texttt{data/modality/formulaonly\_control.json}.
 
 \textbf{(ii) Human audit --- prepared but not yet run.} This covers two
 things we have not validated by hand: the elucidation and

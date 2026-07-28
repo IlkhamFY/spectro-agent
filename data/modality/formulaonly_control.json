@@ -1,0 +1,35 @@
+{
+ "design": "formula-only contamination control; same blind protocol, all spectral channels masked",
+ "n": 60,
+ "strata": {
+  "simple": 30,
+  "complex": 30
+ },
+ "full_top1": "14/60 (23.3%)",
+ "formulaonly_top1": "3/60 (5.0%)",
+ "full_recovered": "19/60 (31.7%)",
+ "formulaonly_recovered": "3/60 (5.0%)",
+ "mcnemar": {
+  "b_full_right_fo_wrong": 11,
+  "c_fo_right_full_wrong": 0,
+  "p_exact": 0.001
+ },
+ "formulaonly_successes": [
+  {
+   "id": "M020",
+   "difficulty": "complex",
+   "formula": "C15H15ClF2O3SSi"
+  },
+  {
+   "id": "M042",
+   "difficulty": "simple",
+   "formula": "C13H19NO4S"
+  },
+  {
+   "id": "M045",
+   "difficulty": "simple",
+   "formula": "C17H26O3"
+  }
+ ],
+ "note": "Solvers barred from reading repository files or searching the web; RDKit used only to validate parse/formula. Batched blind contexts, 10 compounds each."
+}

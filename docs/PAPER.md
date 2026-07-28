@@ -302,7 +302,10 @@ contained. Both numbers are produced by `scripts/score_main.py --stereo`.
 of compounds whose single best-ranked candidate matches the reference at the InChIKey
 connectivity layer. **Recovered (top-3)** is the fraction for which the reference
 appears among the up-to-three ranked candidates returned (matching the lenient
-"recovery" protocol of ref. [@kamber2026chemist]). **Generation recall** is the fraction for which the
+"recovery" protocol of ref. [@kamber2026chemist]). Where this paper writes *recovery* it
+is always reporting another study's metric under that study's own name; our two
+quantities are always **recovered (top-3)** and **generation recall**, which are
+different denominators and are never used interchangeably. **Generation recall** is the fraction for which the
 reference is present in the candidate pool *before* re-ranking — the ceiling any
 verifier can reach. **Conditional-on-recall precision** is the verifier's hit rate over
 recall-positive compounds only, isolating verification quality from generation. The
@@ -413,7 +416,7 @@ single unaudited near-100% claim[@kamber2026chemist] can bear.
 
 The same 20 molecules were solved two ways: (a) by a single LLM context handling
 all of them sequentially with no tools, and (b) by four independent agents of five
-compounds each, with RDKit formula-checking — i.e. bounded, reset contexts. On the *identical* compounds, recovery rose from
+compounds each, with RDKit formula-checking — i.e. bounded, reset contexts. On the *identical* compounds, **recovered (top-3)** rose from
 **5% to 15%** (1/20 → 3/20) and top-1 from 0% to 15% (0/20 → 3/20) — a 3× methodology
 effect with zero sample confound, though on a small set (the 15% point estimate carries
 a Wilson 95% CI of roughly 5–36%), so it is read as a directional within-compound
@@ -641,7 +644,8 @@ result:
 Wide generation lifts recall +10 points (31%→41%, i.e. 19/60→25/60) and exact top-1
 +7 points over the self-ranking baseline (23%→30%, 14/60→18/60) — equivalently +4 over
 the original forward-verified top-1 (26%→30%, 16/60→18/60, Table 6) — on the same 60
-compounds (Fig. 5), with no training. **These top-1 differences are directional, not
+compounds (Fig. 5), with no training. Table 6 regenerates from the released artifacts via
+`scripts/score_generate_wide.py`. **These top-1 differences are directional, not
 statistically resolved at n=60:** the 14/60→18/60 improvement is a four-compound
 difference, which reaches only McNemar exact p=0.125 even under the most favourable
 assumption that the stages are perfectly nested (no compound lost); the 16/60→18/60
@@ -789,7 +793,7 @@ and code availability.)
 The frontier LLMs we tested (the Claude family) are neither "solving structure elucidation"
 on realistic 1D data nor failing at it. They are reliable **scaffold-level**
 elucidators (best-candidate Tanimoto ≥ 0.45 for 56% of compounds, 73% of simple ones; mean
-best Tanimoto 0.59) and good **verifiers** (84% conditional on recall). Exact recovery is
+best Tanimoto 0.59) and good **verifiers** (84% conditional on recall). Exact top-1 is
 throttled by candidate recall and by the regiochemical underdetermination intrinsic to 1D NMR.
 The contribution of this paper is therefore best read as a **diagnosis with a bounded,
 training-free improvement attached**, not as a method that solves the task. The

@@ -24,8 +24,14 @@ import json, os, sys, random, math, glob
 from itertools import combinations
 
 OUT = "data/modality"
-CONDS = ["full", "noIR", "noH", "noC"]
-COND_KW = {"full": (1, 1, 1), "noIR": (0, 1, 1), "noH": (1, 0, 1), "noC": (1, 1, 0)}
+# "formulaonly" is not a modality ablation but the CONTAMINATION CONTROL: the solver is
+# given the molecular formula and nothing else. A formula does not determine constitution,
+# so accuracy materially above the near-zero floor indicates recall from pretraining rather
+# than spectral reasoning. It shares this harness because it is the same blind protocol
+# with every spectral channel masked.
+CONDS = ["full", "noIR", "noH", "noC", "formulaonly"]
+COND_KW = {"full": (1, 1, 1), "noIR": (0, 1, 1), "noH": (1, 0, 1), "noC": (1, 1, 0),
+           "formulaonly": (0, 0, 0)}
 SETS = ["data/benchmark_v3", "data/benchmark_v2_ctrl"]   # the 60-compound forward-verify set
 
 def _block(r, ir, h, c):

@@ -273,7 +273,13 @@ where reported), and asks for the structure. No name, SMILES, or hint is given.
 Every main-round ground-truth structure is **spectrally validated** by an automated RDKit
 consistency check (¹³C peak count vs symmetry-unique carbons, molecular-formula
 match, SELFIES round-trip), excluding records with merged or incomplete spectra
-(6/140 in the main round, leaving 134). The 60 compounds of the controlled rounds are
+(6/140 in the main round, leaving 134). The exclusions are itemised rather than asserted:
+five report more ¹³C peaks than the structure has carbons (R03 28>24, R14 11>8, R65 26>18,
+R67 23>16, R131 34>17 — merged or contaminated spectra) and one is too sparse to
+constrain (R82, 5 peaks for 22 symmetry-unique carbons). The filter is deterministic and
+runs over all three rounds in `scripts/validate_benchmark.py`, which regenerates every
+`clean_qids.json` from the released questions and answers, so the cohort behind the
+headline number is reproducible rather than a shipped artifact. The 60 compounds of the controlled rounds are
 retained as fixed, pre-registered sets for the difficulty and within-compound controls,
 with the same self-consistency audit reported separately rather than used to exclude
 (57/60 pass; §7). Problems are stratified by RDKit ring analysis: a compound is **simple** iff it has at

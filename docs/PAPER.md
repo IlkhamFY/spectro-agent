@@ -32,8 +32,11 @@ elicitation rather than an established limit of the task: a small generator fine
 IRexp lifts recall substantially and gives the highest full-benchmark accuracy we report
 (§5.6). But the wall moves rather than falls — the true structure remains outside the
 candidate pool for roughly half of compounds, and verification precision is untouched.
-The recall-bound regime reproduces in a battery-electrolyte domain (§4.5). Every result is
-single-vendor (Claude); a cross-vendor test is the key open question. The core protocol
+The recall-bound regime reproduces in a battery-electrolyte domain (§4.5). A formula-only control confirms the
+spectra are doing the work: masking them drops top-1 from 23% to 5% on the same
+compounds, with every formula-only success also solved from spectra and none the reverse
+(§4.6). Every result is single-vendor (Claude); a cross-vendor test is the key open
+question. The core protocol
 uses no model training and no paid API — two clearly-fenced probes (§5.4, §5.6) are the
 only exceptions — and all data, predictions, and code are released.
 
@@ -270,7 +273,13 @@ where reported), and asks for the structure. No name, SMILES, or hint is given.
 Every main-round ground-truth structure is **spectrally validated** by an automated RDKit
 consistency check (¹³C peak count vs symmetry-unique carbons, molecular-formula
 match, SELFIES round-trip), excluding records with merged or incomplete spectra
-(6/140 in the main round, leaving 134). The 60 compounds of the controlled rounds are
+(6/140 in the main round, leaving 134). The exclusions are itemised rather than asserted:
+five report more ¹³C peaks than the structure has carbons (R03 28>24, R14 11>8, R65 26>18,
+R67 23>16, R131 34>17 — merged or contaminated spectra) and one is too sparse to
+constrain (R82, 5 peaks for 22 symmetry-unique carbons). The filter is deterministic and
+runs over all three rounds in `scripts/validate_benchmark.py`, which regenerates every
+`clean_qids.json` from the released questions and answers, so the cohort behind the
+headline number is reproducible rather than a shipped artifact. The 60 compounds of the controlled rounds are
 retained as fixed, pre-registered sets for the difficulty and within-compound controls,
 with the same self-consistency audit reported separately rather than used to exclude
 (57/60 pass; §7). Problems are stratified by RDKit ring analysis: a compound is **simple** iff it has at
@@ -545,6 +554,40 @@ the one observed — plays a role *analogous* to (not a replacement for) computa
 trading DFT's calibrated accuracy for zero setup cost. The subset, its per-class answers, and the scorer are released
 with the benchmark.
 
+### 4.6 Is the model reading the spectra? A formula-only control
+
+Because every benchmark compound is mined from open-access literature, a frontier model
+may have encountered it during pretraining. The cheapest decisive test of whether that
+explains the headline number is to take the spectra away. We re-ran the identical blind
+protocol with every spectral channel masked, so the solver receives the molecular formula
+and nothing else (`scripts/modality_ablation.py`, condition `formulaonly`; solvers were
+barred from reading any repository file or searching the web, and RDKit was permitted only
+to check that a proposed SMILES parses and matches the formula). A molecular formula does
+not determine constitution, so accuracy materially above the floor would indicate recall
+rather than reasoning.
+
+**Table 5. Formula-only control**, paired on the same 60 compounds as §5.
+
+| condition | top-1 | recovered (top-3) |
+|---|--:|--:|
+| formula only | **3/60 (5%)** | 3/60 (5%) |
+| formula + IR + ¹H + ¹³C | **14/60 (23%)** | 19/60 (32%) |
+
+The outcomes are perfectly nested: **eleven** compounds are solved with the spectra and
+not without, and **none** the other way round (McNemar exact p=0.001). Removing the
+spectra removes the result.
+
+The 5% is not zero, and it is worth saying what those three compounds are rather than
+rounding them away: a 2-(trimethylsilyl)aryl sulfonate, whose Si/S/Cl/F₂ composition is a
+near-unique benzyne-precursor signature; N-tosyl leucine; and a vanillyl alkanone. In each
+case an unusual element combination or a very common derivative class makes the formula
+close to determining, which is chemical inference from composition rather than evidence of
+having memorised this benchmark — though this experiment cannot separate the two. What it
+does establish is a bound: formula-level recall accounts for at most about a fifth of the
+headline accuracy on this set. It does not exclude memorisation contributing to the
+remainder (§7). The control record is released at
+`data/modality/formulaonly_control.json`.
+
 ---
 
 ## 5. Forward-verification elucidation
@@ -597,7 +640,7 @@ problem.
 
 On the 60 benchmark compounds (126 candidate structures from the solver agents):
 
-**Table 5. Forward-verification decomposition** on the 60 forward-verify compounds.
+**Table 6. Forward-verification decomposition** on the 60 forward-verify compounds.
 
 | | value |
 |---|--:|
@@ -633,7 +676,7 @@ regiochemistry-aware candidates per compound**, pooled with the originals, and t
 65 new candidates were forward-predicted and re-ranked as before. The measured
 result:
 
-**Table 6. Generate-wide vs original** on the same 60 compounds.
+**Table 7. Generate-wide vs original** on the same 60 compounds.
 
 | | original | generate-wide |
 |---|--:|--:|
@@ -643,8 +686,8 @@ result:
 
 Wide generation lifts recall +10 points (31%→41%, i.e. 19/60→25/60) and exact top-1
 +7 points over the self-ranking baseline (23%→30%, 14/60→18/60) — equivalently +4 over
-the original forward-verified top-1 (26%→30%, 16/60→18/60, Table 6) — on the same 60
-compounds (Fig. 5), with no training. Table 6 regenerates from the released artifacts via
+the original forward-verified top-1 (26%→30%, 16/60→18/60, Table 7) — on the same 60
+compounds (Fig. 5), with no training. Table 7 regenerates from the released artifacts via
 `scripts/score_generate_wide.py`. **These top-1 differences are directional, not
 statistically resolved at n=60:** the 14/60→18/60 improvement is a four-compound
 difference, which reaches only McNemar exact p=0.125 even under the most favourable
@@ -675,7 +718,7 @@ small **message-passing GNN** (4 layers, per-carbon ¹³C regression) trained on
 dump, which reaches held-out MAE 1.70 ppm (median 1.02) — roughly twice as sharp, and an
 independently competent predictor.
 
-**Table 7. Verifier comparison, conditional on recall (n=19), on the identical §5.2 set.**
+**Table 8. Verifier comparison, conditional on recall (n=19), on the identical §5.2 set.**
 
 | verifier | top-1 \| recall | held-out ¹³C MAE |
 |---|--:|--:|
@@ -891,31 +934,15 @@ recall-bound (recall 33% vs Opus 41% on those compounds), consistent with the re
 being a property of the task rather than of one model. As this is within the Claude family,
 it speaks to model-instance robustness, not cross-vendor generality.
 
-*Remaining.* **(i) Pretraining contamination: a formula-only control, and what it does
-not settle.** Every benchmark compound was mined from open-access literature (each item
-carries its source accession, 248/248 traced), so a frontier model may have encountered it
-in training. We therefore ran the decisive cheap control: a **formula-only arm**, in which
-the solver receives the molecular formula and nothing else under the same blind protocol
-with every spectral channel masked (`scripts/modality_ablation.py`, condition
-`formulaonly`; solvers were barred from reading any repository file or searching the web).
-A formula does not determine constitution, so accuracy materially above the floor would
-indicate recall rather than reasoning.
-
-On the same 60 compounds, formula-only top-1 is **3/60 (5.0%)** against **14/60 (23.3%)**
-with the spectra. The outcomes are perfectly nested: eleven compounds are solved with the
-spectra and not without, and **none** the other way round (McNemar exact p=0.001). The
-spectra, not the formula, carry the signal.
-
-The 5% is not zero and we do not round it away. All three successes are compounds whose
-composition is close to determining: a 2-(trimethylsilyl)aryl sulfonate whose
-Si/S/Cl/F₂ combination is a near-unique benzyne-precursor signature, N-tosyl leucine, and
-a vanillyl alkanone. That is chemical inference from an unusual formula, which is not the
-same as having memorised this benchmark — but this experiment cannot separate the two.
-What the control does establish is a bound: on this set, pure formula-level recall
-accounts for at most about a fifth of the headline accuracy, and removing the spectra
-destroys the rest. It does not exclude memorisation contributing to the remainder, and a
-per-compound comparison against model training cutoffs remains open. The control record
-is released at `data/modality/formulaonly_control.json`.
+*Remaining.* **(i) Pretraining contamination is bounded, not excluded.** Every benchmark
+compound was mined from open-access literature, so a frontier model may have encountered
+it in training. The formula-only control (§4.6) bounds how much of the headline number
+pure recall can explain — masking the spectra drops top-1 from 23% to 5%, perfectly
+nested, McNemar exact p=0.001 — and the three formula-only successes are all compounds
+whose composition is close to determining. That bounds the effect; it does not exclude
+memorisation contributing to the remainder. A per-compound comparison of source
+publication dates against model training cutoffs, and a replication on compounds
+published after the cutoff, are the natural next controls and are not run here.
 
 **(ii) Human audit — prepared but not yet run.** This covers two things we have not
 validated by hand: the elucidation and forward-prediction outputs, and the *recall* side

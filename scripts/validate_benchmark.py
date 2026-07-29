@@ -48,7 +48,10 @@ def write_clean(path, clean):
     return True
 
 refused = 0
-for d in ["data/benchmark_v3","data/benchmark_v2_ctrl"]:
+# benchmark_main is included: its clean_qids.json defines 134 of the 194 headline
+# compounds, so the cohort that produces the headline number must be regenerable from the
+# released audit rather than shipped as an unexplained artifact.
+for d in ["data/benchmark_main", "data/benchmark_v3", "data/benchmark_v2_ctrl"]:
     q={json.loads(l)["qid"]:json.loads(l) for l in open(f"{d}/questions2.jsonl")}
     a={json.loads(l)["qid"]:json.loads(l) for l in open(f"{d}/answers2.jsonl")}
     clean=set(); flags={}

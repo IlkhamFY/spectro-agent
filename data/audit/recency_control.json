@@ -1,0 +1,1456 @@
+{
+ "n_resolved": 194,
+ "n_total": 194,
+ "year_min": 2008,
+ "year_max": 2026,
+ "median_year": 2020,
+ "halves": [
+  {
+   "label": "<= 2020 (older)",
+   "n": 112,
+   "top1": 32,
+   "pct": 28.6,
+   "ci": [
+    21,
+    38
+   ]
+  },
+  {
+   "label": "> 2020 (newer)",
+   "n": 82,
+   "top1": 23,
+   "pct": 28.0,
+   "ci": [
+    19,
+    39
+   ]
+  }
+ ],
+ "buckets": [
+  {
+   "label": "<2015",
+   "n": 25,
+   "top1": 7,
+   "pct": 28.0,
+   "ci": [
+    14,
+    48
+   ]
+  },
+  {
+   "label": "2015-2019",
+   "n": 60,
+   "top1": 19,
+   "pct": 31.7,
+   "ci": [
+    21,
+    44
+   ]
+  },
+  {
+   "label": "2020-2023",
+   "n": 84,
+   "top1": 19,
+   "pct": 22.6,
+   "ci": [
+    15,
+    33
+   ]
+  },
+  {
+   "label": ">=2024",
+   "n": 25,
+   "top1": 10,
+   "pct": 40.0,
+   "ci": [
+    23,
+    59
+   ]
+  }
+ ],
+ "point_biserial_r": -0.0069,
+ "size_stratified": [
+  {
+   "stratum": "<=15",
+   "older": "14/24 58% [39,76]",
+   "newer": "9/14 64% [39,84]",
+   "older_pct": 58.3,
+   "newer_pct": 64.3
+  },
+  {
+   "stratum": "16-25",
+   "older": "16/64 25% [16,37]",
+   "newer": "12/35 34% [21,51]",
+   "older_pct": 25.0,
+   "newer_pct": 34.3
+  },
+  {
+   "stratum": ">25",
+   "older": "2/24 8% [2,26]",
+   "newer": "2/33 6% [2,20]",
+   "older_pct": 8.3,
+   "newer_pct": 6.1
+  }
+ ],
+ "size_adjusted_older_minus_newer_pts": -5.1,
+ "per_compound": [
+  {
+   "pmcid": "PMC4040197",
+   "year": 2014,
+   "top1": false,
+   "hac": 21,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC6804250",
+   "year": 2019,
+   "top1": false,
+   "hac": 20,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC11969277",
+   "year": 2025,
+   "top1": true,
+   "hac": 15,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC10123497",
+   "year": 2023,
+   "top1": true,
+   "hac": 20,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9079339",
+   "year": 2018,
+   "top1": false,
+   "hac": 33,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC3170197",
+   "year": 2011,
+   "top1": false,
+   "hac": 22,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9081558",
+   "year": 2018,
+   "top1": false,
+   "hac": 19,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC7689671",
+   "year": 2020,
+   "top1": false,
+   "hac": 22,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC6648503",
+   "year": 2019,
+   "top1": true,
+   "hac": 15,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7170330",
+   "year": 2020,
+   "top1": false,
+   "hac": 20,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC10634270",
+   "year": 2023,
+   "top1": false,
+   "hac": 21,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6644843",
+   "year": 2018,
+   "top1": false,
+   "hac": 25,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC13036782",
+   "year": 2026,
+   "top1": false,
+   "hac": 23,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC6445199",
+   "year": 2017,
+   "top1": false,
+   "hac": 34,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC8539769",
+   "year": 2021,
+   "top1": false,
+   "hac": 24,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC4301091",
+   "year": 2015,
+   "top1": false,
+   "hac": 17,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC11536365",
+   "year": 2024,
+   "top1": true,
+   "hac": 14,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6641763",
+   "year": 2017,
+   "top1": false,
+   "hac": 28,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC6645088",
+   "year": 2018,
+   "top1": false,
+   "hac": 18,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC6648048",
+   "year": 2019,
+   "top1": false,
+   "hac": 19,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6833937",
+   "year": 2019,
+   "top1": true,
+   "hac": 17,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC9021491",
+   "year": 2022,
+   "top1": true,
+   "hac": 16,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC9828044",
+   "year": 2023,
+   "top1": false,
+   "hac": 24,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC8929666",
+   "year": 2021,
+   "top1": false,
+   "hac": 18,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6009898",
+   "year": 2017,
+   "top1": false,
+   "hac": 30,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC4013563",
+   "year": 2014,
+   "top1": false,
+   "hac": 26,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC5224347",
+   "year": 2017,
+   "top1": false,
+   "hac": 12,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC8982283",
+   "year": 2022,
+   "top1": false,
+   "hac": 29,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC8482774",
+   "year": 2021,
+   "top1": false,
+   "hac": 32,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9072886",
+   "year": 2022,
+   "top1": false,
+   "hac": 18,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC3624797",
+   "year": 2013,
+   "top1": false,
+   "hac": 32,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC7179439",
+   "year": 2020,
+   "top1": false,
+   "hac": 18,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7783635",
+   "year": 2021,
+   "top1": false,
+   "hac": 27,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9083898",
+   "year": 2018,
+   "top1": false,
+   "hac": 18,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6009879",
+   "year": 2017,
+   "top1": false,
+   "hac": 20,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6648780",
+   "year": 2019,
+   "top1": true,
+   "hac": 18,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6641687",
+   "year": 2017,
+   "top1": false,
+   "hac": 31,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC8697410",
+   "year": 2021,
+   "top1": false,
+   "hac": 16,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC4201355",
+   "year": 2014,
+   "top1": false,
+   "hac": 9,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC12716022",
+   "year": 2025,
+   "top1": false,
+   "hac": 18,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC8375098",
+   "year": 2021,
+   "top1": false,
+   "hac": 22,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC3985916",
+   "year": 2014,
+   "top1": false,
+   "hac": 11,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC10290372",
+   "year": 2023,
+   "top1": false,
+   "hac": 27,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC7884011",
+   "year": 2021,
+   "top1": false,
+   "hac": 22,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC9724092",
+   "year": 2022,
+   "top1": false,
+   "hac": 28,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC7321218",
+   "year": 2020,
+   "top1": false,
+   "hac": 28,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC12184090",
+   "year": 2025,
+   "top1": false,
+   "hac": 24,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC8981512",
+   "year": 2022,
+   "top1": false,
+   "hac": 17,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC9057730",
+   "year": 2020,
+   "top1": true,
+   "hac": 14,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6760471",
+   "year": 2019,
+   "top1": true,
+   "hac": 11,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7590975",
+   "year": 2020,
+   "top1": false,
+   "hac": 23,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC6268720",
+   "year": 2012,
+   "top1": false,
+   "hac": 20,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC5764481",
+   "year": 2018,
+   "top1": true,
+   "hac": 15,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC4704782",
+   "year": 2015,
+   "top1": true,
+   "hac": 8,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6661811",
+   "year": 2019,
+   "top1": false,
+   "hac": 25,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC4301091",
+   "year": 2015,
+   "top1": true,
+   "hac": 19,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC9073129",
+   "year": 2019,
+   "top1": false,
+   "hac": 28,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC6268480",
+   "year": 2012,
+   "top1": true,
+   "hac": 10,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC5764481",
+   "year": 2018,
+   "top1": false,
+   "hac": 43,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC7362424",
+   "year": 2020,
+   "top1": false,
+   "hac": 20,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC8296616",
+   "year": 2021,
+   "top1": false,
+   "hac": 17,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC5224347",
+   "year": 2017,
+   "top1": false,
+   "hac": 14,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC12680550",
+   "year": 2025,
+   "top1": true,
+   "hac": 19,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6641420",
+   "year": 2018,
+   "top1": false,
+   "hac": 21,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC12189671",
+   "year": 2025,
+   "top1": true,
+   "hac": 9,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC8981512",
+   "year": 2022,
+   "top1": true,
+   "hac": 13,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC8709053",
+   "year": 2021,
+   "top1": false,
+   "hac": 43,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9941895",
+   "year": 2023,
+   "top1": false,
+   "hac": 34,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC4499427",
+   "year": 2015,
+   "top1": false,
+   "hac": 14,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC4727778",
+   "year": 2015,
+   "top1": true,
+   "hac": 19,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC6681191",
+   "year": 2019,
+   "top1": false,
+   "hac": 27,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC8765700",
+   "year": 2021,
+   "top1": false,
+   "hac": 19,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6245315",
+   "year": 2008,
+   "top1": true,
+   "hac": 10,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC10734773",
+   "year": 2022,
+   "top1": true,
+   "hac": 22,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6273737",
+   "year": 2016,
+   "top1": false,
+   "hac": 17,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC9056278",
+   "year": 2020,
+   "top1": false,
+   "hac": 24,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9081558",
+   "year": 2018,
+   "top1": false,
+   "hac": 18,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC10254280",
+   "year": 2023,
+   "top1": false,
+   "hac": 33,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9753175",
+   "year": 2022,
+   "top1": true,
+   "hac": 17,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6269796",
+   "year": 2013,
+   "top1": false,
+   "hac": 24,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC12612033",
+   "year": 2025,
+   "top1": false,
+   "hac": 22,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC11536365",
+   "year": 2024,
+   "top1": true,
+   "hac": 15,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7590975",
+   "year": 2020,
+   "top1": false,
+   "hac": 19,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC12395038",
+   "year": 2025,
+   "top1": false,
+   "hac": 34,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC6264657",
+   "year": 2011,
+   "top1": false,
+   "hac": 23,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC11568772",
+   "year": 2024,
+   "top1": true,
+   "hac": 32,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC8981512",
+   "year": 2022,
+   "top1": true,
+   "hac": 14,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC5764481",
+   "year": 2018,
+   "top1": true,
+   "hac": 18,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC9076073",
+   "year": 2019,
+   "top1": true,
+   "hac": 12,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6332260",
+   "year": 2015,
+   "top1": false,
+   "hac": 16,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC9083898",
+   "year": 2018,
+   "top1": false,
+   "hac": 21,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC6331821",
+   "year": 2015,
+   "top1": true,
+   "hac": 30,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9434771",
+   "year": 2022,
+   "top1": true,
+   "hac": 16,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7161055",
+   "year": 2020,
+   "top1": false,
+   "hac": 21,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC11536385",
+   "year": 2024,
+   "top1": true,
+   "hac": 15,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7155210",
+   "year": 2020,
+   "top1": true,
+   "hac": 21,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC3985460",
+   "year": 2014,
+   "top1": true,
+   "hac": 14,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7144403",
+   "year": 2020,
+   "top1": false,
+   "hac": 23,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9330635",
+   "year": 2022,
+   "top1": false,
+   "hac": 26,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC6049848",
+   "year": 2018,
+   "top1": false,
+   "hac": 30,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC3983340",
+   "year": 2014,
+   "top1": true,
+   "hac": 16,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC5224347",
+   "year": 2017,
+   "top1": false,
+   "hac": 15,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC9050660",
+   "year": 2020,
+   "top1": false,
+   "hac": 16,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC3096000",
+   "year": 2011,
+   "top1": false,
+   "hac": 25,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC6272548",
+   "year": 2015,
+   "top1": true,
+   "hac": 15,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC4195513",
+   "year": 2014,
+   "top1": false,
+   "hac": 20,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC11700089",
+   "year": 2025,
+   "top1": false,
+   "hac": 54,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC11428147",
+   "year": 2024,
+   "top1": false,
+   "hac": 19,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC9064558",
+   "year": 2019,
+   "top1": false,
+   "hac": 22,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC7070565",
+   "year": 2020,
+   "top1": false,
+   "hac": 18,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC4702351",
+   "year": 2015,
+   "top1": false,
+   "hac": 42,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC11494649",
+   "year": 2024,
+   "top1": false,
+   "hac": 18,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC3767202",
+   "year": 2013,
+   "top1": true,
+   "hac": 14,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6713104",
+   "year": 2019,
+   "top1": false,
+   "hac": 25,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9161259",
+   "year": 2022,
+   "top1": false,
+   "hac": 23,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9518246",
+   "year": 2022,
+   "top1": false,
+   "hac": 39,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9885930",
+   "year": 2023,
+   "top1": false,
+   "hac": 30,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC7731126",
+   "year": 2020,
+   "top1": false,
+   "hac": 29,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC12509125",
+   "year": 2025,
+   "top1": false,
+   "hac": 55,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC7036988",
+   "year": 2020,
+   "top1": true,
+   "hac": 17,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC9056170",
+   "year": 2020,
+   "top1": false,
+   "hac": 23,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC7288019",
+   "year": 2020,
+   "top1": false,
+   "hac": 28,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9753175",
+   "year": 2022,
+   "top1": true,
+   "hac": 18,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6641018",
+   "year": 2017,
+   "top1": true,
+   "hac": 17,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC10621016",
+   "year": 2023,
+   "top1": false,
+   "hac": 17,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9302472",
+   "year": 2022,
+   "top1": false,
+   "hac": 32,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC10299275",
+   "year": 2023,
+   "top1": false,
+   "hac": 30,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9775310",
+   "year": 2022,
+   "top1": false,
+   "hac": 28,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC7996573",
+   "year": 2021,
+   "top1": false,
+   "hac": 34,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC11643609",
+   "year": 2024,
+   "top1": true,
+   "hac": 19,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC10354804",
+   "year": 2023,
+   "top1": true,
+   "hac": 22,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC5568332",
+   "year": 2017,
+   "top1": true,
+   "hac": 14,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7003507",
+   "year": 2020,
+   "top1": true,
+   "hac": 16,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC3983340",
+   "year": 2014,
+   "top1": true,
+   "hac": 16,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6641980",
+   "year": 2017,
+   "top1": false,
+   "hac": 14,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC12372362",
+   "year": 2025,
+   "top1": false,
+   "hac": 25,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC8079033",
+   "year": 2021,
+   "top1": false,
+   "hac": 28,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC5764481",
+   "year": 2018,
+   "top1": true,
+   "hac": 19,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC8296562",
+   "year": 2021,
+   "top1": true,
+   "hac": 16,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC8779217",
+   "year": 2022,
+   "top1": true,
+   "hac": 15,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC3975376",
+   "year": 2014,
+   "top1": true,
+   "hac": 20,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7170330",
+   "year": 2020,
+   "top1": false,
+   "hac": 20,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6009879",
+   "year": 2017,
+   "top1": false,
+   "hac": 20,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC13133858",
+   "year": 2026,
+   "top1": true,
+   "hac": 26,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC8756580",
+   "year": 2022,
+   "top1": false,
+   "hac": 28,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9609063",
+   "year": 2022,
+   "top1": false,
+   "hac": 31,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC8584640",
+   "year": 2021,
+   "top1": false,
+   "hac": 46,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC4227568",
+   "year": 2014,
+   "top1": false,
+   "hac": 20,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC10413844",
+   "year": 2023,
+   "top1": true,
+   "hac": 18,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9076073",
+   "year": 2019,
+   "top1": true,
+   "hac": 11,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7498163",
+   "year": 2020,
+   "top1": false,
+   "hac": 36,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC10729023",
+   "year": 2023,
+   "top1": false,
+   "hac": 15,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC11727845",
+   "year": 2024,
+   "top1": false,
+   "hac": 30,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9965731",
+   "year": 2023,
+   "top1": false,
+   "hac": 14,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7017410",
+   "year": 2020,
+   "top1": true,
+   "hac": 23,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC3767336",
+   "year": 2012,
+   "top1": false,
+   "hac": 20,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC7017410",
+   "year": 2020,
+   "top1": false,
+   "hac": 18,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC3983340",
+   "year": 2014,
+   "top1": false,
+   "hac": 19,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6044346",
+   "year": 2018,
+   "top1": false,
+   "hac": 13,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7144721",
+   "year": 2020,
+   "top1": false,
+   "hac": 20,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9434771",
+   "year": 2022,
+   "top1": false,
+   "hac": 35,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC3458763",
+   "year": 2012,
+   "top1": false,
+   "hac": 14,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7690313",
+   "year": 2020,
+   "top1": false,
+   "hac": 22,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6811879",
+   "year": 2019,
+   "top1": false,
+   "hac": 32,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC8482774",
+   "year": 2021,
+   "top1": false,
+   "hac": 34,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9965731",
+   "year": 2023,
+   "top1": true,
+   "hac": 14,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6705284",
+   "year": 2019,
+   "top1": false,
+   "hac": 55,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9085488",
+   "year": 2018,
+   "top1": true,
+   "hac": 20,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6641006",
+   "year": 2017,
+   "top1": true,
+   "hac": 22,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC11555253",
+   "year": 2024,
+   "top1": false,
+   "hac": 36,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9795549",
+   "year": 2022,
+   "top1": false,
+   "hac": 29,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC4169656",
+   "year": 2014,
+   "top1": false,
+   "hac": 27,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC12917862",
+   "year": 2026,
+   "top1": false,
+   "hac": 36,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC6879708",
+   "year": 2019,
+   "top1": false,
+   "hac": 18,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC8370666",
+   "year": 2021,
+   "top1": false,
+   "hac": 29,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC5498654",
+   "year": 2017,
+   "top1": false,
+   "hac": 14,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC9724092",
+   "year": 2022,
+   "top1": false,
+   "hac": 14,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC8038373",
+   "year": 2021,
+   "top1": false,
+   "hac": 21,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC6045468",
+   "year": 2018,
+   "top1": false,
+   "hac": 24,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9082452",
+   "year": 2019,
+   "top1": false,
+   "hac": 33,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC12169685",
+   "year": 2025,
+   "top1": false,
+   "hac": 13,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7774286",
+   "year": 2020,
+   "top1": true,
+   "hac": 11,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6152025",
+   "year": 2017,
+   "top1": false,
+   "hac": 17,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC4059248",
+   "year": 2014,
+   "top1": false,
+   "hac": 33,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC10384224",
+   "year": 2023,
+   "top1": false,
+   "hac": 22,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC7036988",
+   "year": 2020,
+   "top1": false,
+   "hac": 16,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC3778392",
+   "year": 2013,
+   "top1": false,
+   "hac": 18,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC5224347",
+   "year": 2017,
+   "top1": true,
+   "hac": 31,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC13036782",
+   "year": 2026,
+   "top1": false,
+   "hac": 11,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC11597928",
+   "year": 2024,
+   "top1": true,
+   "hac": 21,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC10242756",
+   "year": 2023,
+   "top1": false,
+   "hac": 20,
+   "difficulty": "simple"
+  },
+  {
+   "pmcid": "PMC6384732",
+   "year": 2019,
+   "top1": false,
+   "hac": 37,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC9302472",
+   "year": 2022,
+   "top1": false,
+   "hac": 29,
+   "difficulty": "complex"
+  },
+  {
+   "pmcid": "PMC10052977",
+   "year": 2023,
+   "top1": false,
+   "hac": 60,
+   "difficulty": "complex"
+  }
+ ]
+}

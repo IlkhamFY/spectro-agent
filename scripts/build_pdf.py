@@ -28,6 +28,13 @@ FIGS = [
     ("fig_mechanism.png", "Forward-verification on a real benchmark regioisomer pair "
      "(picolinamide vs nicotinamide): forward-predicted $^{13}$C matches the true "
      "isomer (chamfer 0.42 vs 1.30 ppm) --- an analog of NMR-crystallography."),
+    ("fig_contamination.png", "Two contamination controls. (a) Removing the spectra: "
+     "with only the molecular formula the solver reaches 3/60, against 14/60 with "
+     "IR + $^1$H + $^{13}$C on the same compounds; the outcomes are nested, with 11 "
+     "compounds solved only with the spectra and none only without. (b) Accuracy against "
+     "the publication year of the source paper (n=194, Wilson 95\\% CIs): flat, with a "
+     "point-biserial correlation of $-$0.007. Recall from pretraining would predict a "
+     "decline with recency; none is observed."),
     ("fig3_method.png", "Forward-verification inference ladder on the same 60 "
      "compounds: solver self-ranking → + forward-verify → + generate-wide "
      "(23\\%/26\\%/30\\% top-1)."),
@@ -131,6 +138,46 @@ def header():
         lines.append(f"\\newunicodechar{{{ch}}}{{{cmd}}}")
     return "\n".join(lines)
 
+ESI_OUT = "docs/paper_esi.pdf"
+
+
+def build_esi(h_path, bib):
+    """Build the Electronic Supplementary Information as its own document.
+
+    RSC requires the ESI as a separate file, not appended to the article PDF. Figures are
+    numbered S1, S2, ... and the ESI carries its own title block so it stands alone.
+    """
+    # Title in the body, not pandoc metadata: a long subtitle in the %-block renders as a
+    # non-wrapping author line and runs off the page.
+    md = ("# Electronic Supplementary Information\n\n"
+          "**Recall, not verification, is the bottleneck when frontier LLMs elucidate "
+          "molecular structures from real spectra**\n\n"
+          "Ilkham Yabbarov, Rudra Sondhi, Rodrigo A. Vargas-Hern\u00e1ndez\n\n"
+          "This document contains the Supporting Information figures referenced in the "
+          "main article. Data, predictions, and the code that regenerates every figure "
+          "are released with the manuscript; see *Data and code availability* in the "
+          "main text.\n\n"
+          "```{=latex}\n\\renewcommand{\\thefigure}{S\\arabic{figure}}"
+          "\\setcounter{figure}{0}\n```\n\n")
+    n = 0
+    for fn, cap in SI_FIGS:
+        path = f"docs/figures/{fn}"
+        if os.path.exists(path):
+            md += f"![{cap}]({path}){{width={fig_width(path)}}}\n\n"
+            n += 1
+    if not n:
+        return None
+    with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as mf:
+        mf.write(md); esi_md = mf.name
+    pypandoc.convert_file(esi_md, "pdf", format="markdown", outputfile=ESI_OUT,
+                          extra_args=[f"--pdf-engine={TECTONIC}", "--citeproc",
+                                      f"--bibliography={bib}", "--csl=docs/rsc.csl",
+                                      "-V", "geometry:margin=1in", "-V", "fontsize=11pt",
+                                      "-H", h_path])
+    os.unlink(esi_md)
+    return n
+
+
 def main():
     md = open("docs/PAPER.md").read()
     # RSC requires a table-of-contents (graphical abstract) entry: one image plus a
@@ -150,15 +197,6 @@ def main():
         path = f"docs/figures/{fn}"
         if os.path.exists(path):
             md += f"![{cap}]({path}){{width={fig_width(path)}}}\n\n"
-    # Supporting-Information figures, renumbered Fig. S1, S2, ...
-    if any(os.path.exists(f"docs/figures/{fn}") for fn, _ in SI_FIGS):
-        md += ("\n\n\\clearpage\n\n"
-               "```{=latex}\n\\renewcommand{\\thefigure}{S\\arabic{figure}}"
-               "\\setcounter{figure}{0}\n```\n\n# Supporting Information figures\n\n")
-        for fn, cap in SI_FIGS:
-            path = f"docs/figures/{fn}"
-            if os.path.exists(path):
-                md += f"![{cap}]({path}){{width={fig_width(path)}}}\n\n"
 
     with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as mf:
         mf.write(md); md_path = mf.name
@@ -190,9 +228,13 @@ def main():
                                       "--csl=docs/rsc.csl",
                                       "-V", "geometry:margin=1in",
                                       "-V", "fontsize=11pt"])
-    os.unlink(md_path); os.unlink(h_path)
     sz = os.path.getsize(OUT)
+    n_esi = build_esi(h_path, bib)          # needs h_path, so clean up after
+    os.unlink(md_path); os.unlink(h_path)
     print(f"wrote {OUT} ({sz//1024} KB) and docs/paper.tex")
+    if n_esi:
+        esz = os.path.getsize(ESI_OUT)
+        print(f"wrote {ESI_OUT} ({esz//1024} KB, {n_esi} SI figures)")
 
 if __name__ == "__main__":
     main()

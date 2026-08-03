@@ -587,9 +587,14 @@ the source paper for **all 194** benchmark compounds from their accessions
 the older half (≤2020, n=112) against **28.0%** for the newer (n=82), a point-biserial
 correlation between publication year and correctness of **r = −0.007**, and no monotone
 trend across year buckets (Fig. 5b). The most recent bucket (≥2024, n=25) is in fact the
-highest at 40% [23, 59] despite containing *larger* molecules — median 22 heavy atoms
-against 20 in the older half — which §4.1 shows is the dominant driver of *lower* accuracy.
-Memorisation predicts the opposite of what we observe.
+highest at 40% [23, 59].
+
+The raw split is if anything biased *against* the newer half, because newer papers skew to
+larger molecules (median 22 heavy atoms against 20) and size is the dominant driver of
+lower accuracy (§4.1). Stratifying by heavy-atom band removes that confound, and within
+every band the newer compounds do at least as well as the older ones (≤15: 64% vs 58%;
+16–25: 34% vs 25%; >25: 6% vs 8%), giving a size-adjusted older-minus-newer difference of
+**−5.1 points**. Recall from pretraining predicts the opposite sign.
 
 The 5% is not zero, and it is worth saying what those three compounds are rather than
 rounding them away: a 2-(trimethylsilyl)aryl sulfonate, whose Si/S/Cl/F₂ composition is a

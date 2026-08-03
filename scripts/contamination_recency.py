@@ -121,6 +121,33 @@ def main():
         h = [r["hac"] for r in sub if r["hac"]]
         print(f"  {lab:<28} median heavy atoms {sorted(h)[len(h)//2]}, mean {sum(h)/len(h):.1f}")
 
+    # Size-stratified: molecular size is the dominant driver of accuracy (PAPER.md §4.1)
+    # and newer papers skew larger, so the raw split is confounded AGAINST the newer half.
+    # Stratifying removes that confound.
+    print("\nSize-stratified (heavy-atom bands), older vs newer:")
+    strata = [("<=15", 0, 15), ("16-25", 16, 25), (">25", 26, 10**6)]
+    num = den = 0.0
+    out_strat = []
+    for lab, lo, hi in strata:
+        o = [r for r in got if r["hac"] and lo <= r["hac"] <= hi and r["year"] <= med]
+        nw = [r for r in got if r["hac"] and lo <= r["hac"] <= hi and r["year"] > med]
+        def f(g):
+            if not g:
+                return "—", None
+            k = sum(r["top1"] for r in g)
+            a, b = wilson(k, len(g))
+            return f"{k}/{len(g)} {100*k/len(g):.0f}% [{a:.0f},{b:.0f}]", round(100*k/len(g), 1)
+        so, po = f(o); sn, pn = f(nw)
+        print(f"  {lab:<8} older {so:<20} newer {sn}")
+        out_strat.append({"stratum": lab, "older": so, "newer": sn,
+                          "older_pct": po, "newer_pct": pn})
+        if o and nw:
+            d_ = sum(r["top1"] for r in o)/len(o) - sum(r["top1"] for r in nw)/len(nw)
+            w = len(o)*len(nw)/(len(o)+len(nw))
+            num += w*d_; den += w
+    adj = 100*num/den if den else 0.0
+    print(f"  size-adjusted (weighted) older-minus-newer: {adj:+.1f} points")
+
     # point-biserial correlation between year and correctness
     n = len(got)
     ys = [r["year"] for r in got]; ts = [1 if r["top1"] else 0 for r in got]
@@ -135,6 +162,8 @@ def main():
                "year_min": years[0], "year_max": years[-1], "median_year": med,
                "halves": out_halves, "buckets": out_buckets,
                "point_biserial_r": round(r_pb, 4),
+               "size_stratified": out_strat,
+               "size_adjusted_older_minus_newer_pts": round(adj, 1),
                "per_compound": [{k: r[k] for k in ("pmcid", "year", "top1", "hac", "difficulty")}
                                 for r in got]},
               open(a.out, "w"), indent=1)

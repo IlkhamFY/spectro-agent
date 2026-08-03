@@ -69,6 +69,30 @@
   }
  ],
  "point_biserial_r": -0.0069,
+ "size_stratified": [
+  {
+   "stratum": "<=15",
+   "older": "14/24 58% [39,76]",
+   "newer": "9/14 64% [39,84]",
+   "older_pct": 58.3,
+   "newer_pct": 64.3
+  },
+  {
+   "stratum": "16-25",
+   "older": "16/64 25% [16,37]",
+   "newer": "12/35 34% [21,51]",
+   "older_pct": 25.0,
+   "newer_pct": 34.3
+  },
+  {
+   "stratum": ">25",
+   "older": "2/24 8% [2,26]",
+   "newer": "2/33 6% [2,20]",
+   "older_pct": 8.3,
+   "newer_pct": 6.1
+  }
+ ],
+ "size_adjusted_older_minus_newer_pts": -5.1,
  "per_compound": [
   {
    "pmcid": "PMC4040197",

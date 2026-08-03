@@ -577,6 +577,20 @@ The outcomes are perfectly nested: **eleven** compounds are solved with the spec
 not without, and **none** the other way round (McNemar exact p=0.001). Removing the
 spectra removes the result.
 
+**A second, independent control: publication recency.** The formula-only arm shows the
+spectra carry the signal, but not whether memorisation contributes to the part the spectra
+explain. A model can only have memorised a compound whose source paper was in its training
+corpus, and older papers have had longer in more corpora — so if recall drove the headline
+number, accuracy should fall with publication recency. We resolved the publication year of
+the source paper for **all 194** benchmark compounds from their accessions
+(`scripts/contamination_recency.py`); they span 2008–2026. Accuracy is flat: **28.6%** for
+the older half (≤2020, n=112) against **28.0%** for the newer (n=82), a point-biserial
+correlation between publication year and correctness of **r = −0.007**, and no monotone
+trend across year buckets (Fig. 5b). The most recent bucket (≥2024, n=25) is in fact the
+highest at 40% [23, 59] despite containing *larger* molecules — median 22 heavy atoms
+against 20 in the older half — which §4.1 shows is the dominant driver of *lower* accuracy.
+Memorisation predicts the opposite of what we observe.
+
 The 5% is not zero, and it is worth saying what those three compounds are rather than
 rounding them away: a 2-(trimethylsilyl)aryl sulfonate, whose Si/S/Cl/F₂ composition is a
 near-unique benzyne-precursor signature; N-tosyl leucine; and a vanillyl alkanone. In each
@@ -584,8 +598,11 @@ case an unusual element combination or a very common derivative class makes the 
 close to determining, which is chemical inference from composition rather than evidence of
 having memorised this benchmark — though this experiment cannot separate the two. What it
 does establish is a bound: formula-level recall accounts for at most about a fifth of the
-headline accuracy on this set. It does not exclude memorisation contributing to the
-remainder (§7). The control record is released at
+headline accuracy on this set. Together with the recency
+result, the two controls are independent and agree. Neither is a randomised experiment —
+publication year is observational and the formula-only arm cannot distinguish memorisation
+from inference on a near-determining formula — so we claim a strong bound rather than
+exclusion (§7). The control record is released at
 `data/modality/formulaonly_control.json`.
 
 ---
@@ -687,7 +704,7 @@ result:
 Wide generation lifts recall +10 points (31%→41%, i.e. 19/60→25/60) and exact top-1
 +7 points over the self-ranking baseline (23%→30%, 14/60→18/60) — equivalently +4 over
 the original forward-verified top-1 (26%→30%, 16/60→18/60, Table 7) — on the same 60
-compounds (Fig. 5), with no training. Table 7 regenerates from the released artifacts via
+compounds (Fig. 6), with no training. Table 7 regenerates from the released artifacts via
 `scripts/score_generate_wide.py`. **These top-1 differences are directional, not
 statistically resolved at n=60:** the 14/60→18/60 improvement is a four-compound
 difference, which reaches only McNemar exact p=0.125 even under the most favourable
@@ -1056,7 +1073,12 @@ scorer, and forward-verification harness are scripted end-to-end.
 - **Fig. 4** (`docs/figures/fig_mechanism.png`) — forward-verification on a real
   benchmark regioisomer pair (picolinamide vs nicotinamide): forward-predicted ¹³C
   matches the true isomer (chamfer 0.42 vs 1.30 ppm), an analog of NMR-crystallography.
-- **Fig. 5** (`docs/figures/fig3_method.png`) — forward-verification inference ladder
+- **Fig. 5** (`docs/figures/fig_contamination.png`) — two contamination controls.
+  (a) Removing the spectra: formula-only reaches 3/60 against 14/60 with
+  IR + ¹H + ¹³C on the same compounds, nested (11 solved only with the spectra, none
+  only without). (b) Accuracy against source publication year (n=194, Wilson 95% CIs):
+  flat, point-biserial r = −0.007.
+- **Fig. 6** (`docs/figures/fig3_method.png`) — forward-verification inference ladder
   on the same 60 compounds: solver self-ranking → + forward-verify → + generate-wide
   (23%/26%/30% top-1).
 

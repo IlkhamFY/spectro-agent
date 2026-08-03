@@ -28,6 +28,13 @@ FIGS = [
     ("fig_mechanism.png", "Forward-verification on a real benchmark regioisomer pair "
      "(picolinamide vs nicotinamide): forward-predicted $^{13}$C matches the true "
      "isomer (chamfer 0.42 vs 1.30 ppm) --- an analog of NMR-crystallography."),
+    ("fig_contamination.png", "Two contamination controls. (a) Removing the spectra: "
+     "with only the molecular formula the solver reaches 3/60, against 14/60 with "
+     "IR + $^1$H + $^{13}$C on the same compounds; the outcomes are nested, with 11 "
+     "compounds solved only with the spectra and none only without. (b) Accuracy against "
+     "the publication year of the source paper (n=194, Wilson 95\\% CIs): flat, with a "
+     "point-biserial correlation of $-$0.007. Recall from pretraining would predict a "
+     "decline with recency; none is observed."),
     ("fig3_method.png", "Forward-verification inference ladder on the same 60 "
      "compounds: solver self-ranking → + forward-verify → + generate-wide "
      "(23\\%/26\\%/30\\% top-1)."),

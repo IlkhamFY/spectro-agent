@@ -1084,6 +1084,10 @@ scorer, and forward-verification harness are scripted end-to-end.
 
 ## Supporting Information figures
 
+These are supplied as a separate Electronic Supplementary Information document
+(`docs/paper_esi.pdf`, built by `scripts/build_pdf.py`), as RSC requires; they are listed
+here for reference.
+
 - **Fig. S1** (`docs/figures/fig0_overview.png`) — study design: open multimodal data
   (IRexp) → blind, complexity-stratified benchmark → decoupled blind solving →
   forward-verification re-ranking; training-free core pipeline.

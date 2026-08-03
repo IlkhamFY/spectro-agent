@@ -1,0 +1,35 @@
+{
+ "n": 60,
+ "comparisons": [
+  {
+   "from": "self-rank",
+   "to": "forward-verify",
+   "from_k": 14,
+   "to_k": 16,
+   "n": 60,
+   "b_lost": 1,
+   "c_gained": 3,
+   "mcnemar_p": 0.625
+  },
+  {
+   "from": "forward-verify",
+   "to": "generate-wide",
+   "from_k": 16,
+   "to_k": 18,
+   "n": 60,
+   "b_lost": 2,
+   "c_gained": 4,
+   "mcnemar_p": 0.6875
+  },
+  {
+   "from": "self-rank",
+   "to": "generate-wide",
+   "from_k": 14,
+   "to_k": 18,
+   "n": 60,
+   "b_lost": 3,
+   "c_gained": 7,
+   "mcnemar_p": 0.3438
+  }
+ ]
+}

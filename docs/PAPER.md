@@ -591,10 +591,12 @@ highest at 40% [23, 59].
 
 The raw split is if anything biased *against* the newer half, because newer papers skew to
 larger molecules (median 22 heavy atoms against 20) and size is the dominant driver of
-lower accuracy (§4.1). Stratifying by heavy-atom band removes that confound, and within
-every band the newer compounds do at least as well as the older ones (≤15: 64% vs 58%;
-16–25: 34% vs 25%; >25: 6% vs 8%), giving a size-adjusted older-minus-newer difference of
-**−5.1 points**. Recall from pretraining predicts the opposite sign.
+lower accuracy (§4.1). Stratifying by heavy-atom band removes that confound. Newer
+compounds lead in the two bands that carry most of the accuracy (≤15: 64% vs 58%; 16–25:
+34% vs 25%) and trail slightly in the largest band, where both are near the floor (>25:
+6% vs 8%). The size-adjusted older-minus-newer difference is **−5.1 points**: newer
+compounds do marginally *better* once size is held fixed. Recall from pretraining predicts
+the opposite sign.
 
 The 5% is not zero, and it is worth saying what those three compounds are rather than
 rounding them away: a 2-(trimethylsilyl)aryl sulfonate, whose Si/S/Cl/F₂ composition is a
@@ -712,9 +714,12 @@ the original forward-verified top-1 (26%→30%, 16/60→18/60, Table 7) — on t
 compounds (Fig. 6), with no training. Table 7 regenerates from the released artifacts via
 `scripts/score_generate_wide.py`. **These top-1 differences are directional, not
 statistically resolved at n=60:** the 14/60→18/60 improvement is a four-compound
-difference, which reaches only McNemar exact p=0.125 even under the most favourable
-assumption that the stages are perfectly nested (no compound lost); the 16/60→18/60
-step reaches p=0.5. The recall gain is the better-supported effect. We therefore read
+difference, but the stages are **not** nested: going from self-ranking to generate-wide
+gains seven compounds and loses three, so the paired test is McNemar exact **p=0.34**
+(b=3, c=7). The intermediate steps are weaker still — self-rank→forward-verify p=0.63
+(b=1, c=3) and forward-verify→generate-wide p=0.69 (b=2, c=4). Discordant counts are
+computed from the released per-compound outcomes by `scripts/ladder_significance.py`.
+The recall gain is the better-supported effect. We therefore read
 the ladder as a demonstration that the *mechanism* works and that recall is the movable
 factor, not as a precise measurement of the size of the top-1 gain. But it does **not**
 reach the ~50% a naïve extrapolation would predict, for two instructive reasons:
@@ -757,8 +762,8 @@ ketones, large polyamines) is under-represented in nmrshiftdb2. A coarse environ
 cannot separate the regioisomers the verifier exists to separate.
 
 The learned model, on the same data, reaches the LLM verifier's 84% (Fig. S6). **That is a
-two-compound difference at n=19 and is not statistically resolved** (McNemar exact p=0.5
-even under the most favourable nesting assumption) — the same standard by which §5.2
+two-compound difference at n=19 and is not statistically resolved** (three compounds
+gained, one lost against the lookup: McNemar exact p=0.63) — the same standard by which §5.2
 declines to separate its own adjacent conditions. Taken together the two rows are
 *suggestive and directional*: they are consistent with the lookup's failure being
 substantially **method** — an inability to generalise across novel environments — rather
@@ -932,7 +937,7 @@ accumulate, so forward-match distance is a strong *re-ranker* but a soft
 *confidence* gauge. We further tested non-LLM verifiers (§5.4): a
 nmrshiftdb2-trained HOSE-code *lookup* does **not** beat the LLM verifier (73% vs 84%
 conditional), while a *learned* GNN on the same data reaches 84% — a
-two-compound difference at n=19 that is directional only (p=0.5), so it is suggestive
+two-compound difference at n=19 that is directional only (p=0.63), so it is suggestive
 that the deterministic failure was method rather than coverage alone, not a
 demonstration of it. What remains beyond all of
 them is the near-degenerate-regiochemistry precision ceiling, where DFT-level accuracy or

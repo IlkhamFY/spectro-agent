@@ -961,10 +961,12 @@ recent bucket (≥2024, n=25) is in fact the highest at 40\% {[}23, 59{]}.
 The raw split is if anything biased \emph{against} the newer half,
 because newer papers skew to larger molecules (median 22 heavy atoms
 against 20) and size is the dominant driver of lower accuracy (§4.1).
-Stratifying by heavy-atom band removes that confound, and within every
-band the newer compounds do at least as well as the older ones (≤15:
-64\% vs 58\%; 16--25: 34\% vs 25\%; \textgreater25: 6\% vs 8\%), giving
-a size-adjusted older-minus-newer difference of \textbf{−5.1 points}.
+Stratifying by heavy-atom band removes that confound. Newer compounds
+lead in the two bands that carry most of the accuracy (≤15: 64\% vs
+58\%; 16--25: 34\% vs 25\%) and trail slightly in the largest band,
+where both are near the floor (\textgreater25: 6\% vs 8\%). The
+size-adjusted older-minus-newer difference is \textbf{−5.1 points}:
+newer compounds do marginally \emph{better} once size is held fixed.
 Recall from pretraining predicts the opposite sign.
 
 The 5\% is not zero, and it is worth saying what those three compounds
@@ -1124,24 +1126,28 @@ top-1 (26\%→30\%, 16/60→18/60, Table 7) --- on the same 60 compounds
 (Fig. 6), with no training. Table 7 regenerates from the released
 artifacts via \texttt{scripts/score\_generate\_wide.py}. \textbf{These
 top-1 differences are directional, not statistically resolved at n=60:}
-the 14/60→18/60 improvement is a four-compound difference, which reaches
-only McNemar exact p=0.125 even under the most favourable assumption
-that the stages are perfectly nested (no compound lost); the 16/60→18/60
-step reaches p=0.5. The recall gain is the better-supported effect. We
-therefore read the ladder as a demonstration that the \emph{mechanism}
-works and that recall is the movable factor, not as a precise
-measurement of the size of the top-1 gain. But it does \textbf{not}
-reach the \textasciitilde50\% a naïve extrapolation would predict, for
-two instructive reasons: \textbf{(i) recall plateaus at 41\%} --- exotic
-and large targets (selenium heterocycles, poly-aryl polyketones,
-eleven-nitrogen polyamines) resist even six regiochemical variants; and
-\textbf{(ii) verification precision falls 84\%→72\%} as more
-near-degenerate regioisomers enter the pool and the \textasciitilde2-ppm
-forward predictor can no longer separate them. This recall/precision
-tension is the honest ceiling of the training-free approach: the
-recall-bound diagnosis stands, and closing the gap further requires
-either sharper verification or 2D-NMR constraints, not merely more
-candidates.
+the 14/60→18/60 improvement is a four-compound difference, but the
+stages are \textbf{not} nested: going from self-ranking to generate-wide
+gains seven compounds and loses three, so the paired test is McNemar
+exact \textbf{p=0.34} (b=3, c=7). The intermediate steps are weaker
+still --- self-rank→forward-verify p=0.63 (b=1, c=3) and
+forward-verify→generate-wide p=0.69 (b=2, c=4). Discordant counts are
+computed from the released per-compound outcomes by
+\texttt{scripts/ladder\_significance.py}. The recall gain is the
+better-supported effect. We therefore read the ladder as a demonstration
+that the \emph{mechanism} works and that recall is the movable factor,
+not as a precise measurement of the size of the top-1 gain. But it does
+\textbf{not} reach the \textasciitilde50\% a naïve extrapolation would
+predict, for two instructive reasons: \textbf{(i) recall plateaus at
+41\%} --- exotic and large targets (selenium heterocycles, poly-aryl
+polyketones, eleven-nitrogen polyamines) resist even six regiochemical
+variants; and \textbf{(ii) verification precision falls 84\%→72\%} as
+more near-degenerate regioisomers enter the pool and the
+\textasciitilde2-ppm forward predictor can no longer separate them. This
+recall/precision tension is the honest ceiling of the training-free
+approach: the recall-bound diagnosis stands, and closing the gap further
+requires either sharper verification or 2D-NMR constraints, not merely
+more candidates.
 
 \hypertarget{non-llm-verifiers-a-deterministic-lookup-and-a-learned-model}{%
 \subsubsection{5.4 Non-LLM verifiers: a deterministic lookup and a
@@ -1191,8 +1197,8 @@ the verifier exists to separate.
 
 The learned model, on the same data, reaches the LLM verifier's 84\%
 (Fig. S6). \textbf{That is a two-compound difference at n=19 and is not
-statistically resolved} (McNemar exact p=0.5 even under the most
-favourable nesting assumption) --- the same standard by which §5.2
+statistically resolved} (three compounds gained, one lost against the
+lookup: McNemar exact p=0.63) --- the same standard by which §5.2
 declines to separate its own adjacent conditions. Taken together the two
 rows are \emph{suggestive and directional}: they are consistent with the
 lookup's failure being substantially \textbf{method} --- an inability to
@@ -1408,7 +1414,7 @@ regioisomers accumulate, so forward-match distance is a strong
 non-LLM verifiers (§5.4): a nmrshiftdb2-trained HOSE-code \emph{lookup}
 does \textbf{not} beat the LLM verifier (73\% vs 84\% conditional),
 while a \emph{learned} GNN on the same data reaches 84\% --- a
-two-compound difference at n=19 that is directional only (p=0.5), so it
+two-compound difference at n=19 that is directional only (p=0.63), so it
 is suggestive that the deterministic failure was method rather than
 coverage alone, not a demonstration of it. What remains beyond all of
 them is the near-degenerate-regiochemistry precision ceiling, where

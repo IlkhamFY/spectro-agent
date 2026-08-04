@@ -137,9 +137,15 @@ applied off-the-shelf — Anthropic's forward/inverse white paper[@kamber2026che
 SpectraLLM and MolSpectLLM (multimodal LLMs over multi-spectral
 input)[@su2025spectrallm; @shen2025molspectllm], and knowledge-enhanced tree-search reasoning[@zhuang2025treesearch] — and dedicated multimodal
 *benchmarks* now exist, most prominently **MolPuzzle**[@guo2024molpuzzle] (IR+MS+¹H+¹³C elucidation
-puzzles with the molecular formula supplied). These establish that the task is worth
-benchmarking and that LLMs can be scored on multi-spectral input; we claim priority on
-neither. What is new here is three things that, to our knowledge, no prior benchmark
+puzzles with the molecular formula supplied). Closest to the present method,
+**IR-Agent**[@noh2025iragent] introduces a multi-agent LLM framework that emulates expert IR
+interpretation and evaluates on experimental infrared spectra. These establish that the
+task is worth benchmarking, that LLMs can be scored on multi-spectral input, and that
+agentic decomposition of the interpretation helps; we claim priority on none of them.
+Our contribution is orthogonal to IR-Agent's: where it improves *how the model reads a
+spectrum*, we ask what limits the outcome once it has, and answer with a measured
+decomposition — generation recall versus verification precision — plus the blind benchmark
+and open dataset needed to measure either honestly. What is new here is three things that, to our knowledge, no prior benchmark
 combines. **(i) Real, literature-mined experimental spectra at scale:** prior
 multimodal benchmarks and trained baselines[@chacko2024spectro; @ottomano2025nmiracle; @alberts2024ir] rely on simulated, software-predicted,
 or hand-curated puzzle spectra, whereas IRSpectra-Bench is drawn from IRexp's

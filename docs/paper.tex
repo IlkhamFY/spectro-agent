@@ -576,20 +576,26 @@ candidate matches the reference at the InChIKey connectivity layer.
 appears among the up-to-three ranked candidates returned (matching the
 lenient ``recovery'' protocol of ref.\textsuperscript{2}). Where this
 paper writes \emph{recovery} it is always reporting another study's
-metric under that study's own name; our two quantities are always
-\textbf{recovered (top-3)} and \textbf{generation recall}, which are
-different denominators and are never used interchangeably.
-\textbf{Generation recall} is the fraction for which the reference is
-present in the candidate pool \emph{before} re-ranking --- the ceiling
-any verifier can reach. \textbf{Conditional-on-recall precision} is the
-verifier's hit rate over recall-positive compounds only, isolating
-verification quality from generation. The forward verifier ranks
-candidates by a symmetric \textbf{chamfer distance} between predicted
-and observed ¹³C peak sets (for each predicted peak, the distance to its
-nearest observed peak, summed, and symmetrically for each observed peak;
-lower is better, with no equal-count requirement). We also report
-Morgan(2, 2048)\textsuperscript{23} Tanimoto as a graded ``right
-scaffold/family'' signal. CIs are bootstrap 95\% over compounds;
+metric under that study's own name; our own quantities are always named
+\textbf{recovered (top-3)}, \textbf{generation recall} and
+\textbf{conditional-on-recall precision}. \textbf{Generation recall} is
+the fraction for which the reference is present in the candidate pool
+\emph{before} re-ranking --- the ceiling any verifier can reach.
+Recovered (top-3) and generation recall share the same denominator (all
+compounds) and differ only in which candidate set is searched: the
+up-to-three returned, versus the full pool. They therefore coincide
+wherever the pool is the returned three, which is everywhere except the
+generate-wide arm of §5.3, where the pool is larger. The denominator
+changes only for conditional-on-recall precision, which is taken over
+recall-positive compounds alone. \textbf{Conditional-on-recall
+precision} is the verifier's hit rate over recall-positive compounds
+only, isolating verification quality from generation. The forward
+verifier ranks candidates by a symmetric \textbf{chamfer distance}
+between predicted and observed ¹³C peak sets (for each predicted peak,
+the distance to its nearest observed peak, summed, and symmetrically for
+each observed peak; lower is better, with no equal-count requirement).
+We also report Morgan(2, 2048)\textsuperscript{23} Tanimoto as a graded
+``right scaffold/family'' signal. CIs are bootstrap 95\% over compounds;
 model-vs-model differences use McNemar's exact test with Holm
 correction.
 

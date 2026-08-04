@@ -319,11 +319,16 @@ of compounds whose single best-ranked candidate matches the reference at the InC
 connectivity layer. **Recovered (top-3)** is the fraction for which the reference
 appears among the up-to-three ranked candidates returned (matching the lenient
 "recovery" protocol of ref. [@kamber2026chemist]). Where this paper writes *recovery* it
-is always reporting another study's metric under that study's own name; our two
-quantities are always **recovered (top-3)** and **generation recall**, which are
-different denominators and are never used interchangeably. **Generation recall** is the fraction for which the
-reference is present in the candidate pool *before* re-ranking — the ceiling any
-verifier can reach. **Conditional-on-recall precision** is the verifier's hit rate over
+is always reporting another study's metric under that study's own name; our own quantities
+are always named **recovered (top-3)**, **generation recall** and
+**conditional-on-recall precision**. **Generation recall** is the fraction for which the
+reference is present in the candidate pool *before* re-ranking — the ceiling any verifier
+can reach. Recovered (top-3) and generation recall share the same denominator (all
+compounds) and differ only in which candidate set is searched: the up-to-three returned,
+versus the full pool. They therefore coincide wherever the pool is the returned three,
+which is everywhere except the generate-wide arm of §5.3, where the pool is larger. The
+denominator changes only for conditional-on-recall precision, which is taken over
+recall-positive compounds alone. **Conditional-on-recall precision** is the verifier's hit rate over
 recall-positive compounds only, isolating verification quality from generation. The
 forward verifier ranks candidates by a symmetric **chamfer distance** between predicted
 and observed ¹³C peak sets (for each predicted peak, the distance to its nearest

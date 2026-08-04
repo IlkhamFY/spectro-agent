@@ -24,6 +24,19 @@ except ImportError:
              "  and a degraded/empty clean set must never be written over the committed one.")
 
 def obs_c13(s): return [float(x) for x in re.findall(r'(-?\d+\.?\d*)\s*\(', s or "")]
+
+def h_integral(s):
+    """Total reported 1H integral. Reported as a diagnostic, NOT an exclusion criterion.
+
+    Two parsing traps, both real in this corpus: some records append the 13C block into the
+    1H field (so cut at any 13C marker), and rotamer mixtures carry fractional integrals
+    like "0.29H minor" (so decimals must be matched before integers, or "0.29H" reads
+    as 29 H).
+    """
+    if not s: return 0.0
+    s = re.split(r"1?3\s*C\s*\{?\s*1\s*H\s*\}?|13C\s*NMR|\bδ\s*C\b", s)[0]
+    s = re.sub(r"\{\s*1\s*H\s*\}", " ", s)
+    return sum(float(x) for x in re.findall(r"(\d+(?:\.\d+)?)\s*H\b", s))
 def n_sym_carbons(m):                      # symmetry-unique carbons
     ranks = list(Chem.CanonicalRankAtoms(m, breakTies=False))
     cs = {ranks[a.GetIdx()] for a in m.GetAtoms() if a.GetSymbol()=="C"}
@@ -54,7 +67,7 @@ refused = 0
 for d in ["data/benchmark_main", "data/benchmark_v3", "data/benchmark_v2_ctrl"]:
     q={json.loads(l)["qid"]:json.loads(l) for l in open(f"{d}/questions2.jsonl")}
     a={json.loads(l)["qid"]:json.loads(l) for l in open(f"{d}/answers2.jsonl")}
-    clean=set(); flags={}
+    clean=set(); flags={}; h_over=[]
     for qid,ans in a.items():
         m=Chem.MolFromSmiles(ans["smiles"])
         nobs=len(obs_c13(q[qid]["c_nmr"])); nC=sum(1 for at in m.GetAtoms() if at.GetSymbol()=="C")
@@ -73,9 +86,21 @@ for d in ["data/benchmark_main", "data/benchmark_v3", "data/benchmark_v2_ctrl"]:
         if nobs < max(2,nsym//2): reason.append(f"13C-sparse({nobs}<{nsym})")
         if not fmla_ok: reason.append("formula-mismatch")
         if not rt_ok: reason.append("selfies-rt-fail")
+        # 1H consistency is REPORTED, not enforced. Excluding on it would change a
+        # pre-registered cohort post hoc; §3 instead states the sensitivity (dropping the
+        # 13 flagged records moves the headline 28.4% -> 29.3%, +0.9 points).
+        nHs = sum(at.GetTotalNumHs() for at in m.GetAtoms())
+        hrep = h_integral(q[qid].get("h_nmr"))
+        if hrep and hrep > nHs + 0.51:
+            h_over.append((qid, hrep, nHs))
         if reason: flags[qid]=reason
         else: clean.add(qid)
     print(f"{d}: {len(clean)}/{len(a)} spectrally-clean ground truths; {len(flags)} flagged")
+    if h_over:
+        print(f"    [diagnostic, not excluded] {len(h_over)} record(s) report more 1H "
+              f"integral than the structure has H: "
+              f"{', '.join(f'{q_}({r:g}>{n})' for q_, r, n in h_over[:5])}"
+              + (" ..." if len(h_over) > 5 else ""))
     for qid,r in list(flags.items())[:6]: print(f"    {qid}: {r}")
     if not write_clean(f"{d}/clean_qids.json", clean): refused += 1
 

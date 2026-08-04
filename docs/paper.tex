@@ -197,15 +197,16 @@ a small generator fine-tuned on IRexp lifts recall substantially and
 gives the highest full-benchmark accuracy we report (§5.6). But the wall
 moves rather than falls --- the true structure remains outside the
 candidate pool for roughly half of compounds, and verification precision
-is untouched. The recall-bound regime reproduces in a
-battery-electrolyte domain (§4.5). A formula-only control confirms the
-spectra are doing the work: masking them drops top-1 from 23\% to 5\% on
-the same compounds, with every formula-only success also solved from
-spectra and none the reverse (§4.6). Every result is single-vendor
-(Claude); a cross-vendor test is the key open question. The core
-protocol uses no model training and no paid API --- two clearly-fenced
-probes (§5.4, §5.6) are the only exceptions --- and all data,
-predictions, and code are released.
+is untouched. The recall-bound pattern recurs in a battery-electrolyte
+domain (§4.5), where the true structure enters the candidate set for 13
+of 46 compounds and is ranked first in 12 of those 13. A formula-only
+control confirms the spectra are doing the work: masking them drops
+top-1 from 23\% to 5\% on the same compounds, with every formula-only
+success also solved from spectra and none the reverse (§4.6). Every
+result is single-vendor (Claude); a cross-vendor test is the key open
+question. The core protocol uses no model training and no paid API ---
+two clearly-fenced probes (§5.4, §5.6) are the only exceptions --- and
+all data, predictions, and code are released.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -870,7 +871,14 @@ benchmark} --- overall \textbf{top-1 26\%, recovered 28\%} (12/46 and
 13/46; two compounds received no parseable candidate; at n=46 the 95\%
 CI is wide and overlaps the headline) --- consistent with the bottleneck
 being a property of the elucidation task rather than of any one chemical
-neighbourhood. The per-class breakdown (Fig. S4) is itself informative:
+neighbourhood. The recall-bound \emph{signature} is present in the same
+form: the true structure enters the candidate set for only 13 of 46
+compounds, and of those 13 the solver already ranks it first in 12, so
+ranking is not what limits this subset either. We did \textbf{not} run
+forward-verification here, so this reproduces the recall-bound pattern
+under the solver's own ranking; it does not independently reproduce the
+§5 verification-precision measurement. The per-class breakdown (Fig. S4)
+is itself informative:
 
 \textbf{Table 4. Per-class performance on IRSpectra-Bench-Electrolyte
 (n=46).}
@@ -1497,10 +1505,19 @@ formula-only control (§4.6) bounds how much of the headline number pure
 recall can explain --- masking the spectra drops top-1 from 23\% to 5\%,
 perfectly nested, McNemar exact p=0.001 --- and the three formula-only
 successes are all compounds whose composition is close to determining.
-That bounds the effect; it does not exclude memorisation contributing to
-the remainder. A per-compound comparison of source publication dates
-against model training cutoffs, and a replication on compounds published
-after the cutoff, are the natural next controls and are not run here.
+The second control (§4.6) resolves the source publication year for all
+194 compounds and finds accuracy flat in it (r=−0.007), with the
+size-adjusted older-versus-newer difference bounded at −5.1 points, 95\%
+CI {[}−17.2, +7.0{]}.
+
+Two things these controls do not do. Neither is randomised: publication
+year is observational, and the formula-only arm cannot separate
+memorisation from inference on a near-determining formula. And we do not
+anchor the recency test to a \emph{known} training cutoff --- the
+subscription harness does not disclose one (§8), so we test recency as a
+continuous proxy rather than partitioning at a cutoff date. A
+replication restricted to compounds published after a disclosed cutoff
+would settle what these bound, and remains open.
 
 \textbf{(ii) Human audit --- prepared but not yet run.} This covers two
 things we have not validated by hand: the elucidation and

@@ -292,7 +292,18 @@ R67 23>16, R131 34>17 — merged or contaminated spectra) and one is too sparse 
 constrain (R82, 5 peaks for 22 symmetry-unique carbons). The filter is deterministic and
 runs over all three rounds in `scripts/validate_benchmark.py`, which regenerates every
 `clean_qids.json` from the released questions and answers, so the cohort behind the
-headline number is reproducible rather than a shipped artifact. The 60 compounds of the controlled rounds are
+headline number is reproducible rather than a shipped artifact.
+
+The filter tests ¹³C against the carbon count but does not gate on ¹H, and we report what
+that leaves. In **13 of the 194** retained records the total reported ¹H integral exceeds
+the hydrogen count of the reference structure — extra signal from residual solvent,
+water, exchangeable protons or a reported rotamer mixture. The audit prints these as a
+diagnostic rather than excluding them, because the cohort was fixed in advance and
+re-filtering it post hoc on a criterion chosen after seeing the results is precisely the
+degree of freedom a benchmark should not take. Instead we report the sensitivity: dropping
+all 13 moves the headline from **28.4% to 29.3%** (53/181), a shift of +0.9 points that
+leaves every conclusion in this paper unchanged. Readers who prefer the stricter cohort can
+regenerate it from the diagnostic. The 60 compounds of the controlled rounds are
 retained as fixed, pre-registered sets for the difficulty and within-compound controls,
 with the same self-consistency audit reported separately rather than used to exclude
 (57/60 pass; §7). Problems are stratified by RDKit ring analysis: a compound is **simple** iff it has at

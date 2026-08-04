@@ -85,12 +85,15 @@ consumer subscription — no fine-tuning, no API spend. That makes the protocol 
 snapshot, exposes no temperature or seed, and carries an undisclosed product system prompt,
 so an outside group reproduces it distributionally rather than exactly (§8). What *is*
 exactly reproducible is the scoring — all predictions, ground truth and scorers are
-released, so every number in this paper regenerates from the released artifacts. Two
+released, so every number in the training-free core (§3–§5.3, §4.6) regenerates from the
+released artifacts. The two trained probes are the exception: §5.4's HOSE lookup and GNN
+are built from an nmrshiftdb2 dump that we cannot redistribute, so those rows regenerate
+only once a reader supplies the same dump (see *Data and code availability*). Two
 trained probes (§5.6, §5.7) are reported separately as fenced complements.
 By construction this is an open-resource contribution in the remit of *Digital Discovery*:
 an openly licensed, structure-linked spectral dataset; a pre-registered, mechanically scored
 benchmark with released ground truth and scorer; and a training-free, zero-paid-API core
-pipeline (with two trained probes fenced in the SI) in which every figure regenerates from the
+pipeline (with two trained probes fenced in the SI) in which every main-text figure regenerates from the
 released code and predictions. We prioritise an honest, reusable measurement of where current
 models stand over a leaderboard-topping number.
 
@@ -428,13 +431,16 @@ single unaudited near-100% claim[@kamber2026chemist] can bear.
 The same 20 molecules were solved two ways: (a) by a single LLM context handling
 all of them sequentially with no tools, and (b) by four independent agents of five
 compounds each, with RDKit formula-checking — i.e. bounded, reset contexts. On the *identical* compounds, **recovered (top-3)** rose from
-**5% to 15%** (1/20 → 3/20) and top-1 from 0% to 15% (0/20 → 3/20) — a 3× methodology
-effect with zero sample confound, though on a small set (the 15% point estimate carries
-a Wilson 95% CI of roughly 5–36%), so it is read as a directional within-compound
-demonstration rather than a precise multiplier. Small rounds also swing widely (15–40% across n=20–40 draws), which is
+**5% to 15%** (1/20 → 3/20) and top-1 from 0% to 15% (0/20 → 3/20), with zero sample
+confound. Because §3 pins McNemar's exact test for paired comparisons we apply it here
+too, and it does not reach significance: the top-1 arm is necessarily nested (arm (a)
+solved none) at b=0, c=3, giving **p=0.25**, and the recovered arm reaches at best
+**p=0.5**. The 15% point estimate carries a Wilson 95% CI of roughly 5–36%. This is
+therefore a directional within-compound demonstration, not an established multiplier, and
+we do not claim the 3× as a measured effect size. Small rounds also swing widely (15–40% across n=20–40 draws), which is
 why the headline is the full **194-compound** figure (28.4% top-1, 95% CI 22–35)
-rather than any single round. The practical lesson — fresh per-compound context
-plus tool access roughly triples apparent performance — also explains part of the
+rather than any single round. The practical lesson — bounded, frequently-reset contexts
+with tool access raise apparent performance substantially — also explains part of the
 gap to
 optimistic prior reports, whose per-problem API calls implicitly used method (b).
 
@@ -731,7 +737,13 @@ result:
 Wide generation lifts recall +10 points (31%→41%, i.e. 19/60→25/60) and exact top-1
 +7 points over the self-ranking baseline (23%→30%, 14/60→18/60) — equivalently +4 over
 the original forward-verified top-1 (26%→30%, 16/60→18/60, Table 7) — on the same 60
-compounds (Fig. 6), with no training. Table 7 regenerates from the released artifacts via
+compounds (Fig. 6), with no training. One asymmetry in the arm should be stated: of the
+217 distinct new candidates the wide pass proposed, only **65 (29%) were forward-predicted**
+— predicting all of them was beyond the run's budget — and an unpredicted candidate is
+assigned an infinite match distance, so it can never be selected. Recall counts every
+candidate (a true structure need only be *present*), but top-1 can only benefit from the
+predicted subset. The reported 30% is therefore a **lower bound** on what this recipe
+achieves with full prediction coverage; it cannot be inflated by the gap. Table 7 regenerates from the released artifacts via
 `scripts/score_generate_wide.py`. **These top-1 differences are directional, not
 statistically resolved at n=60:** the 14/60→18/60 improvement is a four-compound
 difference, but the stages are **not** nested: going from self-ranking to generate-wide
@@ -933,7 +945,7 @@ candidate's spectrum to confirm it is already standard practice.
 
 For practitioners, two operational findings transfer immediately: solve each problem
 in bounded, frequently-reset contexts with tool access (5%→15%, 1/20→3/20,
-directional at n=20, §4.3), and use forward-predicted-vs-observed
+directional at n=20, McNemar p≥0.25, §4.3), and use forward-predicted-vs-observed
 ¹³C agreement to *re-rank* candidates, not to decide whether to trust the winner. §5.5
 is explicit on this: match distance is a strong relative re-ranker but failed as an
 absolute confidence gauge in our selective-prediction test, so it does not support

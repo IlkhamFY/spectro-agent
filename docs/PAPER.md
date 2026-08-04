@@ -34,7 +34,9 @@ elicitation rather than an established limit of the task: a small generator fine
 IRexp lifts recall substantially and gives the highest full-benchmark accuracy we report
 (§5.6). But the wall moves rather than falls — the true structure remains outside the
 candidate pool for roughly half of compounds, and verification precision is untouched.
-The recall-bound regime reproduces in a battery-electrolyte domain (§4.5). A formula-only control confirms the
+The recall-bound pattern recurs in a battery-electrolyte domain (§4.5), where the
+true structure enters the candidate set for 13 of 46 compounds and is ranked first in 12
+of those 13. A formula-only control confirms the
 spectra are doing the work: masking them drops top-1 from 23% to 5% on the same
 compounds, with every formula-only success also solved from spectra and none the reverse
 (§4.6). Every result is single-vendor (Claude); a cross-vendor test is the key open
@@ -135,9 +137,15 @@ applied off-the-shelf — Anthropic's forward/inverse white paper[@kamber2026che
 SpectraLLM and MolSpectLLM (multimodal LLMs over multi-spectral
 input)[@su2025spectrallm; @shen2025molspectllm], and knowledge-enhanced tree-search reasoning[@zhuang2025treesearch] — and dedicated multimodal
 *benchmarks* now exist, most prominently **MolPuzzle**[@guo2024molpuzzle] (IR+MS+¹H+¹³C elucidation
-puzzles with the molecular formula supplied). These establish that the task is worth
-benchmarking and that LLMs can be scored on multi-spectral input; we claim priority on
-neither. What is new here is three things that, to our knowledge, no prior benchmark
+puzzles with the molecular formula supplied). Closest to the present method,
+**IR-Agent**[@noh2025iragent] introduces a multi-agent LLM framework that emulates expert IR
+interpretation and evaluates on experimental infrared spectra. These establish that the
+task is worth benchmarking, that LLMs can be scored on multi-spectral input, and that
+agentic decomposition of the interpretation helps; we claim priority on none of them.
+Our contribution is orthogonal to IR-Agent's: where it improves *how the model reads a
+spectrum*, we ask what limits the outcome once it has, and answer with a measured
+decomposition — generation recall versus verification precision — plus the blind benchmark
+and open dataset needed to measure either honestly. What is new here is three things that, to our knowledge, no prior benchmark
 combines. **(i) Real, literature-mined experimental spectra at scale:** prior
 multimodal benchmarks and trained baselines[@chacko2024spectro; @ottomano2025nmiracle; @alberts2024ir] rely on simulated, software-predicted,
 or hand-curated puzzle spectra, whereas IRSpectra-Bench is drawn from IRexp's
@@ -317,11 +325,16 @@ of compounds whose single best-ranked candidate matches the reference at the InC
 connectivity layer. **Recovered (top-3)** is the fraction for which the reference
 appears among the up-to-three ranked candidates returned (matching the lenient
 "recovery" protocol of ref. [@kamber2026chemist]). Where this paper writes *recovery* it
-is always reporting another study's metric under that study's own name; our two
-quantities are always **recovered (top-3)** and **generation recall**, which are
-different denominators and are never used interchangeably. **Generation recall** is the fraction for which the
-reference is present in the candidate pool *before* re-ranking — the ceiling any
-verifier can reach. **Conditional-on-recall precision** is the verifier's hit rate over
+is always reporting another study's metric under that study's own name; our own quantities
+are always named **recovered (top-3)**, **generation recall** and
+**conditional-on-recall precision**. **Generation recall** is the fraction for which the
+reference is present in the candidate pool *before* re-ranking — the ceiling any verifier
+can reach. Recovered (top-3) and generation recall share the same denominator (all
+compounds) and differ only in which candidate set is searched: the up-to-three returned,
+versus the full pool. They therefore coincide wherever the pool is the returned three,
+which is everywhere except the generate-wide arm of §5.3, where the pool is larger. The
+denominator changes only for conditional-on-recall precision, which is taken over
+recall-positive compounds alone. **Conditional-on-recall precision** is the verifier's hit rate over
 recall-positive compounds only, isolating verification quality from generation. The
 forward verifier ranks candidates by a symmetric **chamfer distance** between predicted
 and observed ¹³C peak sets (for each predicted peak, the distance to its nearest
@@ -524,7 +537,12 @@ Performance lands in the **same broad regime as the headline benchmark** — ove
 **top-1 26%, recovered 28%** (12/46 and 13/46; two compounds received no
 parseable candidate; at n=46 the 95% CI is wide and overlaps the headline) —
 consistent with the bottleneck being a property of the elucidation task rather than
-of any one chemical neighbourhood. The per-class
+of any one chemical neighbourhood. The recall-bound *signature* is present in the same
+form: the true structure enters the candidate set for only 13 of 46 compounds, and of
+those 13 the solver already ranks it first in 12, so ranking is not what limits this
+subset either. We did **not** run forward-verification here, so this reproduces the
+recall-bound pattern under the solver's own ranking; it does not independently reproduce
+the §5 verification-precision measurement. The per-class
 breakdown (Fig. S4) is itself informative:
 
 **Table 4. Per-class performance on IRSpectra-Bench-Electrolyte (n=46).**
@@ -998,10 +1016,17 @@ compound was mined from open-access literature, so a frontier model may have enc
 it in training. The formula-only control (§4.6) bounds how much of the headline number
 pure recall can explain — masking the spectra drops top-1 from 23% to 5%, perfectly
 nested, McNemar exact p=0.001 — and the three formula-only successes are all compounds
-whose composition is close to determining. That bounds the effect; it does not exclude
-memorisation contributing to the remainder. A per-compound comparison of source
-publication dates against model training cutoffs, and a replication on compounds
-published after the cutoff, are the natural next controls and are not run here.
+whose composition is close to determining. The second control (§4.6) resolves the source
+publication year for all 194 compounds and finds accuracy flat in it (r=−0.007), with the
+size-adjusted older-versus-newer difference bounded at −5.1 points, 95% CI [−17.2, +7.0].
+
+Two things these controls do not do. Neither is randomised: publication year is
+observational, and the formula-only arm cannot separate memorisation from inference on a
+near-determining formula. And we do not anchor the recency test to a *known* training
+cutoff — the subscription harness does not disclose one (§8), so we test recency as a
+continuous proxy rather than partitioning at a cutoff date. A replication restricted to
+compounds published after a disclosed cutoff would settle what these bound, and remains
+open.
 
 **(ii) Human audit — prepared but not yet run.** This covers two things we have not
 validated by hand: the elucidation and forward-prediction outputs, and the *recall* side

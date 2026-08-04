@@ -14,7 +14,9 @@ language model (here, Claude) recover the correct molecular *constitution*? We f
 curated demonstrations. The bottleneck is not the model's judgment but its *proposal*:
 on a 60-compound forward-verification subset the model proposes the true structure for
 only **19 of 60** compounds (31%, 95% CI 21–44), and where it does, forward-verification
-selects it in **16 of 19** (84%, 95% CI 62–94, against a 66% derangement floor, §5.5).
+selects it in **16 of 19** (84%, 95% CI 62–94, against a 66% derangement floor; on the
+13 of those 19 where more than one candidate existed and a choice was actually made,
+10/13 = 77%, §5.2).
 **Recall, not verification, is the wall.** We establish this with three contributions.
 First, **IRexp** — the largest openly redistributable collection of *experimental*
 infrared **band lists** (121,233 records, a third structure-linked), mined from
@@ -594,9 +596,12 @@ larger molecules (median 22 heavy atoms against 20) and size is the dominant dri
 lower accuracy (§4.1). Stratifying by heavy-atom band removes that confound. Newer
 compounds lead in the two bands that carry most of the accuracy (≤15: 64% vs 58%; 16–25:
 34% vs 25%) and trail slightly in the largest band, where both are near the floor (>25:
-6% vs 8%). The size-adjusted older-minus-newer difference is **−5.1 points**: newer
-compounds do marginally *better* once size is held fixed. Recall from pretraining predicts
-the opposite sign.
+6% vs 8%). The size-adjusted older-minus-newer difference is **−5.1 points, 95% CI [−17.2, +7.0]**
+(Cochran–Mantel–Haenszel χ²=0.42, p=0.51, continuity-corrected). Its point estimate has the
+opposite sign from what recall out of pretraining would produce, but the interval
+comfortably includes zero — so this **bounds** any recency effect rather than demonstrating
+a reversed one, and by the same standard §5.3 applies to its own adjacent conditions we do
+not read it as directional.
 
 The 5% is not zero, and it is worth saying what those three compounds are rather than
 rounding them away: a 2-(trimethylsilyl)aryl sulfonate, whose Si/S/Cl/F₂ composition is a
@@ -673,15 +678,30 @@ On the 60 benchmark compounds (126 candidate structures from the solver agents):
 | top-1, **forward-verified re-ranking** | 26% |
 | **conditional on recall — self-ranking** | 14/19 (**73%**) |
 | **conditional on recall — forward-verification** | 16/19 (**84%**) |
+| …of which had a single candidate (no choice to make) | 6/19 |
+| conditional on recall, multi-candidate only — self-ranking | 8/13 (62%) |
+| conditional on recall, multi-candidate only — forward-verification | 10/13 (77%) |
 
 The decomposition is the finding. **When the true structure is among the
 candidates, forward verification selects it in 16 of 19 cases (84%)** — high in
 absolute terms and ~18 points above the 66% derangement chance floor of §5.5 (given how
-few and near-degenerate the recall-positive candidate sets are). It also edges the
-model's own self-ranking (14/19, 73%), but that +11-point margin is a two-compound
-difference at n=19 and is **not** statistically significant (McNemar exact p≈0.63); the
-load-bearing claim is that verification precision is high in absolute terms while recall
-binds — not that forward-verification beats self-ranking.
+few and near-degenerate the recall-positive candidate sets are).
+
+One composition detail must be stated, because it inflates every ranker equally and §5.5
+excludes exactly these cases from its own analysis. Of the 19 recall-positive compounds,
+**6 had a single candidate**, so the verifier faced no choice and any ranker — ours, the
+solver's, a coin — scores them by construction. On the **13 compounds where a choice
+actually existed**, forward-verification selects the true structure in **10/13 (77%)** and
+the solver's own self-ranking in **8/13 (62%)**. The asymmetry the paper rests on is
+unaffected: 31% generation recall against 77% verification precision is the same wall, and
+the margin over self-ranking is if anything wider on this subset (+15 points against +11).
+We report both denominators throughout and treat the 13-compound figure as the one that
+measures verification.
+
+Either way that margin is a two- to three-compound difference at n≤19 and is **not**
+statistically significant (McNemar exact p≈0.63); the load-bearing claim is that
+verification precision is high in absolute terms while recall binds — not that
+forward-verification beats self-ranking.
 The overall top-1 moves only 23%→26% because the binding constraint is **generation
 recall**: the true structure was never proposed for 41 of 60 compounds, which no
 re-ranking can repair.

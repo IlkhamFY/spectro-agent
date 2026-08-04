@@ -173,16 +173,18 @@ judgment but its \emph{proposal}: on a 60-compound forward-verification
 subset the model proposes the true structure for only \textbf{19 of 60}
 compounds (31\%, 95\% CI 21--44), and where it does,
 forward-verification selects it in \textbf{16 of 19} (84\%, 95\% CI
-62--94, against a 66\% derangement floor, §5.5). \textbf{Recall, not
-verification, is the wall.} We establish this with three contributions.
-First, \textbf{IRexp} --- the largest openly redistributable collection
-of \emph{experimental} infrared \textbf{band lists} (121,233 records, a
-third structure-linked), mined from open-access literature and released
-with its mining pipeline (§2). Second, \textbf{IRSpectra-Bench} --- an
-open, blind, mechanically scored benchmark of 194 compounds on which
-accuracy splits sharply by structural complexity, and a within-compound
-control showing that reported numbers are sensitive to how a problem is
-posed, not to raw capability alone (§3--§4). Third, a training-free
+62--94, against a 66\% derangement floor; on the 13 of those 19 where
+more than one candidate existed and a choice was actually made, 10/13 =
+77\%, §5.2). \textbf{Recall, not verification, is the wall.} We
+establish this with three contributions. First, \textbf{IRexp} --- the
+largest openly redistributable collection of \emph{experimental}
+infrared \textbf{band lists} (121,233 records, a third
+structure-linked), mined from open-access literature and released with
+its mining pipeline (§2). Second, \textbf{IRSpectra-Bench} --- an open,
+blind, mechanically scored benchmark of 194 compounds on which accuracy
+splits sharply by structural complexity, and a within-compound control
+showing that reported numbers are sensitive to how a problem is posed,
+not to raw capability alone (§3--§4). Third, a training-free
 \textbf{forward-verification} method that acts on the diagnosis:
 generating regiochemistry-aware candidates and re-ranking them by
 predicted-versus-observed ¹³C raises both candidate recall and top-1,
@@ -258,16 +260,21 @@ subscription harness pins no model snapshot, exposes no temperature or
 seed, and carries an undisclosed product system prompt, so an outside
 group reproduces it distributionally rather than exactly (§8). What
 \emph{is} exactly reproducible is the scoring --- all predictions,
-ground truth and scorers are released, so every number in this paper
-regenerates from the released artifacts. Two trained probes (§5.6, §5.7)
-are reported separately as fenced complements. By construction this is
-an open-resource contribution in the remit of \emph{Digital Discovery}:
-an openly licensed, structure-linked spectral dataset; a pre-registered,
+ground truth and scorers are released, so every number in the
+training-free core (§3--§5.3, §4.6) regenerates from the released
+artifacts. The two trained probes are the exception: §5.4's HOSE lookup
+and GNN are built from an nmrshiftdb2 dump that we cannot redistribute,
+so those rows regenerate only once a reader supplies the same dump (see
+\emph{Data and code availability}). Two trained probes (§5.6, §5.7) are
+reported separately as fenced complements. By construction this is an
+open-resource contribution in the remit of \emph{Digital Discovery}: an
+openly licensed, structure-linked spectral dataset; a pre-registered,
 mechanically scored benchmark with released ground truth and scorer; and
 a training-free, zero-paid-API core pipeline (with two trained probes
-fenced in the SI) in which every figure regenerates from the released
-code and predictions. We prioritise an honest, reusable measurement of
-where current models stand over a leaderboard-topping number.
+fenced in the SI) in which every main-text figure regenerates from the
+released code and predictions. We prioritise an honest, reusable
+measurement of where current models stand over a leaderboard-topping
+number.
 
 \textbf{Contributions.} 1. \textbf{IRexp} --- the largest openly
 \emph{redistributable} experimental-IR dataset (121,233 records; 43,060
@@ -742,17 +749,21 @@ handling all of them sequentially with no tools, and (b) by four
 independent agents of five compounds each, with RDKit formula-checking
 --- i.e.~bounded, reset contexts. On the \emph{identical} compounds,
 \textbf{recovered (top-3)} rose from \textbf{5\% to 15\%} (1/20 → 3/20)
-and top-1 from 0\% to 15\% (0/20 → 3/20) --- a 3× methodology effect
-with zero sample confound, though on a small set (the 15\% point
-estimate carries a Wilson 95\% CI of roughly 5--36\%), so it is read as
-a directional within-compound demonstration rather than a precise
-multiplier. Small rounds also swing widely (15--40\% across n=20--40
-draws), which is why the headline is the full \textbf{194-compound}
-figure (28.4\% top-1, 95\% CI 22--35) rather than any single round. The
-practical lesson --- fresh per-compound context plus tool access roughly
-triples apparent performance --- also explains part of the gap to
-optimistic prior reports, whose per-problem API calls implicitly used
-method (b).
+and top-1 from 0\% to 15\% (0/20 → 3/20), with zero sample confound.
+Because §3 pins McNemar's exact test for paired comparisons we apply it
+here too, and it does not reach significance: the top-1 arm is
+necessarily nested (arm (a) solved none) at b=0, c=3, giving
+\textbf{p=0.25}, and the recovered arm reaches at best \textbf{p=0.5}.
+The 15\% point estimate carries a Wilson 95\% CI of roughly 5--36\%.
+This is therefore a directional within-compound demonstration, not an
+established multiplier, and we do not claim the 3× as a measured effect
+size. Small rounds also swing widely (15--40\% across n=20--40 draws),
+which is why the headline is the full \textbf{194-compound} figure
+(28.4\% top-1, 95\% CI 22--35) rather than any single round. The
+practical lesson --- bounded, frequently-reset contexts with tool access
+raise apparent performance substantially --- also explains part of the
+gap to optimistic prior reports, whose per-problem API calls implicitly
+used method (b).
 
 \hypertarget{model-comparison-the-benchmark-ranks-capability-and-separates-the-extremes}{%
 \subsubsection{4.4 Model comparison: the benchmark ranks capability (and
@@ -961,11 +972,17 @@ recent bucket (≥2024, n=25) is in fact the highest at 40\% {[}23, 59{]}.
 The raw split is if anything biased \emph{against} the newer half,
 because newer papers skew to larger molecules (median 22 heavy atoms
 against 20) and size is the dominant driver of lower accuracy (§4.1).
-Stratifying by heavy-atom band removes that confound, and within every
-band the newer compounds do at least as well as the older ones (≤15:
-64\% vs 58\%; 16--25: 34\% vs 25\%; \textgreater25: 6\% vs 8\%), giving
-a size-adjusted older-minus-newer difference of \textbf{−5.1 points}.
-Recall from pretraining predicts the opposite sign.
+Stratifying by heavy-atom band removes that confound. Newer compounds
+lead in the two bands that carry most of the accuracy (≤15: 64\% vs
+58\%; 16--25: 34\% vs 25\%) and trail slightly in the largest band,
+where both are near the floor (\textgreater25: 6\% vs 8\%). The
+size-adjusted older-minus-newer difference is \textbf{−5.1 points, 95\%
+CI {[}−17.2, +7.0{]}} (Cochran--Mantel--Haenszel χ²=0.42, p=0.51,
+continuity-corrected). Its point estimate has the opposite sign from
+what recall out of pretraining would produce, but the interval
+comfortably includes zero --- so this \textbf{bounds} any recency effect
+rather than demonstrating a reversed one, and by the same standard §5.3
+applies to its own adjacent conditions we do not read it as directional.
 
 The 5\% is not zero, and it is worth saying what those three compounds
 are rather than rounding them away: a 2-(trimethylsilyl)aryl sulfonate,
@@ -1056,9 +1073,14 @@ agents):
 \textbf{Table 6. Forward-verification decomposition} on the 60
 forward-verify compounds.
 
-\begin{longtable}[]{@{}lr@{}}
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
 \toprule\noalign{}
-& value \\
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+value
+\end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
@@ -1070,21 +1092,39 @@ top-1, \textbf{forward-verified re-ranking} & 26\% \\
 (\textbf{73\%}) \\
 \textbf{conditional on recall --- forward-verification} & 16/19
 (\textbf{84\%}) \\
+\ldots of which had a single candidate (no choice to make) & 6/19 \\
+conditional on recall, multi-candidate only --- self-ranking & 8/13
+(62\%) \\
+conditional on recall, multi-candidate only --- forward-verification &
+10/13 (77\%) \\
 \end{longtable}
 
 The decomposition is the finding. \textbf{When the true structure is
 among the candidates, forward verification selects it in 16 of 19 cases
 (84\%)} --- high in absolute terms and \textasciitilde18 points above
 the 66\% derangement chance floor of §5.5 (given how few and
-near-degenerate the recall-positive candidate sets are). It also edges
-the model's own self-ranking (14/19, 73\%), but that +11-point margin is
-a two-compound difference at n=19 and is \textbf{not} statistically
-significant (McNemar exact p≈0.63); the load-bearing claim is that
-verification precision is high in absolute terms while recall binds ---
-not that forward-verification beats self-ranking. The overall top-1
-moves only 23\%→26\% because the binding constraint is
-\textbf{generation recall}: the true structure was never proposed for 41
-of 60 compounds, which no re-ranking can repair.
+near-degenerate the recall-positive candidate sets are).
+
+One composition detail must be stated, because it inflates every ranker
+equally and §5.5 excludes exactly these cases from its own analysis. Of
+the 19 recall-positive compounds, \textbf{6 had a single candidate}, so
+the verifier faced no choice and any ranker --- ours, the solver's, a
+coin --- scores them by construction. On the \textbf{13 compounds where
+a choice actually existed}, forward-verification selects the true
+structure in \textbf{10/13 (77\%)} and the solver's own self-ranking in
+\textbf{8/13 (62\%)}. The asymmetry the paper rests on is unaffected:
+31\% generation recall against 77\% verification precision is the same
+wall, and the margin over self-ranking is if anything wider on this
+subset (+15 points against +11). We report both denominators throughout
+and treat the 13-compound figure as the one that measures verification.
+
+Either way that margin is a two- to three-compound difference at n≤19
+and is \textbf{not} statistically significant (McNemar exact p≈0.63);
+the load-bearing claim is that verification precision is high in
+absolute terms while recall binds --- not that forward-verification
+beats self-ranking. The overall top-1 moves only 23\%→26\% because the
+binding constraint is \textbf{generation recall}: the true structure was
+never proposed for 41 of 60 compounds, which no re-ranking can repair.
 
 LLM elucidation therefore factorises into two near-independent levers:
 the \textbf{verifier is already strong (84\%)}; the \textbf{generator
@@ -1121,27 +1161,40 @@ Wide generation lifts recall +10 points (31\%→41\%, i.e.~19/60→25/60)
 and exact top-1 +7 points over the self-ranking baseline (23\%→30\%,
 14/60→18/60) --- equivalently +4 over the original forward-verified
 top-1 (26\%→30\%, 16/60→18/60, Table 7) --- on the same 60 compounds
-(Fig. 6), with no training. Table 7 regenerates from the released
-artifacts via \texttt{scripts/score\_generate\_wide.py}. \textbf{These
-top-1 differences are directional, not statistically resolved at n=60:}
-the 14/60→18/60 improvement is a four-compound difference, which reaches
-only McNemar exact p=0.125 even under the most favourable assumption
-that the stages are perfectly nested (no compound lost); the 16/60→18/60
-step reaches p=0.5. The recall gain is the better-supported effect. We
-therefore read the ladder as a demonstration that the \emph{mechanism}
-works and that recall is the movable factor, not as a precise
-measurement of the size of the top-1 gain. But it does \textbf{not}
-reach the \textasciitilde50\% a naïve extrapolation would predict, for
-two instructive reasons: \textbf{(i) recall plateaus at 41\%} --- exotic
-and large targets (selenium heterocycles, poly-aryl polyketones,
-eleven-nitrogen polyamines) resist even six regiochemical variants; and
-\textbf{(ii) verification precision falls 84\%→72\%} as more
-near-degenerate regioisomers enter the pool and the \textasciitilde2-ppm
-forward predictor can no longer separate them. This recall/precision
-tension is the honest ceiling of the training-free approach: the
-recall-bound diagnosis stands, and closing the gap further requires
-either sharper verification or 2D-NMR constraints, not merely more
-candidates.
+(Fig. 6), with no training. One asymmetry in the arm should be stated:
+of the 217 distinct new candidates the wide pass proposed, only
+\textbf{65 (29\%) were forward-predicted} --- predicting all of them was
+beyond the run's budget --- and an unpredicted candidate is assigned an
+infinite match distance, so it can never be selected. Recall counts
+every candidate (a true structure need only be \emph{present}), but
+top-1 can only benefit from the predicted subset. The reported 30\% is
+therefore a \textbf{lower bound} on what this recipe achieves with full
+prediction coverage; it cannot be inflated by the gap. Table 7
+regenerates from the released artifacts via
+\texttt{scripts/score\_generate\_wide.py}. \textbf{These top-1
+differences are directional, not statistically resolved at n=60:} the
+14/60→18/60 improvement is a four-compound difference, but the stages
+are \textbf{not} nested: going from self-ranking to generate-wide gains
+seven compounds and loses three, so the paired test is McNemar exact
+\textbf{p=0.34} (b=3, c=7). The intermediate steps are weaker still ---
+self-rank→forward-verify p=0.63 (b=1, c=3) and
+forward-verify→generate-wide p=0.69 (b=2, c=4). Discordant counts are
+computed from the released per-compound outcomes by
+\texttt{scripts/ladder\_significance.py}. The recall gain is the
+better-supported effect. We therefore read the ladder as a demonstration
+that the \emph{mechanism} works and that recall is the movable factor,
+not as a precise measurement of the size of the top-1 gain. But it does
+\textbf{not} reach the \textasciitilde50\% a naïve extrapolation would
+predict, for two instructive reasons: \textbf{(i) recall plateaus at
+41\%} --- exotic and large targets (selenium heterocycles, poly-aryl
+polyketones, eleven-nitrogen polyamines) resist even six regiochemical
+variants; and \textbf{(ii) verification precision falls 84\%→72\%} as
+more near-degenerate regioisomers enter the pool and the
+\textasciitilde2-ppm forward predictor can no longer separate them. This
+recall/precision tension is the honest ceiling of the training-free
+approach: the recall-bound diagnosis stands, and closing the gap further
+requires either sharper verification or 2D-NMR constraints, not merely
+more candidates.
 
 \hypertarget{non-llm-verifiers-a-deterministic-lookup-and-a-learned-model}{%
 \subsubsection{5.4 Non-LLM verifiers: a deterministic lookup and a
@@ -1191,8 +1244,8 @@ the verifier exists to separate.
 
 The learned model, on the same data, reaches the LLM verifier's 84\%
 (Fig. S6). \textbf{That is a two-compound difference at n=19 and is not
-statistically resolved} (McNemar exact p=0.5 even under the most
-favourable nesting assumption) --- the same standard by which §5.2
+statistically resolved} (three compounds gained, one lost against the
+lookup: McNemar exact p=0.63) --- the same standard by which §5.2
 declines to separate its own adjacent conditions. Taken together the two
 rows are \emph{suggestive and directional}: they are consistent with the
 lookup's failure being substantially \textbf{method} --- an inability to
@@ -1379,8 +1432,8 @@ already standard practice.
 
 For practitioners, two operational findings transfer immediately: solve
 each problem in bounded, frequently-reset contexts with tool access
-(5\%→15\%, 1/20→3/20, directional at n=20, §4.3), and use
-forward-predicted-vs-observed ¹³C agreement to \emph{re-rank}
+(5\%→15\%, 1/20→3/20, directional at n=20, McNemar p≥0.25, §4.3), and
+use forward-predicted-vs-observed ¹³C agreement to \emph{re-rank}
 candidates, not to decide whether to trust the winner. §5.5 is explicit
 on this: match distance is a strong relative re-ranker but failed as an
 absolute confidence gauge in our selective-prediction test, so it does
@@ -1408,7 +1461,7 @@ regioisomers accumulate, so forward-match distance is a strong
 non-LLM verifiers (§5.4): a nmrshiftdb2-trained HOSE-code \emph{lookup}
 does \textbf{not} beat the LLM verifier (73\% vs 84\% conditional),
 while a \emph{learned} GNN on the same data reaches 84\% --- a
-two-compound difference at n=19 that is directional only (p=0.5), so it
+two-compound difference at n=19 that is directional only (p=0.63), so it
 is suggestive that the deterministic failure was method rather than
 coverage alone, not a demonstration of it. What remains beyond all of
 them is the near-degenerate-regiochemistry precision ceiling, where
@@ -1974,7 +2027,8 @@ forward-verify compounds. The true structure is verified top-1 for 16
 for 41 (grey) --- \emph{the wall}, 68\% of the bar. Forward-verification
 recovers 16/60 = 26\% exact top-1 end-to-end: the model proposes the
 true structure for only 19/60 = 31\% of compounds and, of those,
-verifies 84\%. Recall, not verification, is the wall.}
+verifies 84\% (77\% on the 13 of 19 where more than one candidate
+existed; \S5.2). Recall, not verification, is the wall.}
 \end{figure}
 
 \begin{figure}

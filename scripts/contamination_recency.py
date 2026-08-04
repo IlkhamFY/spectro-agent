@@ -146,7 +146,33 @@ def main():
             w = len(o)*len(nw)/(len(o)+len(nw))
             num += w*d_; den += w
     adj = 100*num/den if den else 0.0
-    print(f"  size-adjusted (weighted) older-minus-newer: {adj:+.1f} points")
+    # A weighted point estimate without an interval invites reading a sign into noise, so
+    # report the SE, the 95% interval and a continuity-corrected Cochran-Mantel-Haenszel
+    # test alongside it.
+    from math import sqrt, erfc
+    var = cmh_num = cmh_den = 0.0
+    for lab, lo, hi in strata:
+        o = [r for r in got if r["hac"] and lo <= r["hac"] <= hi and r["year"] <= med]
+        nw = [r for r in got if r["hac"] and lo <= r["hac"] <= hi and r["year"] > med]
+        if not (o and nw):
+            continue
+        n1, n2 = len(o), len(nw)
+        k1, k2 = sum(r["top1"] for r in o), sum(r["top1"] for r in nw)
+        p1, p2 = k1/n1, k2/n2
+        w = n1*n2/(n1+n2)
+        var += w*w*(p1*(1-p1)/n1 + p2*(1-p2)/n2)
+        N, m1 = n1+n2, k1+k2
+        cmh_num += k1 - n1*m1/N
+        if N > 1:
+            cmh_den += n1*n2*m1*(N-m1)/(N*N*(N-1))
+    se = 100*sqrt(var)/den if den else 0.0
+    ci = (adj - 1.96*se, adj + 1.96*se)
+    chi2 = (abs(cmh_num) - 0.5)**2/cmh_den if cmh_den else 0.0
+    p_cmh = erfc(sqrt(chi2/2))
+    print(f"  size-adjusted (weighted) older-minus-newer: {adj:+.1f} points "
+          f"(SE {se:.1f}, 95% CI [{ci[0]:.1f}, {ci[1]:.1f}])")
+    print(f"  Cochran-Mantel-Haenszel (continuity-corrected): chi2 = {chi2:.2f}, p = {p_cmh:.2f}")
+    print("  -> the interval includes zero: this bounds a recency effect, it does not show one")
 
     # point-biserial correlation between year and correctness
     n = len(got)
@@ -164,6 +190,9 @@ def main():
                "point_biserial_r": round(r_pb, 4),
                "size_stratified": out_strat,
                "size_adjusted_older_minus_newer_pts": round(adj, 1),
+               "size_adjusted_se": round(se, 1),
+               "size_adjusted_ci95": [round(ci[0], 1), round(ci[1], 1)],
+               "cmh_chi2": round(chi2, 2), "cmh_p": round(p_cmh, 3),
                "per_compound": [{k: r[k] for k in ("pmcid", "year", "top1", "hac", "difficulty")}
                                 for r in got]},
               open(a.out, "w"), indent=1)

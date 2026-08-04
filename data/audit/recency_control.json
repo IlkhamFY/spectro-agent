@@ -93,6 +93,13 @@
   }
  ],
  "size_adjusted_older_minus_newer_pts": -5.1,
+ "size_adjusted_se": 6.2,
+ "size_adjusted_ci95": [
+  -17.2,
+  7.0
+ ],
+ "cmh_chi2": 0.42,
+ "cmh_p": 0.515,
  "per_compound": [
   {
    "pmcid": "PMC4040197",

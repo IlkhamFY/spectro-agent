@@ -17,6 +17,33 @@ the **full-modality** condition came out *worst* (3/16) while **−IR** came out
 modality were the driver. The pilot measured solver-run variance, not modality. Those
 numbers are not used anywhere.
 
+## Second failed attempt (2026-08) — the same trap, a different door
+
+A later attempt ran the `-IR` arm with fresh solver agents and compared it against the
+**existing benchmark predictions** as the "full" arm, rather than re-running `full` under
+matched conditions. On the 30 simple-stratum compounds that completed it produced:
+
+| arm | top-1 |
+|---|--:|
+| full (existing production predictions, 2026-06 run) | 10/30 (33%) |
+| −IR (fresh agents, 2026-08) | 22/30 (73%) |
+| formula-only (fresh agents, 2026-08) | 2/30 (7%) |
+
+`-IR` beating `full` by 40 points (McNemar p=0.004) is the identical tell described above:
+removing information cannot improve accuracy, so the contrast is measuring something else.
+Here it is solver effort and harness generation — the 2026-06 production run batched 5–12
+compounds per context under the original protocol, while the fresh agents took ten per
+context and reasoned far more deeply per compound. **These numbers are not used anywhere.**
+
+The rule this yields, which the corrected design already implies but did not say out loud:
+**every arm of a modality ablation must be generated in the same campaign, with the same
+agent configuration, batch size and model, including the `full` arm.** Reusing archived
+predictions for the control arm silently reintroduces the confound the design exists to
+remove. Note that the formula-only control (§4.6 of the manuscript) is *not* affected by
+this: its comparison arm is drawn from the same archived run, but its direction is the
+robust one — removing information reduced accuracy — and its conclusion does not depend on
+the size of the drop.
+
 ## Corrected design (implemented in `scripts/modality_ablation.py`)
 
 1. **Leave-one-out conditions:** `full` (formula+IR+¹H+¹³C), `noIR`, `noH`, `noC`.

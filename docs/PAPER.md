@@ -162,8 +162,10 @@ a 3,453-spectrum experimental fine-tune (top-1 44% on 6–13 heavy atoms); IRexp
 releases experimental IR at scale as an open, redistributable resource and pairs it with
 a blind LLM benchmark. **(ii) Blind, fully specified, mechanical scoring:** reported
 accuracies on the same task vary enormously with inference method and scoring harness —
-GPT-4o on MolPuzzle ranges from 1.4%[@guo2024molpuzzle] to 27.8%[@zhuang2025treesearch], the latter using knowledge-enhanced
-tree-search reasoning[@zhuang2025treesearch] — so numbers across papers are not directly comparable; we
+the *same model* on the *same benchmark* spans a factor of forty. GPT-4o is reported at
+**1.4%** on MolPuzzle by the benchmark's own authors[@guo2024molpuzzle], at **27.8%**
+under a plain chain-of-thought harness by Zhuang et al., and at **57.8%** when the latter
+add knowledge-enhanced tree-search reasoning[@zhuang2025treesearch] — so numbers across papers are not directly comparable; we
 therefore fix and release a single, pre-registered, RDKit-InChIKey protocol with
 bootstrap CIs. **(iii) A recall/verification
 decomposition:** existing benchmarks report a single aggregate score, whereas we factor
@@ -488,8 +490,8 @@ literature-mined experimental** spectra of out-of-distribution compounds. These 
 not comparable as a leaderboard; read as a *bound on the simulated-to-real gap*, the
 contrast suggests that high in-distribution accuracies substantially overstate
 real-world performance — the same gap we document for the LLM above. The instability
-of the metric itself reinforces the caution: the same ~20× MolPuzzle swing documented in
-§1.1 (GPT-4o: 1.4%[@guo2024molpuzzle]–27.8%[@zhuang2025treesearch], method- and harness-dependent) bounds how much weight any
+of the metric itself reinforces the caution: the same ~40× MolPuzzle swing documented in
+§1.1 (GPT-4o: 1.4%[@guo2024molpuzzle] to 27.8% to 57.8%[@zhuang2025treesearch], method- and harness-dependent) bounds how much weight any
 single unaudited near-100% claim[@kamber2026chemist] can bear.
 
 ### 4.3 Methodology dominates: a within-compound control

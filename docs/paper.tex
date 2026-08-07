@@ -349,19 +349,22 @@ learns an IR→structure transformer from \textasciitilde635k
 IR at scale as an open, redistributable resource and pairs it with a
 blind LLM benchmark. \textbf{(ii) Blind, fully specified, mechanical
 scoring:} reported accuracies on the same task vary enormously with
-inference method and scoring harness --- GPT-4o on MolPuzzle ranges from
-1.4\%\textsuperscript{9} to 27.8\%\textsuperscript{8}, the latter using
-knowledge-enhanced tree-search reasoning\textsuperscript{8} --- so
-numbers across papers are not directly comparable; we therefore fix and
-release a single, pre-registered, RDKit-InChIKey protocol with bootstrap
-CIs. \textbf{(iii) A recall/verification decomposition:} existing
-benchmarks report a single aggregate score, whereas we factor
-performance into generation recall and verification precision and show
-\emph{where} the task is lost. That decomposition is the part we find
-stable under the perturbations we could run: four Claude models, a
-second chemical domain, and four different verifiers all stay
-recall-bound (§4.4, §4.5, §5.4). It is not tested outside the Claude
-family (§7).
+inference method and scoring harness --- the \emph{same model} on the
+\emph{same benchmark} spans a factor of forty. GPT-4o is reported at
+\textbf{1.4\%} on MolPuzzle by the benchmark's own
+authors\textsuperscript{9}, at \textbf{27.8\%} under a plain
+chain-of-thought harness by Zhuang et al., and at \textbf{57.8\%} when
+the latter add knowledge-enhanced tree-search
+reasoning\textsuperscript{8} --- so numbers across papers are not
+directly comparable; we therefore fix and release a single,
+pre-registered, RDKit-InChIKey protocol with bootstrap CIs.
+\textbf{(iii) A recall/verification decomposition:} existing benchmarks
+report a single aggregate score, whereas we factor performance into
+generation recall and verification precision and show \emph{where} the
+task is lost. That decomposition is the part we find stable under the
+perturbations we could run: four Claude models, a second chemical
+domain, and four different verifiers all stay recall-bound (§4.4, §4.5,
+§5.4). It is not tested outside the Claude family (§7).
 
 \textbf{Computational NMR for structure validation.} Our
 forward-verification method is the LLM analog of a workflow chemists
@@ -810,9 +813,9 @@ leaderboard; read as a \emph{bound on the simulated-to-real gap}, the
 contrast suggests that high in-distribution accuracies substantially
 overstate real-world performance --- the same gap we document for the
 LLM above. The instability of the metric itself reinforces the caution:
-the same \textasciitilde20× MolPuzzle swing documented in §1.1 (GPT-4o:
-1.4\%\textsuperscript{9}--27.8\%\textsuperscript{8}, method- and
-harness-dependent) bounds how much weight any single unaudited
+the same \textasciitilde40× MolPuzzle swing documented in §1.1 (GPT-4o:
+1.4\%\textsuperscript{9} to 27.8\% to 57.8\%\textsuperscript{8}, method-
+and harness-dependent) bounds how much weight any single unaudited
 near-100\% claim\textsuperscript{2} can bear.
 
 \hypertarget{methodology-dominates-a-within-compound-control}{%

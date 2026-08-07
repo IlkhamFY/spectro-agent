@@ -450,8 +450,9 @@ Our 28% top-1 sits far below the ~100% on "simple" molecules reported, in a
 non-peer-reviewed company white paper, for the same model class.[@kamber2026chemist] Because that figure
 has not been independently scored, we reconcile it against the *peer-reviewed* record
 (the MolPuzzle benchmark[@guo2024molpuzzle] and its re-scorings[@zhuang2025treesearch], and the trained baselines[@chacko2024spectro; @ottomano2025nmiracle]) rather
-than treating it as settled. The gap is largely attributable to methodology and scoring
-choices, not raw capability:
+than treating it as settled. Three methodology and scoring choices differ between that
+report and ours, each in the direction that would raise a reported number; we can name
+them but not apportion the gap between them, so we do not claim a decomposition:
 
 - **Difficulty.** "Single ring" by ring-count is not "easy": our simple stratum
   includes, e.g., a hexasubstituted benzene whose regiochemistry has many
@@ -504,10 +505,13 @@ solved none) at b=0, c=3, giving **p=0.25**, and the recovered arm reaches at be
 therefore a directional within-compound demonstration, not an established multiplier, and
 we do not claim the 3× as a measured effect size. Small rounds also swing widely (15–40% across n=20–40 draws), which is
 why the headline is the full **194-compound** figure (28.4% top-1, 95% CI 22–35)
-rather than any single round. The practical lesson — bounded, frequently-reset contexts
-with tool access raise apparent performance substantially — also explains part of the
-gap to
-optimistic prior reports, whose per-problem API calls implicitly used method (b).
+rather than any single round. The practical lesson has to be stated at the strength the
+evidence supports, which is weaker than the point estimate invites: bounded,
+frequently-reset contexts with tool access appear to raise measured performance, in a
+direction consistent across both arms but **not established in size** at n=20 (p=0.25).
+Read that way it still plausibly explains *part* of the gap to optimistic prior reports,
+whose per-problem API calls implicitly used method (b) — but it is a hypothesis about
+that gap, not a quantified contribution to it.
 
 ### 4.4 Model comparison: the benchmark ranks capability (and separates the extremes)
 

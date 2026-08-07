@@ -113,6 +113,50 @@ def formula_adherence():
             print(f"  {d.split('/')[-1]:<24} {ok:>4}/{tot:<4} {100*ok/tot:5.1f}%")
 
 
+def recall_drivers():
+    """What distinguishes a compound whose true structure was never proposed?
+    §5.3 explains the recall plateau by naming exotic chemistry; this tests that."""
+    from rdkit import Chem
+    ROUND_SPEC = ROUNDS
+    R, N = [], []
+    for d, cleanf, prefix in ROUND_SPEC:
+        keep = set(json.load(open(cleanf))) if cleanf else None
+        ans = {json.loads(l)["qid"]: json.loads(l) for l in open(f"{d}/answers2.jsonl")}
+        pred = {}
+        if prefix:
+            for f in glob.glob(f"{d}/raw/*.json"):
+                pred.update(json.load(open(f)))
+            pred = {k[len(prefix):]: v for k, v in pred.items()}
+        else:
+            for l in open(f"{d}/predictions2.jsonl"):
+                r = json.loads(l); pred[r["qid"]] = r.get("candidates", [])
+        for q, a in ans.items():
+            if keep is not None and q not in keep:
+                continue
+            t = Chem.MolFromSmiles(a.get("smiles") or "")
+            if t is None:
+                continue
+            cands = [Chem.MolFromSmiles(s or "") for s in pred.get(q, [])[:3]]
+            (R if any(c and ik14(c) == ik14(t) for c in cands) else N).append(t)
+    nN = lambda m: sum(1 for a in m.GetAtoms() if a.GetSymbol() == "N")
+    rings = lambda m: m.GetRingInfo().NumRings()
+    med = lambda ms, f: sorted(f(m) for m in ms)[len(ms) // 2]
+    pct = lambda ms, f: 100 * sum(1 for m in ms if f(m)) / len(ms)
+    print(f"\nRecall drivers — {len(R)} recalled vs {len(N)} missed:")
+    print(f"  {'feature':<28}{'recalled':>10}{'missed':>10}")
+    print(f"  {'median heavy atoms':<28}{med(R, lambda m: m.GetNumHeavyAtoms()):>10}"
+          f"{med(N, lambda m: m.GetNumHeavyAtoms()):>10}")
+    print(f"  {'median ring count':<28}{med(R, rings):>10}{med(N, rings):>10}")
+    print(f"  {'>=4 rings':<28}{pct(R, lambda m: rings(m) >= 4):>9.1f}%"
+          f"{pct(N, lambda m: rings(m) >= 4):>9.1f}%")
+    print(f"  {'>=4 nitrogens':<28}{pct(R, lambda m: nN(m) >= 4):>9.1f}%"
+          f"{pct(N, lambda m: nN(m) >= 4):>9.1f}%")
+    for sym in ("Se", "S", "F", "Cl", "P"):
+        h = lambda m, s=sym: any(a.GetSymbol() == s for a in m.GetAtoms())
+        print(f"  {'contains ' + sym:<28}{pct(R, h):>9.1f}%{pct(N, h):>9.1f}%")
+    print("  → size and ring count separate; halogens and S do not.")
+
+
 def main():
     misses, unparseable, hits = collect()
     n = len(misses)
@@ -132,6 +176,7 @@ def main():
         print(f"\n  Tanimoto(miss, truth) over the isomer misses: "
               f"median {ts[len(ts)//2]:.2f}  min {ts[0]:.2f}  max {ts[-1]:.2f}")
     formula_adherence()
+    recall_drivers()
     print("\nReading: the composition is usually right and the connectivity is not.\n"
           "'Which position a substituent occupies' describes the scaffold-preserving\n"
           "row only — a minority of misses, not the predominant failure mode.")

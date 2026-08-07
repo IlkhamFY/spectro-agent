@@ -455,7 +455,10 @@ choices, not raw capability:
 
 - **Difficulty.** "Single ring" by ring-count is not "easy": our simple stratum
   includes, e.g., a hexasubstituted benzene whose regiochemistry has many
-  realisations. Ring count is a poor proxy for elucidation difficulty.
+  realisations. A low ring count is therefore no guarantee of an easy problem — though
+  a high one is a strong difficulty signal, since ≥4 rings appear in 38% of
+  recall-negative compounds against 3% of recall-positive (§5.3). Ring count bounds
+  difficulty from below, it does not proxy for it.
 - **Scoring.** Prior work counts a recovery if the reference appears among three
   ranked candidates over three independent runs; we report single-run top-1 and
   top-3.
@@ -873,9 +876,15 @@ The recall gain is the better-supported effect. We therefore read
 the ladder as a demonstration that the *mechanism* works and that recall is the movable
 factor, not as a precise measurement of the size of the top-1 gain. But it does **not**
 reach the ~50% a naïve extrapolation would predict, for two instructive reasons:
-**(i) recall plateaus at 41%** — exotic and large targets (selenium heterocycles,
-poly-aryl polyketones, eleven-nitrogen polyamines) resist even six regiochemical
-variants; and **(ii) verification precision falls 84%→72%** as more near-degenerate
+**(i) recall plateaus at 41%** — and the compounds it plateaus on are characterised by
+size and ring count rather than by exotic elements. Comparing the 65 recall-positive
+against the 129 recall-negative compounds: median heavy atoms 16 vs 23, median ring count
+1 vs 3, and **≥4 rings in 3.1% of recalled compounds against 38.0% of missed ones**;
+nitrogen density separates them too (≥4 N: 4.6% vs 17.1%). Selenium heterocycles and the
+like are memorable but marginal — Se appears in 2.3% of misses and none of the hits, and
+S, F, Cl and P show no separation whatsoever. Polycyclic, nitrogen-rich, large targets
+resist even six regiochemical variants; that is the pattern, and it is a mundane one
+(`scripts/analyze_misses.py`). And **(ii) verification precision falls 84%→72%** as more near-degenerate
 regioisomers enter the pool and the ~2-ppm forward predictor can no longer separate
 them. This recall/precision tension is the honest ceiling of the training-free
 approach: the recall-bound diagnosis stands, and closing the gap further requires

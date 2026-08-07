@@ -20,6 +20,7 @@ Checks:
   F  bootstrap CIs contain their own point estimate
   G  ground-truth structures reproduce the formula given to the solver
   H  literal values baked into figure scripts still match the data
+  I  a claim corrected in one document is corrected in all of them
 """
 import gzip, json, os, re, sys
 
@@ -296,6 +297,50 @@ def check_figure_literals():
                 fail("H", f"{what}: {path} plots {g} where the data gives {w:.4g}")
 
 
+# ---- I. corrections must propagate to every file ----------------------------
+# A claim corrected in one document and left standing in another is worse than never
+# correcting it: the release then ships a fixed paper beside a reproducibility anchor
+# that still makes the original claim. That happened here — "isomers of the same target
+# never co-occur" was corrected in PAPER.md and FORWARD_VERIFY.md and missed in
+# MODELS.md for a full session. Each entry is a retired phrasing; the exemptions are the
+# two places a retired phrase legitimately appears (this checker, and the audit table
+# that records what was corrected).
+RETIRED_PHRASINGS = [
+    ("never co-occur", "batch composition (§5.1)"),
+    ("expert-audited", "ground-truth audit status (Contribution 2)"),
+    ("larger by raw record count than any prior", "IRexp scale claim (Contribution 1)"),
+    ("the result that transfers across models", "generality scope (§1.1)"),
+    ("individually labelled", "licence pools (Licensing)"),
+    ("`license` fields distinguish", "licence mechanism (§2.3)"),
+    ("failing predominantly on **regiochemistry**", "miss characterisation (§4.1)"),
+    ("exotic and large targets (selenium", "recall-plateau explanation (§5.3)"),
+    ("the latter using knowledge-enhanced", "Zhuang et al. attribution (§1.1)"),
+    ("like us conditions jointly", "NMIRacle hints parity (§4.2)"),
+    ("~90% top-1 exact recovery", "Spectro accuracy (§4.2)"),
+    ("The strongest trained baselines report", "simulated-vs-real claim (§4.2)"),
+    ("Ring count is a poor proxy for elucidation difficulty.", "ring-count claim (§4.2)"),
+]
+PROPAGATION_EXEMPT = ("scripts/check_manuscript.py", "docs/MODELS.md", "docs/paper.tex",
+                      "docs/SUBMISSION.md")
+
+
+def check_propagation():
+    import subprocess
+    for phrase, what in RETIRED_PHRASINGS:
+        for root in ("docs", "README.md", "data/NOTICE", "scripts"):
+            if not os.path.exists(root):
+                continue
+            out = subprocess.run(["grep", "-rn", "-F", phrase, root],
+                                 capture_output=True, text=True).stdout
+            for line in out.splitlines():
+                if not line.strip():
+                    continue
+                if any(line.startswith(e) for e in PROPAGATION_EXEMPT):
+                    continue
+                fail("I", f"retired phrasing survives — {what}: "
+                          f"{line.split(':')[0]} still says '{phrase[:40]}'")
+
+
 # ---- author-supplied items (reported, never failed) --------------------------
 # These cannot be filled in by anyone but the authors, and inventing any of them
 # would be worse for a reader than an acknowledged gap. The gate lists them so the
@@ -326,6 +371,7 @@ def main():
         fn(md)
     check_ground_truth()
     check_figure_literals()
+    check_propagation()
     pend = report_pending()
     if FAIL:
         print(f"MANUSCRIPT GATE: {len(FAIL)} problem(s)\n")
@@ -341,6 +387,7 @@ def main():
     print("  F every confidence interval contains its point estimate")
     print("  G every ground-truth structure matches the formula the solver was given")
     print("  H hardcoded figure values still agree with the scorers")
+    print("  I every correction propagated to every file that made the claim")
     if pend:
         print(f"\nAWAITING THE AUTHORS ({len(pend)} item(s)) — not defects, and not "
               f"fillable by anyone else:")

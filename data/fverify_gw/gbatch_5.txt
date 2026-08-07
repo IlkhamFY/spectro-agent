@@ -1,0 +1,17 @@
+W068  C=C1CCC(=O)N1c1ncccc1C
+W069  O=S(=O)(Cc1ccccc1O)NCc1ccccc1Br
+W070  NS(=O)(=O)c1ccccc1CNc1ccc(O)c(Cl)c1
+W071  COC(=O)c1cc(-c2cccc(F)c2)nn1-c1ccc([N+](=O)[O-])cc1
+W072  CNC(=O)c1ccccc1[N+](=O)[O-]
+W073  CCCCCCCCCCCc1ccc(NC(=O)c2ccc(Cl)cc2)cc1
+W074  COC(=O)c1cc(-c2ccc([N+](=O)[O-])cc2)nn1-c1ccc(F)cc1
+W075  NCCN(CCCNC(=O)CC(c1ccccc1)c1ccccc1)CCCNC(=O)CC(c1ccccc1)c1ccccc1.O=C(O)C(F)(F)F.O=C(O)C(F)(F)F
+W076  O=S(=O)(Cc1cccc(Br)c1)NCc1ccccc1O
+W077  C=C(c1ccc(C)cc1)c1nc(-c2ccccc2)sc1CCC(=O)N(C)c1ccc(C)cc1
+W078  CCCCn1nc(-c2ccc(-c3ccccc3OC)cc2)nc1-c1ccc(-c2ccccc2OC)cc1
+W079  Cc1ccc(Oc2ccc(SC#N)cc2[N+](=O)[O-])cc1
+W080  Cc1ccc(NS(=O)(=O)C(CC(C)C)NC(=O)c2ccc(Cl)c(Cl)c2)cc1
+W081  O=c1ccc2cc(Cc3ccncn3)ccc2o1
+W082  CCCCCCCCCCCC(=O)Nc1ccccc1S(=O)(=O)c1ccc(Cl)cc1
+W083  O=Cc1ccc2cc(-c3ccccc3)[nH]c2c1
+W084  O=C(/C=C/c1ccccc1)C(=O)/C=C/c1ccccc1

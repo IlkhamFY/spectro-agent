@@ -1,0 +1,17 @@
+W102  COC(=O)C(CC#C[Si](C)(C)C)OC
+W103  O=C(Nc1nc2ccccc2s1)c1ccccc1-c1cccc(C(F)(F)F)c1
+W104  O=C(/C=C/C=C/C(=O)c1ccccc1)c1ccccc1
+W105  CO/N=C/c1ccccc1[N+](=O)[O-]
+W106  Cn1cc(C(=O)Nc2ccc(F)cc2[N+](=O)[O-])c(=O)c2ccccc21
+W107  C=C(C(=O)OC)c1ccc2c(c1)C(=C)c1ccccc1N2c1cccc(F)c1
+W108  NCCN(CCCNCCCNC(=O)CC(c1ccccc1)c1ccccc1)C(=O)CC(c1ccccc1)c1ccccc1.O=C(O)C(F)(F)F.O=C(O)C(F)(F)F
+W109  CCCCCCCCCCCc1ccccc1NC(=O)c1ccc(Cl)cc1S(=O)(=O)O
+W110  O=C(/C=C/c1ccc(C(F)(F)F)cc1)Nc1nc2cc3ccccc3cc2s1
+W111  CCCCCCCCCCCS(=O)(=O)c1ccc(NC(=O)c2ccccc2Cl)cc1
+W112  COc1c(-c2ccc(O)c(O)c2)oc2ccccc2c1=O
+W113  O=C(/C=C/c1ccc(C(F)(F)F)cc1)Nc1nc2ccc3ccccc3c2s1
+W114  O=C(Nc1nc2ccccc2s1)c1ccccc1-c1ccccc1C(F)(F)F
+W115  O=c1c2ccccc2nc(-c2ccc(Cl)cc2)c2c3ccccc3c3ccccc3c12
+W116  CON=C1C(=O)Nc2ccccc21
+W117  CCN(CC)C(=O)c1ccc(C)c(-c2ccc3ccc4cccc5ccc2c3c45)c1
+W118  Cc1ccc(CSc2nc3ccccc3n2C)cc1

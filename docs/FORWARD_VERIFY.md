@@ -31,6 +31,12 @@ The arm above was later run over **all 194 compounds** — the 134 main-round ta
 prediction-coverage gap. `scripts/forward_verify_main.py` preps that arm;
 `scripts/forward_verify_all.py` pools both and is what the paper's §5.2 reports.
 
+The generate-wide arm's own coverage gap was closed at the same time: it had predicted
+only 65 of its 217 new candidates, so its top-1 was a lower bound. All 217 are now
+predicted (`scripts/forward_verify_gw.py`) and **no number moves** — the bound was tight.
+On 18 of 60 compounds the verifier does switch to a newly-selectable candidate, but every
+switch is wrong-structure → wrong-structure: more candidates, same ceiling.
+
 ## Result
 | | 60-compound arm | **all 194** |
 |---|--:|--:|

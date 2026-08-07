@@ -727,8 +727,9 @@ self-ranking row is derived, by an independent script over the released candidat
 from the same solver output as §4, and it lands on Table 2 exactly: 55/194 = **28.4%**
 top-1 and 65/194 = **33.5%** recall, and the same in both strata (simple 48.0% / 54.1%,
 complex 8.3% / 12.5%) — all six headline numbers re-derived, digit for digit, through a
-separate code path. And of the 373 candidates, **373 were forward-predicted** — unlike
-§5.3, this arm has no prediction-coverage gap, so nothing here is a lower bound.
+separate code path. And of the 373 candidates, **373 were forward-predicted**: every
+candidate the verifier could rank was rankable, so nothing here is a lower bound. (The
+same is now true of §5.3, whose coverage gap we also closed.)
 
 The decomposition is the finding. **When the true structure is among the candidates,
 forward verification selects it in 58 of 65 cases (89%)** — high in absolute terms and
@@ -792,14 +793,25 @@ this arm only, so the comparison is held to it.
 Wide generation lifts recall +10 points (31%→41%, i.e. 19/60→25/60) and exact top-1
 +7 points over the self-ranking baseline (23%→30%, 14/60→18/60) — equivalently +4 over
 the original forward-verified top-1 (26%→30%, 16/60→18/60, Table 7) — on the same 60
-compounds (Fig. 6), with no training. One asymmetry in the arm should be stated: of the
-217 distinct new candidates the wide pass proposed, only **65 (29%) were forward-predicted**
-— predicting all of them was beyond the run's budget — and an unpredicted candidate is
-assigned an infinite match distance, so it can never be selected. Recall counts every
-candidate (a true structure need only be *present*), but top-1 can only benefit from the
-predicted subset. The reported 30% is therefore a **lower bound** on what this recipe
-achieves with full prediction coverage; it cannot be inflated by the gap. Table 7 regenerates from the released artifacts via
-`scripts/score_generate_wide.py`. **These top-1 differences are directional, not
+compounds (Fig. 6), with no training. The arm originally forward-predicted only **65 of
+the 217** distinct new candidates, which made its top-1 a lower bound rather than a
+measurement: an unpredicted candidate is assigned an infinite match distance and can
+never be selected, so recall could count every candidate while top-1 benefited only from
+the predicted subset. **We have since predicted all 217, and not one number moves** —
+recall 41%, forward-verified top-1 30%, precision 72%, identical to three significant
+figures. The bound was tight.
+
+What the added coverage does buy is a direct view of the mechanism. On **18 of the 60
+compounds the verifier abandons its previous pick for a newly-selectable candidate** — so
+the extra candidates genuinely compete, and often win on chamfer distance — yet in **not
+one** of those 18 does the outcome change: every switch is from one wrong structure to
+another. The wide pass supplies more near-degenerate alternatives, the ~2 ppm predictor
+prefers some of them, and it cannot tell them from the truth. That is the precision
+ceiling of the paragraph below observed directly rather than inferred, and it is why
+recall — not verification, and not prediction coverage — remains the binding constraint.
+Table 7 and this coverage analysis regenerate from the released artifacts via
+`scripts/score_generate_wide.py` and `scripts/forward_verify_gw.py`
+(`data/fverify_gw/results.txt`). **These top-1 differences are directional, not
 statistically resolved at n=60:** the 14/60→18/60 improvement is a four-compound
 difference, but the stages are **not** nested: going from self-ranking to generate-wide
 gains seven compounds and loses three, so the paired test is McNemar exact **p=0.34**

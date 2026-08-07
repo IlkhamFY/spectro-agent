@@ -1,0 +1,17 @@
+W085  CCOc1ccc2oc(=O)c(-c3cc4ccccc4n(CC(F)(F)F)c3=O)c(C)c2c1
+W086  C=C(c1ccc(C)cc1)c1nc(-c2ccccc2)c(CCC(=O)N(C)c2ccc(C)cc2)s1
+W087  O=C(c1ccccc1)C(C(=O)c1ccccc1)(c1ccc(Cl)cc1)C1(C(=O)c2ccccc2)C(=O)N(Cc2ccccc2)C1(c1ccccc1)c1ccc(Cl)cc1
+W088  O=C(Nc1nc2ccccc2s1)c1ccccc1-c1ccc(C(F)(F)F)cc1
+W089  c1ccc(CN2CCN(c3nc(NCCCN4CCNCC4)nc(NCCCN4CCNCC4)n3)CC2)cc1
+W090  CC#Cc1cc(C=O)ccc1OCOC
+W091  COC(=O)CCC(=O)/C=C/[Si](C)(C)C
+W092  Cc1ccc(Oc2cc(SC#N)ccc2[N+](=O)[O-])cc1
+W093  CCCCn1nc(-c2ccc(-c3cccc(OC)c3)cc2)nc1-c1ccc(-c2cccc(OC)c2)cc1
+W094  O=S(=O)(Cc1ccccc1Br)NCc1cccc(O)c1
+W095  Cn1cc(C(=O)Nc2cccc([N+](=O)[O-])c2F)c(=O)c2ccccc21
+W096  C=CCN(C)C(=O)Cc1c(-c2ccccc2)[nH]c2ccc(OC)c(OC)c12
+W097  C=CC(=O)/C=C/C(=O)c1ccccc1
+W098  COc1ccccc1C(=O)C1C(Cl)C1(C)Cl
+W099  Cc1cc(C)c([Se]c2nc3ccccc3nc2-c2ccc(C(F)(F)F)nc2)c(C)c1
+W100  CN(C)CCCN1CCN(c2nc(N3CCN(CCCN(C)C)CC3)nc(N3CCN(Cc4ccccc4)CC3)n2)CC1
+W101  O=C(/C=C/c1cccc(C(F)(F)F)c1)Nc1nc2cc3ccccc3cc2s1

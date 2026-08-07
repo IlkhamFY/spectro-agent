@@ -1127,7 +1127,17 @@ pretraining, 0/40 in fine-tuning); (ii) the simulated-pretrained model alone rec
 The IRexp data — not the architecture — is the active ingredient, and the recall ceiling
 is therefore **elicitation-specific, not task-intrinsic**. We report this as a probe,
 not part of the headline training-free protocol; it answers whether the wall is
-breakable, not whether to abandon training-free methods. (The released public split
+breakable, not whether to abandon training-free methods.
+
+Two published systems make this point far more strongly than our 16M-parameter probe
+can, and we would rather lean on them than on ourselves. NMR-Solver reaches 52.9% top-1
+on experimental literature ¹H/¹³C with the formula supplied, using a purpose-trained
+shift predictor inside the same generate-and-verify loop[@jin2025nmrsolver]; and a
+purpose-trained IR transformer reaches 63.8% top-1 on experimental NIST spectra in the
+6–13-heavy-atom range[@alberts2025benchmarks]. Whatever bounds a training-free LLM at
+28–30%, it is plainly not the task. Our probe adds one thing those results do not: it
+isolates the *data* as the active ingredient (0→25% with IRexp fine-tuning, 0/248
+without), which is the claim IRexp itself has to earn. (The released public split
 `irexp_release/train` does *not* hold out the benchmark — it overlaps it by 117/200
 InChIKey-14 — so downstream users must de-leak as in `build_exp_manifest.py`; see Data
 and code availability.)

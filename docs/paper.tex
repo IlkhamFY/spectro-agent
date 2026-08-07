@@ -354,22 +354,28 @@ al.\textsuperscript{12}, learns an IR→structure transformer from
 \textasciitilde635k \emph{simulated} spectra with a 3,453-spectrum
 experimental fine-tune (top-1 44\% on 6--13 heavy atoms), since improved
 by the same group to \textbf{63.8\% top-1 / 84.0\% top-10 on
-experimental NIST spectra} given the formula, using 1.4M simulated
-spectra for pretraining\textsuperscript{13}. That line is the state of
-the art for \emph{trained, formula-conditioned IR} elucidation and is
-well above anything we report; IRexp instead releases experimental IR at
-scale as an open, redistributable resource and pairs it with a blind LLM
-benchmark. The two are complements rather than competitors --- their
-models need exactly the kind of experimental data IRexp exists to
-supply, and neither their setting (single modality, gas-phase NIST,
-formula-constrained decoding) nor ours bounds the other. \textbf{(ii)
-Blind, fully specified, mechanical scoring:} reported accuracies on the
-same task vary enormously with inference method and scoring harness ---
-the \emph{same model} on the \emph{same benchmark} spans a factor of
-forty. GPT-4o is reported at \textbf{1.4\%} on MolPuzzle by the
-benchmark's own authors\textsuperscript{10}, at \textbf{27.8\%} under a
-plain chain-of-thought harness by Zhuang et al., and at \textbf{57.8\%}
-when the latter add knowledge-enhanced tree-search
+experimental NIST gas-phase spectra} given the formula, pretraining on
+1,399,806 simulated spectra\textsuperscript{13}. That line is the state
+of the art for \emph{trained, formula-conditioned IR} elucidation. Its
+evaluation is restricted to \textbf{6--13 heavy atoms}, which is the
+size range where our own accuracy is highest --- 60.5\% top-1 for ≤15
+heavy atoms (§4.1) --- so on comparable molecules the training-free LLM
+and the purpose-trained transformer are closer than the headline numbers
+suggest; the gap our benchmark exposes opens up at the \emph{larger}
+sizes their evaluation excludes (7.0\% above 25 heavy atoms). IRexp
+instead releases experimental IR at scale as an open, redistributable
+resource and pairs it with a blind LLM benchmark. The two are
+complements rather than competitors --- their models need exactly the
+kind of experimental data IRexp exists to supply, and neither their
+setting (single modality, gas-phase NIST, formula-constrained decoding)
+nor ours bounds the other. \textbf{(ii) Blind, fully specified,
+mechanical scoring:} reported accuracies on the same task vary
+enormously with inference method and scoring harness --- the \emph{same
+model} on the \emph{same benchmark} spans a factor of forty. GPT-4o is
+reported at \textbf{1.4\%} on MolPuzzle by the benchmark's own
+authors\textsuperscript{10}, at \textbf{27.8\%} under a plain
+chain-of-thought harness by Zhuang et al., and at \textbf{57.8\%} when
+the latter add knowledge-enhanced tree-search
 reasoning\textsuperscript{9} --- so numbers across papers are not
 directly comparable; we therefore fix and release a single,
 pre-registered, RDKit-InChIKey protocol with bootstrap CIs.
@@ -842,19 +848,24 @@ published numbers differ in the three respects that most move the score
 \emph{in-distribution on simulated spectra}, though not all: Alberts et
 al.~reach 63.8\% top-1 on \textbf{experimental} NIST gas-phase IR with
 the formula supplied\textsuperscript{13}, a genuinely real-spectrum
-result that is higher than ours and that we do not discount --- its test
-set is a curated single-instrument gas-phase library rather than
-heterogeneous literature-reported band lists, and its input is IR alone,
-but it is experimental data and the number stands. Of the multimodal
-systems: Spectro (¹H/¹³C/IR→SELFIES, 6,833 molecules) reports
-\textbf{93\%} overall test accuracy trained jointly with its IR vision
-model and \textbf{82\%} with fixed embeddings --- but on a
-1,366-molecule held-out split whose IR is plotted from reference data
-and whose NMR is software-\emph{predicted}, not
-experimental\textsuperscript{1}; and NMIRacle, which conditions jointly
-on IR+¹H+¹³C, reports 48\% top-1 / 66\% top-15 exact-SMILES recovery ---
-again on held-out molecules from a \emph{simulated} corpus drawn from
-the training distribution (an 8:1:1 split of the
+result we do not discount --- its test set is a curated
+single-instrument gas-phase library of \textbf{6--13-heavy-atom}
+molecules rather than heterogeneous literature-reported band lists, and
+its input is IR alone, but it is experimental data and the number
+stands. The two evaluations barely overlap: our compounds span 8--60
+heavy atoms (median 20) and only \textbf{15 of 194 (8\%)} fall inside
+their 6--13 window. Against our own ≤15-heavy-atom stratum (60.5\%)
+their 63.8\% is a near-tie; the divergence is a property of molecular
+size, which is exactly what §4.1 measures and what an evaluation capped
+at 13 heavy atoms cannot see. Of the multimodal systems: Spectro
+(¹H/¹³C/IR→SELFIES, 6,833 molecules) reports \textbf{93\%} overall test
+accuracy trained jointly with its IR vision model and \textbf{82\%} with
+fixed embeddings --- but on a 1,366-molecule held-out split whose IR is
+plotted from reference data and whose NMR is software-\emph{predicted},
+not experimental\textsuperscript{1}; and NMIRacle, which conditions
+jointly on IR+¹H+¹³C, reports 48\% top-1 / 66\% top-15 exact-SMILES
+recovery --- again on held-out molecules from a \emph{simulated} corpus
+drawn from the training distribution (an 8:1:1 split of the
 \textasciitilde790k-molecule simulated set of Alberts et al.), a
 limitation its authors state themselves\textsuperscript{6}. We measure
 28.4\% top-1 (33.5\% top-3) on the full n=194 benchmark --- rising to

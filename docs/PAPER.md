@@ -166,10 +166,14 @@ contrast we can draw is therefore between literature-reported heterogeneity and 
 simulation *and* curated uniformity, not between simulated and real alone. The closest trained precedent,
 Alberts et al.[@alberts2024ir], learns an IR→structure transformer from ~635k *simulated* spectra with
 a 3,453-spectrum experimental fine-tune (top-1 44% on 6–13 heavy atoms), since improved
-by the same group to **63.8% top-1 / 84.0% top-10 on experimental NIST spectra** given the
-formula, using 1.4M simulated spectra for pretraining[@alberts2025benchmarks]. That line is
-the state of the art for *trained, formula-conditioned IR* elucidation and is well above
-anything we report; IRexp instead
+by the same group to **63.8% top-1 / 84.0% top-10 on experimental NIST gas-phase spectra**
+given the formula, pretraining on 1,399,806 simulated spectra[@alberts2025benchmarks]. That line is
+the state of the art for *trained, formula-conditioned IR* elucidation. Its evaluation is
+restricted to **6–13 heavy atoms**, which is the size range where our own accuracy is
+highest — 60.5% top-1 for ≤15 heavy atoms (§4.1) — so on comparable molecules the
+training-free LLM and the purpose-trained transformer are closer than the headline
+numbers suggest; the gap our benchmark exposes opens up at the *larger* sizes their
+evaluation excludes (7.0% above 25 heavy atoms). IRexp instead
 releases experimental IR at scale as an open, redistributable resource and pairs it with
 a blind LLM benchmark. The two are complements rather than competitors — their models
 need exactly the kind of experimental data IRexp exists to supply, and neither their
@@ -515,10 +519,14 @@ the score — spectrum realism (simulated/curated vs. real), hints, and how "exa
 match" is defined. Most trained baselines report their accuracy
 *in-distribution on simulated spectra*, though not all: Alberts et al. reach 63.8% top-1
 on **experimental** NIST gas-phase IR with the formula supplied[@alberts2025benchmarks],
-a genuinely real-spectrum result that is higher than ours and that we do not discount —
-its test set is a curated single-instrument gas-phase library rather than heterogeneous
-literature-reported band lists, and its input is IR alone, but it is experimental data
-and the number stands. Of the multimodal systems: Spectro (¹H/¹³C/IR→SELFIES, 6,833 molecules)
+a genuinely real-spectrum result we do not discount — its test set is a curated
+single-instrument gas-phase library of **6–13-heavy-atom** molecules rather than
+heterogeneous literature-reported band lists, and its input is IR alone,
+but it is experimental data and the number stands. The two evaluations barely overlap:
+our compounds span 8–60 heavy atoms (median 20) and only **15 of 194 (8%)** fall inside
+their 6–13 window. Against our own ≤15-heavy-atom stratum (60.5%) their 63.8% is a
+near-tie; the divergence is a property of molecular size, which is exactly what §4.1
+measures and what an evaluation capped at 13 heavy atoms cannot see. Of the multimodal systems: Spectro (¹H/¹³C/IR→SELFIES, 6,833 molecules)
 reports **93%** overall test accuracy trained jointly with its IR vision model and
 **82%** with fixed embeddings — but on a 1,366-molecule held-out split
 whose IR is plotted from reference data and whose NMR is software-*predicted*, not

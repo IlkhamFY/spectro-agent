@@ -155,15 +155,26 @@ Our contribution is orthogonal to IR-Agent's: where it improves *how the model r
 spectrum*, we ask what limits the outcome once it has, and answer with a measured
 decomposition — generation recall versus verification precision — plus the blind benchmark
 and open dataset needed to measure either honestly. What is new here is three things that, to our knowledge, no prior benchmark
-combines. **(i) Real, literature-mined experimental spectra at scale:** prior
-multimodal benchmarks and trained baselines[@chacko2024spectro; @ottomano2025nmiracle; @alberts2024ir] rely on simulated, software-predicted,
-or hand-curated puzzle spectra, whereas IRSpectra-Bench is drawn from IRexp's
-experimental IR + ¹H + ¹³C of out-of-distribution compounds, so it measures the
-simulated-to-real gap rather than in-distribution skill. The closest trained precedent,
+combines. **(i) Real, literature-mined experimental spectra at scale:** prior multimodal
+benchmarks and trained baselines evaluate either on simulated or software-predicted
+spectra[@chacko2024spectro; @ottomano2025nmiracle] or on *curated single-instrument*
+libraries — Alberts et al. use NIST gas-phase IR[@alberts2024ir; @alberts2025benchmarks] —
+whereas IRSpectra-Bench is drawn from IRexp's
+experimental IR + ¹H + ¹³C **as reported by the authors of the source papers**, across
+thousands of laboratories and instruments, for out-of-distribution compounds. The
+contrast we can draw is therefore between literature-reported heterogeneity and both
+simulation *and* curated uniformity, not between simulated and real alone. The closest trained precedent,
 Alberts et al.[@alberts2024ir], learns an IR→structure transformer from ~635k *simulated* spectra with
-a 3,453-spectrum experimental fine-tune (top-1 44% on 6–13 heavy atoms); IRexp instead
+a 3,453-spectrum experimental fine-tune (top-1 44% on 6–13 heavy atoms), since improved
+by the same group to **63.8% top-1 / 84.0% top-10 on experimental NIST spectra** given the
+formula, using 1.4M simulated spectra for pretraining[@alberts2025benchmarks]. That line is
+the state of the art for *trained, formula-conditioned IR* elucidation and is well above
+anything we report; IRexp instead
 releases experimental IR at scale as an open, redistributable resource and pairs it with
-a blind LLM benchmark. **(ii) Blind, fully specified, mechanical scoring:** reported
+a blind LLM benchmark. The two are complements rather than competitors — their models
+need exactly the kind of experimental data IRexp exists to supply, and neither their
+setting (single modality, gas-phase NIST, formula-constrained decoding) nor ours bounds
+the other. **(ii) Blind, fully specified, mechanical scoring:** reported
 accuracies on the same task vary enormously with inference method and scoring harness —
 the *same model* on the *same benchmark* spans a factor of forty. GPT-4o is reported at
 **1.4%** on MolPuzzle by the benchmark's own authors[@guo2024molpuzzle], at **27.8%**
@@ -501,8 +512,13 @@ hint-free, scraped regime, ~28% is the honest figure.
 against specialised trained models is not available: no system has been scored on an
 identical test set, and published numbers differ in the three respects that most move
 the score — spectrum realism (simulated/curated vs. real), hints, and how "exact
-match" is defined. The strongest trained baselines report their accuracy
-*in-distribution on simulated spectra*. Spectro (¹H/¹³C/IR→SELFIES, 6,833 molecules)
+match" is defined. Most trained baselines report their accuracy
+*in-distribution on simulated spectra*, though not all: Alberts et al. reach 63.8% top-1
+on **experimental** NIST gas-phase IR with the formula supplied[@alberts2025benchmarks],
+a genuinely real-spectrum result that is higher than ours and that we do not discount —
+its test set is a curated single-instrument gas-phase library rather than heterogeneous
+literature-reported band lists, and its input is IR alone, but it is experimental data
+and the number stands. Of the multimodal systems: Spectro (¹H/¹³C/IR→SELFIES, 6,833 molecules)
 reports **93%** overall test accuracy trained jointly with its IR vision model and
 **82%** with fixed embeddings — but on a 1,366-molecule held-out split
 whose IR is plotted from reference data and whose NMR is software-*predicted*, not

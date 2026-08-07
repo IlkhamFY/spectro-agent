@@ -241,3 +241,15 @@ Audited 2026-08-07.
 | GPT-4o on MolPuzzle: 1.4% | Guo et al., NeurIPS 2024 D&B | **exact** |
 | GPT-4o at 27.8% "using knowledge-enhanced tree-search reasoning" | Zhuang et al., arXiv:2506.23056 Table 1 | **was wrong, corrected** — 27.8% is their plain-CoT *baseline*; their tree-search result is 57.8%. The true spread is ~40×, not ~20×. |
 | Spectro: accuracy on a 1,366-molecule held-out split | Crossref abstract for 10.26434/chemrxiv-2024-37v2j | **partly verified** — the abstract reports **93%** joint / **82%** fixed-embedding overall test accuracy, now quoted as such (we previously wrote "~90% top-1 exact recovery", which is neither figure and renames the metric). The 6,833/1,366 split sizes and the "software-predicted NMR" characterisation are in the full text, which ChemRxiv serves only behind a 403 — **two co-authors of this paper wrote Spectro and should confirm them.** |
+
+### Related-work completeness sweep (2026-08-07)
+
+Searched for recent work the bibliography missed, since no script in this repository can
+surface a missing citation. Four additions, two of which required correcting claims:
+
+| work | why it matters | action |
+|---|---|---|
+| **NMR-Solver** (Jin et al., arXiv:2509.00640) | implements §5's generate-and-forward-verify loop *without* an LLM (NMRNet, ¹³C MAE 1.098 ppm); 52.89% top-1 on ~450 experimental literature spectra with formula | cited; §1.1 and Contribution 3 now state the loop is prior art and that its sharper predictor **corroborates** the §5.1 resolution diagnosis |
+| **Alberts, Zipoli & Laino** (*Digital Discovery* **4**, 1936, 2025) | successor to the 2024 paper we cite, **in our target journal**; 63.8% top-1 / 84.0% top-10 on *experimental* NIST gas-phase IR with formula | cited; falsified our claim that "the strongest trained baselines report accuracy in-distribution on simulated spectra" — corrected, and the real/curated distinction restated as literature-heterogeneous vs single-instrument |
+| **NMRAgent** (Fang et al., arXiv:2606.29776) | closest LLM-agent counterpart; validates on newly isolated natural products | cited as complementary |
+| **NMRArena** (odanchem, GitHub) | 105 molecules, experimental ¹H/¹³C, benchmarks six general LLMs *including Claude Opus 4.8* against four specialist models | **not cited** — publication is a placeholder ("final citation to be added on publication"), so it is concurrent unpublished work. Contribution 2's priority claim is hedged "to our knowledge"; **authors should re-check before submission** in case it has since appeared. |

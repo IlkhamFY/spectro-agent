@@ -32,6 +32,7 @@ python scripts/forward_verify_all.py    # Table 6  - recall/verification decompo
 python scripts/score_generate_wide.py   # Table 7  - generate-wide arm
 python scripts/ladder_significance.py   # the paired tests behind §5.3
 python scripts/analyze_misses.py        # §4  - what a top-1 miss actually is
+python scripts/isomer_separability.py   # §5.1 - how far apart the predictor puts isomers
 python scripts/check_manuscript.py      # manuscript integrity gate (must pass)
 pip install scipy && python scripts/verify_statistics.py   # audit the hand-rolled stats
 python scripts/build_pdf.py             # rebuild docs/paper.pdf

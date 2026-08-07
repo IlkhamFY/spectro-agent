@@ -1093,8 +1093,9 @@ elucidation}\label{forward-verification-elucidation}}
 The inverse direction is the model's hard, isomer-blind direction; the
 \textbf{forward} direction (structure→spectrum) is its easy, accurate
 one.\textsuperscript{2} Regioisomers, crucially, have \emph{different}
-forward-predicted ¹³C shifts. We therefore close a generator-- verifier
-loop:
+forward-predicted ¹³C shifts --- though, as we quantify at the end of
+this subsection, by a margin far thinner than that framing suggests. We
+therefore close a generator--verifier loop:
 
 \begin{quote}
 \textbf{generate} candidate structures (inverse) →
@@ -1137,6 +1138,31 @@ This is the precision-loss mechanism of §5.3 made concrete: when
 candidates are near-degenerate the cheap predictor cannot resolve them,
 and it is exactly these cases --- not generation failures --- that a
 sharper (DFT-level) or 2D-NMR-grounded verifier would need to fix.
+
+\textbf{How thin is the margin the method works on?} The premise above
+deserves a distribution rather than a worked example, so we measured the
+chamfer between the \emph{predicted} spectra of every pair of candidates
+proposed for the same target (\texttt{scripts/isomer\_separability.py}).
+For isomeric pairs --- the regioisomer-like ones the verifier exists to
+separate --- the median separation is \textbf{1.21 ppm} (quartiles 0.84
+and 1.78), and \textbf{82\% of such pairs are predicted closer together
+than the predictor's own \textasciitilde2 ppm error}. Non-isomeric pairs
+separate better but not dramatically (median 1.90 ppm, 53\% inside the
+error). So the honest form of the premise is not that regioisomers are
+predicted far apart; it is that they are predicted \emph{slightly}
+apart, usually within the noise, and that the ranking nevertheless
+recovers the right one 89\% of the time when it is present (§5.2) --- a
+real effect on a thin margin, confirmed against a derangement null at
+p=0.001 (§5.5).
+
+This single measurement is the quantitative root of three limits the
+rest of §5 reports separately: precision falling 84\%→72\% as more
+near-degenerate isomers enter the pool (§5.3), the 74\% derangement
+chance floor (§5.5), and the near-degenerate ceiling that neither the
+HOSE lookup nor the GNN escapes (§5.4). All three are the same fact seen
+from different angles --- the predictor's resolution and the isomers'
+spacing are of the same order, so a sharper predictor, not a better
+search, is what would move them.
 
 Conceptually this is \textbf{analogous to NMR-crystallography logic,
 with an LLM in place of the quantum chemistry} --- an analogy, not an

@@ -2024,12 +2024,16 @@ because a masked-input control is only meaningful as a fresh run; it
 touches Table 5 alone. Three \textbf{2026-08-07} collections
 forward-predict ¹³C for candidates the June run had already produced
 (the §5.2 extension to all 194 compounds, the §5.3 coverage-gap closure,
-and the §5.6 re-run) --- none introduces a new candidate or moves a
-recall number. Decoding parameters are not exposed by the subscription
-harness and were neither set nor recorded, so re-running reproduces the
-protocol distributionally rather than exactly; the dated model snapshot
-identifiers are listed there as the outstanding items to be pinned on
-submission.
+and the §5.6 re-run); none introduces a new candidate structure, and no
+recall number in the paper changes. One \emph{verified} number does: the
+§5.6 re-run supersedes a top-1 whose original forward-prediction outputs
+were never deposited and are lost, and it does not agree with the figure
+it replaces (46\% against 41\%). §5.6 reports the reproducible one and
+says plainly that it is a re-run rather than a reproduction. Decoding
+parameters are not exposed by the subscription harness and were neither
+set nor recorded, so re-running reproduces the protocol distributionally
+rather than exactly; the dated model snapshot identifiers are listed
+there as the outstanding items to be pinned on submission.
 
 \textbf{Reproducibility.} Every round is frozen: questions, ground-truth
 answers, per-agent raw outputs, predictions, and scorer outputs are

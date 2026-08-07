@@ -33,6 +33,7 @@ It is a proxy, not a timestamp emitted by the harness.
 | §5.3 | expanded forward-verification of the widened pool: **4** forward-prediction agents, 65 new candidates | Claude Opus | `data/fverify2/` (raw `f1`–`f4`) | 2026-06-10 18:19 | commit `bea1c3e` |
 | §5.2 | forward-verification **extended to the whole benchmark**: **15** blind forward-prediction agents over the 247 main-round candidates (373 across both arms) | Claude Opus | `data/fverify_main/` (raw `f1`–`f15`) | 2026-08-07 02:45 – 02:53 | `data/fverify_main/results.txt`; pooled by `scripts/forward_verify_all.py` |
 | §5.3 | **closing the generate-wide coverage gap**: **9** forward-prediction agents over the 152 wide candidates that had none (217/217 now predicted) | Claude Opus | `data/fverify_gw/` (raw `g1`–`g9`) | 2026-08-07 03:20 – 03:30 | `data/fverify_gw/results.txt`; scored by `scripts/score_generate_wide.py` |
+| §5.6 | **re-run** of the trained-generator forward-verified arm (the original outputs were never committed): **5** blind forward-prediction agents over the 75 outstanding candidates | Claude Opus | `data/fverify_gen/` (raw `g1`–`g5`) | 2026-08-07 03:55 – 04:05 | `scripts/forward_verify_gen.py score` (0 missing predictions) |
 | §7 *Independence checks* | cross-model recall check on V3-R01…R12 (n=12), identical blind 6-candidate protocol | Claude Sonnet | `data/gw/raw/sonnet_b1.json`, `sonnet_b2.json` | 2026-06-10 18:33 – 18:38 | `data/gw/crossmodel.txt`; commits `c1c1924`, `bb7c73a` |
 | §4.1 | **headline** main round, 140 problems (134 spectrally validated), decoupled agents, 6- and 12-compound contexts | Claude Opus | `data/benchmark_main/raw/` | 2026-06-11 06:48 – 09:16 | commits `9e7fb90` … `4faf5e1`; headline scored in `52e03a2` |
 | §4.4 | cross-model comparison, fixed 24-compound subset | Claude Haiku | `data/benchmark_main/haiku/` (`b1`–`b4`) | 2026-06-11 16:16 | commits `a797904`, `f5edfc9` |
@@ -43,11 +44,13 @@ It is a proxy, not a timestamp emitted by the harness.
 **Derived access window for the solver (elucidation) results in the paper:
 2026-06-09 → 2026-06-11 (UTC), a 3-day window.** Every *candidate structure* scored
 anywhere in the paper was generated inside it; no elucidation artifact was added outside
-it. Two later additions exist and are listed above, both dated **2026-08-07** and both of
+it. Three later additions exist and are listed above, all dated **2026-08-07** and all of
 the same kind: they forward-predict ¹³C for candidates the June solver had already
-produced (the §5.2 extension to all 194 compounds, and the §5.3 coverage-gap closure).
-Neither introduces a new candidate structure or moves a recall number; they only supply
-the verifier's input where it was missing. All other later commits
+produced (the §5.2 extension to all 194 compounds, the §5.3 coverage-gap closure, and
+the §5.6 re-run whose original outputs were lost). None introduces a new candidate
+structure or moves a recall number; they only supply the verifier's input where it was
+missing. The §5.6 re-run does change that arm's *verified top-1*, because the number it
+replaces was never reproducible — §5.6 states this explicitly. All other later commits
 (figures, statistics, the §5.6/§5.7 trained probes) re-score frozen outputs and
 re-query no model.
 
@@ -196,8 +199,14 @@ Listed so no reader mistakes them for part of the LLM system under test.
   exist. `docs/PAPER.md` §7 (i) says the arm is "specified but **not yet run**".
 - **Expert-chemist audit** (`data/audit/`, `docs/EXPERT_AUDIT_PROTOCOL.md`): human
   protocol, frozen and blinded, not yet run (`docs/PAPER.md` §7 (ii)).
-- **§5.6 forward-verified arm**: `data/fverify_gen/raw/` is an **empty directory**. The
-  blind LLM forward-prediction JSONs behind the provisional 41% top-1 were never
-  committed; `docs/PAPER.md` §5.6 flags that number as provisional pending their deposit
-  and a re-run under the pinned model snapshot. Supplying item 1 above is a precondition
-  for that re-run.
+- ~~**§5.6 forward-verified arm**: `data/fverify_gen/raw/` is an empty directory.~~
+  **Resolved 2026-08-07.** The original blind forward-prediction JSONs behind the
+  provisional 41% top-1 were never committed and are lost. Rather than keep citing an
+  unverifiable number, the arm was **re-run from scratch** under the identical blind
+  protocol (75 candidates, 5 agents, anonymised SMILES only) and every prediction is now
+  deposited at `data/fverify_gen/raw/` (`g1`–`g5`). `scripts/forward_verify_gen.py score`
+  regenerates the arm with zero missing predictions. The re-run gives **46% top-1
+  (28/60)** at **82%** precision conditional on recall (28/34), against the retired
+  provisional 41% / 73%; recall is 56% (34/60), unchanged. §5.6 reports the re-run and
+  says plainly that it is a re-run, not a reproduction. Note the collection date differs
+  from the June solver window — see the access-window note above.

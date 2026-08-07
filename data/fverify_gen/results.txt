@@ -1,0 +1,4 @@
+compounds: 60   (missing predictions: 0 candidates — coverage complete)
+  recall (true in pool)          : 34/60 (56%)
+  top-1, FORWARD-VERIFIED (gen)  : 28/60 (46%)   <- vs paper generate-wide 30%
+  CONDITIONAL on recall          : 28/34 (82%)

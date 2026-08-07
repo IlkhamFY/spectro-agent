@@ -313,8 +313,11 @@ system, **or** more than 22 heavy atoms — is **complex** (98 simple / 96 compl
 binary difficulty axis is distinct from the continuous size gradient in §4.1, which bins
 by heavy-atom count (≤15 / 16–25 / >25). The
 criterion is therefore exhaustive (the 23–24-atom band, 13 compounds, is classed
-complex by size). InChIKey de-duplication is applied across all rounds to prevent
-leakage.
+complex by size). The 22-atom threshold is not load-bearing: sweeping it from 18 to 26
+moves the simple-minus-complex top-1 gap only between 36 and 40 points (39.6 at the
+released value), so the separation is a property of the compounds rather than of where
+the line was drawn (`scripts/difficulty_sensitivity.py`). InChIKey de-duplication is
+applied across all rounds to prevent leakage.
 
 **Scoring is mechanical.** A prediction is *correct* if its RDKit InChIKey
 connectivity layer (first 14 characters) matches the reference — i.e. we score
@@ -968,12 +971,21 @@ near-degenerate regioisomers *collapse* the deterministic HOSE verifier
 (top-1 28.4%→16.0%, the §5.3 precision-loss mechanism), the generator's formula-correct,
 ¹³C-separable candidates **convert**: HOSE top-1 rises **28.4%→35.1%** (McNemar exact
 p=0.015; +6.7 points, 95% CI [+2.1, +11.9]; Fig. S5). With the stronger LLM
-forward-prediction verifier on the 60 forward-verify compounds, recall rises 41%→**56%**;
-the corresponding forward-verified top-1 (measured at **41%**, precision 72%→73%) was
-obtained with blind in-house prediction agents and is reported as **provisional** pending
-deposit of those forward-prediction outputs and a re-run under the pinned model snapshot
-(the released `forward_verify_gen.py` reproduces the recall arm and the deterministic
-HOSE re-rank; the LLM forward-prediction JSONs are not yet in the bundle).
+forward-prediction verifier on the 60 forward-verify compounds, recall rises 41%→**56%**
+(34/60) and forward-verified top-1 reaches **46%** (28/60), at 82% precision conditional
+on recall (28/34).
+
+Those last two figures are a **re-run, not a reproduction**, and the distinction matters.
+An earlier pass reported 41% top-1 at 73% precision, but its forward-prediction outputs
+were never deposited, so that number was unverifiable and we do not stand behind it. We
+therefore re-ran the arm from scratch under the identical blind protocol — the 75
+outstanding candidates forward-predicted by agents that saw the anonymised SMILES and
+nothing else — and **released every prediction** (`data/fverify_gen/raw/`), so
+`scripts/forward_verify_gen.py score` now regenerates all three numbers from the bundle
+with no missing predictions. The re-run lands *above* the figure it replaces (46% vs 41%
+top-1, 82% vs 73% precision); we report the reproducible one and flag that it was
+collected later than the June solver runs (`docs/MODELS.md`). The recall arm and the
+deterministic-HOSE re-rank were reproducible throughout and are unchanged.
 
 Two controls guard against memorisation, both reproducible from the released bundle
 (`contrib/generator_probe`): (i) the fine-tuning split removes every benchmark
@@ -1306,7 +1318,11 @@ likewise. The §5.6 trained-generator probe ships as a self-contained bundle
 (`contrib/generator_probe/`): generator candidates, the de-leaked split with its
 InChIKey-14 manifest, and the verification scripts
 (`scripts/closing_the_gap_gen.py`, `scripts/forward_verify_gen.py`,
-`scripts/verify_leakage_exact40.py`); model checkpoints are deposited on Zenodo.
+`scripts/verify_leakage_exact40.py`), together with the blind forward-prediction outputs
+behind its verified top-1 (`data/fverify_gen/raw/`, so `forward_verify_gen.py score`
+runs with no missing predictions); model checkpoints are deposited on Zenodo. The
+difficulty-threshold sensitivity of §3 regenerates via
+`scripts/difficulty_sensitivity.py`.
 Downstream note: the public `irexp_release/train` split does **not** hold out
 IRSpectra-Bench (117/200 InChIKey-14 overlap); de-leak with
 `contrib/generator_probe/build_exp_manifest.py` before training models that will be

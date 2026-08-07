@@ -54,6 +54,53 @@ def mcnemar_exact(b, c):
     return min(1.0, 2 * tail)
 
 
+def fisher_exact(a, b, c, d):
+    """Two-sided Fisher exact test on a 2x2 table (sum of tables no likelier than
+    the observed one). Used only to check that the two arms are homogeneous enough
+    to pool -- a large p here is what licenses the pooled column."""
+    n = a + b + c + d
+    if n == 0: return 1.0
+    def p(w, x, y, z):
+        return comb(w + x, w) * comb(y + z, y) / comb(n, w + y)
+    obs, tot = p(a, b, c, d), 0.0
+    for i in range(0, min(a + b, a + c) + 1):
+        j, k, l = a + b - i, a + c - i, d - (a - i)
+        if j < 0 or k < 0 or l < 0: continue
+        q = p(i, j, k, l)
+        if q <= obs + 1e-12: tot += q
+    return min(1.0, tot)
+
+
+def heterogeneity(allrec):
+    """Are the two arms consistent enough to pool? Compare them on the quantities
+    the pooled column reports."""
+    arms = sorted({r["arm"] for r in allrec})
+    if len(arms) != 2: return
+    A = [r for r in allrec if r["arm"] == arms[0]]
+    B = [r for r in allrec if r["arm"] == arms[1]]
+    print("\n=== ARM HOMOGENEITY (does pooling the two arms distort anything?) ===")
+    tests = [
+        ("verification precision | recall",
+         lambda R: [r for r in R if r["recall"]], "verify"),
+        ("verification precision, multi-candidate only",
+         lambda R: [r for r in R if r["recall"] and r["n_cand"] > 1], "verify"),
+        ("self-ranking, multi-candidate only",
+         lambda R: [r for r in R if r["recall"] and r["n_cand"] > 1], "self"),
+    ]
+    for name, sel, key in tests:
+        a, b = sel(A), sel(B)
+        ha, hb = sum(r[key] for r in a), sum(r[key] for r in b)
+        p = fisher_exact(ha, len(a) - ha, hb, len(b) - hb)
+        print(f"  {name:<44} {ha}/{len(a)} vs {hb}/{len(b)}   Fisher p={p:.3f}")
+    # composition: are the single-candidate fractions comparable?
+    ca = [r for r in A if r["recall"]]; cb = [r for r in B if r["recall"]]
+    sa = sum(1 for r in ca if r["n_cand"] == 1); sb = sum(1 for r in cb if r["n_cand"] == 1)
+    p = fisher_exact(sa, len(ca) - sa, sb, len(cb) - sb)
+    print(f"  {'single-candidate fraction | recall':<44} "
+          f"{sa}/{len(ca)} vs {sb}/{len(cb)}   Fisher p={p:.3f}")
+    print("  (large p = arms agree; pooling is licensed, not assumed)")
+
+
 def load_arm(cand_path, amap_path, raw_glob, label, dirs):
     rows = [json.loads(l) for l in open(cand_path)]
     amap = json.load(open(amap_path))
@@ -142,6 +189,7 @@ def main():
         allrec += rec
     for cp, ap, rg, lab, dirs in ARMS:
         block(lab, [r for r in allrec if r["arm"] == lab])
+    heterogeneity(allrec)
     block("POOLED — full benchmark", allrec)
     for d in ("simple", "complex"):
         block(f"POOLED — {d}", [r for r in allrec if r["difficulty"] == d])

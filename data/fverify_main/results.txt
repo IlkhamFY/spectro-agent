@@ -31,6 +31,13 @@
     McNemar exact: b=3 c=4 p=1.000
   top-1 self vs verify, all 134: b=3 c=4 p=1.000
 
+=== ARM HOMOGENEITY (does pooling the two arms distort anything?) ===
+  verification precision | recall              42/46 vs 16/19   Fisher p=0.408
+  verification precision, multi-candidate only 20/24 vs 10/13   Fisher p=0.678
+  self-ranking, multi-candidate only           19/24 vs 8/13   Fisher p=0.275
+  single-candidate fraction | recall           22/46 vs 6/19   Fisher p=0.279
+  (large p = arms agree; pooling is licensed, not assumed)
+
 === POOLED — full benchmark  (n=194) ===
   generation recall              65/194 (33.5%)
   top-1, solver self-ranking     55/194 (28.4%)

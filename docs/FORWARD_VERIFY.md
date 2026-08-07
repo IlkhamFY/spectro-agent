@@ -16,25 +16,44 @@ under the subscription; matching is mechanical (chamfer distance on ¹³C peak s
 - 60 benchmark compounds (v3 + v2-control), **126** unique candidate structures the
   solver agents had proposed.
 - **8 forward-prediction agents** predicted ¹³C for every candidate **blind** — from
-  the SMILES alone, no observed spectrum, candidates **shuffled+anonymised** so
-  isomers of the same target never co-occur. (Validity: pure reasoning, 0 tools.)
+  the SMILES alone, no observed spectrum, candidates pooled across compounds and
+  **shuffled+anonymised** so the predictor never learns a candidate's target or which
+  candidates are siblings. (Shuffling does not keep a target's own candidates in
+  separate batches — 7 of 8 batches held two candidates for some compound — but with
+  no observed spectrum in hand there is nothing for co-occurrence to leak.)
+  (Validity: pure reasoning, 0 tools.)
 - Re-rank each compound's candidates by chamfer distance(predicted ¹³C, observed
   ¹³C); compare the top pick to the solver's own ranking.
 
+## Extension to the whole benchmark
+The arm above was later run over **all 194 compounds** — the 134 main-round targets add
+247 more candidates, every one forward-predicted, giving 373 in total and no
+prediction-coverage gap. `scripts/forward_verify_main.py` preps that arm;
+`scripts/forward_verify_all.py` pools both and is what the paper's §5.2 reports.
+
 ## Result
-| | value |
-|---|--:|
-| generation recall (true structure in candidate set) | 19/60 (**31%**) |
-| top-1, solver self-rank | 14/60 (23%) |
-| top-1, **forward-verified re-rank** | 16/60 (**26%**) |
-| **conditional on true-in-set — self-rank** | 14/19 (**73%**) |
-| **conditional on true-in-set — forward-verify** | 16/19 (**84%**) |
+| | 60-compound arm | **all 194** |
+|---|--:|--:|
+| generation recall (true structure in candidate set) | 19/60 (31%) | **65/194 (34%)** |
+| top-1, solver self-rank | 14/60 (23%) | 55/194 (28%) |
+| top-1, **forward-verified re-rank** | 16/60 (26%) | **58/194 (30%)** |
+| **conditional on true-in-set — self-rank** | 14/19 (73%) | 55/65 (**85%**) |
+| **conditional on true-in-set — forward-verify** | 16/19 (**84%**) | 58/65 (**89%**) |
+| …multi-candidate only — self-rank | 8/13 (62%) | 27/37 (73%) |
+| …multi-candidate only — forward-verify | 10/13 (77%) | **30/37 (81%)** |
+
+Sanity check: the self-rank row on the full benchmark is 55/194 = **28.4%** top-1 and
+65/194 = **33.5%** recall — the paper's headline numbers, re-derived here from the
+released candidate files through an independent code path.
 
 **The decomposition is the finding.** Forward verification is a *good* discriminator:
-**when the true structure is among the candidates, it ranks it #1 84% of the time,
-vs 73% for the model's own ranking (+11 pts).** The overall top-1 only moves
-23%→26% because the binding constraint is **generation recall** — the true
-structure was never proposed for 41/60 compounds, and no re-ranking can fix that.
+**when the true structure is among the candidates, it ranks it #1 89% of the time (81% on
+the 37 where a choice actually existed), vs 85%/73% for the model's own ranking.** The
+overall top-1 only moves 28%→30% because the binding constraint is **generation recall**
+— the true structure was never proposed for 129/194 compounds, and no re-ranking can fix
+that. The margin over self-ranking stays statistically unresolved (McNemar exact p=0.55);
+what the extension buys is the *absolute* precision claim and the permutation control,
+which sharpens from one-sided p=0.019 (n=19) to **p=0.001** (n=65).
 
 So the system cleanly separates into two levers:
 - **Verifier (forward prediction): already strong (84%).** The generator–verifier

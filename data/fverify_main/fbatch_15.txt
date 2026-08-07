@@ -1,0 +1,9 @@
+Q238  COc1ccc(-c2c(Sc3ccc(C)cc3)n(CCCn3c(-c4ccc(OC)cc4)c(Sc4ccc(C)cc4)c4ccccc43)c3ccccc23)cc1
+Q239  OC1(c2ccc(Cl)cc2)CSC1
+Q240  COC(=O)c1ccc(C(Br)(Br)C(Br)Br)cc1
+Q241  Cn1cccc1-c1cn(Cc2ccccc2)cn1
+Q242  O=C1Oc2ccccc2/C1=C\c1cccc(Br)c1
+Q243  O=C(NC(=S)Nc1cccc(Br)c1O)c1cccnc1
+Q244  COc1ccc(C(=O)c2c(C#C[Si](C)(C)C)c3ccccc3n2C)cc1-c1ccccc1
+Q245  O=C(NCCSc1nc2ccccc2c(=O)n1-c1ccccc1)NCc1ccc(Cl)cc1
+Q246  COC(=O)OC/C=C/C(=O)O

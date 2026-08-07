@@ -1,0 +1,17 @@
+Q119  COc1ccc(C(=O)Nc2ccccc2[Se]c2ccc(C)cc2)cc1
+Q120  COC(=O)C1CC1C(=O)O
+Q121  CC(C)CC1CC2(Oc3ccccc3C2=O)C(c2ccccc2)=NO1
+Q122  Clc1ccc(-c2cc(-c3ccccc3)nn2Cc2ccccc2)cc1
+Q123  Cc1ccc(Cn2c(NC(C)(C)C)nc3ccc(Br)cc32)cc1
+Q124  CN1CCCCC1(O)O
+Q125  COc1ccc(CC(C)N)cc1OC
+Q126  Cc1ccc(-c2cc3ccccc3c(=O)o2)c(Cl)c1
+Q127  Clc1ccc(-c2cc3c4c(c(Br)ccc4n2)OCCC3)cc1
+Q128  Clc1ccc(/C=N/Nc2nc(-c3ccccc3)c(-c3ccccc3)s2)cc1Cl
+Q129  Cc1cc(C=O)cc(C)c1/C=C/c1c(C)cc(C=O)cc1C
+Q130  CC(=O)NCCOCn1ncc2c(C#N)cncc21
+Q131  Cc1cccc(NC(=O)CSc2nc3ccccc3c(=O)n2C(C)C)c1C
+Q132  NS(=O)(=O)c1ccc(/N=C/c2cc(Cl)ccc2O)cc1
+Q133  CC(C)=CCCC(C)=CCNC(CC(=O)O)C(=O)O
+Q134  OC(c1ccccc1)c1ncccc1F
+Q135  O=N/C(=C\C(=O)c1c[nH]c2ccccc12)c1ccc(Cl)cc1[N+](=O)[O-]

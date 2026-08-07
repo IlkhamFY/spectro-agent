@@ -27,8 +27,22 @@ recall, not verification; a training-free generate-and-verify step lifts top-1 f
 
 ```
 pip install -r requirements.txt
-python scripts/score_main.py     # headline accuracy (n=194)
-python scripts/build_pdf.py      # rebuild docs/paper.pdf
+python scripts/score_main.py            # Table 2  - headline accuracy (n=194)
+python scripts/forward_verify_all.py    # Table 6  - recall/verification decomposition (n=194)
+python scripts/score_generate_wide.py   # Table 7  - generate-wide arm
+python scripts/ladder_significance.py   # the paired tests behind §5.3
+python scripts/build_pdf.py             # rebuild docs/paper.pdf
+```
+
+Table 8 (§5.4) additionally needs the two trained ¹³C predictors, which are rebuilt
+from the nmrshiftdb2 dump rather than shipped:
+
+```
+curl -L -o data/nmrshiftdb/nmrshiftdb2.sd \
+  https://sourceforge.net/projects/nmrshiftdb2/files/data/nmrshiftdb2withsignals.sd/download
+python scripts/hose_predict.py build     # HOSE table (gate: held-out MAE 3.23 ppm)
+python scripts/verifier_table.py --all   # Table 8 - four verifiers, n=65
+python scripts/verifier_leakage.py --all # candidate/training overlap check
 ```
 
 ## Licensing

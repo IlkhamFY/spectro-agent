@@ -1,0 +1,74 @@
+### Table 8 inputs (regenerated 2026-08-07T03:02Z)
+
+--- verifier_table.py (60-compound arm) ---
+arms: data/fverify
+
+CONDITIONAL ON RECALL, n=19
+
+  verifier                    top-1 | recall
+  solver self-ranking            14/19 (74%)
+  HOSE lookup                    14/19 (74%)
+  learned GNN                    16/19 (84%)
+  LLM forward-verifier           16/19 (84%)
+
+paired tests (McNemar exact, discordant pairs):
+  self vs hose  b=3 c=3  p=1.000
+  self vs llm   b=1 c=3  p=0.625
+  self vs gnn   b=0 c=2  p=0.500
+  hose vs gnn   b=1 c=3  p=0.625
+  hose vs llm   b=2 c=4  p=0.688
+   gnn vs llm   b=2 c=2  p=1.000
+
+multi-candidate only, n=13:
+  solver self-ranking             8/13 (62%)
+  HOSE lookup                     8/13 (62%)
+  learned GNN                    10/13 (77%)
+  LLM forward-verifier           10/13 (77%)
+
+--- verifier_table.py --all (whole benchmark) ---
+arms: data/fverify, data/fverify_main
+
+CONDITIONAL ON RECALL, n=65
+
+  verifier                    top-1 | recall
+  solver self-ranking            55/65 (85%)
+  HOSE lookup                    55/65 (85%)
+  learned GNN                    59/65 (91%)
+  LLM forward-verifier           58/65 (89%)
+
+paired tests (McNemar exact, discordant pairs):
+  self vs hose  b=7 c=7  p=1.000
+  self vs llm   b=4 c=7  p=0.549
+  self vs gnn   b=1 c=5  p=0.219
+  hose vs gnn   b=3 c=7  p=0.344
+  hose vs llm   b=5 c=8  p=0.581
+   gnn vs llm   b=5 c=4  p=1.000
+
+multi-candidate only, n=37:
+  solver self-ranking            27/37 (73%)
+  HOSE lookup                    27/37 (73%)
+  learned GNN                    31/37 (84%)
+  LLM forward-verifier           30/37 (81%)
+
+--- hose_predict.py coverage --all ---
+arms: data/fverify, data/fverify_main  (373 candidates, 6360 carbons)
+  resolved at sphere r=4:    133 ( 2.1%)   cumulative  2.1%
+  resolved at sphere r=3:   1694 (26.6%)   cumulative 28.7%
+  resolved at sphere r=2:   2539 (39.9%)   cumulative 68.6%
+  resolved at sphere r=1:   1907 (30.0%)   cumulative 98.6%
+  prior fallback (unresolved):     87 ( 1.4%)
+  => only 2% resolve at the most specific sphere (r=4); 71% resolve only at r<=2 or not at all
+
+--- verifier_leakage.py --all ---
+arms: data/fverify, data/fverify_main
+candidates: 373   distinct InChIKey-14: 364
+nmrshiftdb2: 57387 molecules parsed, 55447 distinct InChIKey-14
+
+OVERLAP: 2/364 candidate structures (0.5%)
+  IRRAJLZEAOBJIV       R44  distractor          recall-negative -> excluded from the conditional analysis
+      COC(=O)C1CC1C(=O)O
+  VMNUOKMJDYJSDM       R95  distractor          recall-negative -> excluded from the conditional analysis
+      CC1=CC(=Nc2ccccc2)C=C(C)C1=O
+
+=> 0 overlapping candidate(s) sit on a recall-positive compound; only those could affect a Table 8 number.
+=> 0 benchmark ANSWER(s) appear in nmrshiftdb2.

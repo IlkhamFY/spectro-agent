@@ -31,6 +31,7 @@ It is a proxy, not a timestamp emitted by the harness.
 | §5.1–§5.2 | forward-verification: **8** blind forward-prediction agents over 126 candidates, 60 compounds | Claude Opus | `data/fverify/` (raw `f1`–`f8`) | 2026-06-09 19:51 | `docs/FORWARD_VERIFY.md` ("solver and verifier are both Claude-Opus sub-agents under the subscription"); commit `41df0eb` |
 | §5.3 | generate-wide: **10** solver agents partitioning the same 60 compounds (6 compounds each), up to 6 regiochemistry-aware candidates per compound | Claude Opus | `data/gw/` (raw `g1`–`g10`) | 2026-06-10 18:15 | commit `bdb0532` ("10 Opus agents, 6 regio-aware each") |
 | §5.3 | expanded forward-verification of the widened pool: **4** forward-prediction agents, 65 new candidates | Claude Opus | `data/fverify2/` (raw `f1`–`f4`) | 2026-06-10 18:19 | commit `bea1c3e` |
+| §5.2 | forward-verification **extended to the whole benchmark**: **15** blind forward-prediction agents over the 247 main-round candidates (373 across both arms) | Claude Opus | `data/fverify_main/` (raw `f1`–`f15`) | 2026-08-07 02:45 – 02:53 | `data/fverify_main/results.txt`; pooled by `scripts/forward_verify_all.py` |
 | §7 *Independence checks* | cross-model recall check on V3-R01…R12 (n=12), identical blind 6-candidate protocol | Claude Sonnet | `data/gw/raw/sonnet_b1.json`, `sonnet_b2.json` | 2026-06-10 18:33 – 18:38 | `data/gw/crossmodel.txt`; commits `c1c1924`, `bb7c73a` |
 | §4.1 | **headline** main round, 140 problems (134 spectrally validated), decoupled agents, 6- and 12-compound contexts | Claude Opus | `data/benchmark_main/raw/` | 2026-06-11 06:48 – 09:16 | commits `9e7fb90` … `4faf5e1`; headline scored in `52e03a2` |
 | §4.4 | cross-model comparison, fixed 24-compound subset | Claude Haiku | `data/benchmark_main/haiku/` (`b1`–`b4`) | 2026-06-11 16:16 | commits `a797904`, `f5edfc9` |
@@ -38,10 +39,15 @@ It is a proxy, not a timestamp emitted by the harness.
 | §4.4 | cross-model comparison, same subset | Claude **Fable 5** | `data/benchmark_main/fable/` (`b1`–`b4`) | 2026-06-11 23:06 – 23:32 | commits `2ba74c4`, `1cb1029`, `1408830`, `9500517`, `efcdba6`; scored in `18c7963` |
 | §4.5 | IRSpectra-Bench-Electrolyte, 48 curated / 46 scored, 8 batches | Claude Opus | `data/benchmark_electrolyte/` (raw `b1`–`b8`) | 2026-06-11 18:29 – 18:43 | `docs/PAPER.md` §4.5 ("identical decoupled-agent protocol (Opus, closed-book … RDKit only for formula/parse checks)"); commits `63a2963` … `5c81e3f` |
 
-**Derived access window for every Claude-generated result in the paper:
-2026-06-09 → 2026-06-11 (UTC), a 3-day window.** No LLM prediction artifact in the
-repository was added outside it. Later commits (figures, statistics, the §5.6/§5.7
-trained probes) re-score these frozen outputs; they do not re-query any model.
+**Derived access window for the solver (elucidation) results in the paper:
+2026-06-09 → 2026-06-11 (UTC), a 3-day window.** Every *candidate structure* scored
+anywhere in the paper was generated inside it; no elucidation artifact was added outside
+it. One later addition exists and is listed above: the §5.2 forward-verification
+extension of **2026-08-07**, which predicts ¹³C for candidates the June solver had
+already produced. It adds no new candidates and changes no recall number — it only
+supplies the verifier's input for compounds that had none. All other later commits
+(figures, statistics, the §5.6/§5.7 trained probes) re-score frozen outputs and
+re-query no model.
 
 ### One asymmetry in §4.4, stated plainly
 

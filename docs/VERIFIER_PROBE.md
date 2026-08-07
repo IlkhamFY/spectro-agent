@@ -1,11 +1,20 @@
 # Draft subsection — "A learned ¹³C verifier closes the §5.4 gap" (extends/answers §5.4)
 
+> **Status: superseded and merged.** This draft is kept as the working record of how the
+> learned-verifier arm was designed and first measured. Its content now lives in §5.4 of
+> `PAPER.md`, and the experiment has since been **extended from the 60-compound arm
+> (n=19 conditional) to the whole 194-compound benchmark (n=65)**. Every number below is
+> the original n=19 measurement and reproduces exactly
+> (`python scripts/verifier_table.py`), but the paper reports the n=65 column:
+> self-ranking 55/65 (85%), HOSE lookup 55/65 (85%), learned GNN 59/65 (91%), LLM
+> verifier 58/65 (89%). See `data/fverify/verifier_table_results.txt`.
+
 *Proposed addition for author review. This is the learned-predictor arm of the §5.4
 HOSE ablation: same nmrshiftdb2 training data, same §5.2 candidate set, only the method
 changes (learned-generalising GNN vs deterministic lookup). It directly revises §5.4's
 conclusion ("not a generic lookup table … the LLM's breadth is the asset") and should be
 read alongside it. Like §5.6, it is a *trained* complement to the training-free protocol —
-positioning is the authors' call. Not yet merged into PAPER.md.*
+positioning is the authors' call.*
 
 ---
 

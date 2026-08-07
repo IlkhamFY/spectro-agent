@@ -415,10 +415,24 @@ difficulty range, and accuracy falls monotonically with molecular size in step w
 it — top-1 **60.5%** for ≤15 heavy atoms, 28.3% for 16–25, and **7.0%** above 25
 (Fig. S3). The model recovers molecular formula and functional groups reliably and the
 scaffold often (best Tanimoto ≥ 0.45 for 56% of compounds), but the exact constitution
-far less often, failing predominantly on **regiochemistry** — *which* position a
-substituent occupies. This is consistent
-with an information limit of 1D data: many regioisomers have similar ¹H/¹³C shifts,
-which is precisely why 2D experiments (HMBC, NOESY) exist.
+far less often.
+
+What a failure actually looks like is measurable rather than a matter of impression, so
+we measured it over all 139 top-1 misses (`scripts/analyze_misses.py`). **76.6% are
+constitutional isomers of the true structure** — exactly the right atoms, assembled
+wrongly — against 23.4% with the wrong molecular formula outright. The composition is
+usually right; the connectivity is not.
+
+The narrower reading often given to this result is not supported. Only **22.6%** of misses
+share the true Murcko scaffold, i.e. are genuine positional errors of the kind "*which*
+ring position the substituent occupies", and just 2.9% reach Tanimoto ≥ 0.85; the median
+Tanimoto between an isomeric miss and the truth is 0.39. So regiochemistry in the strict
+sense accounts for roughly a fifth of failures, not the bulk of them — most isomeric
+misses are more substantial rearrangements of the same atoms. Both facts point the same
+way about 1D data (near-degenerate ¹H/¹³C shifts under-determine connectivity, which is
+why 2D experiments such as HMBC and NOESY exist), but the honest statement is *wrong
+connectivity at the right composition*, with strict regiochemistry a well-defined
+minority of it.
 
 ### 4.2 Reconciling with prior reports
 
@@ -1156,10 +1170,20 @@ frozen** a blinded, pre-registered audit package — a difficulty-stratified 30-
 sample (9 recall-positive), rendered candidate structures, a separate withheld answer
 key, and a mechanical scoring sheet — released at `data/audit/` with its protocol at
 `docs/EXPERT_AUDIT_PROTOCOL.md` (regenerable via `scripts/make_audit_sample.py`),
-designed to test the two load-bearing claims (misses are predominantly consistent
-regioisomers, §4; forward verification is a trustworthy re-ranker, §5). **We have not
-yet run the panel**; until expert results are in, those claims should be read as
-machine-validated (RDKit InChIKey) but not yet human-validated.
+designed to test the two load-bearing claims (what a miss actually is, §4; forward
+verification is a trustworthy re-ranker, §5). **We have not yet run the panel**; until
+expert results are in, those claims should be read as machine-validated (RDKit
+InChIKey) but not yet human-validated.
+
+The panel's first question has since been narrowed by measurement rather than left to
+judgement. §4 now reports the composition of all 139 misses mechanically — 76.6%
+constitutional isomers, 22.6% scaffold-preserving positional errors — which replaces the
+impressionistic claim the audit was built to check and, in doing so, corrected it: the
+failures are predominantly *wrong connectivity at the right composition*, and strict
+regiochemistry is a minority of them. What remains for a chemist is the part no
+fingerprint settles: whether a formula-correct, scaffold-wrong candidate is a
+*chemically reasonable* reading of the spectra or an implausible one. That is a narrower
+and better-posed question than the one we started with.
 
 **(iii) Single vendor and an underpowered cross-model comparison.** Every number comes
 from one vendor's models. The headline (28.4% top-1) is a single frontier model (Claude

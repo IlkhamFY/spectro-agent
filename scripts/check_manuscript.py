@@ -67,8 +67,21 @@ def check_dataset_counts(md):
             fail("A", f"{doc} tells users to separate pools by a `license` field, "
                       f"but released records carry no such field")
 
+    # the remaining two Table 1 rows
+    any_nmr = sum(1 for l in gzip.open("data/irexp/irexp.jsonl.gz", "rt")
+                  if (lambda r: r.get("h_nmr") or r.get("c_nmr"))(json.loads(l)))
+    res_nmr = sum(1 for l in gzip.open("data/irexp_resolved/irexp_resolved.jsonl.gz", "rt")
+                  if (lambda r: r.get("h_nmr") or r.get("c_nmr"))(json.loads(l)))
+    for claimed, got, what in ((87075, any_nmr, "IRexp records co-reporting NMR"),
+                               (40702, res_nmr, "structure-linked records with NMR")):
+        if f"{claimed:,}" not in md:
+            fail("A", f"{what}: prose no longer states {claimed:,}")
+        elif claimed != got:
+            fail("A", f"{what}: prose says {claimed:,}, data holds {got:,}")
+
     truth = {n_irexp: "IRexp records", n_res: "structure-linked records",
-             quad: "IR+1H+13C+structure quadruples",
+             quad: "IR+1H+13C+structure quadruples", any_nmr: "records with NMR",
+             res_nmr: "structure-linked with NMR",
              119345: "PMC pool", 1888: "Chemotion pool"}
     for want, what in ((n_irexp, "IRexp records"), (n_res, "structure-linked records"),
                        (quad, "IR+1H+13C+structure quadruples")):

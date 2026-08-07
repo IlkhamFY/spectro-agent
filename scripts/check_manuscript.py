@@ -191,11 +191,35 @@ def check_cis(md):
             fail("F", f"table point estimate {pt}% outside CI [{lo}, {hi}]")
 
 
+# ---- author-supplied items (reported, never failed) --------------------------
+# These cannot be filled in by anyone but the authors, and inventing any of them
+# would be worse for a reader than an acknowledged gap. The gate lists them so the
+# remaining work is a short, explicit checklist rather than a hunt.
+PENDING = [
+    (PAPER, r'ORCID:\s*\[TODO', "ORCID iDs for all three authors (RSC requires the "
+                                "corresponding author's)"),
+    (PAPER, r'10\.5281/zenodo\.X+', "Zenodo DOI for the data/code deposit — mint on submission"),
+    (PAPER, r'To be completed before submission.*funding', "funding sources and "
+                                                           "acknowledgements"),
+    ("docs/MODELS.md", r'\*authors — see §6\*', "dated model snapshot identifiers for the "
+                                                "four Claude models"),
+]
+
+
+def report_pending():
+    out = []
+    for doc, pat, what in PENDING:
+        if os.path.exists(doc) and re.search(pat, read(doc), re.I | re.S):
+            out.append((doc, what))
+    return out
+
+
 def main():
     md = read(PAPER)
     for fn in (check_dataset_counts, check_fractions, check_refs,
                check_not_run, check_cross, check_cis):
         fn(md)
+    pend = report_pending()
     if FAIL:
         print(f"MANUSCRIPT GATE: {len(FAIL)} problem(s)\n")
         for f in FAIL:
@@ -208,6 +232,14 @@ def main():
     print("  D 'never run' disclosures agree with what is on disk")
     print("  E companion documents carry the same numbers as the paper")
     print("  F every confidence interval contains its point estimate")
+    if pend:
+        print(f"\nAWAITING THE AUTHORS ({len(pend)} item(s)) — not defects, and not "
+              f"fillable by anyone else:")
+        for doc, what in pend:
+            print(f"  · {what}\n      → {doc}")
+        print("\nEverything else is verified. These four values are the remaining work.")
+    else:
+        print("\nNo author-supplied items outstanding.")
 
 
 if __name__ == "__main__":

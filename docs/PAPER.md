@@ -3,6 +3,14 @@
 **Ilkham Yabbarov**¹ *(corresponding: ilkhamfy@gmail.com)*, **Rudra Sondhi**¹, **Rodrigo A. Vargas-Hernández**¹
 ¹ Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada
 
+<!-- AUTHORS — ORCID iDs are required by RSC for the corresponding author and requested
+     for all co-authors. Fill these in before submission; they are deliberately left as
+     visible placeholders rather than omitted, so nothing is silently missing:
+       I. Yabbarov            ORCID: [TODO: 0000-0000-0000-0000]
+       R. Sondhi              ORCID: [TODO: 0000-0000-0000-0000]
+       R. A. Vargas-Hernández ORCID: [TODO: 0000-0000-0000-0000]
+     `python scripts/check_manuscript.py` lists every outstanding item of this kind. -->
+
 ---
 
 ## Abstract

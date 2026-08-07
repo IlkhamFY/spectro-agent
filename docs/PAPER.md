@@ -702,13 +702,26 @@ with the benchmark.
 
 Because every benchmark compound is mined from open-access literature, a frontier model
 may have encountered it during pretraining. The cheapest decisive test of whether that
-explains the headline number is to take the spectra away. We re-ran the identical blind
+explains the headline number is to take the spectra away. We ran the identical blind
 protocol with every spectral channel masked, so the solver receives the molecular formula
 and nothing else (`scripts/modality_ablation.py`, condition `formulaonly`; solvers were
 barred from reading any repository file or searching the web, and RDKit was permitted only
 to check that a proposed SMILES parses and matches the formula). A molecular formula does
 not determine constitution, so accuracy materially above the floor would indicate recall
 rather than reasoning.
+
+One asymmetry must be disclosed, because a companion experiment shows this exact
+structure can manufacture a large spurious effect. Only the **formula-only** arm was
+freshly generated (2026-07-28); the **full-modality** comparison arm re-uses the
+archived June predictions — all 60 of its top-1 answers are byte-identical to that run.
+An earlier leave-one-out attempt built the same way (fresh ablated arm against archived
+control) produced −IR *beating* full modality by 40 points, which is impossible and was
+discarded (`docs/MODALITY_ABLATION.md`). The reason that failure does not impugn this
+control is the **direction**: fresh agents reasoned harder per compound than the archived
+batched run, so the bias runs *toward* the formula-only arm, and it still collapsed to
+5%. A confound that works against the finding cannot manufacture it. We nonetheless flag
+it, and the rule the discarded arm yielded — every condition must be generated in one
+campaign, control included — is why no leave-one-out modality result appears in this paper.
 
 **Table 5. Formula-only control**, paired on the same 60 compounds as §5.
 

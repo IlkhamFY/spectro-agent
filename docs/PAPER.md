@@ -1218,11 +1218,17 @@ subscription (claude.ai). The §4.4 comparison spanned, in capability
 order, Claude Haiku, Claude Sonnet, Claude Opus, and Claude Fable 5; the headline
 benchmark (§4.1) and forward-verification (§5) used Claude Opus. `docs/MODELS.md`
 records, for each experiment, the model used, its data directory, the collection date,
-the harness and tool access, and the scoring code path. Every *candidate structure*
-scored anywhere in this paper was generated between 2026-06-09 and 2026-06-11 (UTC);
-the one later collection is the §5.2 forward-verification extension of 2026-08-07, which
-forward-predicts ¹³C for candidates that June run had already produced — it introduces no
-new candidate and moves no recall number. Decoding parameters are not exposed
+the harness and tool access, and the scoring code path. Model invocations fall into three
+dated windows, listed separately there because no single window covers them. Every
+candidate structure behind the **headline** results — §4.1, §4.3–§4.5, and the candidate
+pools all of §5 re-ranks — was generated between **2026-06-09 and 2026-06-11** (UTC). The
+formula-only contamination control (§4.6) is a deliberate exception: it re-solves the same
+60 compounds with the spectra masked on **2026-07-28**, generating its own candidates,
+because a masked-input control is only meaningful as a fresh run; it touches Table 5 alone.
+Three **2026-08-07** collections forward-predict ¹³C for candidates the June run had
+already produced (the §5.2 extension to all 194 compounds, the §5.3 coverage-gap closure,
+and the §5.6 re-run) — none introduces a new candidate or moves a recall number.
+Decoding parameters are not exposed
 by the subscription harness and were neither set nor recorded, so re-running reproduces
 the protocol distributionally rather than exactly; the dated model snapshot identifiers
 are listed there as the outstanding items to be pinned on submission.

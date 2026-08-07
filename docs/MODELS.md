@@ -39,20 +39,30 @@ It is a proxy, not a timestamp emitted by the harness.
 | §4.4 | cross-model comparison, fixed 24-compound subset | Claude Haiku | `data/benchmark_main/haiku/` (`b1`–`b4`) | 2026-06-11 16:16 | commits `a797904`, `f5edfc9` |
 | §4.4 | cross-model comparison, same subset | Claude Sonnet | `data/benchmark_main/sonnet/` (`b1`–`b4`) | 2026-06-11 16:41 – 17:10 | commits `e850469`, `dc6da42`, `bbceeaa`, `43ba5ec` |
 | §4.4 | cross-model comparison, same subset | Claude **Fable 5** | `data/benchmark_main/fable/` (`b1`–`b4`) | 2026-06-11 23:06 – 23:32 | commits `2ba74c4`, `1cb1029`, `1408830`, `9500517`, `efcdba6`; scored in `18c7963` |
+| §4.6 | **formula-only contamination control**: the same 60 compounds re-solved with the spectra masked, paired against the full-modality arm | Claude Opus | `data/modality/` (`out_full.json`, `out_formulaonly.json`) | 2026-07-28 18:37 | commit `a98d01a`; scored by `scripts/modality_ablation.py score` (3/60 vs 14/60, b=11 c=0, p=0.001) |
 | §4.5 | IRSpectra-Bench-Electrolyte, 48 curated / 46 scored, 8 batches | Claude Opus | `data/benchmark_electrolyte/` (raw `b1`–`b8`) | 2026-06-11 18:29 – 18:43 | `docs/PAPER.md` §4.5 ("identical decoupled-agent protocol (Opus, closed-book … RDKit only for formula/parse checks)"); commits `63a2963` … `5c81e3f` |
 
-**Derived access window for the solver (elucidation) results in the paper:
-2026-06-09 → 2026-06-11 (UTC), a 3-day window.** Every *candidate structure* scored
-anywhere in the paper was generated inside it; no elucidation artifact was added outside
-it. Three later additions exist and are listed above, all dated **2026-08-07** and all of
-the same kind: they forward-predict ¹³C for candidates the June solver had already
-produced (the §5.2 extension to all 194 compounds, the §5.3 coverage-gap closure, and
-the §5.6 re-run whose original outputs were lost). None introduces a new candidate
-structure or moves a recall number; they only supply the verifier's input where it was
-missing. The §5.6 re-run does change that arm's *verified top-1*, because the number it
-replaces was never reproducible — §5.6 states this explicitly. All other later commits
-(figures, statistics, the §5.6/§5.7 trained probes) re-score frozen outputs and
-re-query no model.
+**Access windows.** Every model invocation behind a number in the paper falls into one of
+three dated windows. They are listed separately rather than collapsed, because a single
+"3-day window" claim would be false.
+
+1. **Main solver window, 2026-06-09 → 2026-06-11 (UTC).** Every candidate structure
+   behind the *headline* results — §4.1 top-1 and recall, §4.3, §4.4, §4.5, and the
+   candidate pools all of §5 re-ranks — was generated here. No headline elucidation
+   artifact exists outside it.
+2. **Formula-only contamination control, 2026-07-28.** This arm re-solves the same 60
+   compounds with the spectra masked, so it *does* generate new candidate structures
+   (3/60 correct) outside window 1 — by design, since the control only means anything as
+   a fresh run. It affects §4.6 and Table 5 alone and changes no headline number.
+3. **Forward-prediction additions, 2026-08-07.** Three of them: the §5.2 extension to all
+   194 compounds, the §5.3 coverage-gap closure, and the §5.6 re-run whose original
+   outputs were lost. These predict ¹³C for candidates the June solver had already
+   produced. None introduces a new candidate structure or moves a recall number. The
+   §5.6 re-run does change that arm's *verified top-1*, because the number it replaces
+   was never reproducible — §5.6 states this explicitly.
+
+All other later commits (figures, statistics, the §5.6/§5.7 trained probes) re-score
+frozen outputs and re-query no model.
 
 ### One asymmetry in §4.4, stated plainly
 
@@ -194,9 +204,12 @@ Listed so no reader mistakes them for part of the LLM system under test.
   protocol kit for GPT-/Gemini-class and open-weight models. No vendor was run; the
   working directory `data/cross_vendor/` is gitignored and absent. `docs/PAPER.md` §7 (iii)
   says so.
-- **Modality ablation / formula-only memorisation arm** (`scripts/modality_ablation.py`,
-  `data/modality/`): prompts staged 2026-06-16 (commit `f3fe901`); no `out_*.json` outputs
-  exist. `docs/PAPER.md` §7 (i) says the arm is "specified but **not yet run**".
+- **Modality ablation** (`scripts/modality_ablation.py`, `data/modality/`): the *leave-one-
+  modality-out* arms (`noIR`, `noH`, `noC`) remain staged only — `prompt_noIR.txt`,
+  `prompt_noH.txt`, `prompt_noC.txt` exist (2026-06-16, commit `f3fe901`) with no
+  corresponding `out_*.json`. The paper reports no leave-one-out result. (One `noIR`
+  attempt was made and **discarded as confounded**; `docs/MODALITY_ABLATION.md` records
+  why.)
 - **Expert-chemist audit** (`data/audit/`, `docs/EXPERT_AUDIT_PROTOCOL.md`): human
   protocol, frozen and blinded, not yet run (`docs/PAPER.md` §7 (ii)).
 - ~~**§5.6 forward-verified arm**: `data/fverify_gen/raw/` is an empty directory.~~

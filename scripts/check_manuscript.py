@@ -19,6 +19,7 @@ Checks:
   E  cross-document agreement on the numbers that appear in more than one file
   F  bootstrap CIs contain their own point estimate
   G  ground-truth structures reproduce the formula given to the solver
+  H  literal values baked into figure scripts still match the data
 """
 import gzip, json, os, re, sys
 
@@ -230,6 +231,40 @@ def check_ground_truth():
         fail("G", "no ground-truth answers found to check")
 
 
+# ---- H. hardcoded figure values vs the data ----------------------------------
+# Several figure scripts carry literal arrays rather than recomputing. That is fine
+# for reproducibility (the figure is deterministic) but means a figure can silently
+# drift from the scorers when a number changes. Pin the literals to their sources.
+FIG_LITERALS = [
+    ("scripts/make_fig_verifier.py", r'top1\s*=\s*\[([\d.,\s]+)\]',
+     [55 / 65 * 100, 55 / 65 * 100, 59 / 65 * 100, 58 / 65 * 100], 0.1,
+     "Fig S6 conditional-on-recall top-1"),
+    ("scripts/make_fig_generator_probe.py", r'recall\s*=\s*\[([\d.,\s]+)\]',
+     [65 / 194 * 100, 41.8, 54.1], 0.1, "Fig S5 recall bars"),
+    ("scripts/make_figures.py", r'v\s*=\s*\[([\d.,\s]+)\]',
+     [121233, 87075, 43060, 33201], 0, "Fig S2 dataset bars"),
+]
+
+
+def check_figure_literals():
+    for path, pat, want, tol, what in FIG_LITERALS:
+        if not os.path.exists(path):
+            fail("H", f"{what}: {path} is missing")
+            continue
+        m = re.search(pat, read(path))
+        if not m:
+            fail("H", f"{what}: could not find the literal array in {path} — if the "
+                      f"figure now computes its values, drop it from FIG_LITERALS")
+            continue
+        got = [float(x) for x in m.group(1).replace(" ", "").split(",") if x]
+        if len(got) != len(want):
+            fail("H", f"{what}: {len(got)} values in {path}, expected {len(want)}")
+            continue
+        for g, w in zip(got, want):
+            if abs(g - w) > tol:
+                fail("H", f"{what}: {path} plots {g} where the data gives {w:.4g}")
+
+
 # ---- author-supplied items (reported, never failed) --------------------------
 # These cannot be filled in by anyone but the authors, and inventing any of them
 # would be worse for a reader than an acknowledged gap. The gate lists them so the
@@ -259,6 +294,7 @@ def main():
                check_not_run, check_cross, check_cis):
         fn(md)
     check_ground_truth()
+    check_figure_literals()
     pend = report_pending()
     if FAIL:
         print(f"MANUSCRIPT GATE: {len(FAIL)} problem(s)\n")
@@ -273,6 +309,7 @@ def main():
     print("  E companion documents carry the same numbers as the paper")
     print("  F every confidence interval contains its point estimate")
     print("  G every ground-truth structure matches the formula the solver was given")
+    print("  H hardcoded figure values still agree with the scorers")
     if pend:
         print(f"\nAWAITING THE AUTHORS ({len(pend)} item(s)) — not defects, and not "
               f"fillable by anyone else:")

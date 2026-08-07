@@ -466,7 +466,10 @@ them but not apportion the gap between them, so we do not claim a decomposition:
   ranked candidates over three independent runs; we report single-run top-1 and
   top-3.
 - **Hints.** Prior hard targets received the starting-material SMILES, which fixes
-  most of the scaffold; we give none.
+  most of the scaffold; we give no starting material. We do supply the molecular
+  formula, which is itself a real constraint — §4.6 measures what it is worth alone
+  (5% top-1 with the spectra masked) — so our setting is *less* hinted than that
+  comparison but more hinted than formula-free generative baselines (§4.2 above).
 - **Curation.** Prior compounds were hand-selected; ours are scraped and unfiltered
   for solvability.
 
@@ -481,13 +484,24 @@ match" is defined. The strongest trained baselines report their accuracy
 *in-distribution on simulated spectra*. Spectro (¹H/¹³C/IR→SELFIES, 6,833 training
 molecules) reaches ~90% top-1 exact recovery — but on a 1,366-molecule held-out split
 whose IR is plotted from reference data and whose NMR is software-*predicted*, not
-experimental[@chacko2024spectro]; and NMIRacle, which like us conditions jointly on IR+¹H+¹³C with *no*
-hints, reports 48% top-1 / 66% top-15 exact-SMILES recovery — again on held-out
-molecules from a *simulated* corpus drawn from the training distribution[@ottomano2025nmiracle]. We measure
+experimental[@chacko2024spectro]; and NMIRacle, which conditions jointly on IR+¹H+¹³C,
+reports 48% top-1 / 66% top-15 exact-SMILES recovery — again on held-out
+molecules from a *simulated* corpus drawn from the training distribution (an 8:1:1
+split of the ~790k-molecule simulated set of Alberts et al.), a limitation its authors
+state themselves[@ottomano2025nmiracle]. We measure
 28.4% top-1 (33.5% top-3) on the full n=194 benchmark — rising to 29.9% with forward
 verification over that same full benchmark (§5) — on **blind, real,
-literature-mined experimental** spectra of out-of-distribution compounds. These are
-not comparable as a leaderboard; read as a *bound on the simulated-to-real gap*, the
+literature-mined experimental** spectra of out-of-distribution compounds.
+
+One asymmetry runs the other way and must be stated, because it cuts against us.
+NMIRacle takes **no molecular formula**; its authors explicitly count "assumptions of
+strong prior information, such as chemical formula or molecular scaffold" among the
+limitations of prior work. We *do* supply the formula (§3), which is a substantial
+constraint — it fixes composition and, as §4.6 shows, alone accounts for 5% top-1. So
+the two settings differ on two axes at once and in opposite directions: our spectra are
+real and out-of-distribution where theirs are simulated and in-distribution, but their
+input is strictly harder than ours. Neither number bounds the other. These are
+not comparable as a leaderboard; read only as a *bound on the simulated-to-real gap*, the
 contrast suggests that high in-distribution accuracies substantially overstate
 real-world performance — the same gap we document for the LLM above. The instability
 of the metric itself reinforces the caution: the same ~40× MolPuzzle swing documented in

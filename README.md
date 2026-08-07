@@ -23,6 +23,9 @@ recall, not verification; a training-free generate-and-verify step lifts top-1 f
 - `scripts/` - scoring, forward-verification, and figure/PDF regeneration.
 - `spectro_scraper/` - the dataset-mining pipeline.
 
+Submitting? `docs/SUBMISSION.md` lists the handful of items that need a human,
+and what is already machine-verified.
+
 ## Reproduce
 
 ```

@@ -223,3 +223,21 @@ Listed so no reader mistakes them for part of the LLM system under test.
   provisional 41% / 73%; recall is 56% (34/60), unchanged. §5.6 reports the re-run and
   says plainly that it is a re-run, not a reproduction. Note the collection date differs
   from the June solver window — see the access-window note above.
+
+---
+
+## External numeric attributions — verified against primary sources
+
+Numbers this paper attributes to other people's work were checked against the source,
+because nothing in this repository can contradict a sentence about someone else's paper.
+Audited 2026-08-07.
+
+| claim in `PAPER.md` | source | status |
+|---|---|---|
+| Alberts et al.: ~635k simulated spectra, 3,453-spectrum experimental fine-tune, top-1 44% on 6–13 heavy atoms | *Commun. Chem.* **7**, 268 abstract via EuropePMC (PMC11569215) | **exact** — "634,585 simulated IR spectra … fine-tune it on 3,453 experimental spectra … top–1 accuracy of 44.4% … 6 to 13 heavy atoms" |
+| NMIRacle: 48% top-1 / 66% top-15 on IR+¹H+¹³C | arXiv:2512.19733 full text | **exact** — "attains a Top-1 accuracy of 0.48 and a Top-15 accuracy of 0.66" |
+| NMIRacle evaluated on a simulated, in-distribution split | arXiv:2512.19733 | **exact** — 8:1:1 split of the ~790k simulated Alberts set; their own limitations section is headed "Simulated vs experimental spectra" |
+| NMIRacle uses "no hints, like us" | arXiv:2512.19733 | **was wrong, corrected** — NMIRacle takes *no molecular formula* and names formula/scaffold priors as a limitation of prior work. We supply the formula. §4.2 now states the asymmetry. |
+| GPT-4o on MolPuzzle: 1.4% | Guo et al., NeurIPS 2024 D&B | **exact** |
+| GPT-4o at 27.8% "using knowledge-enhanced tree-search reasoning" | Zhuang et al., arXiv:2506.23056 Table 1 | **was wrong, corrected** — 27.8% is their plain-CoT *baseline*; their tree-search result is 57.8%. The true spread is ~40×, not ~20×. |
+| Spectro: accuracy on a 1,366-molecule held-out split | Crossref abstract for 10.26434/chemrxiv-2024-37v2j | **partly verified** — the abstract reports **93%** joint / **82%** fixed-embedding overall test accuracy, now quoted as such (we previously wrote "~90% top-1 exact recovery", which is neither figure and renames the metric). The 6,833/1,366 split sizes and the "software-predicted NMR" characterisation are in the full text, which ChemRxiv serves only behind a 403 — **two co-authors of this paper wrote Spectro and should confirm them.** |

@@ -481,8 +481,9 @@ against specialised trained models is not available: no system has been scored o
 identical test set, and published numbers differ in the three respects that most move
 the score — spectrum realism (simulated/curated vs. real), hints, and how "exact
 match" is defined. The strongest trained baselines report their accuracy
-*in-distribution on simulated spectra*. Spectro (¹H/¹³C/IR→SELFIES, 6,833 training
-molecules) reaches ~90% top-1 exact recovery — but on a 1,366-molecule held-out split
+*in-distribution on simulated spectra*. Spectro (¹H/¹³C/IR→SELFIES, 6,833 molecules)
+reports **93%** overall test accuracy trained jointly with its IR vision model and
+**82%** with fixed embeddings — but on a 1,366-molecule held-out split
 whose IR is plotted from reference data and whose NMR is software-*predicted*, not
 experimental[@chacko2024spectro]; and NMIRacle, which conditions jointly on IR+¹H+¹³C,
 reports 48% top-1 / 66% top-15 exact-SMILES recovery — again on held-out

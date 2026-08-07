@@ -117,10 +117,13 @@ Two honest caveats on the Opus row:
   §4.5). The §4.3 arm (a) baseline had **no tools at all** — that is the variable it
   isolates.
 - **Tool access — forward-prediction (verifier) agents:** **zero tools**, pure reasoning,
-  and blind: SMILES only, shuffled and anonymised so isomers of the same target never
-  co-occur in one context, and the observed spectrum is never shown
-  (`docs/FORWARD_VERIFY.md` "Experiment"; `data/fverify/anon_map.json`,
-  `data/fverify2/anon_map2.json`).
+  and blind: SMILES only, pooled across compounds, shuffled and anonymised, and the
+  observed spectrum is never shown. Shuffling does **not** keep a target's own candidates
+  in separate batches — in the §5.2 arm 7 of 8 batches held two candidates for some one
+  compound — but with no observed spectrum in hand there is nothing for co-occurrence to
+  leak (`docs/PAPER.md` §5.1; `docs/FORWARD_VERIFY.md` "Experiment";
+  `data/fverify/anon_map.json`, `data/fverify2/anon_map2.json`,
+  `data/fverify_main/anon_map.json`).
 - **Audit of closed-book status.** Task transcripts were grep-audited at run time for zero
   web / zero ground-truth access (`docs/PAPER.md` §3; `data/gw/crossmodel.txt`).
   **The transcripts themselves are not committed** — the released artifacts are the parsed

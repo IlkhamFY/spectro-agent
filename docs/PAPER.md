@@ -1265,8 +1265,13 @@ result (top-1 30%, recall 41%) — and is honestly below the optimistic estimate
 
 *Independence checks.* Scoring throughout is mechanical RDKit (not LLM-judged), and
 all solver/verifier runs were transcript-audited *at generation time* for zero web and
-zero ground-truth access; the committed artefacts are the parsed per-compound
-predictions, and the underlying transcripts are available on request. To confirm that
+zero ground-truth access. That audit is the one part of the pipeline a reader **cannot
+re-verify from the release**: the committed artefacts are the parsed per-compound
+predictions, and the transcripts themselves are not deposited (they are available on
+request). We state this rather than let "transcript-audited" imply an independently
+checkable artefact, and note that the *outcome* of closed-book solving is separately
+testable from what is released — the formula-only control (§4.6) removes the spectra and
+accuracy collapses, which no amount of web access would produce. To confirm that
 the forward-verifier's measured advantage
 reflects real predicted-vs-observed spectral agreement rather than leakage or a
 candidate-list artefact, we ran a permutation negative control (Y-randomisation

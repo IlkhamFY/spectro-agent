@@ -120,7 +120,10 @@ models stand over a leaderboard-topping number.
    test, not the source of its own answers.
 3. A **diagnostic decomposition** of LLM elucidation into recall and verification,
    showing that **recall — not verification — bounds current performance**, obtained via
-   a training-free forward-verification probe run over **every** benchmark compound. It
+   a training-free forward-verification probe run over **every** benchmark compound. The
+   generate-and-forward-verify loop itself is prior art — NMR-Solver[@jin2025nmrsolver]
+   implements it without an LLM and reports higher accuracy with a sharper predictor
+   (§1.1); what is ours is the decomposition it enables, not the loop. It
    yields a bounded improvement (top-1 28%→30% on n=194; 23%→30% on the 60-compound arm
    where wide generation was also tested) but, by our own measurements, cannot exceed a
    recall/precision ceiling without sharper verification or 2D-NMR data.
@@ -182,6 +185,24 @@ solid state it is **NMR crystallography**, where GIPAW-computed shifts adjudicat
 between candidate structures[@pickard2001gipaw; @ashbrook2016nmrcryst]. We replace the quantum-chemical predictor with a
 forward LLM, trading accuracy for zero setup cost, and inherit the same core
 principle — *verification by forward prediction is easier than inverse generation*.
+
+**The generate-and-forward-verify loop is not ours, and its best instantiation
+corroborates our diagnosis.** **NMR-Solver**[@jin2025nmrsolver] builds the same loop
+without any LLM: it retrieves and fragment-recombines candidates, then ranks them by
+¹H/¹³C shifts forward-predicted with NMRNet (¹³C MAE 1.098 ppm) against the observed
+spectrum. On ~450 experimental literature spectra with the formula supplied it reports
+**52.89% top-1**, well above our 28.4%. We do not claim the loop as a contribution;
+§5 asks a different question — *how much of the remaining error is generation and how
+much is verification* — and answers it by decomposition (§5.2) rather than by building
+a better solver. The comparison is in fact the sharpest external evidence for our
+central mechanistic claim: NMR-Solver's predictor is roughly twice as sharp as the
+~2 ppm LLM forward-predictor whose resolution §5.1 identifies as the binding
+constraint, and it converts that sharpness into roughly twice the top-1. That is what
+our §5.4 ablation predicts and what §5.1's separability measurement implies.
+**NMRAgent**[@fang2026nmragent] is the closest LLM-agent counterpart, coupling spectral
+tools to a knowledge graph and validating on newly isolated natural products; it is
+complementary to our aim, which is measurement of an off-the-shelf model rather than a
+best-effort system.
 
 ---
 

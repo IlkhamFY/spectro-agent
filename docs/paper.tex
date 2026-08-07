@@ -272,21 +272,25 @@ released code and predictions. We prioritise an honest, reusable
 measurement of where current models stand over a leaderboard-topping
 number.
 
-\textbf{Contributions.} 1. \textbf{IRexp} --- the largest openly
-\emph{redistributable} experimental-IR dataset (121,233 records; 43,060
-structure-linked; 33,201 IR+¹H+¹³C+structure): larger by raw record
-count than any prior collection and uniquely released under permissive
-licences for bulk model development (view-only resources such as SDBS
-are larger in structure-linked spectra but are not redistributable;
-§2.1), with a reproducible mining pipeline. 2. An \textbf{open
-multimodal benchmark} and the first blind, mechanically scored,
+\textbf{Contributions.} 1. \textbf{IRexp} --- to our knowledge the
+largest openly \emph{redistributable} collection of experimental IR
+\textbf{band lists} (121,233 records; 43,060 structure-linked; 33,201
+IR+¹H+¹³C+structure), released under permissive licences for bulk model
+development with a reproducible mining pipeline. The claim is scoped to
+that object type deliberately: view-only libraries such as SDBS hold
+more structure-linked \emph{spectra}, and commercial libraries are
+larger still --- neither is redistributable, and neither is what IRexp
+competes with (§2.1). 2. An \textbf{open multimodal benchmark} and ---
+to our knowledge the first of its kind --- a blind, mechanically scored,
 complexity-stratified evaluation of frontier-LLM structure elucidation
-on real data --- measured in depth on one model family (Claude) ---
+on real data, measured in depth on one model family (Claude),
 reconciling the gap to optimistic prior reports. Crucially, the ground
 truth is experimental structures from the published literature, resolved
-deterministically (OPSIN/RDKit) and expert-audited: no LLM curates the
-labels or scores the predictions. The model is the system under test,
-not the source of its own answers. 3. A \textbf{diagnostic
+deterministically (OPSIN/RDKit) and checked against the source articles
+mechanically (560/560 bands confirmed on a seed-fixed sample, §2.3; the
+\emph{expert-chemist} review is prepared but not yet run, §7): no LLM
+curates the labels or scores the predictions. The model is the system
+under test, not the source of its own answers. 3. A \textbf{diagnostic
 decomposition} of LLM elucidation into recall and verification, showing
 that \textbf{recall --- not verification --- bounds current
 performance}, obtained via a training-free forward-verification probe
@@ -353,8 +357,11 @@ release a single, pre-registered, RDKit-InChIKey protocol with bootstrap
 CIs. \textbf{(iii) A recall/verification decomposition:} existing
 benchmarks report a single aggregate score, whereas we factor
 performance into generation recall and verification precision and show
-\emph{where} the task is lost --- the result that transfers across
-models, domains, and verifier choices.
+\emph{where} the task is lost. That decomposition is the part we find
+stable under the perturbations we could run: four Claude models, a
+second chemical domain, and four different verifiers all stay
+recall-bound (§4.4, §4.5, §5.4). It is not tested outside the Claude
+family (§7).
 
 \textbf{Computational NMR for structure validation.} Our
 forward-verification method is the LLM analog of a workflow chemists
@@ -1520,22 +1527,25 @@ top-1 is throttled by candidate recall and by the regiochemical
 underdetermination intrinsic to 1D NMR. The contribution of this paper
 is therefore best read as a \textbf{diagnosis with a bounded,
 training-free improvement attached}, not as a method that solves the
-task. The diagnostic result is the durable take-away: across models,
-domains, and verifiers, the wall is \textbf{generation recall}, not
-verification. The accompanying improvement is real but deliberately
-modest --- forward verification alone moves top-1 from 28\% to 30\%
-across the whole benchmark (§5.2), and adding wide generation takes 23\%
-to 30\% on the 60-compound arm where that was run; we show by direct
-measurement (§5.3) that this stays \emph{below its own ceiling} (recall
-plateaus at 41\%; verification precision falls to 72\% as
-near-degenerate regioisomers accumulate), while the match distance fails
-as a confidence gauge for selective prediction (§5.5, a reported null
-result). This reframes the engineering problem. Rather than training a
-bespoke spectra→structure model --- a target the frontier already meets
-at the scaffold level and that ages out each model generation --- the
-durable levers are (i) \textbf{open, hard, honestly scored benchmarks}
-that expose specific failure modes (here, regiochemistry and recall),
-and (ii) \textbf{inference-time scaffolding} (decoupled solving,
+task. The diagnostic result is the durable take-away, and it held under
+every perturbation we were able to apply --- four Claude models, a
+second chemical domain, four different verifiers: the wall is
+\textbf{generation recall}, not verification. Whether it holds outside
+the Claude family is the open question, not a settled one (§7). The
+accompanying improvement is real but deliberately modest --- forward
+verification alone moves top-1 from 28\% to 30\% across the whole
+benchmark (§5.2), and adding wide generation takes 23\% to 30\% on the
+60-compound arm where that was run; we show by direct measurement (§5.3)
+that this stays \emph{below its own ceiling} (recall plateaus at 41\%;
+verification precision falls to 72\% as near-degenerate regioisomers
+accumulate), while the match distance fails as a confidence gauge for
+selective prediction (§5.5, a reported null result). This reframes the
+engineering problem. Rather than training a bespoke spectra→structure
+model --- a target the frontier already meets at the scaffold level and
+that ages out each model generation --- the durable levers are (i)
+\textbf{open, hard, honestly scored benchmarks} that expose specific
+failure modes (here, regiochemistry and recall), and (ii)
+\textbf{inference-time scaffolding} (decoupled solving,
 generate-and-verify) that needs no training and improves with each
 model. IRexp's IR modality and 2D-NMR-ready provenance position it for
 the obvious next step: supplying the HMBC/COSY/NOESY constraints that

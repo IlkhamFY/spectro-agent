@@ -94,17 +94,20 @@ released code and predictions. We prioritise an honest, reusable measurement of 
 models stand over a leaderboard-topping number.
 
 **Contributions.**
-1. **IRexp** — the largest openly *redistributable* experimental-IR dataset (121,233
-   records; 43,060 structure-linked; 33,201 IR+¹H+¹³C+structure): larger by raw record
-   count than any prior collection and uniquely released under permissive licences for
-   bulk model development (view-only resources such as SDBS are larger in
-   structure-linked spectra but are not redistributable; §2.1), with a reproducible
-   mining pipeline.
-2. An **open multimodal benchmark** and the first blind, mechanically scored,
-   complexity-stratified evaluation of frontier-LLM structure elucidation on real data
-   — measured in depth on one model family (Claude) — reconciling the gap to optimistic
-   prior reports. Crucially, the ground truth is experimental structures from the
-   published literature, resolved deterministically (OPSIN/RDKit) and expert-audited:
+1. **IRexp** — to our knowledge the largest openly *redistributable* collection of
+   experimental IR **band lists** (121,233 records; 43,060 structure-linked; 33,201
+   IR+¹H+¹³C+structure), released under permissive licences for bulk model development
+   with a reproducible mining pipeline. The claim is scoped to that object type
+   deliberately: view-only libraries such as SDBS hold more structure-linked *spectra*,
+   and commercial libraries are larger still — neither is redistributable, and neither is
+   what IRexp competes with (§2.1).
+2. An **open multimodal benchmark** and — to our knowledge the first of its kind — a
+   blind, mechanically scored, complexity-stratified evaluation of frontier-LLM structure
+   elucidation on real data, measured in depth on one model family (Claude), reconciling
+   the gap to optimistic prior reports. Crucially, the ground truth is experimental
+   structures from the published literature, resolved deterministically (OPSIN/RDKit) and
+   checked against the source articles mechanically (560/560 bands confirmed on a
+   seed-fixed sample, §2.3; the *expert-chemist* review is prepared but not yet run, §7):
    no LLM curates the labels or scores the predictions. The model is the system under
    test, not the source of its own answers.
 3. A **diagnostic decomposition** of LLM elucidation into recall and verification,
@@ -157,7 +160,9 @@ therefore fix and release a single, pre-registered, RDKit-InChIKey protocol with
 bootstrap CIs. **(iii) A recall/verification
 decomposition:** existing benchmarks report a single aggregate score, whereas we factor
 performance into generation recall and verification precision and show *where* the task
-is lost — the result that transfers across models, domains, and verifier choices.
+is lost. That decomposition is the part we find stable under the perturbations we could
+run: four Claude models, a second chemical domain, and four different verifiers all stay
+recall-bound (§4.4, §4.5, §5.4). It is not tested outside the Claude family (§7).
 
 **Computational NMR for structure validation.** Our forward-verification method is
 the LLM analog of a workflow chemists already trust: assign a structure by computing
@@ -997,8 +1002,10 @@ best Tanimoto 0.59) and good **verifiers** (89% conditional on recall). Exact to
 throttled by candidate recall and by the regiochemical underdetermination intrinsic to 1D NMR.
 The contribution of this paper is therefore best read as a **diagnosis with a bounded,
 training-free improvement attached**, not as a method that solves the task. The
-diagnostic result is the durable take-away: across models, domains, and verifiers, the
-wall is **generation recall**, not verification. The accompanying improvement is real but
+diagnostic result is the durable take-away, and it held under every perturbation we were
+able to apply — four Claude models, a second chemical domain, four different verifiers:
+the wall is **generation recall**, not verification. Whether it holds outside the Claude
+family is the open question, not a settled one (§7). The accompanying improvement is real but
 deliberately modest — forward verification alone moves top-1 from 28% to 30% across the
 whole benchmark (§5.2), and adding wide generation takes 23% to 30% on the 60-compound
 arm where that was run; we show by direct measurement (§5.3) that this stays *below its own ceiling*

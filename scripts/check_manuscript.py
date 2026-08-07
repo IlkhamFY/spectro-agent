@@ -18,6 +18,7 @@ Checks:
   D  "never run" / "no outputs" claims vs what is actually on disk
   E  cross-document agreement on the numbers that appear in more than one file
   F  bootstrap CIs contain their own point estimate
+  G  ground-truth structures reproduce the formula given to the solver
 """
 import gzip, json, os, re, sys
 
@@ -191,6 +192,44 @@ def check_cis(md):
             fail("F", f"table point estimate {pt}% outside CI [{lo}, {hi}]")
 
 
+# ---- G. ground truth vs the formula the solver was given ---------------------
+def check_ground_truth():
+    """A mis-resolved answer structure would silently corrupt every score, and the
+    formula is an independent handle on it: the solver is *given* the formula, so the
+    answer must reproduce it. This is the mechanical half of what the expert-chemist
+    audit (§7) covers; it cannot judge whether the structure is chemically sensible,
+    only whether it is the right composition."""
+    from rdkit import Chem
+    from rdkit.Chem import rdMolDescriptors
+    from rdkit import RDLogger; RDLogger.DisableLog("rdApp.*")
+    norm = lambda f: re.sub(r'[+\-]\d*$', '', (f or "").replace(" ", ""))
+    rounds = [("data/benchmark_main", "data/benchmark_main/clean_qids.json"),
+              ("data/benchmark_v3", None), ("data/benchmark_v2_ctrl", None),
+              ("data/benchmark_electrolyte", None)]
+    n = 0
+    for d, cf in rounds:
+        if not os.path.exists(f"{d}/answers2.jsonl"):
+            continue
+        keep = set(json.load(open(cf))) if cf else None
+        q = {json.loads(l)["qid"]: json.loads(l) for l in open(f"{d}/questions2.jsonl")}
+        for l in open(f"{d}/answers2.jsonl"):
+            a = json.loads(l); qid = a["qid"]
+            if keep is not None and qid not in keep:
+                continue
+            n += 1
+            m = Chem.MolFromSmiles(a.get("smiles") or "")
+            if m is None:
+                fail("G", f"{d} {qid}: ground-truth SMILES does not parse")
+                continue
+            given = norm(q.get(qid, {}).get("formula"))
+            derived = norm(rdMolDescriptors.CalcMolFormula(m))
+            if given and given != derived:
+                fail("G", f"{d} {qid}: solver was given {given} but the answer "
+                          f"structure is {derived}")
+    if n == 0:
+        fail("G", "no ground-truth answers found to check")
+
+
 # ---- author-supplied items (reported, never failed) --------------------------
 # These cannot be filled in by anyone but the authors, and inventing any of them
 # would be worse for a reader than an acknowledged gap. The gate lists them so the
@@ -219,6 +258,7 @@ def main():
     for fn in (check_dataset_counts, check_fractions, check_refs,
                check_not_run, check_cross, check_cis):
         fn(md)
+    check_ground_truth()
     pend = report_pending()
     if FAIL:
         print(f"MANUSCRIPT GATE: {len(FAIL)} problem(s)\n")
@@ -232,6 +272,7 @@ def main():
     print("  D 'never run' disclosures agree with what is on disk")
     print("  E companion documents carry the same numbers as the paper")
     print("  F every confidence interval contains its point estimate")
+    print("  G every ground-truth structure matches the formula the solver was given")
     if pend:
         print(f"\nAWAITING THE AUTHORS ({len(pend)} item(s)) — not defects, and not "
               f"fillable by anyone else:")

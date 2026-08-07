@@ -161,13 +161,31 @@ def check_not_run(md):
 
 # ---- E. cross-document numeric agreement -------------------------------------
 # a number stated in PAPER.md that also appears in a companion doc must agree
+# Companion documents drift silently when the paper's numbers move — the cover letter
+# is the worst case, since an editor reads it first and it is not rebuilt by anything.
 CROSS = [
     ("docs/FORWARD_VERIFY.md", ["58/65", "65/194", "55/194", "30/37"]),
+    ("docs/COVER_LETTER.md", ["65/194", "58/65"]),
+    ("docs/CROSS_VENDOR.md", ["65/194", "58/65", "30/37"]),
     ("README.md", []),
 ]
 
 
+# The cover letter is the one companion document with no legitimate reason to quote the
+# superseded 60-compound arm — it summarises the headline for an editor. Presence of the
+# current numbers is too weak a test there (they may sit elsewhere in the file), so the
+# retired ones are forbidden outright.
+RETIRED_IN_COVER_LETTER = ["19/60, 31%", "16/19, 84%", "16/19 conditional",
+                           "(19/60)", "expert-audited"]
+
+
 def check_cross(md):
+    if os.path.exists("docs/COVER_LETTER.md"):
+        cl = read("docs/COVER_LETTER.md")
+        for tok in RETIRED_IN_COVER_LETTER:
+            if tok in cl:
+                fail("E", f"docs/COVER_LETTER.md still quotes the superseded "
+                          f"'{tok}' — the letter must carry the n=194 figures")
     for doc, must_match in CROSS:
         if not os.path.exists(doc):
             fail("E", f"companion document missing: {doc}")

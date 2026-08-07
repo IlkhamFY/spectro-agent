@@ -16,9 +16,11 @@ same compounds:
   the set, how often forward-prediction re-ranking selects it.
 
 The claim replicates for a vendor iff **verification precision > generation recall**.
-For Claude on the 60-compound forward-verify set, generation recall is 19/60 (31%) and
-verification precision conditional on recall is 16/19 (84%) — the inequality holds
-(reproduced exactly by this harness, `score` → `recall 32% / prec|rec 84%`). The two
+For Claude the inequality holds on the whole benchmark: generation recall is 65/194
+(34%) against verification precision conditional on recall of 58/65 (89%), and 30/37
+(81%) restricted to the compounds where a choice actually existed
+(`scripts/forward_verify_all.py`). On the 60-compound arm this harness reproduces
+exactly — `score` → `recall 32% / prec|rec 84%`, i.e. 19/60 and 16/19. The two
 rates have different denominators, so the criterion is the inequality, not a difference.
 
 ## Design (implemented in `scripts/cross_vendor_sweep.py`)

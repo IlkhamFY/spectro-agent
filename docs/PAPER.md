@@ -758,14 +758,23 @@ comfortably includes zero — so this **bounds** any recency effect rather than 
 a reversed one, and by the same standard §5.3 applies to its own adjacent conditions we do
 not read it as directional.
 
-The 5% is not zero, and it is worth saying what those three compounds are rather than
-rounding them away: a 2-(trimethylsilyl)aryl sulfonate, whose Si/S/Cl/F₂ composition is a
-near-unique benzyne-precursor signature; N-tosyl leucine; and a vanillyl alkanone. In each
-case an unusual element combination or a very common derivative class makes the formula
-close to determining, which is chemical inference from composition rather than evidence of
-having memorised this benchmark — though this experiment cannot separate the two. What it
-does establish is a bound: formula-level recall accounts for at most about a fifth of the
-headline accuracy on this set. Together with the recency
+The 5% is not zero, and the three compounds are worth naming rather than rounding away —
+individually, they do not all support the same reading:
+
+- **C₁₅H₁₅ClF₂O₃SSi**, a 2-(trimethylsilyl)aryl sulfonate. The Si/S/Cl/F₂ composition is
+  a near-unique benzyne-precursor signature and the compound is **absent from PubChem**,
+  so recognition is implausible: here the formula really is close to determining.
+- **C₁₃H₁₉NO₄S**, *N*-tosyl-leucine (CAS 67368-40-5). The formula strongly suggests
+  tosyl + leucine, but the compound is also catalogued and common; inference and
+  recall are both available.
+- **C₁₇H₂₆O₃**, **[6]-paradol** (CAS 27113-22-0), a ginger natural product. This formula
+  constrains very little by itself — a named natural product recovered from composition
+  alone is more plausibly recognised than deduced.
+
+So one of the three is clean chemical inference and one or two are consistent with
+memorisation. We say so because the arm exists to make such cases visible, not to argue
+them away, and because the bound is unaffected either way: formula-level recall accounts
+for at most about a fifth of the headline accuracy on this set. Together with the recency
 result, the two controls are independent and agree. Neither is a randomised experiment —
 publication year is observational and the formula-only arm cannot distinguish memorisation
 from inference on a near-determining formula — so we claim a strong bound rather than
@@ -1275,8 +1284,11 @@ it speaks to model-instance robustness, not cross-vendor generality.
 compound was mined from open-access literature, so a frontier model may have encountered
 it in training. The formula-only control (§4.6) bounds how much of the headline number
 pure recall can explain — masking the spectra drops top-1 from 23% to 5%, perfectly
-nested, McNemar exact p=0.001 — and the three formula-only successes are all compounds
-whose composition is close to determining. The second control (§4.6) resolves the source
+nested, McNemar exact p=0.001. §4.6 examines the three formula-only successes one by
+one rather than explaining them away collectively: only one (an unlisted silyl aryl
+sulfonate) has a genuinely determining composition, while the other two — *N*-tosyl-leucine
+and the natural product [6]-paradol — are catalogued compounds for which recall is a live
+explanation. That is the control working as intended, and it leaves the bound unchanged. The second control (§4.6) resolves the source
 publication year for all 194 compounds and finds accuracy flat in it (r=−0.007), with the
 size-adjusted older-versus-newer difference bounded at −5.1 points, 95% CI [−17.2, +7.0].
 

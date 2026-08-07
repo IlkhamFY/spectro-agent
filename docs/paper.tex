@@ -166,47 +166,41 @@ Hamilton, Ontario, Canada
 Given the molecular formula together with the infrared band list and
 ¹H/¹³C shift lists exactly as reported in an open-access paper, how
 often does a frontier large language model (here, Claude) recover the
-correct molecular \emph{constitution}? We find: \textbf{28\% of the
-time} (top-1, n=194; 95\% CI 22--35) --- far below the near-100\%
-implied by curated demonstrations. The bottleneck is not the model's
-judgment but its \emph{proposal}: on a 60-compound forward-verification
-subset the model proposes the true structure for only \textbf{19 of 60}
-compounds (31\%, 95\% CI 21--44), and where it does,
-forward-verification selects it in \textbf{16 of 19} (84\%, 95\% CI
-62--94, against a 66\% derangement floor; on the 13 of those 19 where
-more than one candidate existed and a choice was actually made, 10/13 =
-77\%, §5.2). \textbf{Recall, not verification, is the wall.} We
-establish this with three contributions. First, \textbf{IRexp} --- the
-largest openly redistributable collection of \emph{experimental}
-infrared \textbf{band lists} (121,233 records, a third
-structure-linked), mined from open-access literature and released with
-its mining pipeline (§2). Second, \textbf{IRSpectra-Bench} --- an open,
-blind, mechanically scored benchmark of 194 compounds on which accuracy
-splits sharply by structural complexity, and a within-compound control
-showing that reported numbers are sensitive to how a problem is posed,
-not to raw capability alone (§3--§4). Third, a training-free
-\textbf{forward-verification} method that acts on the diagnosis:
-generating regiochemistry-aware candidates and re-ranking them by
-predicted-versus-observed ¹³C raises both candidate recall and top-1,
-though at this sample size the top-1 gain is directional rather than
-resolved (§5.3). The gain is real but bounded, because within the
-training-free regime accuracy is capped by the product of generation
-recall and verification precision. That ceiling is a property of
-training-free elicitation rather than an established limit of the task:
-a small generator fine-tuned on IRexp lifts recall substantially and
-gives the highest full-benchmark accuracy we report (§5.6). But the wall
-moves rather than falls --- the true structure remains outside the
-candidate pool for roughly half of compounds, and verification precision
-is untouched. The recall-bound pattern recurs in a battery-electrolyte
-domain (§4.5), where the true structure enters the candidate set for 13
-of 46 compounds and is ranked first in 12 of those 13. A formula-only
-control confirms the spectra are doing the work: masking them drops
-top-1 from 23\% to 5\% on the same compounds, with every formula-only
-success also solved from spectra and none the reverse (§4.6). Every
-result is single-vendor (Claude); a cross-vendor test is the key open
-question. The core protocol uses no model training and no paid API ---
-two clearly-fenced probes (§5.4, §5.6) are the only exceptions --- and
-all data, predictions, and code are released.
+correct molecular \emph{constitution}? We find \textbf{28\%} (top-1,
+n=194; 95\% CI 22--35) --- far below the near-100\% implied by curated
+demonstrations.
+
+The bottleneck is not the model's judgment but its \emph{proposal}. On a
+60-compound subset the model proposes the true structure for only
+\textbf{31\%} of compounds; where it does, forward-verification ---
+predicting each candidate's ¹³C spectrum and re-ranking by agreement
+with the observed one --- selects it \textbf{84\%} of the time (16/19;
+77\% on the 13 where more than one candidate existed, §5.2).
+\textbf{Recall, not verification, is the wall.}
+
+We contribute three things. \textbf{IRexp}, the largest openly
+redistributable collection of \emph{experimental} infrared band lists
+(121,233 records, a third structure-linked), mined from open-access
+literature and released with its pipeline. \textbf{IRSpectra-Bench}, an
+open, blind, mechanically scored benchmark of 194 compounds on which
+accuracy splits sharply with structural complexity, and where a
+within-compound control shows reported numbers are sensitive to how a
+problem is posed. And a training-free \textbf{forward-verification}
+method that raises both candidate recall and top-1, though at this
+sample size the top-1 gain is directional rather than resolved (§5.3).
+
+That ceiling is a property of training-free elicitation rather than of
+the task: a small generator fine-tuned on IRexp lifts recall
+substantially and gives the highest full-benchmark accuracy we report
+(§5.6). But the wall moves rather than falls --- the true structure
+stays outside the candidate pool for roughly half of compounds. Two
+independent contamination controls confirm the spectra do the work:
+masking them drops top-1 from 23\% to 5\% on the same compounds, and
+accuracy is flat in the publication year of the source paper (§4.6).
+Every result is single-vendor (Claude); a cross-vendor test is the key
+open question. The core protocol uses no model training and no paid API
+--- two clearly-fenced probes (§5.4, §5.6) are the only exceptions ---
+and all data, predictions, and code are released.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 

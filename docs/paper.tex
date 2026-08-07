@@ -643,8 +643,21 @@ per-compound predictions). Adherence to the supplied formula is high but
 imperfect: 91.3\% (115/126) of forward-verification candidates match the
 given molecular formula exactly (100\% of true structures, 89.6\% of
 decoys), and 76.6\% across the full top-3 pool --- a residual generator
-error orthogonal to regiochemistry. This makes the benchmark free to run
-and reproducible without API credits.
+error orthogonal to regiochemistry.
+
+That adherence is \textbf{not uniform across rounds}, and the two
+figures above come from the better-behaved ones, so we give the
+breakdown rather than let a reader carry either number across. On top-1
+answers it is 95.0\% (38/40) in the v3 round and 90.0\% (18/20) in the
+v2-control, but \textbf{77.6\% (104/134) in the headline main round} ---
+which is to say the solver returns a structure of the wrong composition,
+in violation of a constraint it was explicitly handed, for about one
+main-round compound in five. Those answers are scored as misses like any
+other, so this inflates nothing; it does mean the formula check
+described above was not equally effective in every round, and the
+main-round arm should be read as the weakest-constrained one.
+\texttt{scripts/analyze\_misses.py} regenerates the breakdown. This
+makes the benchmark free to run and reproducible without API credits.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 

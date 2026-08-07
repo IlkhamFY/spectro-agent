@@ -77,6 +77,42 @@ def collect():
     return misses, unparseable, hits
 
 
+def formula_adherence():
+    """The formula is an INPUT, so obeying it is a constraint the solver can break.
+    Reported per round because the rounds differ: §8 describes the RDKit formula check
+    as uniform, but the headline round adheres materially less well than the controlled
+    ones, and a reader applying one figure to the other would be misled."""
+    import re
+    norm = lambda f: re.sub(r'[+\-]\d*$', '', (f or "").replace(" ", ""))
+    print("\nAdherence to the supplied molecular formula, top-1, by round:")
+    for d, cleanf, prefix in ROUNDS:
+        keep = set(json.load(open(cleanf))) if cleanf else None
+        q = {json.loads(l)["qid"]: json.loads(l) for l in open(f"{d}/questions2.jsonl")}
+        ans = {json.loads(l)["qid"]: json.loads(l) for l in open(f"{d}/answers2.jsonl")}
+        pred = {}
+        if prefix:
+            for f in glob.glob(f"{d}/raw/*.json"):
+                pred.update(json.load(open(f)))
+            pred = {k[len(prefix):]: v for k, v in pred.items()}
+        else:
+            for l in open(f"{d}/predictions2.jsonl"):
+                r = json.loads(l); pred[r["qid"]] = r.get("candidates", [])
+        tot = ok = 0
+        for qid, a in ans.items():
+            if keep is not None and qid not in keep:
+                continue
+            top = pred.get(qid, [])[:1]
+            given = norm(q.get(qid, {}).get("formula"))
+            if not top or not given:
+                continue
+            tot += 1
+            c = Chem.MolFromSmiles(top[0] or "")
+            if c and norm(rdMolDescriptors.CalcMolFormula(c)) == given:
+                ok += 1
+        if tot:
+            print(f"  {d.split('/')[-1]:<24} {ok:>4}/{tot:<4} {100*ok/tot:5.1f}%")
+
+
 def main():
     misses, unparseable, hits = collect()
     n = len(misses)
@@ -95,6 +131,7 @@ def main():
         ts = sorted(m["tanimoto"] for m in iso)
         print(f"\n  Tanimoto(miss, truth) over the isomer misses: "
               f"median {ts[len(ts)//2]:.2f}  min {ts[0]:.2f}  max {ts[-1]:.2f}")
+    formula_adherence()
     print("\nReading: the composition is usually right and the connectivity is not.\n"
           "'Which position a substituent occupies' describes the scaffold-preserving\n"
           "row only — a minority of misses, not the predominant failure mode.")

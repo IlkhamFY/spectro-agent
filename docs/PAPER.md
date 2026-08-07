@@ -254,8 +254,11 @@ Both pools are stored in the same band-list form, but they are not the same obje
 we keep them separable. The PMC pool is transcribed from the experimental section of a
 paper and carries a median of 9 bands per record; the Chemotion pool derives from
 deposited spectra and, being peak-picked rather than author-selected, carries a median of
-39. Users training on band density should treat the pools separately (the `ir_source` and
-`license` fields distinguish them).
+39. Users training on band density should treat the pools separately. The discriminator is
+each record's `source_doi`: Chemotion records carry the RADAR4Chem prefix `10.22000`, PMC
+records a `PMC:` accession. The released file has no separate `license` column, so
+`scripts/split_license_pools.py` performs the split and stamps each record with its
+licence.
 
 **Extraction fidelity is measured, not assumed.** Because every record cites its source
 accession and PMC is open, transcription can be checked directly. On a seed-fixed random
@@ -1351,9 +1354,11 @@ compatible with each (see `data/NOTICE`). **(a) Redistribution:** we release onl
 (SMILES/SELFIES/InChIKey) — plus each record's source DOI/accession, not source full
 text, figures, or PDFs. **(b) Two separable pools:** 119,345 records derive from the PMC
 Open-Access Subset (**CC-BY-4.0**) and 1,888 from the Chemotion RADAR4Chem FT-IR deposit
-(**CC-BY-SA-4.0**); the pools are kept separate and individually labelled, so users may
-take the CC-BY pool alone, while any combined or Chemotion-derived release carries
-CC-BY-SA-4.0 to honour the ShareAlike term. Code is released under the MIT License. **(c) Attribution:** re-users must cite
+(**CC-BY-SA-4.0**). The two are separable losslessly by `source_doi` — Chemotion records
+carry the `10.22000` prefix — and `scripts/split_license_pools.py` materialises them as
+two files with each record stamped `license`, so users may take the CC-BY pool alone;
+any combined or Chemotion-derived release carries CC-BY-SA-4.0 to honour the ShareAlike
+term. Code is released under the MIT License. **(c) Attribution:** re-users must cite
 this dataset (Zenodo DOI above) and attribute the original publications via each record's
 `source_doi`.
 

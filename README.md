@@ -31,6 +31,7 @@ python scripts/score_main.py            # Table 2  - headline accuracy (n=194)
 python scripts/forward_verify_all.py    # Table 6  - recall/verification decomposition (n=194)
 python scripts/score_generate_wide.py   # Table 7  - generate-wide arm
 python scripts/ladder_significance.py   # the paired tests behind §5.3
+python scripts/check_manuscript.py      # manuscript integrity gate (must pass)
 python scripts/build_pdf.py             # rebuild docs/paper.pdf
 ```
 

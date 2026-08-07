@@ -497,8 +497,12 @@ same object and we keep them separable. The PMC pool is transcribed from
 the experimental section of a paper and carries a median of 9 bands per
 record; the Chemotion pool derives from deposited spectra and, being
 peak-picked rather than author-selected, carries a median of 39. Users
-training on band density should treat the pools separately (the
-\texttt{ir\_source} and \texttt{license} fields distinguish them).
+training on band density should treat the pools separately. The
+discriminator is each record's \texttt{source\_doi}: Chemotion records
+carry the RADAR4Chem prefix \texttt{10.22000}, PMC records a
+\texttt{PMC:} accession. The released file has no separate
+\texttt{license} column, so \texttt{scripts/split\_license\_pools.py}
+performs the split and stamps each record with its licence.
 
 \textbf{Extraction fidelity is measured, not assumed.} Because every
 record cites its source accession and PMC is open, transcription can be
@@ -1998,13 +2002,15 @@ band lists, ¹H/¹³C shift lists, and resolved structures
 not source full text, figures, or PDFs. \textbf{(b) Two separable
 pools:} 119,345 records derive from the PMC Open-Access Subset
 (\textbf{CC-BY-4.0}) and 1,888 from the Chemotion RADAR4Chem FT-IR
-deposit (\textbf{CC-BY-SA-4.0}); the pools are kept separate and
-individually labelled, so users may take the CC-BY pool alone, while any
-combined or Chemotion-derived release carries CC-BY-SA-4.0 to honour the
-ShareAlike term. Code is released under the MIT License. \textbf{(c)
-Attribution:} re-users must cite this dataset (Zenodo DOI above) and
-attribute the original publications via each record's
-\texttt{source\_doi}.
+deposit (\textbf{CC-BY-SA-4.0}). The two are separable losslessly by
+\texttt{source\_doi} --- Chemotion records carry the \texttt{10.22000}
+prefix --- and \texttt{scripts/split\_license\_pools.py} materialises
+them as two files with each record stamped \texttt{license}, so users
+may take the CC-BY pool alone; any combined or Chemotion-derived release
+carries CC-BY-SA-4.0 to honour the ShareAlike term. Code is released
+under the MIT License. \textbf{(c) Attribution:} re-users must cite this
+dataset (Zenodo DOI above) and attribute the original publications via
+each record's \texttt{source\_doi}.
 
 \hypertarget{author-contributions}{%
 \subsection{Author Contributions}\label{author-contributions}}

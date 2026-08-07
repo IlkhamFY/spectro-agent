@@ -7,7 +7,11 @@
 > the original n=19 measurement and reproduces exactly
 > (`python scripts/verifier_table.py`), but the paper reports the n=65 column:
 > self-ranking 55/65 (85%), HOSE lookup 55/65 (85%), learned GNN 59/65 (91%), LLM
-> verifier 58/65 (89%). See `data/fverify/verifier_table_results.txt`.
+> verifier 58/65 (89%). The leakage controls were re-run at the same scale
+> (`scripts/verifier_leakage.py --all`): exact overlap 2/364 candidates, both wrong
+> candidates on recall-negative compounds, 0 benchmark answers; analog overlap median
+> Tanimoto 0.44 overall and 0.50 (max 0.81) over the 65 true structures. See
+> `data/fverify/verifier_table_results.txt`.
 
 *Proposed addition for author review. This is the learned-predictor arm of the §5.4
 HOSE ablation: same nmrshiftdb2 training data, same §5.2 candidate set, only the method

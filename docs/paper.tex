@@ -186,8 +186,9 @@ open, blind, mechanically scored benchmark of 194 compounds on which
 accuracy splits sharply with structural complexity, and where a
 within-compound control shows reported numbers are sensitive to how a
 problem is posed. And a training-free \textbf{forward-verification}
-method that raises both candidate recall and top-1, though at this
-sample size the top-1 gain is directional rather than resolved (§5.3).
+method, run over every benchmark compound, that raises both candidate
+recall and top-1 --- though the top-1 gain stays directional rather than
+resolved even at this scale (§5.2, §5.3).
 
 That ceiling is a property of training-free elicitation rather than of
 the task: a small generator fine-tuned on IRexp lifts recall
@@ -1108,11 +1109,11 @@ uncalibrated verifier carries the inverse problem.
 \subsubsection{5.2 Result}\label{result}}
 
 We ran the verifier over \textbf{every compound in the benchmark}: 373
-deduplicated candidate structures across all 194 targets, each
-forward-predicted blind by an independent agent. The first column below
-is the original 60-compound arm (v3 + v2-control), on which §5.3--§5.5
-build; the second is the full benchmark, where the recall-conditional
-claim actually lives.
+deduplicated candidate structures across all 194 targets, all of them
+forward-predicted blind, in shuffled and anonymised batches, by 23
+independent agents. The first column below is the original 60-compound
+arm (v3 + v2-control), on which §5.3--§5.5 build; the second is the full
+benchmark, where the recall-conditional claim actually lives.
 
 \textbf{Table 6. Forward-verification decomposition}, on the original
 arm and on the whole benchmark.
@@ -1376,21 +1377,27 @@ remain the genuine fix.
 The GNN and the LLM land within one compound of each other while
 \textbf{disagreeing on nine} (b=5, c=4, p=1.00) --- two verifiers built
 on unrelated evidence, concurring in aggregate rather than one echoing
-the other. The result is \textbf{generalisation, not memorisation}:
-across all 373 candidates the overlap with the entire nmrshiftdb2
-database is \textbf{2/364} by InChIKey-14, both of them \emph{wrong}
-candidates on \emph{recall-negative} compounds that never enter the
-conditional analysis, and \textbf{no benchmark answer appears in the
-database at all} (0/373; the 60-compound arm is 0/126, as previously
-reported). Morgan-Tanimoto nearest-neighbour to training is a modest
-0.44 median with the wins sitting \emph{at} --- not above --- the
-median, and a Y-randomisation control (1,000 derangements) places the
-real result above the 97.5th percentile of the chance distribution
-(n=19: real 84\% vs mean 58.6\%, 95\% range 42.1--73.7\%, one-sided
-p\textless0.05). Like §5.6, the learned verifier is a \textbf{trained
-complement}, reported outside the training-free protocol. Table 8 and
-both leakage checks regenerate from the released artifacts
-(\texttt{scripts/verifier\_table.py},
+the other. The result is \textbf{generalisation, not memorisation}, and
+we can now say so on the whole candidate pool rather than a sixth of it.
+\emph{Exact} overlap with the entire nmrshiftdb2 database is \textbf{2
+of 364} distinct candidate structures by InChIKey-14 --- both of them
+\emph{wrong} candidates on \emph{recall-negative} compounds that never
+enter the conditional analysis --- and \textbf{no benchmark answer
+appears in the database at all} (0/373; the 60-compound arm is 0/126, as
+previously reported). \emph{Analog} overlap, which exact matching would
+miss, is likewise absent: the median Morgan(2, 2048) Tanimoto to the
+nearest training molecule is \textbf{0.44} and only three candidates
+exceed 0.80. The load-bearing number is the last one: over the
+\textbf{65 true structures the verifier actually has to identify}, the
+nearest training analog has median Tanimoto \textbf{0.50} and maximum
+\textbf{0.81} --- not one of the compounds the conditional analysis
+scores has a near-duplicate in the training set. A Y-randomisation
+control (1,000 derangements) places the real result above the 97.5th
+percentile of the chance distribution (n=19: real 84\% vs mean 58.6\%,
+95\% range 42.1--73.7\%, one-sided p\textless0.05). Like §5.6, the
+learned verifier is a \textbf{trained complement}, reported outside the
+training-free protocol. Table 8 and both leakage checks regenerate from
+the released artifacts (\texttt{scripts/verifier\_table.py},
 \texttt{scripts/verifier\_leakage.py},
 \texttt{data/fverify/verifier\_table\_results.txt},
 \texttt{data/nmrshiftdb/gnn\_c13.pt}; \texttt{docs/VERIFIER\_PROBE.md}).
@@ -1434,6 +1441,11 @@ of those trivial cases. We therefore do \textbf{not} claim the verifier
 distance as a calibrated abstention gauge --- a sharper,
 DFT/2D-NMR-grounded confidence estimate (§5.4) remains the route to
 reliable selective prediction.
+
+Both controls in this section regenerate via
+\texttt{scripts/verifier\_diagnostics.py\ -\/-all} (the full benchmark,
+as reported here); omitting \texttt{-\/-all} reproduces the 60-compound
+arm's figures instead.
 
 \hypertarget{is-the-recall-wall-task-intrinsic-a-trained-generator-probe}{%
 \subsubsection{5.6 Is the recall wall task-intrinsic? A
@@ -1502,27 +1514,29 @@ training-free improvement attached}, not as a method that solves the
 task. The diagnostic result is the durable take-away: across models,
 domains, and verifiers, the wall is \textbf{generation recall}, not
 verification. The accompanying improvement is real but deliberately
-modest --- forward verification with wide generation lifts top-1 from
-23\% to 30\%, and we show by direct measurement (§5.3) that this stays
-\emph{below its own ceiling} (recall plateaus at 41\%; verification
-precision falls to 72\% as near-degenerate regioisomers accumulate),
-while the match distance fails as a confidence gauge for selective
-prediction (§5.5, a reported null result). This reframes the engineering
-problem. Rather than training a bespoke spectra→structure model --- a
-target the frontier already meets at the scaffold level and that ages
-out each model generation --- the durable levers are (i) \textbf{open,
-hard, honestly scored benchmarks} that expose specific failure modes
-(here, regiochemistry and recall), and (ii) \textbf{inference-time
-scaffolding} (decoupled solving, generate-and-verify) that needs no
-training and improves with each model. IRexp's IR modality and
-2D-NMR-ready provenance position it for the obvious next step: supplying
-the HMBC/COSY/NOESY constraints that would attack regiochemistry at the
-source. Our trained-generator probe (§5.6) sharpens the point: the
-recall wall is \emph{elicitation-specific, not task-intrinsic} --- a
-small generator fine-tuned on IRexp lifts it (recall 41→56\%) --- and
-because that gain comes entirely from the released data (0→25\% with
-fine-tuning, 0/248 without), it is the \textbf{open dataset}, not a
-bespoke architecture, that does the work when training does help.
+modest --- forward verification alone moves top-1 from 28\% to 30\%
+across the whole benchmark (§5.2), and adding wide generation takes 23\%
+to 30\% on the 60-compound arm where that was run; we show by direct
+measurement (§5.3) that this stays \emph{below its own ceiling} (recall
+plateaus at 41\%; verification precision falls to 72\% as
+near-degenerate regioisomers accumulate), while the match distance fails
+as a confidence gauge for selective prediction (§5.5, a reported null
+result). This reframes the engineering problem. Rather than training a
+bespoke spectra→structure model --- a target the frontier already meets
+at the scaffold level and that ages out each model generation --- the
+durable levers are (i) \textbf{open, hard, honestly scored benchmarks}
+that expose specific failure modes (here, regiochemistry and recall),
+and (ii) \textbf{inference-time scaffolding} (decoupled solving,
+generate-and-verify) that needs no training and improves with each
+model. IRexp's IR modality and 2D-NMR-ready provenance position it for
+the obvious next step: supplying the HMBC/COSY/NOESY constraints that
+would attack regiochemistry at the source. Our trained-generator probe
+(§5.6) sharpens the point: the recall wall is
+\emph{elicitation-specific, not task-intrinsic} --- a small generator
+fine-tuned on IRexp lifts it (recall 41→56\%) --- and because that gain
+comes entirely from the released data (0→25\% with fine-tuning, 0/248
+without), it is the \textbf{open dataset}, not a bespoke architecture,
+that does the work when training does help.
 
 \textbf{Protocol is a lever of the same order as capability.} How a
 problem is posed and verified --- bounded, reset contexts with tool
@@ -1877,13 +1891,21 @@ subset (\texttt{data/benchmark\_electrolyte/}, built by
 audit (\texttt{scripts/validate\_benchmark.py},
 \texttt{data/benchmark*/clean\_qids.json}); the forward-verification and
 generate-wide experiments (\texttt{data/fverify/}, \texttt{data/gw/},
-\texttt{data/fverify2/}, \texttt{scripts/forward\_verify.py}); the
-deterministic HOSE-code verifier ablation
-(\texttt{scripts/hose\_predict.py},
-\texttt{data/fverify/hose\_results.txt}); and the dataset-mining
-pipeline (\texttt{spectro\_scraper/}). Companion technical notes:
-\texttt{docs/BENCHMARK.md} and \texttt{docs/FORWARD\_VERIFY.md}. The
-verifier negative-control and selective-prediction analyses
+\texttt{data/fverify2/}, \texttt{scripts/forward\_verify.py}), their
+extensions to the whole benchmark and to full prediction coverage
+(\texttt{data/fverify\_main/}, \texttt{data/fverify\_gw/},
+\texttt{scripts/forward\_verify\_main.py},
+\texttt{scripts/forward\_verify\_all.py},
+\texttt{scripts/forward\_verify\_gw.py}); the non-LLM verifier
+comparison of Table 8 (\texttt{scripts/verifier\_table.py},
+\texttt{scripts/verifier\_leakage.py}, \texttt{scripts/hose\_predict.py}
+--- including its \texttt{coverage} diagnostic ---,
+\texttt{data/fverify/hose\_results.txt},
+\texttt{data/fverify/verifier\_table\_results.txt}); and the
+dataset-mining pipeline (\texttt{spectro\_scraper/}). Companion
+technical notes: \texttt{docs/BENCHMARK.md} and
+\texttt{docs/FORWARD\_VERIFY.md}. The verifier negative-control and
+selective-prediction analyses
 (\texttt{scripts/verifier\_diagnostics.py}), the recall-headroom and
 scaffold-enumeration study
 (\texttt{scripts/analyze\_recall\_headroom.py},

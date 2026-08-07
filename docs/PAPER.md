@@ -23,9 +23,9 @@ We contribute three things. **IRexp**, the largest openly redistributable collec
 open-access literature and released with its pipeline. **IRSpectra-Bench**, an open, blind,
 mechanically scored benchmark of 194 compounds on which accuracy splits sharply with
 structural complexity, and where a within-compound control shows reported numbers are
-sensitive to how a problem is posed. And a training-free **forward-verification** method
-that raises both candidate recall and top-1, though at this sample size the top-1 gain is
-directional rather than resolved (§5.3).
+sensitive to how a problem is posed. And a training-free **forward-verification** method,
+run over every benchmark compound, that raises both candidate recall and top-1 — though
+the top-1 gain stays directional rather than resolved even at this scale (§5.2, §5.3).
 
 That ceiling is a property of training-free elicitation rather than of the task: a small
 generator fine-tuned on IRexp lifts recall substantially and gives the highest
@@ -704,7 +704,8 @@ problem.
 ### 5.2 Result
 
 We ran the verifier over **every compound in the benchmark**: 373 deduplicated candidate
-structures across all 194 targets, each forward-predicted blind by an independent agent.
+structures across all 194 targets, all of them forward-predicted blind, in shuffled and
+anonymised batches, by 23 independent agents.
 The first column below is the original 60-compound arm (v3 + v2-control), on which
 §5.3–§5.5 build; the second is the full benchmark, where the recall-conditional claim
 actually lives.
@@ -883,13 +884,18 @@ remain the genuine fix.
 
 The GNN and the LLM land within one compound of each other while **disagreeing on nine**
 (b=5, c=4, p=1.00) — two verifiers built on unrelated evidence, concurring in aggregate
-rather than one echoing the other. The result is **generalisation, not memorisation**:
-across all 373 candidates the overlap with the entire nmrshiftdb2 database is
-**2/364** by InChIKey-14, both of them *wrong* candidates on *recall-negative* compounds
-that never enter the conditional analysis, and **no benchmark answer appears in the
-database at all** (0/373; the 60-compound arm is 0/126, as previously reported).
-Morgan-Tanimoto nearest-neighbour to training is a modest 0.44 median with the wins
-sitting *at* — not above — the median, and a Y-randomisation control (1,000 derangements)
+rather than one echoing the other. The result is **generalisation, not memorisation**, and
+we can now say so on the whole candidate pool rather than a sixth of it. *Exact* overlap
+with the entire nmrshiftdb2 database is **2 of 364** distinct candidate structures by
+InChIKey-14 — both of them *wrong* candidates on *recall-negative* compounds that never
+enter the conditional analysis — and **no benchmark answer appears in the database at
+all** (0/373; the 60-compound arm is 0/126, as previously reported). *Analog* overlap,
+which exact matching would miss, is likewise absent: the median Morgan(2, 2048) Tanimoto
+to the nearest training molecule is **0.44** and only three candidates exceed 0.80. The
+load-bearing number is the last one: over the **65 true structures the verifier actually
+has to identify**, the nearest training analog has median Tanimoto **0.50** and maximum
+**0.81** — not one of the compounds the conditional analysis scores has a near-duplicate
+in the training set. A Y-randomisation control (1,000 derangements)
 places the real result above the 97.5th percentile of the chance distribution (n=19: real
 84% vs mean 58.6%, 95% range 42.1–73.7%, one-sided p<0.05). Like §5.6, the learned
 verifier is a **trained complement**, reported outside the training-free protocol.
@@ -928,6 +934,10 @@ an earlier analysis that retained them produced a spurious "improvement" that wa
 entirely an artefact of those trivial cases. We therefore do **not** claim the verifier
 distance as a calibrated abstention gauge — a sharper, DFT/2D-NMR-grounded confidence
 estimate (§5.4) remains the route to reliable selective prediction.
+
+Both controls in this section regenerate via `scripts/verifier_diagnostics.py --all`
+(the full benchmark, as reported here); omitting `--all` reproduces the 60-compound arm's
+figures instead.
 
 ### 5.6 Is the recall wall task-intrinsic? A trained-generator probe
 
@@ -982,8 +992,9 @@ The contribution of this paper is therefore best read as a **diagnosis with a bo
 training-free improvement attached**, not as a method that solves the task. The
 diagnostic result is the durable take-away: across models, domains, and verifiers, the
 wall is **generation recall**, not verification. The accompanying improvement is real but
-deliberately modest — forward verification with wide generation lifts top-1 from 23% to
-30%, and we show by direct measurement (§5.3) that this stays *below its own ceiling*
+deliberately modest — forward verification alone moves top-1 from 28% to 30% across the
+whole benchmark (§5.2), and adding wide generation takes 23% to 30% on the 60-compound
+arm where that was run; we show by direct measurement (§5.3) that this stays *below its own ceiling*
 (recall plateaus at 41%; verification precision falls to 72% as near-degenerate
 regioisomers accumulate), while the match distance fails as a confidence gauge for
 selective prediction (§5.5, a reported null result). This reframes the
@@ -1262,8 +1273,13 @@ benchmark rounds and within-compound control (`data/benchmark*/`, scored by
 scored by `scripts/score_electrolyte.py`); the ground-truth integrity audit
 (`scripts/validate_benchmark.py`, `data/benchmark*/clean_qids.json`); the
 forward-verification and generate-wide experiments (`data/fverify/`, `data/gw/`,
-`data/fverify2/`, `scripts/forward_verify.py`); the deterministic HOSE-code verifier
-ablation (`scripts/hose_predict.py`, `data/fverify/hose_results.txt`); and the
+`data/fverify2/`, `scripts/forward_verify.py`), their extensions to the whole benchmark
+and to full prediction coverage (`data/fverify_main/`, `data/fverify_gw/`,
+`scripts/forward_verify_main.py`, `scripts/forward_verify_all.py`,
+`scripts/forward_verify_gw.py`); the non-LLM verifier comparison of Table 8
+(`scripts/verifier_table.py`, `scripts/verifier_leakage.py`, `scripts/hose_predict.py`
+— including its `coverage` diagnostic —, `data/fverify/hose_results.txt`,
+`data/fverify/verifier_table_results.txt`); and the
 dataset-mining pipeline (`spectro_scraper/`). Companion technical notes:
 `docs/BENCHMARK.md` and `docs/FORWARD_VERIFY.md`.
 The verifier negative-control and selective-prediction analyses

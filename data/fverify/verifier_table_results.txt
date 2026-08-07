@@ -1,4 +1,4 @@
-### Table 8 inputs (regenerated 2026-08-07T03:02Z)
+### Table 8 inputs (regenerated 2026-08-07T03:24Z)
 
 --- verifier_table.py (60-compound arm) ---
 arms: data/fverify
@@ -72,3 +72,11 @@ OVERLAP: 2/364 candidate structures (0.5%)
 
 => 0 overlapping candidate(s) sit on a recall-positive compound; only those could affect a Table 8 number.
 => 0 benchmark ANSWER(s) appear in nmrshiftdb2.
+
+ANALOG OVERLAP — Morgan(2,2048) Tanimoto to nearest training molecule (n=364 candidates)
+  median 0.44   90th pct 0.60   max 1.00
+  >= 1.00: 1
+  >= 0.95: 1
+  >= 0.90: 1
+  >= 0.80: 3
+  true structures only (n=65): median 0.50, max 0.81

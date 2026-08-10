@@ -32,13 +32,17 @@ We contribute three things. **IRexp**, the largest openly redistributable collec
 open-access literature and released with its pipeline. **IRSpectra-Bench**, an open, blind,
 mechanically scored benchmark of 194 compounds on which accuracy splits sharply with
 structural complexity, and where a within-compound control shows reported numbers are
-sensitive to how a problem is posed. And a training-free **forward-verification** method,
-run over every benchmark compound, that raises both candidate recall and top-1 — though
-the top-1 gain stays directional rather than resolved even at this scale (§5.2, §5.3).
+sensitive to how a problem is posed. And a training-free **forward-verification** recipe,
+run over every benchmark compound. The two levers are distinct and we keep them apart:
+verification re-ranks a fixed candidate set and lifts top-1 from 28% to 30%, while
+*generating wider* is what moves recall — 31% to 41%, carrying top-1 from 23% to 30% on the
+arm where both were tested. Every top-1 step is directional rather than statistically
+resolved (§5.2, §5.3); the recall gain is the better-supported effect.
 
-That ceiling is a property of training-free elicitation rather than of the task: a small
-generator fine-tuned on IRexp lifts recall substantially and gives the highest
-full-benchmark accuracy we report (§5.6). But the wall moves rather than falls — the true
+Those gains stop short of a ceiling, and the ceiling belongs to training-free elicitation
+rather than to the task: a small generator fine-tuned on IRexp lifts recall substantially
+and gives the highest full-benchmark accuracy we report (§5.6). But the wall moves rather
+than falls — the true
 structure stays outside the candidate pool for roughly half of compounds. Two independent
 contamination controls confirm the spectra do the work: masking them drops top-1 from 23%
 to 5% on the same compounds, and accuracy is flat in the publication year of the source

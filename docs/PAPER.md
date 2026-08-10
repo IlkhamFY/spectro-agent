@@ -1,7 +1,8 @@
 # Recall, not verification, is the bottleneck when frontier LLMs elucidate molecular structures from real spectra
 
-**Ilkham Yabbarov**¹ *(corresponding: ilkhamfy@gmail.com)*, **Rudra Sondhi**¹, **Rodrigo A. Vargas-Hernández**¹
-¹ Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario, Canada
+**Ilkham Yabbarov**^a^ *(corresponding author: ilkhamfy@gmail.com)*, **Rudra Sondhi**^a^, **Rodrigo A. Vargas-Hernández**^a^
+
+*^a^ Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario L8S 4L8, Canada.*
 
 <!-- AUTHORS — ORCID iDs are required by RSC for the corresponding author and requested
      for all co-authors. Fill these in before submission; they are deliberately left as
@@ -106,6 +107,7 @@ released code and predictions. We prioritise an honest, reusable measurement of 
 models stand over a leaderboard-topping number.
 
 **Contributions.**
+
 1. **IRexp** — to our knowledge the largest openly *redistributable* collection of
    experimental IR **band lists** (121,233 records; 43,060 structure-linked; 33,201
    IR+¹H+¹³C+structure), released under permissive licences for bulk model development
@@ -113,10 +115,10 @@ models stand over a leaderboard-topping number.
    deliberately: view-only libraries such as SDBS hold more structure-linked *spectra*,
    and commercial libraries are larger still — neither is redistributable, and neither is
    what IRexp competes with (§2.1).
-2. An **open multimodal benchmark** and — to our knowledge the first of its kind — a
-   blind, mechanically scored, complexity-stratified evaluation of frontier-LLM structure
-   elucidation on real data, measured in depth on one model family (Claude), reconciling
-   the gap to optimistic prior reports. Crucially, the ground truth is experimental
+2. An **open multimodal benchmark** — to our knowledge the first blind, mechanically
+   scored, complexity-stratified evaluation of frontier-LLM structure elucidation on real
+   spectra — measured in depth on one model family (Claude), which reconciles the gap to
+   optimistic prior reports. Crucially, the ground truth is experimental
    structures from the published literature, resolved deterministically (OPSIN/RDKit) and
    checked against the source articles mechanically (560/560 bands confirmed on a
    seed-fixed sample, §2.3; the *expert-chemist* review is prepared but not yet run, §7):
@@ -881,16 +883,18 @@ actually lives.
 
 **Table 6. Forward-verification decomposition**, on the original arm and on the whole benchmark.
 
-| | 60-compound arm | **full benchmark (n=194)** |
-|---|--:|--:|
-| generation recall (true structure among candidates) | 19/60 (31%) | **65/194 (34%)** |
+| |  60-compound arm | **full benchmark (n=194)** |
+|:------------------------------------------------|-----------------:|---------------------------:|
+| generation recall | 19/60 (31%) | **65/194 (34%)** |
 | top-1, solver self-ranking | 14/60 (23%) | 55/194 (28%) |
 | top-1, **forward-verified re-ranking** | 16/60 (26%) | **58/194 (30%)** |
-| **conditional on recall — self-ranking** | 14/19 (73%) | 55/65 (**85%**) |
-| **conditional on recall — forward-verification** | 16/19 (**84%**) | 58/65 (**89%**) |
-| …of which had a single candidate (no choice to make) | 6/19 | 28/65 |
-| conditional on recall, multi-candidate only — self-ranking | 8/13 (62%) | 27/37 (73%) |
-| conditional on recall, multi-candidate only — forward-verification | 10/13 (77%) | **30/37 (81%)** |
+| | | |
+| *conditional on recall* — self-ranking | 14/19 (73%) | 55/65 (**85%**) |
+| *conditional on recall* — **forward-verification** | 16/19 (**84%**) | 58/65 (**89%**) |
+| …single-candidate compounds within that set | 6/19 | 28/65 |
+| | | |
+| *multi-candidate only* — self-ranking | 8/13 (62%) | 27/37 (73%) |
+| *multi-candidate only* — **forward-verification** | 10/13 (77%) | **30/37 (81%)** |
 
 Two facts make the full-benchmark column trustworthy before its content is read. Its
 self-ranking row is derived, by an independent script over the released candidate files,
@@ -1488,51 +1492,54 @@ here for reference.
 
 ## Data and code availability
 
-All data and code are released in the project repository:
-IRexp and the `irexp_resolved` split (`data/irexp/`, `data/irexp_resolved/`); the
-benchmark rounds and within-compound control (`data/benchmark*/`, scored by
-`scripts/benchmark_v2.py`); the battery-electrolyte case-study subset
-(`data/benchmark_electrolyte/`, built by `scripts/build_electrolyte_bench.py`,
-scored by `scripts/score_electrolyte.py`); the ground-truth integrity audit
-(`scripts/validate_benchmark.py`, `data/benchmark*/clean_qids.json`); the
-forward-verification and generate-wide experiments (`data/fverify/`, `data/gw/`,
-`data/fverify2/`, `scripts/forward_verify.py`), their extensions to the whole benchmark
-and to full prediction coverage (`data/fverify_main/`, `data/fverify_gw/`,
-`scripts/forward_verify_main.py`, `scripts/forward_verify_all.py`,
-`scripts/forward_verify_gw.py`); the non-LLM verifier comparison of Table 8
-(`scripts/verifier_table.py`, `scripts/verifier_leakage.py`, `scripts/hose_predict.py`
-— including its `coverage` diagnostic —, `data/fverify/hose_results.txt`,
-`data/fverify/verifier_table_results.txt`); and the
-dataset-mining pipeline (`spectro_scraper/`). Companion technical notes:
-`docs/BENCHMARK.md` and `docs/FORWARD_VERIFY.md`.
-The verifier negative-control and selective-prediction analyses
-(`scripts/verifier_diagnostics.py`), the recall-headroom and scaffold-enumeration
-study (`scripts/analyze_recall_headroom.py`, `scripts/enumerate_isomers.py`,
-`scripts/closing_the_gap.py`), the modality-ablation harness
-(`scripts/modality_ablation.py`, `docs/MODALITY_ABLATION.md`), and the blinded
-expert-audit package (`data/audit/`, `docs/EXPERT_AUDIT_PROTOCOL.md`) are released
-likewise. The §5.6 trained-generator probe ships as a self-contained bundle
-(`contrib/generator_probe/`): generator candidates, the de-leaked split with its
-InChIKey-14 manifest, and the verification scripts
+Everything below is in the project repository. The archival deposit — a complete frozen
+snapshot of dataset, benchmark, answer keys, predictions, scripts, figure regeneration and
+the expert-audit package — will carry DOI **[TODO: 10.5281/zenodo.XXXXXXX — mint on
+submission]**; GitHub is the development mirror and the Zenodo record the citable version.
+
+| component | data | regenerated by |
+|:--------------------------------|:-------------------------------|:----------------------------|
+| IRexp and its structure-complete split | `data/irexp/`, `data/irexp_resolved/` | `spectro_scraper/` (mining pipeline) |
+| benchmark rounds and the within-compound control | `data/benchmark*/` | `scripts/benchmark_v2.py` |
+| ground-truth integrity audit | `data/benchmark*/clean_qids.json` | `scripts/validate_benchmark.py` |
+| headline accuracy (Table 2) | — | `scripts/score_main.py` |
+| battery-electrolyte subset (§4.5) | `data/benchmark_electrolyte/` | `scripts/build_electrolyte_bench.py`, `scripts/score_electrolyte.py` |
+| formula-only contamination control (§4.6) | `data/modality/` | `scripts/modality_ablation.py` |
+| publication-recency control (§4.6) | `data/audit/recency_control.json` | `scripts/contamination_recency.py` |
+| forward-verification, original arm (§5.2) | `data/fverify/` | `scripts/forward_verify.py` |
+| …extended to all 194 compounds | `data/fverify_main/` | `scripts/forward_verify_main.py`, `scripts/forward_verify_all.py` |
+| generate-wide arm (§5.3) | `data/gw/`, `data/fverify2/` | `scripts/score_generate_wide.py`, `scripts/ladder_significance.py` |
+| …its coverage gap, closed | `data/fverify_gw/` | `scripts/forward_verify_gw.py` |
+| non-LLM verifier comparison (Table 8) | `data/fverify/hose_results.txt`, `data/fverify/verifier_table_results.txt` | `scripts/hose_predict.py` (incl. `coverage`), `scripts/verifier_table.py`, `scripts/verifier_leakage.py` |
+| negative control and selective prediction (§5.5) | — | `scripts/verifier_diagnostics.py` |
+| what a miss is, and isomer separability (§4.1, §5.1) | — | `scripts/analyze_misses.py`, `scripts/isomer_separability.py` |
+| difficulty-threshold sensitivity (§3) | — | `scripts/difficulty_sensitivity.py` |
+| licence-pool split (§2.1) | — | `scripts/split_license_pools.py` |
+| recall headroom and scaffold enumeration | — | `scripts/analyze_recall_headroom.py`, `scripts/enumerate_isomers.py`, `scripts/closing_the_gap.py` |
+| blinded expert-audit package (§7) | `data/audit/` | `scripts/make_audit_sample.py` |
+| manuscript integrity gates | — | `scripts/check_manuscript.py`, `scripts/verify_statistics.py` |
+
+**Trained complements**, both fenced from the training-free protocol. The §5.6
+generator ships as a self-contained bundle at `contrib/generator_probe/` — candidates,
+the de-leaked split with its InChIKey-14 manifest, the verification scripts
 (`scripts/closing_the_gap_gen.py`, `scripts/forward_verify_gen.py`,
-`scripts/verify_leakage_exact40.py`), together with the blind forward-prediction outputs
-behind its verified top-1 (`data/fverify_gen/raw/`, so `forward_verify_gen.py score`
-runs with no missing predictions); model checkpoints are deposited on Zenodo. The
-difficulty-threshold sensitivity of §3 regenerates via
-`scripts/difficulty_sensitivity.py`.
-Downstream note: the public `irexp_release/train` split does **not** hold out
-IRSpectra-Bench (117/200 InChIKey-14 overlap); de-leak with
-`contrib/generator_probe/build_exp_manifest.py` before training models that will be
-evaluated on the benchmark. The §5.4 learned-verifier probe ships its full reproducer —
-`scripts/gnn_predict.py` (extract/train/score/control), the trained model
-`data/nmrshiftdb/gnn_c13.pt`, per-compound results and both leakage checks
-(`data/fverify/gnn_results.txt`), and the write-up `docs/VERIFIER_PROBE.md`; the GNN
-trains on the same nmrshiftdb2 dump as the §5.4 HOSE lookup. **Archival deposit:** a complete frozen snapshot (dataset, benchmark, answer
-keys, predictions, scripts, figure-regeneration, and the expert-audit package) will be
-archived on Zenodo under DOI **[TODO: 10.5281/zenodo.XXXXXXX — mint on submission]**;
-the GitHub repository is the development mirror and the Zenodo record the citable
-version of record. (The held-out answer keys `data/audit/key.jsonl` and
-`data/modality/key.json` are deposited but flagged "withhold from blinded reviewers".)
+`scripts/verify_leakage_exact40.py`) and the blind forward-prediction outputs behind its
+verified top-1 (`data/fverify_gen/`), so its scorer runs with no missing predictions.
+The §5.4 learned verifier ships `scripts/gnn_predict.py` (extract / train / score /
+control), the trained model `data/nmrshiftdb/gnn_c13.pt`, per-compound results and both
+leakage checks (`data/fverify/gnn_results.txt`), and the write-up
+`docs/VERIFIER_PROBE.md`. Model checkpoints are deposited on Zenodo. Both trained
+predictors of §5.4 need the nmrshiftdb2 dump, which we cannot redistribute; the README
+gives the one-line fetch.
+
+Companion technical notes: `docs/BENCHMARK.md`, `docs/FORWARD_VERIFY.md`,
+`docs/MODALITY_ABLATION.md`, `docs/EXPERT_AUDIT_PROTOCOL.md`, `docs/MODELS.md`.
+
+**Two cautions for re-users.** The public `irexp_release/train` split does **not** hold
+out IRSpectra-Bench — it overlaps by 117/200 InChIKey-14 — so de-leak with
+`contrib/generator_probe/build_exp_manifest.py` before training anything that will be
+evaluated on the benchmark. And the held-out answer keys `data/audit/key.jsonl` and
+`data/modality/key.json` are deposited but flagged *withhold from blinded reviewers*.
 
 ## Licensing and attribution
 

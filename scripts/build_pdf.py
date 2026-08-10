@@ -36,6 +36,9 @@ SI_FIGS = [
 ]
 
 UNI = {
+    # Zero-width space -> a legal line break with no hyphen inserted. Used to make
+    # long file paths in \texttt breakable; see breakable_paths() below.
+    "\u200b": r"\allowbreak{}",
     "±": r"\ensuremath{\pm}", "×": r"\ensuremath{\times}", "−": r"\ensuremath{-}",
     "→": r"\ensuremath{\rightarrow}", "≈": r"\ensuremath{\approx}",
     "≤": r"\ensuremath{\leq}", "≥": r"\ensuremath{\geq}", "≫": r"\ensuremath{\gg}",
@@ -66,6 +69,27 @@ def fig_width(path):
     dpi = (im.info.get("dpi") or (600, 600))[0] or 600
     w_in = im.size[0] / dpi
     return f"{min(w_in, TEXTWIDTH_IN):.2f}in"
+
+
+ZWSP = "\u200b"
+
+
+def breakable_paths(md):
+    """Give LaTeX somewhere to break a long file path.
+
+    Paths set in \texttt cannot hyphenate, so `scripts/forward_verify_main.py` in
+    running prose overflows the measure and, inside a narrow table cell, spills into
+    the neighbouring column. Insert a zero-width space after the separators a path is
+    naturally read in chunks by -- / and _ -- but only inside inline code spans, so
+    ordinary prose is untouched. UNI maps the character to \allowbreak, which permits
+    a break without printing a hyphen (a hyphen would read as part of the path).
+    """
+    def fix(m):
+        inner = m.group(1)
+        if "/" not in inner and "_" not in inner:
+            return m.group(0)
+        return "`" + re.sub(r"([/_])", r"\1" + ZWSP, inner) + "`"
+    return re.sub(r"`([^`\n]+)`", fix, md)
 
 PREPRINT_SERVERS = {"arxiv", "chemrxiv", "biorxiv", "medrxiv"}
 
@@ -151,6 +175,7 @@ def build_esi(h_path, bib):
 
 def main():
     md = open("docs/PAPER.md").read()
+    md = breakable_paths(md)
     # RSC requires a table-of-contents (graphical abstract) entry: one image plus a
     # <=250-character text summary. Appended as its own page so the submission bundle
     # carries it; journals lift it out of the PDF.

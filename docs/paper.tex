@@ -93,6 +93,7 @@
 \renewcommand{\figurename}{Fig.}
 \usepackage{etoolbox}
 \AtBeginEnvironment{CSLReferences}{\raggedright\sloppy}
+\newunicodechar{​}{\allowbreak{}}
 \newunicodechar{±}{\ensuremath{\pm}}
 \newunicodechar{×}{\ensuremath{\times}}
 \newunicodechar{−}{\ensuremath{-}}
@@ -153,10 +154,12 @@
 elucidate molecular structures from real
 spectra}\label{recall-not-verification-is-the-bottleneck-when-frontier-llms-elucidate-molecular-structures-from-real-spectra}}
 
-\textbf{Ilkham Yabbarov}¹ \emph{(corresponding: ilkhamfy@gmail.com)},
-\textbf{Rudra Sondhi}¹, \textbf{Rodrigo A. Vargas-Hernández}¹ ¹
-Department of Chemistry and Chemical Biology, McMaster University,
-Hamilton, Ontario, Canada
+\textbf{Ilkham Yabbarov}\textsuperscript{a} \emph{(corresponding author:
+ilkhamfy@gmail.com)}, \textbf{Rudra Sondhi}\textsuperscript{a},
+\textbf{Rodrigo A. Vargas-Hernández}\textsuperscript{a}
+
+\emph{\textsuperscript{a} Department of Chemistry and Chemical Biology,
+McMaster University, Hamilton, Ontario L8S 4L8, Canada.}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -285,36 +288,47 @@ released code and predictions. We prioritise an honest, reusable
 measurement of where current models stand over a leaderboard-topping
 number.
 
-\textbf{Contributions.} 1. \textbf{IRexp} --- to our knowledge the
-largest openly \emph{redistributable} collection of experimental IR
-\textbf{band lists} (121,233 records; 43,060 structure-linked; 33,201
-IR+¹H+¹³C+structure), released under permissive licences for bulk model
-development with a reproducible mining pipeline. The claim is scoped to
-that object type deliberately: view-only libraries such as SDBS hold
-more structure-linked \emph{spectra}, and commercial libraries are
-larger still --- neither is redistributable, and neither is what IRexp
-competes with (§2.1). 2. An \textbf{open multimodal benchmark} and ---
-to our knowledge the first of its kind --- a blind, mechanically scored,
-complexity-stratified evaluation of frontier-LLM structure elucidation
-on real data, measured in depth on one model family (Claude),
-reconciling the gap to optimistic prior reports. Crucially, the ground
-truth is experimental structures from the published literature, resolved
-deterministically (OPSIN/RDKit) and checked against the source articles
-mechanically (560/560 bands confirmed on a seed-fixed sample, §2.3; the
-\emph{expert-chemist} review is prepared but not yet run, §7): no LLM
-curates the labels or scores the predictions. The model is the system
-under test, not the source of its own answers. 3. A \textbf{diagnostic
-decomposition} of LLM elucidation into recall and verification, showing
-that \textbf{recall --- not verification --- bounds current
-performance}, obtained via a training-free forward-verification probe
-run over \textbf{every} benchmark compound. The
-generate-and-forward-verify loop itself is prior art ---
-NMR-Solver\textsuperscript{3} implements it without an LLM and reports
-higher accuracy with a sharper predictor (§1.1); what is ours is the
-decomposition it enables, not the loop. It yields a bounded improvement
-(top-1 28\%→30\% on n=194; 23\%→30\% on the 60-compound arm where wide
-generation was also tested) but, by our own measurements, cannot exceed
-a recall/precision ceiling without sharper verification or 2D-NMR data.
+\textbf{Contributions.}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{IRexp} --- to our knowledge the largest openly
+  \emph{redistributable} collection of experimental IR \textbf{band
+  lists} (121,233 records; 43,060 structure-linked; 33,201
+  IR+¹H+¹³C+structure), released under permissive licences for bulk
+  model development with a reproducible mining pipeline. The claim is
+  scoped to that object type deliberately: view-only libraries such as
+  SDBS hold more structure-linked \emph{spectra}, and commercial
+  libraries are larger still --- neither is redistributable, and neither
+  is what IRexp competes with (§2.1).
+\item
+  An \textbf{open multimodal benchmark} --- to our knowledge the first
+  blind, mechanically scored, complexity-stratified evaluation of
+  frontier-LLM structure elucidation on real spectra --- measured in
+  depth on one model family (Claude), which reconciles the gap to
+  optimistic prior reports. Crucially, the ground truth is experimental
+  structures from the published literature, resolved deterministically
+  (OPSIN/RDKit) and checked against the source articles mechanically
+  (560/560 bands confirmed on a seed-fixed sample, §2.3; the
+  \emph{expert-chemist} review is prepared but not yet run, §7): no LLM
+  curates the labels or scores the predictions. The model is the system
+  under test, not the source of its own answers.
+\item
+  A \textbf{diagnostic decomposition} of LLM elucidation into recall and
+  verification, showing that \textbf{recall --- not verification ---
+  bounds current performance}, obtained via a training-free
+  forward-verification probe run over \textbf{every} benchmark compound.
+  The generate-and-forward-verify loop itself is prior art ---
+  NMR-Solver\textsuperscript{3} implements it without an LLM and reports
+  higher accuracy with a sharper predictor (§1.1); what is ours is the
+  decomposition it enables, not the loop. It yields a bounded
+  improvement (top-1 28\%→30\% on n=194; 23\%→30\% on the 60-compound
+  arm where wide generation was also tested) but, by our own
+  measurements, cannot exceed a recall/precision ceiling without sharper
+  verification or 2D-NMR data.
+\end{enumerate}
 
 \hypertarget{related-work}{%
 \subsubsection{1.1 Related work}\label{related-work}}
@@ -558,16 +572,18 @@ the experimental section of a paper and carries a median of 9 bands per
 record; the Chemotion pool derives from deposited spectra and, being
 peak-picked rather than author-selected, carries a median of 39. Users
 training on band density should treat the pools separately. The
-discriminator is each record's \texttt{source\_doi}: Chemotion records
-carry the RADAR4Chem prefix \texttt{10.22000}, PMC records a
-\texttt{PMC:} accession. The released file has no separate
-\texttt{license} column, so \texttt{scripts/split\_license\_pools.py}
+discriminator is each record's \texttt{source\_\hspace{0pt}doi}:
+Chemotion records carry the RADAR4Chem prefix \texttt{10.22000}, PMC
+records a \texttt{PMC:} accession. The released file has no separate
+\texttt{license} column, so
+\texttt{scripts/\hspace{0pt}split\_\hspace{0pt}license\_\hspace{0pt}pools.py}
 performs the split and stamps each record with its licence.
 
 \textbf{Extraction fidelity is measured, not assumed.} Because every
 record cites its source accession and PMC is open, transcription can be
 checked directly. On a seed-fixed random sample of 60 PMC-sourced
-records (\texttt{scripts/audit\_extraction.py\ -\/-n\ 60\ -\/-seed\ 0}),
+records
+(\texttt{scripts/\hspace{0pt}audit\_\hspace{0pt}extraction.py\ -\/-n\ 60\ -\/-seed\ 0}),
 we re-fetched each source article and asked whether every recorded
 wavenumber appears in that article's text: \textbf{560/560 bands and
 60/60 records were confirmed} (Wilson 95\% CI 99.3--100\% and 94--100\%
@@ -576,11 +592,13 @@ mis-parsed or unit-mangled values --- at under 1\% of bands. It does
 \textbf{not} measure whether the parser found every IR string in every
 paper, which is a recall question that requires human reading; that
 manual audit is prepared but not yet run (§7). The audit record is
-released at \texttt{data/audit/extraction\_audit.json}.
+released at
+\texttt{data/\hspace{0pt}audit/\hspace{0pt}extraction\_\hspace{0pt}audit.json}.
 
-A structure-complete split, \textbf{\texttt{irexp\_resolved}} (43,060
-records, 100\% structure-linked), is the training-/benchmark-ready
-subset and is \textasciitilde6× the 6,833-molecule set used to train
+A structure-complete split,
+\textbf{\texttt{irexp\_\hspace{0pt}resolved}} (43,060 records, 100\%
+structure-linked), is the training-/benchmark-ready subset and is
+\textasciitilde6× the 6,833-molecule set used to train
 Spectro\textsuperscript{1} (Fig. S2). Provenance is 119,345 PMC-OA
 records (CC-BY) plus 1,888 Chemotion records (CC-BY-SA); the two
 licences are kept as separable pools. Each record is
@@ -593,25 +611,26 @@ so the dataset can be re-enriched without re-mining.
 \subsection{3. Benchmark design
 (IRSpectra-Bench)}\label{benchmark-design-irspectra-bench}}
 
-From \texttt{irexp\_resolved} we draw \textbf{IRSpectra-Bench}, 194
-blind elucidation problems. Each problem presents the \textbf{molecular
-formula} (as from HRMS), the \textbf{IR band list}, and the \textbf{¹H
-and ¹³C shift lists} (with multiplicities and J-couplings where
-reported), and asks for the structure. No name, SMILES, or hint is
-given. Every main-round ground-truth structure is \textbf{spectrally
-validated} by an automated RDKit consistency check (¹³C peak count vs
-symmetry-unique carbons, molecular-formula match, SELFIES round-trip),
-excluding records with merged or incomplete spectra (6/140 in the main
-round, leaving 134). The exclusions are itemised rather than asserted:
-five report more ¹³C peaks than the structure has carbons (R03
-28\textgreater24, R14 11\textgreater8, R65 26\textgreater18, R67
-23\textgreater16, R131 34\textgreater17 --- merged or contaminated
-spectra) and one is too sparse to constrain (R82, 5 peaks for 22
-symmetry-unique carbons). The filter is deterministic and runs over all
-three rounds in \texttt{scripts/validate\_benchmark.py}, which
-regenerates every \texttt{clean\_qids.json} from the released questions
-and answers, so the cohort behind the headline number is reproducible
-rather than a shipped artifact.
+From \texttt{irexp\_\hspace{0pt}resolved} we draw
+\textbf{IRSpectra-Bench}, 194 blind elucidation problems. Each problem
+presents the \textbf{molecular formula} (as from HRMS), the \textbf{IR
+band list}, and the \textbf{¹H and ¹³C shift lists} (with multiplicities
+and J-couplings where reported), and asks for the structure. No name,
+SMILES, or hint is given. Every main-round ground-truth structure is
+\textbf{spectrally validated} by an automated RDKit consistency check
+(¹³C peak count vs symmetry-unique carbons, molecular-formula match,
+SELFIES round-trip), excluding records with merged or incomplete spectra
+(6/140 in the main round, leaving 134). The exclusions are itemised
+rather than asserted: five report more ¹³C peaks than the structure has
+carbons (R03 28\textgreater24, R14 11\textgreater8, R65
+26\textgreater18, R67 23\textgreater16, R131 34\textgreater17 --- merged
+or contaminated spectra) and one is too sparse to constrain (R82, 5
+peaks for 22 symmetry-unique carbons). The filter is deterministic and
+runs over all three rounds in
+\texttt{scripts/\hspace{0pt}validate\_\hspace{0pt}benchmark.py}, which
+regenerates every \texttt{clean\_\hspace{0pt}qids.json} from the
+released questions and answers, so the cohort behind the headline number
+is reproducible rather than a shipped artifact.
 
 The filter tests ¹³C against the carbon count but does not gate on ¹H,
 and we report what that leaves. In \textbf{13 of the 194} retained
@@ -641,8 +660,9 @@ compounds, is classed complex by size). The 22-atom threshold is not
 load-bearing: sweeping it from 18 to 26 moves the simple-minus-complex
 top-1 gap only between 36 and 40 points (39.6 at the released value), so
 the separation is a property of the compounds rather than of where the
-line was drawn (\texttt{scripts/difficulty\_sensitivity.py}). InChIKey
-de-duplication is applied across all rounds to prevent leakage.
+line was drawn
+(\texttt{scripts/\hspace{0pt}difficulty\_\hspace{0pt}sensitivity.py}).
+InChIKey de-duplication is applied across all rounds to prevent leakage.
 
 \textbf{Scoring is mechanical.} A prediction is \emph{correct} if its
 RDKit InChIKey connectivity layer (first 14 characters) matches the
@@ -661,7 +681,8 @@ configuration, so a stereochemistry-aware score is not well-posed from
 the given data: only 10.3\% (20/194) of benchmark answers carry a
 \emph{defined} (assigned R/S) stereocentre, and a model is penalised
 there for information the prompt never contained. Both numbers are
-produced by \texttt{scripts/score\_main.py\ -\/-stereo}.
+produced by
+\texttt{scripts/\hspace{0pt}score\_\hspace{0pt}main.py\ -\/-stereo}.
 
 \textbf{Metrics.} We report five quantities. \textbf{Top-1 (exact
 constitution)} is the fraction of compounds whose single best-ranked
@@ -716,8 +737,9 @@ main-round compound in five. Those answers are scored as misses like any
 other, so this inflates nothing; it does mean the formula check
 described above was not equally effective in every round, and the
 main-round arm should be read as the weakest-constrained one.
-\texttt{scripts/analyze\_misses.py} regenerates the breakdown. This
-makes the benchmark free to run and reproducible without API credits.
+\texttt{scripts/\hspace{0pt}analyze\_\hspace{0pt}misses.py} regenerates
+the breakdown. This makes the benchmark free to run and reproducible
+without API credits.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -731,7 +753,8 @@ structures?}\label{how-well-do-llms-elucidate-real-structures}}
 Solver agents work blind from formula + IR + ¹H + ¹³C and return up to
 three ranked candidates. Each agent handles a small batch of problems in
 a bounded context that is reset between batches (2--12 compounds per
-context in the released run; see \texttt{data/benchmark\_main/raw/}),
+context in the released run; see
+\texttt{data/\hspace{0pt}benchmark\_\hspace{0pt}main/\hspace{0pt}raw/\hspace{0pt}}),
 rather than one long context over the whole benchmark --- the arm §4.3
 shows matters. Over the full \textbf{194-compound benchmark} (134
 spectrally-validated compounds + the 60 from the controlled rounds),
@@ -797,10 +820,11 @@ metrics.}
 
 What a failure actually looks like is measurable rather than a matter of
 impression, so we measured it over all 139 top-1 misses
-(\texttt{scripts/analyze\_misses.py}). \textbf{76.6\% are constitutional
-isomers of the true structure} --- exactly the right atoms, assembled
-wrongly --- against 23.4\% with the wrong molecular formula outright.
-The composition is usually right; the connectivity is not.
+(\texttt{scripts/\hspace{0pt}analyze\_\hspace{0pt}misses.py}).
+\textbf{76.6\% are constitutional isomers of the true structure} ---
+exactly the right atoms, assembled wrongly --- against 23.4\% with the
+wrong molecular formula outright. The composition is usually right; the
+connectivity is not.
 
 The narrower reading often given to this result is not supported. Only
 \textbf{22.6\%} of misses share the true Murcko scaffold, i.e.~are
@@ -965,7 +989,7 @@ is not strictly protocol-matched to the other three and, if anything, is
 the arm handicapped by longer contexts. This does not affect the nesting
 or the Fable-vs-Haiku contrast, but a clean re-run of the Opus arm under
 four six-compound contexts is the right fix and is listed as outstanding
-in \texttt{docs/MODELS.md}.
+in \texttt{docs/\hspace{0pt}MODELS.md}.
 
 \begin{figure}
 \centering
@@ -1127,12 +1151,13 @@ frontier model may have encountered it during pretraining. The cheapest
 decisive test of whether that explains the headline number is to take
 the spectra away. We ran the identical blind protocol with every
 spectral channel masked, so the solver receives the molecular formula
-and nothing else (\texttt{scripts/modality\_ablation.py}, condition
-\texttt{formulaonly}; solvers were barred from reading any repository
-file or searching the web, and RDKit was permitted only to check that a
-proposed SMILES parses and matches the formula). A molecular formula
-does not determine constitution, so accuracy materially above the floor
-would indicate recall rather than reasoning.
+and nothing else
+(\texttt{scripts/\hspace{0pt}modality\_\hspace{0pt}ablation.py},
+condition \texttt{formulaonly}; solvers were barred from reading any
+repository file or searching the web, and RDKit was permitted only to
+check that a proposed SMILES parses and matches the formula). A
+molecular formula does not determine constitution, so accuracy
+materially above the floor would indicate recall rather than reasoning.
 
 One asymmetry must be disclosed, because a companion experiment shows
 this exact structure can manufacture a large spurious effect. Only the
@@ -1142,14 +1167,15 @@ predictions --- all 60 of its top-1 answers are byte-identical to that
 run. An earlier leave-one-out attempt built the same way (fresh ablated
 arm against archived control) produced −IR \emph{beating} full modality
 by 40 points, which is impossible and was discarded
-(\texttt{docs/MODALITY\_ABLATION.md}). The reason that failure does not
-impugn this control is the \textbf{direction}: fresh agents reasoned
-harder per compound than the archived batched run, so the bias runs
-\emph{toward} the formula-only arm, and it still collapsed to 5\%. A
-confound that works against the finding cannot manufacture it. We
-nonetheless flag it, and the rule the discarded arm yielded --- every
-condition must be generated in one campaign, control included --- is why
-no leave-one-out modality result appears in this paper.
+(\texttt{docs/\hspace{0pt}MODALITY\_\hspace{0pt}ABLATION.md}). The
+reason that failure does not impugn this control is the
+\textbf{direction}: fresh agents reasoned harder per compound than the
+archived batched run, so the bias runs \emph{toward} the formula-only
+arm, and it still collapsed to 5\%. A confound that works against the
+finding cannot manufacture it. We nonetheless flag it, and the rule the
+discarded arm yielded --- every condition must be generated in one
+campaign, control included --- is why no leave-one-out modality result
+appears in this paper.
 
 \textbf{Table 5. Formula-only control}, paired on the same 60 compounds
 as §5.
@@ -1177,12 +1203,13 @@ corpus, and older papers have had longer in more corpora --- so if
 recall drove the headline number, accuracy should fall with publication
 recency. We resolved the publication year of the source paper for
 \textbf{all 194} benchmark compounds from their accessions
-(\texttt{scripts/contamination\_recency.py}); they span 2008--2026.
-Accuracy is flat: \textbf{28.6\%} for the older half (≤2020, n=112)
-against \textbf{28.0\%} for the newer (n=82), a point-biserial
-correlation between publication year and correctness of \textbf{r =
-−0.007}, and no monotone trend across year buckets (Fig. 4b). The most
-recent bucket (≥2024, n=25) is in fact the highest at 40\% {[}23, 59{]}.
+(\texttt{scripts/\hspace{0pt}contamination\_\hspace{0pt}recency.py});
+they span 2008--2026. Accuracy is flat: \textbf{28.6\%} for the older
+half (≤2020, n=112) against \textbf{28.0\%} for the newer (n=82), a
+point-biserial correlation between publication year and correctness of
+\textbf{r = −0.007}, and no monotone trend across year buckets (Fig.
+4b). The most recent bucket (≥2024, n=25) is in fact the highest at 40\%
+{[}23, 59{]}.
 
 \begin{figure}
 \centering
@@ -1244,7 +1271,7 @@ randomised experiment --- publication year is observational and the
 formula-only arm cannot distinguish memorisation from inference on a
 near-determining formula --- so we claim a strong bound rather than
 exclusion (§7). The control record is released at
-\texttt{data/modality/formulaonly\_control.json}.
+\texttt{data/\hspace{0pt}modality/\hspace{0pt}formulaonly\_\hspace{0pt}control.json}.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -1321,8 +1348,9 @@ sharper (DFT-level) or 2D-NMR-grounded verifier would need to fix.
 \textbf{How thin is the margin the method works on?} The premise above
 deserves a distribution rather than a worked example, so we measured the
 chamfer between the \emph{predicted} spectra of every pair of candidates
-proposed for the same target (\texttt{scripts/isomer\_separability.py}).
-For isomeric pairs --- the regioisomer-like ones the verifier exists to
+proposed for the same target
+(\texttt{scripts/\hspace{0pt}isomer\_\hspace{0pt}separability.py}). For
+isomeric pairs --- the regioisomer-like ones the verifier exists to
 separate --- the median separation is \textbf{1.21 ppm} (quartiles 0.84
 and 1.78), and \textbf{82\% of such pairs are predicted closer together
 than the predictor's own \textasciitilde2 ppm error}. Non-isomeric pairs
@@ -1371,9 +1399,9 @@ benchmark, where the recall-conditional claim actually lives.
 arm and on the whole benchmark.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5158}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1895}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2947}}@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
@@ -1385,21 +1413,21 @@ arm and on the whole benchmark.
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-generation recall (true structure among candidates) & 19/60 (31\%) &
-\textbf{65/194 (34\%)} \\
+generation recall & 19/60 (31\%) & \textbf{65/194 (34\%)} \\
 top-1, solver self-ranking & 14/60 (23\%) & 55/194 (28\%) \\
 top-1, \textbf{forward-verified re-ranking} & 16/60 (26\%) &
 \textbf{58/194 (30\%)} \\
-\textbf{conditional on recall --- self-ranking} & 14/19 (73\%) & 55/65
+& & \\
+\emph{conditional on recall} --- self-ranking & 14/19 (73\%) & 55/65
 (\textbf{85\%}) \\
-\textbf{conditional on recall --- forward-verification} & 16/19
+\emph{conditional on recall} --- \textbf{forward-verification} & 16/19
 (\textbf{84\%}) & 58/65 (\textbf{89\%}) \\
-\ldots of which had a single candidate (no choice to make) & 6/19 &
-28/65 \\
-conditional on recall, multi-candidate only --- self-ranking & 8/13
-(62\%) & 27/37 (73\%) \\
-conditional on recall, multi-candidate only --- forward-verification &
-10/13 (77\%) & \textbf{30/37 (81\%)} \\
+\ldots single-candidate compounds within that set & 6/19 & 28/65 \\
+& & \\
+\emph{multi-candidate only} --- self-ranking & 8/13 (62\%) & 27/37
+(73\%) \\
+\emph{multi-candidate only} --- \textbf{forward-verification} & 10/13
+(77\%) & \textbf{30/37 (81\%)} \\
 \end{longtable}
 
 Two facts make the full-benchmark column trustworthy before its content
@@ -1467,7 +1495,8 @@ an aggregate.
 LLM elucidation therefore factorises into two near-independent levers:
 the \textbf{verifier is already strong (89\%)}; the \textbf{generator
 (34\% recall) is the wall} (Fig. 1). Table 6 regenerates from the
-released artifacts via \texttt{scripts/forward\_verify\_all.py}.
+released artifacts via
+\texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify\_\hspace{0pt}all.py}.
 
 \hypertarget{generate-wide-testing-the-recipe}{%
 \subsubsection{5.3 Generate-wide: testing the
@@ -1536,40 +1565,43 @@ the paragraph below observed directly rather than inferred, and it is
 why recall --- not verification, and not prediction coverage --- remains
 the binding constraint. Table 7 and this coverage analysis regenerate
 from the released artifacts via
-\texttt{scripts/score\_generate\_wide.py} and
-\texttt{scripts/forward\_verify\_gw.py}
-(\texttt{data/fverify\_gw/results.txt}). \textbf{These top-1 differences
-are directional, not statistically resolved at n=60:} the 14/60→18/60
-improvement is a four-compound difference, but the stages are
-\textbf{not} nested: going from self-ranking to generate-wide gains
-seven compounds and loses three, so the paired test is McNemar exact
-\textbf{p=0.34} (b=3, c=7). The intermediate steps are weaker still ---
-self-rank→forward-verify p=0.63 (b=1, c=3) and
-forward-verify→generate-wide p=0.69 (b=2, c=4). Discordant counts are
-computed from the released per-compound outcomes by
-\texttt{scripts/ladder\_significance.py}. The recall gain is the
-better-supported effect. We therefore read the ladder as a demonstration
-that the \emph{mechanism} works and that recall is the movable factor,
-not as a precise measurement of the size of the top-1 gain. But it does
-\textbf{not} reach the \textasciitilde50\% a naïve extrapolation would
-predict, for two instructive reasons: \textbf{(i) recall plateaus at
-41\%} --- and the compounds it plateaus on are characterised by size and
-ring count rather than by exotic elements. Comparing the 65
-recall-positive against the 129 recall-negative compounds: median heavy
-atoms 16 vs 23, median ring count 1 vs 3, and \textbf{≥4 rings in 3.1\%
-of recalled compounds against 38.0\% of missed ones}; nitrogen density
-separates them too (≥4 N: 4.6\% vs 17.1\%). Selenium heterocycles and
-the like are memorable but marginal --- Se appears in 2.3\% of misses
-and none of the hits, and S, F, Cl and P show no separation whatsoever.
-Polycyclic, nitrogen-rich, large targets resist even six regiochemical
-variants; that is the pattern, and it is a mundane one
-(\texttt{scripts/analyze\_misses.py}). And \textbf{(ii) verification
-precision falls 84\%→72\%} as more near-degenerate regioisomers enter
-the pool and the \textasciitilde2-ppm forward predictor can no longer
-separate them. This recall/precision tension is the honest ceiling of
-the training-free approach: the recall-bound diagnosis stands, and
-closing the gap further requires either sharper verification or 2D-NMR
-constraints, not merely more candidates.
+\texttt{scripts/\hspace{0pt}score\_\hspace{0pt}generate\_\hspace{0pt}wide.py}
+and
+\texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify\_\hspace{0pt}gw.py}
+(\texttt{data/\hspace{0pt}fverify\_\hspace{0pt}gw/\hspace{0pt}results.txt}).
+\textbf{These top-1 differences are directional, not statistically
+resolved at n=60:} the 14/60→18/60 improvement is a four-compound
+difference, but the stages are \textbf{not} nested: going from
+self-ranking to generate-wide gains seven compounds and loses three, so
+the paired test is McNemar exact \textbf{p=0.34} (b=3, c=7). The
+intermediate steps are weaker still --- self-rank→forward-verify p=0.63
+(b=1, c=3) and forward-verify→generate-wide p=0.69 (b=2, c=4).
+Discordant counts are computed from the released per-compound outcomes
+by \texttt{scripts/\hspace{0pt}ladder\_\hspace{0pt}significance.py}. The
+recall gain is the better-supported effect. We therefore read the ladder
+as a demonstration that the \emph{mechanism} works and that recall is
+the movable factor, not as a precise measurement of the size of the
+top-1 gain. But it does \textbf{not} reach the \textasciitilde50\% a
+naïve extrapolation would predict, for two instructive reasons:
+\textbf{(i) recall plateaus at 41\%} --- and the compounds it plateaus
+on are characterised by size and ring count rather than by exotic
+elements. Comparing the 65 recall-positive against the 129
+recall-negative compounds: median heavy atoms 16 vs 23, median ring
+count 1 vs 3, and \textbf{≥4 rings in 3.1\% of recalled compounds
+against 38.0\% of missed ones}; nitrogen density separates them too (≥4
+N: 4.6\% vs 17.1\%). Selenium heterocycles and the like are memorable
+but marginal --- Se appears in 2.3\% of misses and none of the hits, and
+S, F, Cl and P show no separation whatsoever. Polycyclic, nitrogen-rich,
+large targets resist even six regiochemical variants; that is the
+pattern, and it is a mundane one
+(\texttt{scripts/\hspace{0pt}analyze\_\hspace{0pt}misses.py}). And
+\textbf{(ii) verification precision falls 84\%→72\%} as more
+near-degenerate regioisomers enter the pool and the \textasciitilde2-ppm
+forward predictor can no longer separate them. This recall/precision
+tension is the honest ceiling of the training-free approach: the
+recall-bound diagnosis stands, and closing the gap further requires
+either sharper verification or 2D-NMR constraints, not merely more
+candidates.
 
 \hypertarget{non-llm-verifiers-a-deterministic-lookup-and-a-learned-model}{%
 \subsubsection{5.4 Non-LLM verifiers: a deterministic lookup and a
@@ -1636,7 +1668,7 @@ large polyamines) is under-represented in nmrshiftdb2. A coarse
 environment cannot separate the regioisomers the verifier exists to
 separate. (The same diagnostic on the 60-compound arm gives 2\% and 70\%
 over its 2,244 carbons; both regenerate via
-\texttt{scripts/hose\_predict.py\ coverage}.)
+\texttt{scripts/\hspace{0pt}hose\_\hspace{0pt}predict.py\ coverage}.)
 
 The learned model, on the same data, matches and slightly exceeds the
 LLM verifier --- 59/65 against 58/65 (Fig. S6). Its margins over the two
@@ -1678,10 +1710,12 @@ percentile of the chance distribution (n=19: real 84\% vs mean 58.6\%,
 95\% range 42.1--73.7\%, one-sided p\textless0.05). Like §5.6, the
 learned verifier is a \textbf{trained complement}, reported outside the
 training-free protocol. Table 8 and both leakage checks regenerate from
-the released artifacts (\texttt{scripts/verifier\_table.py},
-\texttt{scripts/verifier\_leakage.py},
-\texttt{data/fverify/verifier\_table\_results.txt},
-\texttt{data/nmrshiftdb/gnn\_c13.pt}; \texttt{docs/VERIFIER\_PROBE.md}).
+the released artifacts
+(\texttt{scripts/\hspace{0pt}verifier\_\hspace{0pt}table.py},
+\texttt{scripts/\hspace{0pt}verifier\_\hspace{0pt}leakage.py},
+\texttt{data/\hspace{0pt}fverify/\hspace{0pt}verifier\_\hspace{0pt}table\_\hspace{0pt}results.txt},
+\texttt{data/\hspace{0pt}nmrshiftdb/\hspace{0pt}gnn\_\hspace{0pt}c13.pt};
+\texttt{docs/\hspace{0pt}VERIFIER\_\hspace{0pt}PROBE.md}).
 
 \hypertarget{negative-control}{%
 \subsubsection{5.5 Negative control}\label{negative-control}}
@@ -1724,9 +1758,9 @@ DFT/2D-NMR-grounded confidence estimate (§5.4) remains the route to
 reliable selective prediction.
 
 Both controls in this section regenerate via
-\texttt{scripts/verifier\_diagnostics.py\ -\/-all} (the full benchmark,
-as reported here); omitting \texttt{-\/-all} reproduces the 60-compound
-arm's figures instead.
+\texttt{scripts/\hspace{0pt}verifier\_\hspace{0pt}diagnostics.py\ -\/-all}
+(the full benchmark, as reported here); omitting \texttt{-\/-all}
+reproduces the 60-compound arm's figures instead.
 
 \hypertarget{is-the-recall-wall-task-intrinsic-a-trained-generator-probe}{%
 \subsubsection{5.6 Is the recall wall task-intrinsic? A
@@ -1763,28 +1797,32 @@ that number was unverifiable and we do not stand behind it. We therefore
 re-ran the arm from scratch under the identical blind protocol --- the
 75 outstanding candidates forward-predicted by agents that saw the
 anonymised SMILES and nothing else --- and \textbf{released every
-prediction} (\texttt{data/fverify\_gen/raw/}), so
-\texttt{scripts/forward\_verify\_gen.py\ score} now regenerates all
-three numbers from the bundle with no missing predictions. The re-run
-lands \emph{above} the figure it replaces (46\% vs 41\% top-1, 82\% vs
-73\% precision); we report the reproducible one and flag that it was
-collected later than the June solver runs (\texttt{docs/MODELS.md}). The
-recall arm and the deterministic-HOSE re-rank were reproducible
-throughout and are unchanged.
+prediction}
+(\texttt{data/\hspace{0pt}fverify\_\hspace{0pt}gen/\hspace{0pt}raw/\hspace{0pt}}),
+so
+\texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify\_\hspace{0pt}gen.py\ score}
+now regenerates all three numbers from the bundle with no missing
+predictions. The re-run lands \emph{above} the figure it replaces (46\%
+vs 41\% top-1, 82\% vs 73\% precision); we report the reproducible one
+and flag that it was collected later than the June solver runs
+(\texttt{docs/\hspace{0pt}MODELS.md}). The recall arm and the
+deterministic-HOSE re-rank were reproducible throughout and are
+unchanged.
 
 Two controls guard against memorisation, both reproducible from the
-released bundle (\texttt{contrib/generator\_probe}): (i) the fine-tuning
-split removes every benchmark InChIKey-14 (train∩benchmark = 0,
-val∩benchmark = 0), and \textbf{none of the 40 newly-recovered compounds
-appear in either training stage} (0/40 in simulated pretraining, 0/40 in
-fine-tuning); (ii) the simulated-pretrained model alone recovers
-\textbf{0/248} benchmark structures zero-shot, rising to 25\% only after
-IRexp fine-tuning. The IRexp data --- not the architecture --- is the
-active ingredient, and the recall ceiling is therefore
-\textbf{elicitation-specific, not task-intrinsic}. We report this as a
-probe, not part of the headline training-free protocol; it answers
-whether the wall is breakable, not whether to abandon training-free
-methods.
+released bundle
+(\texttt{contrib/\hspace{0pt}generator\_\hspace{0pt}probe}): (i) the
+fine-tuning split removes every benchmark InChIKey-14 (train∩benchmark =
+0, val∩benchmark = 0), and \textbf{none of the 40 newly-recovered
+compounds appear in either training stage} (0/40 in simulated
+pretraining, 0/40 in fine-tuning); (ii) the simulated-pretrained model
+alone recovers \textbf{0/248} benchmark structures zero-shot, rising to
+25\% only after IRexp fine-tuning. The IRexp data --- not the
+architecture --- is the active ingredient, and the recall ceiling is
+therefore \textbf{elicitation-specific, not task-intrinsic}. We report
+this as a probe, not part of the headline training-free protocol; it
+answers whether the wall is breakable, not whether to abandon
+training-free methods.
 
 Two published systems make this point far more strongly than our
 16M-parameter probe can, and we would rather lean on them than on
@@ -1798,10 +1836,11 @@ range\textsuperscript{13}. Whatever bounds a training-free LLM at
 results do not: it isolates the \emph{data} as the active ingredient
 (0→25\% with IRexp fine-tuning, 0/248 without), which is the claim IRexp
 itself has to earn. (The released public split
-\texttt{irexp\_release/train} does \emph{not} hold out the benchmark ---
-it overlaps it by 117/200 InChIKey-14 --- so downstream users must
-de-leak as in \texttt{build\_exp\_manifest.py}; see Data and code
-availability.)
+\texttt{irexp\_\hspace{0pt}release/\hspace{0pt}train} does \emph{not}
+hold out the benchmark --- it overlaps it by 117/200 InChIKey-14 --- so
+downstream users must de-leak as in
+\texttt{build\_\hspace{0pt}exp\_\hspace{0pt}manifest.py}; see Data and
+code availability.)
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -1987,13 +2026,16 @@ elucidations and forward predictions. We have therefore \textbf{built
 and frozen} a blinded, pre-registered audit package --- a
 difficulty-stratified 30-compound sample (9 recall-positive), rendered
 candidate structures, a separate withheld answer key, and a mechanical
-scoring sheet --- released at \texttt{data/audit/} with its protocol at
-\texttt{docs/EXPERT\_AUDIT\_PROTOCOL.md} (regenerable via
-\texttt{scripts/make\_audit\_sample.py}), designed to test the two
-load-bearing claims (what a miss actually is, §4; forward verification
-is a trustworthy re-ranker, §5). \textbf{We have not yet run the panel};
-until expert results are in, those claims should be read as
-machine-validated (RDKit InChIKey) but not yet human-validated.
+scoring sheet --- released at
+\texttt{data/\hspace{0pt}audit/\hspace{0pt}} with its protocol at
+\texttt{docs/\hspace{0pt}EXPERT\_\hspace{0pt}AUDIT\_\hspace{0pt}PROTOCOL.md}
+(regenerable via
+\texttt{scripts/\hspace{0pt}make\_\hspace{0pt}audit\_\hspace{0pt}sample.py}),
+designed to test the two load-bearing claims (what a miss actually is,
+§4; forward verification is a trustworthy re-ranker, §5). \textbf{We
+have not yet run the panel}; until expert results are in, those claims
+should be read as machine-validated (RDKit InChIKey) but not yet
+human-validated.
 
 The panel's first question has since been narrowed by measurement rather
 than left to judgement. §4 now reports the composition of all 139 misses
@@ -2061,43 +2103,44 @@ extrapolated to them.
 \subsection{8. Methods}\label{methods}}
 
 \textbf{Mining and resolution.} PMC-OA full text was fetched from
-\texttt{s3://pmc-oa-opendata}; records were extracted with a
-deterministic parser and resolved with OPSIN, RDKit, and SELFIES, with
-an optional cached PubChem fallback. Durable content-keyed caches make
-resolution additive and restart-safe.
+\texttt{s3:/\hspace{0pt}/\hspace{0pt}pmc-oa-opendata}; records were
+extracted with a deterministic parser and resolved with OPSIN, RDKit,
+and SELFIES, with an optional cached PubChem fallback. Durable
+content-keyed caches make resolution additive and restart-safe.
 
 \textbf{Benchmark and agents.} Problems were sampled from
-\texttt{irexp\_resolved}, stratified by RDKit ring analysis, with
-cross-round de-duplication by InChIKey. The battery-electrolyte subset
-(§4.5) was drawn from the same corpus by SMARTS substructure filters for
-six electrolyte functional classes (carbonate, sulfonyl/sulfonate,
-nitrile, sp³-C--F, phosphoryl, glyme/oligoether), balanced to eight
-compounds per class (48 curated; 46 scored after two yielded no
-parseable candidate), excluding every compound used elsewhere, and
-J-enriched and spectrally validated identically to the main rounds.
-Solver and forward-prediction agents were independent Claude-Opus
-sub-agents invoked under a consumer subscription; agents were instructed
-closed-book and audited via automated transcript search for zero
-web/answer access. Scoring used RDKit InChIKey-connectivity matching and
-Morgan(2, 2048) Tanimoto; forward-verification used a symmetric chamfer
-distance over ¹³C peak sets. The core protocol trains no model and uses
-no paid API; the two trained probes --- the §5.6 generator and the §5.4
-learned ¹³C verifier --- are the only separately-trained exceptions,
-each reported as a complement and fenced from the headline results.
+\texttt{irexp\_\hspace{0pt}resolved}, stratified by RDKit ring analysis,
+with cross-round de-duplication by InChIKey. The battery-electrolyte
+subset (§4.5) was drawn from the same corpus by SMARTS substructure
+filters for six electrolyte functional classes (carbonate,
+sulfonyl/sulfonate, nitrile, sp³-C--F, phosphoryl, glyme/oligoether),
+balanced to eight compounds per class (48 curated; 46 scored after two
+yielded no parseable candidate), excluding every compound used
+elsewhere, and J-enriched and spectrally validated identically to the
+main rounds. Solver and forward-prediction agents were independent
+Claude-Opus sub-agents invoked under a consumer subscription; agents
+were instructed closed-book and audited via automated transcript search
+for zero web/answer access. Scoring used RDKit InChIKey-connectivity
+matching and Morgan(2, 2048) Tanimoto; forward-verification used a
+symmetric chamfer distance over ¹³C peak sets. The core protocol trains
+no model and uses no paid API; the two trained probes --- the §5.6
+generator and the §5.4 learned ¹³C verifier --- are the only
+separately-trained exceptions, each reported as a complement and fenced
+from the headline results.
 
 \emph{Models and versions.} All experiments used Anthropic Claude models
 via the consumer subscription (claude.ai). The §4.4 comparison spanned,
 in capability order, Claude Haiku, Claude Sonnet, Claude Opus, and
 Claude Fable 5; the headline benchmark (§4.1) and forward-verification
-(§5) used Claude Opus. \texttt{docs/MODELS.md} records, for each
-experiment, the model used, its data directory, the collection date, the
-harness and tool access, and the scoring code path. Model invocations
-fall into three dated windows, listed separately there because no single
-window covers them. Every candidate structure behind the
-\textbf{headline} results --- §4.1, §4.3--§4.5, and the candidate pools
-all of §5 re-ranks --- was generated between \textbf{2026-06-09 and
-2026-06-11} (UTC). The formula-only contamination control (§4.6) is a
-deliberate exception: it re-solves the same 60 compounds with the
+(§5) used Claude Opus. \texttt{docs/\hspace{0pt}MODELS.md} records, for
+each experiment, the model used, its data directory, the collection
+date, the harness and tool access, and the scoring code path. Model
+invocations fall into three dated windows, listed separately there
+because no single window covers them. Every candidate structure behind
+the \textbf{headline} results --- §4.1, §4.3--§4.5, and the candidate
+pools all of §5 re-ranks --- was generated between \textbf{2026-06-09
+and 2026-06-11} (UTC). The formula-only contamination control (§4.6) is
+a deliberate exception: it re-solves the same 60 compounds with the
 spectra masked on \textbf{2026-07-28}, generating its own candidates,
 because a masked-input control is only meaningful as a fresh run; it
 touches Table 5 alone. Three \textbf{2026-08-07} collections
@@ -2129,7 +2172,7 @@ fixed: the dated collection windows above, the frozen per-compound
 outputs, and mechanical scorers that regenerate every number from them.
 That is the boundary of a zero-cost subscription protocol: it buys exact
 reproducibility of scoring and analysis, not of inference
-(\texttt{docs/MODELS.md} §6).
+(\texttt{docs/\hspace{0pt}MODELS.md} §6).
 
 \textbf{Reproducibility.} Every round is frozen: questions, ground-truth
 answers, per-agent raw outputs, predictions, and scorer outputs are
@@ -2143,41 +2186,47 @@ scripted end-to-end.
 figures}\label{supporting-information-figures}}
 
 These are supplied as a separate Electronic Supplementary Information
-document (\texttt{docs/paper\_esi.pdf}, built by
-\texttt{scripts/build\_pdf.py}), as RSC requires; they are listed here
-for reference.
+document (\texttt{docs/\hspace{0pt}paper\_\hspace{0pt}esi.pdf}, built by
+\texttt{scripts/\hspace{0pt}build\_\hspace{0pt}pdf.py}), as RSC
+requires; they are listed here for reference.
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Fig. S1} (\texttt{docs/figures/fig0\_overview.png}) --- study
-  design: open multimodal data (IRexp) → blind, complexity-stratified
-  benchmark → decoupled blind solving → forward-verification re-ranking;
-  training-free core pipeline.
+  \textbf{Fig. S1}
+  (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig0\_\hspace{0pt}overview.png})
+  --- study design: open multimodal data (IRexp) → blind,
+  complexity-stratified benchmark → decoupled blind solving →
+  forward-verification re-ranking; training-free core pipeline.
 \item
-  \textbf{Fig. S2} (\texttt{docs/figures/fig4\_dataset.png}) --- IRexp
-  composition: IR records → NMR-paired → structure-linked → full
-  IR+¹H+¹³C+structure quadruples.
+  \textbf{Fig. S2}
+  (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig4\_\hspace{0pt}dataset.png})
+  --- IRexp composition: IR records → NMR-paired → structure-linked →
+  full IR+¹H+¹³C+structure quadruples.
 \item
-  \textbf{Fig. S3} (\texttt{docs/figures/fig2\_size.png}) --- accuracy
-  vs molecular size (heavy-atom bucket); the monotonic 60\%→7\% top-1
-  gradient.
+  \textbf{Fig. S3}
+  (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig2\_\hspace{0pt}size.png})
+  --- accuracy vs molecular size (heavy-atom bucket); the monotonic
+  60\%→7\% top-1 gradient.
 \item
-  \textbf{Fig. S4} (\texttt{docs/figures/fig6\_electrolyte.png}) ---
-  top-1 and recovered accuracy on IRSpectra-Bench-Electrolyte by
+  \textbf{Fig. S4}
+  (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig6\_\hspace{0pt}electrolyte.png})
+  --- top-1 and recovered accuracy on IRSpectra-Bench-Electrolyte by
   battery-electrolyte chemical class (n=46): sp³-C--F easiest (50\%),
   sulfonyl and nitrile hardest (12\%); overall 26\%/28\%.
 \item
-  \textbf{Fig. S5} (\texttt{docs/figures/fig\_generator\_probe.png}) ---
-  trained-generator probe (§5.6; a complement, not part of the
+  \textbf{Fig. S5}
+  (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig\_\hspace{0pt}generator\_\hspace{0pt}probe.png})
+  --- trained-generator probe (§5.6; a complement, not part of the
   training-free protocol): candidate recall and deterministic-HOSE top-1
   on the 194-compound benchmark for Claude / + scaffold enumeration / +
   trained generator. Enumeration's near-degenerate isomers collapse the
   verifier (28.4→16.0\%) while the generator's formula-correct
   candidates convert (28.4→35.1\%).
 \item
-  \textbf{Fig. S6} (\texttt{docs/figures/fig\_verifier.png}) ---
-  learned-verifier probe (§5.4; a complement, not part of the
+  \textbf{Fig. S6}
+  (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig\_\hspace{0pt}verifier.png})
+  --- learned-verifier probe (§5.4; a complement, not part of the
   training-free protocol). (A) Conditional-on-recall top-1 (n=65, whole
   benchmark) for the four verifiers: a GNN trained on the same
   nmrshiftdb2 data as the HOSE lookup reaches the LLM verifier's level
@@ -2192,91 +2241,155 @@ for reference.
 \subsection{Data and code
 availability}\label{data-and-code-availability}}
 
-All data and code are released in the project repository: IRexp and the
-\texttt{irexp\_resolved} split (\texttt{data/irexp/},
-\texttt{data/irexp\_resolved/}); the benchmark rounds and
-within-compound control (\texttt{data/benchmark*/}, scored by
-\texttt{scripts/benchmark\_v2.py}); the battery-electrolyte case-study
-subset (\texttt{data/benchmark\_electrolyte/}, built by
-\texttt{scripts/build\_electrolyte\_bench.py}, scored by
-\texttt{scripts/score\_electrolyte.py}); the ground-truth integrity
-audit (\texttt{scripts/validate\_benchmark.py},
-\texttt{data/benchmark*/clean\_qids.json}); the forward-verification and
-generate-wide experiments (\texttt{data/fverify/}, \texttt{data/gw/},
-\texttt{data/fverify2/}, \texttt{scripts/forward\_verify.py}), their
-extensions to the whole benchmark and to full prediction coverage
-(\texttt{data/fverify\_main/}, \texttt{data/fverify\_gw/},
-\texttt{scripts/forward\_verify\_main.py},
-\texttt{scripts/forward\_verify\_all.py},
-\texttt{scripts/forward\_verify\_gw.py}); the non-LLM verifier
-comparison of Table 8 (\texttt{scripts/verifier\_table.py},
-\texttt{scripts/verifier\_leakage.py}, \texttt{scripts/hose\_predict.py}
---- including its \texttt{coverage} diagnostic ---,
-\texttt{data/fverify/hose\_results.txt},
-\texttt{data/fverify/verifier\_table\_results.txt}); and the
-dataset-mining pipeline (\texttt{spectro\_scraper/}). Companion
-technical notes: \texttt{docs/BENCHMARK.md} and
-\texttt{docs/FORWARD\_VERIFY.md}. The verifier negative-control and
-selective-prediction analyses
-(\texttt{scripts/verifier\_diagnostics.py}), the recall-headroom and
-scaffold-enumeration study
-(\texttt{scripts/analyze\_recall\_headroom.py},
-\texttt{scripts/enumerate\_isomers.py},
-\texttt{scripts/closing\_the\_gap.py}), the modality-ablation harness
-(\texttt{scripts/modality\_ablation.py},
-\texttt{docs/MODALITY\_ABLATION.md}), and the blinded expert-audit
-package (\texttt{data/audit/}, \texttt{docs/EXPERT\_AUDIT\_PROTOCOL.md})
-are released likewise. The §5.6 trained-generator probe ships as a
-self-contained bundle (\texttt{contrib/generator\_probe/}): generator
-candidates, the de-leaked split with its InChIKey-14 manifest, and the
-verification scripts (\texttt{scripts/closing\_the\_gap\_gen.py},
-\texttt{scripts/forward\_verify\_gen.py},
-\texttt{scripts/verify\_leakage\_exact40.py}), together with the blind
-forward-prediction outputs behind its verified top-1
-(\texttt{data/fverify\_gen/raw/}, so
-\texttt{forward\_verify\_gen.py\ score} runs with no missing
-predictions); model checkpoints are deposited on Zenodo. The
-difficulty-threshold sensitivity of §3 regenerates via
-\texttt{scripts/difficulty\_sensitivity.py}. Downstream note: the public
-\texttt{irexp\_release/train} split does \textbf{not} hold out
-IRSpectra-Bench (117/200 InChIKey-14 overlap); de-leak with
-\texttt{contrib/generator\_probe/build\_exp\_manifest.py} before
-training models that will be evaluated on the benchmark. The §5.4
-learned-verifier probe ships its full reproducer ---
-\texttt{scripts/gnn\_predict.py} (extract/train/score/control), the
-trained model \texttt{data/nmrshiftdb/gnn\_c13.pt}, per-compound results
-and both leakage checks (\texttt{data/fverify/gnn\_results.txt}), and
-the write-up \texttt{docs/VERIFIER\_PROBE.md}; the GNN trains on the
-same nmrshiftdb2 dump as the §5.4 HOSE lookup. \textbf{Archival
-deposit:} a complete frozen snapshot (dataset, benchmark, answer keys,
-predictions, scripts, figure-regeneration, and the expert-audit package)
-will be archived on Zenodo under DOI \textbf{{[}TODO:
-10.5281/zenodo.XXXXXXX --- mint on submission{]}}; the GitHub repository
-is the development mirror and the Zenodo record the citable version of
-record. (The held-out answer keys \texttt{data/audit/key.jsonl} and
-\texttt{data/modality/key.json} are deposited but flagged ``withhold
-from blinded reviewers''.)
+Everything below is in the project repository. The archival deposit ---
+a complete frozen snapshot of dataset, benchmark, answer keys,
+predictions, scripts, figure regeneration and the expert-audit package
+--- will carry DOI \textbf{{[}TODO: 10.5281/zenodo.XXXXXXX --- mint on
+submission{]}}; GitHub is the development mirror and the Zenodo record
+the citable version.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3511}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3404}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3085}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+component
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+data
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+regenerated by
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+IRexp and its structure-complete split &
+\texttt{data/\hspace{0pt}irexp/\hspace{0pt}},
+\texttt{data/\hspace{0pt}irexp\_\hspace{0pt}resolved/\hspace{0pt}} &
+\texttt{spectro\_\hspace{0pt}scraper/\hspace{0pt}} (mining pipeline) \\
+benchmark rounds and the within-compound control &
+\texttt{data/\hspace{0pt}benchmark*/\hspace{0pt}} &
+\texttt{scripts/\hspace{0pt}benchmark\_\hspace{0pt}v2.py} \\
+ground-truth integrity audit &
+\texttt{data/\hspace{0pt}benchmark*/\hspace{0pt}clean\_\hspace{0pt}qids.json}
+& \texttt{scripts/\hspace{0pt}validate\_\hspace{0pt}benchmark.py} \\
+headline accuracy (Table 2) & --- &
+\texttt{scripts/\hspace{0pt}score\_\hspace{0pt}main.py} \\
+battery-electrolyte subset (§4.5) &
+\texttt{data/\hspace{0pt}benchmark\_\hspace{0pt}electrolyte/\hspace{0pt}}
+&
+\texttt{scripts/\hspace{0pt}build\_\hspace{0pt}electrolyte\_\hspace{0pt}bench.py},
+\texttt{scripts/\hspace{0pt}score\_\hspace{0pt}electrolyte.py} \\
+formula-only contamination control (§4.6) &
+\texttt{data/\hspace{0pt}modality/\hspace{0pt}} &
+\texttt{scripts/\hspace{0pt}modality\_\hspace{0pt}ablation.py} \\
+publication-recency control (§4.6) &
+\texttt{data/\hspace{0pt}audit/\hspace{0pt}recency\_\hspace{0pt}control.json}
+& \texttt{scripts/\hspace{0pt}contamination\_\hspace{0pt}recency.py} \\
+forward-verification, original arm (§5.2) &
+\texttt{data/\hspace{0pt}fverify/\hspace{0pt}} &
+\texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify.py} \\
+\ldots extended to all 194 compounds &
+\texttt{data/\hspace{0pt}fverify\_\hspace{0pt}main/\hspace{0pt}} &
+\texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify\_\hspace{0pt}main.py},
+\texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify\_\hspace{0pt}all.py} \\
+generate-wide arm (§5.3) & \texttt{data/\hspace{0pt}gw/\hspace{0pt}},
+\texttt{data/\hspace{0pt}fverify2/\hspace{0pt}} &
+\texttt{scripts/\hspace{0pt}score\_\hspace{0pt}generate\_\hspace{0pt}wide.py},
+\texttt{scripts/\hspace{0pt}ladder\_\hspace{0pt}significance.py} \\
+\ldots its coverage gap, closed &
+\texttt{data/\hspace{0pt}fverify\_\hspace{0pt}gw/\hspace{0pt}} &
+\texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify\_\hspace{0pt}gw.py} \\
+non-LLM verifier comparison (Table 8) &
+\texttt{data/\hspace{0pt}fverify/\hspace{0pt}hose\_\hspace{0pt}results.txt},
+\texttt{data/\hspace{0pt}fverify/\hspace{0pt}verifier\_\hspace{0pt}table\_\hspace{0pt}results.txt}
+& \texttt{scripts/\hspace{0pt}hose\_\hspace{0pt}predict.py}
+(incl.~\texttt{coverage}),
+\texttt{scripts/\hspace{0pt}verifier\_\hspace{0pt}table.py},
+\texttt{scripts/\hspace{0pt}verifier\_\hspace{0pt}leakage.py} \\
+negative control and selective prediction (§5.5) & --- &
+\texttt{scripts/\hspace{0pt}verifier\_\hspace{0pt}diagnostics.py} \\
+what a miss is, and isomer separability (§4.1, §5.1) & --- &
+\texttt{scripts/\hspace{0pt}analyze\_\hspace{0pt}misses.py},
+\texttt{scripts/\hspace{0pt}isomer\_\hspace{0pt}separability.py} \\
+difficulty-threshold sensitivity (§3) & --- &
+\texttt{scripts/\hspace{0pt}difficulty\_\hspace{0pt}sensitivity.py} \\
+licence-pool split (§2.1) & --- &
+\texttt{scripts/\hspace{0pt}split\_\hspace{0pt}license\_\hspace{0pt}pools.py} \\
+recall headroom and scaffold enumeration & --- &
+\texttt{scripts/\hspace{0pt}analyze\_\hspace{0pt}recall\_\hspace{0pt}headroom.py},
+\texttt{scripts/\hspace{0pt}enumerate\_\hspace{0pt}isomers.py},
+\texttt{scripts/\hspace{0pt}closing\_\hspace{0pt}the\_\hspace{0pt}gap.py} \\
+blinded expert-audit package (§7) &
+\texttt{data/\hspace{0pt}audit/\hspace{0pt}} &
+\texttt{scripts/\hspace{0pt}make\_\hspace{0pt}audit\_\hspace{0pt}sample.py} \\
+manuscript integrity gates & --- &
+\texttt{scripts/\hspace{0pt}check\_\hspace{0pt}manuscript.py},
+\texttt{scripts/\hspace{0pt}verify\_\hspace{0pt}statistics.py} \\
+\end{longtable}
+
+\textbf{Trained complements}, both fenced from the training-free
+protocol. The §5.6 generator ships as a self-contained bundle at
+\texttt{contrib/\hspace{0pt}generator\_\hspace{0pt}probe/\hspace{0pt}}
+--- candidates, the de-leaked split with its InChIKey-14 manifest, the
+verification scripts
+(\texttt{scripts/\hspace{0pt}closing\_\hspace{0pt}the\_\hspace{0pt}gap\_\hspace{0pt}gen.py},
+\texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify\_\hspace{0pt}gen.py},
+\texttt{scripts/\hspace{0pt}verify\_\hspace{0pt}leakage\_\hspace{0pt}exact40.py})
+and the blind forward-prediction outputs behind its verified top-1
+(\texttt{data/\hspace{0pt}fverify\_\hspace{0pt}gen/\hspace{0pt}}), so
+its scorer runs with no missing predictions. The §5.4 learned verifier
+ships \texttt{scripts/\hspace{0pt}gnn\_\hspace{0pt}predict.py} (extract
+/ train / score / control), the trained model
+\texttt{data/\hspace{0pt}nmrshiftdb/\hspace{0pt}gnn\_\hspace{0pt}c13.pt},
+per-compound results and both leakage checks
+(\texttt{data/\hspace{0pt}fverify/\hspace{0pt}gnn\_\hspace{0pt}results.txt}),
+and the write-up
+\texttt{docs/\hspace{0pt}VERIFIER\_\hspace{0pt}PROBE.md}. Model
+checkpoints are deposited on Zenodo. Both trained predictors of §5.4
+need the nmrshiftdb2 dump, which we cannot redistribute; the README
+gives the one-line fetch.
+
+Companion technical notes: \texttt{docs/\hspace{0pt}BENCHMARK.md},
+\texttt{docs/\hspace{0pt}FORWARD\_\hspace{0pt}VERIFY.md},
+\texttt{docs/\hspace{0pt}MODALITY\_\hspace{0pt}ABLATION.md},
+\texttt{docs/\hspace{0pt}EXPERT\_\hspace{0pt}AUDIT\_\hspace{0pt}PROTOCOL.md},
+\texttt{docs/\hspace{0pt}MODELS.md}.
+
+\textbf{Two cautions for re-users.} The public
+\texttt{irexp\_\hspace{0pt}release/\hspace{0pt}train} split does
+\textbf{not} hold out IRSpectra-Bench --- it overlaps by 117/200
+InChIKey-14 --- so de-leak with
+\texttt{contrib/\hspace{0pt}generator\_\hspace{0pt}probe/\hspace{0pt}build\_\hspace{0pt}exp\_\hspace{0pt}manifest.py}
+before training anything that will be evaluated on the benchmark. And
+the held-out answer keys
+\texttt{data/\hspace{0pt}audit/\hspace{0pt}key.jsonl} and
+\texttt{data/\hspace{0pt}modality/\hspace{0pt}key.json} are deposited
+but flagged \emph{withhold from blinded reviewers}.
 
 \hypertarget{licensing-and-attribution}{%
 \subsection{Licensing and attribution}\label{licensing-and-attribution}}
 
 IRexp is derived from two open-access source pools and redistributed
-under terms compatible with each (see \texttt{data/NOTICE}). \textbf{(a)
-Redistribution:} we release only \emph{extracted numeric data} --- IR
-band lists, ¹H/¹³C shift lists, and resolved structures
+under terms compatible with each (see \texttt{data/\hspace{0pt}NOTICE}).
+\textbf{(a) Redistribution:} we release only \emph{extracted numeric
+data} --- IR band lists, ¹H/¹³C shift lists, and resolved structures
 (SMILES/SELFIES/InChIKey) --- plus each record's source DOI/accession,
 not source full text, figures, or PDFs. \textbf{(b) Two separable
 pools:} 119,345 records derive from the PMC Open-Access Subset
 (\textbf{CC-BY-4.0}) and 1,888 from the Chemotion RADAR4Chem FT-IR
 deposit (\textbf{CC-BY-SA-4.0}). The two are separable losslessly by
-\texttt{source\_doi} --- Chemotion records carry the \texttt{10.22000}
-prefix --- and \texttt{scripts/split\_license\_pools.py} materialises
-them as two files with each record stamped \texttt{license}, so users
-may take the CC-BY pool alone; any combined or Chemotion-derived release
-carries CC-BY-SA-4.0 to honour the ShareAlike term. Code is released
-under the MIT License. \textbf{(c) Attribution:} re-users must cite this
-dataset (Zenodo DOI above) and attribute the original publications via
-each record's \texttt{source\_doi}.
+\texttt{source\_\hspace{0pt}doi} --- Chemotion records carry the
+\texttt{10.22000} prefix --- and
+\texttt{scripts/\hspace{0pt}split\_\hspace{0pt}license\_\hspace{0pt}pools.py}
+materialises them as two files with each record stamped
+\texttt{license}, so users may take the CC-BY pool alone; any combined
+or Chemotion-derived release carries CC-BY-SA-4.0 to honour the
+ShareAlike term. Code is released under the MIT License. \textbf{(c)
+Attribution:} re-users must cite this dataset (Zenodo DOI above) and
+attribute the original publications via each record's
+\texttt{source\_\hspace{0pt}doi}.
 
 \hypertarget{author-contributions}{%
 \subsection{Author Contributions}\label{author-contributions}}
@@ -2309,8 +2422,9 @@ copy-editing, and for the internal review pass that produced several of
 the corrections recorded in the repository history. \textbf{No text,
 number, figure or citation in this manuscript was accepted without
 author verification against the released data and code}; every
-quantitative claim regenerates from the scripts in \texttt{scripts/}.
-The authors take full responsibility for the content.
+quantitative claim regenerates from the scripts in
+\texttt{scripts/\hspace{0pt}}. The authors take full responsibility for
+the content.
 
 \hypertarget{acknowledgements}{%
 \subsection{Acknowledgements}\label{acknowledgements}}

@@ -1415,8 +1415,21 @@ agree with the figure it replaces (46% against 41%). §5.6 reports the reproduci
 and says plainly that it is a re-run rather than a reproduction.
 Decoding parameters are not exposed
 by the subscription harness and were neither set nor recorded, so re-running reproduces
-the protocol distributionally rather than exactly; the dated model snapshot identifiers
-are listed there as the outstanding items to be pinned on submission.
+the protocol distributionally rather than exactly.
+
+**No model snapshot can be reported, and this is a property of the protocol rather than
+an omission.** The consumer harness exposes no checkpoint identifier to the caller,
+announces no build changes, and records nothing about which build served a given request;
+no work after the fact recovers that. Two consequences follow. `Claude Opus 4.8` is
+evidenced only for the 2026-06-09 pilot, so **a mid-window build change cannot be
+excluded** and we do not claim the same build served the main round two days later. And a
+reader repeating these experiments will be served whatever build is then current, so
+distributional agreement is the most that can be expected — exact agreement is not a
+meaningful target here and we do not offer it as one. What stands in place of a pin is
+everything that *is* fixed: the dated collection windows above, the frozen per-compound
+outputs, and mechanical scorers that regenerate every number from them. That is the
+boundary of a zero-cost subscription protocol: it buys exact reproducibility of scoring
+and analysis, not of inference (`docs/MODELS.md` §6).
 
 **Reproducibility.** Every round is frozen: questions, ground-truth answers,
 per-agent raw outputs, predictions, and scorer outputs are released, and the sampler,

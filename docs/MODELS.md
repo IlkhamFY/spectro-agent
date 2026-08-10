@@ -82,10 +82,10 @@ that variable.
 
 | role in paper | display name | version string recorded **in this repository** | dated snapshot identifier |
 |---|---|---|---|
-| headline benchmark (§4.1), controls (§4.3), forward-verification (§5.1–§5.3), electrolyte (§4.5), §4.4 Opus arm | Claude Opus | **`Claude Opus 4.8`** — recorded for the 2026-06-09 pilot only (`docs/BENCHMARK.md` L23). It is the only Claude version string anywhere in the repository. | *authors — see §6* |
-| cross-model comparison (§4.4), strongest | Claude Fable 5 | **`Fable 5`** (`docs/PAPER.md` §4.4 Table 3; `scripts/score_models.py` docstring) | *authors — see §6* |
-| cross-model comparison (§4.4); cross-model recall check (§7 *Independence checks*) | Claude Sonnet | **none** — no version number appears in any file | *authors — see §6* |
-| cross-model comparison (§4.4), weakest (0% top-1) | Claude Haiku | **none** — no version number appears in any file | *authors — see §6* |
+| headline benchmark (§4.1), controls (§4.3), forward-verification (§5.1–§5.3), electrolyte (§4.5), §4.4 Opus arm | Claude Opus | **`Claude Opus 4.8`** — recorded for the 2026-06-09 pilot only (`docs/BENCHMARK.md` L23). It is the only Claude version string anywhere in the repository. | **not exposed by the harness** — see §6 |
+| cross-model comparison (§4.4), strongest | Claude Fable 5 | **`Fable 5`** (`docs/PAPER.md` §4.4 Table 3; `scripts/score_models.py` docstring) | **not exposed by the harness** — see §6 |
+| cross-model comparison (§4.4); cross-model recall check (§7 *Independence checks*) | Claude Sonnet | **none** — no version number appears in any file | **not exposed by the harness** — see §6 |
+| cross-model comparison (§4.4), weakest (0% top-1) | Claude Haiku | **none** — no version number appears in any file | **not exposed by the harness** — see §6 |
 
 Two honest caveats on the Opus row:
 
@@ -166,28 +166,51 @@ single solver run, so the bootstrap CIs reflect compound sampling only and carry
 run-to-run LLM-sampling variance; §5.3 pooling ten generation passes lifted recall
 31%→41%, which bounds how much single-pass scoring understates generator stochasticity.
 
-## 6. Authors must supply before submission
+## 6. What the authors must supply — and what nobody can
 
-Five items. Everything else on this page is evidenced above.
+### Not obtainable: dated model snapshot identifiers
 
-1. **Dated snapshot identifier for Claude Opus** — the model behind the headline benchmark,
-   both controls, forward-verification, generate-wide, the electrolyte case study, and the
-   §4.4 Opus arm. → paste into the Opus row, "dated snapshot identifier" column, §2.
-2. **Dated snapshot identifier for Claude Fable 5** (§4.4). → Fable row, same column, §2.
-3. **Dated snapshot identifier *and* marketing version for Claude Sonnet** (§4.4 arm and
-   the §7 *Independence checks* cross-model recall check). No version number for Sonnet exists anywhere in
-   this repository. → Sonnet row, §2, both the version and snapshot columns.
-4. **Dated snapshot identifier *and* marketing version for Claude Haiku** (§4.4). Same
-   situation as Sonnet. → Haiku row, §2, both columns.
-5. **Confirm one Opus build served all rounds** from 2026-06-09 to 2026-06-11, and that
-   it is the `Claude Opus 4.8` recorded for the pilot. If the build changed mid-window,
-   split the Opus row of §2 and annotate the affected rows of §1. → §2, Opus row caveats.
+The four Claude rows of §2 have no dated snapshot identifier, and **none can be
+supplied.** The consumer claude.ai harness the whole protocol runs on does not expose a
+checkpoint identifier to the caller, announce build changes, or record which build served
+a given request. This is a property of the surface, not an oversight by the authors, and
+no amount of after-the-fact work recovers it. §1 of `docs/PAPER.md` already states it
+("the subscription harness pins no model snapshot, exposes no temperature or seed");
+§2 and §8 now agree rather than promising an identifier that will never arrive.
+
+Two consequences follow and are stated rather than hedged:
+
+- **A mid-window build change cannot be excluded.** `Claude Opus 4.8` is evidenced only
+  for the 2026-06-09 pilot. Nothing in the repository, and nothing available to the
+  authors, establishes that the same build served the main round two days later. The
+  paper does not claim it did.
+- **Re-running reproduces the protocol, not the numbers.** A reader who repeats these
+  experiments will be served whatever build is current, which will not be the June 2026
+  one. Distributional agreement is the most that can be expected; exact agreement is not
+  a meaningful target and is not claimed.
+
+What stands in place of a checkpoint pin is everything that *is* fixed: the dated
+collection windows of §1, the display string where one was recorded, the frozen
+per-compound outputs, and mechanical scorers that regenerate every number from them. That
+is the honest boundary of a zero-cost subscription protocol — it buys reproducibility of
+*scoring and analysis*, not of *inference*.
+
+### Still needed from the authors
+
+Three items, all outside the repository's reach:
+
+1. **ORCID iDs** for all three authors → `docs/PAPER.md` author block, visible
+   `[TODO: 0000-0000-0000-0000]` placeholders. RSC requires the corresponding author's.
+2. **Zenodo DOI** for the data/code deposit → `docs/PAPER.md`, *Data and code
+   availability*. Mint at submission.
+3. **Funding sources and acknowledgements** → `docs/PAPER.md`, *Acknowledgements*,
+   currently the only empty section.
 
 Also confirm §5 is correct — that no decoding parameters were set on any run. If any run
 *did* use non-default settings, §5 must be rewritten, not annotated.
 
-Do not guess any of these. An identifier that does not resolve to the checkpoint actually
-used is worse for reproducibility than an acknowledged gap.
+Do not guess an ORCID or a DOI. An identifier that does not resolve is worse for
+reproducibility than an acknowledged gap.
 
 ---
 

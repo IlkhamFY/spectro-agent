@@ -341,6 +341,23 @@ def check_propagation():
                           f"{line.split(':')[0]} still says '{phrase[:40]}'")
 
 
+def check_snapshot_disclosure():
+    """The snapshot identifiers are not obtainable — the consumer harness exposes none.
+    The paper must say so rather than promise them, and MODELS.md §2 must not point at a
+    value that will never arrive. This check exists because both files did exactly that
+    until the authors confirmed the harness never exposed them."""
+    md, mo = read(PAPER), read("docs/MODELS.md")
+    if re.search(r'outstanding items to be pinned|to be pinned on submission', md, re.I):
+        fail("J", "PAPER.md still describes model snapshots as outstanding items to be "
+                  "pinned; the harness exposes none, so they cannot arrive")
+    if "*authors — see §6*" in mo:
+        fail("J", "MODELS.md §2 still promises a snapshot identifier from the authors")
+    if not re.search(r'no model snapshot can be reported|not exposed by the harness', md + mo, re.I):
+        fail("J", "the unobtainable-snapshot disclosure has gone missing")
+    if not re.search(r'mid-window build change cannot be excluded', md + mo, re.I):
+        fail("J", "the mid-window-build-change caveat has gone missing")
+
+
 # ---- author-supplied items (reported, never failed) --------------------------
 # These cannot be filled in by anyone but the authors, and inventing any of them
 # would be worse for a reader than an acknowledged gap. The gate lists them so the
@@ -351,8 +368,6 @@ PENDING = [
     (PAPER, r'10\.5281/zenodo\.X+', "Zenodo DOI for the data/code deposit — mint on submission"),
     (PAPER, r'To be completed before submission.*funding', "funding sources and "
                                                            "acknowledgements"),
-    ("docs/MODELS.md", r'\*authors — see §6\*', "dated model snapshot identifiers for the "
-                                                "four Claude models"),
 ]
 
 
@@ -371,6 +386,7 @@ def main():
         fn(md)
     check_ground_truth()
     check_figure_literals()
+    check_snapshot_disclosure()
     check_propagation()
     pend = report_pending()
     if FAIL:
@@ -388,12 +404,15 @@ def main():
     print("  G every ground-truth structure matches the formula the solver was given")
     print("  H hardcoded figure values still agree with the scorers")
     print("  I every correction propagated to every file that made the claim")
+    print("  J the unobtainable-snapshot disclosure is intact and consistent")
     if pend:
         print(f"\nAWAITING THE AUTHORS ({len(pend)} item(s)) — not defects, and not "
               f"fillable by anyone else:")
         for doc, what in pend:
             print(f"  · {what}\n      → {doc}")
-        print("\nEverything else is verified. These four values are the remaining work.")
+        print(f"\nEverything else is verified. "
+              f"{'This value is' if len(pend)==1 else 'These ' + str(len(pend)) + ' values are'} "
+              f"the remaining work.")
     else:
         print("\nNo author-supplied items outstanding.")
 

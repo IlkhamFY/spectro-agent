@@ -13,7 +13,7 @@ python scripts/verify_statistics.py    # every hand-rolled statistic vs SciPy
 
 ---
 
-## 1. Four values only the authors can supply
+## 1. Three values only the authors can supply
 
 None of these can be guessed, and a wrong one is worse for a reader than an
 acknowledged gap — an ORCID belongs to a specific person and a DOI either resolves or
@@ -24,7 +24,17 @@ it does not.
 | 1 | **ORCID iDs**, all three authors | `docs/PAPER.md`, author block (visible `[TODO: 0000-…]` placeholders) | RSC requires the corresponding author's; co-authors' are requested |
 | 2 | **Zenodo DOI** for the data/code deposit | `docs/PAPER.md`, Data and code availability (`[TODO: 10.5281/zenodo.XXXXXXX]`) | mint at submission; the Licensing section points re-users at it for attribution |
 | 3 | **Funding sources and acknowledgements** | `docs/PAPER.md`, Acknowledgements (marked `— AUTHORS`) | currently the only empty section |
-| 4 | **Dated model snapshot identifiers** for the four Claude models | `docs/MODELS.md` §2 (rows read *authors — see §6*) | the repo records only the display string `Claude Opus 4.8`, evidenced for the 2026-06-09 pilot alone. §2 of that file states plainly that nothing proves the same build served the main round two days later — please confirm rather than assume |
+
+### Not on this list any more: model snapshot identifiers
+
+These were listed here until the authors confirmed the consumer harness never exposed
+them. It does not hand the caller a checkpoint identifier, announce build changes, or
+record which build served a request, so no snapshot can be reported and none can be
+obtained after the fact. `docs/PAPER.md` §8 and `docs/MODELS.md` §6 now say that outright
+instead of promising a value that cannot arrive, and state the two consequences: a
+mid-window build change cannot be excluded, and a reader repeating the work will be served
+a different build, so agreement is distributional rather than exact. Gate check J fails if
+either file drifts back to describing them as pending.
 
 ## 2. The expert-chemist audit
 

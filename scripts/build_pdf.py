@@ -190,6 +190,11 @@ def main():
         "--citeproc",
         f"--bibliography={bib}",
         "--csl=docs/rsc.csl",
+        # Make the superscript citation numbers jump to their reference entry, and the
+        # entries carry their DOI as a link. Without link-citations the in-text markers
+        # render as inert text and a reader has to scroll to the list by hand.
+        "-M", "link-citations=true",
+        "-M", "link-bibliography=true",
         "-V", "geometry:margin=1in", "-V", "fontsize=11pt",
         "-V", "linkcolor=blue", "-V", "urlcolor=blue", "-V", "colorlinks=true",
         "-V", "subparagraph",

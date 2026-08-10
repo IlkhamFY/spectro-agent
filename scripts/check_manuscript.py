@@ -358,6 +358,39 @@ def check_snapshot_disclosure():
         fail("J", "the mid-window-build-change caveat has gone missing")
 
 
+# ---- K. reader-facing numbers baked into scripts -----------------------------
+# The graphical abstract's summary text and the numbers drawn into its image are the
+# first things an editor reads, and both lived inside Python -- a string in build_pdf.py
+# and a matplotlib call in make_graphical_abstract.py. Both quoted "recall (31%), not
+# verification (84%)" for months after §5.2 moved to 34% / 89%, because every existing
+# check looked only at documents. Reader-facing figures of merit are checked wherever
+# they live.
+RETIRED_IN_SCRIPTS = [
+    (r'recall \(31%\)', "graphical abstract still quotes 31% recall (now 34%)"),
+    (r'verification \(84%\)', "graphical abstract still quotes 84% precision (now 89%)"),
+    (r'true structure 84% of the time', "abstract summary still quotes 84% (now 89%)"),
+    (r'proposed only 31% of the time', "abstract summary still quotes 31% (now 34%)"),
+    (r'19/60 = \s*31', "a figure caption still quotes 19/60 = 31% (now 65/194 = 34%)"),
+]
+READER_FACING = ["scripts/build_pdf.py", "scripts/make_graphical_abstract.py"]
+
+
+def check_scripts_numbers():
+    for path in READER_FACING:
+        if not os.path.exists(path):
+            fail("K", f"{path} is missing")
+            continue
+        body = read(path)
+        for pat, why in RETIRED_IN_SCRIPTS:
+            if re.search(pat, body):
+                fail("K", f"{path}: {why}")
+    # and the abstract must carry the live pair
+    ga = read("scripts/make_graphical_abstract.py")
+    if not re.search(r'recall \(34%\).*verification \(89%\)', ga):
+        fail("K", "make_graphical_abstract.py no longer states recall (34%) / "
+                  "verification (89%) — the image would disagree with §5.2")
+
+
 # ---- author-supplied items (reported, never failed) --------------------------
 # These cannot be filled in by anyone but the authors, and inventing any of them
 # would be worse for a reader than an acknowledged gap. The gate lists them so the
@@ -387,6 +420,7 @@ def main():
     check_ground_truth()
     check_figure_literals()
     check_snapshot_disclosure()
+    check_scripts_numbers()
     check_propagation()
     pend = report_pending()
     if FAIL:
@@ -405,6 +439,7 @@ def main():
     print("  H hardcoded figure values still agree with the scorers")
     print("  I every correction propagated to every file that made the claim")
     print("  J the unobtainable-snapshot disclosure is intact and consistent")
+    print("  K reader-facing numbers inside scripts match the paper")
     if pend:
         print(f"\nAWAITING THE AUTHORS ({len(pend)} item(s)) — not defects, and not "
               f"fillable by anyone else:")

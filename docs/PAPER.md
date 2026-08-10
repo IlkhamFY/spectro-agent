@@ -82,7 +82,11 @@ forward-verification elucidation (§5), a training-free method that turns the mo
 regiochemistry), and use it to localise the bottleneck. The central finding is a sharp asymmetry:
 given a candidate set that contains it, the model *verifies* the correct structure 89% of the time,
 yet *proposes* it for only 34% of compounds — recall, not verification, is the wall
-(Fig. 1). The end-to-end study design is summarised in Fig. S1. Throughout, the
+(Fig. 1).
+
+![The diagnosis in one glance: all 194 benchmark compounds as a single part-to-whole bar. The true structure is verified top-1 for 58 (green), recalled but mis-ranked for 7 (vermilion), and never proposed for 129 (grey) — *the wall*, 66% of the bar. Generation recall is 65/194 = 34%; conditional verification precision is 58/65 = 89%; their product is the 30% end-to-end top-1. The two rates have different denominators and are not differenced.](docs/figures/fig_wall.png)
+
+The end-to-end study design is summarised in Fig. S1. Throughout, the
 solver and verifier are LLM agents run under a
 consumer subscription — no fine-tuning, no API spend. That makes the protocol cheap to
 *re-run*, but cheap is not the same as reproducible: the subscription harness pins no model
@@ -465,6 +469,8 @@ it — top-1 **60.5%** for ≤15 heavy atoms, 28.3% for 16–25, and **7.0%** ab
 scaffold often (best Tanimoto ≥ 0.45 for 56% of compounds), but the exact constitution
 far less often.
 
+![Top-1 and recovered accuracy on IRSpectra-Bench by difficulty (all / simple / complex, n=194), with bootstrap 95% confidence intervals. The benchmark separates a realistic difficulty range: simple targets are solved four to six times as often as complex ones on both metrics.](docs/figures/fig1_difficulty.png)
+
 What a failure actually looks like is measurable rather than a matter of impression, so
 we measured it over all 139 top-1 misses (`scripts/analyze_misses.py`). **76.6% are
 constitutional isomers of the true structure** — exactly the right atoms, assembled
@@ -590,6 +596,8 @@ strictly protocol-matched to the other three and, if anything, is the arm handic
 longer contexts. This does not affect the nesting or the Fable-vs-Haiku contrast, but a
 clean re-run of the Opus arm under four six-compound contexts is the right fix and is
 listed as outstanding in `docs/MODELS.md`.
+
+![Four-model comparison on a fixed 24-compound subset, solved blind under one protocol: Fable 5 45% > Opus 25% > Sonnet 20% > Haiku 0% top-1. The outcomes are strictly nested — each stronger model solves a superset of the weaker one's compounds — so the benchmark is capability-sensitive, but at n=24 it is underpowered to separate adjacent models (§4.4).](docs/figures/fig5_models.png)
 
 **Table 3. Four-model comparison on a fixed 24-compound subset** under the identical blind protocol.
 
@@ -743,8 +751,10 @@ the source paper for **all 194** benchmark compounds from their accessions
 (`scripts/contamination_recency.py`); they span 2008–2026. Accuracy is flat: **28.6%** for
 the older half (≤2020, n=112) against **28.0%** for the newer (n=82), a point-biserial
 correlation between publication year and correctness of **r = −0.007**, and no monotone
-trend across year buckets (Fig. 5b). The most recent bucket (≥2024, n=25) is in fact the
+trend across year buckets (Fig. 4b). The most recent bucket (≥2024, n=25) is in fact the
 highest at 40% [23, 59].
+
+![Two contamination controls. (**a**) Removing the spectra: with only the molecular formula the solver reaches 3/60, against 14/60 with IR + ¹H + ¹³C on the same compounds. The outcomes are nested — 11 compounds are solved only with the spectra and none only without (McNemar exact p=0.001). (**b**) Accuracy against the publication year of the source paper (n=194, Wilson 95% CIs): flat, point-biserial r = −0.007. Recall out of pretraining would predict a decline with recency; none is observed.](docs/figures/fig_contamination.png)
 
 The raw split is if anything biased *against* the newer half, because newer papers skew to
 larger molecules (median 22 heavy atoms against 20) and size is the dominant driver of
@@ -800,9 +810,13 @@ close a generator–verifier loop:
 This mirrors how a chemist confirms a structure ("if it were that isomer, C-3 would
 be at ~120 ppm; we observe 135, so it is the other"), exploits the standard
 principle that verification is easier than generation, and requires no training.
-**Fig. 4** shows the mechanism on a real benchmark pair — the picolinamide /
+**Fig. 5** shows the mechanism on a real benchmark pair — the picolinamide /
 nicotinamide regioisomers, which the inverse task cannot separate but whose
-forward-predicted ¹³C spectra match the observed one at 0.42 vs 1.30 ppm. We
+forward-predicted ¹³C spectra match the observed one at 0.42 vs 1.30 ppm.
+
+![Forward-verification on a real benchmark regioisomer pair. Picolinamide and nicotinamide are indistinguishable to the inverse task, but their forward-predicted ¹³C spectra are not: the true isomer matches the observed spectrum at a chamfer of 0.42 ppm against 1.30 ppm for the alternative. This is the LLM analog of the DP4 / NMR-crystallography logic, with a forward language model in place of the quantum chemistry (§5.1).](docs/figures/fig_mechanism.png)
+
+We
 implemented the verifier as independent LLM agents that predict ¹³C shift lists from
 SMILES alone, using pure reasoning with no tools. All candidates from all compounds were
 pooled, canonicalised, shuffled and anonymised, then split into fixed-size batches, so a
@@ -956,7 +970,11 @@ this arm only, so the comparison is held to it.
 Wide generation lifts recall +10 points (31%→41%, i.e. 19/60→25/60) and exact top-1
 +7 points over the self-ranking baseline (23%→30%, 14/60→18/60) — equivalently +4 over
 the original forward-verified top-1 (26%→30%, 16/60→18/60, Table 7) — on the same 60
-compounds (Fig. 6), with no training. The arm originally forward-predicted only **65 of
+compounds (Fig. 6), with no training.
+
+![The forward-verification inference ladder on the 60-compound arm: solver self-ranking → + forward-verification → + generate-wide, at 23% / 26% / 30% top-1. Each rung is a training-free change to inference alone. The steps are directional rather than individually resolved at this sample size — the paired tests are in §5.3.](docs/figures/fig3_method.png)
+
+The arm originally forward-predicted only **65 of
 the 217** distinct new candidates, which made its top-1 a lower bound rather than a
 measurement: an unpredicted candidate is assigned an infinite match distance and can
 never be selected, so recall could count every candidate while top-1 benefited only from
@@ -1436,31 +1454,6 @@ per-agent raw outputs, predictions, and scorer outputs are released, and the sam
 scorer, and forward-verification harness are scripted end-to-end.
 
 ---
-
-## Figures (main text)
-
-- **Fig. 1** (`docs/figures/fig_wall.png`) — the diagnosis in one glance, as a
-  part-to-whole bar of all 194 benchmark compounds: 58 verified top-1, 7 recalled
-  but mis-ranked, 129 never proposed — *the wall*, 66% of the bar. Generation recall is
-  65/194 (34%); conditional verification precision is 58/65 (89%); their product is the
-  30% end-to-end top-1. The two rates have different denominators and are not
-  differenced.
-- **Fig. 2** (`docs/figures/fig1_difficulty.png`) — top-1 and recovered accuracy on
-  IRSpectra-Bench by difficulty (all / simple / complex, n=194) with bootstrap 95% CIs.
-- **Fig. 3** (`docs/figures/fig5_models.png`) — four-model comparison on a 24-compound
-  subset: Fable 5 45% > Opus 25% > Sonnet 20% > Haiku 0% top-1 (strictly nested);
-  capability-sensitive but underpowered to separate adjacent models at n=24.
-- **Fig. 4** (`docs/figures/fig_mechanism.png`) — forward-verification on a real
-  benchmark regioisomer pair (picolinamide vs nicotinamide): forward-predicted ¹³C
-  matches the true isomer (chamfer 0.42 vs 1.30 ppm), an analog of NMR-crystallography.
-- **Fig. 5** (`docs/figures/fig_contamination.png`) — two contamination controls.
-  (a) Removing the spectra: formula-only reaches 3/60 against 14/60 with
-  IR + ¹H + ¹³C on the same compounds, nested (11 solved only with the spectra, none
-  only without). (b) Accuracy against source publication year (n=194, Wilson 95% CIs):
-  flat, point-biserial r = −0.007.
-- **Fig. 6** (`docs/figures/fig3_method.png`) — forward-verification inference ladder
-  on the same 60 compounds: solver self-ranking → + forward-verify → + generate-wide
-  (23%/26%/30% top-1).
 
 ## Supporting Information figures
 

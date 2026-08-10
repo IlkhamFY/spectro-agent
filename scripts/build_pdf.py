@@ -5,40 +5,11 @@ Keeps PAPER.md clean: figure plates are appended to a temporary copy, and unicod
 glyphs (super/subscripts, math relations) are mapped for XeTeX via newunicodechar.
 Run from the repo root:  python3 scripts/build_pdf.py
 """
-import os, subprocess, tempfile, pypandoc
+import os, re, subprocess, tempfile, pypandoc
 
 # PDF engine: tectonic by default; override with PDF_ENGINE=xelatex for a texlive host.
 TECTONIC = os.environ.get("PDF_ENGINE", "/tmp/tectonic")
 OUT = "docs/paper.pdf"
-
-# Main-text figures (numbered Fig. 1-5)
-FIGS = [
-    ("fig_wall.png", "The diagnosis as a single part-to-whole bar of the 60 "
-     "forward-verify compounds. The true structure is verified top-1 for 16 (green), "
-     "recalled but mis-ranked for 3 (vermilion), and never proposed for 41 (grey) --- "
-     "\\emph{the wall}, 68\\% of the bar. Forward-verification recovers 16/60 = 26\\% "
-     "exact top-1 end-to-end: the model proposes the true structure for only 19/60 = "
-     "31\\% of compounds and, of those, verifies 84\\% (77\\% on the 13 of 19 where more "
-     "than one candidate existed; \\S5.2). Recall, not verification, is the wall."),
-    ("fig1_difficulty.png", "Top-1 and recovered accuracy on IRSpectra-Bench by "
-     "difficulty (all / simple / complex, n=194) with bootstrap 95\\% CIs."),
-    ("fig5_models.png", "Four-model comparison on a 24-compound subset: Fable 5 45\\% "
-     "$>$ Opus 25\\% $>$ Sonnet 20\\% $>$ Haiku 0\\% top-1 (strictly nested; "
-     "underpowered to separate adjacent models at n=24)."),
-    ("fig_mechanism.png", "Forward-verification on a real benchmark regioisomer pair "
-     "(picolinamide vs nicotinamide): forward-predicted $^{13}$C matches the true "
-     "isomer (chamfer 0.42 vs 1.30 ppm) --- an analog of NMR-crystallography."),
-    ("fig_contamination.png", "Two contamination controls. (a) Removing the spectra: "
-     "with only the molecular formula the solver reaches 3/60, against 14/60 with "
-     "IR + $^1$H + $^{13}$C on the same compounds; the outcomes are nested, with 11 "
-     "compounds solved only with the spectra and none only without. (b) Accuracy against "
-     "the publication year of the source paper (n=194, Wilson 95\\% CIs): flat, with a "
-     "point-biserial correlation of $-$0.007. Recall from pretraining would predict a "
-     "decline with recency; none is observed."),
-    ("fig3_method.png", "Forward-verification inference ladder on the same 60 "
-     "compounds: solver self-ranking → + forward-verify → + generate-wide "
-     "(23\\%/26\\%/30\\% top-1)."),
-]
 
 # Supporting-Information figures (numbered Fig. S1-S4)
 SI_FIGS = [
@@ -190,13 +161,20 @@ def main():
                "A frontier LLM recovers the correct molecular constitution from real, "
                "blind IR + \u00b9H + \u00b9\u00b3C literature spectra for 28% of 194 compounds. "
                "The bottleneck is candidate *recall*, not verification: forward-predicting "
-               "\u00b9\u00b3C and re-ranking selects the true structure 84% of the time it is "
-               "proposed \u2014 but it is proposed only 31% of the time.\n\n")
-    md += "\n\n\\clearpage\n\n# Figure plates\n\n"
-    for fn, cap in FIGS:
-        path = f"docs/figures/{fn}"
-        if os.path.exists(path):
-            md += f"![{cap}]({path}){{width={fig_width(path)}}}\n\n"
+               "\u00b9\u00b3C and re-ranking selects the true structure 89% of the time it is "
+               "proposed \u2014 but it is proposed only 34% of the time.\n\n")
+    # Main-text figures are inline in PAPER.md, placed at first discussion as a journal
+    # requires. Their captions live there too -- one source of truth, so a caption cannot
+    # drift from the text the way the old duplicate list did. Widths are computed here
+    # because markdown cannot: each figure renders at native size, never upscaled.
+    def _size(m):
+        path = m.group(2)
+        return f"![{m.group(1)}]({path}){{width={fig_width(path)}}}" if os.path.exists(path) else m.group(0)
+    # (?!\{) so an image that already carries an attribute block -- the graphical
+    # abstract appended above -- is not stamped a second time and left rendering its
+    # own width as literal body text.
+    md, n_inline = re.subn(r"!\[(.*?)\]\((docs/figures/[^)]+)\)(?!\{)", _size, md,
+                           flags=re.S)
 
     with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as mf:
         mf.write(md); md_path = mf.name

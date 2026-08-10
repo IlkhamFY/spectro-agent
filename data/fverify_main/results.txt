@@ -1,0 +1,105 @@
+[60-compound (v3 + v2-ctrl)] 60 compounds (0 with no parseable candidate), 0 unique SMILES lacking a forward prediction
+[134-compound (main round)] 134 compounds (2 with no parseable candidate), 0 unique SMILES lacking a forward prediction
+
+=== 60-compound (v3 + v2-ctrl)  (n=60) ===
+  generation recall              19/60 (31.7%)
+  top-1, solver self-ranking     14/60 (23.3%)
+  top-1, forward-verified        16/60 (26.7%)
+  CONDITIONAL ON RECALL (n=19):
+    self-ranking     14/19 (73.7%)
+    forward-verify   16/19 (84.2%)
+    McNemar exact: b=1 (self only) c=3 (verify only) p=0.625
+    single-candidate compounds (no choice to make): 6/19
+  MULTI-CANDIDATE ONLY (n=13):
+    self-ranking     8/13 (61.5%)
+    forward-verify   10/13 (76.9%)
+    McNemar exact: b=1 c=3 p=0.625
+  top-1 self vs verify, all 60: b=1 c=3 p=0.625
+
+=== 134-compound (main round)  (n=134) ===
+  generation recall              46/134 (34.3%)
+  top-1, solver self-ranking     41/134 (30.6%)
+  top-1, forward-verified        42/134 (31.3%)
+  CONDITIONAL ON RECALL (n=46):
+    self-ranking     41/46 (89.1%)
+    forward-verify   42/46 (91.3%)
+    McNemar exact: b=3 (self only) c=4 (verify only) p=1.000
+    single-candidate compounds (no choice to make): 22/46
+  MULTI-CANDIDATE ONLY (n=24):
+    self-ranking     19/24 (79.2%)
+    forward-verify   20/24 (83.3%)
+    McNemar exact: b=3 c=4 p=1.000
+  top-1 self vs verify, all 134: b=3 c=4 p=1.000
+
+=== ARM HOMOGENEITY (does pooling the two arms distort anything?) ===
+  verification precision | recall              42/46 vs 16/19   Fisher p=0.408
+  verification precision, multi-candidate only 20/24 vs 10/13   Fisher p=0.678
+  self-ranking, multi-candidate only           19/24 vs 8/13   Fisher p=0.275
+  single-candidate fraction | recall           22/46 vs 6/19   Fisher p=0.279
+  (large p = arms agree; pooling is licensed, not assumed)
+
+=== POOLED — full benchmark  (n=194) ===
+  generation recall              65/194 (33.5%)
+  top-1, solver self-ranking     55/194 (28.4%)
+  top-1, forward-verified        58/194 (29.9%)
+  CONDITIONAL ON RECALL (n=65):
+    self-ranking     55/65 (84.6%)
+    forward-verify   58/65 (89.2%)
+    McNemar exact: b=4 (self only) c=7 (verify only) p=0.549
+    single-candidate compounds (no choice to make): 28/65
+  MULTI-CANDIDATE ONLY (n=37):
+    self-ranking     27/37 (73.0%)
+    forward-verify   30/37 (81.1%)
+    McNemar exact: b=4 c=7 p=0.549
+  top-1 self vs verify, all 194: b=4 c=7 p=0.549
+
+=== POOLED — simple  (n=98) ===
+  generation recall              53/98 (54.1%)
+  top-1, solver self-ranking     47/98 (48.0%)
+  top-1, forward-verified        50/98 (51.0%)
+  CONDITIONAL ON RECALL (n=53):
+    self-ranking     47/53 (88.7%)
+    forward-verify   50/53 (94.3%)
+    McNemar exact: b=2 (self only) c=5 (verify only) p=0.453
+    single-candidate compounds (no choice to make): 24/53
+  MULTI-CANDIDATE ONLY (n=29):
+    self-ranking     23/29 (79.3%)
+    forward-verify   26/29 (89.7%)
+    McNemar exact: b=2 c=5 p=0.453
+  top-1 self vs verify, all 98: b=2 c=5 p=0.453
+
+=== POOLED — complex  (n=96) ===
+  generation recall              12/96 (12.5%)
+  top-1, solver self-ranking     8/96 (8.3%)
+  top-1, forward-verified        8/96 (8.3%)
+  CONDITIONAL ON RECALL (n=12):
+    self-ranking     8/12 (66.7%)
+    forward-verify   8/12 (66.7%)
+    McNemar exact: b=2 (self only) c=2 (verify only) p=1.000
+    single-candidate compounds (no choice to make): 4/12
+  MULTI-CANDIDATE ONLY (n=8):
+    self-ranking     4/8 (50.0%)
+    forward-verify   4/8 (50.0%)
+    McNemar exact: b=2 c=2 p=1.000
+  top-1 self vs verify, all 96: b=2 c=2 p=1.000
+
+calibration (verified pick correct vs forward-match chamfer):
+  0-2 ppm: 48/122 correct (39%)
+  2-4 ppm: 7/54 correct (13%)
+  4-8 ppm: 2/12 correct (17%)
+  8-999 ppm: 1/4 correct (25%)
+arms: data/fverify, data/fverify_main  (192 compounds with candidates)
+
+A. PERMUTATION NEGATIVE-CONTROL (derangement, forward-verification)
+   real conditional-on-recall precision : 0.892  (58/65)
+   permuted (n=1000)                      : 0.738  [0.662-0.815]
+   empirical p: one-sided 0.0010  two-sided 0.0020
+   => verifier signal is real: 89% vs chance 74%
+
+B. ACCURACY-AT-COVERAGE (chamfer-margin confidence; >=2-candidate compounds)
+    coverage    n  top-1 acc
+       100%   138     21.7%
+        75%   104     24.0%
+        50%    69     27.5%
+        25%    34     23.5%
+   (n=138 multi-candidate compounds; 54 single-candidate compounds excluded)

@@ -265,10 +265,15 @@ def chamfer(pred, obs):
     return (a+b)/2
 
 def _load_cands():
-    rows = [json.loads(l) for l in open(CAND)]
+    # default: the 60-compound arm (the numbers Table 8 reports).
+    # --all: pool in the 134 main-round compounds for the n=194 candidate set.
+    arms = [CAND] + (["data/fverify_main/candidates.jsonl"] if "--all" in sys.argv else [])
     comps = defaultdict(list)
-    for r in rows:
-        comps[r["qid"] + r["dir"]].append(r)
+    for arm in arms:
+        for l in open(arm):
+            r = json.loads(l)
+            comps[arm + r["qid"] + r["dir"]].append(r)
+    print(f"candidate sets: {', '.join(arms)}")
     return comps
 
 def score():

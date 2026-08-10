@@ -77,6 +77,12 @@ def main():
     rows = [json.loads(l) for l in open(CAND)]
     pred = _load_preds("data/fverify/raw/*.json", "data/fverify/anon_map.json")
     pred.update(_load_preds("data/fverify2/raw/*.json", "data/fverify2/anon_map2.json"))
+    # The original run forward-predicted only 65 of the 217 new wide candidates, so the
+    # reported top-1 was a lower bound (an unpredicted candidate gets an infinite match
+    # distance and can never be selected). data/fverify_gw/ closes that gap.
+    if os.path.exists("data/fverify_gw/anon_map.json"):
+        pred.update(_load_preds("data/fverify_gw/raw/*.json",
+                                "data/fverify_gw/anon_map.json"))
 
     wide = {}
     for f in glob.glob("data/gw/raw/*.json"):

@@ -1,0 +1,17 @@
+W119  O=[N+]([O-])c1ccccc1C1COCC1O
+W120  COc1ccc(CSc2nnnn2Cc2cccc3c(C(=O)Nc4ccccc4)ccnc23)cc1
+W121  C=CCN(C)C(=O)C(c1ccccc1)c1c(C=O)n(C)c2cc(OC)c(OC)cc12
+W122  Cc1cc(C)c([Se]c2cc3ccccc3nc2-c2nccc(C(F)(F)F)n2)c(C)c1
+W123  CCN(CC)C(=O)c1ccc(C)cc1-c1ccc2ccc3cccc4ccc1c2c34
+W124  COc1c(-c2ccc(O)cc2)oc2cccc(O)c2c1=O
+W125  O=c1ccc2ccc(Cc3ccncn3)cc2o1
+W126  Cc1ccc(Oc2cc([N+](=O)[O-])ccc2SC#N)cc1
+W127  CCOc1ccc2c(C)c(-c3cc4ccccc4n(CC(F)(F)F)c3=O)c(=O)oc2c1
+W128  C=C(c1ccccc1)c1nc(-c2ccc(C)cc2)c(CCC(=O)N(C)c2ccc(C)cc2)s1
+W129  O=[N+]([O-])c1ccccc1C1(CO)CCO1
+W130  NC(=O)Cc1ccccc1[N+](=O)[O-]
+W131  C#CC(C)c1ccc(OC)c(-c2ccccc2F)c1
+W132  Cn1cc(C(=O)Nc2ccccc2F)c(=O)c2cc([N+](=O)[O-])ccc21
+W133  O=C(Nc1nc2ccccc2s1)c1cccc(-c2ccccc2C(F)(F)F)c1
+W134  O=c1ccc2ccc(OCc3ccncn3)cc2o1
+W135  CC(=O)c1cccc(CBr)c1

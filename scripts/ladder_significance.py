@@ -42,6 +42,11 @@ def _preds(rawglob, mapfile):
 def main():
     pred = _preds("data/fverify/raw/*.json", "data/fverify/anon_map.json")
     pred.update(_preds("data/fverify2/raw/*.json", "data/fverify2/anon_map2.json"))
+    # data/fverify_gw/ closes the §5.3 coverage gap (all 217 wide candidates predicted).
+    # It leaves every outcome below unchanged, but must be loaded so this script and
+    # score_generate_wide.py always see the identical candidate pool.
+    if os.path.exists("data/fverify_gw/anon_map.json"):
+        pred.update(_preds("data/fverify_gw/raw/*.json", "data/fverify_gw/anon_map.json"))
 
     wide = {}
     for f in glob.glob("data/gw/raw/*.json"):

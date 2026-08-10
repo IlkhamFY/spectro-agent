@@ -1,0 +1,17 @@
+Q153  CCCCC1CCCN1C(=O)OC(C)(C)C
+Q154  Clc1ccc(CNNc2nc(-c3ccccc3)c(-c3ccccc3)s2)cc1Cl
+Q155  Cc1ccc(NC(=O)NC(C)c2ccccc2)cc1
+Q156  C=CCC1C(c2ccc(OC)c(OC)c2)c2ccccc2C(=O)N1C
+Q157  CN1C(=O)C(=C(c2ccc([N+](=O)[O-])cc2)c2ccc([N+](=O)[O-])cc2)c2ccccc21
+Q158  Nc1ncc2c(-c3ccccc3)nn(-c3ccccc3)c2n1
+Q159  CC[Si](CC)(CC)C(=O)CC1CC1c1ccccc1
+Q160  COC(=O)c1ccc(C(Br)C(Br)(Br)Br)cc1
+Q161  C=C(C)C1CCCC(CCC=O)O1
+Q162  CC1(c2ccc(Cl)cc2)CC(c2ccc([N+](=O)[O-])cc2)=NO1
+Q163  CC1(c2ccc(Cl)cc2)CC(c2ccc([N+](=O)[O-])cc2)NO1
+Q164  C#CC(C)(C)Oc1cc(/C=C/C(=O)OC)c(N=[N+]=[N-])cc1OC
+Q165  C#CC(C)c1cccc(-c2ccccc2)n1
+Q166  Cc1ccc(Nc2cc3ccc(NC(C)c4ccccc4)nc3[nH]2)c(O)c1
+Q167  CC[Si](CC)(CC)OC1C=CC(c2ccccc2)C1
+Q168  CCCCCCCCN1CCCc2ccccc21
+Q169  Cc1ccc(NC(=O)CSc2nc3ccccc3c(=O)n2C(C)C)c(C)c1

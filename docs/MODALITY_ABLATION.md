@@ -39,10 +39,12 @@ The rule this yields, which the corrected design already implies but did not say
 **every arm of a modality ablation must be generated in the same campaign, with the same
 agent configuration, batch size and model, including the `full` arm.** Reusing archived
 predictions for the control arm silently reintroduces the confound the design exists to
-remove. Note that the formula-only control (§4.6 of the manuscript) is *not* affected by
-this: its comparison arm is drawn from the same archived run, but its direction is the
-robust one — removing information reduced accuracy — and its conclusion does not depend on
-the size of the drop.
+remove. Note that the formula-only control (§4.6 of the manuscript) shares this structure — its
+full-modality comparison arm re-uses the archived June predictions, verified byte-identical
+on all 60 top-1 answers — but is *not* impugned by it, because the direction runs the other
+way: the fresh arm is the one that reasoned harder, so the bias favours formula-only, and it
+still collapsed to 5%. A confound pushing against a finding cannot manufacture it. **§4.6 of
+the manuscript now discloses this explicitly** rather than leaving it in this file alone.
 
 ## Corrected design (implemented in `scripts/modality_ablation.py`)
 

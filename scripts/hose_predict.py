@@ -148,6 +148,52 @@ def predict_c13(smiles):
         out.append(sh)
     return out
 
+def resolved_sphere(smiles):
+    """Which sphere each carbon of `smiles` actually resolves at (None = prior
+    fallback). This is the §5.4 coverage diagnostic: a lookup can only separate
+    regioisomers at fine spheres, so the distribution here IS the explanation for
+    the lookup's failure."""
+    db = _load(); bins = db["bins"]
+    m = Chem.MolFromSmiles(smiles) if smiles else None
+    if m is None:
+        return []
+    arb = atom_rad_bits(m)
+    out = []
+    for a in range(m.GetNumAtoms()):
+        if m.GetAtomWithIdx(a).GetSymbol() != "C":
+            continue
+        hit = None
+        for r in RADII:
+            b = arb[a].get(r)
+            rec = bins.get(f"{r}:{b}") if b is not None else None
+            if rec and rec[1] >= MINN:
+                hit = r; break
+        out.append(hit)
+    return out
+
+def coverage():
+    """Report the resolved-sphere distribution over the candidate carbons."""
+    arms = ["data/fverify"] + (["data/fverify_main"] if "--all" in sys.argv else [])
+    smis = set()
+    for arm in arms:
+        for l in open(f"{arm}/candidates.jsonl"):
+            smis.add(json.loads(l)["smiles"])
+    tally = defaultdict(int); tot = 0
+    for s in sorted(smis):
+        for r in resolved_sphere(s):
+            tally[r] += 1; tot += 1
+    print(f"arms: {', '.join(arms)}  ({len(smis)} candidates, {tot} carbons)")
+    cum = 0
+    for r in RADII:
+        cum += tally[r]
+        print(f"  resolved at sphere r={r}: {tally[r]:6d} ({100*tally[r]/tot:4.1f}%)"
+              f"   cumulative {100*cum/tot:4.1f}%")
+    print(f"  prior fallback (unresolved): {tally[None]:6d} "
+          f"({100*tally[None]/tot:4.1f}%)")
+    coarse = tally[2] + tally[1] + tally[None]
+    print(f"  => only {100*tally[4]/tot:.0f}% resolve at the most specific sphere "
+          f"(r=4); {100*coarse/tot:.0f}% resolve only at r<=2 or not at all")
+
 def chamfer(pred, obs):
     if not pred or not obs:
         return 999.0
@@ -160,10 +206,15 @@ def ik14(s):
     return Chem.MolToInchiKey(m)[:14] if m else None
 
 def score():
-    rows = [json.loads(l) for l in open("data/fverify/candidates.jsonl")]
+    # default: the 60-compound arm (the numbers Table 8 reports).
+    # --all: pool in the 134 main-round compounds for the n=194 candidate set.
+    arms = ["data/fverify"] + (["data/fverify_main"] if "--all" in sys.argv else [])
     comps = defaultdict(list)
-    for r in rows:
-        comps[r["qid"] + r["dir"]].append(r)
+    for arm in arms:
+        for l in open(f"{arm}/candidates.jsonl"):
+            r = json.loads(l)
+            comps[arm + r["qid"] + r["dir"]].append(r)
+    print(f"arms: {', '.join(arms)}")
     self1 = hose1 = ceil = n = 0
     cself = chose = cn = 0
     cal = []
@@ -190,4 +241,5 @@ def score():
 
 if __name__ == "__main__":
     random.seed(7)
-    (build() if sys.argv[1] == "build" else score())
+    cmd = sys.argv[1]
+    build() if cmd == "build" else coverage() if cmd == "coverage" else score()

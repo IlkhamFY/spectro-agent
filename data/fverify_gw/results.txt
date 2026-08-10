@@ -1,0 +1,13 @@
+§5.3 prediction-coverage gap: what closing it does
+
+new wide candidates: 217
+  forward-predicted BEFORE: 65  AFTER: 217
+
+                                    65 predicted   217 predicted
+recall                                     25/60           25/60
+forward-verified top-1                     18/60           18/60
+precision | recall                         18/25           18/25
+
+compounds whose SELECTED candidate changed: 18/60
+  outcome flipped to correct: 0    to incorrect: 0
+  => every switch was wrong-structure -> wrong-structure

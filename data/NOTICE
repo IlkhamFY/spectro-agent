@@ -12,9 +12,18 @@ Two separable, individually-labelled source pools
 2. Chemotion RADAR4Chem FT-IR deposit — 1,888 records — CC-BY-SA-4.0
    DOI 10.22000/OGoEQGlsZGElrgst   (VERIFY this DOI resolves before release)
 
-The pools are kept separate so downstream users can take the CC-BY pool alone where the
-ShareAlike obligation is unwanted. Any combined or Chemotion-derived redistribution must
-be released under CC-BY-SA-4.0 (the more restrictive compatible licence).
+The pools are separable losslessly from the released file itself, so downstream users can
+take the CC-BY pool alone where the ShareAlike obligation is unwanted. The discriminator
+is each record's `source_doi`: Chemotion records carry the RADAR4Chem DOI prefix 10.22000,
+PMC records carry a PMC: accession. The released records do NOT carry a separate
+`license` column; run
+
+    python scripts/split_license_pools.py --write OUT/
+
+to materialise irexp_pmc.jsonl.gz (CC-BY-4.0) and irexp_chemotion.jsonl.gz
+(CC-BY-SA-4.0), each record stamped with its licence. Any combined or Chemotion-derived
+redistribution must be released under CC-BY-SA-4.0 (the more restrictive compatible
+licence).
 
 Attribution
 -----------

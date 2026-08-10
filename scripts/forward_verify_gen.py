@@ -92,7 +92,8 @@ def score():
         best = min(cands, key=lambda c: c["dist"]); ver1 += best["is_true"]
         if has: cond_n += 1; cond_ver += best["is_true"]
     P = lambda x, d: f"{x}/{d} ({100*x//max(d,1)}%)"
-    print(f"compounds: {n}   (missing predictions: {missing} candidates — run prep+forward-predict first)")
+    note = " — run prep+forward-predict first" if missing else " — coverage complete"
+    print(f"compounds: {n}   (missing predictions: {missing} candidates{note})")
     print(f"  recall (true in pool)          : {P(ceil,n)}")
     print(f"  top-1, FORWARD-VERIFIED (gen)  : {P(ver1,n)}   <- vs paper generate-wide 30%")
     print(f"  CONDITIONAL on recall          : {P(cond_ver,cond_n)}")

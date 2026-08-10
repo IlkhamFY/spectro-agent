@@ -1,0 +1,17 @@
+Q187  Cc1ccc(C2C(=O)CN(Cc3cccs3)C(=O)C2=NNc2ccc(Br)cc2)cc1
+Q188  C#CC(C)c1ccc(-c2ccccc2)cc1
+Q189  COc1cc(Cc2c(/C=C/C(=O)Nc3ccccc3)[nH]c3ccccc23)cc(OC)c1OC.CS(=O)(=O)O
+Q190  CCCCCCN1c2ccccc2OC(=O)c2ccc(-c3ccccc3)cc21
+Q191  Cc1ccc(-c2cc3cccc(Cl)c3c(=O)o2)cc1
+Q192  CCC(=O)c1c(C2CC2)c2ccccc2[nH]c1=O
+Q193  COc1ccc(/C=C/C(=O)OCc2ccc(Br)c(Br)c2)cc1OC
+Q194  CC1(C2CCCCC2)CO1
+Q195  COc1ccccc1C1(c2ccccc2)CCCC1=O
+Q196  COC(=O)C1(C)CC1C(=O)O
+Q197  CCN(CC)c1ccc(C(Cc2ccccc2)C(C=O)C(C[N+](=O)[O-])c2ccc(N(CC)CC)cc2)cc1
+Q198  COC(=O)c1cc2nc(-c3ccccc3)c(Nc3ccc([N+](=O)[O-])c([N+](=O)[O-])c3)nc2cc1OCc1nnnn1-c1ccc([N+](=O)[O-])cc1OC
+Q199  C#Cc1cc(/C=C/C(=O)OC)c(OC)c(C(C)(C)N=[N+]=[N-])c1
+Q200  C[Si](C)(C)C(=O)C1CC1Cc1ccc(F)cc1
+Q201  CCC(O)(/C=C/c1ccccc1)C(C)c1ccccc1
+Q202  O=C1CCCCCN1Cc1nnnn1-c1ccc(F)cc1
+Q203  C/C(O)=N/N=C(/NCC(C)C)c1ccccc1

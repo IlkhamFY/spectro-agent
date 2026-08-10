@@ -10,24 +10,32 @@
      the chamfer margin (2nd-best minus best) as a confidence score and answer only
      the most-confident fraction. Compounds with a single candidate have NO margin
      signal and are excluded (otherwise they spuriously dominate the confident end).
+
+Default: the 60-compound §5.2 arm (data/fverify/), i.e. the numbers §5.5 reports.
+`--all`: pools in the 134 main-round compounds (data/fverify_main/) for the n=194 set.
 """
-import json, glob, random
+import json, glob, random, sys
 from collections import defaultdict
 from specmetrics import chamfer
 
-cands = [json.loads(l) for l in open("data/fverify/candidates.jsonl")]
-amap = json.load(open("data/fverify/anon_map.json"))
-pred = {}
-for f in glob.glob("data/fverify/raw/*.json"):
-    pred.update(json.load(open(f)))
+ARMS = ["data/fverify"]
+if "--all" in sys.argv:
+    ARMS.append("data/fverify_main")
 
 # group: compound -> [(smiles, is_true, pred13c)], plus its observed 13C
 comp = defaultdict(list)
 obs = {}
-for c in cands:
-    k = (c["dir"], c["qid"])
-    comp[k].append((c["smiles"], c["is_true"], pred.get(amap.get(c["smiles"]))))
-    obs[k] = c["obs_c13"]
+for arm in ARMS:
+    cands = [json.loads(l) for l in open(f"{arm}/candidates.jsonl")]
+    amap = json.load(open(f"{arm}/anon_map.json"))
+    pred = {}
+    for f in glob.glob(f"{arm}/raw/*.json"):
+        pred.update(json.load(open(f)))
+    for c in cands:
+        k = (arm, c["dir"], c["qid"])
+        comp[k].append((c["smiles"], c["is_true"], pred.get(amap.get(c["smiles"]))))
+        obs[k] = c["obs_c13"]
+print(f"arms: {', '.join(ARMS)}  ({len(comp)} compounds with candidates)\n")
 
 keys = sorted(comp)
 recall_pos = [k for k in keys if any(t for _, t, _ in comp[k])]   # true is in candidate set

@@ -1,0 +1,17 @@
+W000  CCOC(=O)C1=C(N)Sc2oc(N)c(C#N)c2C1c1ccccc1Cl
+W001  Cc1cccc(Oc2ccc(SC#N)cc2[N+](=O)[O-])c1
+W002  CNc1ccc(-c2nnc(SCc3ccc(C)cc3)n2C)cc1
+W003  C=C(c1ccc(C)cc1)c1nc(-c2ccc(C)cc2)c(CCC(=O)Nc2ccccc2)s1
+W004  CCCCCCCCCCCS(=O)(=O)c1ccccc1NC(=O)c1ccccc1Cl
+W005  O=S(=O)(Cc1ccccc1Br)NCc1ccccc1O
+W006  CCCCCCC(=O)CCCc1ccc(O)c(OC)c1
+W007  Cc1ccc(CC(C)NS(=O)(=O)NC(=O)C(C)c2ccc(Cl)c(Cl)c2)cc1
+W008  COC(=O)CCOC#C[Si](C)(C)C
+W009  NS(=O)(=O)c1ccc(Cl)cc1CNc1ccccc1O
+W010  NS(=O)(=O)c1ccc(Cl)c(CNc2ccccc2O)c1
+W011  CCN(CC)C(=O)c1ccc(-c2ccc3ccc4cccc5ccc2c3c45)c(C)c1
+W012  Cc1ccc(N(/N=C/c2cccc(O)c2)C(=O)CC(=O)c2cccn2C)cc1
+W013  COCC(=O)OCC#C[Si](C)(C)C
+W014  Cn1cc(C(=O)Nc2ccc([N+](=O)[O-])cc2F)c(=O)c2ccccc21
+W015  C=C(C(=O)OC)C1=Cc2ccccc2C(=C)N1c1cccc(F)c1
+W016  C#CCON(SC)C(=O)OC(C)(C)C

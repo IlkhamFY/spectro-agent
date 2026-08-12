@@ -151,7 +151,12 @@ it is a strong trained baseline, whereas our contribution is the *open experimen
 data it (and others) can train on*, plus a *training-free* protocol and a blind
 benchmark to measure it.
 
-**LLMs as elucidators, and how this work differs.** General-purpose LLMs have been
+**LLMs as elucidators, and how this work differs.** The wider setting is by now
+established: LLMs orchestrating chemistry tools plan and execute real syntheses
+(ChemCrow[@mbran2024chemcrow], Coscientist[@boiko2023coscientist]), which is what makes
+the narrower question here worth asking — those systems *call* an elucidation routine,
+and this paper measures what such a routine can be expected to return. General-purpose
+LLMs have been
 applied off-the-shelf — Anthropic's forward/inverse white paper[@kamber2026chemist],
 SpectraLLM and SpecMol (multimodal LLMs over multi-spectral
 input)[@su2025spectrallm; @shen2025specmol], and knowledge-enhanced tree-search reasoning[@zhuang2025treesearch] — and dedicated multimodal
@@ -715,8 +720,10 @@ with the benchmark.
 ### 4.6 Is the model reading the spectra? A formula-only control
 
 Because every benchmark compound is mined from open-access literature, a frontier model
-may have encountered it during pretraining. The cheapest decisive test of whether that
-explains the headline number is to take the spectra away. We ran the identical blind
+may have encountered it during pretraining. Benchmark contamination of this kind is a
+general and well-documented hazard for LLM evaluation,[@xu2024contamination] and it is
+the objection any literature-mined benchmark must answer first. The cheapest decisive
+test of whether it explains the headline number is to take the spectra away. We ran the identical blind
 protocol with every spectral channel masked, so the solver receives the molecular formula
 and nothing else (`scripts/modality_ablation.py`, condition `formulaonly`; solvers were
 barred from reading any repository file or searching the web, and RDKit was permitted only
@@ -864,6 +871,17 @@ separately: precision falling 84%→72% as more near-degenerate isomers enter th
 neither the HOSE lookup nor the GNN escapes (§5.4). All three are the same fact seen from
 different angles — the predictor's resolution and the isomers' spacing are of the same
 order, so a sharper predictor, not a better search, is what would move them.
+
+That is a concrete, checkable prescription rather than a gesture, because predictors of
+the required sharpness already exist. Message-passing ensembles trained on large
+assigned-shift corpora reach ~1 ppm on ¹³C,[@williamson2024mpnn] and coupling a graph
+network to DFT-computed shielding tensors reaches 0.94 ppm[@han2024dftgnn] — roughly half
+the 1.21 ppm median spacing we measure between competing candidates, where our LLM
+predictor sits at or above it. A community benchmark now exists to compare such models on
+common ground,[@xu2025nmrbench] alongside curated experimental shift sets for calibrating
+them.[@cohen2023delta50] Dropping one into the verifier slot is the single change most
+likely to move §5.2's 89%, and §5.4 takes a first step in exactly that direction with a
+model we train ourselves.
 
 Conceptually this is **analogous to NMR-crystallography logic, with an LLM in place of
 the quantum chemistry** — an analogy, not an equivalence: where DP4/DP4+ rank candidates
@@ -1038,7 +1056,14 @@ radial-environment bins, spheres r=4→1 with a hybridisation prior fallback; 31
 molecules, 332,595 assigned carbons; held-out MAE 3.23 ppm, median 1.73). The second is a
 small **message-passing GNN** (4 layers, per-carbon ¹³C regression) trained on the identical
 dump, which reaches held-out MAE 1.70 ppm (median 1.02) — roughly twice as sharp, and an
-independently competent predictor.
+independently competent predictor. It is not a state-of-the-art one, and we do not present
+it as such: purpose-built ¹³C models reach ~1 ppm from message-passing
+ensembles[@williamson2024mpnn] and 0.94 ppm when a graph network is coupled to DFT
+shielding tensors,[@han2024dftgnn] on benchmarks now standardised for the
+comparison.[@xu2025nmrbench] Ours is deliberately modest, because the question here is
+*whether the predictor slot is where the leverage sits*, and answering that needs a
+predictor that differs from the lookup in method while holding data and evaluation fixed —
+not the best model available.
 
 **Table 8. Verifier comparison, conditional on recall**, on identical candidate sets.
 Only the ¹³C predictor changes between rows.

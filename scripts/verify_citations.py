@@ -58,8 +58,9 @@ def norm(s):
     s = unicodedata.normalize("NFKD", s)
     s = "".join(c for c in s if not unicodedata.combining(c))
     s = s.lower()
-    s = re.sub(r'[{}]', '', s)          # braces vanish; replacing them with a space
-    s = re.sub(r'\\[a-z]+', ' ', s)      # would split Schl{\\"o}rer into two words
+    s = re.sub(r'[{}$^_]', '', s)       # math/markup vanish; replacing them with a
+    s = re.sub(r'\\[a-z]+', ' ', s)      # space would split Schl{\\"o}rer, and would turn
+                                        # {$^{13}$}C into "13 c" against CrossRef's "13c"
     s = re.sub(r'[^a-z0-9 ]', ' ', s)
     return " ".join(s.split())
 

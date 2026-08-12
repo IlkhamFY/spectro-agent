@@ -201,11 +201,16 @@ under a plain chain-of-thought harness by Zhuang et al., and at **57.8%** when t
 add knowledge-enhanced tree-search reasoning[@zhuang2025treesearch] — so numbers across papers are not directly comparable; we
 therefore fix and release a single, pre-registered, RDKit-InChIKey protocol with
 bootstrap CIs. **(iii) A recall/verification
-decomposition:** existing benchmarks report a single aggregate score, whereas we factor
-performance into generation recall and verification precision and show *where* the task
-is lost. That decomposition is the part we find stable under the perturbations we could
-run: four Claude models, a second chemical domain, and four different verifiers all stay
-recall-bound (§4.4, §4.5, §5.4). It is not tested outside the Claude family (§7).
+decomposition:** existing *LLM* benchmarks report a single aggregate score, whereas we
+factor performance into generation recall and verification precision and show *where* the
+task is lost. The idea of separating these two stages is not new — it is structural to
+CASE, where the generator's output set and the ranker's ability to order it have always
+been distinct objects[@elyashberg2015case] — and that is the point of importing it: it is
+the natural frame for a system whose generator is a language model rather than an
+exhaustive enumerator, and no LLM elucidation benchmark had applied it. What we find is
+that the decomposition is stable under every perturbation we could run: four Claude
+models, a second chemical domain, and four different verifiers all stay recall-bound
+(§4.4, §4.5, §5.4). It is not tested outside the Claude family (§7).
 
 **Computational NMR for structure validation.** Our forward-verification method is
 the LLM analog of a workflow chemists already trust: assign a structure by computing

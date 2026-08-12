@@ -366,6 +366,12 @@ def check_snapshot_disclosure():
 # check looked only at documents. Reader-facing figures of merit are checked wherever
 # they live.
 RETIRED_IN_SCRIPTS = [
+    # The ESI figure captions live in build_pdf.py's SI_FIGS list, which is a second
+    # caption source just like the main-text one that had drifted. Fig S6 kept claiming
+    # "(n=19) ... 84% ... 73%" for weeks after §5.4 moved to n=65 / 91% / 89% / 85%,
+    # because fixing the main list left this one untouched.
+    (r'Conditional-on-recall top-1 \(n=19\)', "Fig S6 caption still says n=19 (now n=65)"),
+    (r"verifier's 84.. that the lookup \(73", "Fig S6 caption still says 84%/73% (now 89%/85%)"),
     (r'recall \(31%\)', "graphical abstract still quotes 31% recall (now 34%)"),
     (r'verification \(84%\)', "graphical abstract still quotes 84% precision (now 89%)"),
     (r'true structure 84% of the time', "abstract summary still quotes 84% (now 89%)"),

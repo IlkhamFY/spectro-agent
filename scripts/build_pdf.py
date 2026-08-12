@@ -29,9 +29,10 @@ SI_FIGS = [
      "(28.4→16.0\\%) while the generator's formula-correct candidates convert "
      "(28.4→35.1\\%)."),
     ("fig_verifier.png", "Learned-verifier probe (\\S5.4; a complement, not part of the "
-     "training-free protocol). (A) Conditional-on-recall top-1 (n=19) across four "
-     "verifiers: a GNN trained on the same nmrshiftdb2 data as the HOSE lookup recovers "
-     "the LLM verifier's 84\\% that the lookup (73\\%) could not. (B) Held-out $^{13}$C "
+     "training-free protocol). (A) Conditional-on-recall top-1 over the whole benchmark "
+     "(n=65) across four verifiers: a GNN trained on the same nmrshiftdb2 data as the "
+     "HOSE lookup reaches the LLM verifier's level (91\\% against 89\\%) where the "
+     "lookup (85\\%) does not move off the solver's own ranking. (B) Held-out $^{13}$C "
      "MAE --- the learned model is roughly 2$\\times$ sharper (1.70 vs 3.23 ppm)."),
 ]
 

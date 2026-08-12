@@ -153,8 +153,8 @@ benchmark to measure it.
 
 **LLMs as elucidators, and how this work differs.** General-purpose LLMs have been
 applied off-the-shelf — Anthropic's forward/inverse white paper[@kamber2026chemist],
-SpectraLLM and MolSpectLLM (multimodal LLMs over multi-spectral
-input)[@su2025spectrallm; @shen2025molspectllm], and knowledge-enhanced tree-search reasoning[@zhuang2025treesearch] — and dedicated multimodal
+SpectraLLM and SpecMol (multimodal LLMs over multi-spectral
+input)[@su2025spectrallm; @shen2025specmol], and knowledge-enhanced tree-search reasoning[@zhuang2025treesearch] — and dedicated multimodal
 *benchmarks* now exist, most prominently **MolPuzzle**[@guo2024molpuzzle] (IR+MS+¹H+¹³C elucidation
 puzzles with the molecular formula supplied). Closest to the present method,
 **IR-Agent**[@noh2025iragent] introduces a multi-agent LLM framework that emulates expert IR

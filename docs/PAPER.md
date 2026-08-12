@@ -216,6 +216,15 @@ between candidate structures[@pickard2001gipaw; @ashbrook2016nmrcryst]. We repla
 forward LLM, trading accuracy for zero setup cost, and inherit the same core
 principle — *verification by forward prediction is easier than inverse generation*.
 
+The loop is older than either. **Computer-assisted structure elucidation** (CASE) has
+generated candidates from spectral constraints and ranked them by predicted-versus-observed
+agreement since the 1990s, and it works: expert systems of this kind have resolved
+structures their authors called undecipherable and have overturned published
+assignments.[@elyashberg2012case; @elyashberg2015case] Our decomposition is best read as
+asking where an LLM sits inside a workflow chemists have used for thirty years — the
+generator, in CASE, is a strict structure enumerator whose recall is exhaustive by
+construction, which is exactly the axis on which we find the LLM weak.
+
 **The generate-and-forward-verify loop is not ours, and its best instantiation
 corroborates our diagnosis.** **NMR-Solver**[@jin2025nmrsolver] builds the same loop
 without any LLM: it retrieves and fragment-recombines candidates, then ranks them by
@@ -272,7 +281,12 @@ library.
 
 A per-compound IR band list, together with co-reported ¹H/¹³C NMR, follows a
 remarkably stable textual convention in the experimental sections of organic
-chemistry papers. We exploit this with a browser-free harvesting agent:
+chemistry papers. Mining that convention is a mature idea — ChemDataExtractor
+established the general toolkit for pulling chemical records out of primary
+literature[@swain2016chemdataextractor] — and what we add is a pipeline specialised to
+the *IR band list*, the modality those tools have largely passed over, together with
+the paired NMR and a resolved structure. We exploit this with a browser-free
+harvesting agent:
 
 - **Discovery.** Open-access primary literature is enumerated through the NCBI
   E-utilities and harvested in bulk from the PMC Open-Access Subset[@pmc_oa] on AWS S3

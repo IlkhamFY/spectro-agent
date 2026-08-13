@@ -146,7 +146,12 @@ NOT_RUN = [
     ("docs/MODELS.md", r"leave-one-out modality prompts|`noIR`, `noH`, `noC`",
      ["data/modality/out_noIR.json", "data/modality/out_noH.json",
       "data/modality/out_noC.json"], True),
-    ("docs/MODELS.md", r"Cross-vendor sweep", ["data/cross_vendor"], True),
+    # Vendor outputs, not the working directory. `cross_vendor_sweep.py prepare` writes
+    # prompts and a held-out key without invoking anything, so gating on the directory
+    # made preparing the sweep -- or even reading its prompts -- look like having run it.
+    # A solve_<V>.json only exists once a model has actually answered.
+    ("docs/MODELS.md", r"Cross-vendor sweep",
+     ["data/cross_vendor/solve_*.json", "data/cross_vendor/verify_*.json"], True),
 ]
 # artifacts that MUST exist because a reported table depends on them
 MUST_EXIST = [
@@ -166,8 +171,12 @@ def check_not_run(md):
                       f"if the arm was run, its row must move to the experiment table")
             continue
         for p in paths:
-            if must_be_absent and os.path.exists(p):
-                fail("D", f"{doc} claims this was never run, but {p} exists")
+            import glob as _glob
+            hits = _glob.glob(p) if any(c in p for c in "*?[") else (
+                [p] if os.path.exists(p) else [])
+            if must_be_absent and hits:
+                fail("D", f"{doc} claims this was never run, but "
+                          f"{', '.join(sorted(hits)[:3])} exists")
     for p, why in MUST_EXIST:
         if not os.path.exists(p) or (os.path.isdir(p) and not os.listdir(p)):
             fail("D", f"{why}: {p} is missing or empty, but the paper reports its result")

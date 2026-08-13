@@ -50,8 +50,9 @@ python scripts/cross_vendor_sweep.py prepare fverify60      # -> solve_prompt.md
 For **each** vendor `V` (e.g. `gpt`, `gemini`, `llama`):
 
 ```bash
-# 1. run V on data/cross_vendor/solve_prompt.md, closed-book, no tools.
-#    Save its JSON output (id -> [smiles, ...]) as:
+# 1. run V on each data/cross_vendor/solve_batches/solve_NN.md — six compounds per
+#    file, ONE FRESH CONTEXT PER FILE, closed-book, no tools. Merge the ten JSON
+#    replies into one object (id -> [smiles, ...]) and save it as:
 #    data/cross_vendor/solve_<V>.json
 python scripts/cross_vendor_sweep.py prep-verify <V>        # -> verify_prompt_<V>.md (blind)
 # 2. run V on data/cross_vendor/verify_prompt_<V>.md.
@@ -70,6 +71,18 @@ python scripts/cross_vendor_sweep.py score                  # cross-vendor decom
 columns show `n/a`), so you can collect generation first and add verification later.
 
 Notes:
+- **Context packing is part of the protocol, not a convenience.** §4.3 measures the same
+  20 compounds at 5% top-1 in one long context against 15% across bounded, reset ones, so
+  a vendor handed all 60 compounds at once is being run under the arm that depresses
+  accuracy and would look weaker than Claude for a reason unrelated to the model.
+  `prepare` therefore writes `solve_batches/solve_01..10.md` at six compounds each —
+  matching the §4.4 cross-model protocol — and `solve_prompt.md` is a reading copy that
+  says so at the top. Run one file per fresh context.
+- **No paid API is required.** Both stages are plain text in, JSON out, so a vendor can
+  be driven through its consumer chat interface exactly as Claude was, keeping the
+  zero-paid-API property of the headline protocol. Whatever the route, disable web
+  search and tools first: the closed-book guarantee is the one thing this harness cannot
+  check for you.
 - Both prompts ask for **JSON only**, with the exact schema spelled out in the file, so
   a model's raw response usually parses directly. SMILES are canonicalized and the
   formula-match constraint is stated, matching the headline protocol.

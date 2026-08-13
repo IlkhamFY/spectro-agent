@@ -29,6 +29,7 @@ from specmetrics import chamfer, ik14
 
 OUT = "data/cross_vendor"
 K = 3                                          # candidates requested per compound
+SOLVE_BATCH = 6                                # compounds per fresh context, as in §4.4
 
 SUBSETS = {
     "fverify60": ["data/benchmark_v3", "data/benchmark_v2_ctrl"],
@@ -118,8 +119,34 @@ def prepare(subset="fverify60"):
         if r["h"]:  b.append(f"1H NMR: {r['h']}")
         if r["c"]:  b.append(f"13C NMR: {r['c']}")
         blocks.append("\n".join(b))
+    # One file per batch, not one file for the run. Context packing is not a detail
+    # here: §4.3 measures the same 20 compounds at 5% top-1 in a single long context
+    # against 15% in bounded, reset contexts. A vendor handed all 60 at once is being
+    # run under the arm that depresses accuracy, and would look weaker than Claude for
+    # a reason that has nothing to do with the model. Six per context matches the §4.4
+    # cross-model protocol, which is the comparison this sweep is an extension of.
+    os.makedirs(f"{OUT}/solve_batches", exist_ok=True)
+    for old in glob.glob(f"{OUT}/solve_batches/solve_*.md"):
+        os.remove(old)
+    nb = (len(blocks) + SOLVE_BATCH - 1) // SOLVE_BATCH
+    for i in range(nb):
+        chunk = blocks[i * SOLVE_BATCH:(i + 1) * SOLVE_BATCH]
+        open(f"{OUT}/solve_batches/solve_{i+1:02d}.md", "w").write(
+            SOLVE_HEADER.format(K=K) + "\n\n".join(chunk) + "\n")
     open(f"{OUT}/solve_prompt.md", "w").write(
-        SOLVE_HEADER.format(K=K) + "\n\n".join(blocks) + "\n")
+        f"""# DO NOT RUN THIS FILE AS ONE PROMPT
+
+It holds all {len(blocks)} compounds so you can read the set in one place. Running it as a
+single prompt puts the vendor in the long-context arm that §4.3 measures at 5% top-1
+against 15% for bounded contexts, so the result would not be comparable to Claude's.
+
+Run `{OUT}/solve_batches/solve_01.md` … `solve_{nb:02d}.md` instead — {SOLVE_BATCH} compounds each,
+**a fresh context per file**, no history carried between them. Merge the {nb} JSON replies
+into one object and save it as {OUT}/solve_<vendor>.json.
+
+---
+
+""" + SOLVE_HEADER.format(K=K) + "\n\n".join(blocks) + "\n")
     # held-out key (never shown to any vendor)
     key = {r["mid"]: {k: r[k] for k in
                       ("src", "difficulty", "true_smiles", "true_ik", "obs_c13")}
@@ -129,8 +156,12 @@ def prepare(subset="fverify60"):
     print(f"subset {subset}: {len(rows)} compounds -> {OUT}/solve_prompt.md")
     print(f"held-out answer key -> {OUT}/key.json   (do NOT show to the model)")
     print(f"per-vendor template -> {OUT}/template_out.json")
+    print(f"batched solve prompts -> {OUT}/solve_batches/solve_01..{nb:02d}.md "
+          f"({SOLVE_BATCH} compounds each)")
     print("\nNext, for each vendor V:")
-    print(f"  1. run V on {OUT}/solve_prompt.md, save -> {OUT}/solve_<V>.json")
+    print(f"  1. run V on each {OUT}/solve_batches/solve_NN.md in a FRESH context "
+          f"(never all {len(blocks)} at once — see §4.3), merge the replies,")
+    print(f"     save -> {OUT}/solve_<V>.json")
     print(f"  2. python scripts/cross_vendor_sweep.py prep-verify <V>")
     print(f"  3. run V on {OUT}/verify_prompt_<V>.md, save -> {OUT}/verify_<V>.json")
     print(f"  4. python scripts/cross_vendor_sweep.py score")

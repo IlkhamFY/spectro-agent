@@ -255,9 +255,20 @@ def score():
               f"{v1:>9.0%}".replace('nan%', '  n/a') +
               (f"{prec:>10.0%}" if condn else f"{'n/a':>10}") +
               f"{flag:>24}")
-        print(f"{'':12}recall 95% CI [{100*r_lo:.0f}, {100*r_hi:.0f}]"
-              + (f"; verification precision {cond_ver}/{condn}" if condn else
-                 "; (no verify_*.json yet -> recall + self-rank only)"))
+        # Three distinct states used to collapse into one misleading footer. A vendor
+        # whose recall is zero has nothing to condition precision on, and telling its
+        # operator to go run a verify stage they already ran sends them chasing a file
+        # that is sitting on disk. And a partly-collected arm scores its unanswered
+        # compounds as misses, which is the right default but reads as a measured recall
+        # unless the coverage is printed beside it.
+        answered = sum(1 for mid in key if solve.get(mid))
+        note = (f"; verification precision {cond_ver}/{condn}" if condn else
+                "; no recall-positive compounds, so precision is undefined" if pred else
+                "; no verify_*.json yet -> recall + self-rank only")
+        if answered < len(key):
+            note += (f"; NOTE only {answered}/{len(key)} compounds answered — the other "
+                     f"{len(key)-answered} score as misses, so recall is a lower bound")
+        print(f"{'':12}recall 95% CI [{100*r_lo:.0f}, {100*r_hi:.0f}]" + note)
     # cross-vendor recall comparison (the portable claim is about recall)
     if len(rec_recall) > 1:
         print("\nPairwise recall difference (McNemar exact, paired compounds):")

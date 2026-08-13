@@ -8,7 +8,8 @@ authors can supply**.
 Every LLM result in the paper was produced by Anthropic Claude models invoked as
 independent sub-agents through the **Agent tool under a consumer claude.ai
 subscription**. No paid API, no fine-tuning, no model training is involved in the core
-protocol. (The two trained probes, §5.6 and §5.7, are *not* Claude models; see
+protocol. (The two trained probes, §5.4's GNN verifier and §5.6's generator, are *not*
+Claude models; see
 [Non-Claude components](#non-claude-components).)
 
 ---
@@ -61,7 +62,7 @@ three dated windows. They are listed separately rather than collapsed, because a
    §5.6 re-run does change that arm's *verified top-1*, because the number it replaces
    was never reproducible — §5.6 states this explicitly.
 
-All other later commits (figures, statistics, the §5.6/§5.7 trained probes) re-score
+All other later commits (figures, statistics, the §5.4/§5.6 trained probes) re-score
 frozen outputs and re-query no model.
 
 ### One asymmetry in §4.4, stated plainly
@@ -222,7 +223,7 @@ Listed so no reader mistakes them for part of the LLM system under test.
 |---|---|---|
 | §5.4 | HOSE-code ¹³C verifier | deterministic lookup over the nmrshiftdb2 dump; `scripts/hose_predict.py`, `data/fverify/hose_results.txt` |
 | §5.6 | trained-generator probe | ~16M-parameter ¹H/¹³C→SMILES transformer, ensemble of four, trained locally; `contrib/generator_probe/`, checkpoints on Zenodo |
-| §5.7 | learned ¹³C verifier | 4-layer message-passing GNN trained on the same nmrshiftdb2 dump; `scripts/gnn_predict.py`, `data/nmrshiftdb/gnn_c13.pt` |
+| §5.4 | learned ¹³C verifier | 4-layer message-passing GNN trained on the same nmrshiftdb2 dump; `scripts/gnn_predict.py`, `data/nmrshiftdb/gnn_c13.pt` |
 
 ## Specified but never run — no model was invoked
 

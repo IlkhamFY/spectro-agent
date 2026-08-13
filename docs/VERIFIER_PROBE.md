@@ -22,7 +22,7 @@ positioning is the authors' call.*
 
 ---
 
-## 5.7 The verifier gap is method, not just coverage: a learned ¹³C model closes it
+## Proposed subsection, since merged into §5.4 — the verifier gap is method, not just coverage: a learned ¹³C model closes it
 
 §5.4 swaps the LLM forward-predictor for a *deterministic* HOSE-code lookup and finds it
 does **not** help (14/19, 73%, *below* the LLM verifier's 16/19, 84%), attributing the

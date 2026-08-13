@@ -21,6 +21,9 @@ Checks:
   G  ground-truth structures reproduce the formula given to the solver
   H  literal values baked into figure scripts still match the data
   I  a claim corrected in one document is corrected in all of them
+  J  the model-snapshot disclosure is intact and internally consistent
+  K  reader-facing numbers written into scripts still match the paper
+  L  every section cross-reference names a section the paper actually has
 """
 import gzip, json, os, re, sys
 
@@ -410,6 +413,40 @@ PENDING = [
 ]
 
 
+# ---- L. section cross-references ---------------------------------------------
+def check_section_refs():
+    """Every section number a document points at must be a section that exists.
+
+    The learned-verifier arm was drafted as its own subsection, numbered 5.7, and was
+    later folded into 5.4. The heading moved; five pointers to it did not. PAPER.md, the
+    cover letter and MODELS.md all went on directing a reader to a section that is not in
+    the paper -- and because each pointer is well-formed prose, nothing else here caught
+    it. Sections are cheap to enumerate, so enumerate them.
+    """
+    md = read(PAPER)
+    have = set()
+    for m in re.finditer(r'^#{2,4}\s+(\d+(?:\.\d+)?)[.\s]', md, re.M):
+        have.add(m.group(1))
+        have.add(m.group(1).split(".")[0])     # "5" from "5.4"
+    if not have:
+        fail("L", "no numbered section headings found in PAPER.md")
+        return
+    docs = [PAPER] + [os.path.join("docs", f) for f in sorted(os.listdir("docs"))
+                      if f.endswith(".md") and f != os.path.basename(PAPER)]
+    for doc in docs:
+        if not os.path.exists(doc):
+            continue
+        body = read(doc)
+        # Skip the historical drafts, which name the section they were proposed as.
+        for m in re.finditer(r'§(\d+(?:\.\d+)?)', body):
+            sec = m.group(1)
+            if sec in have:
+                continue
+            ctx = " ".join(body[max(0, m.start() - 90):m.start() + 40].split())
+            fail("L", f"{doc} points at §{sec}, which is not a section of the paper "
+                      f"— …{ctx}…")
+
+
 def report_pending():
     out = []
     for doc, pat, what in PENDING:
@@ -428,6 +465,7 @@ def main():
     check_snapshot_disclosure()
     check_scripts_numbers()
     check_propagation()
+    check_section_refs()
     pend = report_pending()
     if FAIL:
         print(f"MANUSCRIPT GATE: {len(FAIL)} problem(s)\n")
@@ -446,6 +484,7 @@ def main():
     print("  I every correction propagated to every file that made the claim")
     print("  J the unobtainable-snapshot disclosure is intact and consistent")
     print("  K reader-facing numbers inside scripts match the paper")
+    print("  L every § cross-reference names a section that exists")
     if pend:
         print(f"\nAWAITING THE AUTHORS ({len(pend)} item(s)) — not defects, and not "
               f"fillable by anyone else:")

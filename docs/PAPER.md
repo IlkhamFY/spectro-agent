@@ -99,10 +99,11 @@ snapshot, exposes no temperature or seed, and carries an undisclosed product sys
 so an outside group reproduces it distributionally rather than exactly (§8). What *is*
 exactly reproducible is the scoring — all predictions, ground truth and scorers are
 released, so every number in the training-free core (§3–§5.3, §4.6) regenerates from the
-released artifacts. The two trained probes are the exception: §5.4's HOSE lookup and GNN
-are built from an nmrshiftdb2 dump that we cannot redistribute, so those rows regenerate
-only once a reader supplies the same dump (see *Data and code availability*). Two
-trained probes (§5.6, §5.7) are reported separately as fenced complements.
+released artifacts. Two rows are the exception: §5.4's HOSE lookup and GNN are built from
+an nmrshiftdb2 dump we cannot redistribute, so they regenerate only once a reader supplies
+the same dump (see *Data and code availability*). The two trained probes — that GNN
+verifier and the §5.6 generator — are reported separately, as fenced complements to the
+training-free protocol rather than part of it.
 By construction this is an open-resource contribution in the remit of *Digital Discovery*:
 an openly licensed, structure-linked spectral dataset; a pre-registered, mechanically scored
 benchmark with released ground truth and scorer; and a training-free, zero-paid-API core

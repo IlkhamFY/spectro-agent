@@ -35,7 +35,7 @@ structural complexity, and where a within-compound control shows reported number
 sensitive to how a problem is posed. And a training-free **forward-verification** recipe,
 run over every benchmark compound. The two levers are distinct and we keep them apart:
 verification re-ranks a fixed candidate set and lifts top-1 from 28% to 30%, while
-*generating wider* is what moves recall — 31% to 41%, carrying top-1 from 23% to 30% on the
+*generating wider* is what moves recall — 32% to 42%, carrying top-1 from 23% to 30% on the
 arm where both were tested. Every top-1 step is directional rather than statistically
 resolved (§5.2, §5.3); the recall gain is the better-supported effect.
 
@@ -638,15 +638,15 @@ handicapped by longer contexts. This does not affect the nesting or the Fable-vs
 contrast, but a clean re-run of the Opus arm under four six-compound contexts is the right
 fix and is listed as outstanding in `docs/MODELS.md`.
 
-![Four-model comparison on a fixed 24-compound subset, solved blind under one protocol: Fable 5 45% > Opus 25% > Sonnet 20% > Haiku 0% top-1. The outcomes are strictly nested — each stronger model solves a superset of the weaker one's compounds — so the benchmark is capability-sensitive, but at n=24 it is underpowered to separate adjacent models (§4.4).](docs/figures/fig5_models.png)
+![Four-model comparison on a fixed 24-compound subset, solved blind under one protocol: Fable 5 46% > Opus 25% > Sonnet 21% > Haiku 0% top-1. The outcomes are strictly nested — each stronger model solves a superset of the weaker one's compounds — so the benchmark is capability-sensitive, but at n=24 it is underpowered to separate adjacent models (§4.4).](docs/figures/fig5_models.png)
 
 **Table 3. Four-model comparison on a fixed 24-compound subset** under the identical blind protocol.
 
 | model | top-1 | recovered | top-1 95% CI |
 |---|--:|--:|--:|
-| Claude Fable 5 | **45%** | 54% | [25, 67] |
+| Claude Fable 5 | **46%** | 54% | [25, 67] |
 | Claude Opus | 25% | 29% | [8, 42] |
-| Claude Sonnet | 20% | 25% | [8, 38] |
+| Claude Sonnet | 21% | 25% | [8, 38] |
 | Claude Haiku | **0%** | 4% | [0, 14] |
 
 CIs are bootstrap except Haiku's, which is the Clopper–Pearson exact interval for 0/24
@@ -663,9 +663,9 @@ multiple-comparison correction (Holm-adjusted p=0.006); the Fable-vs-Opus gap is
 significant (uncorrected p=0.063, Holm-adjusted p=0.19), and Opus vs Sonnet are
 statistically indistinguishable — the
 bootstrap CIs above overlap accordingly. Second, two mid-tier frontier models agree
-closely (Opus 25%, Sonnet 20%), so the recall-bound regime of §4.1 (top-1 in the
+closely (Opus 25%, Sonnet 21%), so the recall-bound regime of §4.1 (top-1 in the
 high-20s%) is **not an artefact of a single model**. Third, the newest model nearly **doubles** the
-next-best top-1 (45% vs 25% on identical compounds; a large but, at this n,
+next-best top-1 (46% vs 25% on identical compounds; a large but, at this n,
 not-yet-significant gap) yet still misses the majority — IRSpectra-Bench is **hard and
 far from saturated even for the strongest model available**, with clear headroom. We
 ran four Claude-family models because they are callable for free under one
@@ -937,11 +937,11 @@ actually lives.
 
 | |  60-compound arm | **full benchmark (n=194)** |
 |:------------------------------------------------|-----------------:|---------------------------:|
-| generation recall | 19/60 (31%) | **65/194 (34%)** |
+| generation recall | 19/60 (32%) | **65/194 (34%)** |
 | top-1, solver self-ranking | 14/60 (23%) | 55/194 (28%) |
-| top-1, **forward-verified re-ranking** | 16/60 (26%) | **58/194 (30%)** |
+| top-1, **forward-verified re-ranking** | 16/60 (27%) | **58/194 (30%)** |
 | | | |
-| *conditional on recall* — self-ranking | 14/19 (73%) | 55/65 (**85%**) |
+| *conditional on recall* — self-ranking | 14/19 (74%) | 55/65 (**85%**) |
 | *conditional on recall* — **forward-verification** | 16/19 (**84%**) | 58/65 (**89%**) |
 | …single-candidate compounds within that set | 6/19 | 28/65 |
 | | | |
@@ -1019,23 +1019,23 @@ this arm only, so the comparison is held to it.
 
 | | original (60-compound arm) | generate-wide |
 |---|--:|--:|
-| recall (true structure among candidates) | 31% | **41%** |
-| forward-verified top-1 | 26% | **30%** |
+| recall (true structure among candidates) | 32% | **42%** |
+| forward-verified top-1 | 27% | **30%** |
 | verification precision (conditional on recall) | 84% | 72% |
 
-Wide generation lifts recall +10 points (31%→41%, i.e. 19/60→25/60) and exact top-1
-+7 points over the self-ranking baseline (23%→30%, 14/60→18/60) — equivalently +4 over
-the original forward-verified top-1 (26%→30%, 16/60→18/60, Table 7) — on the same 60
+Wide generation lifts recall +10 points (32%→42%, i.e. 19/60→25/60) and exact top-1
++7 points over the self-ranking baseline (23%→30%, 14/60→18/60) — equivalently +3 over
+the original forward-verified top-1 (27%→30%, 16/60→18/60, Table 7) — on the same 60
 compounds (Fig. 6), with no training.
 
-![The forward-verification inference ladder on the 60-compound arm: solver self-ranking → + forward-verification → + generate-wide, at 23% / 26% / 30% top-1. Each rung is a training-free change to inference alone. The steps are directional rather than individually resolved at this sample size — the paired tests are in §5.3.](docs/figures/fig3_method.png)
+![The forward-verification inference ladder on the 60-compound arm: solver self-ranking → + forward-verification → + generate-wide, at 23% / 27% / 30% top-1. Each rung is a training-free change to inference alone. The steps are directional rather than individually resolved at this sample size — the paired tests are in §5.3.](docs/figures/fig3_method.png)
 
 The arm originally forward-predicted only **65 of
 the 217** distinct new candidates, which made its top-1 a lower bound rather than a
 measurement: an unpredicted candidate is assigned an infinite match distance and can
 never be selected, so recall could count every candidate while top-1 benefited only from
 the predicted subset. **We have since predicted all 217, and not one number moves** —
-recall 41%, forward-verified top-1 30%, precision 72%, identical to three significant
+recall 42%, forward-verified top-1 30%, precision 72%, identical to three significant
 figures. The bound was tight.
 
 What the added coverage does buy is a direct view of the mechanism. On **18 of the 60
@@ -1064,7 +1064,7 @@ Sustaining the ladder's first step would have been worth far more than it delive
 recall kept climbing at the rate the first widening bought (+10 points) while precision
 held at 84%, a second and third round would put top-1 near 50%. It does not, for two
 instructive reasons.
-**(i) Recall plateaus at 41%** — and the compounds it plateaus on are characterised by
+**(i) Recall plateaus at 42%** — and the compounds it plateaus on are characterised by
 size and ring count rather than by exotic elements. Comparing the 65 recall-positive
 against the 129 recall-negative compounds: median heavy atoms 16 vs 23, median ring count
 1 vs 3, and **≥4 rings in 3.1% of recalled compounds against 38.0% of missed ones**;
@@ -1105,8 +1105,8 @@ Only the ¹³C predictor changes between rows.
 
 | verifier | 60-compound arm (n=19) | full benchmark (n=65) | held-out ¹³C MAE |
 |---|--:|--:|--:|
-| solver self-ranking | 14/19 (73%) | 55/65 (85%) | — |
-| deterministic HOSE *lookup* | 14/19 (73%) | 55/65 (85%) | 3.23 ppm |
+| solver self-ranking | 14/19 (74%) | 55/65 (85%) | — |
+| deterministic HOSE *lookup* | 14/19 (74%) | 55/65 (85%) | 3.23 ppm |
 | **learned GNN (same data)** | 16/19 (84%) | **59/65 (91%)** | **1.70 ppm** |
 | LLM forward-verifier (§5.2) | 16/19 (84%) | 58/65 (89%) | — |
 
@@ -1197,7 +1197,7 @@ figures instead.
 ### 5.6 Is the recall wall task-intrinsic? A trained-generator probe
 
 The ceiling above is a property of *training-free LLM elicitation*; it leaves open
-whether the ~41% recall plateau is intrinsic to 1D-data elucidation or specific to how
+whether the ~42% recall plateau is intrinsic to 1D-data elucidation or specific to how
 LLMs are elicited. We test this with a complementary probe — a small (~16M-parameter)
 ¹H/¹³C→SMILES transformer (simulated-spectra pretraining, then fine-tuned on IRexp;
 ensemble of four), held **deliberately separate from the training-free protocol**. Its
@@ -1211,8 +1211,8 @@ near-degenerate regioisomers *collapse* the deterministic HOSE verifier
 (top-1 28.4%→16.0%, the §5.3 precision-loss mechanism), the generator's formula-correct,
 ¹³C-separable candidates **convert**: HOSE top-1 rises **28.4%→35.1%** (McNemar exact
 p=0.015; +6.7 points, 95% CI [+2.1, +11.9]; Fig. S5). With the stronger LLM
-forward-prediction verifier on the 60 forward-verify compounds, recall rises 41%→**56%**
-(34/60) and forward-verified top-1 reaches **46%** (28/60), at 82% precision conditional
+forward-prediction verifier on the 60 forward-verify compounds, recall rises 42%→**57%**
+(34/60) and forward-verified top-1 reaches **47%** (28/60), at 82% precision conditional
 on recall (28/34).
 
 Those last two figures are a **re-run, not a reproduction**, and the distinction matters.
@@ -1222,7 +1222,7 @@ therefore re-ran the arm from scratch under the identical blind protocol — the
 outstanding candidates forward-predicted by agents that saw the anonymised SMILES and
 nothing else — and **released every prediction** (`data/fverify_gen/raw/`), so
 `scripts/forward_verify_gen.py score` now regenerates all three numbers from the bundle
-with no missing predictions. The re-run lands *above* the figure it replaces (46% vs 41%
+with no missing predictions. The re-run lands *above* the figure it replaces (47% vs 41%
 top-1, 82% vs 73% precision); we report the reproducible one and flag that it was
 collected later than the June solver runs (`docs/MODELS.md`). The recall arm and the
 deterministic-HOSE re-rank were reproducible throughout and are unchanged.
@@ -1272,7 +1272,7 @@ the open question, not a settled one (§7). The improvement attached to it is re
 deliberately modest, and we measured its ceiling rather than projecting past it. Forward
 verification alone moves top-1 from 28% to 30% across the whole benchmark (§5.2), and
 adding wide generation takes 23% to 30% on the 60-compound arm where that was run — yet
-recall plateaus at 41%, verification precision falls to 72% as near-degenerate
+recall plateaus at 42%, verification precision falls to 72% as near-degenerate
 regioisomers accumulate (§5.3), and the match distance fails outright as a confidence
 gauge for selective prediction (§5.5, a reported null result).
 
@@ -1285,14 +1285,14 @@ training and improves with each model. IRexp's IR modality and 2D-NMR-ready
 provenance position it for the obvious next step: supplying the HMBC/COSY/NOESY
 constraints that would attack regiochemistry at the source. Our trained-generator probe
 (§5.6) sharpens the point: the recall wall is *elicitation-specific, not task-intrinsic*
-— a small generator fine-tuned on IRexp lifts it (recall 41→56%) — and because that gain
+— a small generator fine-tuned on IRexp lifts it (recall 42→57%) — and because that gain
 comes entirely from the released data (0→25% with fine-tuning, 0/248 without), it is the
 **open dataset**, not a bespoke architecture, that does the work when training does help.
 
 **Protocol is a lever of the same order as capability.** How a problem is posed and
 verified — bounded, reset contexts with tool access; generate-and-verify — moves accuracy
 enough that it must be reported alongside any capability claim. We do *not* claim it
-dominates capability: on the fixed 24-compound subset the model axis spans 0% to 45%
+dominates capability: on the fixed 24-compound subset the model axis spans 0% to 46%
 top-1 (Table 3), a wider range than the 5%→15% protocol effect in §4.3, and the two are
 measured on different sets. The point is that a number quoted without its protocol is
 uninterpretable, which echoes a recurring lesson across cheminformatics: careful pipeline
@@ -1331,7 +1331,7 @@ we state what remains plainly.
 *Resolved.* **Extraction noise:** an RDKit self-consistency audit (¹³C peak count vs
 symmetry-unique carbons, formula, SELFIES round-trip) finds **57/60 ground truths
 spectrally clean**, and the metrics are unchanged on that clean subset
-(self-ranking top-1 24% vs 23%, recall 33% vs 31% on the n=60 forward-verify set) — the
+(self-ranking top-1 25% vs 23%, recall 33% vs 32% on the n=60 forward-verify set) — the
 conclusions are not driven by scraping artefacts. **Verifier sample size:** forward
 verification now runs over **all 194 compounds**, not a 60-compound subset, so the
 recall-conditional claim rests on n=65 rather than n=19 and the §5.5 permutation control
@@ -1350,7 +1350,7 @@ demonstration of it. What remains beyond all of
 them is the near-degenerate-regiochemistry precision ceiling, where DFT-level accuracy or
 2D-NMR constraints are still the genuine fix. **Projection:** where an earlier draft
 estimated what generate-and-verify *would* reach, §5.3 now runs it — and the measurement
-(top-1 30%, recall 41%) came in below the estimate it replaces, which is reported as
+(top-1 30%, recall 42%) came in below the estimate it replaces, which is reported as
 found rather than adjusted.
 
 *Independence checks.* Scoring throughout is mechanical RDKit (not LLM-judged), and
@@ -1371,7 +1371,7 @@ precision from 89.2% to a chance mean of 73.8% (two-sided p=0.002 on the full be
 p=0.038 on the 60-compound arm alone) — the signal weakens
 to the chance floor under label-shuffle, as a correctly isolated blind evaluation requires. A second Claude model (Sonnet)
 re-solved a 12-compound subset under the identical generate-wide protocol and was comparably
-recall-bound (recall 33% vs Opus 41% on those compounds), consistent with the recall bound
+recall-bound (recall 33% vs Opus 42% on those compounds), consistent with the recall bound
 being a property of the task rather than of one model. As this is within the Claude family,
 it speaks to model-instance robustness, not cross-vendor generality.
 
@@ -1450,7 +1450,7 @@ never carried — but a stereochemistry-sensitive benchmark would need 2D/chirop
 prediction set (one decoupled run), so reported top-1/recall carry no run-to-run
 (LLM-sampling) variance estimate — the bootstrap CIs reflect compound sampling only. The
 generate-wide experiment (§5.3) pools ten independent generation passes (recall
-31%→41%), indicating generator stochasticity that single-pass scoring understates.
+32%→42%), indicating generator stochasticity that single-pass scoring understates.
 
 **(vii) Chemical-space coverage:** the benchmark is drawn from open-access organic
 methodology and total-synthesis literature, covering small-to-medium drug-like and
@@ -1501,7 +1501,7 @@ already produced (the §5.2 extension to all 194 compounds, the §5.3 coverage-g
 and the §5.6 re-run); none introduces a new candidate structure, and no recall number in
 the paper changes. One *verified* number does: the §5.6 re-run supersedes a top-1 whose
 original forward-prediction outputs were never deposited and are lost, and it does not
-agree with the figure it replaces (46% against 41%). §5.6 reports the reproducible one
+agree with the figure it replaces (47% against 41%). §5.6 reports the reproducible one
 and says plainly that it is a re-run rather than a reproduction.
 Decoding parameters are not exposed
 by the subscription harness and were neither set nor recorded, so re-running reproduces

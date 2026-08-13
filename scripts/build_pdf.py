@@ -92,6 +92,87 @@ def breakable_paths(md):
         return "`" + re.sub(r"([/_])", r"\1" + ZWSP, inner) + "`"
     return re.sub(r"`([^`\n]+)`", fix, md)
 
+SEP_RE = re.compile(r'^\|(?:\s*:?-{2,}:?\s*\|)+$')
+TABLE_MEASURE = 96          # target separator-row width, comfortably over pandoc's 72
+MIN_COL = 4                 # characters; below this a numeric column pinches its digits
+
+
+def _cell_len(cell):
+    """Rendered width of a markdown cell, ignoring markup that prints nothing."""
+    s = re.sub(r'\*\*|\*|`|~~', '', cell.strip())
+    s = re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1', s)      # [text](link) -> text
+    return len(s)
+
+
+def proportional_tables(md):
+    """Size each table column to the content it holds.
+
+    A pipe table tells pandoc its column widths through the *length* of the separator
+    row's dash runs -- but only when that row is longer than pandoc's --columns setting
+    (72 by default). Every table here was written in the compact `|---|--:|--:|` form,
+    which is shorter than that, so pandoc emitted no widths at all and the LaTeX writer
+    fell back to dividing the page equally. Table 2 then wrapped "scaffold-level (best
+    Tanimoto >= 0.45)" across two lines inside a quarter-page column while three columns
+    of short percentages sat half empty.
+
+    Rewriting the separator row -- proportional to the widest cell in each column, padded
+    past 72 characters -- makes pandoc emit the widths the content actually needs. The
+    compact source form stays readable; only what pandoc sees is rebuilt. Alignment
+    markers are carried across unchanged, so a right-aligned numeric column stays right-
+    aligned.
+    """
+    lines = md.split("\n")
+    out, i = [], 0
+    while i < len(lines):
+        if i + 1 < len(lines) and lines[i].startswith("|") and SEP_RE.match(lines[i + 1]):
+            j = i
+            while j < len(lines) and lines[j].startswith("|"):
+                j += 1
+            rows = [[c for c in r.strip().strip("|").split("|")] for r in lines[i:j]]
+            aligns = [(c.strip().startswith(":"), c.strip().endswith(":"))
+                      for c in rows[1]]
+            n = len(aligns)
+            widths = [MIN_COL] * n
+            for r in rows[:1] + rows[2:]:
+                if len(r) != n:
+                    continue                    # ragged row: leave it out of the measure
+                for k, c in enumerate(r):
+                    widths[k] = max(widths[k], _cell_len(c))
+            # A character count is only a proxy for a typeset width, and digits and
+            # capitals run wider than the lowercase it is calibrated on. Two characters
+            # of slack per column keeps a header that just fits from wrapping anyway.
+            widths = [w + 2 for w in widths]
+            total = sum(widths)
+            scaled = [max(MIN_COL, round(w * TABLE_MEASURE / total)) for w in widths]
+            cells = []
+            for (left, right), w in zip(aligns, scaled):
+                if left and right:
+                    cells.append(":" + "-" * (w - 2) + ":")
+                elif right:
+                    cells.append("-" * (w - 1) + ":")
+                elif left:
+                    cells.append(":" + "-" * (w - 1))
+                else:
+                    cells.append("-" * w)
+            lines[i + 1] = "|" + "|".join(cells) + "|"
+            # Keep the caption with the table it names. pandoc renders the caption as an
+            # ordinary paragraph followed by a longtable, and LaTeX will happily break
+            # between them: Table 2's caption sat at the foot of p9 with its table
+            # overleaf. Reserve caption + header + body before letting the caption set.
+            if out and out[-1] == "" and len(out) > 1 and out[-2].startswith("**Table "):
+                k = len(out) - 2
+                while k > 0 and out[k - 1].strip():
+                    k -= 1
+                need = min(len(rows) + 4, 16)
+                out[k:k] = ["```{=latex}", f"\\needspace{{{need}\\baselineskip}}", "```", ""]
+            out.extend(lines[i:j])
+            i = j
+            continue
+        out.append(lines[i])
+        i += 1
+    return "\n".join(out)
+
+
 PREPRINT_SERVERS = {"arxiv", "chemrxiv", "biorxiv", "medrxiv"}
 
 
@@ -132,6 +213,7 @@ def header():
              # double gap. French spacing is the standard remedy and matches how RSC
              # sets its own PDFs.
              r"\frenchspacing",
+             r"\usepackage{needspace}",   # keep each table caption with its table
              # Long unbreakable DOIs in the reference list cannot hyphenate, so a
              # justified paragraph stretches interword space towards one word per line.
              # Set the generated bibliography ragged-right instead.
@@ -198,6 +280,7 @@ def build_esi(h_path, bib):
 def main():
     md = open("docs/PAPER.md").read()
     md = breakable_paths(md)
+    md = proportional_tables(md)
     # RSC requires a table-of-contents (graphical abstract) entry: one image plus a
     # <=250-character text summary. Appended as its own page so the submission bundle
     # carries it; journals lift it out of the PDF.

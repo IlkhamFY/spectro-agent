@@ -40,10 +40,10 @@ switch is wrong-structure → wrong-structure: more candidates, same ceiling.
 ## Result
 | | 60-compound arm | **all 194** |
 |---|--:|--:|
-| generation recall (true structure in candidate set) | 19/60 (31%) | **65/194 (34%)** |
+| generation recall (true structure in candidate set) | 19/60 (32%) | **65/194 (34%)** |
 | top-1, solver self-rank | 14/60 (23%) | 55/194 (28%) |
-| top-1, **forward-verified re-rank** | 16/60 (26%) | **58/194 (30%)** |
-| **conditional on true-in-set — self-rank** | 14/19 (73%) | 55/65 (**85%**) |
+| top-1, **forward-verified re-rank** | 16/60 (27%) | **58/194 (30%)** |
+| **conditional on true-in-set — self-rank** | 14/19 (74%) | 55/65 (**85%**) |
 | **conditional on true-in-set — forward-verify** | 16/19 (**84%**) | 58/65 (**89%**) |
 | …multi-candidate only — self-rank | 8/13 (62%) | 27/37 (73%) |
 | …multi-candidate only — forward-verify | 10/13 (77%) | **30/37 (81%)** |
@@ -64,7 +64,7 @@ which sharpens from one-sided p=0.019 (n=19) to **p=0.001** (n=65).
 So the system cleanly separates into two levers:
 - **Verifier (forward prediction): already strong (84%).** The generator–verifier
   gap is real and exploitable at current LLM forward-prediction accuracy.
-- **Generator (candidate recall): the bottleneck (31%).** This is where to invest.
+- **Generator (candidate recall): the bottleneck (32%).** This is where to invest.
 
 **Limitation.** Forward-match distance is a weak *abstention* signal at LLM
 precision: wrong regioisomers still match within ~2 ppm (chamfer 0–2 ppm bin is

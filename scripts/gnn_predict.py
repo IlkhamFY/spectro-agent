@@ -295,12 +295,12 @@ def score():
         if has:
             cn += 1; cself += s; cgnn += best["is_true"]
     print(f"compounds: {n}")
-    print(f"  ceiling (recall):              {ceil}/{n} ({100*ceil//n}%)")
-    print(f"  top-1 solver self-rank:        {self1}/{n} ({100*self1//n}%)")
-    print(f"  top-1 GNN-verified re-rank:    {gnn1}/{n} ({100*gnn1//n}%)")
+    print(f"  ceiling (recall):              {ceil}/{n} ({round(100*ceil/n)}%)")
+    print(f"  top-1 solver self-rank:        {self1}/{n} ({round(100*self1/n)}%)")
+    print(f"  top-1 GNN-verified re-rank:    {gnn1}/{n} ({round(100*gnn1/n)}%)")
     print(f"\n  CONDITIONAL on recall (n={cn}):")
-    print(f"    solver self-rank:  {cself}/{cn} ({100*cself//cn}%)")
-    print(f"    GNN-verify:        {cgnn}/{cn} ({100*cgnn//cn}%)   "
+    print(f"    solver self-rank:  {cself}/{cn} ({round(100*cself/cn)}%)")
+    print(f"    GNN-verify:        {cgnn}/{cn} ({round(100*cgnn/cn)}%)   "
           f"(HOSE 73%, LLM 84% on this set)")
 
 def control():

@@ -2,7 +2,7 @@
 
 **One line:** on 21 real scraped experimental compounds, blind structure
 elucidation from **formula + IR + ¹H + ¹³C** recovered the exact constitution
-**1/21 (4%)**, the right scaffold **6/21 (29%)**, and the right chemical family
+**1/21 (5%)**, the right scaffold **6/21 (29%)**, and the right chemical family
 **11/21 (52%)** (median Morgan-Tanimoto 0.30). The task is far from "solved" on
 realistic data — but the model usually lands in the right neighbourhood and
 fails on regiochemistry and exotic scaffolds.
@@ -29,8 +29,8 @@ molecule sizes (their stated gap).
 ## Results
 | metric | value |
 |---|--:|
-| exact constitution | **1/21 (4%)** |
-| exact incl. stereochemistry | 1/21 (4%) |
+| exact constitution | **1/21 (5%)** |
+| exact incl. stereochemistry | 1/21 (5%) |
 | right scaffold (Tanimoto ≥ 0.45) | 6/21 (29%) |
 | right family (Tanimoto ≥ 0.30) | 11/21 (52%) |
 | mean / median Tanimoto | 0.37 / 0.30 |

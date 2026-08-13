@@ -91,7 +91,7 @@ def score():
         n += 1; has = any(c["is_true"] for c in cands); ceil += has
         best = min(cands, key=lambda c: c["dist"]); ver1 += best["is_true"]
         if has: cond_n += 1; cond_ver += best["is_true"]
-    P = lambda x, d: f"{x}/{d} ({100*x//max(d,1)}%)"
+    P = lambda x, d: f"{x}/{d} ({round(100*x/max(d,1))}%)"
     note = " — run prep+forward-predict first" if missing else " — coverage complete"
     print(f"compounds: {n}   (missing predictions: {missing} candidates{note})")
     print(f"  recall (true in pool)          : {P(ceil,n)}")

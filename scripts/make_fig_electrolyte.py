@@ -58,5 +58,5 @@ ax.legend(loc="lower right", handlelength=1.0)
 # message in caption; no in-panel title
 plt.tight_layout(); plt.savefig("docs/figures/fig6_electrolyte.png")
 plt.close()
-ov1 = 100 * t1 // max(N, 1); ovr = 100 * rec // max(N, 1)
+ov1 = round(100*t1/max(N, 1)); ovr = round(100*rec/max(N, 1))
 print(f"wrote docs/figures/fig6_electrolyte.png  (n={N}, top-1 {ov1}%, recovered {ovr}%)")

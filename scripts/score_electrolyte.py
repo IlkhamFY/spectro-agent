@@ -22,7 +22,7 @@ for qid,ans in a.items():
     N+=1; t1+=a1; rec+=ar
     by[cl][0]+=1; by[cl][1]+=a1; by[cl][2]+=ar
 print(f"IRSpectra-Bench-Electrolyte: n={N} scored")
-print(f"  overall: top-1 {t1}/{N} ({100*t1//max(N,1)}%)  recovered {rec}/{N} ({100*rec//max(N,1)}%)")
+print(f"  overall: top-1 {t1}/{N} ({round(100*t1/max(N,1))}%)  recovered {rec}/{N} ({round(100*rec/max(N,1))}%)")
 print("  by electrolyte class:")
 for cl,(n,a1,ar) in sorted(by.items()):
-    print(f"    {cl:12} n={n}  top-1 {a1}/{n} ({100*a1//n if n else 0}%)  recovered {ar}/{n}")
+    print(f"    {cl:12} n={n}  top-1 {a1}/{n} ({round(100*a1/n if n else 0)}%)  recovered {ar}/{n}")

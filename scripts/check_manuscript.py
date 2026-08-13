@@ -115,7 +115,11 @@ def check_dataset_counts(md):
 def check_fractions(md):
     for m in re.finditer(r'(\d+)/(\d+)\s*\(\*{0,2}(\d+)%', md):
         a, b, p = int(m.group(1)), int(m.group(2)), int(m.group(3))
-        if b and abs(100 * a / b - p) > 1.05:
+        # Half a point, not a point and a half. The looser bound admitted floor-rounding,
+        # and several scorers used it: 19/60 printed as "31%", 11/24 as "45%". The paper
+        # rounds everywhere else (28.4% for 55/194), so the mixed convention showed up as
+        # Fig. 3's plot annotating 46 above a caption that said 45.
+        if b and abs(100 * a / b - p) > 0.5:
             fail("B", f"{a}/{b} = {100*a/b:.1f}% but printed {p}%")
 
 

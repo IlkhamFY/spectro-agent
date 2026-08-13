@@ -353,10 +353,9 @@ at `data/audit/extraction_audit.json`.
 
 A structure-complete split, **`irexp_resolved`** (43,060 records, 100%
 structure-linked), is the training-/benchmark-ready subset and is ~6× the
-6,833-molecule set used to train Spectro[@chacko2024spectro] (Fig. S2). Provenance is 119,345 PMC-OA records
-(CC-BY) plus 1,888 Chemotion records (CC-BY-SA); the two licences are kept as
-separable pools. Each record is DOI-/accession-traceable. Re-resolution is additive
-and content-keyed, so the dataset can be re-enriched without re-mining.
+6,833-molecule set used to train Spectro[@chacko2024spectro] (Fig. S2). Every record is
+DOI-/accession-traceable, and re-resolution is additive and content-keyed, so the dataset
+can be re-enriched with better name-to-structure tooling without re-mining the literature.
 
 ---
 
@@ -389,18 +388,21 @@ leaves every conclusion in this paper unchanged. Readers who prefer the stricter
 regenerate it from the diagnostic. The 60 compounds of the controlled rounds are
 retained as fixed, pre-registered sets for the difficulty and within-compound controls,
 with the same self-consistency audit reported separately rather than used to exclude
-(57/60 pass; §7). Problems are stratified by RDKit ring analysis: a compound is **simple** iff it has at
-most two rings (single ring or two separate ring fragments), no fused/spiro/bridgehead
-system, and ≤22 heavy atoms; every other compound — any fused/spiro/bridged or ≥3-ring
-system, **or** more than 22 heavy atoms — is **complex** (98 simple / 96 complex). This
-binary difficulty axis is distinct from the continuous size gradient in §4.1, which bins
-by heavy-atom count (≤15 / 16–25 / >25). The
-criterion is therefore exhaustive (the 23–24-atom band, 13 compounds, is classed
-complex by size). The 22-atom threshold is not load-bearing: sweeping it from 18 to 26
-moves the simple-minus-complex top-1 gap only between 36 and 40 points (39.6 at the
-released value), so the separation is a property of the compounds rather than of where
-the line was drawn (`scripts/difficulty_sensitivity.py`). InChIKey de-duplication is
-applied across all rounds to prevent leakage.
+(57/60 pass; §7).
+
+**Difficulty is a declared property of the compound, not a post-hoc label.** Problems are
+stratified by RDKit ring analysis: a compound is **simple** iff it has at most two rings
+(a single ring or two separate ring fragments), no fused/spiro/bridgehead system, and ≤22
+heavy atoms; every other compound — any fused/spiro/bridged or ≥3-ring system, **or** more
+than 22 heavy atoms — is **complex** (98 simple / 96 complex). The criterion is exhaustive
+by construction: nothing falls between the two classes, and the 23–24-atom band (13
+compounds) is classed complex on size alone. Nor is the 22-atom threshold load-bearing —
+sweeping it from 18 to 26 moves the simple-minus-complex top-1 gap only between 36 and 40
+points (39.6 at the released value), so the separation is a property of the compounds
+rather than of where the line was drawn (`scripts/difficulty_sensitivity.py`). This binary
+axis is distinct from the continuous size gradient of §4.1, which bins by heavy-atom count
+(≤15 / 16–25 / >25). InChIKey de-duplication is applied across all rounds to prevent
+leakage.
 
 **Scoring is mechanical.** A prediction is *correct* if its RDKit InChIKey
 connectivity layer (first 14 characters) matches the reference — i.e. we score
@@ -445,7 +447,10 @@ Opus) is invoked as an independent sub-agent per batch of problems; agents are
 closed-book — configured with no web/tool access beyond an RDKit formula check and no
 access to ground truth, verified by grep-auditing their task transcripts at run time
 (audit logs available on request; the committed artefacts are the parsed per-compound
-predictions). Adherence to the supplied formula is high but imperfect: 91.3% (115/126)
+predictions). Running under a subscription rather than a metered API is what makes the
+benchmark free to re-run: reproducing the headline number costs no API credits.
+
+Adherence to the supplied formula is high but imperfect: 91.3% (115/126)
 of forward-verification candidates match the given molecular formula exactly (100% of
 true structures, 89.6% of decoys), and 76.6% across the full top-3 pool — a residual
 generator error orthogonal to regiochemistry.
@@ -459,7 +464,6 @@ explicitly handed, for about one main-round compound in five. Those answers are 
 misses like any other, so this inflates nothing; it does mean the formula check described
 above was not equally effective in every round, and the main-round arm should be read as
 the weakest-constrained one. `scripts/analyze_misses.py` regenerates the breakdown.
-This makes the benchmark free to run and reproducible without API credits.
 
 ---
 
@@ -507,7 +511,8 @@ constitutional isomers of the true structure** — exactly the right atoms, asse
 wrongly — against 23.4% with the wrong molecular formula outright. The composition is
 usually right; the connectivity is not.
 
-The narrower reading often given to this result is not supported. Only **22.6%** of misses
+It is tempting to compress that into "the model gets the regiochemistry wrong", and the
+data do not support the compression. Only **22.6%** of misses
 share the true Murcko scaffold, i.e. are genuine positional errors of the kind "*which*
 ring position the substituent occupies", and just 2.9% reach Tanimoto ≥ 0.85; the median
 Tanimoto between an isomeric miss and the truth is 0.39. So regiochemistry in the strict
@@ -541,7 +546,8 @@ them but not apportion the gap between them, so we do not claim a decomposition:
   most of the scaffold; we give no starting material. We do supply the molecular
   formula, which is itself a real constraint — §4.6 measures what it is worth alone
   (5% top-1 with the spectra masked) — so our setting is *less* hinted than that
-  comparison but more hinted than formula-free generative baselines (§4.2 above).
+  comparison but more hinted than the formula-free generative baselines discussed
+  below.
 - **Curation.** Prior compounds were hand-selected; ours are scraped and unfiltered
   for solvability.
 
@@ -562,7 +568,10 @@ but it is experimental data and the number stands. The two evaluations barely ov
 our compounds span 8–60 heavy atoms (median 20) and only **15 of 194 (8%)** fall inside
 their 6–13 window. Against our own ≤15-heavy-atom stratum (60.5%) their 63.8% is a
 near-tie; the divergence is a property of molecular size, which is exactly what §4.1
-measures and what an evaluation capped at 13 heavy atoms cannot see. Of the multimodal systems: Spectro (¹H/¹³C/IR→SELFIES, 6,833 molecules)
+measures and what an evaluation capped at 13 heavy atoms cannot see.
+
+The multimodal systems — those conditioning on IR *and* NMR, as we do — report higher
+numbers still, and each on data of its own making. Spectro (¹H/¹³C/IR→SELFIES, 6,833 molecules)
 reports **93%** overall test accuracy trained jointly with its IR vision model and
 **82%** with fixed embeddings — but on a 1,366-molecule held-out split
 whose IR is plotted from reference data and whose NMR is software-*predicted*, not
@@ -613,19 +622,20 @@ that gap, not a quantified contribution to it.
 
 ### 4.4 Model comparison: the benchmark ranks capability (and separates the extremes)
 
-A benchmark is only useful if it separates models. On a fixed 24-compound subset
-solved blind by four Claude models — spanning a wide capability range, including the
-newest (Fable 5) — under the identical protocol (Fig. 3):
+A benchmark is only useful if it separates models. We therefore solved a fixed
+24-compound subset blind with four Claude models spanning a wide capability range,
+including the newest (Fable 5), under one prompt, one scorer and one candidate budget
+(Fig. 3, Table 3).
 
-One asymmetry must be disclosed, because §4.3 shows the variable it concerns has a
-large effect. The three comparison models each solved the 24 compounds as four
-six-compound contexts, whereas the Opus column reuses the headline run, in which those
-same 24 items were packed as one six-compound and two twelve-compound contexts. Context
-packing is exactly the factor §4.3 measures at 5%→15%, so the Opus point estimate is not
-strictly protocol-matched to the other three and, if anything, is the arm handicapped by
-longer contexts. This does not affect the nesting or the Fable-vs-Haiku contrast, but a
-clean re-run of the Opus arm under four six-compound contexts is the right fix and is
-listed as outstanding in `docs/MODELS.md`.
+One asymmetry in that protocol must be disclosed, because §4.3 shows the variable it
+concerns has a large effect. The three comparison models each solved the 24 compounds as
+four six-compound contexts, whereas the Opus column reuses the headline run, in which
+those same 24 items were packed as one six-compound and two twelve-compound contexts.
+Context packing is exactly the factor §4.3 measures at 5%→15%, so the Opus point estimate
+is not strictly protocol-matched to the other three and, if anything, is the arm
+handicapped by longer contexts. This does not affect the nesting or the Fable-vs-Haiku
+contrast, but a clean re-run of the Opus arm under four six-compound contexts is the right
+fix and is listed as outstanding in `docs/MODELS.md`.
 
 ![Four-model comparison on a fixed 24-compound subset, solved blind under one protocol: Fable 5 45% > Opus 25% > Sonnet 20% > Haiku 0% top-1. The outcomes are strictly nested — each stronger model solves a superset of the weaker one's compounds — so the benchmark is capability-sensitive, but at n=24 it is underpowered to separate adjacent models (§4.4).](docs/figures/fig5_models.png)
 
@@ -750,8 +760,9 @@ to check that a proposed SMILES parses and matches the formula). A molecular for
 not determine constitution, so accuracy materially above the floor would indicate recall
 rather than reasoning.
 
-One asymmetry must be disclosed, because a companion experiment shows this exact
-structure can manufacture a large spurious effect. Only the **formula-only** arm was
+The two arms were not generated at the same time, which we disclose because a companion
+experiment shows this exact structure can manufacture a large spurious effect. Only the
+**formula-only** arm was
 freshly generated (2026-07-28); the **full-modality** comparison arm re-uses the
 archived June predictions — all 60 of its top-1 answers are byte-identical to that run.
 An earlier leave-one-out attempt built the same way (fresh ablated arm against archived
@@ -848,8 +859,7 @@ forward-predicted ¹³C spectra match the observed one at 0.42 vs 1.30 ppm.
 
 ![Forward-verification on a real benchmark regioisomer pair. Picolinamide and nicotinamide are indistinguishable to the inverse task, but their forward-predicted ¹³C spectra are not: the true isomer matches the observed spectrum at a chamfer of 0.42 ppm against 1.30 ppm for the alternative. This is the LLM analog of the DP4 / NMR-crystallography logic, with a forward language model in place of the quantum chemistry (§5.1).](docs/figures/fig_mechanism.png)
 
-We
-implemented the verifier as independent LLM agents that predict ¹³C shift lists from
+We implemented the verifier as independent LLM agents that predict ¹³C shift lists from
 SMILES alone, using pure reasoning with no tools. All candidates from all compounds were
 pooled, canonicalised, shuffled and anonymised, then split into fixed-size batches, so a
 predictor sees neither the observed spectrum, nor the target's identity, nor which
@@ -860,8 +870,8 @@ carries no information about which candidate is correct; it can at most let the 
 notice that two structures are isomers, which is already evident from either alone.
 Predicted and observed ¹³C peak sets were then compared with a symmetric chamfer distance.
 
-For balance — and because conditional precision is 72–89%, not 100% — the verifier also
-produces clear **false positives** on near-degenerate pairs. On the
+Conditional precision is 72–89%, not 100%, so the verifier also produces clear **false
+positives**, and one is worth showing at the same resolution as the success. On the
 2-(nitrophenyl)-2,3-dihydroquinazolin-4(1*H*)-one targets (C₁₄H₁₁N₃O₃), the forward
 predictor cannot separate the *ortho*- and *meta*-nitrophenyl regioisomers: their
 predicted ¹³C lie within its ~2 ppm error, and it ranks the wrong (2-nitrophenyl) isomer
@@ -948,8 +958,8 @@ same is now true of §5.3, whose coverage gap we also closed.)
 
 The decomposition is the finding. **When the true structure is among the candidates,
 forward verification selects it in 58 of 65 cases (89%)** — high in absolute terms and
-~15 points above the 74% derangement chance floor of §5.5 (given how few and
-near-degenerate the recall-positive candidate sets are). Extending the arm from 19
+~15 points above the 74% chance floor that §5.5 establishes by derangement, a floor that
+sits so high because the recall-positive candidate sets are small. Extending the arm from 19
 recall-positive compounds to 65 did not soften the claim; it firmed it, and it moved the
 §5.5 permutation control from marginal (one-sided p=0.019) to unambiguous (**p=0.001**).
 
@@ -1037,18 +1047,23 @@ ceiling of the paragraph below observed directly rather than inferred, and it is
 recall — not verification, and not prediction coverage — remains the binding constraint.
 Table 7 and this coverage analysis regenerate from the released artifacts via
 `scripts/score_generate_wide.py` and `scripts/forward_verify_gw.py`
-(`data/fverify_gw/results.txt`). **These top-1 differences are directional, not
-statistically resolved at n=60:** the 14/60→18/60 improvement is a four-compound
-difference, but the stages are **not** nested: going from self-ranking to generate-wide
-gains seven compounds and loses three, so the paired test is McNemar exact **p=0.34**
-(b=3, c=7). The intermediate steps are weaker still — self-rank→forward-verify p=0.63
-(b=1, c=3) and forward-verify→generate-wide p=0.69 (b=2, c=4). Discordant counts are
-computed from the released per-compound outcomes by `scripts/ladder_significance.py`.
-The recall gain is the better-supported effect. We therefore read
-the ladder as a demonstration that the *mechanism* works and that recall is the movable
-factor, not as a precise measurement of the size of the top-1 gain. But it does **not**
-reach the ~50% a naïve extrapolation would predict, for two instructive reasons:
-**(i) recall plateaus at 41%** — and the compounds it plateaus on are characterised by
+(`data/fverify_gw/results.txt`).
+
+**These top-1 differences are directional, not statistically resolved at n=60.** The
+14/60→18/60 improvement is a four-compound difference, and the stages are **not** nested:
+going from self-ranking to generate-wide gains seven compounds and loses three, so the
+paired test is McNemar exact **p=0.34** (b=3, c=7). The intermediate steps are weaker
+still — self-rank→forward-verify p=0.63 (b=1, c=3) and forward-verify→generate-wide p=0.69
+(b=2, c=4). Discordant counts are computed from the released per-compound outcomes by
+`scripts/ladder_significance.py`. The recall gain is the better-supported effect. We
+therefore read the ladder as a demonstration that the *mechanism* works and that recall is
+the movable factor, not as a precise measurement of the size of the top-1 gain.
+
+Sustaining the ladder's first step would have been worth far more than it delivers. Had
+recall kept climbing at the rate the first widening bought (+10 points) while precision
+held at 84%, a second and third round would put top-1 near 50%. It does not, for two
+instructive reasons.
+**(i) Recall plateaus at 41%** — and the compounds it plateaus on are characterised by
 size and ring count rather than by exotic elements. Comparing the 65 recall-positive
 against the 129 recall-negative compounds: median heavy atoms 16 vs 23, median ring count
 1 vs 3, and **≥4 rings in 3.1% of recalled compounds against 38.0% of missed ones**;
@@ -1056,7 +1071,7 @@ nitrogen density separates them too (≥4 N: 4.6% vs 17.1%). Selenium heterocycl
 like are memorable but marginal — Se appears in 2.3% of misses and none of the hits, and
 S, F, Cl and P show no separation whatsoever. Polycyclic, nitrogen-rich, large targets
 resist even six regiochemical variants; that is the pattern, and it is a mundane one
-(`scripts/analyze_misses.py`). And **(ii) verification precision falls 84%→72%** as more near-degenerate
+(`scripts/analyze_misses.py`). **(ii) Verification precision falls 84%→72%** as more near-degenerate
 regioisomers enter the pool and the ~2-ppm forward predictor can no longer separate
 them. This recall/precision tension is the honest ceiling of the training-free
 approach: the recall-bound diagnosis stands, and closing the gap further requires
@@ -1152,9 +1167,10 @@ its own spectrum — which observed ¹³C spectrum each candidate set is scored 
 and re-ran the verifier 1,000 times. On the full benchmark, conditional-on-recall
 precision falls from the true **89.2% (58/65)** to a permuted mean of **73.8%** (95% range
 66.2–81.5%; one-sided empirical p=0.001, two-sided p=0.002) — the verifier acts on real
-spectral agreement, not a candidate-list artefact. The same control on the 60-compound
-arm alone gives 84.2% against a permuted 66.4% (one-sided p=0.019): same effect, four
-times the evidence. The honest caveat is the height of the chance floor: because
+spectral agreement, not a candidate-list artefact. The same control on the 60-compound arm
+alone gives 84.2% against a permuted 66.4% (one-sided p=0.019) — the same effect, and the
+full-benchmark run establishes it on four times as many recall-positive compounds. The
+honest caveat is the height of the chance floor: because
 recall-positive compounds carry few and near-identical (regioisomeric) candidates, even a
 random pairing lands on the correct structure ~74% of the time, so the verifier's genuine
 margin over chance is **~15 points**, not the full 89% — real and significant, but to be
@@ -1246,18 +1262,20 @@ elucidators (best-candidate Tanimoto ≥ 0.45 for 56% of compounds, 73% of simpl
 best Tanimoto 0.59) and good **verifiers** (89% conditional on recall). Exact top-1 is
 throttled by candidate recall and by the regiochemical underdetermination intrinsic to 1D NMR.
 The contribution of this paper is therefore best read as a **diagnosis with a bounded,
-training-free improvement attached**, not as a method that solves the task. The
-diagnostic result is the durable take-away, and it held under every perturbation we were
-able to apply — four Claude models, a second chemical domain, four different verifiers:
-the wall is **generation recall**, not verification. Whether it holds outside the Claude
-family is the open question, not a settled one (§7). The accompanying improvement is real but
-deliberately modest — forward verification alone moves top-1 from 28% to 30% across the
-whole benchmark (§5.2), and adding wide generation takes 23% to 30% on the 60-compound
-arm where that was run; we show by direct measurement (§5.3) that this stays *below its own ceiling*
-(recall plateaus at 41%; verification precision falls to 72% as near-degenerate
-regioisomers accumulate), while the match distance fails as a confidence gauge for
-selective prediction (§5.5, a reported null result). This reframes the
-engineering problem. Rather than training a bespoke spectra→structure model — a
+training-free improvement attached**, not as a method that solves the task.
+
+The diagnosis is the durable half, and it held under every perturbation we were able to
+apply — four Claude models, a second chemical domain, four different verifiers: the wall
+is **generation recall**, not verification. Whether it holds outside the Claude family is
+the open question, not a settled one (§7). The improvement attached to it is real but
+deliberately modest, and we measured its ceiling rather than projecting past it. Forward
+verification alone moves top-1 from 28% to 30% across the whole benchmark (§5.2), and
+adding wide generation takes 23% to 30% on the 60-compound arm where that was run — yet
+recall plateaus at 41%, verification precision falls to 72% as near-degenerate
+regioisomers accumulate (§5.3), and the match distance fails outright as a confidence
+gauge for selective prediction (§5.5, a reported null result).
+
+This reframes the engineering problem. Rather than training a bespoke spectra→structure model — a
 target the frontier already meets at the scaffold level and that ages out each model
 generation — the durable levers are (i) **open, hard, honestly scored benchmarks**
 that expose specific failure modes (here, regiochemistry and recall), and (ii)
@@ -1329,9 +1347,10 @@ self-ranking), so it is suggestive
 that the deterministic failure was method rather than coverage alone, not a
 demonstration of it. What remains beyond all of
 them is the near-degenerate-regiochemistry precision ceiling, where DFT-level accuracy or
-2D-NMR constraints are still the genuine fix. **Projection:** §5.2's
-extrapolation is replaced by the **measured** §5.3
-result (top-1 30%, recall 41%) — and is honestly below the optimistic estimate.
+2D-NMR constraints are still the genuine fix. **Projection:** where an earlier draft
+estimated what generate-and-verify *would* reach, §5.3 now runs it — and the measurement
+(top-1 30%, recall 41%) came in below the estimate it replaces, which is reported as
+found rather than adjusted.
 
 *Independence checks.* Scoring throughout is mechanical RDKit (not LLM-judged), and
 all solver/verifier runs were transcript-audited *at generation time* for zero web and

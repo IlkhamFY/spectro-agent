@@ -125,11 +125,32 @@ def bibliography(tmpdir):
 def header():
     lines = [r"\usepackage{newunicodechar}", r"\usepackage{graphicx}",
              r"\renewcommand{\figurename}{Fig.}",
+             # TeX's default extra space after a period assumes the period ends a
+             # sentence. This text is dense with abbreviations that it does not --
+             # "Fig. 5", "e.g.", "i.e.", "vs.", and every abbreviated journal name in the
+             # bibliography ("Nat. Mach. Intell.") -- each of which acquires a visible
+             # double gap. French spacing is the standard remedy and matches how RSC
+             # sets its own PDFs.
+             r"\frenchspacing",
              # Long unbreakable DOIs in the reference list cannot hyphenate, so a
-             # justified paragraph stretches interword space to one-word-per-line.
+             # justified paragraph stretches interword space towards one word per line.
              # Set the generated bibliography ragged-right instead.
+             #
+             # The \raggedright has to go *inside* \CSLRightInline's \parbox. Setting it
+             # on the environment looks right and does nothing: \parbox begins with
+             # \@parboxrestore, which resets \rightskip to zero and so restores full
+             # justification for every entry. \sloppy survives that reset (it only
+             # touches \tolerance and \emergencystretch) and is still wanted, to keep an
+             # over-long DOI from running into the margin.
+             #
+             # Guarded, because this same preamble builds the ESI, which cites nothing
+             # and so never gets pandoc's citeproc block or \CSLRightInline with it.
              r"\usepackage{etoolbox}",
-             r"\AtBeginEnvironment{CSLReferences}{\raggedright\sloppy}"]
+             r"\ifcsdef{CSLRightInline}{"
+             r"\AtBeginEnvironment{CSLReferences}{\sloppy}"
+             r"\renewcommand{\CSLRightInline}[1]"
+             r"{\parbox[t]{\linewidth - \csllabelwidth}{\raggedright #1}\break}"
+             r"}{}"]
     for ch, cmd in UNI.items():
         lines.append(f"\\newunicodechar{{{ch}}}{{{cmd}}}")
     return "\n".join(lines)

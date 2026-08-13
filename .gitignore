@@ -50,3 +50,9 @@ data/modality/key.json
 
 # Cross-vendor sweep working files (prompts + held-out key) — regenerate via cross_vendor_sweep.py prepare
 data/cross_vendor/
+
+# credentials — never commit
+.env
+.env.*
+*.key
+*_api_key*

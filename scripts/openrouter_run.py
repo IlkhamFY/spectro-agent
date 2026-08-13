@@ -3,9 +3,9 @@
 Drive the cross-vendor sweep against OpenRouter.
 
 The sweep itself is vendor-agnostic (`scripts/cross_vendor_sweep.py`): it writes prompt
-files and reads JSON back. This is just a transport for models that have no chat UI we
-can drive by hand -- it sends each prompt file as its own request and saves the reply
-where `score` expects it.
+files and reads JSON back, so a model with a chat UI can be driven by hand. This is a
+transport for models that have no such UI -- it sends each prompt file as its own request
+and saves the reply where `score` expects it.
 
 Two properties matter and are enforced here rather than trusted:
 
@@ -15,18 +15,34 @@ Two properties matter and are enforced here rather than trusted:
     quietly run the vendor under the arm that depresses accuracy.
   * **Closed book.** No tools, no web plugin, no system prompt beyond the task file.
 
-  export OPENROUTER_API_KEY=...        # never stored in the repo; see .gitignore
-  python scripts/openrouter_run.py solve  <model> <vendor> [--budget 2.00]
-  python scripts/openrouter_run.py verify <model> <vendor> [--budget 2.00]
+Decoding parameters are left at each vendor's default, including reasoning effort. The
+Claude runs behind the paper were served by a subscription harness that exposes no
+decoding controls (§8), so tuning them per vendor here would add a degree of freedom the
+reference arm never had.
 
-Spend is read back from OpenRouter's own usage accounting after every call and the run
-aborts the moment it would cross --budget, so a runaway reasoning trace costs one request
-rather than the balance.
+  export OPENROUTER_API_KEY=...        # never stored in the repo; see .gitignore
+  python scripts/openrouter_run.py solve  <model> <vendor> [--budget 2.00] [--jobs 5]
+  python scripts/openrouter_run.py verify <model> <vendor> [--budget 2.00] [--jobs 5]
+
+Spend is read back from OpenRouter's own usage accounting and the run stops the moment it
+would cross --budget, so a runaway reasoning trace costs one request rather than the
+balance.
+
+Two transport details are load-bearing, both learned the hard way against a reasoning
+model that thinks for ten minutes before its first answer token:
+
+  * **Streaming, over HTTP/1.1.** A non-streaming request sends nothing while the model
+    reasons; the idle connection was being killed at ~5 minutes with an HTTP/2
+    INTERNAL_ERROR, which looks exactly like a model that refused to answer.
+  * **A generous token ceiling.** Six blind elucidations in one context cost this model
+    ~30k reasoning tokens before it emits any JSON. A 32k cap truncated it mid-thought:
+    full price, no answer, and a silent zero in the recall column.
 """
-import argparse, glob, json, os, re, subprocess, sys, time
+import argparse, glob, json, os, re, subprocess, sys, tempfile, threading
 
 OUT = "data/cross_vendor"
 API = "https://openrouter.ai/api/v1/chat/completions"
+MAX_TOKENS = 120_000          # headroom for a long reasoning trace *and* the answer
 
 
 def key():
@@ -36,32 +52,46 @@ def key():
     return k
 
 
-def call(model, prompt, k, max_tokens=32000, tries=3):
-    """One request, one context. Returns (text, usd)."""
-    payload = {"model": model, "max_tokens": max_tokens,
-               "messages": [{"role": "user", "content": prompt}],
-               "usage": {"include": True}}
-    for attempt in range(tries):
+def call(model, prompt, k, timeout=1800):
+    """One request, one context. Returns (text, usd, error)."""
+    body = {"model": model, "max_tokens": MAX_TOKENS, "stream": True,
+            "messages": [{"role": "user", "content": prompt}],
+            "usage": {"include": True}}
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+        json.dump(body, f); req = f.name
+    try:
         r = subprocess.run(
-            ["curl", "-sS", "--max-time", "900", API,
+            ["curl", "-sS", "--http1.1", "-N", "--max-time", str(timeout), API,
              "-H", f"Authorization: Bearer {k}",
-             "-H", "Content-Type: application/json",
-             "-d", json.dumps(payload)],
+             "-H", "Content-Type: application/json", "-d", f"@{req}"],
             capture_output=True, text=True)
+    finally:
+        os.unlink(req)
+    if r.returncode != 0:
+        return None, 0.0, f"curl {r.returncode}: {r.stderr.strip()[:120]}"
+
+    text, usd, err = [], 0.0, None
+    for line in r.stdout.splitlines():
+        if not line.startswith("data: "):
+            continue
+        chunk = line[6:].strip()
+        if chunk == "[DONE]":
+            break
         try:
-            d = json.loads(r.stdout)
+            d = json.loads(chunk)
         except Exception:
-            time.sleep(3 * (attempt + 1)); continue
+            continue
         if "error" in d:
-            msg = d["error"].get("message", "")
-            # a rate limit is worth waiting out; a bad model id or empty balance is not
-            if "rate" in msg.lower() and attempt < tries - 1:
-                time.sleep(10 * (attempt + 1)); continue
-            return None, 0.0, msg
-        txt = (d.get("choices") or [{}])[0].get("message", {}).get("content") or ""
-        usd = float((d.get("usage") or {}).get("cost") or 0.0)
-        return txt, usd, None
-    return None, 0.0, "no parseable reply after retries"
+            err = str(d["error"])[:160]; continue
+        for c in d.get("choices") or []:
+            # only the answer stream; a model's reasoning is not its reply
+            text.append((c.get("delta") or {}).get("content") or "")
+        if d.get("usage"):
+            usd = float(d["usage"].get("cost") or 0.0)
+    out = "".join(text)
+    if not out and not err:
+        err = "stream carried no answer content (truncated inside reasoning?)"
+    return out, usd, err
 
 
 def extract_json(txt):
@@ -69,18 +99,16 @@ def extract_json(txt):
     if not txt:
         return {}
     m = re.search(r'```(?:json)?\s*(.*?)```', txt, re.S)
-    body = m.group(1) if m else txt
-    try:
-        return json.loads(body)
-    except Exception:
-        pass
-    # fall back to the outermost balanced {...}
-    i, j = body.find("{"), body.rfind("}")
-    if i >= 0 and j > i:
+    for body in ([m.group(1)] if m else []) + [txt]:
         try:
-            return json.loads(body[i:j + 1])
+            return json.loads(body)
         except Exception:
-            pass
+            i, j = body.find("{"), body.rfind("}")
+            if i >= 0 and j > i:
+                try:
+                    return json.loads(body[i:j + 1])
+                except Exception:
+                    pass
     return {}
 
 
@@ -90,41 +118,62 @@ def split_batches(text):
     return [head + "\n" + r for r in rest] if rest else [text]
 
 
-def run(stage, model, vendor, budget):
+def run(stage, model, vendor, budget, jobs):
     k = key()
     if stage == "solve":
         files = sorted(glob.glob(f"{OUT}/solve_batches/solve_*.md"))
         if not files:
             sys.exit("no solve batches — run: python scripts/cross_vendor_sweep.py prepare")
-        prompts = [open(f).read() for f in files]
-        dest = f"{OUT}/solve_{vendor}.json"
+        prompts, dest = [open(f).read() for f in files], f"{OUT}/solve_{vendor}.json"
     else:
         src = f"{OUT}/verify_prompt_{vendor}.md"
         if not os.path.exists(src):
-            sys.exit(f"missing {src} — run: python scripts/cross_vendor_sweep.py prep-verify {vendor}")
-        prompts = split_batches(open(src).read())
-        dest = f"{OUT}/verify_{vendor}.json"
+            sys.exit(f"missing {src} — run: cross_vendor_sweep.py prep-verify {vendor}")
+        prompts, dest = split_batches(open(src).read()), f"{OUT}/verify_{vendor}.json"
 
-    merged, spent, failed = {}, 0.0, []
-    for i, p in enumerate(prompts, 1):
-        if spent >= budget:
-            failed.append(f"batch {i}+: stopped, ${spent:.3f} of ${budget:.2f} budget spent")
-            break
-        txt, usd, err = call(model, p, k)
-        spent += usd
-        if err:
-            failed.append(f"batch {i}: {err}")
-            print(f"  batch {i:>2}/{len(prompts)}  ERROR  {err[:70]}")
-            continue
-        got = extract_json(txt)
-        merged.update(got)
-        print(f"  batch {i:>2}/{len(prompts)}  {len(got):>3} keys  ${usd:.4f}  (running ${spent:.3f})")
+    results, lock, spend = [None] * len(prompts), threading.Lock(), [0.0]
+    stop = threading.Event()
+
+    def work(i):
+        if stop.is_set():
+            return
+        txt, usd, err = call(model, prompts[i], k)
+        with lock:
+            spend[0] += usd
+            results[i] = (extract_json(txt), usd, err)
+            n = len(results[i][0])
+            tag = f"ERROR {err[:60]}" if err and not n else f"{n:>3} keys"
+            print(f"  batch {i+1:>2}/{len(prompts)}  {tag}  ${usd:.4f}  "
+                  f"(total ${spend[0]:.3f})", flush=True)
+            if spend[0] >= budget:
+                stop.set()
+                print(f"  ! budget ${budget:.2f} reached — not starting further batches",
+                      flush=True)
+
+    # Batches are independent by construction, so they may as well run concurrently;
+    # sequentially this is 10 x ~12 min of pure waiting for a reasoning model.
+    pending, threads = list(range(len(prompts))), []
+    for i in pending:
+        t = threading.Thread(target=work, args=(i,)); t.start(); threads.append(t)
+        while sum(x.is_alive() for x in threads) >= jobs:
+            threads = [x for x in threads if x.is_alive() or not x.join(1)]
+    for t in threads:
+        t.join()
+
+    merged, failed = {}, []
+    for i, r in enumerate(results, 1):
+        if r is None:
+            failed.append(f"batch {i}: skipped (budget)")
+        elif r[2] and not r[0]:
+            failed.append(f"batch {i}: {r[2]}")
+        else:
+            merged.update(r[0])
     os.makedirs(OUT, exist_ok=True)
     json.dump(merged, open(dest, "w"), indent=0)
-    print(f"\n{vendor} {stage}: {len(merged)} entries -> {dest}   spent ${spent:.3f}")
+    print(f"\n{vendor} {stage}: {len(merged)} entries -> {dest}   spent ${spend[0]:.3f}")
     for f in failed:
         print(f"  ! {f}")
-    return spent
+    return spend[0]
 
 
 if __name__ == "__main__":
@@ -132,6 +181,7 @@ if __name__ == "__main__":
     ap.add_argument("stage", choices=["solve", "verify"])
     ap.add_argument("model")
     ap.add_argument("vendor")
-    ap.add_argument("--budget", type=float, default=2.00, help="hard USD ceiling for this run")
+    ap.add_argument("--budget", type=float, default=2.00, help="hard USD ceiling")
+    ap.add_argument("--jobs", type=int, default=5, help="concurrent batches")
     a = ap.parse_args()
-    run(a.stage, a.model, a.vendor, a.budget)
+    run(a.stage, a.model, a.vendor, a.budget, a.jobs)

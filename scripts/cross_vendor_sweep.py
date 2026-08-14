@@ -172,6 +172,14 @@ into one object and save it as {OUT}/solve_<vendor>.json.
     print(f"  4. python scripts/cross_vendor_sweep.py score")
 
 
+def _formula(smi):
+    """Molecular formula of a SMILES, or None if it does not parse."""
+    from rdkit import Chem
+    from rdkit.Chem.rdMolDescriptors import CalcMolFormula
+    m = Chem.MolFromSmiles(smi) if smi else None
+    return CalcMolFormula(m) if m else None
+
+
 def _canon(smi):
     from rdkit import Chem
     m = Chem.MolFromSmiles(smi) if smi else None
@@ -232,10 +240,15 @@ def score():
         pred = json.load(open(vp)) if os.path.exists(vp) else {}
         amap = json.load(open(amp)) if os.path.exists(amp) else {}
         recall, self1, ver1, condn, cond_ver = [], [], [], 0, 0
+        n_raw = n_parse = n_formula = 0          # output-contract adherence
         for mid, info in key.items():
             tik = info["true_ik"]; obs = info["obs_c13"]
-            cands = [_canon(s) for s in (solve.get(mid) or [])[:meta["k"]]]
+            raw = (solve.get(mid) or [])[:meta["k"]]
+            n_raw += len(raw)
+            cands = [_canon(s) for s in raw]
             cands = [c for c in cands if c]
+            n_parse += len(cands)
+            n_formula += sum(1 for c in cands if _formula(c) == _formula(info["true_smiles"]))
             iks = [ik14(c) for c in cands]
             has = tik in iks
             recall.append(int(has))
@@ -274,6 +287,17 @@ def score():
             note += (f"; NOTE only {answered}/{len(key)} compounds answered — the other "
                      f"{len(key)-answered} score as misses, so recall is a lower bound")
         print(f"{'':12}recall 95% CI [{100*r_lo:.0f}, {100*r_hi:.0f}]" + note)
+        # A vendor is only being measured on elucidation once it can return a parseable
+        # SMILES of the composition it was handed. Below that, a zero recall is a
+        # statement about instruction-following, and reading it as chemistry is the
+        # easiest mistake this table invites: the first pilot model returned 180
+        # candidates of which 2% carried the right formula and scored 0/60.
+        if n_raw:
+            adh = 100 * n_formula / n_raw
+            warn = "   <-- too low to interpret recall" if adh < 50 else ""
+            print(f"{'':12}output contract: {100*n_parse/n_raw:.0f}% parse, "
+                  f"{adh:.0f}% match the given formula "
+                  f"(Claude 78-95%, §3){warn}")
     # cross-vendor recall comparison (the portable claim is about recall)
     if len(rec_recall) > 1:
         print("\nPairwise recall difference (McNemar exact, paired compounds):")

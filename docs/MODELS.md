@@ -233,16 +233,29 @@ these runs appears in `docs/PAPER.md`,** and §7 (iii) stands unchanged: the pap
 single-vendor. They are recorded here because they were run, and this file's purpose is to
 say what was.
 
-| model | answered | generation recall | outcome |
-|---|--:|--:|---|
-| `nvidia/nemotron-3.5-lightning` | 60/60 | **0/60** | complete arm, solve + verify |
-| `deepseek/deepseek-v4-pro-0813` | 18/60 | **1/18** | 7 of 10 batches returned no answer |
+| model | answered | recall | candidates parsing | matching the given formula |
+|---|--:|--:|--:|--:|
+| `nvidia/nemotron-3.5-lightning` | 60/60 | **0/60** | 61% | **2%** |
+| `deepseek/deepseek-v4-pro-0813` | 18/60 | **1/18** | 93% | **35%** |
+| *Claude, same constraint (§3)* | — | — | — | *78–95%* |
 
-Neither has the power to test the claim. The portable quantity is the inequality
-*verification precision > generation recall*, and precision is conditional on recall — at
-zero recall there is nothing to condition on, so the comparison is undefined rather than
-negative. Read these as a demonstration that the harness runs end to end, not as evidence
-about any vendor.
+Neither has the power to test the claim, for two independent reasons.
+
+The first is arithmetic: the portable quantity is the inequality *verification precision >
+generation recall*, and precision is conditional on recall — at zero recall there is
+nothing to condition on, so the comparison is undefined rather than negative.
+
+The second is more basic and easier to misread. **Neither model can meet the output
+contract.** The task hands over a molecular formula and asks for candidates matching it;
+nemotron returned 180 candidates of which 61% parsed as molecules at all and 2% carried
+the right composition, several with literal spaces inside the SMILES. A model that cannot
+return a well-formed structure of the requested formula is not being measured on
+elucidation, and reading its 0/60 as a statement about chemistry is the mistake this table
+most invites. `cross_vendor_sweep.py score` now prints the parse and formula-adherence
+rates beside recall, and flags any vendor below 50% as too low to interpret.
+
+Read these as a demonstration that the harness runs end to end, not as evidence about any
+vendor.
 
 The DeepSeek failure is worth recording separately because it is a property of the model
 rather than of the transport: on seven batches it produced tens of thousands of reasoning

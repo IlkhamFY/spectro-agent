@@ -272,4 +272,8 @@ if __name__ == "__main__":
     if a.stage == "screen":
         screen(a.model)
     else:
+        # `vendor` is optional only so `screen <model>` can omit it. Without this,
+        # `solve <model>` would quietly write solve_screen.json and look like it worked.
+        if a.vendor == "screen":
+            ap.error(f"{a.stage} needs a vendor name: {a.stage} <model> <vendor>")
         run(a.stage, a.model, a.vendor, a.budget, a.jobs)

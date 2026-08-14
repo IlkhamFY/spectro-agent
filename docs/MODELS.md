@@ -233,11 +233,40 @@ these runs appears in `docs/PAPER.md`,** and §7 (iii) stands unchanged: the pap
 single-vendor. They are recorded here because they were run, and this file's purpose is to
 say what was.
 
-| model | answered | recall | candidates parsing | matching the given formula |
-|---|--:|--:|--:|--:|
-| `nvidia/nemotron-3.5-lightning` | 60/60 | **0/60** | 61% | **2%** |
-| `deepseek/deepseek-v4-pro-0813` | 18/60 | **1/18** | 93% | **35%** |
-| *Claude, same constraint (§3)* | — | — | — | *78–95%* |
+| model | ctx | answered | recall | parsing | matching the given formula |
+|---|--:|--:|--:|--:|--:|
+| `nvidia/nemotron-3.5-lightning` | 6 | 60/60 | **0/60** | 61% | **2%** |
+| `deepseek/deepseek-v4-pro-0813` | 6 | 18/60 | **1/18** | 93% | **35%** |
+| `deepseek/deepseek-v4-pro-0813` | **3** | 18/60 | **8/18** | 94% | **94%** |
+| *Claude, same constraint (§3)* | 2–12 | — | — | — | *78–95%* |
+
+**Context packing moved this model more than anything else we varied.** The two DeepSeek
+rows differ only in how many compounds shared a context — same model, same prompt, same
+constraint. At six it returned molecules of the wrong composition 65% of the time; at
+three it obeyed the formula 94% of the time, inside Claude's own band, and recall on the
+compounds it answered went 1/18 to 8/18 (McNemar over the paired 60, b=8 c=1, p=0.039).
+This is the §4.3 effect appearing in an unrelated model lineage, and larger there than the
+paper measures for Claude. Two caveats: the arms answered different subsets, so the recall
+comparison is partly confounded by *which* compounds got through, and 14 of 20 batches
+still failed to terminate. The formula-adherence half is the cleaner comparison, being
+measured over each arm's own output.
+
+**The central inequality replicates.** On the 3-per-context arm, forward verification is
+right far more often than generation is:
+
+| quantity | DeepSeek V4 Pro | Claude (Table 6, n=194) |
+|---|--:|--:|
+| generation recall (all 60, unanswered = miss) | 8/60 = 13% [7, 24] | 65/194 = 34% |
+| generation recall (18 answered only) | 8/18 = 44% [25, 66] | — |
+| verification precision, conditional on recall | 5/8 = **62%** [31, 86] | 58/65 = **89%** |
+
+Read against the full cohort, as the paper's own convention does, precision (62%) exceeds
+recall (13%) with non-overlapping intervals. Read against answered compounds only, 62%
+against 44%, the intervals overlap and the ordering is directional. Either way the sign
+matches Claude's, on a model from a different lab. This is the first non-Claude evidence
+for the paper's central decomposition — but it rests on **8 recall-positive compounds** in
+an arm that is 30% complete, so it belongs here rather than in the paper, and it is not
+reported in `docs/PAPER.md`.
 
 Neither has the power to test the claim, for two independent reasons.
 

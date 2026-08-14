@@ -52,6 +52,18 @@ def key():
     return k
 
 
+def account_usage(k):
+    """Total USD this key has spent, per OpenRouter — or None if unreachable."""
+    r = subprocess.run(
+        ["curl", "-sS", "--max-time", "30",
+         "-H", f"Authorization: Bearer {k}", "https://openrouter.ai/api/v1/credits"],
+        capture_output=True, text=True)
+    try:
+        return float(json.loads(r.stdout)["data"]["total_usage"])
+    except Exception:
+        return None
+
+
 def call(model, prompt, k, timeout=1800):
     """One request, one context. Returns (text, usd, error)."""
     body = {"model": model, "max_tokens": MAX_TOKENS, "stream": True,
@@ -131,8 +143,24 @@ def run(stage, model, vendor, budget, jobs):
             sys.exit(f"missing {src} — run: cross_vendor_sweep.py prep-verify {vendor}")
         prompts, dest = split_batches(open(src).read()), f"{OUT}/verify_{vendor}.json"
 
+    base = account_usage(k)
     results, lock, spend = [None] * len(prompts), threading.Lock(), [0.0]
     stop = threading.Event()
+
+    def over_budget():
+        """True once the run has cost --budget, counted from the account, not the replies.
+
+        Summing the usage each reply carries cannot see money already spent by requests
+        still in flight -- and a model that reasons until it dies never sends a reply at
+        all. That is not hypothetical: DeepSeek V4 Pro billed real tokens on seven of ten
+        batches it never answered, and this guard, watching only completions, stayed
+        silent throughout. Ask the account instead; it bills whether or not we get a
+        reply. Falls back to the completion sum if the balance endpoint is unreachable,
+        which is the weaker check but better than none.
+        """
+        now = account_usage(k)
+        used = (now - base) if now is not None and base is not None else spend[0]
+        return used >= budget, used
 
     def work(i):
         if stop.is_set():
@@ -144,21 +172,25 @@ def run(stage, model, vendor, budget, jobs):
             n = len(results[i][0])
             tag = f"ERROR {err[:60]}" if err and not n else f"{n:>3} keys"
             print(f"  batch {i+1:>2}/{len(prompts)}  {tag}  ${usd:.4f}  "
-                  f"(total ${spend[0]:.3f})", flush=True)
-            if spend[0] >= budget:
-                stop.set()
-                print(f"  ! budget ${budget:.2f} reached — not starting further batches",
-                      flush=True)
+                  f"(replies ${spend[0]:.3f})", flush=True)
 
     # Batches are independent by construction, so they may as well run concurrently;
-    # sequentially this is 10 x ~12 min of pure waiting for a reasoning model.
-    pending, threads = list(range(len(prompts))), []
-    for i in pending:
+    # sequentially this is 20 x ~15 min of pure waiting for a reasoning model.
+    threads = []
+    for i in range(len(prompts)):
+        hit, used = over_budget()
+        if hit:
+            stop.set()
+            print(f"  ! account spend ${used:.3f} reached the ${budget:.2f} budget — "
+                  f"not dispatching batch {i+1} or later", flush=True)
+            break
         t = threading.Thread(target=work, args=(i,)); t.start(); threads.append(t)
         while sum(x.is_alive() for x in threads) >= jobs:
             threads = [x for x in threads if x.is_alive() or not x.join(1)]
     for t in threads:
         t.join()
+    _, final = over_budget()
+    print(f"\naccount spend for this run: ${final:.3f}", flush=True)
 
     merged, failed = {}, []
     for i, r in enumerate(results, 1):

@@ -146,12 +146,6 @@ NOT_RUN = [
     ("docs/MODELS.md", r"leave-one-out modality prompts|`noIR`, `noH`, `noC`",
      ["data/modality/out_noIR.json", "data/modality/out_noH.json",
       "data/modality/out_noC.json"], True),
-    # Vendor outputs, not the working directory. `cross_vendor_sweep.py prepare` writes
-    # prompts and a held-out key without invoking anything, so gating on the directory
-    # made preparing the sweep -- or even reading its prompts -- look like having run it.
-    # A solve_<V>.json only exists once a model has actually answered.
-    ("docs/MODELS.md", r"Cross-vendor sweep",
-     ["data/cross_vendor/solve_*.json", "data/cross_vendor/verify_*.json"], True),
 ]
 # artifacts that MUST exist because a reported table depends on them
 MUST_EXIST = [
@@ -460,6 +454,32 @@ def check_section_refs():
                       f"— …{ctx}…")
 
 
+def check_cross_vendor_disclosure():
+    """What has been run against a vendor must match what MODELS.md says was run.
+
+    This began as a "never run" assertion keyed on the phrase "Cross-vendor sweep". Then a
+    pilot *was* run -- which is the transition the check exists to catch -- and the phrase
+    matched the new disclosure just as happily as the old one, so the gate kept failing a
+    document that had already been corrected. The topic name was never the claim. These
+    are.
+    """
+    import glob as _glob
+    body = read("docs/MODELS.md")
+    ran = sorted(_glob.glob("data/cross_vendor/solve_*.json") +
+                 _glob.glob("data/cross_vendor/verify_*.json"))
+    unrun = re.search(r"No vendor was run", body)
+    pilot = re.search(r"Cross-vendor sweep — pilot run", body)
+    if ran and unrun:
+        fail("D", "docs/MODELS.md says no vendor was run, but "
+                  f"{', '.join(os.path.basename(p) for p in ran[:3])} exist")
+    if ran and not pilot:
+        fail("D", f"{len(ran)} vendor output file(s) on disk but docs/MODELS.md carries "
+                  f"no record of a cross-vendor run")
+    if not (unrun or pilot):
+        fail("D", "docs/MODELS.md makes no cross-vendor disclosure either way — §7 (iii) "
+                  "rests on it")
+
+
 def report_pending():
     out = []
     for doc, pat, what in PENDING:
@@ -479,6 +499,7 @@ def main():
     check_scripts_numbers()
     check_propagation()
     check_section_refs()
+    check_cross_vendor_disclosure()
     pend = report_pending()
     if FAIL:
         print(f"MANUSCRIPT GATE: {len(FAIL)} problem(s)\n")

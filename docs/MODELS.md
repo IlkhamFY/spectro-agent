@@ -225,12 +225,38 @@ Listed so no reader mistakes them for part of the LLM system under test.
 | §5.6 | trained-generator probe | ~16M-parameter ¹H/¹³C→SMILES transformer, ensemble of four, trained locally; `contrib/generator_probe/`, checkpoints on Zenodo |
 | §5.4 | learned ¹³C verifier | 4-layer message-passing GNN trained on the same nmrshiftdb2 dump; `scripts/gnn_predict.py`, `data/nmrshiftdb/gnn_c13.pt` |
 
+## Cross-vendor sweep — pilot run, nothing reported
+
+Two non-Claude models were run through `scripts/cross_vendor_sweep.py` on 2026-08-13/14
+via OpenRouter (`scripts/openrouter_run.py`), on the `fverify60` subset. **No number from
+these runs appears in `docs/PAPER.md`,** and §7 (iii) stands unchanged: the paper remains
+single-vendor. They are recorded here because they were run, and this file's purpose is to
+say what was.
+
+| model | answered | generation recall | outcome |
+|---|--:|--:|---|
+| `nvidia/nemotron-3.5-lightning` | 60/60 | **0/60** | complete arm, solve + verify |
+| `deepseek/deepseek-v4-pro-0813` | 18/60 | **1/18** | 7 of 10 batches returned no answer |
+
+Neither has the power to test the claim. The portable quantity is the inequality
+*verification precision > generation recall*, and precision is conditional on recall — at
+zero recall there is nothing to condition on, so the comparison is undefined rather than
+negative. Read these as a demonstration that the harness runs end to end, not as evidence
+about any vendor.
+
+The DeepSeek failure is worth recording separately because it is a property of the model
+rather than of the transport: on seven batches it produced tens of thousands of reasoning
+tokens and exhausted a 120,000-token ceiling **without emitting a single answer token**.
+Six blind elucidations in one context is apparently past what it will commit to an answer
+on. The headline Claude run used 2–12 compounds per context, so a smaller context is still
+protocol-consistent and is the obvious thing to try first
+(`cross_vendor_sweep.py prepare <subset> <n>`).
+
+Outputs live in `data/cross_vendor/`, which is gitignored — it holds the held-out answer
+key, so nothing under it is committed.
+
 ## Specified but never run — no model was invoked
 
-- **Cross-vendor sweep** (`docs/CROSS_VENDOR.md`, `scripts/cross_vendor_sweep.py`): a
-  protocol kit for GPT-/Gemini-class and open-weight models. No vendor was run; the
-  working directory `data/cross_vendor/` is gitignored and absent. `docs/PAPER.md` §7 (iii)
-  says so.
 - **Modality ablation** (`scripts/modality_ablation.py`, `data/modality/`): the *leave-one-
   modality-out* arms (`noIR`, `noH`, `noC`) remain staged only — `prompt_noIR.txt`,
   `prompt_noH.txt`, `prompt_noC.txt` exist (2026-06-16, commit `f3fe901`) with no

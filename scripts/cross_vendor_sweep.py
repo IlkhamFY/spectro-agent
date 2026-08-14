@@ -14,7 +14,8 @@ done in a SEPARATE context with NO access to the observed spectrum (anonymized S
 only), exactly as in forward_verify.py — so a vendor cannot copy the observed peaks.
 
 Pipeline (per vendor V):
-  python scripts/cross_vendor_sweep.py prepare [subset]   # -> solve_prompt.md + key
+  python scripts/cross_vendor_sweep.py prepare [subset] [n]  # -> solve batches + key
+  #   n = compounds per fresh context (default 6, as in §4.4)
   #   run V on solve_prompt.md, save -> data/cross_vendor/solve_<V>.json  {mid:[smiles,...]}
   python scripts/cross_vendor_sweep.py prep-verify <V>    # -> verify_prompt_<V>.md (blind)
   #   run V on verify_prompt_<V>.md, save -> data/cross_vendor/verify_<V>.json {anon:[shifts]}
@@ -29,7 +30,11 @@ from specmetrics import chamfer, ik14
 
 OUT = "data/cross_vendor"
 K = 3                                          # candidates requested per compound
-SOLVE_BATCH = 6                                # compounds per fresh context, as in §4.4
+SOLVE_BATCH = 6      # compounds per fresh context; six matches the §4.4 cross-model arm.
+                     # Override with `prepare <subset> <n>`: the headline run used 2-12 per
+                     # context, so anything in that range stays protocol-consistent, and a
+                     # reasoning model that exhausts its token budget thinking about six at
+                     # once may only finish at two or three.
 
 SUBSETS = {
     "fverify60": ["data/benchmark_v3", "data/benchmark_v2_ctrl"],
@@ -107,7 +112,7 @@ def load_rows(subset):
 
 
 # ------------------------------------------------------------------------- stages
-def prepare(subset="fverify60"):
+def prepare(subset="fverify60", batch=SOLVE_BATCH):
     if subset not in SUBSETS:
         sys.exit(f"unknown subset {subset!r}; choose from {list(SUBSETS)}")
     rows = load_rows(subset)
@@ -128,9 +133,9 @@ def prepare(subset="fverify60"):
     os.makedirs(f"{OUT}/solve_batches", exist_ok=True)
     for old in glob.glob(f"{OUT}/solve_batches/solve_*.md"):
         os.remove(old)
-    nb = (len(blocks) + SOLVE_BATCH - 1) // SOLVE_BATCH
+    nb = (len(blocks) + batch - 1) // batch
     for i in range(nb):
-        chunk = blocks[i * SOLVE_BATCH:(i + 1) * SOLVE_BATCH]
+        chunk = blocks[i * batch:(i + 1) * batch]
         open(f"{OUT}/solve_batches/solve_{i+1:02d}.md", "w").write(
             SOLVE_HEADER.format(K=K) + "\n\n".join(chunk) + "\n")
     open(f"{OUT}/solve_prompt.md", "w").write(
@@ -140,7 +145,7 @@ It holds all {len(blocks)} compounds so you can read the set in one place. Runni
 single prompt puts the vendor in the long-context arm that §4.3 measures at 5% top-1
 against 15% for bounded contexts, so the result would not be comparable to Claude's.
 
-Run `{OUT}/solve_batches/solve_01.md` … `solve_{nb:02d}.md` instead — {SOLVE_BATCH} compounds each,
+Run `{OUT}/solve_batches/solve_01.md` … `solve_{nb:02d}.md` instead — {batch} compounds each,
 **a fresh context per file**, no history carried between them. Merge the {nb} JSON replies
 into one object and save it as {OUT}/solve_<vendor>.json.
 
@@ -157,7 +162,7 @@ into one object and save it as {OUT}/solve_<vendor>.json.
     print(f"held-out answer key -> {OUT}/key.json   (do NOT show to the model)")
     print(f"per-vendor template -> {OUT}/template_out.json")
     print(f"batched solve prompts -> {OUT}/solve_batches/solve_01..{nb:02d}.md "
-          f"({SOLVE_BATCH} compounds each)")
+          f"({batch} compounds each)")
     print("\nNext, for each vendor V:")
     print(f"  1. run V on each {OUT}/solve_batches/solve_NN.md in a FRESH context "
           f"(never all {len(blocks)} at once — see §4.3), merge the replies,")
@@ -284,7 +289,8 @@ def score():
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "prepare"
     if cmd == "prepare":
-        prepare(sys.argv[2] if len(sys.argv) > 2 else "fverify60")
+        prepare(sys.argv[2] if len(sys.argv) > 2 else "fverify60",
+                int(sys.argv[3]) if len(sys.argv) > 3 else SOLVE_BATCH)
     elif cmd == "prep-verify":
         prep_verify(sys.argv[2])
     elif cmd == "score":

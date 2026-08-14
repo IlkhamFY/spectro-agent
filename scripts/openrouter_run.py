@@ -21,6 +21,7 @@ decoding controls (§8), so tuning them per vendor here would add a degree of fr
 reference arm never had.
 
   export OPENROUTER_API_KEY=...        # never stored in the repo; see .gitignore
+  python scripts/openrouter_run.py screen <model>            # one batch: is it usable?
   python scripts/openrouter_run.py solve  <model> <vendor> [--budget 2.00] [--jobs 5]
   python scripts/openrouter_run.py verify <model> <vendor> [--budget 2.00] [--jobs 5]
 
@@ -130,6 +131,58 @@ def split_batches(text):
     return [head + "\n" + r for r in rest] if rest else [text]
 
 
+def screen(model, k=None):
+    """One batch, one verdict: can this model meet the task's output contract at all?
+
+    Worth a few cents before committing a full arm. The task hands over a molecular
+    formula and asks for candidates matching it; a model that returns unparseable strings,
+    or valid molecules of the wrong composition, is not going to be measured on
+    elucidation no matter how many batches you buy. The first pilot spent real money
+    discovering this the long way -- nemotron returned 180 candidates, 2% of which carried
+    the requested formula, and scored a zero that reads like a chemistry result.
+
+    Also catches the other cheap-to-detect failure: a model that never terminates.
+    """
+    from rdkit import Chem, RDLogger
+    from rdkit.Chem.rdMolDescriptors import CalcMolFormula
+    RDLogger.DisableLog("rdApp.*")
+    k = k or key()
+    f = sorted(glob.glob(f"{OUT}/solve_batches/solve_*.md"))
+    if not f:
+        sys.exit("no solve batches — run: python scripts/cross_vendor_sweep.py prepare")
+    keyf = json.load(open(f"{OUT}/key.json"))["key"]
+    print(f"screening {model} on {os.path.basename(f[0])} …", flush=True)
+    txt, usd, err = call(model, open(f[0]).read(), k)
+    got = extract_json(txt)
+    if err and not got:
+        print(f"  VERDICT: unusable — {err}\n  cost ${usd:.4f}")
+        return
+    raw = parse = form = 0
+    for mid, cands in got.items():
+        if mid not in keyf:
+            continue
+        want = CalcMolFormula(Chem.MolFromSmiles(keyf[mid]["true_smiles"]))
+        for c in (cands or [])[:3]:
+            raw += 1
+            m = Chem.MolFromSmiles(c or "")
+            if m:
+                parse += 1
+                form += (CalcMolFormula(m) == want)
+    if not raw:
+        print(f"  VERDICT: unusable — replied, but no candidates parsed out of the JSON"
+              f"\n  cost ${usd:.4f}")
+        return
+    p, fm = 100 * parse / raw, 100 * form / raw
+    verdict = ("usable" if fm >= 50 else
+               "marginal" if fm >= 25 else
+               "NOT WORTH A FULL ARM — cannot meet the output contract")
+    print(f"  compounds answered {len(got)}   candidates {raw}")
+    print(f"  parse {p:.0f}%   match the given formula {fm:.0f}%   (Claude 78-95%)")
+    print(f"  cost ${usd:.4f}  ->  extrapolated full 60-compound solve "
+          f"${usd*len(f):.2f}")
+    print(f"  VERDICT: {verdict}")
+
+
 def run(stage, model, vendor, budget, jobs):
     k = key()
     if stage == "solve":
@@ -210,10 +263,13 @@ def run(stage, model, vendor, budget, jobs):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("stage", choices=["solve", "verify"])
+    ap.add_argument("stage", choices=["solve", "verify", "screen"])
     ap.add_argument("model")
-    ap.add_argument("vendor")
+    ap.add_argument("vendor", nargs="?", default="screen")
     ap.add_argument("--budget", type=float, default=2.00, help="hard USD ceiling")
     ap.add_argument("--jobs", type=int, default=5, help="concurrent batches")
     a = ap.parse_args()
-    run(a.stage, a.model, a.vendor, a.budget, a.jobs)
+    if a.stage == "screen":
+        screen(a.model)
+    else:
+        run(a.stage, a.model, a.vendor, a.budget, a.jobs)

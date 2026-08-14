@@ -47,6 +47,23 @@ rates have different denominators, so the criterion is the inequality, not a dif
 python scripts/cross_vendor_sweep.py prepare fverify60      # -> solve_prompt.md + key.json
 ```
 
+**Screen each model first — it costs about a cent.**
+
+```bash
+export OPENROUTER_API_KEY=...
+python scripts/openrouter_run.py screen <model>     # one batch, ~90 s
+```
+
+The task hands the model a molecular formula and asks for candidates matching it. A model
+that returns unparseable strings, or valid molecules of the wrong composition, will score
+a zero that reads exactly like a chemistry result — and buying more batches will not
+change that. One batch answers it: `nvidia/nemotron-3.5-lightning` screens at 0% formula
+adherence for $0.011, against $0.13 to discover the same thing from a full arm and $1.75
+for the model that had to be abandoned mid-sweep. Screening also catches the other cheap
+failure, a model that never terminates.
+
+Below ~50% formula adherence, a full arm is not worth running. Claude sits at 78–95% (§3).
+
 For **each** vendor `V` (e.g. `gpt`, `gemini`, `llama`):
 
 ```bash

@@ -63,7 +63,9 @@ for xa, xb in [(31, 38), (64, 71)]:
     ax.add_patch(FancyArrowPatch((xa, 55), (xb, 55), arrowstyle="-|>",
                  mutation_scale=9, lw=1.0, color=fs.INK))
 
-ax.text(50, 5, "28% top-1 on blind, real spectra — recall (31%), not verification (84%), "
+# Figures of merit are the whole-benchmark ones (n=194), matching §5.2 — the graphical
+# abstract is the first thing an editor reads and must not quote a superseded subset.
+ax.text(50, 5, "28% top-1 on blind, real spectra — recall (34%), not verification (89%), "
         "is the wall", ha="center", va="center", fontsize=7.5, color=fs.INK)
 
 plt.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01)

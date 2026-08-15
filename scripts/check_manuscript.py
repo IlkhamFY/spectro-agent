@@ -21,6 +21,9 @@ Checks:
   G  ground-truth structures reproduce the formula given to the solver
   H  literal values baked into figure scripts still match the data
   I  a claim corrected in one document is corrected in all of them
+  J  the model-snapshot disclosure is intact and internally consistent
+  K  reader-facing numbers written into scripts still match the paper
+  L  every section cross-reference names a section the paper actually has
 """
 import gzip, json, os, re, sys
 
@@ -112,7 +115,11 @@ def check_dataset_counts(md):
 def check_fractions(md):
     for m in re.finditer(r'(\d+)/(\d+)\s*\(\*{0,2}(\d+)%', md):
         a, b, p = int(m.group(1)), int(m.group(2)), int(m.group(3))
-        if b and abs(100 * a / b - p) > 1.05:
+        # Half a point, not a point and a half. The looser bound admitted floor-rounding,
+        # and several scorers used it: 19/60 printed as "31%", 11/24 as "45%". The paper
+        # rounds everywhere else (28.4% for 55/194), so the mixed convention showed up as
+        # Fig. 3's plot annotating 46 above a caption that said 45.
+        if b and abs(100 * a / b - p) > 0.5:
             fail("B", f"{a}/{b} = {100*a/b:.1f}% but printed {p}%")
 
 
@@ -139,7 +146,6 @@ NOT_RUN = [
     ("docs/MODELS.md", r"leave-one-out modality prompts|`noIR`, `noH`, `noC`",
      ["data/modality/out_noIR.json", "data/modality/out_noH.json",
       "data/modality/out_noC.json"], True),
-    ("docs/MODELS.md", r"Cross-vendor sweep", ["data/cross_vendor"], True),
 ]
 # artifacts that MUST exist because a reported table depends on them
 MUST_EXIST = [
@@ -159,8 +165,12 @@ def check_not_run(md):
                       f"if the arm was run, its row must move to the experiment table")
             continue
         for p in paths:
-            if must_be_absent and os.path.exists(p):
-                fail("D", f"{doc} claims this was never run, but {p} exists")
+            import glob as _glob
+            hits = _glob.glob(p) if any(c in p for c in "*?[") else (
+                [p] if os.path.exists(p) else [])
+            if must_be_absent and hits:
+                fail("D", f"{doc} claims this was never run, but "
+                          f"{', '.join(sorted(hits)[:3])} exists")
     for p, why in MUST_EXIST:
         if not os.path.exists(p) or (os.path.isdir(p) and not os.listdir(p)):
             fail("D", f"{why}: {p} is missing or empty, but the paper reports its result")
@@ -358,6 +368,45 @@ def check_snapshot_disclosure():
         fail("J", "the mid-window-build-change caveat has gone missing")
 
 
+# ---- K. reader-facing numbers baked into scripts -----------------------------
+# The graphical abstract's summary text and the numbers drawn into its image are the
+# first things an editor reads, and both lived inside Python -- a string in build_pdf.py
+# and a matplotlib call in make_graphical_abstract.py. Both quoted "recall (31%), not
+# verification (84%)" for months after §5.2 moved to 34% / 89%, because every existing
+# check looked only at documents. Reader-facing figures of merit are checked wherever
+# they live.
+RETIRED_IN_SCRIPTS = [
+    # The ESI figure captions live in build_pdf.py's SI_FIGS list, which is a second
+    # caption source just like the main-text one that had drifted. Fig S6 kept claiming
+    # "(n=19) ... 84% ... 73%" for weeks after §5.4 moved to n=65 / 91% / 89% / 85%,
+    # because fixing the main list left this one untouched.
+    (r'Conditional-on-recall top-1 \(n=19\)', "Fig S6 caption still says n=19 (now n=65)"),
+    (r"verifier's 84.. that the lookup \(73", "Fig S6 caption still says 84%/73% (now 89%/85%)"),
+    (r'recall \(31%\)', "graphical abstract still quotes 31% recall (now 34%)"),
+    (r'verification \(84%\)', "graphical abstract still quotes 84% precision (now 89%)"),
+    (r'true structure 84% of the time', "abstract summary still quotes 84% (now 89%)"),
+    (r'proposed only 31% of the time', "abstract summary still quotes 31% (now 34%)"),
+    (r'19/60 = \s*31', "a figure caption still quotes 19/60 = 31% (now 65/194 = 34%)"),
+]
+READER_FACING = ["scripts/build_pdf.py", "scripts/make_graphical_abstract.py"]
+
+
+def check_scripts_numbers():
+    for path in READER_FACING:
+        if not os.path.exists(path):
+            fail("K", f"{path} is missing")
+            continue
+        body = read(path)
+        for pat, why in RETIRED_IN_SCRIPTS:
+            if re.search(pat, body):
+                fail("K", f"{path}: {why}")
+    # and the abstract must carry the live pair
+    ga = read("scripts/make_graphical_abstract.py")
+    if not re.search(r'recall \(34%\).*verification \(89%\)', ga):
+        fail("K", "make_graphical_abstract.py no longer states recall (34%) / "
+                  "verification (89%) — the image would disagree with §5.2")
+
+
 # ---- author-supplied items (reported, never failed) --------------------------
 # These cannot be filled in by anyone but the authors, and inventing any of them
 # would be worse for a reader than an acknowledged gap. The gate lists them so the
@@ -369,6 +418,66 @@ PENDING = [
     (PAPER, r'To be completed before submission.*funding', "funding sources and "
                                                            "acknowledgements"),
 ]
+
+
+# ---- L. section cross-references ---------------------------------------------
+def check_section_refs():
+    """Every section number a document points at must be a section that exists.
+
+    The learned-verifier arm was drafted as its own subsection, numbered 5.7, and was
+    later folded into 5.4. The heading moved; five pointers to it did not. PAPER.md, the
+    cover letter and MODELS.md all went on directing a reader to a section that is not in
+    the paper -- and because each pointer is well-formed prose, nothing else here caught
+    it. Sections are cheap to enumerate, so enumerate them.
+    """
+    md = read(PAPER)
+    have = set()
+    for m in re.finditer(r'^#{2,4}\s+(\d+(?:\.\d+)?)[.\s]', md, re.M):
+        have.add(m.group(1))
+        have.add(m.group(1).split(".")[0])     # "5" from "5.4"
+    if not have:
+        fail("L", "no numbered section headings found in PAPER.md")
+        return
+    docs = [PAPER] + [os.path.join("docs", f) for f in sorted(os.listdir("docs"))
+                      if f.endswith(".md") and f != os.path.basename(PAPER)]
+    for doc in docs:
+        if not os.path.exists(doc):
+            continue
+        body = read(doc)
+        # Skip the historical drafts, which name the section they were proposed as.
+        for m in re.finditer(r'§(\d+(?:\.\d+)?)', body):
+            sec = m.group(1)
+            if sec in have:
+                continue
+            ctx = " ".join(body[max(0, m.start() - 90):m.start() + 40].split())
+            fail("L", f"{doc} points at §{sec}, which is not a section of the paper "
+                      f"— …{ctx}…")
+
+
+def check_cross_vendor_disclosure():
+    """What has been run against a vendor must match what MODELS.md says was run.
+
+    This began as a "never run" assertion keyed on the phrase "Cross-vendor sweep". Then a
+    pilot *was* run -- which is the transition the check exists to catch -- and the phrase
+    matched the new disclosure just as happily as the old one, so the gate kept failing a
+    document that had already been corrected. The topic name was never the claim. These
+    are.
+    """
+    import glob as _glob
+    body = read("docs/MODELS.md")
+    ran = sorted(_glob.glob("data/cross_vendor/solve_*.json") +
+                 _glob.glob("data/cross_vendor/verify_*.json"))
+    unrun = re.search(r"No vendor was run", body)
+    pilot = re.search(r"Cross-vendor sweep — pilot run", body)
+    if ran and unrun:
+        fail("D", "docs/MODELS.md says no vendor was run, but "
+                  f"{', '.join(os.path.basename(p) for p in ran[:3])} exist")
+    if ran and not pilot:
+        fail("D", f"{len(ran)} vendor output file(s) on disk but docs/MODELS.md carries "
+                  f"no record of a cross-vendor run")
+    if not (unrun or pilot):
+        fail("D", "docs/MODELS.md makes no cross-vendor disclosure either way — §7 (iii) "
+                  "rests on it")
 
 
 def report_pending():
@@ -387,7 +496,10 @@ def main():
     check_ground_truth()
     check_figure_literals()
     check_snapshot_disclosure()
+    check_scripts_numbers()
     check_propagation()
+    check_section_refs()
+    check_cross_vendor_disclosure()
     pend = report_pending()
     if FAIL:
         print(f"MANUSCRIPT GATE: {len(FAIL)} problem(s)\n")
@@ -405,6 +517,8 @@ def main():
     print("  H hardcoded figure values still agree with the scorers")
     print("  I every correction propagated to every file that made the claim")
     print("  J the unobtainable-snapshot disclosure is intact and consistent")
+    print("  K reader-facing numbers inside scripts match the paper")
+    print("  L every § cross-reference names a section that exists")
     if pend:
         print(f"\nAWAITING THE AUTHORS ({len(pend)} item(s)) — not defects, and not "
               f"fillable by anyone else:")

@@ -49,7 +49,7 @@ plt.tight_layout(); plt.savefig("docs/figures/fig2_size.png"); plt.close()
 
 # Fig 3 - inference-time scaling on the same 60 compounds (one metric -> one accent)
 labels = ["solver\nself-rank", "+ forward-\nverify", "+ generate-\nwide"]
-vals = [23, 26, 30]
+vals = [23, 27, 30]      # 14/60, 16/60, 18/60 -- rounded, as Table 7
 fig, ax = plt.subplots(figsize=(fs.COL1, 2.6)); fs.ygrid(ax)
 cols = [fs.MUTED, fs.MUTED, fs.BLUE]
 bars = ax.bar(labels, vals, width=0.6, color=cols, zorder=3)

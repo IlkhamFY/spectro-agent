@@ -84,7 +84,11 @@ def main():
         vec[model] = v
         res[model] = [sum(v), rec]
         n = len(SUBSET)
-        print(f"{model:7} n={n}  top-1 {sum(v)}/{n} ({100*sum(v)//n}%)  recovered {rec}/{n} ({100*rec//n}%)")
+        # Round, do not floor. // truncates, so 11/24 = 45.8% printed as "45%" while
+        # the figure below annotates the same fraction as 46 -- the caption and the plot
+        # of one figure disagreed, and Table 3 understated two of the four models.
+        pct = lambda k: round(100 * k / n)
+        print(f"{model:7} n={n}  top-1 {sum(v)}/{n} ({pct(sum(v))}%)  recovered {rec}/{n} ({pct(rec)}%)")
     json.dump({"n": len(SUBSET), "results": res},
               open("data/benchmark_main/model_comparison.json", "w"))
 

@@ -207,12 +207,12 @@ def score2():
         print(f"{qid:4} {d:8} {'YES' if hit else '·':6} {'YES' if top1 else '·':5} {t:<8} {smi}")
     N = sum(b[0] for b in by.values())
     R = sum(b[1] for b in by.values()); T1 = sum(b[2] for b in by.values())
-    print(f"\noverall recovered (top-3): {R}/{N} ({100*R//N}%)   top-1 exact: {T1}/{N} ({100*T1//N}%)")
+    print(f"\noverall recovered (top-3): {R}/{N} ({round(100*R/N)}%)   top-1 exact: {T1}/{N} ({round(100*T1/N)}%)")
     for d in ("simple", "complex"):
         n_, r_, t1_, st = by[d]
         if n_:
-            print(f"  {d:8}: recovered {r_}/{n_} ({100*r_//n_}%)  "
-                  f"top1 {t1_}/{n_} ({100*t1_//n_}%)  meanBestTani {st/n_:.3f}")
+            print(f"  {d:8}: recovered {r_}/{n_} ({round(100*r_/n_)}%)  "
+                  f"top1 {t1_}/{n_} ({round(100*t1_/n_)}%)  meanBestTani {st/n_:.3f}")
 
 
 if __name__ == "__main__":

@@ -128,7 +128,7 @@ def main():
     self1 = sum(1 for cs in comps.values()
                 if sorted(cs, key=lambda c: c["self_rank"])[0]["is_true"])
 
-    pct = lambda a, b: f"{a}/{b} ({100*a//b}%)"   # floor, matching the paper's tables
+    pct = lambda a, b: f"{a}/{b} ({round(100*a/b)}%)"
     print(f"GENERATE-WIDE vs ORIGINAL — forward-verification on the same {n} compounds\n")
     print(f"{'':<44}{'original':>14}{'generate-wide':>16}")
     print(f"{'recall (true structure in candidate set)':<44}{pct(r0,n):>14}{pct(r1,n):>16}")

@@ -22,10 +22,10 @@ positioning is the authors' call.*
 
 ---
 
-## 5.7 The verifier gap is method, not just coverage: a learned ¹³C model closes it
+## Proposed subsection, since merged into §5.4 — the verifier gap is method, not just coverage: a learned ¹³C model closes it
 
 §5.4 swaps the LLM forward-predictor for a *deterministic* HOSE-code lookup and finds it
-does **not** help (14/19, 73%, *below* the LLM verifier's 16/19, 84%), attributing the
+does **not** help (14/19, 74%, *below* the LLM verifier's 16/19, 84%), attributing the
 failure to **coverage, not method**: the benchmark's exotic chemistry is under-represented
 in nmrshiftdb2, so a lookup degrades to coarse environment spheres exactly where
 regiochemistry must be resolved. That diagnosis invites one obvious test it does not run:
@@ -47,13 +47,13 @@ not.** Conditional on recall (n=19), all four verifiers on the identical set:
 
 | verifier (conditional on recall, n=19) | top-1 | held-out ¹³C MAE |
 |---|--:|--:|
-| solver self-ranking | 14/19 (73%) | — |
-| deterministic HOSE lookup (§5.4) | 14/19 (73%) | 3.23 ppm |
+| solver self-ranking | 14/19 (74%) | — |
+| deterministic HOSE lookup (§5.4) | 14/19 (74%) | 3.23 ppm |
 | **learned GNN (same data)** | **16/19 (84%)** | **1.70 ppm** |
 | LLM forward-verifier (§5.2) | 16/19 (84%) | — |
 
 Holding the training data and the eval set fixed, swapping **lookup → learned** closes the
-entire 73→84% gap and matches the LLM verifier (top-1 over all 60 rises 23→26%, as §5.4).
+entire 74→84% gap and matches the LLM verifier (top-1 over all 60 rises 23→27%, as §5.4).
 The §5.4 reading is therefore too strong: the deterministic verifier's failure was
 substantially **method** (generalisation across novel environments), not only coverage. The
 "genuine fix" §5.4 reaches for — *compound-specific DFT-level accuracy or 2D-NMR* — is not

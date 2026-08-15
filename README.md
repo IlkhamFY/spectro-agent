@@ -37,7 +37,9 @@ python scripts/ladder_significance.py   # the paired tests behind §5.3
 python scripts/analyze_misses.py        # §4  - what a top-1 miss actually is
 python scripts/isomer_separability.py   # §5.1 - how far apart the predictor puts isomers
 python scripts/check_manuscript.py      # manuscript integrity gate (must pass)
+python scripts/test_harness.py          # offline tests for the reply-parsing code
 pip install scipy && python scripts/verify_statistics.py   # audit the hand-rolled stats
+python scripts/verify_citations.py      # every reference vs CrossRef / arXiv (network)
 python scripts/build_pdf.py             # rebuild docs/paper.pdf
 ```
 

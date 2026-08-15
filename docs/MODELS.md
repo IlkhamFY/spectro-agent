@@ -8,7 +8,8 @@ authors can supply**.
 Every LLM result in the paper was produced by Anthropic Claude models invoked as
 independent sub-agents through the **Agent tool under a consumer claude.ai
 subscription**. No paid API, no fine-tuning, no model training is involved in the core
-protocol. (The two trained probes, §5.6 and §5.7, are *not* Claude models; see
+protocol. (The two trained probes, §5.4's GNN verifier and §5.6's generator, are *not*
+Claude models; see
 [Non-Claude components](#non-claude-components).)
 
 ---
@@ -61,7 +62,7 @@ three dated windows. They are listed separately rather than collapsed, because a
    §5.6 re-run does change that arm's *verified top-1*, because the number it replaces
    was never reproducible — §5.6 states this explicitly.
 
-All other later commits (figures, statistics, the §5.6/§5.7 trained probes) re-score
+All other later commits (figures, statistics, the §5.4/§5.6 trained probes) re-score
 frozen outputs and re-query no model.
 
 ### One asymmetry in §4.4, stated plainly
@@ -222,14 +223,82 @@ Listed so no reader mistakes them for part of the LLM system under test.
 |---|---|---|
 | §5.4 | HOSE-code ¹³C verifier | deterministic lookup over the nmrshiftdb2 dump; `scripts/hose_predict.py`, `data/fverify/hose_results.txt` |
 | §5.6 | trained-generator probe | ~16M-parameter ¹H/¹³C→SMILES transformer, ensemble of four, trained locally; `contrib/generator_probe/`, checkpoints on Zenodo |
-| §5.7 | learned ¹³C verifier | 4-layer message-passing GNN trained on the same nmrshiftdb2 dump; `scripts/gnn_predict.py`, `data/nmrshiftdb/gnn_c13.pt` |
+| §5.4 | learned ¹³C verifier | 4-layer message-passing GNN trained on the same nmrshiftdb2 dump; `scripts/gnn_predict.py`, `data/nmrshiftdb/gnn_c13.pt` |
+
+## Cross-vendor sweep — pilot run, nothing reported
+
+Two non-Claude models were run through `scripts/cross_vendor_sweep.py` on 2026-08-13/14
+via OpenRouter (`scripts/openrouter_run.py`), on the `fverify60` subset. **No number from
+these runs appears in `docs/PAPER.md`,** and §7 (iii) stands unchanged: the paper remains
+single-vendor. They are recorded here because they were run, and this file's purpose is to
+say what was.
+
+| model | ctx | answered | recall | parsing | matching the given formula |
+|---|--:|--:|--:|--:|--:|
+| `nvidia/nemotron-3.5-lightning` | 6 | 60/60 | **0/60** | 61% | **2%** |
+| `deepseek/deepseek-v4-pro-0813` | 6 | 18/60 | **1/18** | 93% | **35%** |
+| `deepseek/deepseek-v4-pro-0813` | **3** | 18/60 | **8/18** | 94% | **94%** |
+| *Claude, same constraint (§3)* | 2–12 | — | — | — | *78–95%* |
+
+**Context packing moved this model more than anything else we varied.** The two DeepSeek
+rows differ only in how many compounds shared a context — same model, same prompt, same
+constraint. At six it returned molecules of the wrong composition 65% of the time; at
+three it obeyed the formula 94% of the time, inside Claude's own band, and recall on the
+compounds it answered went 1/18 to 8/18 (McNemar over the paired 60, b=8 c=1, p=0.039).
+This is the §4.3 effect appearing in an unrelated model lineage, and larger there than the
+paper measures for Claude. Two caveats: the arms answered different subsets, so the recall
+comparison is partly confounded by *which* compounds got through, and 14 of 20 batches
+still failed to terminate. The formula-adherence half is the cleaner comparison, being
+measured over each arm's own output.
+
+**The central inequality replicates.** On the 3-per-context arm, forward verification is
+right far more often than generation is:
+
+| quantity | DeepSeek V4 Pro | Claude (Table 6, n=194) |
+|---|--:|--:|
+| generation recall (all 60, unanswered = miss) | 8/60 = 13% [7, 24] | 65/194 = 34% |
+| generation recall (18 answered only) | 8/18 = 44% [25, 66] | — |
+| verification precision, conditional on recall | 5/8 = **62%** [31, 86] | 58/65 = **89%** |
+
+Read against the full cohort, as the paper's own convention does, precision (62%) exceeds
+recall (13%) with non-overlapping intervals. Read against answered compounds only, 62%
+against 44%, the intervals overlap and the ordering is directional. Either way the sign
+matches Claude's, on a model from a different lab. This is the first non-Claude evidence
+for the paper's central decomposition — but it rests on **8 recall-positive compounds** in
+an arm that is 30% complete, so it belongs here rather than in the paper, and it is not
+reported in `docs/PAPER.md`.
+
+Neither has the power to test the claim, for two independent reasons.
+
+The first is arithmetic: the portable quantity is the inequality *verification precision >
+generation recall*, and precision is conditional on recall — at zero recall there is
+nothing to condition on, so the comparison is undefined rather than negative.
+
+The second is more basic and easier to misread. **Neither model can meet the output
+contract.** The task hands over a molecular formula and asks for candidates matching it;
+nemotron returned 180 candidates of which 61% parsed as molecules at all and 2% carried
+the right composition, several with literal spaces inside the SMILES. A model that cannot
+return a well-formed structure of the requested formula is not being measured on
+elucidation, and reading its 0/60 as a statement about chemistry is the mistake this table
+most invites. `cross_vendor_sweep.py score` now prints the parse and formula-adherence
+rates beside recall, and flags any vendor below 50% as too low to interpret.
+
+Read these as a demonstration that the harness runs end to end, not as evidence about any
+vendor.
+
+The DeepSeek failure is worth recording separately because it is a property of the model
+rather than of the transport: on seven batches it produced tens of thousands of reasoning
+tokens and exhausted a 120,000-token ceiling **without emitting a single answer token**.
+Six blind elucidations in one context is apparently past what it will commit to an answer
+on. The headline Claude run used 2–12 compounds per context, so a smaller context is still
+protocol-consistent and is the obvious thing to try first
+(`cross_vendor_sweep.py prepare <subset> <n>`).
+
+Outputs live in `data/cross_vendor/`, which is gitignored — it holds the held-out answer
+key, so nothing under it is committed.
 
 ## Specified but never run — no model was invoked
 
-- **Cross-vendor sweep** (`docs/CROSS_VENDOR.md`, `scripts/cross_vendor_sweep.py`): a
-  protocol kit for GPT-/Gemini-class and open-weight models. No vendor was run; the
-  working directory `data/cross_vendor/` is gitignored and absent. `docs/PAPER.md` §7 (iii)
-  says so.
 - **Modality ablation** (`scripts/modality_ablation.py`, `data/modality/`): the *leave-one-
   modality-out* arms (`noIR`, `noH`, `noC`) remain staged only — `prompt_noIR.txt`,
   `prompt_noH.txt`, `prompt_noC.txt` exist (2026-06-16, commit `f3fe901`) with no

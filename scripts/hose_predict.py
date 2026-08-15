@@ -231,12 +231,12 @@ def score():
             cn += 1; cself += s; chose += best["is_true"]
             cal.append((best["dist"], best["is_true"]))
     print(f"compounds: {n}")
-    print(f"  ceiling (recall):              {ceil}/{n} ({100*ceil//n}%)")
-    print(f"  top-1 solver self-rank:        {self1}/{n} ({100*self1//n}%)")
-    print(f"  top-1 HOSE-verified re-rank:   {hose1}/{n} ({100*hose1//n}%)")
+    print(f"  ceiling (recall):              {ceil}/{n} ({round(100*ceil/n)}%)")
+    print(f"  top-1 solver self-rank:        {self1}/{n} ({round(100*self1/n)}%)")
+    print(f"  top-1 HOSE-verified re-rank:   {hose1}/{n} ({round(100*hose1/n)}%)")
     print(f"\n  CONDITIONAL on recall (n={cn}):")
-    print(f"    solver self-rank:  {cself}/{cn} ({100*cself//cn}%)")
-    print(f"    HOSE-verify:       {chose}/{cn} ({100*chose//cn}%)   "
+    print(f"    solver self-rank:  {cself}/{cn} ({round(100*cself/cn)}%)")
+    print(f"    HOSE-verify:       {chose}/{cn} ({round(100*chose/cn)}%)   "
           f"(LLM verifier was 84% on this set)")
 
 if __name__ == "__main__":

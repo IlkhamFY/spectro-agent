@@ -5,40 +5,11 @@ Keeps PAPER.md clean: figure plates are appended to a temporary copy, and unicod
 glyphs (super/subscripts, math relations) are mapped for XeTeX via newunicodechar.
 Run from the repo root:  python3 scripts/build_pdf.py
 """
-import os, subprocess, tempfile, pypandoc
+import os, re, subprocess, tempfile, pypandoc
 
 # PDF engine: tectonic by default; override with PDF_ENGINE=xelatex for a texlive host.
 TECTONIC = os.environ.get("PDF_ENGINE", "/tmp/tectonic")
 OUT = "docs/paper.pdf"
-
-# Main-text figures (numbered Fig. 1-5)
-FIGS = [
-    ("fig_wall.png", "The diagnosis as a single part-to-whole bar of the 60 "
-     "forward-verify compounds. The true structure is verified top-1 for 16 (green), "
-     "recalled but mis-ranked for 3 (vermilion), and never proposed for 41 (grey) --- "
-     "\\emph{the wall}, 68\\% of the bar. Forward-verification recovers 16/60 = 26\\% "
-     "exact top-1 end-to-end: the model proposes the true structure for only 19/60 = "
-     "31\\% of compounds and, of those, verifies 84\\% (77\\% on the 13 of 19 where more "
-     "than one candidate existed; \\S5.2). Recall, not verification, is the wall."),
-    ("fig1_difficulty.png", "Top-1 and recovered accuracy on IRSpectra-Bench by "
-     "difficulty (all / simple / complex, n=194) with bootstrap 95\\% CIs."),
-    ("fig5_models.png", "Four-model comparison on a 24-compound subset: Fable 5 45\\% "
-     "$>$ Opus 25\\% $>$ Sonnet 20\\% $>$ Haiku 0\\% top-1 (strictly nested; "
-     "underpowered to separate adjacent models at n=24)."),
-    ("fig_mechanism.png", "Forward-verification on a real benchmark regioisomer pair "
-     "(picolinamide vs nicotinamide): forward-predicted $^{13}$C matches the true "
-     "isomer (chamfer 0.42 vs 1.30 ppm) --- an analog of NMR-crystallography."),
-    ("fig_contamination.png", "Two contamination controls. (a) Removing the spectra: "
-     "with only the molecular formula the solver reaches 3/60, against 14/60 with "
-     "IR + $^1$H + $^{13}$C on the same compounds; the outcomes are nested, with 11 "
-     "compounds solved only with the spectra and none only without. (b) Accuracy against "
-     "the publication year of the source paper (n=194, Wilson 95\\% CIs): flat, with a "
-     "point-biserial correlation of $-$0.007. Recall from pretraining would predict a "
-     "decline with recency; none is observed."),
-    ("fig3_method.png", "Forward-verification inference ladder on the same 60 "
-     "compounds: solver self-ranking → + forward-verify → + generate-wide "
-     "(23\\%/26\\%/30\\% top-1)."),
-]
 
 # Supporting-Information figures (numbered Fig. S1-S4)
 SI_FIGS = [
@@ -58,13 +29,17 @@ SI_FIGS = [
      "(28.4→16.0\\%) while the generator's formula-correct candidates convert "
      "(28.4→35.1\\%)."),
     ("fig_verifier.png", "Learned-verifier probe (\\S5.4; a complement, not part of the "
-     "training-free protocol). (A) Conditional-on-recall top-1 (n=19) across four "
-     "verifiers: a GNN trained on the same nmrshiftdb2 data as the HOSE lookup recovers "
-     "the LLM verifier's 84\\% that the lookup (73\\%) could not. (B) Held-out $^{13}$C "
+     "training-free protocol). (A) Conditional-on-recall top-1 over the whole benchmark "
+     "(n=65) across four verifiers: a GNN trained on the same nmrshiftdb2 data as the "
+     "HOSE lookup reaches the LLM verifier's level (91\\% against 89\\%) where the "
+     "lookup (85\\%) does not move off the solver's own ranking. (B) Held-out $^{13}$C "
      "MAE --- the learned model is roughly 2$\\times$ sharper (1.70 vs 3.23 ppm)."),
 ]
 
 UNI = {
+    # Zero-width space -> a legal line break with no hyphen inserted. Used to make
+    # long file paths in \texttt breakable; see breakable_paths() below.
+    "\u200b": r"\allowbreak{}",
     "±": r"\ensuremath{\pm}", "×": r"\ensuremath{\times}", "−": r"\ensuremath{-}",
     "→": r"\ensuremath{\rightarrow}", "≈": r"\ensuremath{\approx}",
     "≤": r"\ensuremath{\leq}", "≥": r"\ensuremath{\geq}", "≫": r"\ensuremath{\gg}",
@@ -95,6 +70,108 @@ def fig_width(path):
     dpi = (im.info.get("dpi") or (600, 600))[0] or 600
     w_in = im.size[0] / dpi
     return f"{min(w_in, TEXTWIDTH_IN):.2f}in"
+
+
+ZWSP = "\u200b"
+
+
+def breakable_paths(md):
+    """Give LaTeX somewhere to break a long file path.
+
+    Paths set in \texttt cannot hyphenate, so `scripts/forward_verify_main.py` in
+    running prose overflows the measure and, inside a narrow table cell, spills into
+    the neighbouring column. Insert a zero-width space after the separators a path is
+    naturally read in chunks by -- / and _ -- but only inside inline code spans, so
+    ordinary prose is untouched. UNI maps the character to \allowbreak, which permits
+    a break without printing a hyphen (a hyphen would read as part of the path).
+    """
+    def fix(m):
+        inner = m.group(1)
+        if "/" not in inner and "_" not in inner:
+            return m.group(0)
+        return "`" + re.sub(r"([/_])", r"\1" + ZWSP, inner) + "`"
+    return re.sub(r"`([^`\n]+)`", fix, md)
+
+SEP_RE = re.compile(r'^\|(?:\s*:?-{2,}:?\s*\|)+$')
+TABLE_MEASURE = 96          # target separator-row width, comfortably over pandoc's 72
+MIN_COL = 4                 # characters; below this a numeric column pinches its digits
+
+
+def _cell_len(cell):
+    """Rendered width of a markdown cell, ignoring markup that prints nothing."""
+    s = re.sub(r'\*\*|\*|`|~~', '', cell.strip())
+    s = re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1', s)      # [text](link) -> text
+    return len(s)
+
+
+def proportional_tables(md):
+    """Size each table column to the content it holds.
+
+    A pipe table tells pandoc its column widths through the *length* of the separator
+    row's dash runs -- but only when that row is longer than pandoc's --columns setting
+    (72 by default). Every table here was written in the compact `|---|--:|--:|` form,
+    which is shorter than that, so pandoc emitted no widths at all and the LaTeX writer
+    fell back to dividing the page equally. Table 2 then wrapped "scaffold-level (best
+    Tanimoto >= 0.45)" across two lines inside a quarter-page column while three columns
+    of short percentages sat half empty.
+
+    Rewriting the separator row -- proportional to the widest cell in each column, padded
+    past 72 characters -- makes pandoc emit the widths the content actually needs. The
+    compact source form stays readable; only what pandoc sees is rebuilt. Alignment
+    markers are carried across unchanged, so a right-aligned numeric column stays right-
+    aligned.
+    """
+    lines = md.split("\n")
+    out, i = [], 0
+    while i < len(lines):
+        if i + 1 < len(lines) and lines[i].startswith("|") and SEP_RE.match(lines[i + 1]):
+            j = i
+            while j < len(lines) and lines[j].startswith("|"):
+                j += 1
+            rows = [[c for c in r.strip().strip("|").split("|")] for r in lines[i:j]]
+            aligns = [(c.strip().startswith(":"), c.strip().endswith(":"))
+                      for c in rows[1]]
+            n = len(aligns)
+            widths = [MIN_COL] * n
+            for r in rows[:1] + rows[2:]:
+                if len(r) != n:
+                    continue                    # ragged row: leave it out of the measure
+                for k, c in enumerate(r):
+                    widths[k] = max(widths[k], _cell_len(c))
+            # A character count is only a proxy for a typeset width, and digits and
+            # capitals run wider than the lowercase it is calibrated on. Two characters
+            # of slack per column keeps a header that just fits from wrapping anyway.
+            widths = [w + 2 for w in widths]
+            total = sum(widths)
+            scaled = [max(MIN_COL, round(w * TABLE_MEASURE / total)) for w in widths]
+            cells = []
+            for (left, right), w in zip(aligns, scaled):
+                if left and right:
+                    cells.append(":" + "-" * (w - 2) + ":")
+                elif right:
+                    cells.append("-" * (w - 1) + ":")
+                elif left:
+                    cells.append(":" + "-" * (w - 1))
+                else:
+                    cells.append("-" * w)
+            lines[i + 1] = "|" + "|".join(cells) + "|"
+            # Keep the caption with the table it names. pandoc renders the caption as an
+            # ordinary paragraph followed by a longtable, and LaTeX will happily break
+            # between them: Table 2's caption sat at the foot of p9 with its table
+            # overleaf. Reserve caption + header + body before letting the caption set.
+            if out and out[-1] == "" and len(out) > 1 and out[-2].startswith("**Table "):
+                k = len(out) - 2
+                while k > 0 and out[k - 1].strip():
+                    k -= 1
+                need = min(len(rows) + 4, 16)
+                out[k:k] = ["```{=latex}", f"\\needspace{{{need}\\baselineskip}}", "```", ""]
+            out.extend(lines[i:j])
+            i = j
+            continue
+        out.append(lines[i])
+        i += 1
+    return "\n".join(out)
+
 
 PREPRINT_SERVERS = {"arxiv", "chemrxiv", "biorxiv", "medrxiv"}
 
@@ -129,11 +206,33 @@ def bibliography(tmpdir):
 def header():
     lines = [r"\usepackage{newunicodechar}", r"\usepackage{graphicx}",
              r"\renewcommand{\figurename}{Fig.}",
+             # TeX's default extra space after a period assumes the period ends a
+             # sentence. This text is dense with abbreviations that it does not --
+             # "Fig. 5", "e.g.", "i.e.", "vs.", and every abbreviated journal name in the
+             # bibliography ("Nat. Mach. Intell.") -- each of which acquires a visible
+             # double gap. French spacing is the standard remedy and matches how RSC
+             # sets its own PDFs.
+             r"\frenchspacing",
+             r"\usepackage{needspace}",   # keep each table caption with its table
              # Long unbreakable DOIs in the reference list cannot hyphenate, so a
-             # justified paragraph stretches interword space to one-word-per-line.
+             # justified paragraph stretches interword space towards one word per line.
              # Set the generated bibliography ragged-right instead.
+             #
+             # The \raggedright has to go *inside* \CSLRightInline's \parbox. Setting it
+             # on the environment looks right and does nothing: \parbox begins with
+             # \@parboxrestore, which resets \rightskip to zero and so restores full
+             # justification for every entry. \sloppy survives that reset (it only
+             # touches \tolerance and \emergencystretch) and is still wanted, to keep an
+             # over-long DOI from running into the margin.
+             #
+             # Guarded, because this same preamble builds the ESI, which cites nothing
+             # and so never gets pandoc's citeproc block or \CSLRightInline with it.
              r"\usepackage{etoolbox}",
-             r"\AtBeginEnvironment{CSLReferences}{\raggedright\sloppy}"]
+             r"\ifcsdef{CSLRightInline}{"
+             r"\AtBeginEnvironment{CSLReferences}{\sloppy}"
+             r"\renewcommand{\CSLRightInline}[1]"
+             r"{\parbox[t]{\linewidth - \csllabelwidth}{\raggedright #1}\break}"
+             r"}{}"]
     for ch, cmd in UNI.items():
         lines.append(f"\\newunicodechar{{{ch}}}{{{cmd}}}")
     return "\n".join(lines)
@@ -180,6 +279,8 @@ def build_esi(h_path, bib):
 
 def main():
     md = open("docs/PAPER.md").read()
+    md = breakable_paths(md)
+    md = proportional_tables(md)
     # RSC requires a table-of-contents (graphical abstract) entry: one image plus a
     # <=250-character text summary. Appended as its own page so the submission bundle
     # carries it; journals lift it out of the PDF.
@@ -190,13 +291,20 @@ def main():
                "A frontier LLM recovers the correct molecular constitution from real, "
                "blind IR + \u00b9H + \u00b9\u00b3C literature spectra for 28% of 194 compounds. "
                "The bottleneck is candidate *recall*, not verification: forward-predicting "
-               "\u00b9\u00b3C and re-ranking selects the true structure 84% of the time it is "
-               "proposed \u2014 but it is proposed only 31% of the time.\n\n")
-    md += "\n\n\\clearpage\n\n# Figure plates\n\n"
-    for fn, cap in FIGS:
-        path = f"docs/figures/{fn}"
-        if os.path.exists(path):
-            md += f"![{cap}]({path}){{width={fig_width(path)}}}\n\n"
+               "\u00b9\u00b3C and re-ranking selects the true structure 89% of the time it is "
+               "proposed \u2014 but it is proposed only 34% of the time.\n\n")
+    # Main-text figures are inline in PAPER.md, placed at first discussion as a journal
+    # requires. Their captions live there too -- one source of truth, so a caption cannot
+    # drift from the text the way the old duplicate list did. Widths are computed here
+    # because markdown cannot: each figure renders at native size, never upscaled.
+    def _size(m):
+        path = m.group(2)
+        return f"![{m.group(1)}]({path}){{width={fig_width(path)}}}" if os.path.exists(path) else m.group(0)
+    # (?!\{) so an image that already carries an attribute block -- the graphical
+    # abstract appended above -- is not stamped a second time and left rendering its
+    # own width as literal body text.
+    md, n_inline = re.subn(r"!\[(.*?)\]\((docs/figures/[^)]+)\)(?!\{)", _size, md,
+                           flags=re.S)
 
     with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as mf:
         mf.write(md); md_path = mf.name
@@ -212,6 +320,11 @@ def main():
         "--citeproc",
         f"--bibliography={bib}",
         "--csl=docs/rsc.csl",
+        # Make the superscript citation numbers jump to their reference entry, and the
+        # entries carry their DOI as a link. Without link-citations the in-text markers
+        # render as inert text and a reader has to scroll to the list by hand.
+        "-M", "link-citations=true",
+        "-M", "link-bibliography=true",
         "-V", "geometry:margin=1in", "-V", "fontsize=11pt",
         "-V", "linkcolor=blue", "-V", "urlcolor=blue", "-V", "colorlinks=true",
         "-V", "subparagraph",

@@ -91,18 +91,18 @@ def score():
         if any(c["pred"] for c in cands):
             cal.append((best["dist"], best["is_true"]))
     print(f"compounds: {n}")
-    print(f"  ceiling (true in candidate set): {ceil}/{n} ({100*ceil//n}%)  <- generation recall")
-    print(f"  top-1, solver self-rank:         {self1}/{n} ({100*self1//n}%)")
-    print(f"  top-1, FORWARD-VERIFIED rerank:  {ver1}/{n} ({100*ver1//n}%)")
+    print(f"  ceiling (true in candidate set): {ceil}/{n} ({round(100*ceil/n)}%)  <- generation recall")
+    print(f"  top-1, solver self-rank:         {self1}/{n} ({round(100*self1/n)}%)")
+    print(f"  top-1, FORWARD-VERIFIED rerank:  {ver1}/{n} ({round(100*ver1/n)}%)")
     print(f"\n  CONDITIONAL on true-in-set (the verifier's actual job, n={cond_n}):")
-    print(f"    solver self-rank picks it: {cond_self}/{cond_n} ({100*cond_self//cond_n}%)")
-    print(f"    forward-verify picks it:   {cond_ver}/{cond_n} ({100*cond_ver//cond_n}%)  <- the generator-verifier gap")
+    print(f"    solver self-rank picks it: {cond_self}/{cond_n} ({round(100*cond_self/cond_n)}%)")
+    print(f"    forward-verify picks it:   {cond_ver}/{cond_n} ({round(100*cond_ver/cond_n)}%)  <- the generator-verifier gap")
     # calibration: accuracy of the verified pick by match-distance bin
     cal.sort()
     print("\ncalibration (verified pick correctness vs forward-match distance):")
     for lo,hi in [(0,2),(2,4),(4,8),(8,999)]:
         b=[t for d,t in cal if lo<=d<hi]
-        if b: print(f"  match dist {lo}-{hi} ppm: {sum(b)}/{len(b)} correct ({100*sum(b)//len(b)}%)")
+        if b: print(f"  match dist {lo}-{hi} ppm: {sum(b)}/{len(b)} correct ({round(100*sum(b)/len(b))}%)")
 
 if __name__ == "__main__":
     prep() if sys.argv[1]=="prep" else score()

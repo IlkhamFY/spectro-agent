@@ -285,6 +285,30 @@ generator, and the verifier is about as good wherever you get it. It also reprod
 §5.3 precision-loss mechanism across vendors — the model proposing the most candidates
 (Grok, 32 recall-positive) verifies them worst.
 
+### What these identifiers actually name
+
+The models are **as served by Cursor**, not stock vendor endpoints, and the difference is
+not cosmetic. The cloud agent's allowlist reads `gpt-5.6-sol-xhigh`, `gpt-5.6-sol-high`,
+`gpt-5.6-luna-high`, `gemini-3.7-flash-high`, `cursor-grok-4.6-high-fast`, `composer-2.5`
+— every id but the last carries a **reasoning-effort suffix**.
+
+That is a decoding parameter, and it is one the reference arm never had. The Claude runs
+behind this paper came from a subscription harness exposing no decoding controls at all
+(§8), so these arms were run with a knob turned that Claude's could not reach. `Cursor
+Grok 4.6` is likewise a Cursor variant rather than stock xAI, and Cursor supplies its own
+agent system prompt above the task text.
+
+None of this invalidates the numbers; it fixes what they are numbers *about*. They measure
+a model-as-served, which is the same class of object §8 already concedes for Claude — no
+pinnable snapshot, distributional rather than exact reproducibility. Reported as
+vendor-family results, they stand; reported as "GPT-5.6 Sol scores 42%", they would
+overclaim.
+
+**The exact effort tier used for each arm is not recorded here**, because the run did not
+report which allowlist entry it selected. That is a gap to close before any of this is
+written up: the tier belongs beside each row, and a run at `-xhigh` is not the same
+measurement as one at `-high`.
+
 ### Contamination — bounded, not excluded
 
 The Cursor agents cloned the whole repository, and `data/benchmark_v3/answers2.jsonl` and

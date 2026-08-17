@@ -1,0 +1,32 @@
+{
+  "M043": [
+    "COc1ccccc1C(=O)C2(Cl)CC2(Cl)C",
+    "COc1cccc(C(=O)C2(Cl)CC2(Cl)C)c1",
+    "COc1ccc(C(=O)C2(Cl)CC2(Cl)C)cc1"
+  ],
+  "M044": [
+    "COc1c(C=O)c(OCC#CC)ccc1",
+    "COc1c(C=O)ccc(OCC#CC)c1",
+    "COc1cc(C=O)c(OCC#CC)cc1"
+  ],
+  "M045": [
+    "CCCCCCCC(=O)CCc1cc(OC)c(O)cc1",
+    "CCCCCCCC(=O)CCc1cc(O)c(OC)cc1",
+    "CCCCCCCC(=O)CCc1ccc(O)c(OC)c1"
+  ],
+  "M046": [
+    "O=S(=O)(NNCc1ccccc1O)c1ccc(Cl)cc1",
+    "O=S(=O)(NNCc1cc(O)ccc1)c1ccc(Cl)cc1",
+    "O=S(=O)(NNCc1ccccc1O)c1cc(Cl)ccc1"
+  ],
+  "M047": [
+    "O=S(=O)(NCc1ccc(Br)cc1)c2ccccc2CO",
+    "O=S(=O)(NCc1cccc(Br)c1)c2ccccc2CO",
+    "O=S(=O)(NCc1ccccc1Br)c2ccccc2CO"
+  ],
+  "M048": [
+    "O=C(/C=C/c1ccccc1)C(=O)/C=C\\c1ccccc1",
+    "O=C(/C=C/c1ccccc1)C(=O)/C=C/c1ccccc1",
+    "O=C(\\C=C/c1ccccc1)C(=O)\\C=C/c1ccccc1"
+  ]
+}

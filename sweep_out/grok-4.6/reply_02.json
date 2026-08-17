@@ -1,0 +1,32 @@
+{
+  "M007": [
+    "CCOC(=O)CC/C(C)=C/CCCO[Si](C(C)(C)C)(c1ccccc1)c1ccccc1",
+    "CCOC(=O)CC/C=C(\\C)CCCO[Si](C(C)(C)C)(c1ccccc1)c1ccccc1",
+    "CCOC(=O)CC/C(C)=C\\CCCO[Si](C(C)(C)C)(c1ccccc1)c1ccccc1"
+  ],
+  "M008": [
+    "CCCCn1c(-c2ccc(-c3ccccn3)cc2)nc(-c2ccc(OC)cc2)c1-c1ccc(OC)cc1",
+    "CCCCn1c(-c2ccccc2-c2ccccn2)nc(-c2ccc(OC)cc2)c1-c1ccc(OC)cc1",
+    "CCCCn1c(-c2ccc(-c3ccncc3)cc2)nc(-c2ccccc2OC)c1-c1ccccc1OC"
+  ],
+  "M009": [
+    "COC(=O)c1c(C(=C)c2ccccc2)c2cc(F)ccc2nc1-c1ccccc1",
+    "COC(=O)c1c(-c2ccccc2)c2cc(F)ccc2nc1C(=C)c1ccccc1",
+    "COC(=O)c1c(C(=C)c2ccccc2)c2ccc(F)cc2nc1-c1ccccc1"
+  ],
+  "M010": [
+    "O=C(O)C(F)(F)F.O=C(O)C(F)(F)F.O=C(CC(c1ccccc1)c1ccccc1)NCCCNCCCCNCCCNC(=O)CC(c1ccccc1)c1ccccc1",
+    "O=C([O-])C(F)(F)F.O=C([O-])C(F)(F)F.O=C(CC(c1ccccc1)c1ccccc1)NCCC[NH2+]CCCC[NH2+]CCCNC(=O)CC(c1ccccc1)c1ccccc1",
+    "O=C(O)C(F)(F)F.O=C(O)C(F)(F)F.O=C(CC(c1ccccc1)c1ccccc1)NCCCN(CCCCNCCCN)C(=O)CC(c1ccccc1)c1ccccc1"
+  ],
+  "M011": [
+    "NC(=O)Nc1ccccc1-n1cc(C(=O)O)c(=O)c2cc(F)ccc21",
+    "NC(=O)Nc1ccccc1-n1cc(C(=O)O)c(=O)c2ccc(F)cc21",
+    "NC(=O)Nc1cccc(-n2cc(C(=O)O)c(=O)c3cc(F)ccc32)c1"
+  ],
+  "M012": [
+    "CN1C=CC=C1C=NNC(=O)Cc1ccc(O)c(C(=O)c2ccc(C)cc2)c1",
+    "CN1C=CC=C1C=NNC(=O)Cc1cc(C(=O)c2ccc(C)cc2)ccc1O",
+    "CN1C=CC=C1C=NNC(=O)Cc1cccc(O)c1C(=O)c1ccc(C)cc1"
+  ]
+}

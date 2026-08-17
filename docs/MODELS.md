@@ -297,6 +297,49 @@ protocol-consistent and is the obvious thing to try first
 Outputs live in `data/cross_vendor/`, which is gitignored — it holds the held-out answer
 key, so nothing under it is committed.
 
+## Cross-vendor sweep — five non-Claude models, generation stage only
+
+Run 2026-08-17 through Cursor's cloud agents on the `fverify60` arm, six compounds per
+context, one subagent per batch. **No number here appears in `docs/PAPER.md`** and §7 (iii)
+stands: the verification half has not been run, so the paper's actual claim — the
+inequality between verification precision and generation recall — is not yet tested on any
+of these models.
+
+| model | generation recall | top-1 self-rank | parse | matches given formula |
+|---|--:|--:|--:|--:|
+| `grok-4.6` | **32/60 (53%)** | 23/60 (38%) | 99% | 95% |
+| `gemini-3.7-flash` | **30/60 (50%)** | 23/60 (38%) | 98% | 94% |
+| `gpt-5.6-sol` | **25/60 (42%)** | 21/60 (35%) | 100% | **100%** |
+| `composer-2.5` | 12/60 (20%) | 10/60 (17%) | 95% | 67% |
+| `gpt-5.6-luna` | 9/60 (15%) | 6/60 (10%) | 90% | 76% |
+| *Claude Opus, same 60 (Table 6)* | *19/60 (32%)* | *14/60 (23%)* | — | *78–95%* |
+
+All five answered every compound. Three exceed Claude's recall on the identical set, Grok
+by 21 points, and the pairwise McNemar tests separate the strong group from the weak one
+decisively (e.g. `composer-2.5` vs `grok-4.6`, b=4 c=24, p=0.0002). Read as a statement
+about generation only: the recall wall the paper documents for Claude Opus sits lower for
+models a generation newer, which is consistent with §4.4's capability ordering and does
+not by itself say anything about verification.
+
+**Contamination is argued, not excluded.** The agents worked from a clone of this
+repository, and `data/benchmark_v3/answers2.jsonl` and
+`data/benchmark_v2_ctrl/answers2.jsonl` are tracked here — the fverify60 subset is drawn
+from exactly those two files. The blind guarantee therefore rested on an instruction not
+to open them, which nothing can verify after the fact. Two checks were run:
+
+- *Byte-identical SMILES.* Weak: Claude's own June run, which predates this layout,
+  reproduces the answer file's exact string for 21% of its hits, so a raised rate proves
+  little.
+- *Stereochemistry.* Decisive in principle, since 1D spectra do not determine
+  configuration and the prompts carry none. Of the compounds whose reference structure has
+  assigned stereocentres and whose constitution the model got right, **grok-4.6 scored
+  0/3, gemini-3.7-flash 0/2 and gpt-5.6-sol 0/2** on reproducing the reference
+  descriptors. A model reading the answer file would have copied them.
+
+That is evidence against copying on seven opportunities, which is an argument rather than
+a proof. A clean control — one model re-run from a clone with the answer files removed —
+is what would settle it, and has not been done.
+
 ## Specified but never run — no model was invoked
 
 - **Modality ablation** (`scripts/modality_ablation.py`, `data/modality/`): the *leave-one-

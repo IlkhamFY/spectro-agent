@@ -1,0 +1,32 @@
+{
+  "M019": [
+    "CCCCCCCCCCC1=CC=CC=C1C(=O)NS(=O)(=O)C2=CC=C(Cl)C=C2",
+    "CCCCCCCCCCC1=CC=CC=C1S(=O)(=O)NC(=O)C2=CC=C(Cl)C=C2",
+    "CCCCCCCCCCC1=CC=CC=C1C(=O)NS(=O)(=O)C2=CC=CC=C2Cl"
+  ],
+  "M020": [
+    "C[Si](C)(C)C1=CC(F)=C(F)C=C1OS(=O)(=O)C2=CC=C(Cl)C=C2",
+    "C[Si](C)(C)C1=C(OS(=O)(=O)C2=CC=C(Cl)C=C2)C(F)=C(F)C=C1",
+    "C[Si](C)(C)C1=CC=C(F)C(F)=C1OS(=O)(=O)C2=CC=C(Cl)C=C2"
+  ],
+  "M021": [
+    "O=C1NC(C2=CC=CC=C2)=CC(N1)C3=CC=C(Cl)C=C3",
+    "O=C1NC(C2=CC=C(Cl)C=C2)=CC(N1)C3=CC=CC=C3",
+    "O=C1NC(C2=CC=CC=C2)=CC(N1)C3=CC=CC=C3Cl"
+  ],
+  "M022": [
+    "O=C1NC(NC2=CC=CC=C12)C3=CC=CC=C3[N+](=O)[O-]",
+    "O=C1NC(NC2=CC=CC=C12)C3=CC=CC([N+](=O)[O-])=C3",
+    "O=C1NC(NC2=CC=CC=C12)C3=CC=C([N+](=O)[O-])C=C3"
+  ],
+  "M023": [
+    "COC(=O)C1NC(C2=CC=CC=C2)C3=C(C1=O)C4=C(N3COCC[Si](C)(C)C)C=C(O)C(OC)=C4",
+    "COC(=O)C1NC(C2=CC=CC=C2)C3=C(C1=O)C4=C(N3COCC[Si](C)(C)C)C=C(OC)C(O)=C4",
+    "COC(=O)C1N(COCC[Si](C)(C)C)C(C2=CC=CC=C2)C3=C(C1=O)C4=CC(O)=C(OC)C=C4N3"
+  ],
+  "M024": [
+    "CN1C=C(CC2(N)C(=O)N(S(=O)(=O)C3=CC=CC=C3)C4=CC=C(Br)C=C24)C5=CC=CC=C15",
+    "CN1C=C(CC2(N)C(=O)N(S(=O)(=O)C3=CC=CC=C3)C4=CC=CC=C24)C5=CC=C(Br)C=C15",
+    "CN1C=C(CC2C(=O)N(S(=O)(=O)C3=CC=C(N)C=C3)C4=CC=C(Br)C=C24)C5=CC=CC=C15"
+  ]
+}

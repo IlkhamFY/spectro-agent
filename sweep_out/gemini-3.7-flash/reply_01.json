@@ -1,0 +1,32 @@
+{
+  "M001": [
+    "CCOC(=O)C1=C(N)SC2=C1CCC3=C2OC(N)=C(C#N)C3c4ccc(Cl)cc4",
+    "CCOC(=O)C1=C(N)SC2=C1CCC3=C2C(c4ccc(Cl)cc4)C(C#N)=C(N)O3",
+    "CCOC(=O)C1=C(N)SC2=C1CCC3=C2OC(N)=C(C#N)C3c4cccc(Cl)c4"
+  ],
+  "M002": [
+    "COc1c(-c2ccc(O)cc2)oc2cc(O)ccc2c1=O",
+    "COc1ccc(-c2coc3cc(O)ccc3c2=O)cc1O",
+    "COc1ccc(-c2coc3c(O)cc(O)cc3c2=O)cc1"
+  ],
+  "M003": [
+    "CCCCCCCCC(=O)c1ccc(OC)cc1CC(=O)OCC",
+    "CCCCCCCCC(=O)c1cc(OC)ccc1CC(=O)OCC",
+    "CCCCCCCCC(=O)c1ccc(OC)c(CC(=O)OCC)c1"
+  ],
+  "M004": [
+    "Cc1ccc(N=C2SC(=C(C)C=C(C)c3ccccc3)N(CCc3ccccc3)C2=O)cc1",
+    "CC(=C)c1ccc(N=C2SC(C)=C(C)N(CCc3ccccc3)C2=O)cc1-c1ccccc1",
+    "Cc1ccc(N=C2SC(=C(C)C=C(C)c3ccccc3)N(c3ccccc3)C2=O)cc1CC"
+  ],
+  "M005": [
+    "Oc1ccc2c(c1)ccc(-c1ccccc1)n2",
+    "O=C(c1ccccc1)c1c[nH]c2ccccc12",
+    "Oc1ccc2c(c1)nc(-c1ccccc1)cc2"
+  ],
+  "M006": [
+    "Cc1ccc(-c2nnc(SCC3=C(C)N(C)N=C3-c3nc4ccc(C#CC)cc4s3)[nH]2)cc1",
+    "Cc1ccc(-c2nnc(SCC3=C(C)N(C)N=C3-c3nc4ccc(CC#C)cc4s3)[nH]2)cc1",
+    "Cc1ccc(-c2nnc(SCC3=C(C)N(C)N=C3-c3nc4c(s3)-c3ccccc3C4)[nH]2)cc1"
+  ]
+}

@@ -309,23 +309,39 @@ report which allowlist entry it selected. That is a gap to close before any of t
 written up: the tier belongs beside each row, and a run at `-xhigh` is not the same
 measurement as one at `-high`.
 
-### Contamination — bounded, not excluded
+### Contamination — controlled for, and the control passes
 
 The Cursor agents cloned the whole repository, and `data/benchmark_v3/answers2.jsonl` and
 `data/benchmark_v2_ctrl/answers2.jsonl` are tracked. `fverify60` is drawn from exactly
-those two directories. Blindness therefore rested on an instruction not to open other
-files, which nothing verifies after the fact.
+those two directories, so blindness rested on an instruction not to open other files —
+which nothing verifies after the fact.
 
-Two checks were run. Byte-identity of a correct SMILES to the string in the answer file is
-weak — Claude's own June run, which predates this layout, sits at 21%, against 34–48% for
-the new models. The decisive test is stereochemistry, which 1D spectra cannot determine:
-of the compounds whose reference carries assigned stereocentres and which the model got
-constitutionally right, **Grok reproduced 0/3, Gemini 0/2 and GPT-5.6 Sol 0/2** correct
-descriptors. A model reading the key would have copied them. That is evidence against
-copying on seven opportunities — a fair argument, not a proof.
+**The control is a re-solve with the answer files physically out of the workspace.** Grok
+4.6 re-ran all ten batches from a clean clone; results in `sweep_out/grok-4.6-clean/`.
 
-The clean control is one solve arm re-run from a clone with the answer files removed. It
-has not been done, and until it is, these numbers stay out of the paper.
+| arm | recall | 95% CI | parse | formula match |
+|---|--:|--:|--:|--:|
+| original (answer files present) | 32/60 = 53% | [41, 65] | 179/180 | 171/180 |
+| clean clone (answer files absent) | 28/60 = 47% | [35, 59] | 176/180 | 174/180 |
+
+Paired: **b=8, c=4, McNemar exact p=0.39**. The intervals overlap heavily and the
+difference is four compounds.
+
+The decisive detail is the asymmetry, not the totals. A model reading the key would solve
+a **superset** with the key present. It does not: **four compounds were solved only in the
+arm that had no key at all**, and only 24 of the 60 were solved by both. Two runs of one
+model on one set of spectra agreeing on 24 and disagreeing in both directions is what
+sampling noise looks like; copying a hidden file is not. Formula adherence also held —
+97% against 98% — where a model that had lost its crib would be expected to degrade.
+
+Taken with the earlier stereochemistry check — Grok 0/3, Gemini 0/2, GPT-5.6 Sol 0/2
+correct descriptors on structures they got constitutionally right, where a key-reader
+would have copied them — the leak hypothesis is not supported. Grok's 53% is a
+measurement.
+
+One limit stands: the control was run for Grok. Gemini and GPT-5.6 Sol rest on the
+stereochemistry argument and on having been run under the identical instruction, not on
+their own clean-clone arm.
 
 ### Not run
 

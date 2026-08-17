@@ -1,0 +1,32 @@
+{
+  "M055": [
+    "FC(F)(F)c1cccc(CCCI)c1",
+    "FC(F)(F)c1ccc(CCCI)cc1",
+    "FC(F)(F)c1ccccc1CCCI"
+  ],
+  "M056": [
+    "CC(C)(C)OC(=O)C1CN(C)CC1c2ccccc2[N+](=O)[O-]",
+    "CC(C)(C)OC(=O)C1N(C)CCC1c2ccccc2[N+](=O)[O-]",
+    "CC(C)(C)OC(=O)C1CN(C)CC1c2ccc([N+](=O)[O-])cc2"
+  ],
+  "M057": [
+    "CC(=O)C(Cl)=NNc1ccc(C)cc1",
+    "Cc1ccc(NC(=O)C(C)=NCl)cc1",
+    "CC(=O)C(Cl)=NNc1cccc(C)c1"
+  ],
+  "M058": [
+    "Cc1ccc(cc1)S(=O)(=O)Nc2cc(Br)c(Br)cc2N",
+    "Cc1ccc(cc1)S(=O)(=O)Nc2cc(Br)c(N)cc2Br",
+    "Cc1ccc(cc1)S(=O)(=O)Nc2cc(Br)cc(Br)c2N"
+  ],
+  "M059": [
+    "CC(C)C(NC(=O)OC(C)(C)C)C(=O)NCc1ccccc1",
+    "CC(C)CC(NC(=O)OC(C)(C)C)C(=O)Nc1ccccc1",
+    "CC(C)C(NC(=O)OCc1ccccc1)C(=O)NC(C)(C)C"
+  ],
+  "M060": [
+    "O=C(OCC=Cc1cccnc1)c2cccnc2",
+    "O=C(OCC=Cc1ccccn1)c2cccnc2",
+    "O=C(OCC=Cc1ccncc1)c2cccnc2"
+  ]
+}

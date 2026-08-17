@@ -1,0 +1,32 @@
+{
+  "M013": [
+    "CC(C)N1C/C(=C\\c2ccc(F)cc2)/C(=O)/C(=C\\c2ccc(F)cc2)/C1",
+    "CC(C)N1C/C(=C\\c2ccccc2F)/C(=O)/C(=C\\c2ccccc2F)/C1",
+    "CC(C)N1C/C(=C\\c2cccc(F)c2)/C(=O)/C(=C\\c2cccc(F)c2)/C1"
+  ],
+  "M014": [
+    "O=C1NC(=S)N(c2ccc(C(F)(F)F)cc2)/C1=C/c1cccc2ccccc12",
+    "O=C1NC(=S)N(c2cccc(C(F)(F)F)c2)/C1=C/c1cccc2ccccc12",
+    "Oc1ccc2ccccc2c1/C=N/c1nc(-c2ccc(C(F)(F)F)cc2)cs1"
+  ],
+  "M015": [
+    "CCOc1ccc2nc(CC(O)(c3coc4ccccc4c3=O)C(F)(F)F)ccc2c1",
+    "CCOc1ccc2c(c1)occ(C(O)(Cc1ccc3ccccc3n1)C(F)(F)F)c2=O",
+    "CCOc1ccc2ncc(CC(O)(c3coc4ccccc4c3=O)C(F)(F)F)cc2c1"
+  ],
+  "M016": [
+    "CCc1ccc(-c2cc(Cn3cc(CCCN4CCN(C)CC4)nn3)nc(Cn3cc(CCCN4CCN(C)CC4)nn3)c2)cc1",
+    "CCN1CCN(CCCc2cn(Cc3cc(-c4ccccc4)cc(Cn4cc(CCCN5CCN(CC)CC5)nn4)n3)nn2)CC1",
+    "CN1CCN(CCCCc2cn(Cc3cc(-c4ccccc4)cc(Cn4cc(CCCCN5CCN(C)CC5)nn4)n3)nn2)CC1"
+  ],
+  "M017": [
+    "CCCn1c(-c2ccccc2)nc2ccccc21",
+    "CCCc1nc2ccccc2n1-c1ccccc1",
+    "CCCn1nc(-c2ccccc2)c2ccccc21"
+  ],
+  "M018": [
+    "CCN(CC)C(=O)c1c(-c2ccccc2)cc(C)cc1-c1ccc2ccc3cccc4ccc1c2c34",
+    "CCN(CC)C(=O)c1c(-c2ccccc2)cc(C)cc1-c1cc2ccc3cccc4ccc(c1)c2c34",
+    "CCN(CC)C(=O)c1c(-c2ccccc2)cc(C)cc1-c1ccc2c3ccccc3cc3cccc1c23"
+  ]
+}

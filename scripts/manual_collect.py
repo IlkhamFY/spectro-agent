@@ -75,8 +75,8 @@ def extract(txt):
 def collect(src, vendor):
     src = os.path.abspath(os.path.expanduser(src))
     key = json.load(open(f"{OUT}/key.json"))["key"]
-    files = sorted(glob.glob(f"{src}/reply_*.json") + glob.glob(f"{src}/reply_*.txt") +
-                   glob.glob(f"{src}/reply_*.md"))
+    files = sorted(sum((glob.glob(f"{src}/reply_*{e}") for e in (".json", ".txt", ".md")), [])
+                   or sum((glob.glob(f"{src}/**/reply_*{e}") for e in (".json", ".txt", ".md")), []))
     if not files:
         sys.exit(f"no reply_*.json in {src}")
     merged, bad, dupes = {}, [], []

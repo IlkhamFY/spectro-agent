@@ -225,77 +225,166 @@ Listed so no reader mistakes them for part of the LLM system under test.
 | §5.6 | trained-generator probe | ~16M-parameter ¹H/¹³C→SMILES transformer, ensemble of four, trained locally; `contrib/generator_probe/`, checkpoints on Zenodo |
 | §5.4 | learned ¹³C verifier | 4-layer message-passing GNN trained on the same nmrshiftdb2 dump; `scripts/gnn_predict.py`, `data/nmrshiftdb/gnn_c13.pt` |
 
-## Cross-vendor sweep — pilot run, nothing reported
+## Cross-vendor sweep — five vendors, run 2026-08-13 to 2026-08-17
 
-Two non-Claude models were run through `scripts/cross_vendor_sweep.py` on 2026-08-13/14
-via OpenRouter (`scripts/openrouter_run.py`), on the `fverify60` subset. **No number from
-these runs appears in `docs/PAPER.md`,** and §7 (iii) stands unchanged: the paper remains
-single-vendor. They are recorded here because they were run, and this file's purpose is to
-say what was.
+Six non-Claude models were run through `scripts/cross_vendor_sweep.py` on the `fverify60`
+arm — the same 60 compounds Table 6's first column reports. Two came from OpenRouter
+(`scripts/openrouter_run.py`); four were driven by Cursor cloud agents against the
+committed `sweep_prompts/`, one fresh subagent per batch, at no API cost. Raw replies are
+in `sweep_out/`.
 
-| model | ctx | answered | recall | parsing | matching the given formula |
-|---|--:|--:|--:|--:|--:|
-| `nvidia/nemotron-3.5-lightning` | 6 | 60/60 | **0/60** | 61% | **2%** |
-| `deepseek/deepseek-v4-pro-0813` | 6 | 18/60 | **1/18** | 93% | **35%** |
-| `deepseek/deepseek-v4-pro-0813` | **3** | 18/60 | **8/18** | 94% | **94%** |
-| *Claude, same constraint (§3)* | 2–12 | — | — | — | *78–95%* |
+**Nothing here is reported in `docs/PAPER.md`.** §7 (iii) stands as written. The contamination
+caveat below is the reason, and it is not a formality.
 
-**Context packing moved this model more than anything else we varied.** The two DeepSeek
-rows differ only in how many compounds shared a context — same model, same prompt, same
-constraint. At six it returned molecules of the wrong composition 65% of the time; at
-three it obeyed the formula 94% of the time, inside Claude's own band, and recall on the
-compounds it answered went 1/18 to 8/18 (McNemar over the paired 60, b=8 c=1, p=0.039).
-This is the §4.3 effect appearing in an unrelated model lineage, and larger there than the
-paper measures for Claude. Two caveats: the arms answered different subsets, so the recall
-comparison is partly confounded by *which* compounds got through, and 14 of 20 batches
-still failed to terminate. The formula-adherence half is the cleaner comparison, being
-measured over each arm's own output.
+### Generation
 
-**The central inequality replicates.** On the 3-per-context arm, forward verification is
-right far more often than generation is:
+| model | route | answered | recall | top-1 | parse | matches the given formula |
+|---|---|--:|--:|--:|--:|--:|
+| `grok-4.6` | Cursor | 60/60 | **53%** | 38% | 99% | 95% |
+| `gemini-3.7-flash` | Cursor | 60/60 | **50%** | 38% | 98% | 94% |
+| `gpt-5.6-sol` | Cursor | 60/60 | **42%** | 35% | 100% | **100%** |
+| *Claude Opus (Table 6)* | subscription | 60/60 | *32%* | *23%* | — | *78–95%* |
+| `composer-2.5` | Cursor | 57/60 | 20% | 17% | 95% | 67% |
+| `gpt-5.6-luna` | Cursor | 60/60 | 15% | 10% | 90% | 76% |
+| `deepseek/deepseek-v4-pro-0813` | OpenRouter | 18/60 | 13% | 12% | 94% | 94% |
+| `nvidia/nemotron-3.5-lightning` | OpenRouter | 60/60 | 0% | 0% | 61% | **2%** |
 
-| quantity | DeepSeek V4 Pro | Claude (Table 6, n=194) |
-|---|--:|--:|
-| generation recall (all 60, unanswered = miss) | 8/60 = 13% [7, 24] | 65/194 = 34% |
-| generation recall (18 answered only) | 8/18 = 44% [25, 66] | — |
-| verification precision, conditional on recall | 5/8 = **62%** [31, 86] | 58/65 = **89%** |
+Three models exceed Claude's generation recall on the identical compounds, Grok by 21
+points. Read the formula-adherence column first: nemotron's zero is not a chemistry
+result, it is a model that could not return a structure of the requested composition.
 
-Read against the full cohort, as the paper's own convention does, precision (62%) exceeds
-recall (13%) with non-overlapping intervals. Read against answered compounds only, 62%
-against 44%, the intervals overlap and the ordering is directional. Either way the sign
-matches Claude's, on a model from a different lab. This is the first non-Claude evidence
-for the paper's central decomposition — but it rests on **8 recall-positive compounds** in
-an arm that is 30% complete, so it belongs here rather than in the paper, and it is not
-reported in `docs/PAPER.md`.
+### The decomposition
 
-Neither has the power to test the claim, for two independent reasons.
+Verification was run for the three models whose output contract was strong enough to
+justify it. Composer and Luna were left out at 67% and 76% adherence.
 
-The first is arithmetic: the portable quantity is the inequality *verification precision >
-generation recall*, and precision is conditional on recall — at zero recall there is
-nothing to condition on, so the comparison is undefined rather than negative.
+| model | generation recall | verification precision \| recall | multi-candidate only |
+|---|--:|--:|--:|
+| *Claude Opus (Table 6)* | *19/60 = 32%* [21, 44] | *16/19 = 84%* [62, 94] | *10/13 = 77%* |
+| `grok-4.6` | 32/60 = 53% [41, 65] | 20/32 = 62% [45, 77] | 20/32 = 62% |
+| `gemini-3.7-flash` | 30/60 = 50% [38, 62] | 22/30 = 73% [56, 86] | 22/30 = 73% |
+| `gpt-5.6-sol` | 25/60 = 42% [30, 54] | 17/25 = 68% [48, 83] | 16/24 = 67% |
 
-The second is more basic and easier to misread. **Neither model can meet the output
-contract.** The task hands over a molecular formula and asks for candidates matching it;
-nemotron returned 180 candidates of which 61% parsed as molecules at all and 2% carried
-the right composition, several with literal spaces inside the SMILES. A model that cannot
-return a well-formed structure of the requested formula is not being measured on
-elucidation, and reading its 0/60 as a statement about chemistry is the mistake this table
-most invites. `cross_vendor_sweep.py score` now prints the parse and formula-adherence
-rates beside recall, and flags any vendor below 50% as too low to interpret.
+**The inequality holds in every arm** — verification precision exceeds generation recall
+for all four vendors, which is the criterion `docs/CROSS_VENDOR.md` sets. Only Claude's
+gap is interval-disjoint; for the three new models the intervals overlap at n=60, so
+those are directional rather than established.
 
-Read these as a demonstration that the harness runs end to end, not as evidence about any
-vendor.
+Two things are worth more than the headline.
 
-The DeepSeek failure is worth recording separately because it is a property of the model
-rather than of the transport: on seven batches it produced tens of thousands of reasoning
-tokens and exhausted a 120,000-token ceiling **without emitting a single answer token**.
-Six blind elucidations in one context is apparently past what it will commit to an answer
-on. The headline Claude run used 2–12 compounds per context, so a smaller context is still
-protocol-consistent and is the obvious thing to try first
-(`cross_vendor_sweep.py prepare <subset> <n>`).
+**Claude's 84% was flattered by composition.** Six of its 19 recall-positive compounds
+carried a single candidate, so no ranking happened and any verifier scores them by
+construction — §5.2 already says so. The newer models return three distinct candidates
+almost always (0–1 single-candidate). On the comparable subset the four sit at 77%, 73%,
+67% and 62%, and the apparent Claude advantage largely dissolves.
 
-Outputs live in `data/cross_vendor/`, which is gitignored — it holds the held-out answer
-key, so nothing under it is committed.
+**Verification looks roughly vendor-independent; generation does not.** Precision on
+multi-candidate compounds spans 62–77% across four independent model families, while
+recall spans 32–53%. That is a sharper form of the paper's own claim: the wall is the
+generator, and the verifier is about as good wherever you get it. It also reproduces the
+§5.3 precision-loss mechanism across vendors — the model proposing the most candidates
+(Grok, 32 recall-positive) verifies them worst.
+
+### One table — every model we ran, plus Table 6
+
+Dashes are not zeros: that quantity was not measured on that arm. Cursor rows are
+**as served** (see below). `prec|rec` is verification precision conditional on recall;
+`multi` is the same restricted to recall-positive compounds with more than one candidate.
+Table 6's n=194 column is the paper's high-n consolidation; the n=60 column is the
+arm the sweep copies.
+
+| model | set | n | recall | self top-1 | FV top-1 | prec\|rec | multi | formula | parse |
+|---|---|--:|--:|--:|--:|--:|--:|--:|--:|
+| Claude Opus | Table 6 full bench | 194 | **34%** (65/194) | **28.4%** (55/194) | **30%** (58/194) | **89%** (58/65) | **81%** (30/37) | 78–95% | — |
+| Claude Opus | Table 6 / fverify60 | 60 | 32% (19/60) [21, 44] | 23% (14/60) | 27% (16/60) | 84% (16/19) [62, 94] | 77% (10/13) | 78–95% | — |
+| Claude Opus | generate-wide §5.3 | 60 | **42%** (25/60) | — | **30%** (18/60) | 72% | — | — | — |
+| trained generator §5.6 | fverify60 | 60 | 56% (34/60) | — | **46%** (28/60) | 82% (28/34) | — | — | — |
+| Claude Opus | formula-only §4.6 | 60 | 5% (3/60) | 5% (3/60) | — | — | — | — | — |
+| Claude Opus | electrolyte §4.5 | 46 | 28% (13/46) | 26% (12/46) | — | — | — | — | — |
+| Claude Fable 5 | Table 3 subset | 24 | 54% rec. | **46%** | — | — | — | — | — |
+| Claude Opus | Table 3 subset | 24 | 29% rec. | 25% | — | — | — | — | — |
+| Claude Sonnet | Table 3 subset | 24 | 25% rec. | 21% | — | — | — | — | — |
+| Claude Haiku | Table 3 subset | 24 | 4% rec. | **0%** | — | — | — | — | — |
+| Claude Sonnet | V3-R01…R12 | 12 | 33% (4/12) | — | — | — | — | — | — |
+| `grok-4.6` | fverify60 Cursor | 60 | **53%** (32/60) [41, 65] | 38% | 33% (20/60) | 62% (20/32) [45, 77] | 62% (20/32) | 95% | 99% |
+| `grok-4.6-clean` | fverify60, no answers | 60 | 47% (28/60) [35, 59] | — | — | — | — | 98% | 98% |
+| `gemini-3.7-flash` | fverify60 Cursor | 60 | **50%** (30/60) [38, 62] | 38% | 37% (22/60) | 73% (22/30) [56, 86] | 73% (22/30) | 94% | 98% |
+| `gpt-5.6-sol` | fverify60 Cursor | 60 | **42%** (25/60) [30, 54] | 35% | 28% (17/60) | 68% (17/25) [48, 83] | 67% (16/24) | **100%** | 100% |
+| `composer-2.5` | fverify60 Cursor | 57 | 20% | 17% | — | — | — | 67% | 95% |
+| `gpt-5.6-luna` | fverify60 Cursor | 60 | 15% | 10% | — | — | — | 76% | 90% |
+| DeepSeek V4 Pro | fverify60 OpenRouter | 18 | 13% (8/60) | 12% | — | — | — | 94% | 94% |
+| Nemotron 3.5 Lightning | fverify60 OpenRouter | 60 | 0% | 0% | — | — | — | **2%** | 61% |
+| GPT-5.6 Terra | — | — | not run | — | — | — | — | — | — |
+| GLM 5.2 | — | — | not run | — | — | — | — | — | — |
+
+Table 3 "recall" is recovered (top-3) on a 3-candidate budget. DeepSeek answered 18/60
+(3-per-context arm); unanswered compounds count as misses in the 8/60. Composer and Luna
+were not verified (formula adherence below the line). Terra and GLM 5.2 are not in the
+cloud-agent allowlist. Grok clean-clone is solve-only.
+
+### What these identifiers actually name
+
+The models are **as served by Cursor**, not stock vendor endpoints, and the difference is
+not cosmetic. The cloud agent's allowlist reads `gpt-5.6-sol-xhigh`, `gpt-5.6-sol-high`,
+`gpt-5.6-luna-high`, `gemini-3.7-flash-high`, `cursor-grok-4.6-high-fast`, `composer-2.5`
+— every id but the last carries a **reasoning-effort suffix**.
+
+That is a decoding parameter, and it is one the reference arm never had. The Claude runs
+behind this paper came from a subscription harness exposing no decoding controls at all
+(§8), so these arms were run with a knob turned that Claude's could not reach. `Cursor
+Grok 4.6` is likewise a Cursor variant rather than stock xAI, and Cursor supplies its own
+agent system prompt above the task text.
+
+None of this invalidates the numbers; it fixes what they are numbers *about*. They measure
+a model-as-served, which is the same class of object §8 already concedes for Claude — no
+pinnable snapshot, distributional rather than exact reproducibility. Reported as
+vendor-family results, they stand; reported as "GPT-5.6 Sol scores 42%", they would
+overclaim.
+
+**The exact effort tier used for each arm is not recorded here**, because the run did not
+report which allowlist entry it selected. That is a gap to close before any of this is
+written up: the tier belongs beside each row, and a run at `-xhigh` is not the same
+measurement as one at `-high`.
+
+### Contamination — controlled for, and the control passes
+
+The Cursor agents cloned the whole repository, and `data/benchmark_v3/answers2.jsonl` and
+`data/benchmark_v2_ctrl/answers2.jsonl` are tracked. `fverify60` is drawn from exactly
+those two directories, so blindness rested on an instruction not to open other files —
+which nothing verifies after the fact.
+
+**The control is a re-solve with the answer files physically out of the workspace.** Grok
+4.6 re-ran all ten batches from a clean clone; results in `sweep_out/grok-4.6-clean/`.
+
+| arm | recall | 95% CI | parse | formula match |
+|---|--:|--:|--:|--:|
+| original (answer files present) | 32/60 = 53% | [41, 65] | 179/180 | 171/180 |
+| clean clone (answer files absent) | 28/60 = 47% | [35, 59] | 176/180 | 174/180 |
+
+Paired: **b=8, c=4, McNemar exact p=0.39**. The intervals overlap heavily and the
+difference is four compounds.
+
+The decisive detail is the asymmetry, not the totals. A model reading the key would solve
+a **superset** with the key present. It does not: **four compounds were solved only in the
+arm that had no key at all**, and only 24 of the 60 were solved by both. Two runs of one
+model on one set of spectra agreeing on 24 and disagreeing in both directions is what
+sampling noise looks like; copying a hidden file is not. Formula adherence also held —
+97% against 98% — where a model that had lost its crib would be expected to degrade.
+
+Taken with the earlier stereochemistry check — Grok 0/3, Gemini 0/2, GPT-5.6 Sol 0/2
+correct descriptors on structures they got constitutionally right, where a key-reader
+would have copied them — the leak hypothesis is not supported. Grok's 53% is a
+measurement.
+
+One limit stands: the control was run for Grok. Gemini and GPT-5.6 Sol rest on the
+stereochemistry argument and on having been run under the identical instruction, not on
+their own clean-clone arm.
+
+### Not run
+
+`GPT-5.6 Terra` and `GLM 5.2` were attempted and rejected — neither is in the cloud
+agent's subagent allowlist, which offers Sol and Luna but no Terra. Reaching them needs
+the IDE or a parent whose model list includes them.
 
 ## Specified but never run — no model was invoked
 

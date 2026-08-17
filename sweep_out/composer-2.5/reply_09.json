@@ -1,0 +1,32 @@
+{
+  "M049": [
+    "c1ccc(cc1)C2=NCCN2",
+    "c1ccc(cc1)CN2CCN=C2",
+    "c1ccc(cc1)NC1CN1"
+  ],
+  "M050": [
+    "O=[N+]([O-])c1ccccc1C1OCC(O)C1",
+    "O=[N+]([O-])c1ccccc1OCC(O)CO",
+    "O=[N+]([O-])c1ccccc1C(O)COC"
+  ],
+  "M051": [
+    "CNC(=O)Nc1ccc(Cl)c(Br)c1",
+    "CNC(=O)Nc1ccc(Br)c(Cl)c1",
+    "Cc1[nH]c(=O)n1-c1ccc(Cl)c(Br)c1"
+  ],
+  "M052": [
+    "COc1cc(Br)cc(OC)c1Oc1ccccc1",
+    "COc1cc(OC)c(Br)cc1Oc1ccccc1",
+    "COc1cc(Br)cc(OC)c1-c1ccccc1O"
+  ],
+  "M053": [
+    "CC(O)(c1ccc(F)cc1)C#Cc1ccc(OC)cc1",
+    "COc1ccc(C#CC(C)(O)c2ccc(F)cc2)cc1",
+    "Fc1ccc(cc1)C#CC(C)(O)c1ccc(OC)cc1"
+  ],
+  "M054": [
+    "CC(C)(C)ON=Nc1ccccc1",
+    "CC(C)(C)NN(O)c1ccccc1",
+    "CC(C)(C)N=NNc1ccccc1"
+  ]
+}

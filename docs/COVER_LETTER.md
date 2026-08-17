@@ -66,8 +66,10 @@ stated exceptions, reported as labelled complements rather than as part of that
 protocol: a small generator fine-tuned on IRexp (§5.6), which establishes that the
 recall wall is elicitation-specific rather than task-intrinsic and delivers our highest
 full-benchmark accuracy (top-1 28.4%→35.1%, n=194, McNemar exact p=0.015), and a
-learned ¹³C verifier (§5.4). Every result is single-vendor (the Claude family), which
-we state plainly and name as the key open question. All data, agent transcripts,
+learned ¹³C verifier (§5.4). The headline is measured on the Claude family, and the
+decomposition is replicated on Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol over the
+60-compound arm (§4.7), where verification precision exceeds generation recall in every
+case. All data, agent transcripts,
 predictions, figures, and scoring/mining code are released, both probes included with
 their reproducers. This matches *Digital Discovery*'s emphasis on open, reproducible computational methodology, and we
 believe the combination of an open dataset, an honestly-scored benchmark that

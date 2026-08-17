@@ -1,0 +1,32 @@
+{
+  "M037": [
+    "CC(C)C[C@H]1NC(=O)N[C@H](CC(C)C)[C@H]1C(C)C",
+    "CC(C)CCN1C(=O)N[C@H](CC(C)C)[C@H]1C(C)C",
+    "CC(C)C[C@H]1NC(=O)N[C@H](C(C)C)C1CC(C)C"
+  ],
+  "M038": [
+    "CC(=O)c1ccccc1CBr",
+    "CC(=O)c1cccc(CBr)c1",
+    "CC(=O)c1ccc(CBr)cc1"
+  ],
+  "M039": [
+    "CC(=O)c1oc(C(C)C)c(CCO[Si](C)(C)C(C)(C)C)c1",
+    "CC(=O)c1oc(C(C)C)c(C(C)O[Si](C)(C)C(C)(C)C)c1",
+    "CC(=O)c1oc(C(C)C)c(CO[Si](C)(C)C(C)(C)C)c1"
+  ],
+  "M040": [
+    "Cc1ccc(S(=O)(=O)Oc2ccc(C#N)cc2)cc1",
+    "Cc1ccc(S(=O)(=O)Oc2ccc(N=[N+]=[N-])cc2)cc1",
+    "Cc1ccc(S(=O)(=O)c2ccc(C(=O)N=[N+]=[N-])cc2)cc1"
+  ],
+  "M041": [
+    "CC(=O)OCC#CC(OC)[Si](C)(C)C",
+    "CC(=O)CC#CC(O[Si](C)(C)C)OC",
+    "CC(=O)C(OC)(C#C[Si](C)(C)C)OC"
+  ],
+  "M042": [
+    "CC(C)CC(C(=O)O)NS(=O)(=O)c1ccc(C)cc1",
+    "CCC(C)C(C(=O)O)NS(=O)(=O)c1ccc(C)cc1",
+    "CC(C)CC(C(=O)O)S(=O)(=O)Nc1ccc(C)cc1"
+  ]
+}

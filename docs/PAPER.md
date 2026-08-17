@@ -46,8 +46,9 @@ than falls — the true
 structure stays outside the candidate pool for roughly half of compounds. Two independent
 contamination controls confirm the spectra do the work: masking them drops top-1 from 23%
 to 5% on the same compounds, and accuracy is flat in the publication year of the source
-paper (§4.6). Every result is single-vendor (Claude); a cross-vendor test is the key open
-question. The core protocol uses no model training and no paid API — two clearly-fenced
+paper (§4.6). The decomposition is not confined to one lineage: on the same 60 compounds,
+Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all verify better than they generate, and three
+of six non-Claude models exceed our headline model's recall (§4.7). The core protocol uses no model training and no paid API — two clearly-fenced
 probes (§5.4, §5.6) are the only exceptions — and all data, predictions, and code are
 released.
 
@@ -122,8 +123,8 @@ models stand over a leaderboard-topping number.
    what IRexp competes with (§2.1).
 2. An **open multimodal benchmark** — to our knowledge the first blind, mechanically
    scored, complexity-stratified evaluation of frontier-LLM structure elucidation on real
-   spectra — measured in depth on one model family (Claude), which reconciles the gap to
-   optimistic prior reports. Crucially, the ground truth is experimental
+   spectra — measured in depth on one model family (Claude) and replicated across three
+   others (§4.7), which reconciles the gap to optimistic prior reports. Crucially, the ground truth is experimental
    structures from the published literature, resolved deterministically (OPSIN/RDKit) and
    checked against the source articles mechanically (560/560 bands confirmed on a
    seed-fixed sample, §2.3; the *expert-chemist* review is prepared but not yet run, §7):
@@ -835,6 +836,81 @@ from inference on a near-determining formula — so we claim a strong bound rath
 exclusion (§7). The control record is released at
 `data/modality/formulaonly_control.json`.
 
+
+### 4.7 Does the diagnosis hold outside one vendor? A four-vendor replication
+
+Every number so far comes from one lineage, which §7 (iii) named as the most important
+external-validity gap in this work. We closed it. Six non-Claude models were run over the
+same 60 compounds as Table 6's first column, under the identical blind protocol — one
+fresh context per six compounds, closed-book, three ranked candidates — and the three
+whose output was well-formed enough to justify it were carried through forward
+verification as well.
+
+**Table 9. Cross-vendor decomposition on the 60-compound arm.** Recall and precision have
+different denominators, so the criterion is the inequality, not a difference.
+
+| model | generation recall | verification precision \| recall | multi-candidate only |
+|---|--:|--:|--:|
+| Claude Opus (Table 6) | 19/60 = 32% [21, 44] | 16/19 = **84%** [62, 94] | 10/13 = 77% |
+| Grok 4.6 | 32/60 = **53%** [41, 65] | 20/32 = 62% [45, 77] | 20/32 = 62% |
+| Gemini 3.7 Flash | 30/60 = **50%** [38, 62] | 22/30 = 73% [56, 86] | 22/30 = 73% |
+| GPT-5.6 Sol | 25/60 = **42%** [30, 54] | 17/25 = 68% [48, 83] | 16/24 = 67% |
+
+**The inequality holds in every arm.** Verification precision exceeds generation recall
+for four independent model families, which is the decomposition this paper rests on
+reproducing outside the family it was measured in. Only Claude's gap is interval-disjoint;
+at n=60 the other three are directional rather than separated, and we report them as such.
+
+Two findings sit underneath that headline and matter more than it does.
+
+**Our own 84% was partly composition, and the cross-vendor data exposes it.** Six of
+Claude's nineteen recall-positive compounds carried a single candidate, so nothing was
+ranked and any verifier scores them by construction — §5.2 says so, but only against
+itself. The newer models return three distinct candidates almost always (0–1 singletons).
+Restricted to compounds where a choice actually existed, the four precisions fall in a
+band: 77%, 73%, 67%, 62%. The apparent Claude advantage largely dissolves.
+
+**Verification looks vendor-independent where generation does not.** Precision on
+multi-candidate sets spans 62–77% across four families; recall spans 32–53%. That is a
+sharper statement of this paper's claim than we could make from one vendor: the wall is
+the generator, and the verifier is worth about the same wherever it is taken from. The
+ordering also reproduces §5.3's precision-loss mechanism across vendors — Grok proposes
+the most candidates (32 recall-positive) and ranks them worst (62%), exactly as widening
+a candidate pool costs precision within a single model.
+
+Three of the six models beat our headline model on generation recall, Grok by 21 points.
+That is not a defeat for the diagnosis; it is the diagnosis working. Recall is the movable
+factor, and models a generation newer move it — while verification, the part we showed was
+already strong, stays where it was.
+
+The three weaker models are reported for completeness and excluded from the
+decomposition: Composer 2.5 (20% recall) and GPT-5.6 Luna (15%) return candidates matching
+the given formula only 67% and 76% of the time, and `nvidia/nemotron-3.5-lightning`
+managed 2%. A recall figure from a model that cannot emit a structure of the requested
+composition is not a statement about chemistry, and §4.1's scorer now prints
+formula adherence beside recall so that this cannot be misread.
+
+**Contamination was controlled, not assumed.** These runs were driven by cloud agents with
+repository access, and the answer keys for these 60 compounds are tracked files. Blindness
+therefore rested on an instruction. To test it, Grok re-solved all ten batches from a clone
+with the answer files physically removed: recall 28/60 against 32/60, paired McNemar
+**p=0.39**, formula adherence 98% against 97%. The decisive detail is not the totals but
+the asymmetry — a model reading the key would solve a *superset*, and instead **four
+compounds were solved only in the arm that had no key**, with 24 of 60 solved by both.
+That is sampling noise between two runs of one model, not copying. Independently, on
+structures the models got constitutionally right whose reference carries assigned
+stereocentres — information 1D spectra cannot supply — Grok reproduced 0/3 correct
+descriptors, Gemini 0/2 and GPT-5.6 Sol 0/2, where a key-reader would have copied them.
+
+Two limits are worth stating plainly. The models were reached through a coding-assistant
+harness that exposes reasoning-effort tiers, a decoding control the Claude arm never had
+(§8), so these are measurements of a model *as served* rather than of a bare endpoint —
+the same class of object §8 already concedes for our own runs. And the clean-clone control
+covers Grok; Gemini and GPT-5.6 Sol rest on the stereochemistry argument and the shared
+protocol. Per-model identifiers, raw replies and the control are released in
+`docs/MODELS.md` and `sweep_out/`.
+
+
 ---
 
 ## 5. Forward-verification elucidation
@@ -1427,10 +1503,16 @@ Opus), and the cross-model evidence (§4.4) is four **Claude-family** models on 
 **24-compound** subset. As §4.4 sets out, that comparison is underpowered: the
 ranking is robust (strictly nested, weakest floored at 0%) but no adjacent gap is
 established at n=24. Quantitative claims should therefore be read as holding **for the Claude family**,
-and a true cross-**vendor** sweep (GPT-, Gemini-class, open-weight models) — the test of
-whether the pattern is a property of the task rather than one lineage — was forgone
-because it needs paid API access incompatible with our zero-cost protocol; we flag it as
-the most important external-validity experiment left open.
+The cross-**vendor** question this raised is no longer open: §4.7 reports the same
+decomposition for Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol on the 60-compound arm, and
+verification precision exceeds generation recall in all three, as it does for Claude. What
+remains is weaker than the original gap but real. Only Claude's inequality is
+interval-disjoint at n=60; the other three are directional. Those models were reached
+through a coding-assistant harness exposing reasoning-effort tiers, a decoding control our
+own arm never had, so they measure a model as served rather than a bare endpoint. The
+clean-clone contamination control was run for Grok alone. And the *headline* number
+(28.4% top-1, n=194) is still a single frontier model on the full benchmark; the
+cross-vendor arms cover 60 compounds.
 
 **(iv) Domain-subset scope:** the battery-electrolyte case study (§4.5) comprises
 *literature compounds bearing electrolyte-relevant functional chemistry* drawn from the

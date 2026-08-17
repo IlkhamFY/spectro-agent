@@ -1,0 +1,32 @@
+{
+  "M007": [
+    "CCOC(=O)CCCCCC=CCO[Si](c1ccccc1)(c1ccccc1)C(C)(C)C",
+    "CCOC(=O)CCCCCCC=CO[Si](c1ccccc1)(c1ccccc1)C(C)(C)C",
+    "CCOC(=O)CCCCC=CCCO[Si](c1ccccc1)(c1ccccc1)C(C)(C)C"
+  ],
+  "M008": [
+    "c1ccc(-c2ccc(CN(CCC)c3ccc(OC)cc3)cc2)cc1N=Nc4ccc(OC)cc4C#C",
+    "c1ccc(-c2ccc(CN(CCC)c3cc(OC)ccc3)cc2)cc1N=Nc4ccc(OC)cc4C#C",
+    "c1ccc(-c2ccc(CN(CCC)c3ccc(OC)cc3)cc2)cc1N=Nc4cc(OC)ccc4C#C"
+  ],
+  "M009": [
+    "CN1C(=O)C2=C(c3cc(F)ccc31)C(c1ccccc1)C=C(c1ccccc1)O2",
+    "CN1C(=O)C2=C(c3ccc(F)cc31)C(c1ccccc1)C=C(c1ccccc1)O2",
+    "CN1C(=O)C2=C(c3c(F)cccc31)C(c1ccccc1)C=C(c1ccccc1)O2"
+  ],
+  "M010": [
+    "O=C(C(c1ccccc1)Cc1ccccc1)NCCC[NH2+]CCCC[NH2+]CCCNC(=O)C(c1ccccc1)Cc1ccccc1.O=C([O-])C(F)(F)F.O=C([O-])C(F)(F)F",
+    "O=C([C@H](c1ccccc1)Cc1ccccc1)NCCC[NH2+]CCCC[NH2+]CCCNC(=O)[C@H](c1ccccc1)Cc1ccccc1.O=C([O-])C(F)(F)F.O=C([O-])C(F)(F)F",
+    "O=C([C@H](c1ccccc1)Cc1ccccc1)NCCC[NH2+]CCCC[NH2+]CCCNC(=O)[C@@H](c1ccccc1)Cc1ccccc1.O=C([O-])C(F)(F)F.O=C([O-])C(F)(F)F"
+  ],
+  "M011": [
+    "CCc1nc2c(c(F)c([N+](=O)[O-])c2=O)n(-c3ccc(C=C)cc3)c1=O",
+    "Cc1nc2c(c(F)c([N+](=O)[O-])c2=O)n(-c3ccc(C=C)cc3)c1=O",
+    "Cc1nc2c(c(F)c([N+](=O)[O-])c2=O)n(-c3ccc(C(C)=C)cc3)c1=O"
+  ],
+  "M012": [
+    "Cn1c(CC(=O)NN=Cc2ccccc2O)ccc1C(=O)c1ccc(C)cc1",
+    "Cn1c(CC(=O)NN=Cc2ccc(O)cc2)ccc1C(=O)c1ccc(C)cc1",
+    "Cn1c(CC(=O)NN=Cc2cccc(O)c2)ccc1C(=O)c1ccc(C)cc1"
+  ]
+}

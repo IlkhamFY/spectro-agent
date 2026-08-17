@@ -468,7 +468,10 @@ def check_cross_vendor_disclosure():
     ran = sorted(_glob.glob("data/cross_vendor/solve_*.json") +
                  _glob.glob("data/cross_vendor/verify_*.json"))
     unrun = re.search(r"No vendor was run", body)
-    pilot = re.search(r"Cross-vendor sweep — pilot run", body)
+    # The heading moved once already, from "pilot run" to a full five-vendor
+    # section, and the literal match then failed a document that had just been
+    # brought up to date. Match the section, not the phase it was written in.
+    pilot = re.search(r"^## Cross-vendor sweep — ", body, re.M)
     if ran and unrun:
         fail("D", "docs/MODELS.md says no vendor was run, but "
                   f"{', '.join(os.path.basename(p) for p in ran[:3])} exist")

@@ -153,7 +153,15 @@ def main(paths):
               f"they bound how much of the miss rate is scoring strictness")
 
     # ---- Task 2: expert ranking against truth and against the verifier ------
-    t2ids = [a for a in blind if blind[a]["task2_applicable"]]
+    # Precision is scored only where the true structure is present AND more than one
+    # distinct candidate was offered. A singleton scores by construction, which is the
+    # same reason §5.2 reports the 37-compound denominator beside the 65-compound one.
+    t2ids = [a for a in blind if blind[a]["task2_applicable"]
+             and len(blind[a]["task2_candidate_labels"] or []) > 1
+             and key[a].get("true_candidate_label")]
+    decoy = [a for a in blind if blind[a]["task2_applicable"]
+             and len(blind[a]["task2_candidate_labels"] or []) > 1
+             and not key[a].get("true_candidate_label")]
     print(f"\nTASK 2 — rank the candidates ({len(t2ids)} compounds with a real choice)")
     hit = tot2 = 0
     per = Counter()
@@ -177,6 +185,24 @@ def main(paths):
             n = sum(1 for a in t2ids if R[w].get(a, {}).get("rank"))
             print(f"    {w}: {per[w]}/{n}")
         print("  compare against forward verification on the full arm: 16/19 (84%), §5.2")
+
+    # the arm the recall-gated design could not measure
+    if decoy:
+        conf = []
+        for aid in decoy:
+            for w in R:
+                rr = R[w].get(aid)
+                if rr and rr["rank"] and rr["conf2"] not in ("-", ""):
+                    try:
+                        conf.append(int(rr["conf2"]))
+                    except ValueError:
+                        pass
+        print(f"\n  {len(decoy)} compound(s) where NO candidate is correct.")
+        if conf:
+            print(f"    mean top-pick confidence there: {sum(conf)/len(conf):.1f}/5 "
+                  f"(n={len(conf)} ratings)")
+            print(f"    a calibrated expert should be visibly less confident here than on "
+                  f"the sets that do contain the answer")
     if tot2 and tot2 < 8:
         print(f"  NOTE n={tot2} is small. The full forward-verify set has 19 "
               f"recall-positive compounds; raise N_PER_STRATUM in make_audit_sample.py "

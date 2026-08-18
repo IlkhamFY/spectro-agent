@@ -77,7 +77,17 @@ def main():
     for i, c in enumerate(sample, 1):
         aid = f"A{i:02d}"
         p = c["prompt"]
+        # Task 2 asks the auditor to RANK candidates, so it needs something to rank.
+        # A recall-positive compound carrying exactly one candidate has nothing -- and
+        # worse, it unblinds Task 1. The kit states publicly that Task 2 appears only on
+        # recall-positive compounds, so a lone Task-2 candidate tells the auditor, with no
+        # chemistry at all, that this candidate is the true structure; since the Task-1
+        # image is one of the Task-2 candidates, it also tells them the model's Task-1
+        # answer was correct. Three of thirty Task-1 verdicts leaked that way, every one
+        # of them toward "correct". Task 2 now requires a real choice to exist.
+        n_distinct = len({x["smiles"] for x in c["cands"]})
         recall = any(x["is_true"] for x in c["cands"])
+        task2 = recall and n_distinct > 1
         n_recall += recall
 
         # Task 1: render the model's top-1 (blind, unlabelled image only)
@@ -88,7 +98,7 @@ def main():
         cand_labels = None
         key_cands = None
         key_true_label = None
-        if recall:
+        if task2:
             shuffled = c["cands"][:]
             random.Random(SEED + 1000 + i).shuffle(shuffled)   # per-compound, decoupled
             cand_labels, key_cands = [], []
@@ -109,7 +119,7 @@ def main():
             "c_nmr": p.get("c_nmr"),
             "task1_structure_image": f"{aid}_top1.png",
             "n_candidates": len(c["cands"]),
-            "task2_applicable": recall,
+            "task2_applicable": task2,
             "task2_candidate_labels": cand_labels,    # None if not recall-positive
         })
         # KEY (held out, git-ignored): all structures + answers live here only.
@@ -132,7 +142,14 @@ def main():
     print(f"wrote {len(blind)} compounds to {OUT}/sample.jsonl "
           f"({sum(b['difficulty']=='simple' for b in blind)} simple / "
           f"{sum(b['difficulty']=='complex' for b in blind)} complex)")
-    print(f"  recall-positive (Task 2 applicable): {n_recall}")
+    n_task2 = sum(1 for b in blind if b["task2_applicable"])
+    n_simple = sum(1 for b in blind if b["task2_applicable"] and b["difficulty"] == "simple")
+    print(f"  recall-positive: {n_recall}")
+    print(f"  Task 2 applicable (recall-positive AND >1 distinct candidate): {n_task2}"
+          f"  [{n_simple} simple / {n_task2 - n_simple} complex]")
+    if n_task2 < n_recall:
+        print(f"    {n_recall - n_task2} recall-positive compound(s) excluded from Task 2: "
+              f"a single candidate is nothing to rank, and would unblind Task 1")
     print(f"  key: model top-1 correct on {n_correct}/{len(key)} (kept in key.jsonl only)")
     print(f"  rendered structures -> {STRUCT}/  ;  scoring sheet -> {OUT}/scoring_sheet.md")
 

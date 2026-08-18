@@ -44,7 +44,8 @@ regiochemistry-bottleneck claim with human judgement rather than only string mat
 
 ## Task 2 — verifier calibration (validates §5)
 
-For the recall-positive compounds (9 in the frozen sample; up to 19 across the full
+For the recall-positive compounds carrying more than one distinct candidate (6 in the
+frozen sample; up to 19 across the full
 forward-verify set), present the reviewer with the **candidate set**
 (true + distractors, shuffled, unlabelled) and ask them to rank by spectral fit, then
 compare:

@@ -113,9 +113,9 @@ def machine_picks(key):
     llm, hose = {}, {}
     for aid, k in key.items():
         group = by_comp.get(k["source"])
-        if not group:
-            continue
-        label = {c["smiles"]: c["label"] for c in k["candidates"]}
+        if not group or not k.get("candidates"):
+            continue                     # not recall-positive: no labelled set exists
+        label = {c["smiles"]: c["label"] for c in (k["candidates"] or [])}
         obs = group[0]["obs_c13"]
 
         best, bd = None, 1e9

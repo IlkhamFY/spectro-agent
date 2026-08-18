@@ -21,8 +21,19 @@ A difficulty-stratified draw from the 60-compound forward-verification set
 | | count |
 |---|--:|
 | compounds in sample | **30** (15 simple / 15 complex) |
-| recall-positive (true structure among candidates → Task 2) | **9** |
+| recall-positive (true structure among candidates) | **9** |
+| …of those, carrying more than one distinct candidate → **Task 2** | **6** |
 | model top-1 exact (kept in `key.jsonl` only) | 7/30 (23%) |
+
+Three recall-positive compounds (A19, A21, A30) carry a single candidate and are
+**excluded from Task 2**: there is nothing to rank, and because this kit states that
+Task 2 appears only on recall-positive compounds, a lone candidate would tell a
+reviewer it is the true structure — and hence that the model's Task 1 answer was
+correct — with no chemistry involved.
+
+Completed sheets are scored by `scripts/score_audit.py`, which defines the submission
+format (one TSV per reviewer) and reports Fleiss' kappa, agreement with the mechanical
+InChIKey scoring, and the Task-2 panel ranking.
 
 The full forward-verify set has 19 recall-positive compounds; raise
 `N_PER_STRATUM` (or score all of `data/fverify`) for a higher-power Task 2 panel.

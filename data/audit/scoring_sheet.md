@@ -311,12 +311,6 @@ Structure: `structures/A18_top1.png`
 - **¹H NMR:** 6.11 (1H, d, J = 3.2 Hz), 6.09 (1H, d, J = 3.2 Hz), 4.27 (1H, d, J = 6.9 Hz), 3.66 (2H, s), 2.14 (3H, s), 2.00 (1H, octuplet, J = 6.7 Hz), 0.94 (3H, d, J = 6.7 Hz), 0.87 (9H, s), 0.79 (3H, d, J = 6.7 Hz), 0.03 (3H, s), -0.12 (3H, s)
 - **¹³C NMR:** δ 204.4 (1C, s), 156.7 (1C, s), 146.8 (1C, s), 108.6 (1C, s), 107.5 (1C, s), 74.1 (1C, s), 43.5 (1C, s), 34.3 (1C, s), 28.9 (1C, s), 25.8 (1C, s), 18.7 (1C, s), 18.3 (1C, s), 18.2 (1C, s), -4.9 (1C, s), -5.2 (1C, s)
 
-### Task 2 — rank the candidate set by spectral fit (best first) — DO FIRST
-`structures/A19_candA.png` = **A**
-
-- Your ranking (best → worst), by letter: ______________________________
-- Confidence in your top pick (1–5): **____**
-
 ### Task 1 — is the model's proposed structure consistent with the spectra?
 Structure: `structures/A19_top1.png`
 
@@ -348,12 +342,6 @@ Structure: `structures/A20_top1.png`
 - **IR (cm⁻¹):** [3423.0, 3279.0, 2949.0, 2872.0, 1706.0, 1598.0, 1497.0, 1458.0, 1420.0, 1384.0, 1339.0, 1168.0, 1152.0, 1122.0, 1091.0, 1020.0]
 - **¹H NMR:** 7.97 (d, J = 8.60 Hz, 1H, NH), 7.61 (d, J = 8.55 Hz, 2H, Ar-H), 7.31 (d, J = 8.55 Hz, 2H, ArH), 3.60 (m, 1H, CH-CO2H), 2.33 (s, 3H, CH3-Ar), 1.53 (m, 1H, CH), 1.34 (m, 2H, CH2), 0.76 (d, J = 6.85 Hz, 3H, CH3), 0.65 (d, J = 6.30 Hz, 3H, CH3)
 - **¹³C NMR:** δ 173.8 (1C, s), 142.9 (1C, s), 138.9 (1C, s), 129.9 (1C, s), 128.6 (1C, s), 127.0 (1C, s), 126.0 (1C, s), 54.5 (1C, s), 41.5 (1C, s), 24.4 (1C, s), 23.1 (1C, s), 21.6 (1C, s)
-
-### Task 2 — rank the candidate set by spectral fit (best first) — DO FIRST
-`structures/A21_candA.png` = **A**
-
-- Your ranking (best → worst), by letter: ______________________________
-- Confidence in your top pick (1–5): **____**
 
 ### Task 1 — is the model's proposed structure consistent with the spectra?
 Structure: `structures/A21_top1.png`
@@ -528,12 +516,6 @@ Structure: `structures/A29_top1.png`
 - **IR (cm⁻¹):** [3319.0, 3075.0, 2968.0, 2931.0, 1690.0, 1649.0, 1528.0, 1168.0]
 - **¹H NMR:** 7.30-7.25 (m, 2H), 7.23-7.20 (m, 3H), 6.94 (br, 1H), 5.32 (d, J = 8.65 Hz, 1H), 4.45-4.41 (m, 1H), 4.34-4.30 (m, 1H), 3.97 (t, J = 7.75 Hz, 1H), 2.10-2.05 (m, 1H), 1.38 (s, 9H), 0.93 (d, J = 6.70 Hz, 3H), 0.89 (d, J = 6.70 Hz, 3H)
 - **¹³C NMR:** δ 172.0 (1C, s), 156.2 (1C, s), 138.2 (1C, s), 128.7 (1C, s), 127.7 (1C, s), 127.6 (1C, s), 127.5 (1C, s), 79.9 (1C, s), 60.2 (1C, s), 43.4 (1C, s), 31.0 (1C, s), 28.5 (1C, s), 19.5 (1C, s), 18.2 (1C, s)
-
-### Task 2 — rank the candidate set by spectral fit (best first) — DO FIRST
-`structures/A30_candA.png` = **A**
-
-- Your ranking (best → worst), by letter: ______________________________
-- Confidence in your top pick (1–5): **____**
 
 ### Task 1 — is the model's proposed structure consistent with the spectra?
 Structure: `structures/A30_top1.png`

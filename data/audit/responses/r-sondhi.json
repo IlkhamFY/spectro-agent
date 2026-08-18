@@ -1,0 +1,18 @@
+{
+  "schema": "spectro-audit-response/1",
+  "reviewer": "r-sondhi",
+  "submitted_utc": "2026-08-18T18:22:04.262Z",
+  "sample_sha256": "6f1ca6947cef3b4f57309e6cff279165a83de0ecb262cb44394337479f35fbe3",
+  "responses": {
+    "A09": { "task2": { "ranking": ["C", "A", "B"], "confidence": 4 } },
+    "A10": { "task1": { "consistency": 1, "verdict": "wrong-scaffold", "diagnostic_peak": "1688" } },
+    "A12": { "task1": { "consistency": 2, "verdict": "wrong-scaffold", "diagnostic_peak": "127.9 (1C, s)" } },
+    "A13": { "task1": { "consistency": 5, "verdict": "correct", "diagnostic_peak": "10.31 (s, 1H, NH-amid)" } },
+    "A16": { "task1": { "consistency": 4, "verdict": "correct", "diagnostic_peak": "3265" } },
+    "A18": { "task1": { "consistency": 2, "verdict": "wrong-scaffold", "diagnostic_peak": "3.06 (dd, J = 6.7, 3.6, 1H, C-6H)" } },
+    "A22": {
+      "task1": { "consistency": 4, "verdict": "correct", "diagnostic_peak": "62.5 (1C, s)" },
+      "task2": { "ranking": ["B", "A"], "confidence": 4 }
+    }
+  }
+}

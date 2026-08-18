@@ -1,18 +1,145 @@
 {
-  "schema": "spectro-audit-response/1",
-  "reviewer": "r-sondhi",
-  "submitted_utc": "2026-08-18T18:22:04.262Z",
-  "sample_sha256": "6f1ca6947cef3b4f57309e6cff279165a83de0ecb262cb44394337479f35fbe3",
-  "responses": {
-    "A09": { "task2": { "ranking": ["C", "A", "B"], "confidence": 4 } },
-    "A10": { "task1": { "consistency": 1, "verdict": "wrong-scaffold", "diagnostic_peak": "1688" } },
-    "A12": { "task1": { "consistency": 2, "verdict": "wrong-scaffold", "diagnostic_peak": "127.9 (1C, s)" } },
-    "A13": { "task1": { "consistency": 5, "verdict": "correct", "diagnostic_peak": "10.31 (s, 1H, NH-amid)" } },
-    "A16": { "task1": { "consistency": 4, "verdict": "correct", "diagnostic_peak": "3265" } },
-    "A18": { "task1": { "consistency": 2, "verdict": "wrong-scaffold", "diagnostic_peak": "3.06 (dd, J = 6.7, 3.6, 1H, C-6H)" } },
-    "A22": {
-      "task1": { "consistency": 4, "verdict": "correct", "diagnostic_peak": "62.5 (1C, s)" },
-      "task2": { "ranking": ["B", "A"], "confidence": 4 }
+    "schema": "spectro-audit-response/1",
+    "reviewer": "r-sondhi",
+    "submitted_utc": "2026-08-18T21:23:58.076Z",
+    "sample_sha256": "6f1ca6947cef3b4f57309e6cff279165a83de0ecb262cb44394337479f35fbe3",
+    "responses": {
+        "A01": {
+            "task1": {
+                "consistency": 5,
+                "verdict": "correct",
+                "diagnostic_peak": "6.96 (dd, J = 8.4, 2.8 Hz, 1H)"
+            }
+        },
+        "A03": {
+            "task1": {
+                "consistency": 4,
+                "verdict": "correct",
+                "diagnostic_peak": "137.4 (1C, s)"
+            }
+        },
+        "A09": {
+            "task1": {
+                "consistency": 4,
+                "verdict": "correct",
+                "diagnostic_peak": "150.3 (1C, dd)"
+            },
+            "task2": {
+                "ranking": [
+                    "C",
+                    "A",
+                    "B"
+                ],
+                "confidence": 4
+            }
+        },
+        "A10": {
+            "task1": {
+                "consistency": 1,
+                "verdict": "wrong-scaffold",
+                "diagnostic_peak": "1688"
+            }
+        },
+        "A12": {
+            "task1": {
+                "consistency": 2,
+                "verdict": "wrong-scaffold",
+                "diagnostic_peak": "127.9 (1C, s)"
+            }
+        },
+        "A13": {
+            "task1": {
+                "consistency": 5,
+                "verdict": "correct",
+                "diagnostic_peak": "10.31 (s, 1H, NH-amid)"
+            }
+        },
+        "A16": {
+            "task1": {
+                "consistency": 4,
+                "verdict": "correct",
+                "diagnostic_peak": "3265"
+            }
+        },
+        "A18": {
+            "task1": {
+                "consistency": 2,
+                "verdict": "wrong-scaffold",
+                "diagnostic_peak": "3.06 (dd, J = 6.7, 3.6, 1H, C-6H)"
+            }
+        },
+        "A22": {
+            "task1": {
+                "consistency": 4,
+                "verdict": "correct",
+                "diagnostic_peak": "62.5 (1C, s)"
+            },
+            "task2": {
+                "ranking": [
+                    "B",
+                    "A"
+                ],
+                "confidence": 4
+            }
+        },
+        "A23": {
+            "task1": {
+                "consistency": 5,
+                "verdict": "correct",
+                "diagnostic_peak": "134.2 (1C, s)"
+            },
+            "task2": {
+                "ranking": [
+                    "A",
+                    "C",
+                    "B"
+                ],
+                "confidence": 5
+            }
+        },
+        "A27": {
+            "task1": {
+                "consistency": 2,
+                "verdict": "wrong-scaffold",
+                "diagnostic_peak": "151.0 (1C, s)"
+            },
+            "task2": {
+                "ranking": [
+                    "B",
+                    "C",
+                    "A"
+                ],
+                "confidence": 4
+            }
+        },
+        "A28": {
+            "task1": {
+                "consistency": 3,
+                "verdict": "wrong-scaffold",
+                "diagnostic_peak": "131.02 (1C, q)"
+            },
+            "task2": {
+                "ranking": [
+                    "B",
+                    "A",
+                    "C"
+                ],
+                "confidence": 4
+            }
+        },
+        "A29": {
+            "task1": {
+                "consistency": 4,
+                "verdict": "correct",
+                "diagnostic_peak": "144.8 (1C, s)"
+            },
+            "task2": {
+                "ranking": [
+                    "A",
+                    "B"
+                ],
+                "confidence": 4
+            }
+        }
     }
-  }
 }

@@ -21,19 +21,35 @@ A difficulty-stratified draw from the 60-compound forward-verification set
 | | count |
 |---|--:|
 | compounds in sample | **30** (15 simple / 15 complex) |
-| recall-positive (true structure among candidates) | **9** |
-| …of those, carrying more than one distinct candidate → **Task 2** | **6** |
+| Task 1 panel (stratified draw, unbiased) | **30** |
+| Task 2 items — every compound, so its presence signals nothing | **37** |
+| …carrying the true structure **and** a real choice → verifier precision | **13** |
+| …carrying the true structure but one candidate → excluded from precision | **3** |
+| …carrying no correct candidate → expert calibration | **21** |
 | model top-1 exact (kept in `key.jsonl` only) | 7/30 (23%) |
 
-Three recall-positive compounds (A19, A21, A30) carry a single candidate and are
-**excluded from Task 2**: there is nothing to rank, and because this kit states that
-Task 2 appears only on recall-positive compounds, a lone candidate would tell a
-reviewer it is the true structure — and hence that the model's Task 1 answer was
-correct — with no chemistry involved.
+**Task 2 appears on every compound, and that is deliberate.** An earlier version showed
+it only on recall-positive compounds, which leaked Task 1 twice over. In the extreme, a
+recall-positive compound with a single candidate told the reviewer that candidate was the
+true structure — and since the Task 1 image is one of the Task 2 candidates, that the
+model's answer was correct: three of thirty verdicts, every one toward "correct". Less
+obviously, the mere presence of a Task 2 block marked a compound as recall-positive, and a
+correct top-1 is recall-positive by definition; across the panel that moved the rate of
+correct answers from 12% to 67%, a five-fold prior available without reading a spectrum.
+Restricting Task 2 to multi-candidate compounds only inverted the signal, because
+answering with a single structure also correlates with being right. Showing it everywhere
+removes the signal entirely.
+
+Seven compounds (A31–A37) carry **Task 2 only** and no Task 1 item. Recall-positive
+compounds could not simply be added to the Task 1 draw — a correct top-1 is recall-positive
+by definition, so enriching for them would raise the very rate Task 1 exists to judge. The
+Task 1 panel is therefore the original unbiased 30, and the extra compounds contribute
+ranking data alone.
 
 Completed sheets are scored by `scripts/score_audit.py`, which defines the submission
 format (one TSV per reviewer) and reports Fleiss' kappa, agreement with the mechanical
-InChIKey scoring, and the Task-2 panel ranking.
+InChIKey scoring, the Task-2 panel ranking, and expert confidence on the sets where
+nothing on offer is correct.
 
 The full forward-verify set has 19 recall-positive compounds; raise
 `N_PER_STRATUM` (or score all of `data/fverify`) for a higher-power Task 2 panel.

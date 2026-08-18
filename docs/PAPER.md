@@ -1479,7 +1479,8 @@ recall is not, and only reading papers can settle it. Solver and verifier are
 both LLMs, so the one validation we cannot perform ourselves is an expert-chemist review
 of a sample of elucidations and forward predictions. We have therefore **built and
 frozen** a blinded, pre-registered audit package — a difficulty-stratified 30-compound
-sample (9 recall-positive), rendered candidate structures, a separate withheld answer
+elucidation panel plus seven ranking-only compounds (13 of which carry the true structure
+alongside a real choice), rendered candidate structures, a separate withheld answer
 key, and a mechanical scoring sheet — released at `data/audit/` with its protocol at
 `docs/EXPERT_AUDIT_PROTOCOL.md` (regenerable via `scripts/make_audit_sample.py`),
 designed to test the two load-bearing claims (what a miss actually is, §4; forward

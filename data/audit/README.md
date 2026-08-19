@@ -20,7 +20,7 @@ A difficulty-stratified draw from the 60-compound forward-verification set
 
 | | count |
 |---|--:|
-| compounds in sample | **30** (15 simple / 15 complex) |
+| compounds in kit | **37** (30 carry Task 1) |
 | Task 1 panel (stratified draw, unbiased) | **30** |
 | Task 2 items — every compound, so its presence signals nothing | **37** |
 | …carrying the true structure **and** a real choice → verifier precision | **13** |
@@ -66,6 +66,14 @@ The full forward-verify set has 19 recall-positive compounds; raise
 - **`structures/`** — RDKit renders. `A{nn}_top1.png` is the model's pick (Task 1);
   `A{nn}_cand{A,B,…}.png` are the shuffled candidates (Task 2, recall-positive only).
 - **`scoring_sheet.md`** — printable per-compound form (Task 1 + Task 2).
+- **`worksheet.html`** — the same form as a self-contained local page: spectra and
+  rendered structures inline, answers saved as you go, and an export that
+  `scripts/score_audit.py` scores without re-typing. Open it from inside this
+  directory (no server, no network). Regenerate with
+  `python3 scripts/make_audit_worksheet.py`; it reads `sample.jsonl` and adds
+  nothing, so the seed=0 content-key of the package still holds.
+- **`responses/`** — completed reviewer files, one JSON each. See
+  [`responses/README.md`](responses/README.md) for the schema.
 
 ## Tasks (see the protocol doc for the full rubric)
 
@@ -83,4 +91,11 @@ The full forward-verify set has 19 recall-positive compounds; raise
 - Reviewers are blind to model identity and to ground truth (`key.jsonl` withheld).
 - The sample, renders, and scoring sheet are frozen and content-keyed (seed = 0),
   so this package is fixed *before* review begins and is byte-reproducible.
-- Scoring of completed sheets is mechanical (no further model involvement).
+- Scoring of completed sheets is mechanical (no further model involvement):
+  `python3 scripts/score_audit.py` emits Table A and Table B from the committed
+  responses plus the withheld key.
+- Three Task-2 sets (**A19, A21, A30**) hold a single candidate. Nothing there can be
+  ranked, and because Task 2 is shown only on recall-positive compounds, a lone
+  candidate is necessarily the true structure — which also discloses that compound's
+  Task-1 answer. The scorer excludes them from Table B and flags them; treat their
+  Task 1 as unblinded until the sample is redrawn.

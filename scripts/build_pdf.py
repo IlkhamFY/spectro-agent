@@ -280,13 +280,17 @@ def title_block(md):
     # raw blocks so its citations and cross-references still resolve.
     # re.sub's replacement string eats backslashes, and every one of these is LaTeX;
     # pass a lambda so the text goes through untouched.
+    # The rules must span the *narrowed* measure, not \linewidth: inside a group with
+    # \leftskip and \rightskip at 2em each, a \linewidth rule hangs 4em past the right
+    # margin -- an overfull \hbox of exactly 40pt, and visible on the page.
+    rule = r"\rule{\dimexpr\linewidth-4em\relax}{0.4pt}"
     open_abs = ("```{=latex}\n"
                 r"\begingroup\small\setlength{\leftskip}{2em}"
                 r"\setlength{\rightskip}{2em}" "\n"
-                r"\noindent\rule{\linewidth}{0.4pt}\vspace{-0.4em}" "\n"
+                r"\noindent" + rule + r"\vspace{-0.4em}" "\n"
                 "```\n\n")
     close_abs = ("```{=latex}\n"
-                 r"\vspace{-0.4em}\noindent\rule{\linewidth}{0.4pt}\endgroup" "\n"
+                 r"\vspace{-0.4em}\noindent" + rule + r"\endgroup" "\n"
                  "```\n")
     md = re.sub(r"^---\n+## Abstract\n", lambda _: open_abs, md, count=1, flags=re.M)
     md = re.sub(r"^---\n(?=\n*## 1\.)", lambda _: close_abs, md, count=1, flags=re.M)

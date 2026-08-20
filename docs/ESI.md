@@ -244,9 +244,9 @@ between 36 and 40 points, against 39.6 at the released value
 (≤15 / 16–25 / >25) of [@sec:headline-performance] and [@sfig:size].
 
 The battery-electrolyte subset ([@sec:domain-case-study-battery]) came from the same corpus
-by SMARTS filters for six electrolyte functional classes, eight per class (48 curated; 46
-scored after two yielded no parseable candidate), J-enriched and spectrally validated
-identically to the main rounds and excluding every compound used elsewhere.
+by SMARTS filters for six electrolyte functional classes, eight per class (48 curated, 46
+scored), J-enriched and spectrally validated identically to the main rounds and excluding
+every compound used elsewhere.
 
 ## Scoring: what the criterion accepts and rejects {#sec:esi-scoring}
 
@@ -356,10 +356,10 @@ set is scored against, conditional-on-recall precision falls from **89.2% (58/65
 permuted mean of **73.8%** (one-sided p=0.001). The floor sits high because recall-positive
 compounds carry few, near-identical candidates.
 
-The same distance fails as an absolute confidence gauge, which is why the article claims it
-only as a re-ranker: ranking the 138 multi-candidate compounds by chamfer margin (best minus
-second-best) and answering only the most confident fraction leaves top-1 flat and
-non-monotonic with coverage (22% / 24% / 28% / 24% at 100%, 75%, 50% and 25% coverage).
+The same distance fails as an absolute confidence gauge — ranked by chamfer margin, the 138
+multi-candidate compounds give top-1 22% / 24% / 28% / 24% at 100%, 75%, 50% and 25%
+coverage — which is why the article claims it only as a re-ranker
+([@sec:negative-control]).
 
 ## Non-LLM verifiers: a deterministic lookup and a learned model {#sec:esi-verifiers}
 
@@ -368,13 +368,13 @@ and dropped into the verifier slot on the **same candidate sets**, so only the p
 changes.
 
 **The deterministic lookup** realises the HOSE-code idea[@bremser1978hose] natively in
-RDKit: the Morgan per-atom identifier at radius r is a canonical hash of an atom's
-environment out to r bonds, so a (radius, identifier) bin groups carbons with identical
-local environments. The mean assigned shift per bin is learned from nmrshiftdb2, and
-prediction walks the deepest sphere holding at least 3 samples, r=4 → 3 → 2 → 1, falling
-back to a hybridisation prior. Training used **31,000 molecules, 332,595 assigned carbons
-and 263,366 environment bins**, held-out **MAE 3.23 ppm (median 1.73)** over 17,456 carbons
-of 1,647 molecules (`scripts/hose_predict.py`).
+RDKit: the Morgan per-atom identifier at radius r hashes an atom's environment out to r
+bonds, so a (radius, identifier) bin groups carbons with identical local environments. The
+mean assigned shift per bin is learned from nmrshiftdb2, and prediction walks the deepest
+sphere holding at least 3 samples, r=4 → 3 → 2 → 1, falling back to a hybridisation prior.
+Training used **31,000 molecules, 332,595 assigned carbons and 263,366 environment bins**,
+held-out **MAE 3.23 ppm (median 1.73)** over 17,456 carbons of 1,647 molecules
+(`scripts/hose_predict.py`).
 
 **The learned model** is a message-passing GNN — 4 layers, hidden width 256, GRU node
 update, bond features, per-carbon ¹³C regression — trained on the identical dump: 32,647
@@ -384,18 +384,17 @@ validation / 1,632 test at seed 5 (the lookup's figures above are this set minus
 size 64, smooth-L1 loss, plateau learning-rate halving, early stopping. Held-out **MAE
 1.70 ppm (median 1.02)**, roughly twice as sharp as the lookup (`scripts/gnn_predict.py`,
 `data/nmrshiftdb/gnn_c13.pt`). It is deliberately modest — purpose-built ¹³C models reach
-~1 ppm[@williamson2024mpnn] and 0.94 ppm with DFT shielding tensors[@han2024dftgnn] —
-because the question is only whether the predictor slot is where the leverage sits.
+~1 ppm[@williamson2024mpnn] and 0.94 ppm coupled to DFT shielding tensors[@han2024dftgnn] —
+the question being only whether the predictor slot is where the leverage sits.
 
 **Held-out error against benchmark behaviour.** [@tab:verifier-comparison-conditional-recall]
 gives the four verifiers conditional on recall. The lookup's tie with self-ranking there is
 not agreement: at n=65 it **gains seven compounds and loses seven** (McNemar b=c=7,
-p=1.00), reshuffling energetically while carrying no net discriminative signal. Its
-coverage diagnosis is that of the **6,360 candidate carbons only 2.1% match a training
-environment at the most specific sphere (r=4)**, 71% resolving only at r≤2 or falling
-through to the prior. The GNN's margins are directional and none reaches significance
-(against the lookup p=0.34, against self-ranking p=0.22, against the LLM verifier b=5, c=4,
-p=1.00).
+p=1.00), reshuffling energetically while carrying no net discriminative signal. Its coverage
+diagnosis is that of the **6,360 candidate carbons only 2.1% match a training environment at
+the most specific sphere (r=4)**, 71% resolving only at r≤2 or falling through to the prior.
+The GNN's margins are directional and none reaches significance (against the lookup p=0.34,
+against self-ranking p=0.22, against the LLM verifier p=1.00).
 
 **Leakage analysis** is the decisive control for a *learned* verifier, which can memorise a
 molecule's spectrum where a bin average cannot. Exact overlap with the whole nmrshiftdb2
@@ -409,9 +408,8 @@ structures the verifier must identify** the nearest training analog has median T
 near-duplicate in training. A Y-randomisation control (1,000 derangements) places the
 learned verifier above the 97.5th percentile of chance (n=19: real 84% against a permuted
 mean of 58.6%, 95% range 42.1–73.7%, one-sided p<0.05). Both checks regenerate via
-`scripts/verifier_leakage.py`. Neither predictor is redistributable end-to-end: the
-nmrshiftdb2 dump cannot ship with the manuscript, so these rows regenerate only once a
-reader supplies the same dump.
+`scripts/verifier_leakage.py`; neither predictor is redistributable end-to-end, the
+nmrshiftdb2 dump being one a reader must supply.
 
 ## Cross-vendor replication {#sec:esi-cross-vendor}
 
@@ -574,9 +572,9 @@ the Task 1 draw for recall-positive compounds would raise the very rate Task 1 j
 ([@sec:limitations]). One reviewer file is deposited at `data/audit/responses/` (submitted
 2026-08-18 UTC), incomplete against the 37-item kit; a single partial reviewer supports
 neither read-out, inter-rater agreement needing at least two reviewers and the
-pre-registered panel being three. Scoring of completed sheets is mechanical
-(`scripts/score_audit.py`), with no further model involvement; three Task 2 sets (A19, A21, A30) hold a single candidate, which
-cannot be ranked, and the scorer excludes and flags them. Until expert results are in, the
+pre-registered panel being three. Scoring is mechanical (`scripts/score_audit.py`), and the
+three Task 2 sets holding a single candidate (A19, A21, A30) cannot be ranked, so the
+scorer excludes and flags them. Until expert results are in, the
 two claims the panel targets — what a miss actually is ([@sec:well-llms-elucidate-real]),
 and whether forward verification is a trustworthy re-ranker
 ([@sec:forward-verification-elucidation]) — should be read as machine-validated (RDKit
@@ -611,10 +609,5 @@ InChIKey) but not yet human-validated.
      generation table carries seven non-Claude rows (the seventh, deepseek-v4-pro-0813,
      answered 18/60 compounds). The generation table in this document reproduces all rows; the
      count in the prose needs reconciling by the authors. -->
-<!-- GAP: HOSE coverage on the 60-compound arm is reported as 70% resolving at r<=2 in the
-     article and as 67% in the released artifact data/fverify/hose_results.txt (the
-     whole-benchmark figures, 2.1% at r=4 and 71% at r<=2 or fallback, agree between the
-     two). Only the whole-benchmark figures are quoted here; the authors should re-run
-     scripts/hose_predict.py coverage on the 60-compound arm and reconcile. -->
 <!-- GAP: transcripts of the run-time closed-book audit are not deposited, so that audit
      cannot be re-verified from the release; the article states this. -->

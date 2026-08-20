@@ -44,6 +44,11 @@ KEY = re.compile(r"@([A-Za-z][\w:.-]*)")
 HEADING = re.compile(r"^#{1,6}\s+.*$", re.M)
 TABLE_ROW = re.compile(r"^\s*\|.*\|\s*$", re.M)
 
+# Relocated-to-Methods notes are scaffolding, not manuscript: they restate numbers that
+# are still in the prose, so counting them would read a legitimate cut as a fabrication.
+# reintegrate.py strips the same block, so both tools see the same text.
+MOVED = re.compile(r"<!--\s*MOVED-TO-METHODS\s*-->.*\Z", re.S)
+
 HEDGES = (
     "consistent with", "cannot exclude", "we do not claim", "may reflect",
     "on this sample", "lower bound", "upper bound", "not powered", "suggests",
@@ -69,6 +74,7 @@ def _hedges(md: str) -> int:
 
 def compare(before: str, after: str, label: str) -> list[str]:
     errs, warns = [], []
+    after = MOVED.sub("", after)
 
     # --- numbers: one-directional. Losing a sentence is a cut; gaining a digit is a lie.
     b_num, a_num = Counter(NUM.findall(before)), Counter(NUM.findall(after))

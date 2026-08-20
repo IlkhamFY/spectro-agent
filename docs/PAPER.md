@@ -850,7 +850,11 @@ compounds, versus 41.8% for scaffold enumeration and 33.5% for Claude alone. Whe
 enumeration's near-degenerate regioisomers *collapse* the HOSE verifier (top-1 28.4%→16.0%,
 the [@sec:generate-wide-testing-recipe] precision-loss mechanism), the generator's
 formula-correct, ¹³C-separable candidates **convert**: top-1 rises **28.4%→35.1%** (McNemar
-exact p=0.015; +6.7 points, 95% CI [+2.1, +11.9]; [@sfig:generator-probe]). With the LLM
+exact p=0.015; +6.7 points, 95% CI [+2.1, +11.9]; [@sfig:generator-probe]). The family this
+is corrected over is the probe's own three arms — Claude alone, plus enumeration, plus
+generator — where it survives Holm (0.029) and Benjamini–Hochberg (0.022). It would not
+survive a correction taken over every p-value in the paper, and we name the family rather
+than leave the scope to be guessed. With the LLM
 forward-verifier on the 60 forward-verify compounds, recall rises 42%→**57%** (34/60) and
 top-1 reaches **47%** (28/60), at 82% precision conditional on recall (28/34). Those two
 figures are a **re-run, not a reproduction**: the earlier pass reported 41% top-1 at 73%

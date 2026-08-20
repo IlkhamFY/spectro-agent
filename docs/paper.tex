@@ -1458,13 +1458,17 @@ near-degenerate regioisomers \emph{collapse} the HOSE verifier (top-1
 28.4\%→16.0\%, the §5.3 precision-loss mechanism), the generator's
 formula-correct, ¹³C-separable candidates \textbf{convert}: top-1 rises
 \textbf{28.4\%→35.1\%} (McNemar exact p=0.015; +6.7 points, 95\% CI
-{[}+2.1, +11.9{]}; Fig. S5). With the LLM forward-verifier on the 60
-forward-verify compounds, recall rises 42\%→\textbf{57\%} (34/60) and
-top-1 reaches \textbf{47\%} (28/60), at 82\% precision conditional on
-recall (28/34). Those two figures are a \textbf{re-run, not a
-reproduction}: the earlier pass reported 41\% top-1 at 73\% precision
-but deposited no outputs, so we do not stand behind it, and the re-run
-lands above it.
+{[}+2.1, +11.9{]}; Fig. S5). The family this is corrected over is the
+probe's own three arms --- Claude alone, plus enumeration, plus
+generator --- where it survives Holm (0.029) and Benjamini--Hochberg
+(0.022). It would not survive a correction taken over every p-value in
+the paper, and we name the family rather than leave the scope to be
+guessed. With the LLM forward-verifier on the 60 forward-verify
+compounds, recall rises 42\%→\textbf{57\%} (34/60) and top-1 reaches
+\textbf{47\%} (28/60), at 82\% precision conditional on recall (28/34).
+Those two figures are a \textbf{re-run, not a reproduction}: the earlier
+pass reported 41\% top-1 at 73\% precision but deposited no outputs, so
+we do not stand behind it, and the re-run lands above it.
 
 Two controls guard against memorisation: the fine-tuning split removes
 every benchmark InChIKey-14 (train∩benchmark = 0, val∩benchmark = 0),

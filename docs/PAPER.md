@@ -108,7 +108,12 @@ on spectra: *Spectro*[@chacko2024spectro], a multitask CNN+transformer for routi
 1D-NMR[@hu2024multitask], set/graph transformers such as NMRTrans[@yang2026nmrtrans], and
 — closest to our multimodal setting — **NMIRacle**[@ottomano2025nmiracle], conditioned
 jointly on IR + ¹H + ¹³C. They are accurate *in-distribution* but retrained per modality
-and dependent on a labelled spectra→structure corpus — the scarce resource IRexp supplies.
+and dependent on a labelled spectra→structure corpus. That resource is scarce rather than
+absent, and one concurrent effort attacks it the same way we do: NMRTrans builds NMRSpec,
+a literature-mined corpus of experimental ¹H/¹³C spectra[@yang2026nmrtrans]. IRexp is the
+complement rather than the competitor — infrared band lists, released under permissive
+licences for redistribution ([@sec:contents-licensing]) — and the two together are the
+open, experimental, multimodal corpus neither supplies alone.
 
 **LLMs as elucidators, and how this work differs.** LLM-orchestrated tools already plan
 and execute real syntheses (ChemCrow[@mbran2024chemcrow],
@@ -130,12 +135,15 @@ across thousands of laboratories and instruments; the contrast is with both simu
 *and* curated uniformity. That line is also the state of the art for *trained,
 formula-conditioned IR* elucidation — an IR→structure transformer[@alberts2024ir] now at
 **63.8% top-1 / 84.0% top-10 on experimental NIST gas-phase spectra** given the formula,
-pretrained on 1,399,806 simulated spectra[@alberts2025benchmarks] — but is evaluated only
-on **6–13 heavy atoms**, the range where our own accuracy is highest (60.5% top-1 for ≤15
-heavy atoms, [@sec:headline-performance]): on comparable molecules the training-free LLM
-and the purpose-trained transformer are closer than the headline numbers suggest, and the
-gap our benchmark exposes opens at the *larger* sizes their evaluation excludes (7.0%
-above 25 heavy atoms). Neither setting bounds the other. Reported accuracies also swing
+pretrained on 1,399,806 simulated spectra[@alberts2025benchmarks]. That headline is on a
+**6–13-heavy-atom** subset, the range where our own accuracy is highest (60.5% top-1 for
+≤15 heavy atoms, [@sec:headline-performance]), so on comparable molecules the training-free
+LLM and the purpose-trained transformer are closer than the headline numbers suggest. Size
+is not the whole story, though, and we do not claim it is: the same work reports **59.94%**
+on a 5–35-heavy-atom set (n=5,024), which spans most of our range and falls only four
+points. What differs there is the data, not the size — a single-instrument gas-phase
+library against heterogeneous literature-reported band lists. Neither setting bounds the
+other. Reported accuracies also swing
 with inference method and scoring harness: GPT-4o is scored at **1.4%** on MolPuzzle by
 the benchmark's own authors[@guo2024molpuzzle], at **27.8%** under a plain
 chain-of-thought harness, and at **57.8%** with knowledge-enhanced tree-search
@@ -311,7 +319,8 @@ precision**, over recall-positive compounds alone, isolates verification from ge
 The forward verifier ranks by a symmetric **chamfer distance** between predicted and
 observed ¹³C peak sets (lower is better, no equal-count requirement); Morgan(2,
 2048)[@rogers2010ecfp] Tanimoto gives a graded scaffold-family signal. CIs are bootstrap
-95%; model-vs-model differences use McNemar's exact test with Holm correction.
+95%; model-vs-model differences use McNemar's exact test[@mcnemar1947] with Holm
+correction[@holm1979].
 
 Solvers are frontier LLM agents (Claude Opus), one sub-agent per batch, closed-book under
 a consumer subscription: no tools beyond an RDKit formula check, no ground truth, verified
@@ -394,7 +403,11 @@ in-distribution accuracy on simulated spectra; Alberts et al. do not — 63.8% t
 alone, formula supplied, on **experimental** NIST gas-phase spectra of a curated
 single-instrument library of **6–13-heavy-atom** molecules[@alberts2025benchmarks]. Ours
 span 8–60 heavy atoms (median 20), only **15 of 194 (8%)** in that window; against our
-≤15-heavy-atom stratum (60.5%) their 63.8% is a near-tie, so the divergence is a size effect. Multimodal
+≤15-heavy-atom stratum (60.5%) their 63.8% is a near-tie. Size alone does not explain the
+rest: the same work reports **59.94%** over 5–35 heavy atoms (n=5,024), a range that covers
+most of ours. The remaining difference is what the spectra are — one gas-phase instrument
+against thousands of laboratories — and the comparison bounds the gap between those
+regimes rather than ranking the two systems. Multimodal
 systems report more still, on data of their own making: Spectro **93%** (**82%** with
 fixed embeddings) on a split whose IR is plotted from reference data and whose NMR is
 software-*predicted*[@chacko2024spectro]; NMIRacle 48% top-1 / 66% top-15 on molecules

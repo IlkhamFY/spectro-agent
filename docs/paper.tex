@@ -294,8 +294,14 @@ routine 1D-NMR\textsuperscript{3}, set/graph transformers such as
 NMRTrans\textsuperscript{4}, and --- closest to our multimodal setting
 --- \textbf{NMIRacle}\textsuperscript{5}, conditioned jointly on IR + ¹H
 + ¹³C. They are accurate \emph{in-distribution} but retrained per
-modality and dependent on a labelled spectra→structure corpus --- the
-scarce resource IRexp supplies.
+modality and dependent on a labelled spectra→structure corpus. That
+resource is scarce rather than absent, and one concurrent effort attacks
+it the same way we do: NMRTrans builds NMRSpec, a literature-mined
+corpus of experimental ¹H/¹³C spectra\textsuperscript{4}. IRexp is the
+complement rather than the competitor --- infrared band lists, released
+under permissive licences for redistribution (§2.3) --- and the two
+together are the open, experimental, multimodal corpus neither supplies
+alone.
 
 \textbf{LLMs as elucidators, and how this work differs.}
 LLM-orchestrated tools already plan and execute real syntheses
@@ -322,17 +328,20 @@ simulation \emph{and} curated uniformity. That line is also the state of
 the art for \emph{trained, formula-conditioned IR} elucidation --- an
 IR→structure transformer\textsuperscript{13} now at \textbf{63.8\% top-1
 / 84.0\% top-10 on experimental NIST gas-phase spectra} given the
-formula, pretrained on 1,399,806 simulated spectra\textsuperscript{14}
---- but is evaluated only on \textbf{6--13 heavy atoms}, the range where
-our own accuracy is highest (60.5\% top-1 for ≤15 heavy atoms, §4.1): on
-comparable molecules the training-free LLM and the purpose-trained
-transformer are closer than the headline numbers suggest, and the gap
-our benchmark exposes opens at the \emph{larger} sizes their evaluation
-excludes (7.0\% above 25 heavy atoms). Neither setting bounds the other.
-Reported accuracies also swing with inference method and scoring
-harness: GPT-4o is scored at \textbf{1.4\%} on MolPuzzle by the
-benchmark's own authors\textsuperscript{11}, at \textbf{27.8\%} under a
-plain chain-of-thought harness, and at \textbf{57.8\%} with
+formula, pretrained on 1,399,806 simulated spectra\textsuperscript{14}.
+That headline is on a \textbf{6--13-heavy-atom} subset, the range where
+our own accuracy is highest (60.5\% top-1 for ≤15 heavy atoms, §4.1), so
+on comparable molecules the training-free LLM and the purpose-trained
+transformer are closer than the headline numbers suggest. Size is not
+the whole story, though, and we do not claim it is: the same work
+reports \textbf{59.94\%} on a 5--35-heavy-atom set (n=5,024), which
+spans most of our range and falls only four points. What differs there
+is the data, not the size --- a single-instrument gas-phase library
+against heterogeneous literature-reported band lists. Neither setting
+bounds the other. Reported accuracies also swing with inference method
+and scoring harness: GPT-4o is scored at \textbf{1.4\%} on MolPuzzle by
+the benchmark's own authors\textsuperscript{11}, at \textbf{27.8\%}
+under a plain chain-of-thought harness, and at \textbf{57.8\%} with
 knowledge-enhanced tree-search reasoning\textsuperscript{10} --- a
 factor of forty for one model on one benchmark. Cross-paper numbers are
 therefore not comparable, and we fix and release a single pre-registered
@@ -576,7 +585,7 @@ from generation. The forward verifier ranks by a symmetric
 (lower is better, no equal-count requirement); Morgan(2,
 2048)\textsuperscript{32} Tanimoto gives a graded scaffold-family
 signal. CIs are bootstrap 95\%; model-vs-model differences use McNemar's
-exact test with Holm correction.
+exact test\textsuperscript{33} with Holm correction\textsuperscript{34}.
 
 Solvers are frontier LLM agents (Claude Opus), one sub-agent per batch,
 closed-book under a consumer subscription: no tools beyond an RDKit
@@ -709,16 +718,21 @@ from IR alone, formula supplied, on \textbf{experimental} NIST gas-phase
 spectra of a curated single-instrument library of
 \textbf{6--13-heavy-atom} molecules\textsuperscript{14}. Ours span 8--60
 heavy atoms (median 20), only \textbf{15 of 194 (8\%)} in that window;
-against our ≤15-heavy-atom stratum (60.5\%) their 63.8\% is a near-tie,
-so the divergence is a size effect. Multimodal systems report more
-still, on data of their own making: Spectro \textbf{93\%} (\textbf{82\%}
-with fixed embeddings) on a split whose IR is plotted from reference
-data and whose NMR is software-\emph{predicted}\textsuperscript{1};
-NMIRacle 48\% top-1 / 66\% top-15 on molecules held out from a
-\emph{simulated} corpus inside its own training distribution, as its
-authors note\textsuperscript{5}. Ours is 28.4\% top-1 (33.5\% top-3),
-29.9\% with forward verification (§5), on \textbf{blind, real,
-literature-mined experimental} spectra of out-of-distribution compounds.
+against our ≤15-heavy-atom stratum (60.5\%) their 63.8\% is a near-tie.
+Size alone does not explain the rest: the same work reports
+\textbf{59.94\%} over 5--35 heavy atoms (n=5,024), a range that covers
+most of ours. The remaining difference is what the spectra are --- one
+gas-phase instrument against thousands of laboratories --- and the
+comparison bounds the gap between those regimes rather than ranking the
+two systems. Multimodal systems report more still, on data of their own
+making: Spectro \textbf{93\%} (\textbf{82\%} with fixed embeddings) on a
+split whose IR is plotted from reference data and whose NMR is
+software-\emph{predicted}\textsuperscript{1}; NMIRacle 48\% top-1 / 66\%
+top-15 on molecules held out from a \emph{simulated} corpus inside its
+own training distribution, as its authors note\textsuperscript{5}. Ours
+is 28.4\% top-1 (33.5\% top-3), 29.9\% with forward verification (§5),
+on \textbf{blind, real, literature-mined experimental} spectra of
+out-of-distribution compounds.
 
 One asymmetry cuts against us: NMIRacle takes \textbf{no molecular
 formula} where we supply it (§3), so the settings differ on opposite
@@ -910,7 +924,7 @@ control}\label{is-the-model-reading-the-spectra-a-formula-only-control}}
 
 Every benchmark compound is mined from open-access literature, so a
 frontier model may have met it in pretraining --- a well-documented
-hazard for LLM evaluation.\textsuperscript{33} We reran the identical
+hazard for LLM evaluation.\textsuperscript{35} We reran the identical
 blind protocol with every spectral channel masked, leaving the solver
 the molecular formula and nothing else, which does not determine
 constitution: accuracy materially above the floor would indicate recall,
@@ -1167,9 +1181,9 @@ sets limits §5 reports separately: the 74\% derangement chance floor
 (§5.5) and the ceiling neither the HOSE lookup nor the GNN escapes
 (§5.4). Sharper predictors, not better search, would move them; they
 exist: \textasciitilde1 ppm message-passing
-ensembles\textsuperscript{34}, a DFT-coupled graph network at 0.94
-ppm\textsuperscript{35}, a community benchmark\textsuperscript{36} and
-curated shift sets\textsuperscript{37} for calibration.
+ensembles\textsuperscript{36}, a DFT-coupled graph network at 0.94
+ppm\textsuperscript{37}, a community benchmark\textsuperscript{38} and
+curated shift sets\textsuperscript{39} for calibration.
 
 The scheme is an analogy to DP4\textsuperscript{15,16} and NMR
 crystallography\textsuperscript{17,18}, not an equivalence: we forgo
@@ -1250,7 +1264,7 @@ recipe}\label{generate-wide-testing-the-recipe}}
 
 The decomposition implies a recipe: \emph{generate wide, verify by
 forward prediction} --- a chemistry analog of self-consistency
-sampling.\textsuperscript{38} Ten solver agents proposed up to
+sampling.\textsuperscript{40} Ten solver agents proposed up to
 \textbf{six regiochemistry-aware candidates per compound}, pooled with
 the originals and re-ranked as before.
 
@@ -1316,12 +1330,12 @@ learned
 model}\label{non-llm-verifiers-a-deterministic-lookup-and-a-learned-model}}
 
 §5.3 suggests an obvious fix: a non-LLM ¹³C predictor in the verifier
-slot. We tested a HOSE-code\textsuperscript{39}-style lookup and a small
+slot. We tested a HOSE-code\textsuperscript{41}-style lookup and a small
 message-passing GNN, both trained on the same nmrshiftdb2
-dump\textsuperscript{40} and applied to the same §5.2 candidate sets, so
+dump\textsuperscript{42} and applied to the same §5.2 candidate sets, so
 that only the predictor changes. The GNN is deliberately modest; sharper
 purpose-built ¹³C models
-exist.{[}\textsuperscript{34}{]}\textsuperscript{35}\textsuperscript{36}
+exist.{[}\textsuperscript{36}{]}\textsuperscript{37}\textsuperscript{38}
 
 \needspace{10\baselineskip}
 
@@ -1487,7 +1501,7 @@ on the fixed 24-compound subset (Table 3), wider than the 5\%→15\%
 protocol effect in §4.3, and the two are measured on different sets. In
 molecular property prediction, a systematic benchmark reports that
 learned, pretrained molecular embeddings rarely outperform classical
-ECFP fingerprints once evaluation is controlled\textsuperscript{41}; we
+ECFP fingerprints once evaluation is controlled\textsuperscript{43}; we
 read our forward-verification recipe (§5) in that light, and draw the
 parallel narrowly.
 
@@ -2015,9 +2029,9 @@ elucidation}}, Anthropic, 2026.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-hu2024multitask}{}}%
 \CSLLeftMargin{3 }%
-\CSLRightInline{F. Hu, M. S. Chen, G. M. Rotskoff, M. W. Kanan and T. E.
-Markland, \emph{arXiv}, 2024, preprint, DOI:
-\href{https://doi.org/10.48550/arXiv.2408.08284}{10.48550/arXiv.2408.08284}.}
+\CSLRightInline{\href{https://doi.org/10.1021/acscentsci.4c01132}{F. Hu,
+M. S. Chen, G. M. Rotskoff, M. W. Kanan and T. E. Markland, \emph{ACS
+Cent. Sci.}, 2024, \textbf{10}, 2162--2170}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-yang2026nmrtrans}{}}%
 \CSLLeftMargin{4 }%
@@ -2058,16 +2072,17 @@ Fu, B. Qi and Y. Li, \emph{arXiv}, 2025, preprint, DOI:
 
 \leavevmode\vadjust pre{\hypertarget{ref-zhuang2025treesearch}{}}%
 \CSLLeftMargin{10 }%
-\CSLRightInline{X. Zhuang, B. Wu, J. Cui, K. Feng, X. Li, H. Xing, K.
-Ding, Q. Zhang and H. Chen, \emph{arXiv}, 2025, preprint, DOI:
-\href{https://doi.org/10.48550/arXiv.2506.23056}{10.48550/arXiv.2506.23056}.}
+\CSLRightInline{\href{https://aclanthology.org/2025.acl-long.1100/}{X.
+Zhuang, B. Wu, J. Cui, K. Feng, X. Li, H. Xing, K. Ding, Q. Zhang and H.
+Chen, \emph{Proc. 63rd Annu. Meet. Assoc. Comput. Linguist. (Vol. 1:
+Long Papers)}, 2025, 22561--22576}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-guo2024molpuzzle}{}}%
 \CSLLeftMargin{11 }%
-\CSLRightInline{K. Guo, B. Nan, Y. Zhou, T. Guo, Z. Guo, M. Surve, Z.
-Liang, N. V. Chawla, O. Wiest and X. Zhang, in \emph{Advances in neural
-information processing systems 37 (NeurIPS 2024), datasets and
-benchmarks track}, 2024.}
+\CSLRightInline{\href{https://doi.org/10.52202/079017-4281}{K. Guo, B.
+Nan, Y. Zhou, T. Guo, Z. Guo, M. Surve, Z. Liang, N. V. Chawla, O. Wiest
+and X. Zhang, in \emph{Advances in neural information processing systems
+37 (NeurIPS 2024), datasets and benchmarks track}, 2024}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-noh2025iragent}{}}%
 \CSLLeftMargin{12 }%
@@ -2125,8 +2140,8 @@ structure elucidation from spectral data}}, Springer Berlin Heidelberg,
 \leavevmode\vadjust pre{\hypertarget{ref-jin2025nmrsolver}{}}%
 \CSLLeftMargin{21 }%
 \CSLRightInline{Y. Jin, J.-J. Wang, F. Xu, X. Ji, Z. Gao, L. Zhang, G.
-Ke, R. Zhu and W. E, \emph{arXiv}, 2025, preprint, DOI:
-\href{https://doi.org/10.48550/arXiv.2509.00640}{10.48550/arXiv.2509.00640}.}
+Ke, R. Zhu and W. E, \emph{Nat. Commun.},
+DOI:\href{https://doi.org/10.1038/s41467-026-71315-0}{10.1038/s41467-026-71315-0}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-fang2026nmragent}{}}%
 \CSLLeftMargin{22 }%
@@ -2193,56 +2208,66 @@ D1373--D1380}.}
 \CSLRightInline{\href{https://doi.org/10.1021/ci100050t}{D. Rogers and
 M. Hahn, \emph{J. Chem. Inf. Model.}, 2010, \textbf{50}, 742--754}.}
 
-\leavevmode\vadjust pre{\hypertarget{ref-xu2024contamination}{}}%
+\leavevmode\vadjust pre{\hypertarget{ref-mcnemar1947}{}}%
 \CSLLeftMargin{33 }%
+\CSLRightInline{\href{https://doi.org/10.1007/BF02295996}{Q. McNemar,
+\emph{Psychometrika}, 1947, \textbf{12}, 153--157}.}
+
+\leavevmode\vadjust pre{\hypertarget{ref-holm1979}{}}%
+\CSLLeftMargin{34 }%
+\CSLRightInline{S. Holm, \emph{Scand. J. Stat.}, 1979, \textbf{6},
+65--70.}
+
+\leavevmode\vadjust pre{\hypertarget{ref-xu2024contamination}{}}%
+\CSLLeftMargin{35 }%
 \CSLRightInline{C. Xu, S. Guan, D. Greene and M.-T. Kechadi,
 \emph{arXiv}, 2024, preprint, DOI:
 \href{https://doi.org/10.48550/arXiv.2406.04244}{10.48550/arXiv.2406.04244}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-williamson2024mpnn}{}}%
-\CSLLeftMargin{34 }%
+\CSLLeftMargin{36 }%
 \CSLRightInline{\href{https://doi.org/10.1016/j.jmr.2024.107795}{D.
 Williamson, S. Ponte, I. Iglesias, N. Tonge, C. Cobas and E. K. Kemsley,
 \emph{J. Magn. Reson.}, 2024, \textbf{368}, 107795}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-han2024dftgnn}{}}%
-\CSLLeftMargin{35 }%
+\CSLLeftMargin{37 }%
 \CSLRightInline{\href{https://doi.org/10.1021/acs.jctc.4c00422}{C. Han,
 D. Zhang, S. Xia and Y. Zhang, \emph{J. Chem. Theory Comput.}, 2024,
 \textbf{20}, 5250--5258}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-xu2025nmrbench}{}}%
-\CSLLeftMargin{36 }%
+\CSLLeftMargin{38 }%
 \CSLRightInline{\href{https://doi.org/10.1038/s43588-025-00783-z}{F. Xu,
 W. Guo, F. Wang, L. Yao, H. Wang, F. Tang, Z. Gao, L. Zhang, W. E, Z.-Q.
 Tian and J. Cheng, \emph{Nat. Comput. Sci.}, 2025, \textbf{5},
 292--300}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-cohen2023delta50}{}}%
-\CSLLeftMargin{37 }%
+\CSLLeftMargin{39 }%
 \CSLRightInline{\href{https://doi.org/10.3390/molecules28062449}{R. D.
 Cohen, J. S. Wood, Y.-H. Lam, A. V. Buevich, E. C. Sherer, M. Reibarkh,
 R. T. Williamson and G. E. Martin, \emph{Molecules}, 2023, \textbf{28},
 2449}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-wang2023selfconsistency}{}}%
-\CSLLeftMargin{38 }%
+\CSLLeftMargin{40 }%
 \CSLRightInline{X. Wang, J. Wei, D. Schuurmans, Q. Le, E. Chi, S.
 Narang, A. Chowdhery and D. Zhou, in \emph{International conference on
 learning representations (ICLR)}, 2023.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-bremser1978hose}{}}%
-\CSLLeftMargin{39 }%
+\CSLLeftMargin{41 }%
 \CSLRightInline{\href{https://doi.org/10.1016/S0003-2670(01)83100-7}{W.
 Bremser, \emph{Anal. Chim. Acta}, 1978, \textbf{103}, 355--365}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-kuhn2015nmrshiftdb2}{}}%
-\CSLLeftMargin{40 }%
+\CSLLeftMargin{42 }%
 \CSLRightInline{\href{https://doi.org/10.1002/mrc.4263}{S. Kuhn and N.
 E. Schlörer, \emph{Magn. Reson. Chem.}, 2015, \textbf{53}, 582--589}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-praski2025embeddings}{}}%
-\CSLLeftMargin{41 }%
+\CSLLeftMargin{43 }%
 \CSLRightInline{M. Praski, J. Adamczyk and W. Czech, \emph{arXiv}, 2025,
 preprint, DOI:
 \href{https://doi.org/10.48550/arXiv.2508.06199}{10.48550/arXiv.2508.06199}.}

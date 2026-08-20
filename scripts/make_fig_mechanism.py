@@ -85,7 +85,7 @@ axes[2].set_xlabel("$^{13}$C chemical shift (ppm)", labelpad=2)
 fig.legend(handles=[Line2D([0], [0], color=fs.FAINT, lw=3.4, label="observed"),
                     Line2D([0], [0], color=fs.GREEN, lw=1.5, label="predicted, true"),
                     Line2D([0], [0], color=fs.VERMIL, lw=1.5, label="predicted, wrong")],
-           loc="upper left", bbox_to_anchor=(0.30, 0.985), ncol=3, fontsize=6.5,
+           loc="upper left", bbox_to_anchor=(0.30, 0.985), ncol=3, fontsize=fs.FS_SMALL,
            handlelength=1.2, columnspacing=1.4, borderaxespad=0)
 
 plt.savefig("docs/figures/fig_mechanism.png")

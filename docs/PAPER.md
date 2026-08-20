@@ -554,7 +554,10 @@ inference. Either way, formula-level recall
 accounts for at most about a fifth of the headline accuracy on this set. The two controls
 are independent and agree, but neither is randomised — publication year is observational,
 and the formula-only arm cannot distinguish memorisation from inference on a near-determining
-formula — so we claim a strong bound rather than exclusion ([@sec:limitations]).
+formula — so we claim a strong bound rather than exclusion ([@sec:limitations]). Nor can
+either control address retrieval on the spectral string itself, which the prompt carries
+verbatim from the source article; [@sec:limitations] states that objection and names the
+control that would settle it.
 
 
 ### Does the diagnosis hold outside one vendor? A four-vendor replication {#sec:diagnosis-hold-outside-one}
@@ -929,6 +932,21 @@ from inference on a near-determining formula. Nor is the recency test anchored t
 test recency as a continuous proxy. A replication restricted to compounds published
 after a disclosed cutoff remains open.
 
+The sharper form of this objection is one neither control addresses, and we state it
+plainly because a reader is entitled to weigh it. The prompt carries the spectral strings
+*exactly as printed in the source article*, down to its own typography — the sampler keeps
+a compound only when the raw ¹H payload can be recovered verbatim from the open-access
+full text ([@sec:methods]), so **every benchmark compound has its spectrum present
+verbatim in a document the model may have read**, and that string is a high-entropy
+fingerprint of the document. Masking the spectra therefore removes the chemistry and a
+retrieval key together: a collapse from 23% to 5% is what reading predicts, and also what
+retrieval predicts. Recency cannot separate them either, for the reason just given. The
+experiment that would is a spectrum meaning the same thing and reading differently —
+shifts perturbed within reporting precision and typography normalised, so the chemistry is
+untouched and no verbatim string survives. `scripts/jitter_control.py` builds that set from
+the released benchmark; running it is the obvious next control and we have not run it. It
+would bound verbatim retrieval only, not recognition from approximate shift patterns.
+
 **(ii) Human audit — prepared but not yet run.** Two things are unvalidated by hand: the
 elucidation and forward-prediction outputs, and the *recall* side of dataset extraction
 (whether the parser found every IR string in every source paper). Transcription fidelity
@@ -1000,7 +1018,12 @@ parsed deterministically, and resolved with OPSIN, RDKit and SELFIES, with an op
 cached PubChem fallback.
 
 **Benchmark and agents.** Problems were sampled from `irexp_resolved`, stratified by
-RDKit ring analysis, and de-duplicated across rounds by InChIKey. The battery-electrolyte
+RDKit ring analysis to half the round per stratum, and de-duplicated across rounds by
+InChIKey. A compound was admitted only if its raw ¹H payload — multiplicities and *J*
+values as printed — could be re-extracted verbatim from the PMC-OA full text of its source
+article (`benchmark_v2.raw_1h_for`), which is what puts genuine coupling information in the
+prompt and, unavoidably, puts the source article's exact string there too
+([@sec:limitations]). The battery-electrolyte
 subset ([@sec:domain-case-study-battery]) was drawn from the same corpus by SMARTS filters
 for six electrolyte functional classes (carbonate, sulfonyl/sulfonate, nitrile, sp³-C–F,
 phosphoryl, glyme/oligoether), balanced to eight compounds per class (48 curated; 46

@@ -95,6 +95,12 @@
 \usepackage{needspace}
 \usepackage{etoolbox}
 \ifcsdef{CSLRightInline}{\AtBeginEnvironment{CSLReferences}{\sloppy}\renewcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\raggedright #1}\break}}{}
+\usepackage{lineno}
+\linenumbers
+\AtBeginEnvironment{longtable}{\nolinenumbers}
+\AtEndEnvironment{longtable}{\linenumbers}
+\AtBeginEnvironment{figure}{\nolinenumbers}
+\AtEndEnvironment{figure}{\linenumbers}
 \newunicodechar{​}{\allowbreak{}}
 \newunicodechar{±}{\ensuremath{\pm}}
 \newunicodechar{×}{\ensuremath{\times}}
@@ -151,22 +157,20 @@
 
 \begin{document}
 
-\hypertarget{recall-not-verification-is-the-bottleneck-when-frontier-llms-elucidate-molecular-structures-from-real-spectra}{%
-\section{Recall, not verification, is the bottleneck when frontier LLMs
-elucidate molecular structures from real
-spectra}\label{recall-not-verification-is-the-bottleneck-when-frontier-llms-elucidate-molecular-structures-from-real-spectra}}
+\begin{center}
+{\LARGE\bfseries\setlength{\baselineskip}{1.15\baselineskip}
+Recall, not verification, is the bottleneck when frontier LLMs elucidate molecular structures from real spectra\par}
+\vspace{1.1em}
+{\large \textbf{Ilkham Yabbarov}\textsuperscript{a},  \textbf{Rudra Sondhi}\textsuperscript{a}, \textbf{Rodrigo A. Vargas-Hernández}\textsuperscript{a}\par}
+\vspace{0.5em}
+{\small \textit{\textsuperscript{a} Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario L8S 4L8, Canada.}\par}
+\vspace{0.25em}
+{\small\textit{E-mail: }\texttt{ilkhamfy@gmail.com}\par}
+\end{center}
+\vspace{0.6em}
 
-\textbf{Ilkham Yabbarov}\textsuperscript{a} \emph{(corresponding author:
-ilkhamfy@gmail.com)}, \textbf{Rudra Sondhi}\textsuperscript{a},
-\textbf{Rodrigo A. Vargas-Hernández}\textsuperscript{a}
-
-\emph{\textsuperscript{a} Department of Chemistry and Chemical Biology,
-McMaster University, Hamilton, Ontario L8S 4L8, Canada.}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\hypertarget{abstract}{%
-\subsection{Abstract}\label{abstract}}
+\begingroup\small\setlength{\leftskip}{2em}\setlength{\rightskip}{2em}
+\noindent\rule{\linewidth}{0.4pt}\vspace{-0.4em}
 
 Given the molecular formula together with the infrared band list and
 ¹H/¹³C shift lists exactly as reported in an open-access paper, how
@@ -215,7 +219,7 @@ protocol uses no model training and no paid API --- two clearly-fenced
 probes (§5.4, §5.6) are the only exceptions --- and all data,
 predictions, and code are released.
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+\vspace{-0.4em}\noindent\rule{\linewidth}{0.4pt}\endgroup
 
 \hypertarget{introduction}{%
 \subsection{1. Introduction}\label{introduction}}

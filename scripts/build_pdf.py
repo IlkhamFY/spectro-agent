@@ -205,6 +205,94 @@ def bibliography(tmpdir):
     return out
 
 
+INLINE_TEX = (
+    (r"\*\*(.+?)\*\*", r"\\textbf{\1}"),
+    (r"(?<!\*)\*([^*]+?)\*(?!\*)", r"\\textit{\1}"),
+    (r"\^([A-Za-z0-9,]+)\^", r"\\textsuperscript{\1}"),
+)
+
+
+def _inline(md):
+    """The handful of markdown constructs the title block actually uses.
+
+    Small on purpose. The front matter is three lines under our own control, so a
+    general converter would be more machinery than the job needs -- and pandoc is not
+    available here, because the whole point is to hand LaTeX a title block rather than
+    let the default template lay one out."""
+    for pat, rep in INLINE_TEX:
+        md = re.sub(pat, rep, md)
+    return md.replace("&", r"\&").replace("~", r"\textasciitilde{}")
+
+
+TITLE_RE = re.compile(
+    r"\A#\s+(?P<title>.+?)\n+"          # H1
+    r"(?P<authors>\*\*.+?)\n\n"         # author line (starts bold)
+    r"(?P<affil>\*\^a\^.+?)\n",         # affiliation line
+    re.S)
+
+
+def title_block(md):
+    """Lay out the title, authors and abstract the way a journal sets them.
+
+    Pandoc's default template renders the H1 as \section and the author line as an
+    ordinary bold paragraph, so the first page reads as the start of a report rather
+    than the head of an article: no centring, no size contrast, and the abstract sitting
+    under a numbered-looking heading among the body sections.
+
+    The substitution happens here rather than in PAPER.md so the source stays plain
+    markdown -- readable on GitHub, and still checkable by the gates, which look for the
+    `## Abstract` heading this function removes.
+    """
+    m = TITLE_RE.search(md)
+    if not m:
+        return md
+    title, affil = (_inline(m.group(k).strip()) for k in ("title", "affil"))
+    # The corresponding-author note sits inline in the markdown, which is the readable
+    # place for it on GitHub and the wrong place in print: it doubles the length of the
+    # author line, so the last author breaks across two centred lines with a surname
+    # stranded on its own. Journals set it as a separate note under the affiliation.
+    authors = m.group("authors").strip()
+    corr = re.search(r"\s*\*\(corresponding author:\s*([^)]*)\)\*,?", authors)
+    email = corr.group(1).strip() if corr else ""
+    if corr:
+        authors = (authors[:corr.start()] + ", " + authors[corr.end():]).replace(
+            ", ,", ",").rstrip(", ")
+    authors = _inline(authors)
+    note = (r"\vspace{0.25em}" "\n"
+            r"{\small\textit{E-mail: }\texttt{" + email.replace("_", r"\_") + r"}\par}"
+            "\n") if email else ""
+    head = ("```{=latex}\n"
+            r"\begin{center}" "\n"
+            r"{\LARGE\bfseries\setlength{\baselineskip}{1.15\baselineskip}" "\n"
+            f"{title}\\par}}\n"
+            r"\vspace{1.1em}" "\n"
+            r"{\large " f"{authors}" r"\par}" "\n"
+            r"\vspace{0.5em}" "\n"
+            r"{\small " f"{affil}" r"\par}" "\n"
+            f"{note}"
+            r"\end{center}" "\n"
+            r"\vspace{0.6em}" "\n"
+            "```\n\n")
+    md = md[:m.start()] + head + md[m.end():]
+
+    # The abstract is set narrower and smaller, with rules above and below, and loses its
+    # heading -- an abstract needs no label where it sits. Kept as markdown between two
+    # raw blocks so its citations and cross-references still resolve.
+    # re.sub's replacement string eats backslashes, and every one of these is LaTeX;
+    # pass a lambda so the text goes through untouched.
+    open_abs = ("```{=latex}\n"
+                r"\begingroup\small\setlength{\leftskip}{2em}"
+                r"\setlength{\rightskip}{2em}" "\n"
+                r"\noindent\rule{\linewidth}{0.4pt}\vspace{-0.4em}" "\n"
+                "```\n\n")
+    close_abs = ("```{=latex}\n"
+                 r"\vspace{-0.4em}\noindent\rule{\linewidth}{0.4pt}\endgroup" "\n"
+                 "```\n")
+    md = re.sub(r"^---\n+## Abstract\n", lambda _: open_abs, md, count=1, flags=re.M)
+    md = re.sub(r"^---\n(?=\n*## 1\.)", lambda _: close_abs, md, count=1, flags=re.M)
+    return md
+
+
 def header():
     lines = [r"\usepackage{newunicodechar}", r"\usepackage{graphicx}",
              r"\renewcommand{\figurename}{Fig.}",
@@ -235,6 +323,19 @@ def header():
              r"\renewcommand{\CSLRightInline}[1]"
              r"{\parbox[t]{\linewidth - \csllabelwidth}{\raggedright #1}\break}"
              r"}{}"]
+    # Continuous line numbers, which RSC asks for on a manuscript under review. Off for
+    # a reading copy: LINENOS=0.
+    #
+    # lineno predates longtable and cannot number inside it -- left alone it aborts the
+    # run with an \prevdepth error on the first pipe table, of which this manuscript has
+    # nine. Suspending numbering around longtable and around floats is the standard
+    # remedy and costs nothing: a reviewer cites a table by its number, not by a line.
+    if os.environ.get("LINENOS", "1") != "0":
+        lines += [r"\usepackage{lineno}", r"\linenumbers",
+                  r"\AtBeginEnvironment{longtable}{\nolinenumbers}",
+                  r"\AtEndEnvironment{longtable}{\linenumbers}",
+                  r"\AtBeginEnvironment{figure}{\nolinenumbers}",
+                  r"\AtEndEnvironment{figure}{\linenumbers}"]
     for ch, cmd in UNI.items():
         lines.append(f"\\newunicodechar{{{ch}}}{{{cmd}}}")
     return "\n".join(lines)
@@ -286,6 +387,7 @@ def main():
     # (Table 9 sitting physically before Tables 6-8) was already wrong in the merged text.
     import crossref
     md, _labels = crossref.resolve(md)
+    md = title_block(md)
     md = breakable_paths(md)
     md = proportional_tables(md)
     # RSC requires a table-of-contents (graphical abstract) entry: one image plus a

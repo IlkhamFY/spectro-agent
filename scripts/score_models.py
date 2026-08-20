@@ -105,7 +105,21 @@ def main():
         order = [m for m in ["Fable", "Opus", "Sonnet", "Haiku"] if m in vec]
         n = len(SUBSET); rng = random.Random(0); B = 10000
         def _ci(v):
-            p = 100 * sum(v) / n
+            """Bootstrap, with an exact fallback at the boundary.
+
+            A model that scores 0/24 (or 24/24) has an identical value in every resample,
+            so the bootstrap interval collapses to a point and the weakest model in the
+            figure is drawn as the most certain one. That is backwards. At the boundary
+            the bootstrap has no information and Clopper-Pearson does: 0/24 is [0, 14.2%],
+            which is the honest statement -- not measurably above zero, and not pinned to
+            it either."""
+            k = sum(v)
+            p = 100 * k / n
+            if k in (0, n):
+                from scipy.stats import beta
+                lo = 0.0 if k == 0 else 100 * beta.ppf(.025, k, n - k + 1)
+                hi = 100.0 if k == n else 100 * beta.ppf(.975, k + 1, n - k)
+                return p, lo, hi
             bs = sorted(100 * sum(v[rng.randrange(n)] for _ in range(n)) / n for _ in range(B))
             return p, bs[int(.025 * B)], bs[int(.975 * B)]
         t1 = {m: _ci(vec[m]) for m in order}

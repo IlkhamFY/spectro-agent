@@ -411,11 +411,14 @@ def main():
     if os.path.exists(toc):
         md += ("\n\n\\clearpage\n\n# Table of contents entry\n\n"
                f"![]({toc}){{width={fig_width(toc)}}}\n\n"
-               "A frontier LLM recovers the correct molecular constitution from real, "
-               "blind IR + \u00b9H + \u00b9\u00b3C literature spectra for 28% of 194 compounds. "
-               "The bottleneck is candidate *recall*, not verification: forward-predicting "
-               "\u00b9\u00b3C and re-ranking selects the true structure 89% of the time it is "
-               "proposed \u2014 but it is proposed only 34% of the time.\n\n")
+               # RSC caps the table-of-contents text at 250 characters. The earlier
+               # wording also invited an arithmetic a reader will actually do: 34% x 89%
+               # is 30%, not the 28% it opened with, because 28% is the solver alone and
+               # 30% is the solver with forward verification. Say both.
+               "Recall, not verification, is the wall. On real, blind IR + "
+               "\u00b9H + \u00b9\u00b3C literature spectra a frontier LLM proposes the true "
+               "structure for 34% of 194 compounds and, once proposed, selects it 89% of "
+               "the time \u2014 lifting top-1 from 28% to 30%.\n\n")
     # Main-text figures are inline in PAPER.md, placed at first discussion as a journal
     # requires. Their captions live there too -- one source of truth, so a caption cannot
     # drift from the text the way the old duplicate list did. Widths are computed here

@@ -212,6 +212,9 @@ pipeline specialised to the *IR band list*, the modality those tools passed over
 
 ### Contents and licensing {#sec:contents-licensing}
 
+[@tab:irexp-dataset-contents-provenance] gives what the release holds and where each part
+came from.
+
 **Table {#tab:irexp-dataset-contents-provenance}. IRexp dataset contents and provenance.**
 
 | field | value |
@@ -483,6 +486,9 @@ neighbourhood. The true structure enters the candidate set for only 13 of 46 com
 ranks first in 12 of those 13. Forward-verification was **not** run here, so this is the
 recall-bound pattern under the solver's own ranking, not the
 [@sec:forward-verification-elucidation] measurement ([@sfig:electrolyte]).
+The per-class breakdown is [@tab:per-class-performance-irspectra]; at eight compounds a
+class the intervals overlap throughout, so the ordering is hypothesis-generating rather
+than an established ranking.
 
 **Table {#tab:per-class-performance-irspectra}. Per-class performance on IRSpectra-Bench-Electrolyte (n=46).**
 
@@ -565,7 +571,8 @@ control that would settle it.
 Every number so far comes from one lineage, the external-validity gap [@sec:limitations]
 (iii) named as most important. Six non-Claude models solved the same 60 compounds as
 [@tab:forward-verification-decomposition]'s first column under the identical blind protocol;
-the three whose output was well-formed enough were carried through forward verification.
+the three whose output was well-formed enough were carried through forward verification
+([@tab:cross-vendor-decomposition-60]).
 
 **Table {#tab:cross-vendor-decomposition-60}. Cross-vendor decomposition on the 60-compound arm.** Recall and precision have
 different denominators, so the criterion is the inequality, not a difference.
@@ -577,8 +584,8 @@ different denominators, so the criterion is the inequality, not a difference.
 | Gemini 3.7 Flash | 30/60 = **50%** [38, 62] | 22/30 = 73% [56, 86] | 22/30 = 73% |
 | GPT-5.6 Sol | 25/60 = **42%** [30, 54] | 17/25 = 68% [48, 83] | 16/24 = 67% |
 
-**The inequality holds in every arm**: verification precision exceeds generation recall for
-four independent model families. Only Claude's gap is interval-disjoint; at n=60 the other
+**The inequality holds in every arm** ([@fig:fig7-crossvendor]): verification precision
+exceeds generation recall for four independent model families. Only Claude's gap is interval-disjoint; at n=60 the other
 three are directional rather than separated, and we report them as such.
 
 Two findings sit underneath. Six of Claude's nineteen recall-positive compounds carried one
@@ -605,6 +612,8 @@ Three weaker models are excluded from the decomposition: Composer 2.5 (20% recal
 GPT-5.6 Luna (15%) match the given formula only 67% and 76% of the time, and
 `nvidia/nemotron-3.5-lightning` managed 2%. [@sec:headline-performance]'s scorer now prints
 formula adherence beside recall.
+
+![Every model measured on the 60-compound arm. (**a**) Generation recall, each model at the candidate budget it used — 3.00 candidates per compound for all but ours (2.20) and Composer (2.82), so this axis favours the models that always returned three; grey marks models below the formula-adherence floor, whose recall is not a chemistry result. (**b**) The claim itself: verification precision against generation recall, with the diagonal. Every model sits above the line, so verification is better than generation for all four families; hollow marks an incomplete arm, where recall is a lower bound. The four Claude models of [@sec:model-comparison-benchmark-ranks] are deliberately absent — they ran a different 24-compound subset, and putting them here would imply a comparison that was never made.](docs/figures/fig7_crossvendor.png){#fig:fig7-crossvendor}
 
 **Contamination was controlled, not assumed.** Blindness rested on an instruction: these
 runs used cloud agents with repository access to tracked answer keys. Grok re-solved all ten

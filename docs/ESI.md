@@ -47,17 +47,14 @@ emitted by the harness.
 | trained-generator arm re-run: 5 agents, 75 outstanding candidates | Claude Opus | `data/fverify_gen/` | 2026-08-07 03:55–04:05 |
 | cross-vendor sweep, non-Claude models ([@sec:esi-cross-vendor]) | see [@tab:esi-vendor-generation] | `sweep_out/` | 2026-08-13 to 2026-08-17 |
 
-Claude invocations fall into three dated windows, not one. **2026-06-09 to 2026-06-11**
-produced every candidate structure behind the headline results and behind the pools all of
-[@sec:forward-verification-elucidation] re-ranks; no headline elucidation artifact exists
-outside it. **2026-07-28** is the formula-only control, which generates its own candidates
-(3/60 correct) by design, a masked-input control being meaningful only as a fresh run; it
-touches [@tab:formula-only-control] alone. **2026-08-07** carries three forward-prediction
-collections — the [@sec:result] extension to all 194 compounds, the
-[@sec:generate-wide-testing-recipe] coverage-gap closure and the
-[@sec:recall-wall-task-intrinsic] re-run — which predict ¹³C for candidates the June solver
-had already produced; none introduces a new candidate or moves a recall number. All later
-commits re-score frozen outputs and re-query no model.
+Invocations fall into three dated windows, not one. **2026-06-09 to 2026-06-11** produced
+every candidate structure behind the headline results and behind the pools all of
+[@sec:forward-verification-elucidation] re-ranks. **2026-07-28** is the formula-only
+control, which generates its own candidates (3/60 correct) by design, a masked-input
+control being meaningful only as a fresh run. **2026-08-07** carries three
+forward-prediction collections that predict ¹³C for candidates the June solver had already
+produced, so none introduces a new candidate or moves a recall number. All later commits
+re-score frozen outputs and re-query no model.
 
 ### Version strings, snapshots and decoding parameters {#sec:esi-versions}
 
@@ -67,14 +64,12 @@ a snapshot identifier: it pins no checkpoint. `Fable 5` appears as a display nam
 version number of any kind appears for Claude Sonnet or Claude Haiku**, and no dated
 snapshot identifier exists for any of the four, because the consumer harness exposes no
 checkpoint identifier, announces no build change, and records nothing about which build
-served a request. Two numbers drawn from one window are therefore known to share a window
-and *not* known to share a build: **a mid-window build change cannot be excluded**, and the
-article does not claim the pilot build served the main round two days later.
-
-**No sampling parameters were set for any run, and none are recorded** — no temperature,
-`top_p`, `top_k`, `max_tokens`, generation seed or thinking budget appears in any script,
-document, config or artifact. The `seed=` values in the repository are for analysis
-determinism only (bootstrap resampling, benchmark sampling, audit-sample selection).
+served a request. Two numbers from one window are therefore known to share a window and
+*not* known to share a build: **a mid-window build change cannot be excluded**, and the
+article does not claim the pilot build served the main round two days later. **No sampling
+parameters were set for any run and none are recorded** — no temperature, `top_p`, `top_k`,
+`max_tokens`, generation seed or thinking budget appears in any script, document, config or
+artifact; the `seed=` values in the repository are for analysis determinism only.
 Reproduction is distributional, not exact.
 
 One protocol asymmetry belongs here, because
@@ -209,13 +204,12 @@ spectra) and one is too sparse to constrain (R82, 5 peaks for 22 symmetry-unique
 The two controlled rounds are used **whole**, being fixed and pre-registered as controls
 before the audit existed; the same audit is reported on them rather than applied (57/60
 pass), and [@sec:headline-performance] gives the strictly-validated 191-compound cohort as
-a robustness check. The filter runs over all three rounds in
-`scripts/validate_benchmark.py`, which regenerates every `clean_qids.json` from the
-released questions and answers. It tests ¹³C against the carbon count and does not gate on
-¹H: in **13 of the 194** retained records the reported ¹H integral exceeds the reference
-structure's hydrogen count (residual solvent, water, exchangeable protons, a rotamer
-mixture). These are printed as a diagnostic, not excluded, because the cohort was fixed in
-advance; dropping all 13 moves the headline from 28.4% to 29.3% (53/181).
+a robustness check. The filter (`scripts/validate_benchmark.py`, which regenerates every
+`clean_qids.json` from the released questions and answers) tests ¹³C against the carbon
+count and does not gate on ¹H: in **13 of the 194** retained records the reported ¹H
+integral exceeds the reference structure's hydrogen count. These are printed as a
+diagnostic, not excluded, because the cohort was fixed in advance; dropping all 13 moves
+the headline from 28.4% to 29.3% (53/181).
 
 **Complexity stratification, and when it was defined.** Difficulty is a declared property
 of the compound, assigned by RDKit ring analysis at sampling time — before anything was
@@ -253,11 +247,10 @@ re-scoring the *full* InChIKey gives **21.1% top-1 and 25.8% recovered (41/194 a
 50/194)** against 28.4% / 33.5% at the connectivity layer, so fourteen top-1 answers are
 accepted here that a stereochemistry-sensitive scorer rejects. The floor exists because 1D
 ¹H/¹³C/IR rarely fixes absolute configuration and only 10.3% (20/194) of answers carry a
-defined (assigned R/S) stereocentre, so a model would be penalised for information the
-prompt never carried. The cross-vendor arm shows the accepted case per compound: on
-structures those models got constitutionally right whose reference carries assigned
+defined (assigned R/S) stereocentre. Worked cases of acceptance come from the cross-vendor
+arm: on structures those models got constitutionally right whose reference carries assigned
 stereocentres, Grok 4.6 reproduced 0/3 correct descriptors, Gemini 3.7 Flash 0/2 and
-GPT-5.6 Sol 0/2.
+GPT-5.6 Sol 0/2 — all scored correct here.
 
 **What it rejects:** every constitutional isomer, however close, and every structure of the
 wrong composition. Three worked cases, all from released artifacts:
@@ -273,7 +266,7 @@ wrong composition. Three worked cases, all from released artifacts:
   must be.
 - *A pilot miss of the same kind.* The n=21 pilot returned the correct
   *N*-allyl-2-(pyridinecarbonyl)hydrazinecarbothioamide skeleton with the **3-pyridyl**
-  isomer where the truth is **2-pyridyl** (`docs/BENCHMARK.md`, Q21): right formula, right
+  isomer where the truth is **2-pyridyl** (`docs/BENCHMARK.md`): right formula, right
   scaffold, rejected.
 
 That is the dominant shape of failure, not an edge case: over all 139 top-1 misses,
@@ -343,11 +336,10 @@ one-sided p=0.001, two-sided p=0.002); on the 60-compound arm alone, 84.2% again
 few, near-identical candidates, so the genuine margin over chance is ~15 points
 ([@sec:negative-control]).
 
-**A negative result on calibration.** Ranking the 138 multi-candidate compounds by chamfer
-margin (best minus second-best) and answering only the most confident fraction leaves top-1
-flat and non-monotonic with coverage: 22% at full coverage, 24% at 75%, 28% at 50%, 24% at
-25%. Single-candidate compounds have no margin and must be excluded; an earlier analysis
-that kept them produced a spurious improvement entirely artefactual of those trivial cases.
+The same distance fails as an absolute confidence gauge, which is why the article claims it
+only as a re-ranker: ranking the 138 multi-candidate compounds by chamfer margin (best minus
+second-best) and answering only the most confident fraction leaves top-1 flat and
+non-monotonic with coverage (22% / 24% / 28% / 24% at 100%, 75%, 50% and 25% coverage).
 
 ## Non-LLM verifiers: a deterministic lookup and a learned model {#sec:esi-verifiers}
 
@@ -373,19 +365,17 @@ size 64, smooth-L1 loss, plateau learning-rate halving, early stopping. Held-out
 1.70 ppm (median 1.02)**, roughly twice as sharp as the lookup (`scripts/gnn_predict.py`,
 `data/nmrshiftdb/gnn_c13.pt`). It is deliberately modest rather than state of the art —
 purpose-built ¹³C models reach ~1 ppm[@williamson2024mpnn] and 0.94 ppm with DFT shielding
-tensors[@han2024dftgnn] — because the question is whether the predictor slot is where the
-leverage sits, which needs a predictor differing from the lookup in *method* while data and
-evaluation stay fixed.
+tensors[@han2024dftgnn] — because the question is only whether the predictor slot is where
+the leverage sits.
 
 **Held-out error against benchmark behaviour.** [@tab:verifier-comparison-conditional-recall]
-gives the four verifiers conditional on recall; two readings belong here. The lookup's tie
-with self-ranking is not agreement: at n=65 it **gains seven compounds and loses seven**
-(McNemar b=c=7, p=1.00), reshuffling energetically while carrying no net discriminative
-signal. Its coverage diagnosis is that of the **6,360 candidate carbons only 2.1% match a
-training environment at the most specific sphere (r=4)**, 71% resolving only at r≤2 or
-falling through to the prior, the benchmark's exotic chemistry being under-represented in
-nmrshiftdb2. The GNN's margins are directional in every pairwise comparison and none
-reaches significance: against the lookup seven gained, three lost (p=0.34); against
+gives the four verifiers conditional on recall. The lookup's tie with self-ranking there is
+not agreement: at n=65 it **gains seven compounds and loses seven** (McNemar b=c=7,
+p=1.00), reshuffling energetically while carrying no net discriminative signal. Its
+coverage diagnosis is that of the **6,360 candidate carbons only 2.1% match a training
+environment at the most specific sphere (r=4)**, 71% resolving only at r≤2 or falling
+through to the prior. The GNN's margins are directional in every pairwise comparison and
+none reaches significance: against the lookup seven gained, three lost (p=0.34); against
 self-ranking five gained, one lost (p=0.22); against the LLM verifier the two land within
 one compound of each other while disagreeing on nine (b=5, c=4, p=1.00).
 
@@ -395,15 +385,15 @@ nmrshiftdb2 database is **2 of 364** distinct candidate structures by InChIKey-1
 wrong candidates on recall-negative compounds, which never enter the conditional analysis —
 and **no benchmark answer appears in the database at all** (0/373; the 60-compound arm is
 0/126). Analog overlap is likewise absent: median Morgan(2, 2048) Tanimoto to the nearest
-training molecule is **0.44**, three candidates above 0.80. The load-bearing figure is the
-last: over the **65 true structures the verifier must identify**, the nearest training
-analog has median Tanimoto **0.50** and maximum **0.81**, so no compound the conditional
-analysis scores has a near-duplicate in training. A Y-randomisation control (1,000
-derangements) places the learned verifier above the 97.5th percentile of the chance
-distribution (n=19: real 84% against a permuted mean of 58.6%, 95% range 42.1–73.7%,
-one-sided p<0.05). Both checks regenerate via `scripts/verifier_leakage.py`. Neither
-predictor is redistributable end-to-end: the nmrshiftdb2 dump cannot ship with the
-manuscript, so these rows regenerate only once a reader supplies the same dump.
+training molecule is **0.44**, three candidates above 0.80, and over the **65 true
+structures the verifier must identify** the nearest training analog has median Tanimoto
+**0.50** and maximum **0.81** — no compound the conditional analysis scores has a
+near-duplicate in training. A Y-randomisation control (1,000 derangements) places the
+learned verifier above the 97.5th percentile of chance (n=19: real 84% against a permuted
+mean of 58.6%, 95% range 42.1–73.7%, one-sided p<0.05). Both checks regenerate via
+`scripts/verifier_leakage.py`. Neither predictor is redistributable end-to-end: the
+nmrshiftdb2 dump cannot ship with the manuscript, so these rows regenerate only once a
+reader supplies the same dump.
 
 ## Cross-vendor replication {#sec:esi-cross-vendor}
 
@@ -411,8 +401,8 @@ Non-Claude models were run through `scripts/cross_vendor_sweep.py` on the `fveri
 the same 60 compounds as the first column of [@tab:forward-verification-decomposition] —
 between 2026-08-13 and 2026-08-17. Two arms went through OpenRouter
 (`scripts/openrouter_run.py`); the rest were driven by cloud coding agents against the
-committed `sweep_prompts/`, one fresh subagent per batch, at no API cost. Raw replies are
-released in `sweep_out/`.
+committed `sweep_prompts/`, one fresh subagent per batch, at no API cost. Raw replies are in
+`sweep_out/`.
 
 **Table {#tab:esi-vendor-generation}. Generation stage, every model run on the 60-compound
 arm**, with the article's Claude Opus arm for reference.
@@ -431,14 +421,13 @@ arm**, with the article's Claude Opus arm for reference.
 Read the formula-adherence column first: nemotron's zero is not a chemistry result but a
 model that could not return a structure of the requested composition, and the deepseek arm
 answered 18 of 60 compounds — a reasoning model that exhausted its token ceiling without
-emitting an answer on most batches, where an unanswered compound scores exactly like a
-wrong one.
+emitting an answer on most batches, an unanswered compound scoring exactly like a wrong one.
 
 **Matched across arms:** the compounds, the two-stage protocol, the three-candidate budget,
 the context packing (six compounds per fresh context), the closed-book instruction, the
-anonymised blind forward-prediction stage, and the scorer. **Not matched:** verification was
-run only for the three models whose output contract justified it, Composer 2.5 and GPT-5.6
-Luna being left out at 67% and 76% formula adherence.
+anonymised blind forward-prediction stage, the scorer. **Not matched:** verification ran
+only for the three models whose output contract justified it, Composer 2.5 and GPT-5.6 Luna
+being left out at 67% and 76% formula adherence.
 
 **Table {#tab:esi-vendor-decomposition}. Decomposition, the three replicated arms.** Recall
 and precision have different denominators, so the criterion is the inequality, not a
@@ -459,13 +448,13 @@ stock vendor endpoints. That harness's allowlist reads `gpt-5.6-sol-xhigh`,
 ([@sec:esi-versions]) — and the harness supplies its own agent system prompt above the task
 text. **The effort tier used for each arm is not recorded**, because the run did not report
 which allowlist entry it selected; a run at `-xhigh` is not the same measurement as one at
-`-high`, and the article reports these as vendor-family results accordingly. `GPT-5.6
-Terra` and `GLM 5.2` were attempted and rejected: neither is in the agent's allowlist.
+`-high`, which is why the article reports these as vendor-family results. `GPT-5.6 Terra`
+and `GLM 5.2` were attempted and rejected: neither is in the allowlist.
 
 **Contamination control.** The cloud agents cloned the whole repository and the answer files
 for these 60 compounds are tracked, so blindness rested on an instruction nothing verifies
-after the fact. The control is a re-solve with those files physically out of the workspace:
-Grok 4.6 re-ran all ten batches from a clean clone (`sweep_out/grok-4.6-clean/`).
+after the fact. The control is a re-solve with those files out of the workspace: Grok 4.6
+re-ran all ten batches from a clean clone (`sweep_out/grok-4.6-clean/`).
 
 **Table {#tab:esi-clean-clone}. Clean-clone contamination control, Grok 4.6.**
 
@@ -477,9 +466,9 @@ Grok 4.6 re-ran all ten batches from a clean clone (`sweep_out/grok-4.6-clean/`)
 Paired, that is **b=8, c=4, McNemar exact p=0.39**. The decisive detail is the asymmetry
 rather than the totals: a model reading the key would solve a superset, and instead **four
 compounds were solved only in the arm that had no key**, with 24 of the 60 solved by both.
-Formula adherence held at 97% against 98%, where a model that had lost a crib would be
-expected to degrade. The control covers Grok; Gemini 3.7 Flash and GPT-5.6 Sol rest on the
-shared instruction and on the stereochemistry evidence of [@sec:esi-scoring].
+Formula adherence held at 97% against 98%, where a model that had lost a crib should
+degrade. The control covers Grok alone; Gemini 3.7 Flash and GPT-5.6 Sol rest on the shared
+instruction and the stereochemistry evidence of [@sec:esi-scoring].
 
 ## Modality ablation and contamination controls {#sec:esi-ablation}
 
@@ -488,34 +477,32 @@ result appears in the article.** The staged prompts `prompt_noIR.txt`, `prompt_n
 `prompt_noC.txt` sit under `data/modality/` (2026-06-16) with no corresponding
 `out_*.json`. Two attempts were discarded, and why is instructive. The first ran one solver
 agent per condition, so agent quality was a single draw per condition and swamped the
-modality effect: full modality came out worst at 3/16 while −IR came out best at 8/16, and
-−IR solved compounds the full-information run missed. The second ran a fresh −IR arm
-against the *archived* benchmark predictions as its control, giving full 10/30, −IR 22/30
-and formula-only 2/30 on the simple stratum — −IR beating full modality by 40 points,
-McNemar p=0.004, which is impossible and identifies the confound rather than a modality
-effect. The rule this yielded is that every arm of an ablation must be generated in one
-campaign with the same agent configuration, batch size and model, the control included
+modality effect: full modality came out worst at 3/16 and −IR best at 8/16. The second ran
+a fresh −IR arm against the *archived* benchmark predictions as its control, giving full
+10/30, −IR 22/30 and formula-only 2/30 on the simple stratum — −IR beating full modality by
+40 points, McNemar p=0.004, impossible on the modality reading and diagnostic of the
+confound. The rule this yielded: every arm of an ablation must be generated in one campaign
+with the same agent configuration, batch size and model, the control included
 (`docs/MODALITY_ABLATION.md`).
 
 **The formula-only control shares that structure and is not impugned by it**, because the
 confound runs against the finding. Only the formula-only arm was freshly generated
-(2026-07-28); the full-modality comparison arm re-uses the archived June predictions, whose
+(2026-07-28); its full-modality comparison arm re-uses the archived June predictions, whose
 60 top-1 answers are byte-identical to that run. Fresh agents reason harder per compound
 than the archived batched run, so the bias favours the formula-only arm — and it still
-collapsed. The solver received the molecular formula and nothing else, was barred from
-reading any repository file or searching the web, and was allowed RDKit only to check that
-a proposed SMILES parses and matches the formula. The outcomes are perfectly nested:
-**eleven** compounds are solved with the spectra and not without and **none** the other way
-round (b=11, c=0, McNemar exact p=0.001), for 3/60 against 14/60 top-1 and 3/60 against
-19/60 recovered ([@tab:formula-only-control]).
+collapsed. That solver received the formula and nothing else, was barred from reading any
+repository file or searching the web, and was allowed RDKit only to check that a proposed
+SMILES parses and matches the formula. The outcomes are perfectly nested: **eleven**
+compounds are solved with the spectra and not without, **none** the other way round (b=11,
+c=0, McNemar exact p=0.001), for 3/60 against 14/60 top-1 and 3/60 against 19/60 recovered
+([@tab:formula-only-control]).
 
 The three formula-only successes are named rather than rounded away, because they do not
 all support one reading: **C₁₅H₁₅ClF₂O₃SSi**, a 2-(trimethylsilyl)aryl sulfonate whose
-Si/S/Cl/F₂ composition is a near-unique benzyne-precursor signature and which is absent
-from PubChem, so the formula is close to determining; **C₁₃H₁₉NO₄S**, *N*-tosyl-leucine
-(CAS 67368-40-5), where inference and recall are both available; and **C₁₇H₂₆O₃**,
-[6]-paradol (CAS 27113-22-0), a catalogued ginger natural product that composition alone
-constrains very little.
+composition is a near-unique benzyne-precursor signature and which is absent from PubChem,
+so the formula is close to determining; **C₁₃H₁₉NO₄S**, *N*-tosyl-leucine (CAS 67368-40-5),
+where inference and recall are both available; and **C₁₇H₂₆O₃**, [6]-paradol (CAS
+27113-22-0), a catalogued natural product that composition alone constrains very little.
 
 **The recency control** is independent and agrees. Publication years were resolved for all
 194 compounds from their accessions (`scripts/contamination_recency.py`) and span
@@ -523,27 +510,25 @@ constrains very little.
 for the newer (n=82), point-biserial r between year and correctness of **−0.007**, the most
 recent bucket (≥2024, n=25) in fact highest at 40% [23, 59]. The raw split is biased against
 the newer half, since newer papers skew larger (median 22 heavy atoms against 20) and size
-dominates accuracy; stratifying by heavy-atom band removes that, and newer compounds lead
-in the two bands carrying most of the accuracy (≤15: 64% against 58%; 16–25: 34% against
-25%) and trail slightly in the largest, where both are near the floor (>25: 6% against 8%).
-The size-adjusted older-minus-newer difference is **−5.1 points, 95% CI [−17.2, +7.0]**
-(Cochran–Mantel–Haenszel χ²=0.42, p=0.51, continuity-corrected) — a bound on any recency
-effect, not a demonstration of a reversed one.
+dominates accuracy; stratifying by heavy-atom band removes that (≤15: 64% against 58%;
+16–25: 34% against 25%; >25: 6% against 8%). The size-adjusted older-minus-newer difference
+is **−5.1 points, 95% CI [−17.2, +7.0]** (Cochran–Mantel–Haenszel χ²=0.42, p=0.51,
+continuity-corrected) — a bound on any recency effect, not a reversed one.
 
 ## Human-expert audit: protocol and status {#sec:esi-audit}
 
 Solver and verifier are both LLMs, so the one validation the authors cannot perform
 themselves is an expert-chemist review of the outputs. The audit package is therefore
-built, blinded, pre-registered and **frozen** before any review, and regenerates
-deterministically at seed 0 from `scripts/make_audit_sample.py` into `data/audit/`.
+blinded, pre-registered and **frozen** before any review, and regenerates deterministically
+at seed 0 from `scripts/make_audit_sample.py` into `data/audit/`.
 
 The panel is three PhD-level synthetic or analytical chemists, independent, with no prior
 exposure to the benchmark answers, at roughly 3–4 person-hours each. The sample is a
-difficulty-stratified draw (15 simple, 15 complex) from the 60-compound forward-verification
-set, the only split carrying both the ranked candidates and the observed spectra. Per
-compound a reviewer sees the exact solver prompt — formula, IR, ¹H, ¹³C — and the model's
-top-ranked candidate rendered as a 2D structure, with model identity and ground truth
-hidden.
+difficulty-stratified draw (15 simple, 15 complex) from the 60-compound
+forward-verification set, the only split carrying both the ranked candidates and the
+observed spectra. Per compound a reviewer sees the exact solver prompt — formula, IR, ¹H,
+¹³C — and the model's top-ranked candidate rendered as a 2D structure, with model identity
+and ground truth hidden.
 
 **Table {#tab:esi-audit-kit}. Composition of the frozen audit kit.**
 
@@ -562,26 +547,24 @@ categorical verdict (correct / wrong-regiochemistry / wrong-scaffold / uninterpr
 names the single most diagnostic peak; the read-outs are inter-rater agreement and the
 fraction of mechanically-wrong top-1 answers judged spectrally consistent but a different
 regioisomer. Task 2 presents the shuffled, unlabelled candidate set for ranking by spectral
-fit, and is compared against the LLM forward-verifier's pick and the deterministic lookup's
-pick on identical candidate sets. Two design decisions are worth recording because both
-were mistakes first: Task 2 is shown on **every** compound, so its presence signals nothing
-— an earlier version showed it only on recall-positive compounds, which leaked Task 1 twice
-over and moved the apparent rate of correct answers from 12% to 67%, a five-fold prior
-available without reading a spectrum — and the seven extra compounds carry Task 2 only,
-because a correct top-1 is recall-positive by definition, so adding recall-positive
-compounds to the Task 1 draw would raise the very rate Task 1 exists to judge.
+fit, against the LLM forward-verifier's pick and the deterministic lookup's pick on
+identical sets. Task 2 is shown on **every** compound, so its presence signals nothing: an
+earlier version showed it only on recall-positive compounds, which leaked Task 1 twice over
+and moved the apparent rate of correct answers from 12% to 67%. The seven extra compounds
+carry Task 2 only, because a correct top-1 is recall-positive by definition, so enriching
+the Task 1 draw for recall-positive compounds would raise the very rate Task 1 judges.
 
 **Status.** The panel has not been run and the article reports no audit result
 ([@sec:limitations]). One reviewer file is deposited at `data/audit/responses/` (submitted
-2026-08-18 UTC) and is incomplete against the 37-item kit; a single partial reviewer
-supports neither read-out, since inter-rater agreement needs at least two and the
-pre-registered panel is three. Scoring of completed sheets is mechanical
-(`scripts/score_audit.py`), with no further model involvement. Three Task 2 sets (A19, A21,
-A30) hold a single candidate, which cannot be ranked; the scorer excludes and flags them.
-Until expert results are in, the two load-bearing claims the panel targets — what a miss
-actually is ([@sec:well-llms-elucidate-real]), and whether forward verification is a
-trustworthy re-ranker ([@sec:forward-verification-elucidation]) — should be read as
-machine-validated (RDKit InChIKey) but not yet human-validated.
+2026-08-18 UTC), incomplete against the 37-item kit; a single partial reviewer supports
+neither read-out, inter-rater agreement needing at least two and the pre-registered panel
+being three. Scoring of completed sheets is mechanical (`scripts/score_audit.py`), with no
+further model involvement, and three Task 2 sets (A19, A21, A30) hold a single candidate,
+which cannot be ranked; the scorer excludes and flags them. Until expert results are in,
+the two claims the panel targets — what a miss actually is
+([@sec:well-llms-elucidate-real]), and whether forward verification is a trustworthy
+re-ranker ([@sec:forward-verification-elucidation]) — should be read as machine-validated
+(RDKit InChIKey) but not yet human-validated.
 
 <!-- GAP: the instruction text dispatched to the Claude solver and forward-prediction
      sub-agents is not committed anywhere in the repository; only the per-compound batch

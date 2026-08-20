@@ -106,13 +106,19 @@ compounds per context**.
 anonymised SMILES only, pooled across compounds, canonicalised, de-duplicated, shuffled and
 re-labelled, in fixed batches of 17. They saw neither the observed spectrum, nor the
 compound's identity, nor which candidates belong to one target. Shuffling does not keep a
-target's own candidates in separate batches — in the [@sec:result] arm 7 of 8 batches held
-two candidates for some one compound — but with no observed spectrum in hand there is
+target's own candidates in separate batches — in the [@sec:result] arm 5 of the 8 batches
+held two candidates for some one compound — but with no observed spectrum in hand there is
 nothing for that to leak: at most a predictor notices that two structures are isomers,
 evident from either alone.
 
-**Verbatim prompts.** Both stage prompts are committed (`sweep_prompts/solve_01.md` …
-`solve_10.md`, `sweep_prompts/verify/`) and emitted by `scripts/cross_vendor_sweep.py`. The
+**Verbatim prompts, and what they are not.** The prompts below are committed
+(`sweep_prompts/solve_01.md` … `solve_10.md`, `sweep_prompts/verify/`) and emitted by
+`scripts/cross_vendor_sweep.py`. They are the harness prompts for the cross-vendor
+replication ([@sec:esi-cross-vendor]). The instruction text dispatched to the Claude
+solver and forward-prediction sub-agents in the main rounds was **not captured** — only the
+per-compound batch data it wrapped is released — so the prompts below state the task as
+posed, but are not a transcript of the main arms. This is a reproducibility gap and we
+name it rather than let the committed files stand in for something they are not. The
 elucidation header:
 
 ```{=latex}
@@ -605,9 +611,5 @@ InChIKey) but not yet human-validated.
      (--n 21 --seed 7) appear in the released code. The cohorts are reproducible, since
      questions2.jsonl / answers2.jsonl are released, but the draws are not re-runnable
      from recorded parameters. -->
-<!-- GAP: docs/MODELS.md prose says "Six non-Claude models were run" while its own
-     generation table carries seven non-Claude rows (the seventh, deepseek-v4-pro-0813,
-     answered 18/60 compounds). The generation table in this document reproduces all rows; the
-     count in the prose needs reconciling by the authors. -->
 <!-- GAP: transcripts of the run-time closed-book audit are not deposited, so that audit
      cannot be re-verified from the release; the article states this. -->

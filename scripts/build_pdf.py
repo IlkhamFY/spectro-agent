@@ -161,12 +161,18 @@ def proportional_tables(md):
             # ordinary paragraph followed by a longtable, and LaTeX will happily break
             # between them: Table 2's caption sat at the foot of p9 with its table
             # overleaf. Reserve caption + header + body before letting the caption set.
-            if out and out[-1] == "" and len(out) > 1 and out[-2].startswith("**Table "):
-                k = len(out) - 2
+            # The caption is a paragraph, and it may wrap: Table 6's runs to a second line
+            # ("Recall and precision have / different denominators..."), so testing only
+            # the line immediately above the table missed it and its caption sat alone at
+            # the foot of p12. Walk back to the start of the paragraph and test that.
+            if out and out[-1] == "" and len(out) > 1:
+                k = len(out) - 1
                 while k > 0 and out[k - 1].strip():
                     k -= 1
-                need = min(len(rows) + 4, 16)
-                out[k:k] = ["```{=latex}", f"\\needspace{{{need}\\baselineskip}}", "```", ""]
+                if out[k].startswith("**Table "):
+                    need = min(len(rows) + 4, 16)
+                    out[k:k] = ["```{=latex}", f"\\needspace{{{need}\\baselineskip}}",
+                                "```", ""]
             out.extend(lines[i:j])
             i = j
             continue

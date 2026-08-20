@@ -225,16 +225,19 @@ Listed so no reader mistakes them for part of the LLM system under test.
 | §5.6 | trained-generator probe | ~16M-parameter ¹H/¹³C→SMILES transformer, ensemble of four, trained locally; `contrib/generator_probe/`, checkpoints on Zenodo |
 | §5.4 | learned ¹³C verifier | 4-layer message-passing GNN trained on the same nmrshiftdb2 dump; `scripts/gnn_predict.py`, `data/nmrshiftdb/gnn_c13.pt` |
 
-## Cross-vendor sweep — five vendors, run 2026-08-13 to 2026-08-17
+## Cross-vendor sweep — seven models across five vendors, run 2026-08-13 to 2026-08-17
 
-Six non-Claude models were run through `scripts/cross_vendor_sweep.py` on the `fverify60`
+Seven non-Claude models were run through `scripts/cross_vendor_sweep.py` on the `fverify60`
 arm — the same 60 compounds Table 6's first column reports. Two came from OpenRouter
-(`scripts/openrouter_run.py`); four were driven by Cursor cloud agents against the
+(`scripts/openrouter_run.py`); five were driven by Cursor cloud agents against the
 committed `sweep_prompts/`, one fresh subagent per batch, at no API cost. Raw replies are
 in `sweep_out/`.
 
-**Nothing here is reported in `docs/PAPER.md`.** §7 (iii) stands as written. The contamination
-caveat below is the reason, and it is not a formality.
+Four of the seven carry the decomposition in §4.7 of `docs/PAPER.md`. Three do not:
+Composer 2.5 and GPT-5.6 Luna fall below the formula-adherence floor, nemotron could not
+return a structure of the requested composition at all, and DeepSeek V4 Pro answered only
+18 of 60 before the run ended, so its recall is a lower bound. All seven are released; the
+paper names the exclusions and why.
 
 ### Generation
 

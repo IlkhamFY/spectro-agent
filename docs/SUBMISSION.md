@@ -56,7 +56,21 @@ errors (`scripts/analyze_misses.py`) — so what remains is the part no fingerpr
 settles: **is a formula-correct, scaffold-wrong candidate a chemically reasonable
 reading of these spectra, or an implausible one?**
 
-## 3. Two things to re-check at submission
+## 3. Five recorded gaps in what was captured
+
+Not defects in the results — every number regenerates — but things that were never
+written down at run time and so cannot be recovered now. The ESI states each one where it
+bears on a claim; they are collected here so nothing depends on a reader finding them.
+
+| # | gap | where it bites |
+|---|---|---|
+| 1 | The instruction dispatched to the Claude solver and forward-prediction sub-agents was not captured; only the per-compound batch data it wrapped is released. The verbatim prompts in ESI S2 are the cross-vendor harness prompts. | reproducibility of the main arms |
+| 2 | No dated model snapshot for any Claude arm, and the cross-vendor reasoning-effort tier per arm was not recorded. | exactness of any re-run; disclosed and gated (check J) |
+| 3 | No decoding parameters were set or recorded — temperature, top_p, top_k, max_tokens, seed, thinking budget. | same |
+| 4 | Sampling seed and draw parameters for the main round (140) and the controlled v3 round (40) are recorded nowhere. Only the within-compound control (`--n 20 --seed 23`) and the pilot (`--n 21 --seed 7`) appear in code. | the released benchmark is fixed and reusable, but not exactly re-drawable |
+| 5 | Transcripts of the run-time closed-book audit are not deposited (available on request). | that audit cannot be re-verified from the release |
+
+## 4. Two things to re-check at submission
 
 - **Spectro's split details.** We state a 1,366-molecule held-out split and describe its
   NMR as software-predicted. The 93%/82% accuracies are verified from the Crossref
@@ -68,7 +82,7 @@ reading of these spectra, or an implausible one?**
   bears on Contribution 2's "to our knowledge the first of its kind"; if it has appeared
   by submission, cite it and re-check that hedge.
 
-## 4. What is already verified (so you needn't re-do it)
+## 5. What is already verified (so you needn't re-do it)
 
 Gates A–M in `check_manuscript.py`, all negative-tested — a deliberately injected defect
 of each class fails the gate:

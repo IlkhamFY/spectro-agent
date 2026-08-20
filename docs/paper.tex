@@ -275,14 +275,16 @@ differenced.}
 Solver and verifier (Fig. S1) are LLM agents on a consumer subscription
 --- no fine-tuning, no API spend --- cheap to \emph{re-run} but not
 reproducible: the harness pins no model snapshot, exposes no temperature
-or seed, and carries an undisclosed product system prompt, so an outside
-group reproduces it distributionally, not exactly (§8). Scoring is
-exactly reproducible: predictions, ground truth and scorers are
-released, and every number in the training-free core (§3--§5.3, §4.6)
-regenerates from them, except §5.4's HOSE lookup and GNN, which need an
-nmrshiftdb2 dump we cannot redistribute (see \emph{Data and code
-availability}); that GNN and the §5.6 generator are trained probes,
-fenced as complements to the training-free core.
+or seed, and carries an undisclosed product system prompt, and our own
+dispatch instruction for the main rounds was not captured, only the
+per-compound data it wrapped. An outside group reproduces this
+distributionally, not exactly (§8). Scoring is exactly reproducible:
+predictions, ground truth and scorers are released, and every number in
+the training-free core (§3--§5.3, §4.6) regenerates from them, except
+§5.4's HOSE lookup and GNN, which need an nmrshiftdb2 dump we cannot
+redistribute (see \emph{Data and code availability}); that GNN and the
+§5.6 generator are trained probes, fenced as complements to the
+training-free core.
 
 \hypertarget{related-work}{%
 \subsubsection{1.1 Related work}\label{related-work}}
@@ -1028,6 +1030,8 @@ Every number so far comes from one lineage, the external-validity gap §7
 compounds as Table 7's first column under the identical blind protocol;
 the three whose output was well-formed enough were carried through
 forward verification (Table 6).
+
+\needspace{10\baselineskip}
 
 \textbf{Table 6. Cross-vendor decomposition on the 60-compound arm.}
 Recall and precision have different denominators, so the criterion is

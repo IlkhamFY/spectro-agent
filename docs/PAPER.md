@@ -93,7 +93,9 @@ cannot exceed a recall/precision ceiling without sharper verification or 2D-NMR 
 Solver and verifier ([@sfig:overview]) are LLM agents on a consumer subscription — no
 fine-tuning, no API spend — cheap to *re-run* but not reproducible: the harness pins no
 model snapshot, exposes no temperature or seed, and carries an undisclosed product system
-prompt, so an outside group reproduces it distributionally, not exactly ([@sec:methods]). Scoring is exactly reproducible: predictions, ground truth
+prompt, and our own dispatch instruction for the main rounds was not captured, only the
+per-compound data it wrapped. An outside group reproduces this distributionally, not
+exactly ([@sec:methods]). Scoring is exactly reproducible: predictions, ground truth
 and scorers are released, and every number in the training-free core
 ([@sec:benchmark-design-irspectra-bench]–[@sec:generate-wide-testing-recipe], [@sec:model-reading-spectra-formula])
 regenerates from them, except [@sec:non-llm-verifiers-deterministic]'s HOSE lookup and

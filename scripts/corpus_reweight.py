@@ -78,11 +78,22 @@ def main():
     print(f"benchmark                  n = 194   simple 98 (50.5%)   median 20")
     print(f"  simple enriched          {w and (98 / 194) / w:.1f}x over the corpus")
     print()
+    # The corpus weights are effectively exact at n=28,988, so the uncertainty that matters
+    # is in the two per-stratum accuracies. Bootstrap those and reweight each resample.
+    import random
+    rng = random.Random(0)
     for i, name in enumerate(("top-1", "recall (top-3)")):
         bench = (98 * ACC["simple"][i] + 96 * ACC["complex"][i]) / 194
         corpus = w * ACC["simple"][i] + (1 - w) * ACC["complex"][i]
+        ks, kc = round(98 * ACC["simple"][i]), round(96 * ACC["complex"][i])
+        vs = [1] * ks + [0] * (98 - ks)
+        vc = [1] * kc + [0] * (96 - kc)
+        bs = sorted(w * sum(vs[rng.randrange(98)] for _ in range(98)) / 98
+                    + (1 - w) * sum(vc[rng.randrange(96)] for _ in range(96)) / 96
+                    for _ in range(20000))
         print(f"{name:16s} benchmark {100 * bench:5.1f}%     "
-              f"corpus-reweighted {100 * corpus:5.1f}%")
+              f"corpus-reweighted {100 * corpus:5.1f}% "
+              f"[{100 * bs[500]:.1f}, {100 * bs[19499]:.1f}]")
 
 
 if __name__ == "__main__":

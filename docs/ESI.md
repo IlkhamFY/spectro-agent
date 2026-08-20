@@ -115,6 +115,10 @@ evident from either alone.
 `solve_10.md`, `sweep_prompts/verify/`) and emitted by `scripts/cross_vendor_sweep.py`. The
 elucidation header:
 
+```{=latex}
+\begingroup\footnotesize
+```
+
 ```
 # Blind structure-elucidation task
 
@@ -135,7 +139,15 @@ Return ONLY a JSON object mapping each id to a list of 3 SMILES strings, e.g.:
 Compounds:
 ```
 
+```{=latex}
+\endgroup
+```
+
 The forward-prediction header:
+
+```{=latex}
+\begingroup\footnotesize
+```
 
 ```
 # Forward 13C prediction task
@@ -150,22 +162,33 @@ in ppm), e.g.: {"P001": [21.0, 60.5, 171.2], "P002": [...], ...}
 Candidates:
 ```
 
+```{=latex}
+\endgroup
+```
+
 Each compound follows as one block in exactly this form, the NMR strings being the source
 paper's own text reproduced unedited (hence the chemical-shift symbol and whatever
 assignment annotations the authors wrote):
 
-```
-### M001
-Molecular formula: <formula>
-IR bands (cm-1): <list of wavenumbers>
-1H NMR: <string as reported>
-13C NMR: <string as reported>
+```{=latex}
+\begingroup\footnotesize
 ```
 
-The real blocks are released per arm: `data/benchmark_main/batch_*.txt` and
-`data/gw/batch_*.txt` for solving, `data/fverify_main/fbatch_*.txt` and
-`data/fverify_gw/gbatch_*.txt` for forward prediction, `data/modality/prompt_*.txt` for the
-contamination control.
+    ### M001
+    Molecular formula: <formula>
+    IR bands (cm-1): <list of wavenumbers>
+    1H NMR: <string as reported>
+    13C NMR: <string as reported>
+
+```{=latex}
+\endgroup
+```
+
+The real blocks are released per arm:
+
+- solving — `data/benchmark_main/batch_*.txt`, `data/gw/batch_*.txt`
+- forward prediction — `data/fverify_main/fbatch_*.txt`, `data/fverify_gw/gbatch_*.txt`
+- contamination control — `data/modality/prompt_*.txt`
 
 **One gap, stated rather than papered over.** The wording above is the harness prompt used
 verbatim for the four-vendor replication, and it is the only instruction text committed in
@@ -264,12 +287,12 @@ wrong composition. Three worked cases, all from released artifacts:
   hydrazinecarbothioamide skeleton with the **3-pyridyl** isomer where the truth is
   **2-pyridyl** (`docs/BENCHMARK.md`): right formula, right scaffold, rejected.
 
-That is the dominant shape of failure: over all 139 top-1 misses, **76.6% are
-constitutional isomers** of the true structure and 23.4% have the wrong formula outright,
-22.6% share the true Murcko scaffold, and the median Tanimoto between an isomeric miss and
-the truth is 0.39 (`scripts/analyze_misses.py`). Formula adherence is not part of the
-criterion — a wrong-composition answer is simply a miss — and it is not uniform across
-rounds: on top-1 answers, 95.0% (38/40) in v3, 90.0% (18/20) in the within-compound control
+That is the dominant shape of failure: of the 137 analysable top-1 misses (139 in all; two
+predictions did not parse), **76.6% are constitutional isomers** of the true structure and
+23.4% have the wrong formula outright, 22.6% share the true Murcko scaffold, and the median
+isomeric-miss Tanimoto is 0.39 (`scripts/analyze_misses.py`). Formula adherence is not
+part of the criterion — a wrong-composition answer is simply a miss — and it is not
+uniform across rounds: on top-1 answers, 95.0% (38/40) in v3, 90.0% (18/20) in the within-compound control
 and 77.6% (104/134) in the main round.
 
 ## Forward-verification detail {#sec:esi-forward}
@@ -279,6 +302,10 @@ forward-predicted and observed ¹³C peak sets: a mean of two nearest-neighbour 
 equal-count requirement is imposed and lower is better. The implementation is the single
 source of truth for every scorer (`scripts/specmetrics.py`):
 
+```{=latex}
+\begingroup\footnotesize
+```
+
 ```
 def chamfer(pred, obs):
     """Symmetric chamfer distance between predicted and observed 13C shift lists."""
@@ -287,6 +314,10 @@ def chamfer(pred, obs):
     a = sum(min(abs(x - y) for y in obs) for x in pred) / len(pred)
     b = sum(min(abs(y - x) for x in pred) for y in obs) / len(obs)
     return (a + b) / 2
+```
+
+```{=latex}
+\endgroup
 ```
 
 **The re-ranking.** Within a compound the candidate of smallest chamfer becomes the top-1
@@ -318,10 +349,9 @@ compounds the verifier abandons its previous pick for a newly-selectable candida
 **The margin the method works on.** Taking the chamfer between the *predicted* spectra of
 every pair of candidates proposed for one target (`scripts/isomer_separability.py`),
 isomeric pairs sit at a median separation of **1.21 ppm** (quartiles 0.84 and 1.78) and
-**82% are predicted closer together than the predictor's own ~2 ppm error**; non-isomeric
-pairs separate better but not dramatically (median 1.90 ppm, 53% inside the error). What
-shows that a ranking on so thin a margin is nonetheless real is the derangement control of
-[@sec:negative-control]: over 1,000 permutations of which observed spectrum each candidate
+**82% are predicted closer together than the predictor's own ~2 ppm error** — usually
+within the noise. What shows that a ranking on so thin a margin is nonetheless real is the
+derangement control of [@sec:negative-control]: over 1,000 permutations of which observed spectrum each candidate
 set is scored against, conditional-on-recall precision falls from **89.2% (58/65)** to a
 permuted mean of **73.8%** (one-sided p=0.001). The floor sits high because recall-positive
 compounds carry few, near-identical candidates.
@@ -453,7 +483,8 @@ re-ran all ten batches from a clean clone (`sweep_out/grok-4.6-clean/`).
 Paired, that is **b=8, c=4, McNemar exact p=0.39**. The decisive detail is the asymmetry
 rather than the totals: a model reading the key would solve a superset, and instead **four
 compounds were solved only in the arm that had no key**, with 24 of the 60 solved by both,
-while formula adherence held at 97% against 98%. The control covers Grok alone; Gemini 3.7
+while formula adherence did not degrade (174/180 candidates in the clean arm against
+171/180 in the original). The control covers Grok alone; Gemini 3.7
 Flash and GPT-5.6 Sol rest on the shared instruction and the stereochemistry evidence of
 [@sec:esi-scoring].
 
@@ -543,13 +574,22 @@ the Task 1 draw for recall-positive compounds would raise the very rate Task 1 j
 ([@sec:limitations]). One reviewer file is deposited at `data/audit/responses/` (submitted
 2026-08-18 UTC), incomplete against the 37-item kit; a single partial reviewer supports
 neither read-out, inter-rater agreement needing at least two reviewers and the
-pre-registered panel being three. Scoring of completed sheets is mechanical (`scripts/score_audit.py`), with no
-further model involvement; three Task 2 sets (A19, A21, A30) hold a single candidate, which
+pre-registered panel being three. Scoring of completed sheets is mechanical
+(`scripts/score_audit.py`), with no further model involvement; three Task 2 sets (A19, A21, A30) hold a single candidate, which
 cannot be ranked, and the scorer excludes and flags them. Until expert results are in, the
 two claims the panel targets — what a miss actually is ([@sec:well-llms-elucidate-real]),
 and whether forward verification is a trustworthy re-ranker
 ([@sec:forward-verification-elucidation]) — should be read as machine-validated (RDKit
 InChIKey) but not yet human-validated.
+
+## References
+
+::: {#refs}
+:::
+
+```{=latex}
+\clearpage
+```
 
 <!-- GAP: the instruction text dispatched to the Claude solver and forward-prediction
      sub-agents is not committed anywhere in the repository; only the per-compound batch
@@ -569,8 +609,8 @@ InChIKey) but not yet human-validated.
      from recorded parameters. -->
 <!-- GAP: docs/MODELS.md prose says "Six non-Claude models were run" while its own
      generation table carries seven non-Claude rows (the seventh, deepseek-v4-pro-0813,
-     answered 18/60 compounds). Table S5 reproduces all rows; the count in the prose needs
-     reconciling by the authors. -->
+     answered 18/60 compounds). The generation table in this document reproduces all rows; the
+     count in the prose needs reconciling by the authors. -->
 <!-- GAP: HOSE coverage on the 60-compound arm is reported as 70% resolving at r<=2 in the
      article and as 67% in the released artifact data/fverify/hose_results.txt (the
      whole-benchmark figures, 2.1% at r=4 and 71% at r<=2 or fallback, agree between the

@@ -51,7 +51,7 @@ scores the predictions; having one play chemist would falsify the claim the meth
 rests on, not approximate it.
 
 The panel's question is narrower than it was. §4 now *measures* what a miss is — 76.6%
-of the 139 top-1 misses are constitutional isomers, 22.6% scaffold-preserving positional
+of the 137 analysable top-1 misses are constitutional isomers, 22.6% scaffold-preserving positional
 errors (`scripts/analyze_misses.py`) — so what remains is the part no fingerprint
 settles: **is a formula-correct, scaffold-wrong candidate a chemically reasonable
 reading of these spectra, or an implausible one?**

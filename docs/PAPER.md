@@ -34,8 +34,8 @@ We release three things: **IRexp**, the largest openly redistributable collectio
 training-free **forward-verification** recipe. The two levers are distinct. Verification
 re-ranks a fixed candidate set and lifts top-1 from 28% to 30%, while *generating wider*
 moves recall — 32% to 42%, carrying top-1 from 23% to 30% ([@sec:result],
-[@sec:generate-wide-testing-recipe]); every top-1 step is directional rather than
-statistically resolved, and the recall gain is the better-supported effect. Fine-tuning a
+[@sec:generate-wide-testing-recipe]); both of those top-1 steps are directional rather
+than statistically resolved, and the recall gain is the better-supported effect. Fine-tuning a
 small generator on IRexp moves the wall rather than removing it ([@sec:recall-wall-task-intrinsic]).
 Masking the spectra drops top-1 from 23% to 5% on the same compounds
 ([@sec:model-reading-spectra-formula]), and Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all
@@ -291,7 +291,8 @@ the benchmark's 20), so simple compounds are enriched **2.9×**
 (`scripts/corpus_reweight.py`). Balancing is the right choice for measuring a gradient —
 an unbalanced draw would put almost no mass in the stratum where the model succeeds — but
 it means the headline is a weighted average under weights we chose. Reweighted to the
-corpus, top-1 falls from 28.4% to **15.2%** and recall from 33.5% to **19.8%**. We report
+corpus, top-1 falls from 28.4% to **15.2%** (95% CI 10.7–20.4) and recall from 33.5% to
+**19.8%** (14.3–25.7). We report
 the benchmark figure as the headline because it is the one the released set reproduces, and
 the reweighted figure as the better estimate of what a chemist meets on an arbitrary paper.
 The reweighting assumes the one sampler filter it cannot apply — recovery of the raw ¹H
@@ -360,7 +361,8 @@ A strictly-validated subset with the controlled rounds restricted to their clean
 metric — top-1 **28.8%**, 95% CI 23–36; recall 34.0%; simple 49.0% / complex 8.4% — so the
 asymmetric inclusion of the pre-registered controlled sets does not drive it. What does
 move the overall figure is the deliberate 50/50 difficulty balance: reweighted to the
-17.5%-simple composition of the eligible corpus, top-1 is **15.2%** and recall **19.8%**
+17.5%-simple composition of the eligible corpus, top-1 is **15.2%** [10.7, 20.4] and
+recall **19.8%** [14.3, 25.7]
 ([@sec:benchmark-design-irspectra-bench]). The per-stratum figures are unaffected — only
 the weights change — and the reweighted number, not the headline, is the one to read as
 performance on an arbitrary paper.
@@ -370,7 +372,8 @@ above 25 ([@sfig:size]).
 
 ![Top-1 and recovered accuracy on IRSpectra-Bench by difficulty (all / simple / complex, n=194), with bootstrap 95% confidence intervals. The benchmark separates a realistic difficulty range: simple targets are solved four to six times as often as complex ones on both metrics.](docs/figures/fig1_difficulty.png){#fig:fig1-difficulty}
 
-Of the 139 top-1 misses (`scripts/analyze_misses.py`), **76.6% are constitutional isomers
+Of the 137 analysable top-1 misses (139 in all; two predictions did not parse;
+`scripts/analyze_misses.py`), **76.6% are constitutional isomers
 of the true structure** against 23.4% with the wrong formula. That is not mostly
 regiochemistry: only **22.6%** share the true Murcko scaffold, 2.9% reach Tanimoto ≥ 0.85, and the median
 isomeric-miss Tanimoto is 0.39 — strict regiochemistry is a fifth of failures, not the
@@ -432,9 +435,12 @@ The same 20 molecules were solved two ways: (a) one LLM context handling all seq
 with no tools, (b) four independent agents of five compounds each with RDKit
 formula-checking. **Recovered (top-3)** rose from **5% to 15%** (1/20 → 3/20) and top-1
 from 0% to 15% (0/20 → 3/20). McNemar's exact test
-([@sec:benchmark-design-irspectra-bench]) does not reach significance: the top-1 arm is
-necessarily nested (arm (a) solved none) at b=0, c=3, giving **p=0.25** and the recovered
-arm at best **p=0.5**, the 15% carrying a Wilson 95% CI of roughly 5–36%. Bounded, frequently-reset contexts with tool access therefore appear to
+([@sec:benchmark-design-irspectra-bench]) does not reach significance, and at this size it
+could not have: the exact test conditions on the discordant pairs, of which the top-1 arm
+has three (b=0, c=3, **p=0.25**) and the recovered arm four (b=1, c=3, **p=0.625**). Below
+six discordant pairs the smallest attainable two-sided p is above 0.05, so "not
+significant" here reports the design, not the data. The 15% carries a Wilson 95% CI of
+roughly 5–36%. Bounded, frequently-reset contexts with tool access therefore appear to
 raise measured performance, consistent in direction but **not established in size** at n=20
 (p=0.25): a directional within-compound demonstration, not a measured 3× effect. Small
 rounds swing widely (15–40% across n=20–40 draws), hence the full **194-compound**
@@ -475,8 +481,9 @@ The models rank in **monotonic capability order** with **strictly nested** outco
 ⊂ Sonnet ⊂ Opus ⊂ Fable), so the benchmark is capability-sensitive. The nesting makes the
 *ranking* robust, but at n=24 the subset is **underpowered to separate adjacent models**:
 by McNemar's exact test only Fable-vs-Haiku survives multiple-comparison correction
-(Holm-adjusted p=0.006); Fable-vs-Opus does not (uncorrected p=0.063, Holm-adjusted
-p=0.19), and Opus and Sonnet are indistinguishable. Two mid-tier models agreeing closely puts the recall-bound regime of
+(Holm-adjusted p=0.006); Fable-vs-Opus does not (uncorrected p=0.063 — which is the
+*floor* for its five discordant pairs, so the comparison had no way to reach 0.05 —
+Holm-adjusted p=0.19), and Opus and Sonnet are indistinguishable. Two mid-tier models agreeing closely puts the recall-bound regime of
 [@sec:headline-performance] beyond a single model; the newest nearly **doubles** the
 next-best top-1 yet still misses the majority, leaving the benchmark far from saturated. We
 used Claude-family models because they are callable for free under one subscription; a
@@ -598,8 +605,12 @@ different denominators, so the criterion is the inequality, not a difference.
 | GPT-5.6 Sol | 25/60 = **42%** [30, 54] | 17/25 = 68% [48, 83] | 16/24 = 67% |
 
 **The inequality holds in every arm** ([@fig:fig7-crossvendor]): verification precision
-exceeds generation recall for four independent model families. Only Claude's gap is interval-disjoint; at n=60 the other
-three are directional rather than separated, and we report them as such.
+exceeds generation recall for four independent model families. Recall and precision are
+measured on the same compounds, so what carries the claim is the paired difference, not
+whether two marginal intervals overlap. Bootstrapping compounds
+(`scripts/cross_vendor_gap.py`) resolves three of the four: Claude, Gemini **+23.3 points
+[+2.9, +44.3]** and GPT-5.6 Sol **+26.3 [+4.2, +49.0]** all exclude zero. Grok does not —
+**+9.2 [−10.7, +30.3]** — and we report its gap as directional.
 
 Two findings sit underneath. Six of Claude's nineteen recall-positive compounds carried one
 candidate, so nothing was ranked and any verifier scores them by construction — as
@@ -624,14 +635,17 @@ budget-matched comparison does not support.
 Three weaker models are excluded from the decomposition: Composer 2.5 (20% recall) and
 GPT-5.6 Luna (15%) match the given formula only 67% and 76% of the time, and
 `nvidia/nemotron-3.5-lightning` managed 2%. [@sec:headline-performance]'s scorer now prints
-formula adherence beside recall.
+formula adherence beside recall. A seventh arm, DeepSeek V4 Pro, returned answers for only
+**18 of 60** compounds before the run ended; the true structure appears for 8 of those, so
+its recall is a lower bound and it is excluded from the comparison rather than from the
+release — both its solve and verify files are deposited.
 
 ![Every model measured on the 60-compound arm. (**a**) Generation recall, each model at the candidate budget it used — 3.00 candidates per compound for all but ours (2.20) and Composer (2.82), so this axis favours the models that always returned three; grey marks models below the formula-adherence floor, whose recall is not a chemistry result. (**b**) The claim itself: verification precision against generation recall, with the diagonal. Every model sits above the line, so verification is better than generation for all four families; hollow marks an incomplete arm, where recall is a lower bound. The four Claude models of [@sec:model-comparison-benchmark-ranks] are deliberately absent — they ran a different 24-compound subset, and putting them here would imply a comparison that was never made.](docs/figures/fig7_crossvendor.png){#fig:fig7-crossvendor}
 
 **Contamination was controlled, not assumed.** Blindness rested on an instruction: these
 runs used cloud agents with repository access to tracked answer keys. Grok re-solved all ten
 batches from a clone with the answer files removed: recall 28/60 against 32/60, paired
-McNemar **p=0.39**, formula adherence 98% against 97%. The asymmetry is decisive — a
+McNemar **p=0.39**, formula adherence 97% against 95% of candidates (`scripts/cross_vendor_sweep.py`). The asymmetry is decisive — a
 key-reader would solve a *superset*, yet **four compounds were solved only in the arm that
 had no key**, with 24 of 60 solved by both, which is sampling noise, not copying. And on
 constitutionally correct structures whose reference carries assigned stereocentres, which 1D
@@ -675,8 +689,8 @@ derangement null at p=0.001 ([@sec:negative-control]).
 
 Conditional precision is 72–89%, not 100%: near-degenerate candidates the predictor
 cannot resolve are its false positives. The same spacing sets limits
-[@sec:forward-verification-elucidation] reports separately: the 74% derangement chance
-floor ([@sec:negative-control]) and the ceiling neither the HOSE lookup nor the GNN
+[@sec:forward-verification-elucidation] reports separately: the 54.0% derangement chance
+floor on multi-candidate compounds ([@sec:negative-control]) and the ceiling neither the HOSE lookup nor the GNN
 escapes ([@sec:non-llm-verifiers-deterministic]). Sharper predictors, not better search,
 would move them; they exist: ~1 ppm message-passing ensembles[@williamson2024mpnn], a
 DFT-coupled graph network at 0.94 ppm[@han2024dftgnn], a community
@@ -712,10 +726,10 @@ the self-ranking row re-derives [@tab:headline-elucidation-performance-irspectra
 | *multi-candidate only* — **forward-verification** | 10/13 (77%) | **30/37 (81%)** |
 
 **When the true structure is among the candidates, forward verification selects it in 58
-of 65 cases (89%)** — ~15 points above the 74% chance floor [@sec:negative-control]
-establishes by derangement, which sits high because these candidate sets are small. Of
-the 65, **28 had a single candidate**, which any ranker scores by construction. On the
-**37 where a choice existed**, forward-verification gets **30/37 (81%)** and self-ranking
+of 65 cases (89%)**. Of the 65, **28 had a single candidate**, which any ranker scores by
+construction, so that pooled figure is not the verifier's margin over chance. On the
+**37 where a choice existed**, forward-verification gets **30/37 (81%)** against a 54.0%
+derangement floor ([@sec:negative-control]) — **+27.1 points**; self-ranking
 **27/37 (73%)**; we treat the 37 as the denominator that measures verification.
 
 The margin over self-ranking remains small and unresolved: seven compounds gained, four
@@ -806,11 +820,16 @@ which observed ¹³C spectrum each candidate set is scored against — a *derang
 compound keeps its own spectrum — and re-ran the verifier 1,000 times.
 Conditional-on-recall precision falls from the true **89.2% (58/65)** to a permuted mean of
 **73.8%** (95% range 66.2–81.5%; one-sided empirical p=0.001, two-sided p=0.002). The
-verifier acts on real spectral agreement, not a candidate-list artefact. The caveat is the
-height of the chance floor: recall-positive compounds carry few and near-identical
-(regioisomeric) candidates, so even a random pairing lands on the correct structure ~74% of
-the time, and the genuine margin over chance is **~15 points**, not the full 89% — real and
-significant, but to be read against this high baseline.
+verifier acts on real spectral agreement, not a candidate-list artefact. That floor is high
+because 28 of the 65 recall-positive compounds carry a single scorable candidate, and a
+compound with nothing to rank is scored correct under *every* pairing. Those compounds
+enter the permuted score as guaranteed hits while carrying no verification signal, so the
+control was partly measuring the composition of the recall-positive set. On the **37**
+multi-candidate compounds — the set [@sec:result] calls the one that measures verification —
+the floor falls to **54.0%** and the real value is **81.1% (30/37)**, a margin of **+27.1
+points** rather than +15.4, at the same one-sided p=0.001. We report the restricted figure
+as the verifier's margin over chance and the pooled one for continuity with
+[@sec:result]'s denominator.
 
 **Confidence calibration (a negative result).** Ranking the 138 multi-candidate compounds by
 chamfer margin and answering only the most-confident fraction leaves top-1 flat and
@@ -983,7 +1002,7 @@ verification is a trustworthy re-ranker ([@sec:forward-verification-elucidation]
 have not yet run the panel**; until expert results are in, those claims should be read
 as machine-validated (RDKit InChIKey) but not yet human-validated.
 [@sec:well-llms-elucidate-real] has since narrowed its first question by reporting all
-139 misses mechanically (76.6% constitutional isomers, 22.6% scaffold-preserving
+137 analysable misses mechanically (76.6% constitutional isomers, 22.6% scaffold-preserving
 positional errors), correcting the impressionistic claim the audit was built to check;
 what remains for a chemist is whether a formula-correct, scaffold-wrong candidate is a
 *chemically reasonable* reading of the spectra.

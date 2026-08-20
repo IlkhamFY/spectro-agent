@@ -518,7 +518,7 @@ Our 28% top-1 sits far below the ~100% on "simple" molecules reported, in a
 non-peer-reviewed company white paper, for the same model class.[@kamber2026chemist] Because that figure
 has not been independently scored, we reconcile it against the *peer-reviewed* record
 (the MolPuzzle benchmark[@guo2024molpuzzle] and its re-scorings[@zhuang2025treesearch], and the trained baselines[@chacko2024spectro; @ottomano2025nmiracle]) rather
-than treating it as settled. Three methodology and scoring choices differ between that
+than treating it as settled. Four methodology and scoring choices differ between that
 report and ours, each in the direction that would raise a reported number; we can name
 them but not apportion the gap between them, so we do not claim a decomposition:
 

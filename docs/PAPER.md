@@ -584,8 +584,19 @@ candidate, so nothing was ranked and any verifier scores them by construction �
 three (0–1 singletons), and where a choice existed the four precisions fall in a band that
 dissolves the apparent Claude advantage. And verification looks vendor-independent where generation does
 not, precision on multi-candidate sets spanning 62–77% while recall spans 32–53%: the wall
-is the generator. Three models beat ours on generation recall, Grok by 21 points, which is
-the diagnosis working: recall is the movable factor.
+is the generator. Three models beat ours on generation recall, which is the diagnosis
+working: recall is the movable factor.
+
+**The candidate budget is not matched, and the correction runs both ways.** Recall above
+asks whether the true structure is anywhere in the candidate list, and the lists differ in
+length: ours holds **2.20** candidates per compound on this arm against exactly **3.00** for
+every comparison model (Composer 2.82). A longer list can only raise recall, so the
+comparison is tilted toward the other vendors — the mirror of the singleton effect we
+correct on the precision side. At **one** candidate, the only budget every model met, recall
+is 14/60 = 23% for ours against 23/60 = 38% for Grok, 23/60 = 38% for Gemini and 21/60 = 35%
+for GPT-5.6 Sol (`scripts/cross_vendor_budget.py`). The ordering survives and three models
+still lead ours, but Grok's margin is **15 points, not 21**, and 21 is the figure a
+budget-matched comparison does not support.
 
 Three weaker models are excluded from the decomposition: Composer 2.5 (20% recall) and
 GPT-5.6 Luna (15%) match the given formula only 67% and 76% of the time, and

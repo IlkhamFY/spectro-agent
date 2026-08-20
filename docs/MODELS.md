@@ -250,8 +250,14 @@ caveat below is the reason, and it is not a formality.
 | `nvidia/nemotron-3.5-lightning` | OpenRouter | 60/60 | 0% | 0% | 61% | **2%** |
 
 Three models exceed Claude's generation recall on the identical compounds, Grok by 21
-points. Read the formula-adherence column first: nemotron's zero is not a chemistry
-result, it is a model that could not return a structure of the requested composition.
+points at the candidate budgets each model actually used — but those budgets differ.
+Claude returns 2.20 candidates per compound here against exactly 3.00 for every
+comparison model, and a longer list can only raise recall. At one candidate, the only
+matched budget, the margin is 15 points rather than 21 (Claude 23%, Grok 38%, Gemini 38%,
+GPT-5.6 Sol 35%; `scripts/cross_vendor_budget.py`). The ordering is unchanged.
+
+Read the formula-adherence column first: nemotron's zero is not a chemistry result, it is
+a model that could not return a structure of the requested composition.
 
 ### The decomposition
 

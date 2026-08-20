@@ -58,7 +58,9 @@ axB.set_xticks(xs)
 axB.set_xticklabels([f"{b['label']}\n(n={b['n']})" for b in bk], fontsize=fs.FS_SMALL)
 axB.set_xlim(-0.5, len(bk) - 0.5); axB.set_ylim(0, 68)
 axB.set_ylabel("exact top-1 (%)"); axB.set_xlabel("source publication year", labelpad=2)
-axB.text(0.02, 0.96, f"r = {rc['point_biserial_r']:+.3f}", transform=axB.transAxes,
+# U+2212 MINUS, not a hyphen: the caption prints "r = \u22120.007" and the figure must match
+r_txt = f"r = {rc['point_biserial_r']:+.3f}".replace("-", "\u2212")
+axB.text(0.02, 0.96, r_txt, transform=axB.transAxes,
          ha="left", va="top", fontsize=fs.FS_SMALL, color=fs.INK)
 fs.panel(axB, "b", x=-0.20)
 

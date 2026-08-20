@@ -16,9 +16,12 @@ stages = [
     ("Forward-verify", "predict ¹³C,\nre-rank candidates", fs.ACCENT),
 ]
 
-fig = plt.figure(figsize=(fs.COL2, 1.5))
+# At 1.5 in with ylim 0-100 the top and bottom thirds of the frame were empty, and the
+# PDF places this at native size. Crop to the content band, keeping the data unit at the
+# original 0.015 in/unit (height / y-span) so the title-to-subtitle gap is unchanged.
+fig = plt.figure(figsize=(fs.COL2, 0.75))
 ax = fig.add_axes([0, 0, 1, 1])           # fill the frame; no tight-crop margins
-ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.axis("off")
+ax.set_xlim(0, 100); ax.set_ylim(23.5, 73.5); ax.axis("off")
 xs = [10, 36.7, 63.3, 90]
 for (title, sub, col), x in zip(stages, xs):
     ax.text(x, 62, title, ha="center", va="center", fontsize=fs.FS_EMPH,

@@ -50,12 +50,12 @@ XMAX = 172
 # faint vertical guides at each observed shift -> the stack reads as small-multiples
 for ax in axes:
     for o in OBS:
-        ax.axvline(o, color="#ededed", lw=0.5, zorder=0)
+        ax.axvline(o, color=fs.FAINT, lw=0.5, zorder=0)
 
 # panel a - observed. Left column carries the formula, matching the b/c structure column.
 axes[0].vlines(OBS, 0, 1, color=fs.INK, lw=1.5)
 axes[0].set_title("observed spectrum", fontsize=7, color=fs.INK, loc="left")
-axes[0].text(-0.28, 0.5, "unknown\nC$_{10}$H$_{14}$N$_2$O", transform=axes[0].transAxes,
+axes[0].text(-0.26, 0.5, "unknown\nC$_{10}$H$_{14}$N$_2$O", transform=axes[0].transAxes,
              ha="center", va="center", fontsize=7, color=fs.INK)
 fs.panel(axes[0], "a", x=-0.30, y=1.06)
 
@@ -69,8 +69,8 @@ for ax, lett, (pred, smi, name, dist), col, mark in [
     ax.set_title(f"{name}   ·   chamfer {dist:.2f} ppm, {mark}",
                  fontsize=7, color=col, loc="left")
     img = molimg(smi)
-    zoom = 0.128 * 100 / img.shape[0]                     # normalise to a common height
-    ax.add_artist(AnnotationBbox(OffsetImage(img, zoom=zoom), (-0.28, 0.5),
+    zoom = 0.224 * 100 / img.shape[0]                     # normalise to a common height
+    ax.add_artist(AnnotationBbox(OffsetImage(img, zoom=zoom), (-0.26, 0.5),
                   xycoords="axes fraction", frameon=True, box_alignment=(0.5, 0.5),
                   pad=0.25, bboxprops=dict(edgecolor=col, lw=0.9, boxstyle="round,pad=0.22")))
     fs.panel(ax, lett, x=-0.30, y=1.06)

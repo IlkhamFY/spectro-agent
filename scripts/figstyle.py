@@ -68,7 +68,7 @@ def apply():
         "axes.prop_cycle": mpl.cycler(color=[BLUE, ORANGE, GREEN, SKY, VERMIL, PURPLE]),
         "font.size": 7,
         "axes.titlesize": 7, "axes.labelsize": 7,
-        "xtick.labelsize": 7, "ytick.labelsize": 7, "legend.fontsize": 6.5,
+        "xtick.labelsize": 7, "ytick.labelsize": 7, "legend.fontsize": FS_SMALL,
         "axes.edgecolor": INK, "axes.linewidth": 0.5,
         "axes.spines.top": False, "axes.spines.right": False,
         "axes.titlelocation": "left", "axes.titlepad": 5, "axes.titleweight": "normal",
@@ -95,7 +95,7 @@ def panel(ax, letter, x=-0.16, y=1.04):
     ax.text(x, y, letter, transform=ax.transAxes, fontsize=FS_PANEL, fontweight="bold",
             va="bottom", ha="left", color=INK)
 
-def barlabels(ax, bars, fmt="{:.0f}", dy=1.0, size=FS_SMALL, color=None):
+def barlabels(ax, bars, fmt="{:.0f}", dy=1.0, size=FS_BODY, color=None):
     for b in bars:
         ax.text(b.get_x() + b.get_width()/2, b.get_height() + dy, fmt.format(b.get_height()),
                 ha="center", va="bottom", fontsize=size, color=color or INK)

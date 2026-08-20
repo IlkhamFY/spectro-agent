@@ -47,6 +47,12 @@ def main() -> int:
         if note:
             moved.append((src.stem, note.group(1).strip()))
             after = after[:note.start()].rstrip() + "\n\n"
+        # A slice that does not end on a blank line can butt a horizontal rule up
+        # against the next heading. Pandoc then reads `---` followed by a `#` line as a
+        # YAML metadata block -- `#` is a YAML comment -- and dies fourteen lines later
+        # on the first colon it meets. Keep the separator paragraph-separated.
+        if not after.endswith("\n\n"):
+            after = after.rstrip("\n") + "\n\n"
         paper = paper.replace(before, after, 1)
         applied.append((src.stem, len(before.split()), len(after.split())))
 

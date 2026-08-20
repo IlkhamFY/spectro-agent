@@ -22,10 +22,13 @@ fs.barlabels(ax, b1, fmt="{:.1f}", dy=1)
 fs.barlabels(ax, b2, fmt="{:.1f}", dy=1)
 
 # Claude-only baseline reference; the collapse-vs-convert story lives in the caption.
-# Label sits in the clear band above the group-1 bars (below the legend), left of the
-# scaffold recall bar, so it never collides with the 28.4 value label on its own bar.
+# The only band clear of bars and value labels is high above the line, so the label
+# carries a hairline leader down to it -- a label floating 16 points off the rule it
+# names reads as unattached.
 ax.axhline(28.4, color=fs.MUTED, lw=0.6, ls=(0, (4, 3)), zorder=2)
-ax.text(0.015, 44.5, "Claude-only top-1", transform=ax.get_yaxis_transform(),
+ax.plot([0.022, 0.022], [28.4, 44.2], transform=ax.get_yaxis_transform(),
+        color=fs.MUTED, lw=0.5, zorder=2, clip_on=False)
+ax.text(0.030, 44.5, "Claude-only top-1", transform=ax.get_yaxis_transform(),
         fontsize=fs.FS_SMALL, color=fs.MUTED, va="bottom", ha="left")
 
 ax.set_xticks(x); ax.set_xticklabels(pools)

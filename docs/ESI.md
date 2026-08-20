@@ -130,7 +130,7 @@ elucidation header:
 
 You are given real experimental spectra (from the published literature) for a set of
 organic molecules. For EACH compound you are given the molecular formula (from HRMS),
-the IR band list, and the 1H and 13C NMR shift lists. No name, SMILES, or hint is given.
+the IR band list, and the 1H and 13C NMR shift lists. No name, SMILES, or scaffold hint is given deliberately; in 10 of the 194 the source paper's own peak assignments name a ring system, which is measured in [@sec:benchmark-design-irspectra-bench] rather than removed.
 
 For each compound, propose the 3 most likely structures, best first, as SMILES.
 

@@ -26,7 +26,8 @@ corpus it was drawn from ([@sec:benchmark-design-irspectra-bench]).
 The bottleneck is not the model's judgment but its *proposal*. The model proposes the true
 structure for only **34%** of compounds; where it does, forward-verification — predicting
 each candidate's ¹³C spectrum and re-ranking by agreement with the observed one — selects it
-**89%** of the time (58/65). **Recall, not verification, is the wall.**
+**89%** of the time (58/65, and **81%** on the 37 where more than one candidate existed and
+a ranker had something to do). **Recall, not verification, is the wall.**
 
 We release three things: **IRexp**, the largest openly redistributable collection of
 *experimental* infrared band lists (121,233 records, a third structure-linked);
@@ -37,7 +38,8 @@ moves recall — 32% to 42%, carrying top-1 from 23% to 30% ([@sec:result],
 [@sec:generate-wide-testing-recipe]); both of those top-1 steps are directional rather
 than statistically resolved, and the recall gain is the better-supported effect. Fine-tuning a
 small generator on IRexp moves the wall rather than removing it ([@sec:recall-wall-task-intrinsic]).
-Masking the spectra drops top-1 from 23% to 5% on the same compounds
+Two contamination controls agree: masking the spectra drops top-1 from 23% to 5% on the
+same compounds, and accuracy is flat in the source paper's publication year
 ([@sec:model-reading-spectra-formula]), and Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all
 verify better than they generate ([@sec:diagnosis-hold-outside-one]). All data, predictions
 and code are released.
@@ -260,7 +262,7 @@ requiring human reading; that audit is prepared but not yet run ([@sec:limitatio
 
 From `irexp_resolved` we draw **IRSpectra-Bench**, 194 blind elucidation problems, each
 giving the **molecular formula** (as from HRMS), the **IR band list** and the **¹H and ¹³C
-shift lists**; no name, SMILES or hint. Main-round ground truths are **spectrally
+shift lists**; no name, SMILES or scaffold hint. One exception is measured rather than assumed: the shift strings are the source paper's, and in **10 of the 194** the authors' peak assignments name a ring system (`2CH2·pyrrolidine`, `pyridazinone H5`). Those compounds are solved **1/10** against **54/184 (29.3%)** for the rest (`scripts/prompt_leakage.py`), so the annotation does not carry the headline — they are harder than average, which is presumably why their authors annotated them. We keep them rather than drop them. Main-round ground truths are **spectrally
 validated** by an automated RDKit check (¹³C peaks vs symmetry-unique carbons, formula
 match, SELFIES round-trip) excluding merged or incomplete spectra — 6/140, leaving 134.
 `scripts/validate_benchmark.py` runs the deterministic filter over all three rounds,
@@ -450,7 +452,7 @@ headline. It plausibly explains *part* of the gap to optimistic prior reports, w
 per-problem API calls implicitly used method (b) — a hypothesis, not a quantified
 contribution.
 
-### Model comparison: the benchmark ranks capability (and separates the extremes) {#sec:model-comparison-benchmark-ranks}
+### Model comparison: the benchmark orders capability but separates only the extremes {#sec:model-comparison-benchmark-ranks}
 
 We solved a fixed 24-compound subset blind with four Claude models spanning a wide
 capability range, including the newest (Fable 5), under one prompt, one scorer and one
@@ -503,6 +505,9 @@ are.
 
 Performance lands in the **same broad regime as the headline benchmark** — **top-1 26%,
 recovered 28%** (12/46 and 13/46; at n=46 the 95% CI is wide and overlaps the headline) —
+scored over the 46 that yielded a parseable candidate. The main round instead scores an
+unparseable answer as a miss, and on that rule this arm reads 12/48 = **25%**; we report
+both rather than let two denominators sit unexplained —
 consistent with a bottleneck in the elucidation task rather than in any one chemical
 neighbourhood. The true structure enters the candidate set for only 13 of 46 compounds and
 ranks first in 12 of those 13. Forward-verification was **not** run here, so this is the
@@ -839,6 +844,11 @@ non-monotonic with coverage (22% at full coverage, 24% at 75%, 28% at 50%, 24% a
 Single-candidate compounds, which have no margin, must be excluded; retaining them in an
 earlier analysis produced a spurious "improvement". We therefore do **not** claim the
 verifier distance as a calibrated abstention gauge ([@sec:non-llm-verifiers-deterministic]).
+This does not contradict the chamfer distance being informative in aggregate
+([@sec:result]): the *absolute* distance separates right from wrong answers across
+compounds, while the *within-compound margin* between best and second-best does not rank
+one compound's confidence against another's. Selecting which questions to answer needs the
+second, and only the first is established here.
 
 ### Is the recall wall task-intrinsic? A trained-generator probe {#sec:recall-wall-task-intrinsic}
 

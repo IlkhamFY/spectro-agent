@@ -130,8 +130,12 @@ Two honest caveats on the Opus row:
   **The transcripts themselves are not committed** — the released artifacts are the parsed
   per-compound predictions. A reader cannot re-verify the audit from this repository.
 - **Inputs given to the model.** Molecular formula + IR band list + ¹H and ¹³C shift lists
-  with multiplicities/J where reported; no name, SMILES, or hint. The exact prompts are
-  released as the batch files (`data/*/batch_*.txt`, `data/*/fbatch_*.txt`).
+  with multiplicities/J where reported; no name, SMILES, or scaffold hint (10 of
+  194 carry a ring-system name inside the source paper's own peak assignments;
+  `scripts/prompt_leakage.py`). The per-compound payloads are
+  released as the batch files (`data/*/batch_*.txt`, `data/*/fbatch_*.txt`). The
+  instruction text those payloads were wrapped in was not captured for the main rounds;
+  the cross-vendor arm's prompts are complete (`sweep_prompts/`).
 
 ## 4. Scoring code path
 

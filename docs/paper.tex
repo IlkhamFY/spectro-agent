@@ -185,8 +185,9 @@ The bottleneck is not the model's judgment but its \emph{proposal}. The
 model proposes the true structure for only \textbf{34\%} of compounds;
 where it does, forward-verification --- predicting each candidate's ¹³C
 spectrum and re-ranking by agreement with the observed one --- selects
-it \textbf{89\%} of the time (58/65). \textbf{Recall, not verification,
-is the wall.}
+it \textbf{89\%} of the time (58/65, and \textbf{81\%} on the 37 where
+more than one candidate existed and a ranker had something to do).
+\textbf{Recall, not verification, is the wall.}
 
 We release three things: \textbf{IRexp}, the largest openly
 redistributable collection of \emph{experimental} infrared band lists
@@ -198,10 +199,12 @@ from 28\% to 30\%, while \emph{generating wider} moves recall --- 32\%
 to 42\%, carrying top-1 from 23\% to 30\% (§5.2, §5.3); both of those
 top-1 steps are directional rather than statistically resolved, and the
 recall gain is the better-supported effect. Fine-tuning a small
-generator on IRexp moves the wall rather than removing it (§5.6).
-Masking the spectra drops top-1 from 23\% to 5\% on the same compounds
-(§4.6), and Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all verify better
-than they generate (§4.7). All data, predictions and code are released.
+generator on IRexp moves the wall rather than removing it (§5.6). Two
+contamination controls agree: masking the spectra drops top-1 from 23\%
+to 5\% on the same compounds, and accuracy is flat in the source paper's
+publication year (§4.6), and Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol
+all verify better than they generate (§4.7). All data, predictions and
+code are released.
 
 \vspace{-0.4em}\noindent\rule{\dimexpr\linewidth-4em\relax}{0.4pt}\endgroup
 
@@ -505,11 +508,19 @@ structure-linked) is the benchmark-ready split, \textasciitilde6× the
 From \texttt{irexp\_\hspace{0pt}resolved} we draw
 \textbf{IRSpectra-Bench}, 194 blind elucidation problems, each giving
 the \textbf{molecular formula} (as from HRMS), the \textbf{IR band list}
-and the \textbf{¹H and ¹³C shift lists}; no name, SMILES or hint.
-Main-round ground truths are \textbf{spectrally validated} by an
-automated RDKit check (¹³C peaks vs symmetry-unique carbons, formula
-match, SELFIES round-trip) excluding merged or incomplete spectra ---
-6/140, leaving 134.
+and the \textbf{¹H and ¹³C shift lists}; no name, SMILES or scaffold
+hint. One exception is measured rather than assumed: the shift strings
+are the source paper's, and in \textbf{10 of the 194} the authors' peak
+assignments name a ring system (\texttt{2CH2·pyrrolidine},
+\texttt{pyridazinone\ H5}). Those compounds are solved \textbf{1/10}
+against \textbf{54/184 (29.3\%)} for the rest
+(\texttt{scripts/\hspace{0pt}prompt\_\hspace{0pt}leakage.py}), so the
+annotation does not carry the headline --- they are harder than average,
+which is presumably why their authors annotated them. We keep them
+rather than drop them. Main-round ground truths are \textbf{spectrally
+validated} by an automated RDKit check (¹³C peaks vs symmetry-unique
+carbons, formula match, SELFIES round-trip) excluding merged or
+incomplete spectra --- 6/140, leaving 134.
 \texttt{scripts/\hspace{0pt}validate\_\hspace{0pt}benchmark.py} runs the
 deterministic filter over all three rounds, regenerating every
 \texttt{clean\_\hspace{0pt}qids.json} from the released questions and
@@ -774,10 +785,10 @@ swing widely (15--40\% across n=20--40 draws), hence the full
 gap to optimistic prior reports, whose per-problem API calls implicitly
 used method (b) --- a hypothesis, not a quantified contribution.
 
-\hypertarget{model-comparison-the-benchmark-ranks-capability-and-separates-the-extremes}{%
-\subsubsection{4.4 Model comparison: the benchmark ranks capability (and
-separates the
-extremes)}\label{model-comparison-the-benchmark-ranks-capability-and-separates-the-extremes}}
+\hypertarget{model-comparison-the-benchmark-orders-capability-but-separates-only-the-extremes}{%
+\subsubsection{4.4 Model comparison: the benchmark orders capability but
+separates only the
+extremes}\label{model-comparison-the-benchmark-orders-capability-but-separates-only-the-extremes}}
 
 We solved a fixed 24-compound subset blind with four Claude models
 spanning a wide capability range, including the newest (Fable 5), under
@@ -866,15 +877,18 @@ claim that they are.
 
 Performance lands in the \textbf{same broad regime as the headline
 benchmark} --- \textbf{top-1 26\%, recovered 28\%} (12/46 and 13/46; at
-n=46 the 95\% CI is wide and overlaps the headline) --- consistent with
-a bottleneck in the elucidation task rather than in any one chemical
-neighbourhood. The true structure enters the candidate set for only 13
-of 46 compounds and ranks first in 12 of those 13. Forward-verification
-was \textbf{not} run here, so this is the recall-bound pattern under the
-solver's own ranking, not the §5 measurement (Fig. S4). The per-class
-breakdown is Table 4; at eight compounds a class the intervals overlap
-throughout, so the ordering is hypothesis-generating rather than an
-established ranking.
+n=46 the 95\% CI is wide and overlaps the headline) --- scored over the
+46 that yielded a parseable candidate. The main round instead scores an
+unparseable answer as a miss, and on that rule this arm reads 12/48 =
+\textbf{25\%}; we report both rather than let two denominators sit
+unexplained --- consistent with a bottleneck in the elucidation task
+rather than in any one chemical neighbourhood. The true structure enters
+the candidate set for only 13 of 46 compounds and ranks first in 12 of
+those 13. Forward-verification was \textbf{not} run here, so this is the
+recall-bound pattern under the solver's own ranking, not the §5
+measurement (Fig. S4). The per-class breakdown is Table 4; at eight
+compounds a class the intervals overlap throughout, so the ordering is
+hypothesis-generating rather than an established ranking.
 
 \needspace{12\baselineskip}
 
@@ -1441,7 +1455,13 @@ coverage (22\% at full coverage, 24\% at 75\%, 28\% at 50\%, 24\% at
 25\%). Single-candidate compounds, which have no margin, must be
 excluded; retaining them in an earlier analysis produced a spurious
 ``improvement''. We therefore do \textbf{not} claim the verifier
-distance as a calibrated abstention gauge (§5.4).
+distance as a calibrated abstention gauge (§5.4). This does not
+contradict the chamfer distance being informative in aggregate (§5.2):
+the \emph{absolute} distance separates right from wrong answers across
+compounds, while the \emph{within-compound margin} between best and
+second-best does not rank one compound's confidence against another's.
+Selecting which questions to answer needs the second, and only the first
+is established here.
 
 \hypertarget{is-the-recall-wall-task-intrinsic-a-trained-generator-probe}{%
 \subsubsection{5.6 Is the recall wall task-intrinsic? A

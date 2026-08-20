@@ -360,7 +360,21 @@ def build_esi(h_path, bib):
           "are released with the manuscript; see *Data and code availability* in the "
           "main text.\n\n"
           "```{=latex}\n\\renewcommand{\\thefigure}{S\\arabic{figure}}"
-          "\\setcounter{figure}{0}\n```\n\n")
+          "\\setcounter{figure}{0}"
+          "\n```\n\n")
+    # Prose sections, if any: detail displaced from the main text during the cut lives in
+    # docs/ESI.md, which is ordinary markdown and carries the same citations. Figures are
+    # appended after it, so a reader meets the methods before the plates.
+    body = "docs/ESI.md"
+    if os.path.exists(body):
+        esi_src = open(body).read()
+        # The ESI is numbered independently but shares the label namespace with the main
+        # text, so [@sec:...] pointing back into the article still resolves.
+        import crossref
+        esi_src, _ = crossref.resolve(
+            esi_src, external=crossref.audit(open("docs/PAPER.md").read())["labels"],
+            prefix="S")
+        md += esi_src.rstrip() + "\n\n"
     n = 0
     for fn, cap in SI_FIGS:
         path = f"docs/figures/{fn}"

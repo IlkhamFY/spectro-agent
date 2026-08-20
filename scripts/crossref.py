@@ -34,8 +34,10 @@ DEF_FIG = re.compile(r'(!\[(?:[^\[\]]|\[[^\[\]]*\])*\]\([^)]*\))\{#fig:([A-Za-z0
 TYPED = re.compile(r'(?<![A-Za-z])(?:Fig\.|Figure|Table)\s+(?:S?\d+)|§\s?\d')
 
 
-def _number_sections(text):
-    """Assign 1, 1.1, 2 ... to '##'/'###' headings in document order."""
+def _number_sections(text, prefix=""):
+    """Assign 1, 1.1, 2 ... to '##'/'###' headings in document order.
+
+    `prefix` stamps the ESI's own numbering: S1, S1.1, S2."""
     nums, counters = {}, [0, 0, 0]
     out = []
     for line in text.split("\n"):
@@ -53,7 +55,7 @@ def _number_sections(text):
         counters[depth] += 1
         for d in range(depth + 1, 3):
             counters[d] = 0
-        num = ".".join(str(c) for c in counters[:depth + 1] if c)
+        num = prefix + ".".join(str(c) for c in counters[:depth + 1] if c)
         clean = re.sub(r'\s*\{#sec:[^}]*\}', '', title)
         clean = re.sub(r'^\d+(\.\d+)*\.?\s+', '', clean)      # drop any typed number
         if lbl:
@@ -64,14 +66,14 @@ def _number_sections(text):
     return "\n".join(out), nums
 
 
-def _number(text, pattern, kind, fmt):
+def _number(text, pattern, kind, fmt, prefix=""):
     """Number tables/figures in document order, stripping the label marker."""
     nums, n = {}, 0
     def sub(m):
         nonlocal n
         n += 1
         key = m.group(2) if kind == "fig" else m.group(1)
-        nums[f"{kind}:{key}"] = str(n)
+        nums[f"{kind}:{key}"] = f"{prefix}{n}"
         return fmt(m, n)
     return pattern.sub(sub, text), nums
 
@@ -99,12 +101,21 @@ def si_labels():
     return out
 
 
-def resolve(md):
-    """-> (text with every reference replaced by its number, label map)."""
-    md, sec = _number_sections(md)
-    md, tab = _number(md, DEF_TAB, "tab", lambda m, n: f"**Table {n}. ")
+def resolve(md, external=None, prefix=""):
+    """-> (text with every reference replaced by its number, label map).
+
+    `external` carries labels defined in another document. The ESI is numbered
+    independently -- its own sections are S1, S2 -- but it points back into the article,
+    so it needs the article's label map to resolve those references. Local definitions
+    win, so an ESI section that reuses a label name shadows the article's rather than
+    silently taking its number.
+
+    `prefix` numbers this document's own sections and tables S1, S2 ... , which is what
+    keeps an ESI table from colliding with Table 1 of the article."""
+    md, sec = _number_sections(md, prefix)
+    md, tab = _number(md, DEF_TAB, "tab", lambda m, n: f"**Table {prefix}{n}. ", prefix)
     md, fig = _number(md, DEF_FIG, "fig", lambda m, n: m.group(1))
-    labels = {**sec, **tab, **fig, **si_labels()}
+    labels = {**(external or {}), **sec, **tab, **fig, **si_labels()}
     word = {"sec": "§", "tab": "Table ", "fig": "Fig. ", "sfig": "Fig. "}
     def sub(m):
         key = f"{m.group(1)}:{m.group(2)}"

@@ -21,37 +21,24 @@ exactly as reported in an open-access paper, how often does a frontier large lan
 (here, Claude) recover the correct molecular *constitution*? We find **28%** (top-1, n=194;
 95% CI 22–35) — far below the near-100% implied by curated demonstrations.
 
-The bottleneck is not the model's judgment but its *proposal*. Across the whole benchmark
-the model proposes the true structure for only **34%** of compounds; where it does,
-forward-verification — predicting each candidate's ¹³C spectrum and re-ranking by agreement
-with the observed one — selects it **89%** of the time (58/65; 81% on the 37 where more than
-one candidate existed, [@sec:result]). **Recall, not verification, is the wall.**
+The bottleneck is not the model's judgment but its *proposal*. The model proposes the true
+structure for only **34%** of compounds; where it does, forward-verification — predicting
+each candidate's ¹³C spectrum and re-ranking by agreement with the observed one — selects it
+**89%** of the time (58/65). **Recall, not verification, is the wall.**
 
-We contribute three things. **IRexp**, the largest openly redistributable collection of
-*experimental* infrared band lists (121,233 records, a third structure-linked), mined from
-open-access literature and released with its pipeline. **IRSpectra-Bench**, an open, blind,
-mechanically scored benchmark of 194 compounds on which accuracy splits sharply with
-structural complexity, and where a within-compound control shows reported numbers are
-sensitive to how a problem is posed. And a training-free **forward-verification** recipe,
-run over every benchmark compound. The two levers are distinct and we keep them apart:
-verification re-ranks a fixed candidate set and lifts top-1 from 28% to 30%, while
-*generating wider* is what moves recall — 32% to 42%, carrying top-1 from 23% to 30% on the
-arm where both were tested. Every top-1 step is directional rather than statistically
-resolved ([@sec:result], [@sec:generate-wide-testing-recipe]); the recall gain is the better-supported effect.
-
-Those gains stop short of a ceiling, and the ceiling belongs to training-free elicitation
-rather than to the task: a small generator fine-tuned on IRexp lifts recall substantially
-and gives the highest full-benchmark accuracy we report ([@sec:recall-wall-task-intrinsic]). But the wall moves rather
-than falls — the true
-structure stays outside the candidate pool for roughly half of compounds. Two independent
-contamination controls confirm the spectra do the work: masking them drops top-1 from 23%
-to 5% on the same compounds, and accuracy is flat in the publication year of the source
-paper ([@sec:model-reading-spectra-formula]). The decomposition is not confined to one lineage: on the same 60 compounds,
-Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all verify better than they generate, and three
-of six non-Claude models exceed our headline model's recall ([@sec:diagnosis-hold-outside-one]). The core protocol uses no model training and no paid API — two clearly-fenced
-probes ([@sec:non-llm-verifiers-deterministic], [@sec:recall-wall-task-intrinsic]) are the only exceptions — and all data, predictions, and code are
-released.
-
+We release three things: **IRexp**, the largest openly redistributable collection of
+*experimental* infrared band lists (121,233 records, a third structure-linked);
+**IRSpectra-Bench**, a blind, mechanically scored benchmark of 194 compounds; and a
+training-free **forward-verification** recipe. The two levers are distinct. Verification
+re-ranks a fixed candidate set and lifts top-1 from 28% to 30%, while *generating wider*
+moves recall — 32% to 42%, carrying top-1 from 23% to 30% ([@sec:result],
+[@sec:generate-wide-testing-recipe]); every top-1 step is directional rather than
+statistically resolved, and the recall gain is the better-supported effect. Fine-tuning a
+small generator on IRexp moves the wall rather than removing it ([@sec:recall-wall-task-intrinsic]).
+Masking the spectra drops top-1 from 23% to 5% on the same compounds
+([@sec:model-reading-spectra-formula]), and Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all
+verify better than they generate ([@sec:diagnosis-hold-outside-one]). All data, predictions
+and code are released.
 ---
 
 ## Introduction {#sec:introduction}

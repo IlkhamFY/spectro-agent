@@ -19,7 +19,9 @@
 Given the molecular formula together with the infrared band list and ¹H/¹³C shift lists
 exactly as reported in an open-access paper, how often does a frontier large language model
 (here, Claude) recover the correct molecular *constitution*? We find **28%** (top-1, n=194;
-95% CI 22–35) — far below the near-100% implied by curated demonstrations.
+95% CI 22–35) — far below the near-100% implied by curated demonstrations, and **15%** once
+the benchmark's deliberate 50/50 difficulty balance is reweighted to the composition of the
+corpus it was drawn from ([@sec:benchmark-design-irspectra-bench]).
 
 The bottleneck is not the model's judgment but its *proposal*. The model proposes the true
 structure for only **34%** of compounds; where it does, forward-verification — predicting
@@ -270,6 +272,20 @@ the simple-minus-complex top-1 gap only between 36 and 40 points (39.6 as releas
 gradient of [@sec:headline-performance] (≤15 / 16–25 / >25 heavy atoms), and InChIKey
 de-duplication across rounds prevents leakage.
 
+**The 50/50 balance is by design, and the corpus is not balanced.** The sampler fills each
+stratum to half the round, so "98 simple / 96 complex" is a property of the draw and not an
+observation about the literature. Under the same eligibility filters the eligible corpus is
+**17.5% simple and 82.5% complex** (5,059 / 23,929 of 28,988; median 26 heavy atoms against
+the benchmark's 20), so simple compounds are enriched **2.9×**
+(`scripts/corpus_reweight.py`). Balancing is the right choice for measuring a gradient —
+an unbalanced draw would put almost no mass in the stratum where the model succeeds — but
+it means the headline is a weighted average under weights we chose. Reweighted to the
+corpus, top-1 falls from 28.4% to **15.2%** and recall from 33.5% to **19.8%**. We report
+the benchmark figure as the headline because it is the one the released set reproduces, and
+the reweighted figure as the better estimate of what a chemist meets on an arbitrary paper.
+The reweighting assumes the one sampler filter it cannot apply — recovery of the raw ¹H
+string, which needs a network fetch per record — is independent of difficulty.
+
 **Scoring is mechanical.** A prediction is *correct* if its RDKit InChIKey connectivity
 layer (first 14 characters) matches the reference: we score *constitution*, so correct
 constitution with wrong stereochemistry counts as correct. We report the strict
@@ -330,7 +346,12 @@ the variable [@sec:methodology-dominates-within-compound] shows matters. The ben
 A strictly-validated subset with the controlled rounds restricted to their clean parts too
 (134 main-clean + 57 controlled-clean = 191) reproduces this within ~1 point on every
 metric — top-1 **28.8%**, 95% CI 23–36; recall 34.0%; simple 49.0% / complex 8.4% — so the
-asymmetric inclusion of the pre-registered controlled sets does not drive it.
+asymmetric inclusion of the pre-registered controlled sets does not drive it. What does
+move the overall figure is the deliberate 50/50 difficulty balance: reweighted to the
+17.5%-simple composition of the eligible corpus, top-1 is **15.2%** and recall **19.8%**
+([@sec:benchmark-design-irspectra-bench]). The per-stratum figures are unaffected — only
+the weights change — and the reweighted number, not the headline, is the one to read as
+performance on an arbitrary paper.
 Accuracy falls monotonically with size in step with the difficulty gradient
 ([@fig:fig1-difficulty]): **60.5%** top-1 at ≤15 heavy atoms, 28.3% at 16–25, **7.0%**
 above 25 ([@sfig:size]).

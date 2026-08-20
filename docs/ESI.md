@@ -5,11 +5,11 @@ what the correctness criterion accepts and rejects ([@sec:esi-scoring]), the con
 of the forward-verification arm ([@sec:esi-forward]) and of the two non-LLM verifiers
 ([@sec:esi-verifiers]), the four-vendor replication ([@sec:esi-cross-vendor]), the
 contamination controls ([@sec:esi-ablation]) and the frozen expert-audit package
-([@sec:esi-audit]). Where the repository does not pin a value, this document says so
-rather than supplying one. Every number below is copied from a released artifact or from
-one of the companion notes issued with the manuscript (`docs/MODELS.md`,
-`docs/BENCHMARK.md`, `docs/FORWARD_VERIFY.md`, `docs/CROSS_VENDOR.md`,
-`docs/VERIFIER_PROBE.md`, `docs/MODALITY_ABLATION.md`, `docs/EXPERT_AUDIT_PROTOCOL.md`).
+([@sec:esi-audit]). Where the repository does not pin a value it says so rather than
+supplying one. Every number is copied from a released artifact or from a companion note
+issued with the manuscript (`docs/MODELS.md`, `docs/BENCHMARK.md`,
+`docs/FORWARD_VERIFY.md`, `docs/CROSS_VENDOR.md`, `docs/VERIFIER_PROBE.md`,
+`docs/MODALITY_ABLATION.md`, `docs/EXPERT_AUDIT_PROTOCOL.md`).
 
 ## Models, versions and collection windows {#sec:esi-models}
 
@@ -47,17 +47,17 @@ emitted by the harness.
 | trained-generator arm re-run: 5 agents, 75 outstanding candidates | Claude Opus | `data/fverify_gen/` | 2026-08-07 03:55–04:05 |
 | cross-vendor sweep, non-Claude models ([@sec:esi-cross-vendor]) | see [@tab:esi-vendor-generation] | `sweep_out/` | 2026-08-13 to 2026-08-17 |
 
-Claude invocations fall into three dated windows rather than one. **2026-06-09 to
-2026-06-11** produced every candidate structure behind the headline results and behind the
-candidate pools that all of [@sec:forward-verification-elucidation] re-ranks; no headline
-elucidation artifact exists outside it. **2026-07-28** is the formula-only control, which
-generates its own candidates (3/60 correct) by design, since a masked-input control is only
-meaningful as a fresh run; it touches [@tab:formula-only-control] alone. **2026-08-07**
-carries three forward-prediction collections — the [@sec:result] extension to all 194
-compounds, the [@sec:generate-wide-testing-recipe] coverage-gap closure and the
+Claude invocations fall into three dated windows, not one. **2026-06-09 to 2026-06-11**
+produced every candidate structure behind the headline results and behind the pools all of
+[@sec:forward-verification-elucidation] re-ranks; no headline elucidation artifact exists
+outside it. **2026-07-28** is the formula-only control, which generates its own candidates
+(3/60 correct) by design, a masked-input control being meaningful only as a fresh run; it
+touches [@tab:formula-only-control] alone. **2026-08-07** carries three forward-prediction
+collections — the [@sec:result] extension to all 194 compounds, the
+[@sec:generate-wide-testing-recipe] coverage-gap closure and the
 [@sec:recall-wall-task-intrinsic] re-run — which predict ¹³C for candidates the June solver
-had already produced; none introduces a new candidate structure or moves a recall number.
-All later commits re-score frozen outputs and re-query no model.
+had already produced; none introduces a new candidate or moves a recall number. All later
+commits re-score frozen outputs and re-query no model.
 
 ### Version strings, snapshots and decoding parameters {#sec:esi-versions}
 
@@ -77,14 +77,14 @@ document, config or artifact. The `seed=` values in the repository are for analy
 determinism only (bootstrap resampling, benchmark sampling, audit-sample selection).
 Reproduction is distributional, not exact.
 
-One protocol asymmetry belongs here because
+One protocol asymmetry belongs here, because
 [@sec:methodology-dominates-within-compound] measures a large effect of the variable it
 concerns. The Opus column of the four-model comparison is not a fresh 24-compound run: it
 re-scores the main-round predictions on that subset (the `SRC` map in
-`scripts/score_models.py`), and those 24 items came from one 6-compound context
+`scripts/score_models.py`), whose 24 items came from one 6-compound context
 (`raw/b1.json`) and two 12-compound contexts (`raw/redo_b23.json`, `raw/redo_b45.json`),
-whereas Sonnet, Haiku and Fable each saw four 6-compound contexts. Prompts and compounds
-are identical; context packing is not.
+where Sonnet, Haiku and Fable each saw four 6-compound contexts. Prompts and compounds are
+identical; context packing is not.
 
 ## Prompts and agent protocol {#sec:esi-prompts}
 
@@ -96,8 +96,7 @@ were closed-book — no web access, no ground-truth access, no tools beyond an R
 formula/parse check — except the arm (a) baseline of
 [@sec:methodology-dominates-within-compound], which had no tools at all, that being the
 variable it isolates. Closed-book status was grep-audited over the task transcripts at run
-time; the transcripts are not committed, so that audit cannot be re-verified from the
-release ([@sec:limitations]).
+time; the transcripts are not committed ([@sec:limitations]).
 
 **Candidate budget:** up to **three ranked candidate SMILES per compound**, best first, in
 every arm except generate-wide, where ten independent solver agents each proposed up to
@@ -117,7 +116,7 @@ compound's identity, nor which candidates belong to one target. Shuffling does n
 target's own candidates in separate batches — in the [@sec:result] arm 7 of 8 batches held
 two candidates for some one compound — but with no observed spectrum in hand there is
 nothing for that to leak: at most a predictor notices that two structures are isomers,
-which is evident from either alone.
+evident from either alone.
 
 **Verbatim prompts.** Both stage prompts are committed (`sweep_prompts/solve_01.md` …
 `solve_10.md`, `sweep_prompts/verify/`) and emitted by `scripts/cross_vendor_sweep.py`. The
@@ -159,8 +158,8 @@ Candidates:
 ```
 
 Each compound follows as one block in exactly this form, the NMR strings being the source
-paper's own text reproduced unedited (which is why the ¹³C field carries the
-chemical-shift symbol and whatever assignment annotations the authors wrote):
+paper's own text reproduced unedited (hence the chemical-shift symbol and whatever
+assignment annotations the authors wrote):
 
 ```
 ### M001
@@ -177,11 +176,11 @@ The real blocks are released per arm: `data/benchmark_main/batch_*.txt` and
 alone).
 
 **One gap, stated rather than papered over.** The wording above is the harness prompt used
-verbatim for the four-vendor replication and is the only instruction text committed in the
-repository. The Claude sub-agents behind the headline arms were dispatched through the
+verbatim for the four-vendor replication, and it is the only instruction text committed in
+the repository. The Claude sub-agents behind the headline arms were dispatched through the
 Agent tool with their instruction supplied at dispatch, and **that instruction text was not
 captured**. What is released for those arms is the per-compound data exactly as the agents
-received it, together with the candidate budget, tool policy and context sizes above.
+received it, plus the candidate budget, tool policy and context sizes above.
 
 ## Benchmark construction {#sec:esi-benchmark}
 
@@ -190,9 +189,8 @@ of IRexp. A record enters the sampling pool only if it carries an IR band list, 
 list, a ¹³C shift list and a resolved structure; the structure has **8–60 heavy atoms**;
 each NMR string carries at least three parenthesised entries; and the raw ¹H string,
 re-fetched from the source article, contains genuine J information. Draws are balanced
-between the two difficulty strata, and every compound revealed in any prior round is
-excluded by InChIKey-14 before the draw, so no compound appears twice
-(`scripts/benchmark_v2.py`).
+between the difficulty strata, and every compound revealed in a prior round is excluded by
+InChIKey-14 beforehand, so no compound appears twice (`scripts/benchmark_v2.py`).
 
 **Table {#tab:esi-cohort}. Rounds behind the n=194 cohort.**
 
@@ -208,16 +206,16 @@ self-consistency check — ¹³C peak count against symmetry-unique carbons, for
 SELFIES round-trip — which excluded 6 of 140: five report more ¹³C peaks than the structure
 has carbons (R03 28>24, R14 11>8, R65 26>18, R67 23>16, R131 34>17: merged or contaminated
 spectra) and one is too sparse to constrain (R82, 5 peaks for 22 symmetry-unique carbons).
-The two controlled rounds are used **whole**, because they were fixed and pre-registered as
-controls before the audit existed; the same audit is reported on them rather than applied
-(57/60 pass), and [@sec:headline-performance] gives the strictly-validated 191-compound
-cohort as a robustness check. The filter runs over all three rounds in
-`scripts/validate_benchmark.py`, which regenerates every `clean_qids.json` from the released
-questions and answers. It tests ¹³C against the carbon count and does not gate on ¹H: in
-**13 of the 194** retained records the reported ¹H integral exceeds the reference
-structure's hydrogen count (residual solvent, water, exchangeable protons, a reported
-rotamer mixture). These are printed as a diagnostic, not excluded, because the cohort was
-fixed in advance; dropping all 13 moves the headline from 28.4% to 29.3% (53/181).
+The two controlled rounds are used **whole**, being fixed and pre-registered as controls
+before the audit existed; the same audit is reported on them rather than applied (57/60
+pass), and [@sec:headline-performance] gives the strictly-validated 191-compound cohort as
+a robustness check. The filter runs over all three rounds in
+`scripts/validate_benchmark.py`, which regenerates every `clean_qids.json` from the
+released questions and answers. It tests ¹³C against the carbon count and does not gate on
+¹H: in **13 of the 194** retained records the reported ¹H integral exceeds the reference
+structure's hydrogen count (residual solvent, water, exchangeable protons, a rotamer
+mixture). These are printed as a diagnostic, not excluded, because the cohort was fixed in
+advance; dropping all 13 moves the headline from 28.4% to 29.3% (53/181).
 
 **Complexity stratification, and when it was defined.** Difficulty is a declared property
 of the compound, assigned by RDKit ring analysis at sampling time — before anything was
@@ -228,14 +226,14 @@ most 22 heavy atoms; anything else (the 23–24-heavy-atom band, 13 compounds) i
 size alone. The cohort splits 98 simple / 96 complex. The 22-atom threshold is not
 load-bearing: sweeping it from 18 to 26 moves the simple-minus-complex top-1 gap only
 between 36 and 40 points, against 39.6 at the released value
-(`scripts/difficulty_sensitivity.py`). This binary axis is distinct from the heavy-atom
-bands (≤15 / 16–25 / >25) of [@sec:headline-performance] and [@sfig:size].
+(`scripts/difficulty_sensitivity.py`). This axis is distinct from the heavy-atom bands
+(≤15 / 16–25 / >25) of [@sec:headline-performance] and [@sfig:size].
 
 The battery-electrolyte subset ([@sec:domain-case-study-battery]) was drawn from the same
-corpus by SMARTS substructure filters for six electrolyte functional classes, balanced to
-eight compounds per class (48 curated; 46 scored after two yielded no parseable candidate),
-J-enriched and spectrally validated identically to the main rounds, excluding every
-compound used elsewhere.
+corpus by SMARTS filters for six electrolyte functional classes, balanced to eight per
+class (48 curated; 46 scored after two yielded no parseable candidate), J-enriched and
+spectrally validated identically to the main rounds, excluding every compound used
+elsewhere.
 
 ## Scoring: what the criterion accepts and rejects {#sec:esi-scoring}
 
@@ -245,18 +243,18 @@ the molecular skeleton. The later blocks, carrying stereochemistry, isotopic sub
 and protonation state, are not compared. Top-1 asks this of the first-ranked candidate,
 recovered (top-3) of the up-to-three returned, generation recall of the whole pool. Nothing
 is model-mediated: RDKit only, in `scripts/score_main.py` and `scripts/specmetrics.py`.
-Morgan(2, 2048) Tanimoto is reported alongside as a graded signal, with 0.45 the
-scaffold-level threshold; intervals are bootstrap 95% over compounds (2,000 resamples,
-analysis seed 0) and model-vs-model tests are McNemar exact with Holm correction.
+Morgan(2, 2048) Tanimoto[@rogers2010ecfp] is reported alongside as a graded signal, 0.45
+being the scaffold-level threshold; intervals are bootstrap 95% over compounds (2,000
+resamples, analysis seed 0) and model-vs-model tests McNemar exact with Holm correction.
 
 **What it accepts.** A candidate with the right constitution and the wrong stereochemistry
-scores correct. This is a deliberate floor, and its cost is measured rather than assumed:
-re-scoring the *full* InChIKey gives **21.1% top-1 and 25.8% recovered (41/194 and 50/194)**
-against 28.4% / 33.5% at the connectivity layer, so fourteen top-1 answers are accepted
-here that a stereochemistry-sensitive scorer rejects. The reason for the floor is that 1D
+scores correct. This is a deliberate floor whose cost is measured rather than assumed:
+re-scoring the *full* InChIKey gives **21.1% top-1 and 25.8% recovered (41/194 and
+50/194)** against 28.4% / 33.5% at the connectivity layer, so fourteen top-1 answers are
+accepted here that a stereochemistry-sensitive scorer rejects. The floor exists because 1D
 ¹H/¹³C/IR rarely fixes absolute configuration and only 10.3% (20/194) of answers carry a
 defined (assigned R/S) stereocentre, so a model would be penalised for information the
-prompt never contained. The cross-vendor arm shows the accepted case per compound: on
+prompt never carried. The cross-vendor arm shows the accepted case per compound: on
 structures those models got constitutionally right whose reference carries assigned
 stereocentres, Grok 4.6 reproduced 0/3 correct descriptors, Gemini 3.7 Flash 0/2 and
 GPT-5.6 Sol 0/2.
@@ -278,20 +276,19 @@ wrong composition. Three worked cases, all from released artifacts:
   isomer where the truth is **2-pyridyl** (`docs/BENCHMARK.md`, Q21): right formula, right
   scaffold, rejected.
 
-That is the dominant shape of failure, not an edge case. Over all 139 top-1 misses, **76.6%
-are constitutional isomers** of the true structure and 23.4% have the wrong molecular
-formula outright; 22.6% share the true Murcko scaffold, 2.9% reach Tanimoto ≥ 0.85, and the
-median Tanimoto between an isomeric miss and the truth is 0.39
-(`scripts/analyze_misses.py`). Formula adherence is not part of the criterion — a
-wrong-composition answer is simply a miss — and it is not uniform across rounds: on top-1
-answers it is 95.0% (38/40) in v3, 90.0% (18/20) in the within-compound control and 77.6%
-(104/134) in the headline main round.
+That is the dominant shape of failure, not an edge case: over all 139 top-1 misses,
+**76.6% are constitutional isomers** of the true structure and 23.4% have the wrong formula
+outright; 22.6% share the true Murcko scaffold, 2.9% reach Tanimoto ≥ 0.85, and the median
+Tanimoto between an isomeric miss and the truth is 0.39 (`scripts/analyze_misses.py`).
+Formula adherence is not part of the criterion — a wrong-composition answer is simply a
+miss — and it is not uniform across rounds: on top-1 answers it is 95.0% (38/40) in v3,
+90.0% (18/20) in the within-compound control and 77.6% (104/134) in the main round.
 
 ## Forward-verification detail {#sec:esi-forward}
 
 **The distance.** Candidates are ranked by a symmetric chamfer distance between the
 forward-predicted and observed ¹³C peak sets: a mean of two nearest-neighbour means, so no
-equal-count requirement is imposed and lower is better. The implementation is the single
+equal-count requirement is imposed, and lower is better. The implementation is the single
 source of truth for every scorer and diagnostic (`scripts/specmetrics.py`):
 
 ```
@@ -306,10 +303,10 @@ def chamfer(pred, obs):
 
 **The re-ranking.** Within a compound the candidate of smallest chamfer becomes the top-1
 answer and the solver's own ordering is discarded. The sentinel matters: a candidate with
-no forward prediction takes 999.0, effectively infinite, and can never be selected.
-Prediction coverage is therefore a precondition, not a detail — an arm with unpredicted
-candidates reports a lower bound on verified top-1 rather than a measurement, which is why
-the generate-wide arm was re-run to completion.
+no forward prediction takes 999.0, effectively infinite, and can never be selected, so
+prediction coverage is a precondition rather than a detail — an arm with unpredicted
+candidates reports a lower bound on verified top-1, not a measurement, which is why the
+generate-wide arm was re-run to completion.
 
 **Table {#tab:esi-coverage}. Forward-prediction coverage, by arm.** Batch size is 17
 anonymised SMILES throughout.
@@ -327,31 +324,30 @@ independent agents over all 194 targets, so nothing in
 [@tab:forward-verification-decomposition] is a lower bound. In the generate-wide arm all
 **217 of 217** distinct new candidates are now predicted where the original pass had
 predicted 65, and **not one number moves**: recall 42%, forward-verified top-1 30%,
-precision 72%, identical to three significant figures. What the added coverage buys is a
-direct view of the mechanism — on **18 of the 60** compounds the verifier abandons its
-previous pick for a newly-selectable candidate, and in **not one** of those 18 does the
-outcome change; every switch is from one wrong structure to another.
+precision 72%, identical to three significant figures. The added coverage buys a direct
+view of the mechanism — on **18 of the 60** compounds the verifier abandons its previous
+pick for a newly-selectable candidate, and in **not one** of those 18 does the outcome
+change; every switch is wrong structure to wrong structure.
 
 **The margin the method works on.** Measuring the chamfer between the *predicted* spectra
 of every pair of candidates proposed for the same target
-(`scripts/isomer_separability.py`), isomeric pairs sit at a median separation of **1.21 ppm**
-(quartiles 0.84 and 1.78) and **82% of them are predicted closer together than the
+(`scripts/isomer_separability.py`), isomeric pairs sit at a median separation of
+**1.21 ppm** (quartiles 0.84 and 1.78) and **82% are predicted closer together than the
 predictor's own ~2 ppm error**; non-isomeric pairs separate better but not dramatically
-(median 1.90 ppm, 53% inside the error). That the ranking nevertheless recovers the right
-structure 89% of the time it is present is what the permutation control tests: re-pairing,
-as a derangement, which observed spectrum each candidate set is scored against, over 1,000
-permutations, drops conditional-on-recall precision from **89.2% (58/65)** to a permuted
-mean of **73.8%** (95% range 66.2–81.5%; one-sided p=0.001, two-sided p=0.002). On the
-60-compound arm alone it gives 84.2% against 66.4% (one-sided p=0.019). The chance floor
-sits high because recall-positive compounds carry few, near-identical candidates, so the
-genuine margin over chance is ~15 points ([@sec:negative-control]).
+(median 1.90 ppm, 53% inside the error). The permutation control tests whether a ranking on
+so thin a margin is real: re-pairing, as a derangement, which observed spectrum each
+candidate set is scored against, over 1,000 permutations, drops conditional-on-recall
+precision from **89.2% (58/65)** to a permuted mean of **73.8%** (95% range 66.2–81.5%;
+one-sided p=0.001, two-sided p=0.002); on the 60-compound arm alone, 84.2% against 66.4%
+(one-sided p=0.019). The chance floor sits high because recall-positive compounds carry
+few, near-identical candidates, so the genuine margin over chance is ~15 points
+([@sec:negative-control]).
 
 **A negative result on calibration.** Ranking the 138 multi-candidate compounds by chamfer
 margin (best minus second-best) and answering only the most confident fraction leaves top-1
 flat and non-monotonic with coverage: 22% at full coverage, 24% at 75%, 28% at 50%, 24% at
 25%. Single-candidate compounds have no margin and must be excluded; an earlier analysis
-that kept them produced a spurious improvement that was entirely an artefact of those
-trivial cases.
+that kept them produced a spurious improvement entirely artefactual of those trivial cases.
 
 ## Non-LLM verifiers: a deterministic lookup and a learned model {#sec:esi-verifiers}
 
@@ -364,10 +360,9 @@ RDKit: the Morgan per-atom identifier at radius r is a canonical hash of an atom
 environment out to r bonds, so a (radius, identifier) bin groups carbons with identical
 local environments. The mean assigned shift per bin is learned from nmrshiftdb2, and
 prediction walks the deepest sufficiently-populated sphere, r=4 → 3 → 2 → 1, falling back
-to a hybridisation prior; a bin needs at least 3 samples to be trusted. Training used
-**31,000 molecules, 332,595 assigned carbons and 263,366 environment bins**, with held-out
-**MAE 3.23 ppm (median 1.73)** over 17,456 carbons of 1,647 molecules
-(`scripts/hose_predict.py`).
+to a hybridisation prior; a bin needs 3 samples to be trusted. Training used **31,000
+molecules, 332,595 assigned carbons and 263,366 environment bins**, held-out **MAE 3.23 ppm
+(median 1.73)** over 17,456 carbons of 1,647 molecules (`scripts/hose_predict.py`).
 
 **The learned model** is a message-passing GNN — 4 layers, hidden width 256, GRU node
 update, bond features, per-carbon ¹³C regression — trained on the identical dump: 32,647
@@ -378,22 +373,21 @@ size 64, smooth-L1 loss, plateau learning-rate halving, early stopping. Held-out
 1.70 ppm (median 1.02)**, roughly twice as sharp as the lookup (`scripts/gnn_predict.py`,
 `data/nmrshiftdb/gnn_c13.pt`). It is deliberately modest rather than state of the art —
 purpose-built ¹³C models reach ~1 ppm[@williamson2024mpnn] and 0.94 ppm with DFT shielding
-tensors[@han2024dftgnn], on benchmarks now standardised for the comparison[@xu2025nmrbench]
-— because the question is whether the predictor slot is where the leverage sits, which
-needs a predictor differing from the lookup in *method* while data and evaluation are held
-fixed.
+tensors[@han2024dftgnn] — because the question is whether the predictor slot is where the
+leverage sits, which needs a predictor differing from the lookup in *method* while data and
+evaluation stay fixed.
 
 **Held-out error against benchmark behaviour.** [@tab:verifier-comparison-conditional-recall]
 gives the four verifiers conditional on recall; two readings belong here. The lookup's tie
 with self-ranking is not agreement: at n=65 it **gains seven compounds and loses seven**
 (McNemar b=c=7, p=1.00), reshuffling energetically while carrying no net discriminative
 signal. Its coverage diagnosis is that of the **6,360 candidate carbons only 2.1% match a
-training environment at the most specific sphere (r=4)**, and 71% resolve only at r≤2 or
-fall through to the prior, the benchmark's exotic chemistry being under-represented in
+training environment at the most specific sphere (r=4)**, 71% resolving only at r≤2 or
+falling through to the prior, the benchmark's exotic chemistry being under-represented in
 nmrshiftdb2. The GNN's margins are directional in every pairwise comparison and none
-reaches significance: against the lookup seven gained and three lost (p=0.34), against
-self-ranking five gained and one lost (p=0.22), and against the LLM verifier the two land
-within one compound of each other while disagreeing on nine (b=5, c=4, p=1.00).
+reaches significance: against the lookup seven gained, three lost (p=0.34); against
+self-ranking five gained, one lost (p=0.22); against the LLM verifier the two land within
+one compound of each other while disagreeing on nine (b=5, c=4, p=1.00).
 
 **Leakage analysis** is the decisive control for a *learned* verifier, since a GNN can
 memorise a molecule's spectrum where a bin average cannot. Exact overlap with the whole
@@ -401,15 +395,15 @@ nmrshiftdb2 database is **2 of 364** distinct candidate structures by InChIKey-1
 wrong candidates on recall-negative compounds, which never enter the conditional analysis —
 and **no benchmark answer appears in the database at all** (0/373; the 60-compound arm is
 0/126). Analog overlap is likewise absent: median Morgan(2, 2048) Tanimoto to the nearest
-training molecule is **0.44**, with three candidates above 0.80. The load-bearing figure is
-the last: over the **65 true structures the verifier must identify**, the nearest training
-analog has median Tanimoto **0.50** and maximum **0.81**, so not one compound the
-conditional analysis scores has a near-duplicate in training. A Y-randomisation control
-(1,000 derangements) places the learned verifier above the 97.5th percentile of the chance
+training molecule is **0.44**, three candidates above 0.80. The load-bearing figure is the
+last: over the **65 true structures the verifier must identify**, the nearest training
+analog has median Tanimoto **0.50** and maximum **0.81**, so no compound the conditional
+analysis scores has a near-duplicate in training. A Y-randomisation control (1,000
+derangements) places the learned verifier above the 97.5th percentile of the chance
 distribution (n=19: real 84% against a permuted mean of 58.6%, 95% range 42.1–73.7%,
 one-sided p<0.05). Both checks regenerate via `scripts/verifier_leakage.py`. Neither
-predictor is redistributable end-to-end: the nmrshiftdb2 dump cannot be shipped with the
-manuscript, so these two rows regenerate only once a reader supplies the same dump.
+predictor is redistributable end-to-end: the nmrshiftdb2 dump cannot ship with the
+manuscript, so these rows regenerate only once a reader supplies the same dump.
 
 ## Cross-vendor replication {#sec:esi-cross-vendor}
 

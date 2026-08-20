@@ -425,36 +425,45 @@ PENDING = [
 
 # ---- L. section cross-references ---------------------------------------------
 def check_section_refs():
-    """Every section number a document points at must be a section that exists.
+    """Every section number a *companion* document points at must exist in the paper.
 
     The learned-verifier arm was drafted as its own subsection, numbered 5.7, and was
     later folded into 5.4. The heading moved; five pointers to it did not. PAPER.md, the
     cover letter and MODELS.md all went on directing a reader to a section that is not in
     the paper -- and because each pointer is well-formed prose, nothing else here caught
-    it. Sections are cheap to enumerate, so enumerate them.
+    it.
+
+    PAPER.md itself no longer needs this check: its numbers are derived by crossref and
+    check L enforces that nothing is typed. The companion documents still type theirs, and
+    they are the half that now rots silently, because the paper's numbering can shift
+    underneath them without a single edit to their text. So enumerate the sections the
+    *resolved* paper actually has, and hold the companions to it.
     """
-    md = read(PAPER)
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("crossref", "scripts/crossref.py")
+    cr = importlib.util.module_from_spec(spec); spec.loader.exec_module(cr)
+    resolved, _ = cr.resolve(read(PAPER))
     have = set()
-    for m in re.finditer(r'^#{2,4}\s+(\d+(?:\.\d+)?)[.\s]', md, re.M):
+    for m in re.finditer(r'^#{2,4}\s+(\d+(?:\.\d+)?)[.\s]', resolved, re.M):
         have.add(m.group(1))
         have.add(m.group(1).split(".")[0])     # "5" from "5.4"
     if not have:
-        fail("L", "no numbered section headings found in PAPER.md")
+        fail("M", "no numbered sections found in the resolved paper")
         return
-    docs = [PAPER] + [os.path.join("docs", f) for f in sorted(os.listdir("docs"))
-                      if f.endswith(".md") and f != os.path.basename(PAPER)]
+    docs = [os.path.join("docs", f) for f in sorted(os.listdir("docs"))
+            if f.endswith(".md") and f != os.path.basename(PAPER)]
+    docs += ["README.md"]
     for doc in docs:
         if not os.path.exists(doc):
             continue
         body = read(doc)
-        # Skip the historical drafts, which name the section they were proposed as.
         for m in re.finditer(r'§(\d+(?:\.\d+)?)', body):
             sec = m.group(1)
             if sec in have:
                 continue
             ctx = " ".join(body[max(0, m.start() - 90):m.start() + 40].split())
-            fail("L", f"{doc} points at §{sec}, which is not a section of the paper "
-                      f"— …{ctx}…")
+            fail("M", f"{doc} points at \u00a7{sec}, which is not a section of the paper "
+                      f"\u2014 \u2026{ctx}\u2026")
 
 
 def check_crossrefs():
@@ -540,6 +549,7 @@ def main():
     check_scripts_numbers()
     check_propagation()
     check_crossrefs()
+    check_section_refs()
     check_cross_vendor_disclosure()
     pend = report_pending()
     if FAIL:
@@ -560,6 +570,7 @@ def main():
     print("  J the unobtainable-snapshot disclosure is intact and consistent")
     print("  K reader-facing numbers inside scripts match the paper")
     print("  L cross-references derive from position; none typed by hand")
+    print("  M companion documents point only at sections the paper has")
     if pend:
         print(f"\nAWAITING THE AUTHORS ({len(pend)} item(s)) — not defects, and not "
               f"fillable by anyone else:")

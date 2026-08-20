@@ -7,9 +7,14 @@ context to act on each without reconstructing how we got here.
 Run this first; it re-checks the whole manuscript and prints the outstanding items:
 
 ```
-python scripts/check_manuscript.py     # gates A–H, then the pending list below
+python scripts/check_manuscript.py     # gates A–M, then the pending list below
 python scripts/verify_statistics.py    # every hand-rolled statistic vs SciPy
+python scripts/crossref.py docs/PAPER.md   # every figure/table/section reference resolves
+python scripts/build_pdf.py            # docs/paper.pdf, docs/paper.tex, docs/paper_esi.pdf
 ```
+
+`build_pdf.py` writes line numbers by default, which is what RSC asks for under review;
+set `LINENOS=0` for a reading copy.
 
 ---
 
@@ -65,7 +70,7 @@ reading of these spectra, or an implausible one?**
 
 ## 4. What is already verified (so you needn't re-do it)
 
-Gates A–H in `check_manuscript.py`, all negative-tested — a deliberately injected defect
+Gates A–M in `check_manuscript.py`, all negative-tested — a deliberately injected defect
 of each class fails the gate:
 
 - dataset counts against the released files (121,233 / 43,060 / 33,201; licence pools
@@ -77,6 +82,11 @@ of each class fails the gate:
 - every CI contains its point estimate
 - all 242 ground-truth structures reproduce the formula the solver was given
 - hardcoded figure values still match the scorers
+- every correction propagated to every file that made the claim
+- the unobtainable-snapshot disclosure is intact and consistent
+- reader-facing numbers inside scripts match the paper
+- cross-references derive from position, none typed by hand (`scripts/crossref.py`)
+- companion documents point only at sections the paper actually has
 
 Plus: every hand-rolled statistic agrees with SciPy (McNemar, Fisher, Wilson,
 point-biserial, CMH); **zero answer leaks** across 3,604 prompt/answer pairs; and every

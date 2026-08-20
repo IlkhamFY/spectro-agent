@@ -23,7 +23,7 @@ Checks:
   I  a claim corrected in one document is corrected in all of them
   J  the model-snapshot disclosure is intact and internally consistent
   K  reader-facing numbers written into scripts still match the paper
-  L  every section cross-reference names a section the paper actually has
+  L  cross-references are derived from position, and none is typed by hand
 """
 import gzip, json, os, re, sys
 
@@ -127,8 +127,11 @@ def check_fractions(md):
 def check_refs(md):
     bib = read("docs/references.bib")
     defined = set(re.findall(r'@\w+\{([^,]+),', bib))
+    # [@sec:…], [@fig:…], [@tab:…], [@sfig:…] are cross-references, not citations;
+    # they share the bracket-@ syntax and would otherwise read as undefined bib keys.
     used = {k.rstrip('.,;') for k in re.findall(
-        r'@([A-Za-z][\w:.-]*)', ' '.join(re.findall(r'\[([^\]]*@[^\]]*)\]', md)))}
+        r'@([A-Za-z][\w:.-]*)', ' '.join(re.findall(r'\[([^\]]*@[^\]]*)\]', md)))
+        if not k.startswith(('sec:', 'fig:', 'tab:', 'sfig:'))}
     for k in sorted(used - defined):
         fail("C", f"citation @{k} is used but not defined in references.bib")
     for k in sorted(defined - used):
@@ -454,6 +457,41 @@ def check_section_refs():
                       f"— …{ctx}…")
 
 
+def check_crossrefs():
+    """Numbers that point at something must be derived from where it sits.
+
+    Check L used to verify that a typed section number named a real heading. That was the
+    weaker half of the problem: 202 numbers were typed by hand, and a typed number can be
+    perfectly valid on the day it is written and wrong the moment anything moves. It had
+    already happened -- Table 9 sat physically before Tables 6 to 8 in the merged text,
+    because §4.7 was inserted after them and its table kept the number it was given.
+
+    So the gate now enforces the mechanism, not the outcome: every reference resolves,
+    every label is defined once, and no bare "Fig. N" / "Table N" / "§N" survives in the
+    source at all.
+    """
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("crossref", "scripts/crossref.py")
+    cr = importlib.util.module_from_spec(spec); spec.loader.exec_module(cr)
+    md = read(PAPER)
+    try:
+        a = cr.audit(md)
+    except KeyError as e:
+        fail("L", f"cross-reference does not resolve: {e}")
+        return
+    for r in a["undefined"]:
+        fail("L", f"reference to a label that is never defined: {r}")
+    for t in sorted(set(a["typed"])):
+        fail("L", f"hand-typed cross-reference {t!r} — use [@sec:…], [@tab:…], "
+                  f"[@fig:…] or [@sfig:…] so the number follows the object")
+    # a resolved document must number its tables in the order a reader meets them
+    import re as _re
+    out, _ = cr.resolve(md)
+    seq = [int(m.group(1)) for m in _re.finditer(r'\*\*Table (\d+)\.', out)]
+    if seq != sorted(seq):
+        fail("L", f"tables are not in reading order after resolution: {seq}")
+
+
 def check_cross_vendor_disclosure():
     """What has been run against a vendor must match what MODELS.md says was run.
 
@@ -501,7 +539,7 @@ def main():
     check_snapshot_disclosure()
     check_scripts_numbers()
     check_propagation()
-    check_section_refs()
+    check_crossrefs()
     check_cross_vendor_disclosure()
     pend = report_pending()
     if FAIL:
@@ -521,7 +559,7 @@ def main():
     print("  I every correction propagated to every file that made the claim")
     print("  J the unobtainable-snapshot disclosure is intact and consistent")
     print("  K reader-facing numbers inside scripts match the paper")
-    print("  L every § cross-reference names a section that exists")
+    print("  L cross-references derive from position; none typed by hand")
     if pend:
         print(f"\nAWAITING THE AUTHORS ({len(pend)} item(s)) — not defects, and not "
               f"fillable by anyone else:")

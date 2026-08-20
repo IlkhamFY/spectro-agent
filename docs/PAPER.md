@@ -25,7 +25,7 @@ The bottleneck is not the model's judgment but its *proposal*. Across the whole 
 the model proposes the true structure for only **34%** of compounds; where it does,
 forward-verification — predicting each candidate's ¹³C spectrum and re-ranking by agreement
 with the observed one — selects it **89%** of the time (58/65; 81% on the 37 where more than
-one candidate existed, §5.2). **Recall, not verification, is the wall.**
+one candidate existed, [@sec:result]). **Recall, not verification, is the wall.**
 
 We contribute three things. **IRexp**, the largest openly redistributable collection of
 *experimental* infrared band lists (121,233 records, a third structure-linked), mined from
@@ -37,24 +37,24 @@ run over every benchmark compound. The two levers are distinct and we keep them 
 verification re-ranks a fixed candidate set and lifts top-1 from 28% to 30%, while
 *generating wider* is what moves recall — 32% to 42%, carrying top-1 from 23% to 30% on the
 arm where both were tested. Every top-1 step is directional rather than statistically
-resolved (§5.2, §5.3); the recall gain is the better-supported effect.
+resolved ([@sec:result], [@sec:generate-wide-testing-recipe]); the recall gain is the better-supported effect.
 
 Those gains stop short of a ceiling, and the ceiling belongs to training-free elicitation
 rather than to the task: a small generator fine-tuned on IRexp lifts recall substantially
-and gives the highest full-benchmark accuracy we report (§5.6). But the wall moves rather
+and gives the highest full-benchmark accuracy we report ([@sec:recall-wall-task-intrinsic]). But the wall moves rather
 than falls — the true
 structure stays outside the candidate pool for roughly half of compounds. Two independent
 contamination controls confirm the spectra do the work: masking them drops top-1 from 23%
 to 5% on the same compounds, and accuracy is flat in the publication year of the source
-paper (§4.6). The decomposition is not confined to one lineage: on the same 60 compounds,
+paper ([@sec:model-reading-spectra-formula]). The decomposition is not confined to one lineage: on the same 60 compounds,
 Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all verify better than they generate, and three
-of six non-Claude models exceed our headline model's recall (§4.7). The core protocol uses no model training and no paid API — two clearly-fenced
-probes (§5.4, §5.6) are the only exceptions — and all data, predictions, and code are
+of six non-Claude models exceed our headline model's recall ([@sec:diagnosis-hold-outside-one]). The core protocol uses no model training and no paid API — two clearly-fenced
+probes ([@sec:non-llm-verifiers-deterministic], [@sec:recall-wall-task-intrinsic]) are the only exceptions — and all data, predictions, and code are
 released.
 
 ---
 
-## 1. Introduction
+## Introduction {#sec:introduction}
 
 Determining a molecule's structure from its spectra is a central, time-consuming
 task in synthetic and analytical chemistry. The dominant machine-learning approach
@@ -78,32 +78,32 @@ requires (i) a large, diverse, real benchmark; (ii) a blind, reproducible scorin
 protocol; and (iii) honest accounting for the methodological choices that inflate
 or deflate the apparent score.
 
-We provide all three. We build IRexp (§2), a literature-mined dataset that supplies
+We provide all three. We build IRexp ([@sec:irexp-dataset]), a literature-mined dataset that supplies
 the IR modality absent from prior LLM evaluations alongside paired NMR and resolved
-structures. We define a blind benchmark on it (§3) and measure inverse-elucidation
-performance under matched and mismatched methodologies (§4), isolating a large
+structures. We define a blind benchmark on it ([@sec:benchmark-design-irspectra-bench]) and measure inverse-elucidation
+performance under matched and mismatched methodologies ([@sec:well-llms-elucidate-real]), isolating a large
 solver-methodology effect with a within-compound control. We then introduce
-forward-verification elucidation (§5), a training-free method that turns the model's
+forward-verification elucidation ([@sec:forward-verification-elucidation]), a training-free method that turns the model's
 *strong* direction (forward prediction) against its *weak* one (inverse
 regiochemistry), and use it to localise the bottleneck. The central finding is a sharp asymmetry:
 given a candidate set that contains it, the model *verifies* the correct structure 89% of the time,
 yet *proposes* it for only 34% of compounds — recall, not verification, is the wall
-(Fig. 1).
+([@fig:fig-wall]).
 
-![The diagnosis in one glance: all 194 benchmark compounds as a single part-to-whole bar. The true structure is verified top-1 for 58 (green), recalled but mis-ranked for 7 (vermilion), and never proposed for 129 (grey) — *the wall*, 66% of the bar. Generation recall is 65/194 = 34%; conditional verification precision is 58/65 = 89%; their product is the 30% end-to-end top-1. The two rates have different denominators and are not differenced.](docs/figures/fig_wall.png)
+![The diagnosis in one glance: all 194 benchmark compounds as a single part-to-whole bar. The true structure is verified top-1 for 58 (green), recalled but mis-ranked for 7 (vermilion), and never proposed for 129 (grey) — *the wall*, 66% of the bar. Generation recall is 65/194 = 34%; conditional verification precision is 58/65 = 89%; their product is the 30% end-to-end top-1. The two rates have different denominators and are not differenced.](docs/figures/fig_wall.png){#fig:fig-wall}
 
-The end-to-end study design is summarised in Fig. S1. Throughout, the
+The end-to-end study design is summarised in [@sfig:overview]. Throughout, the
 solver and verifier are LLM agents run under a
 consumer subscription — no fine-tuning, no API spend. That makes the protocol cheap to
 *re-run*, but cheap is not the same as reproducible: the subscription harness pins no model
 snapshot, exposes no temperature or seed, and carries an undisclosed product system prompt,
-so an outside group reproduces it distributionally rather than exactly (§8). What *is*
+so an outside group reproduces it distributionally rather than exactly ([@sec:methods]). What *is*
 exactly reproducible is the scoring — all predictions, ground truth and scorers are
-released, so every number in the training-free core (§3–§5.3, §4.6) regenerates from the
-released artifacts. Two rows are the exception: §5.4's HOSE lookup and GNN are built from
+released, so every number in the training-free core ([@sec:benchmark-design-irspectra-bench]–[@sec:generate-wide-testing-recipe], [@sec:model-reading-spectra-formula]) regenerates from the
+released artifacts. Two rows are the exception: [@sec:non-llm-verifiers-deterministic]'s HOSE lookup and GNN are built from
 an nmrshiftdb2 dump we cannot redistribute, so they regenerate only once a reader supplies
 the same dump (see *Data and code availability*). The two trained probes — that GNN
-verifier and the §5.6 generator — are reported separately, as fenced complements to the
+verifier and the [@sec:recall-wall-task-intrinsic] generator — are reported separately, as fenced complements to the
 training-free protocol rather than part of it.
 By construction this is an open-resource contribution in the remit of *Digital Discovery*:
 an openly licensed, structure-linked spectral dataset; a pre-registered, mechanically scored
@@ -120,14 +120,14 @@ models stand over a leaderboard-topping number.
    with a reproducible mining pipeline. The claim is scoped to that object type
    deliberately: view-only libraries such as SDBS hold more structure-linked *spectra*,
    and commercial libraries are larger still — neither is redistributable, and neither is
-   what IRexp competes with (§2.1).
+   what IRexp competes with ([@sec:motivation]).
 2. An **open multimodal benchmark** — to our knowledge the first blind, mechanically
    scored, complexity-stratified evaluation of frontier-LLM structure elucidation on real
    spectra — measured in depth on one model family (Claude) and replicated across three
-   others (§4.7), which reconciles the gap to optimistic prior reports. Crucially, the ground truth is experimental
+   others ([@sec:diagnosis-hold-outside-one]), which reconciles the gap to optimistic prior reports. Crucially, the ground truth is experimental
    structures from the published literature, resolved deterministically (OPSIN/RDKit) and
    checked against the source articles mechanically (560/560 bands confirmed on a
-   seed-fixed sample, §2.3; the *expert-chemist* review is prepared but not yet run, §7):
+   seed-fixed sample, [@sec:contents-licensing]; the *expert-chemist* review is prepared but not yet run, [@sec:limitations]):
    no LLM curates the labels or scores the predictions. The model is the system under
    test, not the source of its own answers.
 3. A **diagnostic decomposition** of LLM elucidation into recall and verification,
@@ -135,12 +135,12 @@ models stand over a leaderboard-topping number.
    a training-free forward-verification probe run over **every** benchmark compound. The
    generate-and-forward-verify loop itself is prior art — NMR-Solver[@jin2025nmrsolver]
    implements it without an LLM and reports higher accuracy with a sharper predictor
-   (§1.1); what is ours is the decomposition it enables, not the loop. It
+   ([@sec:related-work]); what is ours is the decomposition it enables, not the loop. It
    yields a bounded improvement (top-1 28%→30% on n=194; 23%→30% on the 60-compound arm
    where wide generation was also tested) but, by our own measurements, cannot exceed a
    recall/precision ceiling without sharper verification or 2D-NMR data.
 
-### 1.1 Related work
+### Related work {#sec:related-work}
 
 **Trained spectra→structure models.** The dominant line trains sequence or graph
 decoders to emit structures from spectra: *Spectro* (¹H/¹³C/IR→SELFIES)[@chacko2024spectro], the
@@ -187,7 +187,7 @@ by the same group to **63.8% top-1 / 84.0% top-10 on experimental NIST gas-phase
 given the formula, pretraining on 1,399,806 simulated spectra[@alberts2025benchmarks]. That line is
 the state of the art for *trained, formula-conditioned IR* elucidation. Its evaluation is
 restricted to **6–13 heavy atoms**, which is the size range where our own accuracy is
-highest — 60.5% top-1 for ≤15 heavy atoms (§4.1) — so on comparable molecules the
+highest — 60.5% top-1 for ≤15 heavy atoms ([@sec:headline-performance]) — so on comparable molecules the
 training-free LLM and the purpose-trained transformer are closer than the headline
 numbers suggest; the gap our benchmark exposes opens up at the *larger* sizes their
 evaluation excludes (7.0% above 25 heavy atoms). IRexp instead
@@ -212,7 +212,7 @@ the natural frame for a system whose generator is a language model rather than a
 exhaustive enumerator, and no LLM elucidation benchmark had applied it. What we find is
 that the decomposition is stable under every perturbation we could run: four Claude
 models, a second chemical domain, and four different verifiers all stay recall-bound
-(§4.4, §4.5, §5.4). It is not tested outside the Claude family (§7).
+([@sec:model-comparison-benchmark-ranks], [@sec:domain-case-study-battery], [@sec:non-llm-verifiers-deterministic]). It is not tested outside the Claude family ([@sec:limitations]).
 
 **Computational NMR for structure validation.** Our forward-verification method is
 the LLM analog of a workflow chemists already trust: assign a structure by computing
@@ -238,13 +238,13 @@ without any LLM: it retrieves and fragment-recombines candidates, then ranks the
 ¹H/¹³C shifts forward-predicted with NMRNet (¹³C MAE 1.098 ppm) against the observed
 spectrum. On ~450 experimental literature spectra with the formula supplied it reports
 **52.89% top-1**, well above our 28.4%. We do not claim the loop as a contribution;
-§5 asks a different question — *how much of the remaining error is generation and how
-much is verification* — and answers it by decomposition (§5.2) rather than by building
+[@sec:forward-verification-elucidation] asks a different question — *how much of the remaining error is generation and how
+much is verification* — and answers it by decomposition ([@sec:result]) rather than by building
 a better solver. The comparison is in fact the sharpest external evidence for our
 central mechanistic claim: NMR-Solver's predictor is roughly twice as sharp as the
-~2 ppm LLM forward-predictor whose resolution §5.1 identifies as the binding
+~2 ppm LLM forward-predictor whose resolution [@sec:method] identifies as the binding
 constraint, and it converts that sharpness into roughly twice the top-1. That is what
-our §5.4 ablation predicts and what §5.1's separability measurement implies.
+our [@sec:non-llm-verifiers-deterministic] ablation predicts and what [@sec:method]'s separability measurement implies.
 **NMRAgent**[@fang2026nmragent] is the closest LLM-agent counterpart, coupling spectral
 tools to a knowledge graph and validating on newly isolated natural products; it is
 complementary to our aim, which is measurement of an off-the-shelf model rather than a
@@ -252,9 +252,9 @@ best-effort system.
 
 ---
 
-## 2. The IRexp dataset
+## The IRexp dataset {#sec:irexp-dataset}
 
-### 2.1 Motivation
+### Motivation {#sec:motivation}
 
 **What an IRexp record is.** Each record is a **band list** — the peak positions in cm⁻¹
 that an author transcribed into the text of a paper (e.g. "IR (KBr): 3373, 3045, 2914,
@@ -284,7 +284,7 @@ lists** by record count. The claim is scoped to that object type deliberately; t
 contribution is redistributable scale in the published-data modality, not a spectral
 library.
 
-### 2.2 Construction
+### Construction {#sec:construction}
 
 A per-compound IR band list, together with co-reported ¹H/¹³C NMR, follows a
 remarkably stable textual convention in the experimental sections of organic
@@ -317,9 +317,9 @@ parses at hundreds of papers per second, which is what makes a 10⁵-scale harve
 feasible where a per-page browser driver (as used to build prior 10³-scale sets)
 is not.
 
-### 2.3 Contents and licensing
+### Contents and licensing {#sec:contents-licensing}
 
-**Table 1. IRexp dataset contents and provenance.**
+**Table {#tab:irexp-dataset-contents-provenance}. IRexp dataset contents and provenance.**
 
 | field | value |
 |---|--:|
@@ -350,18 +350,18 @@ article's text: **560/560 bands and 60/60 records were confirmed** (Wilson 95% C
 and 94–100% respectively). This bounds *transcription* error — hallucinated, mis-parsed or
 unit-mangled values — at under 1% of bands. It does **not** measure whether the parser
 found every IR string in every paper, which is a recall question that requires human
-reading; that manual audit is prepared but not yet run (§7). The audit record is released
+reading; that manual audit is prepared but not yet run ([@sec:limitations]). The audit record is released
 at `data/audit/extraction_audit.json`.
 
 A structure-complete split, **`irexp_resolved`** (43,060 records, 100%
 structure-linked), is the training-/benchmark-ready subset and is ~6× the
-6,833-molecule set used to train Spectro[@chacko2024spectro] (Fig. S2). Every record is
+6,833-molecule set used to train Spectro[@chacko2024spectro] ([@sfig:dataset]). Every record is
 DOI-/accession-traceable, and re-resolution is additive and content-keyed, so the dataset
 can be re-enriched with better name-to-structure tooling without re-mining the literature.
 
 ---
 
-## 3. Benchmark design (IRSpectra-Bench)
+## Benchmark design (IRSpectra-Bench) {#sec:benchmark-design-irspectra-bench}
 
 From `irexp_resolved` we draw **IRSpectra-Bench**, 194 blind elucidation problems.
 Each problem presents the **molecular formula** (as from HRMS), the **IR band
@@ -390,7 +390,7 @@ leaves every conclusion in this paper unchanged. Readers who prefer the stricter
 regenerate it from the diagnostic. The 60 compounds of the controlled rounds are
 retained as fixed, pre-registered sets for the difficulty and within-compound controls,
 with the same self-consistency audit reported separately rather than used to exclude
-(57/60 pass; §7).
+(57/60 pass; [@sec:limitations]).
 
 **Difficulty is a declared property of the compound, not a post-hoc label.** Problems are
 stratified by RDKit ring analysis: a compound is **simple** iff it has at most two rings
@@ -402,7 +402,7 @@ compounds) is classed complex on size alone. Nor is the 22-atom threshold load-b
 sweeping it from 18 to 26 moves the simple-minus-complex top-1 gap only between 36 and 40
 points (39.6 at the released value), so the separation is a property of the compounds
 rather than of where the line was drawn (`scripts/difficulty_sensitivity.py`). This binary
-axis is distinct from the continuous size gradient of §4.1, which bins by heavy-atom count
+axis is distinct from the continuous size gradient of [@sec:headline-performance], which bins by heavy-atom count
 (≤15 / 16–25 / >25). InChIKey de-duplication is applied across all rounds to prevent
 leakage.
 
@@ -433,7 +433,7 @@ reference is present in the candidate pool *before* re-ranking — the ceiling a
 can reach. Recovered (top-3) and generation recall share the same denominator (all
 compounds) and differ only in which candidate set is searched: the up-to-three returned,
 versus the full pool. They therefore coincide wherever the pool is the returned three,
-which is everywhere except the generate-wide arm of §5.3, where the pool is larger. The
+which is everywhere except the generate-wide arm of [@sec:generate-wide-testing-recipe], where the pool is larger. The
 denominator changes only for conditional-on-recall precision, which is taken over
 recall-positive compounds alone. **Conditional-on-recall precision** is the verifier's hit rate over
 recall-positive compounds only, isolating verification quality from generation. The
@@ -469,19 +469,19 @@ the weakest-constrained one. `scripts/analyze_misses.py` regenerates the breakdo
 
 ---
 
-## 4. How well do LLMs elucidate real structures?
+## How well do LLMs elucidate real structures? {#sec:well-llms-elucidate-real}
 
-### 4.1 Headline performance
+### Headline performance {#sec:headline-performance}
 
 Solver agents work blind from formula + IR + ¹H + ¹³C and return up to three ranked
 candidates. Each agent handles a small batch of problems in a bounded context that is
 reset between batches (2–12 compounds per context in the released run; see
 `data/benchmark_main/raw/`), rather than one long context over the whole benchmark —
-the arm §4.3 shows matters. Over the full
+the arm [@sec:methodology-dominates-within-compound] shows matters. Over the full
 **194-compound benchmark** (134 spectrally-validated compounds + the 60 from the
 controlled rounds), with bootstrap 95% confidence intervals:
 
-**Table 2. Headline elucidation performance on IRSpectra-Bench (n=194)**, overall and by difficulty stratum, with bootstrap 95% CIs.
+**Table {#tab:headline-elucidation-performance-irspectra}. Headline elucidation performance on IRSpectra-Bench (n=194)**, overall and by difficulty stratum, with bootstrap 95% CIs.
 
 | metric | overall (n=194) | simple (n=98) | complex (n=96) |
 |---|--:|--:|--:|
@@ -498,14 +498,14 @@ fully overlapping intervals, so the asymmetric inclusion of the pre-registered c
 drive the result.
 
 The gradient is sharp and the intervals are tight. The 48%→8% simple→complex
-separation (Fig. 2) confirms the benchmark is discriminating across a realistic
+separation ([@fig:fig1-difficulty]) confirms the benchmark is discriminating across a realistic
 difficulty range, and accuracy falls monotonically with molecular size in step with
 it — top-1 **60.5%** for ≤15 heavy atoms, 28.3% for 16–25, and **7.0%** above 25
-(Fig. S3). The model recovers molecular formula and functional groups reliably and the
+([@sfig:size]). The model recovers molecular formula and functional groups reliably and the
 scaffold often (best Tanimoto ≥ 0.45 for 56% of compounds), but the exact constitution
 far less often.
 
-![Top-1 and recovered accuracy on IRSpectra-Bench by difficulty (all / simple / complex, n=194), with bootstrap 95% confidence intervals. The benchmark separates a realistic difficulty range: simple targets are solved four to six times as often as complex ones on both metrics.](docs/figures/fig1_difficulty.png)
+![Top-1 and recovered accuracy on IRSpectra-Bench by difficulty (all / simple / complex, n=194), with bootstrap 95% confidence intervals. The benchmark separates a realistic difficulty range: simple targets are solved four to six times as often as complex ones on both metrics.](docs/figures/fig1_difficulty.png){#fig:fig1-difficulty}
 
 What a failure actually looks like is measurable rather than a matter of impression, so
 we measured it over all 139 top-1 misses (`scripts/analyze_misses.py`). **76.6% are
@@ -525,7 +525,7 @@ why 2D experiments such as HMBC and NOESY exist), but the honest statement is *w
 connectivity at the right composition*, with strict regiochemistry a well-defined
 minority of it.
 
-### 4.2 Reconciling with prior reports
+### Reconciling with prior reports {#sec:reconciling-prior-reports}
 
 Our 28% top-1 sits far below the ~100% on "simple" molecules reported, in a
 non-peer-reviewed company white paper, for the same model class.[@kamber2026chemist] Because that figure
@@ -539,14 +539,14 @@ them but not apportion the gap between them, so we do not claim a decomposition:
   includes, e.g., a hexasubstituted benzene whose regiochemistry has many
   realisations. A low ring count is therefore no guarantee of an easy problem — though
   a high one is a strong difficulty signal, since ≥4 rings appear in 38% of
-  recall-negative compounds against 3% of recall-positive (§5.3). Ring count bounds
+  recall-negative compounds against 3% of recall-positive ([@sec:generate-wide-testing-recipe]). Ring count bounds
   difficulty from below, it does not proxy for it.
 - **Scoring.** Prior work counts a recovery if the reference appears among three
   ranked candidates over three independent runs; we report single-run top-1 and
   top-3.
 - **Hints.** Prior hard targets received the starting-material SMILES, which fixes
   most of the scaffold; we give no starting material. We do supply the molecular
-  formula, which is itself a real constraint — §4.6 measures what it is worth alone
+  formula, which is itself a real constraint — [@sec:model-reading-spectra-formula] measures what it is worth alone
   (5% top-1 with the spectra masked) — so our setting is *less* hinted than that
   comparison but more hinted than the formula-free generative baselines discussed
   below.
@@ -569,7 +569,7 @@ heterogeneous literature-reported band lists, and its input is IR alone,
 but it is experimental data and the number stands. The two evaluations barely overlap:
 our compounds span 8–60 heavy atoms (median 20) and only **15 of 194 (8%)** fall inside
 their 6–13 window. Against our own ≤15-heavy-atom stratum (60.5%) their 63.8% is a
-near-tie; the divergence is a property of molecular size, which is exactly what §4.1
+near-tie; the divergence is a property of molecular size, which is exactly what [@sec:headline-performance]
 measures and what an evaluation capped at 13 heavy atoms cannot see.
 
 The multimodal systems — those conditioning on IR *and* NMR, as we do — report higher
@@ -583,14 +583,14 @@ molecules from a *simulated* corpus drawn from the training distribution (an 8:1
 split of the ~790k-molecule simulated set of Alberts et al.), a limitation its authors
 state themselves[@ottomano2025nmiracle]. We measure
 28.4% top-1 (33.5% top-3) on the full n=194 benchmark — rising to 29.9% with forward
-verification over that same full benchmark (§5) — on **blind, real,
+verification over that same full benchmark ([@sec:forward-verification-elucidation]) — on **blind, real,
 literature-mined experimental** spectra of out-of-distribution compounds.
 
 One asymmetry runs the other way and must be stated, because it cuts against us.
 NMIRacle takes **no molecular formula**; its authors explicitly count "assumptions of
 strong prior information, such as chemical formula or molecular scaffold" among the
-limitations of prior work. We *do* supply the formula (§3), which is a substantial
-constraint — it fixes composition and, as §4.6 shows, alone accounts for 5% top-1. So
+limitations of prior work. We *do* supply the formula ([@sec:benchmark-design-irspectra-bench]), which is a substantial
+constraint — it fixes composition and, as [@sec:model-reading-spectra-formula] shows, alone accounts for 5% top-1. So
 the two settings differ on two axes at once and in opposite directions: our spectra are
 real and out-of-distribution where theirs are simulated and in-distribution, but their
 input is strictly harder than ours. Neither number bounds the other. These are
@@ -598,16 +598,16 @@ not comparable as a leaderboard; read only as a *bound on the simulated-to-real 
 contrast suggests that high in-distribution accuracies substantially overstate
 real-world performance — the same gap we document for the LLM above. The instability
 of the metric itself reinforces the caution: the same ~40× MolPuzzle swing documented in
-§1.1 (GPT-4o: 1.4%[@guo2024molpuzzle] to 27.8% to 57.8%[@zhuang2025treesearch], method- and harness-dependent) bounds how much weight any
+[@sec:related-work] (GPT-4o: 1.4%[@guo2024molpuzzle] to 27.8% to 57.8%[@zhuang2025treesearch], method- and harness-dependent) bounds how much weight any
 single unaudited near-100% claim[@kamber2026chemist] can bear.
 
-### 4.3 Methodology dominates: a within-compound control
+### Methodology dominates: a within-compound control {#sec:methodology-dominates-within-compound}
 
 The same 20 molecules were solved two ways: (a) by a single LLM context handling
 all of them sequentially with no tools, and (b) by four independent agents of five
 compounds each, with RDKit formula-checking — i.e. bounded, reset contexts. On the *identical* compounds, **recovered (top-3)** rose from
 **5% to 15%** (1/20 → 3/20) and top-1 from 0% to 15% (0/20 → 3/20), with zero sample
-confound. Because §3 pins McNemar's exact test for paired comparisons we apply it here
+confound. Because [@sec:benchmark-design-irspectra-bench] pins McNemar's exact test for paired comparisons we apply it here
 too, and it does not reach significance: the top-1 arm is necessarily nested (arm (a)
 solved none) at b=0, c=3, giving **p=0.25**, and the recovered arm reaches at best
 **p=0.5**. The 15% point estimate carries a Wilson 95% CI of roughly 5–36%. This is
@@ -622,26 +622,26 @@ Read that way it still plausibly explains *part* of the gap to optimistic prior 
 whose per-problem API calls implicitly used method (b) — but it is a hypothesis about
 that gap, not a quantified contribution to it.
 
-### 4.4 Model comparison: the benchmark ranks capability (and separates the extremes)
+### Model comparison: the benchmark ranks capability (and separates the extremes) {#sec:model-comparison-benchmark-ranks}
 
 A benchmark is only useful if it separates models. We therefore solved a fixed
 24-compound subset blind with four Claude models spanning a wide capability range,
 including the newest (Fable 5), under one prompt, one scorer and one candidate budget
-(Fig. 3, Table 3).
+([@fig:fig5-models], [@tab:four-model-comparison-fixed]).
 
-One asymmetry in that protocol must be disclosed, because §4.3 shows the variable it
+One asymmetry in that protocol must be disclosed, because [@sec:methodology-dominates-within-compound] shows the variable it
 concerns has a large effect. The three comparison models each solved the 24 compounds as
 four six-compound contexts, whereas the Opus column reuses the headline run, in which
 those same 24 items were packed as one six-compound and two twelve-compound contexts.
-Context packing is exactly the factor §4.3 measures at 5%→15%, so the Opus point estimate
+Context packing is exactly the factor [@sec:methodology-dominates-within-compound] measures at 5%→15%, so the Opus point estimate
 is not strictly protocol-matched to the other three and, if anything, is the arm
 handicapped by longer contexts. This does not affect the nesting or the Fable-vs-Haiku
 contrast, but a clean re-run of the Opus arm under four six-compound contexts is the right
 fix and is listed as outstanding in `docs/MODELS.md`.
 
-![Four-model comparison on a fixed 24-compound subset, solved blind under one protocol: Fable 5 46% > Opus 25% > Sonnet 21% > Haiku 0% top-1. The outcomes are strictly nested — each stronger model solves a superset of the weaker one's compounds — so the benchmark is capability-sensitive, but at n=24 it is underpowered to separate adjacent models (§4.4).](docs/figures/fig5_models.png)
+![Four-model comparison on a fixed 24-compound subset, solved blind under one protocol: Fable 5 46% > Opus 25% > Sonnet 21% > Haiku 0% top-1. The outcomes are strictly nested — each stronger model solves a superset of the weaker one's compounds — so the benchmark is capability-sensitive, but at n=24 it is underpowered to separate adjacent models ([@sec:model-comparison-benchmark-ranks]).](docs/figures/fig5_models.png){#fig:fig5-models}
 
-**Table 3. Four-model comparison on a fixed 24-compound subset** under the identical blind protocol.
+**Table {#tab:four-model-comparison-fixed}. Four-model comparison on a fixed 24-compound subset** under the identical blind protocol.
 
 | model | top-1 | recovered | top-1 95% CI |
 |---|--:|--:|--:|
@@ -664,7 +664,7 @@ multiple-comparison correction (Holm-adjusted p=0.006); the Fable-vs-Opus gap is
 significant (uncorrected p=0.063, Holm-adjusted p=0.19), and Opus vs Sonnet are
 statistically indistinguishable — the
 bootstrap CIs above overlap accordingly. Second, two mid-tier frontier models agree
-closely (Opus 25%, Sonnet 21%), so the recall-bound regime of §4.1 (top-1 in the
+closely (Opus 25%, Sonnet 21%), so the recall-bound regime of [@sec:headline-performance] (top-1 in the
 high-20s%) is **not an artefact of a single model**. Third, the newest model nearly **doubles** the
 next-best top-1 (46% vs 25% on identical compounds; a large but, at this n,
 not-yet-significant gap) yet still misses the majority — IRSpectra-Bench is **hard and
@@ -675,7 +675,7 @@ access we deliberately did without, but the monotonic, large capability spread m
 it unlikely the recall-bound pattern is specific to one model lineage. This is the
 behaviour a benchmark needs to remain informative as models improve.
 
-### 4.5 Domain case study: battery-electrolyte chemistry
+### Domain case study: battery-electrolyte chemistry {#sec:domain-case-study-battery}
 
 Structure elucidation from spectra is the daily inverse problem of the
 electrolyte-and-interphase community: the soluble decomposition products of
@@ -710,10 +710,10 @@ form: the true structure enters the candidate set for only 13 of 46 compounds, a
 those 13 the solver already ranks it first in 12, so ranking is not what limits this
 subset either. We did **not** run forward-verification here, so this reproduces the
 recall-bound pattern under the solver's own ranking; it does not independently reproduce
-the §5 verification-precision measurement. The per-class
-breakdown (Fig. S4) is itself informative:
+the [@sec:forward-verification-elucidation] verification-precision measurement. The per-class
+breakdown ([@sfig:electrolyte]) is itself informative:
 
-**Table 4. Per-class performance on IRSpectra-Bench-Electrolyte (n=46).**
+**Table {#tab:per-class-performance-irspectra}. Per-class performance on IRSpectra-Bench-Electrolyte (n=46).**
 
 | electrolyte class | n | top-1 | 95% CI | recovered (top-3) | 95% CI |
 |---|--:|--:|--:|--:|--:|
@@ -740,15 +740,15 @@ distinct reasons that recur in real electrolyte analysis: sulfur/phosphorus
 constrained by ¹H/¹³C shifts alone (it lives in the IR and in heteronuclei the
 benchmark does not score); and nitrile-bearing targets in the corpus sit on
 heavily substituted heteroaromatic cores whose regiochemistry the 1D spectra
-underdetermine. This is the recall-bound failure of §4.1 reappearing in a
+underdetermine. This is the recall-bound failure of [@sec:headline-performance] reappearing in a
 domain-specific guise, and it is precisely where the **forward-verification**
-recipe of §5 — compute the spectrum each candidate *would* give and match it to
+recipe of [@sec:forward-verification-elucidation] — compute the spectrum each candidate *would* give and match it to
 the one observed — plays a role *analogous* to (not a replacement for) computational-NMR
 / NMR-crystallography structure validation, sharing its forward-prediction logic while
 trading DFT's calibrated accuracy for zero setup cost. The subset, its per-class answers, and the scorer are released
 with the benchmark.
 
-### 4.6 Is the model reading the spectra? A formula-only control
+### Is the model reading the spectra? A formula-only control {#sec:model-reading-spectra-formula}
 
 Because every benchmark compound is mined from open-access literature, a frontier model
 may have encountered it during pretraining. Benchmark contamination of this kind is a
@@ -776,7 +776,7 @@ batched run, so the bias runs *toward* the formula-only arm, and it still collap
 it, and the rule the discarded arm yielded — every condition must be generated in one
 campaign, control included — is why no leave-one-out modality result appears in this paper.
 
-**Table 5. Formula-only control**, paired on the same 60 compounds as §5.
+**Table {#tab:formula-only-control}. Formula-only control**, paired on the same 60 compounds as [@sec:forward-verification-elucidation].
 
 | condition | top-1 | recovered (top-3) |
 |---|--:|--:|
@@ -796,21 +796,21 @@ the source paper for **all 194** benchmark compounds from their accessions
 (`scripts/contamination_recency.py`); they span 2008–2026. Accuracy is flat: **28.6%** for
 the older half (≤2020, n=112) against **28.0%** for the newer (n=82), a point-biserial
 correlation between publication year and correctness of **r = −0.007**, and no monotone
-trend across year buckets (Fig. 4b). The most recent bucket (≥2024, n=25) is in fact the
+trend across year buckets ([@fig:fig-contamination]b). The most recent bucket (≥2024, n=25) is in fact the
 highest at 40% [23, 59].
 
-![Two contamination controls. (**a**) Removing the spectra: with only the molecular formula the solver reaches 3/60, against 14/60 with IR + ¹H + ¹³C on the same compounds. The outcomes are nested — 11 compounds are solved only with the spectra and none only without (McNemar exact p=0.001). (**b**) Accuracy against the publication year of the source paper (n=194, Wilson 95% CIs): flat, point-biserial r = −0.007. Recall out of pretraining would predict a decline with recency; none is observed.](docs/figures/fig_contamination.png)
+![Two contamination controls. (**a**) Removing the spectra: with only the molecular formula the solver reaches 3/60, against 14/60 with IR + ¹H + ¹³C on the same compounds. The outcomes are nested — 11 compounds are solved only with the spectra and none only without (McNemar exact p=0.001). (**b**) Accuracy against the publication year of the source paper (n=194, Wilson 95% CIs): flat, point-biserial r = −0.007. Recall out of pretraining would predict a decline with recency; none is observed.](docs/figures/fig_contamination.png){#fig:fig-contamination}
 
 The raw split is if anything biased *against* the newer half, because newer papers skew to
 larger molecules (median 22 heavy atoms against 20) and size is the dominant driver of
-lower accuracy (§4.1). Stratifying by heavy-atom band removes that confound. Newer
+lower accuracy ([@sec:headline-performance]). Stratifying by heavy-atom band removes that confound. Newer
 compounds lead in the two bands that carry most of the accuracy (≤15: 64% vs 58%; 16–25:
 34% vs 25%) and trail slightly in the largest band, where both are near the floor (>25:
 6% vs 8%). The size-adjusted older-minus-newer difference is **−5.1 points, 95% CI [−17.2, +7.0]**
 (Cochran–Mantel–Haenszel χ²=0.42, p=0.51, continuity-corrected). Its point estimate has the
 opposite sign from what recall out of pretraining would produce, but the interval
 comfortably includes zero — so this **bounds** any recency effect rather than demonstrating
-a reversed one, and by the same standard §5.3 applies to its own adjacent conditions we do
+a reversed one, and by the same standard [@sec:generate-wide-testing-recipe] applies to its own adjacent conditions we do
 not read it as directional.
 
 The 5% is not zero, and the three compounds are worth naming rather than rounding away —
@@ -833,25 +833,25 @@ for at most about a fifth of the headline accuracy on this set. Together with th
 result, the two controls are independent and agree. Neither is a randomised experiment —
 publication year is observational and the formula-only arm cannot distinguish memorisation
 from inference on a near-determining formula — so we claim a strong bound rather than
-exclusion (§7). The control record is released at
+exclusion ([@sec:limitations]). The control record is released at
 `data/modality/formulaonly_control.json`.
 
 
-### 4.7 Does the diagnosis hold outside one vendor? A four-vendor replication
+### Does the diagnosis hold outside one vendor? A four-vendor replication {#sec:diagnosis-hold-outside-one}
 
-Every number so far comes from one lineage, which §7 (iii) named as the most important
+Every number so far comes from one lineage, which [@sec:limitations] (iii) named as the most important
 external-validity gap in this work. We closed it. Six non-Claude models were run over the
-same 60 compounds as Table 6's first column, under the identical blind protocol — one
+same 60 compounds as [@tab:forward-verification-decomposition]'s first column, under the identical blind protocol — one
 fresh context per six compounds, closed-book, three ranked candidates — and the three
 whose output was well-formed enough to justify it were carried through forward
 verification as well.
 
-**Table 9. Cross-vendor decomposition on the 60-compound arm.** Recall and precision have
+**Table {#tab:cross-vendor-decomposition-60}. Cross-vendor decomposition on the 60-compound arm.** Recall and precision have
 different denominators, so the criterion is the inequality, not a difference.
 
 | model | generation recall | verification precision \| recall | multi-candidate only |
 |---|--:|--:|--:|
-| Claude Opus (Table 6) | 19/60 = 32% [21, 44] | 16/19 = **84%** [62, 94] | 10/13 = 77% |
+| Claude Opus ([@tab:forward-verification-decomposition]) | 19/60 = 32% [21, 44] | 16/19 = **84%** [62, 94] | 10/13 = 77% |
 | Grok 4.6 | 32/60 = **53%** [41, 65] | 20/32 = 62% [45, 77] | 20/32 = 62% |
 | Gemini 3.7 Flash | 30/60 = **50%** [38, 62] | 22/30 = 73% [56, 86] | 22/30 = 73% |
 | GPT-5.6 Sol | 25/60 = **42%** [30, 54] | 17/25 = 68% [48, 83] | 16/24 = 67% |
@@ -865,7 +865,7 @@ Two findings sit underneath that headline and matter more than it does.
 
 **Our own 84% was partly composition, and the cross-vendor data exposes it.** Six of
 Claude's nineteen recall-positive compounds carried a single candidate, so nothing was
-ranked and any verifier scores them by construction — §5.2 says so, but only against
+ranked and any verifier scores them by construction — [@sec:result] says so, but only against
 itself. The newer models return three distinct candidates almost always (0–1 singletons).
 Restricted to compounds where a choice actually existed, the four precisions fall in a
 band: 77%, 73%, 67%, 62%. The apparent Claude advantage largely dissolves.
@@ -874,7 +874,7 @@ band: 77%, 73%, 67%, 62%. The apparent Claude advantage largely dissolves.
 multi-candidate sets spans 62–77% across four families; recall spans 32–53%. That is a
 sharper statement of this paper's claim than we could make from one vendor: the wall is
 the generator, and the verifier is worth about the same wherever it is taken from. The
-ordering also reproduces §5.3's precision-loss mechanism across vendors — Grok proposes
+ordering also reproduces [@sec:generate-wide-testing-recipe]'s precision-loss mechanism across vendors — Grok proposes
 the most candidates (32 recall-positive) and ranks them worst (62%), exactly as widening
 a candidate pool costs precision within a single model.
 
@@ -887,7 +887,7 @@ The three weaker models are reported for completeness and excluded from the
 decomposition: Composer 2.5 (20% recall) and GPT-5.6 Luna (15%) return candidates matching
 the given formula only 67% and 76% of the time, and `nvidia/nemotron-3.5-lightning`
 managed 2%. A recall figure from a model that cannot emit a structure of the requested
-composition is not a statement about chemistry, and §4.1's scorer now prints
+composition is not a statement about chemistry, and [@sec:headline-performance]'s scorer now prints
 formula adherence beside recall so that this cannot be misread.
 
 **Contamination was controlled, not assumed.** These runs were driven by cloud agents with
@@ -904,8 +904,8 @@ descriptors, Gemini 0/2 and GPT-5.6 Sol 0/2, where a key-reader would have copie
 
 Two limits are worth stating plainly. The models were reached through a coding-assistant
 harness that exposes reasoning-effort tiers, a decoding control the Claude arm never had
-(§8), so these are measurements of a model *as served* rather than of a bare endpoint —
-the same class of object §8 already concedes for our own runs. And the clean-clone control
+([@sec:methods]), so these are measurements of a model *as served* rather than of a bare endpoint —
+the same class of object [@sec:methods] already concedes for our own runs. And the clean-clone control
 covers Grok; Gemini and GPT-5.6 Sol rest on the stereochemistry argument and the shared
 protocol. Per-model identifiers, raw replies and the control are released in
 `docs/MODELS.md` and `sweep_out/`.
@@ -913,9 +913,9 @@ protocol. Per-model identifiers, raw replies and the control are released in
 
 ---
 
-## 5. Forward-verification elucidation
+## Forward-verification elucidation {#sec:forward-verification-elucidation}
 
-### 5.1 Method
+### Method {#sec:method}
 
 The inverse direction is the model's hard, isomer-blind direction; the **forward**
 direction (structure→spectrum) is its easy, accurate one.[@kamber2026chemist] Regioisomers,
@@ -930,18 +930,18 @@ close a generator–verifier loop:
 This mirrors how a chemist confirms a structure ("if it were that isomer, C-3 would
 be at ~120 ppm; we observe 135, so it is the other"), exploits the standard
 principle that verification is easier than generation, and requires no training.
-**Fig. 5** shows the mechanism on a real benchmark pair — the picolinamide /
+**[@fig:fig-mechanism]** shows the mechanism on a real benchmark pair — the picolinamide /
 nicotinamide regioisomers, which the inverse task cannot separate but whose
 forward-predicted ¹³C spectra match the observed one at 0.42 vs 1.30 ppm.
 
-![Forward-verification on a real benchmark regioisomer pair. Picolinamide and nicotinamide are indistinguishable to the inverse task, but their forward-predicted ¹³C spectra are not: the true isomer matches the observed spectrum at a chamfer of 0.42 ppm against 1.30 ppm for the alternative. This is the LLM analog of the DP4 / NMR-crystallography logic, with a forward language model in place of the quantum chemistry (§5.1).](docs/figures/fig_mechanism.png)
+![Forward-verification on a real benchmark regioisomer pair. Picolinamide and nicotinamide are indistinguishable to the inverse task, but their forward-predicted ¹³C spectra are not: the true isomer matches the observed spectrum at a chamfer of 0.42 ppm against 1.30 ppm for the alternative. This is the LLM analog of the DP4 / NMR-crystallography logic, with a forward language model in place of the quantum chemistry ([@sec:method]).](docs/figures/fig_mechanism.png){#fig:fig-mechanism}
 
 We implemented the verifier as independent LLM agents that predict ¹³C shift lists from
 SMILES alone, using pure reasoning with no tools. All candidates from all compounds were
 pooled, canonicalised, shuffled and anonymised, then split into fixed-size batches, so a
 predictor sees neither the observed spectrum, nor the target's identity, nor which
 candidates belong to the same target. Batching does not separate a target's own
-candidates — in the §5.2 arm, 7 of 8 batches contained two candidates for some one
+candidates — in the [@sec:result] arm, 7 of 8 batches contained two candidates for some one
 compound — but because the predictor never sees an observed spectrum, co-occurrence
 carries no information about which candidate is correct; it can at most let the predictor
 notice that two structures are isomers, which is already evident from either alone.
@@ -954,7 +954,7 @@ predictor cannot separate the *ortho*- and *meta*-nitrophenyl regioisomers: thei
 predicted ¹³C lie within its ~2 ppm error, and it ranks the wrong (2-nitrophenyl) isomer
 first by a chamfer of 1.35 ppm versus 1.36 ppm for the true (3-nitrophenyl) one — a
 0.01 ppm margin, i.e. effectively a coin flip. This is the precision-loss mechanism of
-§5.3 made concrete: when candidates are near-degenerate the cheap predictor cannot
+[@sec:generate-wide-testing-recipe] made concrete: when candidates are near-degenerate the cheap predictor cannot
 resolve them, and it is exactly these cases — not generation failures — that a sharper
 (DFT-level) or 2D-NMR-grounded verifier would need to fix.
 
@@ -968,13 +968,13 @@ verifier exists to separate — the median separation is **1.21 ppm** (quartiles
 53% inside the error). So the honest form of the premise is not that regioisomers are
 predicted far apart; it is that they are predicted *slightly* apart, usually within the
 noise, and that the ranking nevertheless recovers the right one 89% of the time when it
-is present (§5.2) — a real effect on a thin margin, confirmed against a derangement null
-at p=0.001 (§5.5).
+is present ([@sec:result]) — a real effect on a thin margin, confirmed against a derangement null
+at p=0.001 ([@sec:negative-control]).
 
-This single measurement is the quantitative root of three limits the rest of §5 reports
+This single measurement is the quantitative root of three limits the rest of [@sec:forward-verification-elucidation] reports
 separately: precision falling 84%→72% as more near-degenerate isomers enter the pool
-(§5.3), the 74% derangement chance floor (§5.5), and the near-degenerate ceiling that
-neither the HOSE lookup nor the GNN escapes (§5.4). All three are the same fact seen from
+([@sec:generate-wide-testing-recipe]), the 74% derangement chance floor ([@sec:negative-control]), and the near-degenerate ceiling that
+neither the HOSE lookup nor the GNN escapes ([@sec:non-llm-verifiers-deterministic]). All three are the same fact seen from
 different angles — the predictor's resolution and the isomers' spacing are of the same
 order, so a sharper predictor, not a better search, is what would move them.
 
@@ -986,7 +986,7 @@ the 1.21 ppm median spacing we measure between competing candidates, where our L
 predictor sits at or above it. A community benchmark now exists to compare such models on
 common ground,[@xu2025nmrbench] alongside curated experimental shift sets for calibrating
 them.[@cohen2023delta50] Dropping one into the verifier slot is the single change most
-likely to move §5.2's 89%, and §5.4 takes a first step in exactly that direction with a
+likely to move [@sec:result]'s 89%, and [@sec:non-llm-verifiers-deterministic] takes a first step in exactly that direction with a
 model we train ourselves.
 
 Conceptually this is **analogous to NMR-crystallography logic, with an LLM in place of
@@ -1000,16 +1000,16 @@ posterior probability) for a predictor that runs in seconds at zero setup, and w
 quantify below exactly how far that cheaper, uncalibrated verifier carries the inverse
 problem.
 
-### 5.2 Result
+### Result {#sec:result}
 
 We ran the verifier over **every compound in the benchmark**: 373 deduplicated candidate
 structures across all 194 targets, all of them forward-predicted blind, in shuffled and
 anonymised batches, by 23 independent agents.
 The first column below is the original 60-compound arm (v3 + v2-control), on which
-§5.3–§5.5 build; the second is the full benchmark, where the recall-conditional claim
+[@sec:generate-wide-testing-recipe]–[@sec:negative-control] build; the second is the full benchmark, where the recall-conditional claim
 actually lives.
 
-**Table 6. Forward-verification decomposition**, on the original arm and on the whole benchmark.
+**Table {#tab:forward-verification-decomposition}. Forward-verification decomposition**, on the original arm and on the whole benchmark.
 
 | |  60-compound arm | **full benchmark (n=194)** |
 |:------------------------------------------------|-----------------:|---------------------------:|
@@ -1026,21 +1026,21 @@ actually lives.
 
 Two facts make the full-benchmark column trustworthy before its content is read. Its
 self-ranking row is derived, by an independent script over the released candidate files,
-from the same solver output as §4, and it lands on Table 2 exactly: 55/194 = **28.4%**
+from the same solver output as [@sec:well-llms-elucidate-real], and it lands on [@tab:headline-elucidation-performance-irspectra] exactly: 55/194 = **28.4%**
 top-1 and 65/194 = **33.5%** recall, and the same in both strata (simple 48.0% / 54.1%,
 complex 8.3% / 12.5%) — all six headline numbers re-derived, digit for digit, through a
 separate code path. And of the 373 candidates, **373 were forward-predicted**: every
 candidate the verifier could rank was rankable, so nothing here is a lower bound. (The
-same is now true of §5.3, whose coverage gap we also closed.)
+same is now true of [@sec:generate-wide-testing-recipe], whose coverage gap we also closed.)
 
 The decomposition is the finding. **When the true structure is among the candidates,
 forward verification selects it in 58 of 65 cases (89%)** — high in absolute terms and
-~15 points above the 74% chance floor that §5.5 establishes by derangement, a floor that
+~15 points above the 74% chance floor that [@sec:negative-control] establishes by derangement, a floor that
 sits so high because the recall-positive candidate sets are small. Extending the arm from 19
 recall-positive compounds to 65 did not soften the claim; it firmed it, and it moved the
-§5.5 permutation control from marginal (one-sided p=0.019) to unambiguous (**p=0.001**).
+[@sec:negative-control] permutation control from marginal (one-sided p=0.019) to unambiguous (**p=0.001**).
 
-One composition detail must be stated, because it inflates every ranker equally and §5.5
+One composition detail must be stated, because it inflates every ranker equally and [@sec:negative-control]
 excludes exactly these cases from its own analysis. Of the 65 recall-positive compounds,
 **28 had a single candidate**, so the verifier faced no choice and any ranker — ours, the
 solver's, a coin — scores them by construction. On the **37 compounds where a choice
@@ -1054,7 +1054,7 @@ Pooling the two arms is licensed rather than assumed. They agree on every quanti
 pooled column reports — verification precision conditional on recall (42/46 vs 16/19,
 Fisher exact p=0.41), the same restricted to multi-candidate compounds (20/24 vs 10/13,
 p=0.68), self-ranking on that subset (19/24 vs 8/13, p=0.28) — and even on the composition
-detail above, the single-candidate fraction (22/46 vs 6/19, p=0.28). Table 6 keeps them in
+detail above, the single-candidate fraction (22/46 vs 6/19, p=0.28). [@tab:forward-verification-decomposition] keeps them in
 separate columns anyway, so a reader who prefers the original arm can read it unpooled.
 
 Either way the margin over self-ranking remains a small, unresolved difference: seven
@@ -1071,15 +1071,15 @@ The difficulty split sharpens where the verifier earns its keep and where it doe
 self-ranking's 47/53); on *complex* targets it converts 8/12 (67%) and is **exactly tied**
 with self-ranking, gaining two compounds and losing two. The ~2 ppm forward predictor
 resolves the regiochemistry of tractable targets and cannot resolve the near-degenerate
-alternatives that hard targets generate — the same precision ceiling §5.3 hits from the
+alternatives that hard targets generate — the same precision ceiling [@sec:generate-wide-testing-recipe] hits from the
 other direction, here visible as a clean stratification rather than an aggregate.
 
 LLM elucidation therefore factorises into two near-independent levers: the
 **verifier is already strong (89%)**; the **generator (34% recall) is the wall**
-(Fig. 1). Table 6 regenerates from the released artifacts via
+([@fig:fig-wall]). [@tab:forward-verification-decomposition] regenerates from the released artifacts via
 `scripts/forward_verify_all.py`.
 
-### 5.3 Generate-wide: testing the recipe
+### Generate-wide: testing the recipe {#sec:generate-wide-testing-recipe}
 
 The decomposition implies a recipe — *generate wide, verify by forward prediction* — a
 chemistry analog of self-consistency sampling, where many independent generations are
@@ -1089,8 +1089,8 @@ regiochemistry-aware candidates per compound**, pooled with the originals, and t
 65 new candidates were forward-predicted and re-ranked as before. The measured
 result:
 
-**Table 7. Generate-wide vs original**, both on the 60-compound arm. The "original"
-column is Table 6's first column, not its full-benchmark one; wide generation was run on
+**Table {#tab:generate-wide-vs-original}. Generate-wide vs original**, both on the 60-compound arm. The "original"
+column is [@tab:forward-verification-decomposition]'s first column, not its full-benchmark one; wide generation was run on
 this arm only, so the comparison is held to it.
 
 | | original (60-compound arm) | generate-wide |
@@ -1101,10 +1101,10 @@ this arm only, so the comparison is held to it.
 
 Wide generation lifts recall +10 points (32%→42%, i.e. 19/60→25/60) and exact top-1
 +7 points over the self-ranking baseline (23%→30%, 14/60→18/60) — equivalently +3 over
-the original forward-verified top-1 (27%→30%, 16/60→18/60, Table 7) — on the same 60
-compounds (Fig. 6), with no training.
+the original forward-verified top-1 (27%→30%, 16/60→18/60, [@tab:generate-wide-vs-original]) — on the same 60
+compounds ([@fig:fig3-method]), with no training.
 
-![The forward-verification inference ladder on the 60-compound arm: solver self-ranking → + forward-verification → + generate-wide, at 23% / 27% / 30% top-1. Each rung is a training-free change to inference alone. The steps are directional rather than individually resolved at this sample size — the paired tests are in §5.3.](docs/figures/fig3_method.png)
+![The forward-verification inference ladder on the 60-compound arm: solver self-ranking → + forward-verification → + generate-wide, at 23% / 27% / 30% top-1. Each rung is a training-free change to inference alone. The steps are directional rather than individually resolved at this sample size — the paired tests are in [@sec:generate-wide-testing-recipe].](docs/figures/fig3_method.png){#fig:fig3-method}
 
 The arm originally forward-predicted only **65 of
 the 217** distinct new candidates, which made its top-1 a lower bound rather than a
@@ -1122,7 +1122,7 @@ another. The wide pass supplies more near-degenerate alternatives, the ~2 ppm pr
 prefers some of them, and it cannot tell them from the truth. That is the precision
 ceiling of the paragraph below observed directly rather than inferred, and it is why
 recall — not verification, and not prediction coverage — remains the binding constraint.
-Table 7 and this coverage analysis regenerate from the released artifacts via
+[@tab:generate-wide-vs-original] and this coverage analysis regenerate from the released artifacts via
 `scripts/score_generate_wide.py` and `scripts/forward_verify_gw.py`
 (`data/fverify_gw/results.txt`).
 
@@ -1154,11 +1154,11 @@ them. This recall/precision tension is the honest ceiling of the training-free
 approach: the recall-bound diagnosis stands, and closing the gap further requires
 either sharper verification or 2D-NMR constraints, not merely more candidates.
 
-### 5.4 Non-LLM verifiers: a deterministic lookup and a learned model
+### Non-LLM verifiers: a deterministic lookup and a learned model {#sec:non-llm-verifiers-deterministic}
 
-§5.3 suggests an obvious fix: swap the LLM forward-predictor for a non-LLM ¹³C predictor
+[@sec:generate-wide-testing-recipe] suggests an obvious fix: swap the LLM forward-predictor for a non-LLM ¹³C predictor
 with a rigorous error model. We test two, both trained on the **same nmrshiftdb2
-dump**[@kuhn2015nmrshiftdb2] and both dropped into the verifier slot on the **same §5.2
+dump**[@kuhn2015nmrshiftdb2] and both dropped into the verifier slot on the **same [@sec:result]
 candidate sets** — the 60-compound arm and the full benchmark — so that only the
 predictor changes.
 
@@ -1176,7 +1176,7 @@ comparison.[@xu2025nmrbench] Ours is deliberately modest, because the question h
 predictor that differs from the lookup in method while holding data and evaluation fixed —
 not the best model available.
 
-**Table 8. Verifier comparison, conditional on recall**, on identical candidate sets.
+**Table {#tab:verifier-comparison-conditional-recall}. Verifier comparison, conditional on recall**, on identical candidate sets.
 Only the ¹³C predictor changes between rows.
 
 | verifier | 60-compound arm (n=19) | full benchmark (n=65) | held-out ¹³C MAE |
@@ -1184,7 +1184,7 @@ Only the ¹³C predictor changes between rows.
 | solver self-ranking | 14/19 (74%) | 55/65 (85%) | — |
 | deterministic HOSE *lookup* | 14/19 (74%) | 55/65 (85%) | 3.23 ppm |
 | **learned GNN (same data)** | 16/19 (84%) | **59/65 (91%)** | **1.70 ppm** |
-| LLM forward-verifier (§5.2) | 16/19 (84%) | 58/65 (89%) | — |
+| LLM forward-verifier ([@sec:result]) | 16/19 (84%) | 58/65 (89%) | — |
 
 The lookup does not help, and quadrupling the evaluation set did not rescue it: it lands
 on exactly the solver's own score at both sample sizes. That tie is not agreement — at
@@ -1199,7 +1199,7 @@ to separate. (The same diagnostic on the 60-compound arm gives 2% and 70% over i
 carbons; both regenerate via `scripts/hose_predict.py coverage`.)
 
 The learned model, on the same data, matches and slightly exceeds the LLM verifier —
-59/65 against 58/65 (Fig. S6). Its margins over the two baselines survive the larger set
+59/65 against 58/65 ([@sfig:verifier]). Its margins over the two baselines survive the larger set
 and grow more credible without reaching significance: against the lookup, seven compounds
 gained and three lost (McNemar exact p=0.34, from p=0.63 at n=19); against self-ranking,
 five gained and one lost (p=0.22, from p=0.50). We therefore keep the same reading the
@@ -1209,7 +1209,7 @@ failure being substantially **method** — an inability to generalise across nov
 environments — rather than coverage alone, and with a cheap learned predictor being
 sufficient to match the LLM without compound-specific DFT accuracy or 2D-NMR. They do not
 establish it. What none of these reach is the near-degenerate-regioisomer
-precision ceiling (§5.3/§5.5), where DFT-level accuracy or orthogonal 2D-NMR constraints
+precision ceiling ([@sec:generate-wide-testing-recipe]/[@sec:negative-control]), where DFT-level accuracy or orthogonal 2D-NMR constraints
 remain the genuine fix.
 
 The GNN and the LLM land within one compound of each other while **disagreeing on nine**
@@ -1227,14 +1227,14 @@ has to identify**, the nearest training analog has median Tanimoto **0.50** and 
 **0.81** — not one of the compounds the conditional analysis scores has a near-duplicate
 in the training set. A Y-randomisation control (1,000 derangements)
 places the real result above the 97.5th percentile of the chance distribution (n=19: real
-84% vs mean 58.6%, 95% range 42.1–73.7%, one-sided p<0.05). Like §5.6, the learned
+84% vs mean 58.6%, 95% range 42.1–73.7%, one-sided p<0.05). Like [@sec:recall-wall-task-intrinsic], the learned
 verifier is a **trained complement**, reported outside the training-free protocol.
-Table 8 and both leakage checks regenerate from the released artifacts
+[@tab:verifier-comparison-conditional-recall] and both leakage checks regenerate from the released artifacts
 (`scripts/verifier_table.py`, `scripts/verifier_leakage.py`,
 `data/fverify/verifier_table_results.txt`, `data/nmrshiftdb/gnn_c13.pt`;
 `docs/VERIFIER_PROBE.md`).
 
-### 5.5 Negative control
+### Negative control {#sec:negative-control}
 
 **Permutation negative control (Y-randomisation analog).** A re-ranker earns the
 interpretation that it exploits genuine predicted-vs-observed ¹³C agreement only if
@@ -1264,13 +1264,13 @@ Compounds with a single proposed candidate have no margin at all and must be exc
 an earlier analysis that retained them produced a spurious "improvement" that was
 entirely an artefact of those trivial cases. We therefore do **not** claim the verifier
 distance as a calibrated abstention gauge — a sharper, DFT/2D-NMR-grounded confidence
-estimate (§5.4) remains the route to reliable selective prediction.
+estimate ([@sec:non-llm-verifiers-deterministic]) remains the route to reliable selective prediction.
 
 Both controls in this section regenerate via `scripts/verifier_diagnostics.py --all`
 (the full benchmark, as reported here); omitting `--all` reproduces the 60-compound arm's
 figures instead.
 
-### 5.6 Is the recall wall task-intrinsic? A trained-generator probe
+### Is the recall wall task-intrinsic? A trained-generator probe {#sec:recall-wall-task-intrinsic}
 
 The ceiling above is a property of *training-free LLM elicitation*; it leaves open
 whether the ~42% recall plateau is intrinsic to 1D-data elucidation or specific to how
@@ -1284,9 +1284,9 @@ The generator supplies candidates enumeration cannot. On the 194-compound benchm
 true structure enters the candidate pool for **54.1%** of compounds (versus 41.8% for
 scaffold enumeration and 33.5% for Claude alone). Crucially, where enumeration's
 near-degenerate regioisomers *collapse* the deterministic HOSE verifier
-(top-1 28.4%→16.0%, the §5.3 precision-loss mechanism), the generator's formula-correct,
+(top-1 28.4%→16.0%, the [@sec:generate-wide-testing-recipe] precision-loss mechanism), the generator's formula-correct,
 ¹³C-separable candidates **convert**: HOSE top-1 rises **28.4%→35.1%** (McNemar exact
-p=0.015; +6.7 points, 95% CI [+2.1, +11.9]; Fig. S5). With the stronger LLM
+p=0.015; +6.7 points, 95% CI [+2.1, +11.9]; [@sfig:generator-probe]). With the stronger LLM
 forward-prediction verifier on the 60 forward-verify compounds, recall rises 42%→**57%**
 (34/60) and forward-verified top-1 reaches **47%** (28/60), at 82% precision conditional
 on recall (28/34).
@@ -1331,7 +1331,7 @@ and code availability.)
 
 ---
 
-## 6. Discussion
+## Discussion {#sec:discussion}
 
 The frontier LLMs we tested (the Claude family) are neither "solving structure elucidation"
 on realistic 1D data nor failing at it. They are reliable **scaffold-level**
@@ -1344,13 +1344,13 @@ training-free improvement attached**, not as a method that solves the task.
 The diagnosis is the durable half, and it held under every perturbation we were able to
 apply — four Claude models, a second chemical domain, four different verifiers: the wall
 is **generation recall**, not verification. Whether it holds outside the Claude family is
-the open question, not a settled one (§7). The improvement attached to it is real but
+the open question, not a settled one ([@sec:limitations]). The improvement attached to it is real but
 deliberately modest, and we measured its ceiling rather than projecting past it. Forward
-verification alone moves top-1 from 28% to 30% across the whole benchmark (§5.2), and
+verification alone moves top-1 from 28% to 30% across the whole benchmark ([@sec:result]), and
 adding wide generation takes 23% to 30% on the 60-compound arm where that was run — yet
 recall plateaus at 42%, verification precision falls to 72% as near-degenerate
-regioisomers accumulate (§5.3), and the match distance fails outright as a confidence
-gauge for selective prediction (§5.5, a reported null result).
+regioisomers accumulate ([@sec:generate-wide-testing-recipe]), and the match distance fails outright as a confidence
+gauge for selective prediction ([@sec:negative-control], a reported null result).
 
 This reframes the engineering problem. Rather than training a bespoke spectra→structure model — a
 target the frontier already meets at the scaffold level and that ages out each model
@@ -1360,7 +1360,7 @@ that expose specific failure modes (here, regiochemistry and recall), and (ii)
 training and improves with each model. IRexp's IR modality and 2D-NMR-ready
 provenance position it for the obvious next step: supplying the HMBC/COSY/NOESY
 constraints that would attack regiochemistry at the source. Our trained-generator probe
-(§5.6) sharpens the point: the recall wall is *elicitation-specific, not task-intrinsic*
+([@sec:recall-wall-task-intrinsic]) sharpens the point: the recall wall is *elicitation-specific, not task-intrinsic*
 — a small generator fine-tuned on IRexp lifts it (recall 42→57%) — and because that gain
 comes entirely from the released data (0→25% with fine-tuning, 0/248 without), it is the
 **open dataset**, not a bespoke architecture, that does the work when training does help.
@@ -1369,21 +1369,21 @@ comes entirely from the released data (0→25% with fine-tuning, 0/248 without),
 verified — bounded, reset contexts with tool access; generate-and-verify — moves accuracy
 enough that it must be reported alongside any capability claim. We do *not* claim it
 dominates capability: on the fixed 24-compound subset the model axis spans 0% to 46%
-top-1 (Table 3), a wider range than the 5%→15% protocol effect in §4.3, and the two are
+top-1 ([@tab:four-model-comparison-fixed]), a wider range than the 5%→15% protocol effect in [@sec:methodology-dominates-within-compound], and the two are
 measured on different sets. The point is that a number quoted without its protocol is
 uninterpretable, which echoes a recurring lesson across cheminformatics: careful pipeline
 and protocol design competes with the fashionable component. The same pattern appears in
 molecular property prediction, where a recent systematic benchmark reports that
 learned, pretrained molecular embeddings rarely outperform classical ECFP
 fingerprints once evaluation is controlled[@praski2025embeddings] — the modelling fashion underperforms the
-well-engineered baseline. We read our within-compound control (§4.3) and
-forward-verification recipe (§5) in the same light: the durable gains in LLM
+well-engineered baseline. We read our within-compound control ([@sec:methodology-dominates-within-compound]) and
+forward-verification recipe ([@sec:forward-verification-elucidation]) in the same light: the durable gains in LLM
 elucidation come from honest benchmarking and inference-time scaffolding rather than
 from waiting on the next, larger model. We draw this parallel narrowly and claim no
 formal equivalence between the two settings.
 
 That the bottleneck reproduces inside a single application domain
-(§4.5: 26% top-1 on battery-electrolyte chemistry, n=46, against 28% overall) is
+([@sec:domain-case-study-battery]: 26% top-1 on battery-electrolyte chemistry, n=46, against 28% overall) is
 consistent with it being structural rather than incidental — and it makes the
 forward-verification recipe directly relevant to the magnetic-resonance workflows
 (electrolyte-decomposition assignment, NMR crystallography) where computing a
@@ -1391,15 +1391,15 @@ candidate's spectrum to confirm it is already standard practice.
 
 For practitioners, two operational findings transfer immediately: solve each problem
 in bounded, frequently-reset contexts with tool access (5%→15%, 1/20→3/20,
-directional at n=20, McNemar p≥0.25, §4.3), and use forward-predicted-vs-observed
-¹³C agreement to *re-rank* candidates, not to decide whether to trust the winner. §5.5
+directional at n=20, McNemar p≥0.25, [@sec:methodology-dominates-within-compound]), and use forward-predicted-vs-observed
+¹³C agreement to *re-rank* candidates, not to decide whether to trust the winner. [@sec:negative-control]
 is explicit on this: match distance is a strong relative re-ranker but failed as an
 absolute confidence gauge in our selective-prediction test, so it does not support
 abstention thresholds.
 
 ---
 
-## 7. Limitations
+## Limitations {#sec:limitations}
 
 Several limitations of earlier drafts are now resolved with controlled experiments;
 we state what remains plainly.
@@ -1410,12 +1410,12 @@ spectrally clean**, and the metrics are unchanged on that clean subset
 (self-ranking top-1 25% vs 23%, recall 33% vs 32% on the n=60 forward-verify set) — the
 conclusions are not driven by scraping artefacts. **Verifier sample size:** forward
 verification now runs over **all 194 compounds**, not a 60-compound subset, so the
-recall-conditional claim rests on n=65 rather than n=19 and the §5.5 permutation control
-tightens from one-sided p=0.019 to p=0.001 (§5.2). **Verifier precision / abstention:** the generate-wide experiment (§5.3)
+recall-conditional claim rests on n=65 rather than n=19 and the [@sec:negative-control] permutation control
+tightens from one-sided p=0.019 to p=0.001 ([@sec:result]). **Verifier precision / abstention:** the generate-wide experiment ([@sec:generate-wide-testing-recipe])
 quantifies the recall/precision tension directly — verification precision is
 72–89% conditional on recall and degrades as near-degenerate regioisomers
 accumulate, so forward-match distance is a strong *re-ranker* but a soft
-*confidence* gauge. We further tested non-LLM verifiers (§5.4), on the same extended set: a
+*confidence* gauge. We further tested non-LLM verifiers ([@sec:non-llm-verifiers-deterministic]), on the same extended set: a
 nmrshiftdb2-trained HOSE-code *lookup* does **not** beat the LLM verifier (85% vs 89%
 conditional at n=65) and ties self-ranking by exchanging seven compounds for seven, while
 a *learned* GNN on the same data reaches 91% — directional in every pairwise comparison
@@ -1425,7 +1425,7 @@ that the deterministic failure was method rather than coverage alone, not a
 demonstration of it. What remains beyond all of
 them is the near-degenerate-regiochemistry precision ceiling, where DFT-level accuracy or
 2D-NMR constraints are still the genuine fix. **Projection:** where an earlier draft
-estimated what generate-and-verify *would* reach, §5.3 now runs it — and the measurement
+estimated what generate-and-verify *would* reach, [@sec:generate-wide-testing-recipe] now runs it — and the measurement
 (top-1 30%, recall 42%) came in below the estimate it replaces, which is reported as
 found rather than adjusted.
 
@@ -1436,12 +1436,12 @@ re-verify from the release**: the committed artefacts are the parsed per-compoun
 predictions, and the transcripts themselves are not deposited (they are available on
 request). We state this rather than let "transcript-audited" imply an independently
 checkable artefact, and note that the *outcome* of closed-book solving is separately
-testable from what is released — the formula-only control (§4.6) removes the spectra and
+testable from what is released — the formula-only control ([@sec:model-reading-spectra-formula]) removes the spectra and
 accuracy collapses, which no amount of web access would produce. To confirm that
 the forward-verifier's measured advantage
 reflects real predicted-vs-observed spectral agreement rather than leakage or a
 candidate-list artefact, we ran a permutation negative control (Y-randomisation
-analog, §5.5): re-pairing — as a derangement — which observed ¹³C spectrum each
+analog, [@sec:negative-control]): re-pairing — as a derangement — which observed ¹³C spectrum each
 candidate set is scored against, over 1,000 permutations, collapses conditional-on-recall
 precision from 89.2% to a chance mean of 73.8% (two-sided p=0.002 on the full benchmark;
 p=0.038 on the 60-compound arm alone) — the signal weakens
@@ -1453,20 +1453,20 @@ it speaks to model-instance robustness, not cross-vendor generality.
 
 *Remaining.* **(i) Pretraining contamination is bounded, not excluded.** Every benchmark
 compound was mined from open-access literature, so a frontier model may have encountered
-it in training. The formula-only control (§4.6) bounds how much of the headline number
+it in training. The formula-only control ([@sec:model-reading-spectra-formula]) bounds how much of the headline number
 pure recall can explain — masking the spectra drops top-1 from 23% to 5%, perfectly
-nested, McNemar exact p=0.001. §4.6 examines the three formula-only successes one by
+nested, McNemar exact p=0.001. [@sec:model-reading-spectra-formula] examines the three formula-only successes one by
 one rather than explaining them away collectively: only one (an unlisted silyl aryl
 sulfonate) has a genuinely determining composition, while the other two — *N*-tosyl-leucine
 and the natural product [6]-paradol — are catalogued compounds for which recall is a live
-explanation. That is the control working as intended, and it leaves the bound unchanged. The second control (§4.6) resolves the source
+explanation. That is the control working as intended, and it leaves the bound unchanged. The second control ([@sec:model-reading-spectra-formula]) resolves the source
 publication year for all 194 compounds and finds accuracy flat in it (r=−0.007), with the
 size-adjusted older-versus-newer difference bounded at −5.1 points, 95% CI [−17.2, +7.0].
 
 Two things these controls do not do. Neither is randomised: publication year is
 observational, and the formula-only arm cannot separate memorisation from inference on a
 near-determining formula. And we do not anchor the recency test to a *known* training
-cutoff — the subscription harness does not disclose one (§8), so we test recency as a
+cutoff — the subscription harness does not disclose one ([@sec:methods]), so we test recency as a
 continuous proxy rather than partitioning at a cutoff date. A replication restricted to
 compounds published after a disclosed cutoff would settle what these bound, and remains
 open.
@@ -1474,7 +1474,7 @@ open.
 **(ii) Human audit — prepared but not yet run.** This covers two things we have not
 validated by hand: the elucidation and forward-prediction outputs, and the *recall* side
 of dataset extraction (whether the parser found every IR string in every source paper).
-Transcription fidelity of the records we do hold is measured and high (§2.3), but record-level
+Transcription fidelity of the records we do hold is measured and high ([@sec:contents-licensing]), but record-level
 recall is not, and only reading papers can settle it. Solver and verifier are
 both LLMs, so the one validation we cannot perform ourselves is an expert-chemist review
 of a sample of elucidations and forward predictions. We have therefore **built and
@@ -1483,13 +1483,13 @@ elucidation panel plus seven ranking-only compounds (13 of which carry the true 
 alongside a real choice), rendered candidate structures, a separate withheld answer
 key, and a mechanical scoring sheet — released at `data/audit/` with its protocol at
 `docs/EXPERT_AUDIT_PROTOCOL.md` (regenerable via `scripts/make_audit_sample.py`),
-designed to test the two load-bearing claims (what a miss actually is, §4; forward
-verification is a trustworthy re-ranker, §5). **We have not yet run the panel**; until
+designed to test the two load-bearing claims (what a miss actually is, [@sec:well-llms-elucidate-real]; forward
+verification is a trustworthy re-ranker, [@sec:forward-verification-elucidation]). **We have not yet run the panel**; until
 expert results are in, those claims should be read as machine-validated (RDKit
 InChIKey) but not yet human-validated.
 
 The panel's first question has since been narrowed by measurement rather than left to
-judgement. §4 now reports the composition of all 139 misses mechanically — 76.6%
+judgement. [@sec:well-llms-elucidate-real] now reports the composition of all 139 misses mechanically — 76.6%
 constitutional isomers, 22.6% scaffold-preserving positional errors — which replaces the
 impressionistic claim the audit was built to check and, in doing so, corrected it: the
 failures are predominantly *wrong connectivity at the right composition*, and strict
@@ -1500,11 +1500,11 @@ and better-posed question than the one we started with.
 
 **(iii) Single vendor and an underpowered cross-model comparison.** Every number comes
 from one vendor's models. The headline (28.4% top-1) is a single frontier model (Claude
-Opus), and the cross-model evidence (§4.4) is four **Claude-family** models on a shared
-**24-compound** subset. As §4.4 sets out, that comparison is underpowered: the
+Opus), and the cross-model evidence ([@sec:model-comparison-benchmark-ranks]) is four **Claude-family** models on a shared
+**24-compound** subset. As [@sec:model-comparison-benchmark-ranks] sets out, that comparison is underpowered: the
 ranking is robust (strictly nested, weakest floored at 0%) but no adjacent gap is
 established at n=24. Quantitative claims should therefore be read as holding **for the Claude family**,
-The cross-**vendor** question this raised is no longer open: §4.7 reports the same
+The cross-**vendor** question this raised is no longer open: [@sec:diagnosis-hold-outside-one] reports the same
 decomposition for Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol on the 60-compound arm, and
 verification precision exceeds generation recall in all three, as it does for Claude. What
 remains is weaker than the original gap but real. Only Claude's inequality is
@@ -1515,7 +1515,7 @@ clean-clone contamination control was run for Grok alone. And the *headline* num
 (28.4% top-1, n=194) is still a single frontier model on the full benchmark; the
 cross-vendor arms cover 60 compounds.
 
-**(iv) Domain-subset scope:** the battery-electrolyte case study (§4.5) comprises
+**(iv) Domain-subset scope:** the battery-electrolyte case study ([@sec:domain-case-study-battery]) comprises
 *literature compounds bearing electrolyte-relevant functional chemistry* drawn from the
 open corpus — not operando or in-cell decomposition spectra — so it demonstrates
 functional-class transfer of the elucidation bottleneck, not direct assignment of
@@ -1523,7 +1523,7 @@ authentic interphase/degradation products, which would require a dedicated opera
 
 **(v) Constitution-only scoring:** correctness is judged on InChIKey connectivity, so a
 correct-constitution / wrong-stereochemistry prediction is counted correct. Scoring the
-full InChIKey instead gives 21.1% top-1 (§3), 7.3 points lower, so the headline should be
+full InChIKey instead gives 21.1% top-1 ([@sec:benchmark-design-irspectra-bench]), 7.3 points lower, so the headline should be
 read as an upper bound on full-stereochemistry accuracy. We keep constitution as the
 headline because 1D NMR/IR rarely determines absolute configuration — the 10.3% (20/194)
 of targets with a defined stereocentre would be penalised for information the prompt
@@ -1532,7 +1532,7 @@ never carried — but a stereochemistry-sensitive benchmark would need 2D/chirop
 **(vi) Single-sample scoring:** each headline compound is scored from one solver
 prediction set (one decoupled run), so reported top-1/recall carry no run-to-run
 (LLM-sampling) variance estimate — the bootstrap CIs reflect compound sampling only. The
-generate-wide experiment (§5.3) pools ten independent generation passes (recall
+generate-wide experiment ([@sec:generate-wide-testing-recipe]) pools ten independent generation passes (recall
 32%→42%), indicating generator stochasticity that single-pass scoring understates.
 
 **(vii) Chemical-space coverage:** the benchmark is drawn from open-access organic
@@ -1543,7 +1543,7 @@ stereochemistry-heavy targets, and our results should not be extrapolated to the
 
 ---
 
-## 8. Methods
+## Methods {#sec:methods}
 
 **Mining and resolution.** PMC-OA full text was fetched from `s3://pmc-oa-opendata`;
 records were extracted with a deterministic parser and resolved with OPSIN, RDKit,
@@ -1552,7 +1552,7 @@ make resolution additive and restart-safe.
 
 **Benchmark and agents.** Problems were sampled from `irexp_resolved`, stratified by
 RDKit ring analysis, with cross-round de-duplication by InChIKey. The
-battery-electrolyte subset (§4.5) was drawn from the same corpus by SMARTS
+battery-electrolyte subset ([@sec:domain-case-study-battery]) was drawn from the same corpus by SMARTS
 substructure filters for six electrolyte functional classes (carbonate,
 sulfonyl/sulfonate, nitrile, sp³-C–F, phosphoryl, glyme/oligoether), balanced to
 eight compounds per class (48 curated; 46 scored after two yielded no parseable
@@ -1563,28 +1563,28 @@ consumer subscription; agents were instructed closed-book and audited via
 automated transcript search for zero web/answer access. Scoring used RDKit InChIKey-connectivity
 matching and Morgan(2, 2048) Tanimoto; forward-verification used a symmetric chamfer
 distance over ¹³C peak sets. The core protocol trains no model and uses no paid API;
-the two trained probes — the §5.6 generator and the §5.4 learned ¹³C verifier — are the
+the two trained probes — the [@sec:recall-wall-task-intrinsic] generator and the [@sec:non-llm-verifiers-deterministic] learned ¹³C verifier — are the
 only separately-trained exceptions, each reported as a complement and fenced from the
 headline results.
 
 *Models and versions.* All experiments used Anthropic Claude models via the consumer
-subscription (claude.ai). The §4.4 comparison spanned, in capability
+subscription (claude.ai). The [@sec:model-comparison-benchmark-ranks] comparison spanned, in capability
 order, Claude Haiku, Claude Sonnet, Claude Opus, and Claude Fable 5; the headline
-benchmark (§4.1) and forward-verification (§5) used Claude Opus. `docs/MODELS.md`
+benchmark ([@sec:headline-performance]) and forward-verification ([@sec:forward-verification-elucidation]) used Claude Opus. `docs/MODELS.md`
 records, for each experiment, the model used, its data directory, the collection date,
 the harness and tool access, and the scoring code path. Model invocations fall into three
 dated windows, listed separately there because no single window covers them. Every
-candidate structure behind the **headline** results — §4.1, §4.3–§4.5, and the candidate
-pools all of §5 re-ranks — was generated between **2026-06-09 and 2026-06-11** (UTC). The
-formula-only contamination control (§4.6) is a deliberate exception: it re-solves the same
+candidate structure behind the **headline** results — [@sec:headline-performance], [@sec:methodology-dominates-within-compound]–[@sec:domain-case-study-battery], and the candidate
+pools all of [@sec:forward-verification-elucidation] re-ranks — was generated between **2026-06-09 and 2026-06-11** (UTC). The
+formula-only contamination control ([@sec:model-reading-spectra-formula]) is a deliberate exception: it re-solves the same
 60 compounds with the spectra masked on **2026-07-28**, generating its own candidates,
-because a masked-input control is only meaningful as a fresh run; it touches Table 5 alone.
+because a masked-input control is only meaningful as a fresh run; it touches [@tab:formula-only-control] alone.
 Three **2026-08-07** collections forward-predict ¹³C for candidates the June run had
-already produced (the §5.2 extension to all 194 compounds, the §5.3 coverage-gap closure,
-and the §5.6 re-run); none introduces a new candidate structure, and no recall number in
-the paper changes. One *verified* number does: the §5.6 re-run supersedes a top-1 whose
+already produced (the [@sec:result] extension to all 194 compounds, the [@sec:generate-wide-testing-recipe] coverage-gap closure,
+and the [@sec:recall-wall-task-intrinsic] re-run); none introduces a new candidate structure, and no recall number in
+the paper changes. One *verified* number does: the [@sec:recall-wall-task-intrinsic] re-run supersedes a top-1 whose
 original forward-prediction outputs were never deposited and are lost, and it does not
-agree with the figure it replaces (47% against 41%). §5.6 reports the reproducible one
+agree with the figure it replaces (47% against 41%). [@sec:recall-wall-task-intrinsic] reports the reproducible one
 and says plainly that it is a re-run rather than a reproduction.
 Decoding parameters are not exposed
 by the subscription harness and were neither set nor recorded, so re-running reproduces
@@ -1602,7 +1602,7 @@ meaningful target here and we do not offer it as one. What stands in place of a 
 everything that *is* fixed: the dated collection windows above, the frozen per-compound
 outputs, and mechanical scorers that regenerate every number from them. That is the
 boundary of a zero-cost subscription protocol: it buys exact reproducibility of scoring
-and analysis, not of inference (`docs/MODELS.md` §6).
+and analysis, not of inference (`docs/MODELS.md` [@sec:discussion]).
 
 **Reproducibility.** Every round is frozen: questions, ground-truth answers,
 per-agent raw outputs, predictions, and scorer outputs are released, and the sampler,
@@ -1616,23 +1616,23 @@ These are supplied as a separate Electronic Supplementary Information document
 (`docs/paper_esi.pdf`, built by `scripts/build_pdf.py`), as RSC requires; they are listed
 here for reference.
 
-- **Fig. S1** (`docs/figures/fig0_overview.png`) — study design: open multimodal data
+- **[@sfig:overview]** (`docs/figures/fig0_overview.png`) — study design: open multimodal data
   (IRexp) → blind, complexity-stratified benchmark → decoupled blind solving →
   forward-verification re-ranking; training-free core pipeline.
-- **Fig. S2** (`docs/figures/fig4_dataset.png`) — IRexp composition: IR records →
+- **[@sfig:dataset]** (`docs/figures/fig4_dataset.png`) — IRexp composition: IR records →
   NMR-paired → structure-linked → full IR+¹H+¹³C+structure quadruples.
-- **Fig. S3** (`docs/figures/fig2_size.png`) — accuracy vs molecular size (heavy-atom
+- **[@sfig:size]** (`docs/figures/fig2_size.png`) — accuracy vs molecular size (heavy-atom
   bucket); the monotonic 60%→7% top-1 gradient.
-- **Fig. S4** (`docs/figures/fig6_electrolyte.png`) — top-1 and recovered accuracy on
+- **[@sfig:electrolyte]** (`docs/figures/fig6_electrolyte.png`) — top-1 and recovered accuracy on
   IRSpectra-Bench-Electrolyte by battery-electrolyte chemical class (n=46): sp³-C–F
   easiest (50%), sulfonyl and nitrile hardest (12%); overall 26%/28%.
-- **Fig. S5** (`docs/figures/fig_generator_probe.png`) — trained-generator probe (§5.6;
+- **[@sfig:generator-probe]** (`docs/figures/fig_generator_probe.png`) — trained-generator probe ([@sec:recall-wall-task-intrinsic];
   a complement, not part of the training-free protocol): candidate recall and
   deterministic-HOSE top-1 on the 194-compound benchmark for Claude / + scaffold
   enumeration / + trained generator. Enumeration's near-degenerate isomers collapse the
   verifier (28.4→16.0%) while the generator's formula-correct candidates convert
   (28.4→35.1%).
-- **Fig. S6** (`docs/figures/fig_verifier.png`) — learned-verifier probe (§5.4; a
+- **[@sfig:verifier]** (`docs/figures/fig_verifier.png`) — learned-verifier probe ([@sec:non-llm-verifiers-deterministic]; a
   complement, not part of the training-free protocol). (A) Conditional-on-recall top-1
   (n=65, whole benchmark) for the four verifiers: a GNN trained on the same nmrshiftdb2
   data as the HOSE lookup reaches the LLM verifier's level (91% vs 89%) where the lookup
@@ -1653,34 +1653,34 @@ submission]**; GitHub is the development mirror and the Zenodo record the citabl
 | IRexp and its structure-complete split | `data/irexp/`, `data/irexp_resolved/` | `spectro_scraper/` (mining pipeline) |
 | benchmark rounds and the within-compound control | `data/benchmark*/` | `scripts/benchmark_v2.py` |
 | ground-truth integrity audit | `data/benchmark*/clean_qids.json` | `scripts/validate_benchmark.py` |
-| headline accuracy (Table 2) | — | `scripts/score_main.py` |
-| battery-electrolyte subset (§4.5) | `data/benchmark_electrolyte/` | `scripts/build_electrolyte_bench.py`, `scripts/score_electrolyte.py` |
-| formula-only contamination control (§4.6) | `data/modality/` | `scripts/modality_ablation.py` |
-| publication-recency control (§4.6) | `data/audit/recency_control.json` | `scripts/contamination_recency.py` |
-| forward-verification, original arm (§5.2) | `data/fverify/` | `scripts/forward_verify.py` |
+| headline accuracy ([@tab:headline-elucidation-performance-irspectra]) | — | `scripts/score_main.py` |
+| battery-electrolyte subset ([@sec:domain-case-study-battery]) | `data/benchmark_electrolyte/` | `scripts/build_electrolyte_bench.py`, `scripts/score_electrolyte.py` |
+| formula-only contamination control ([@sec:model-reading-spectra-formula]) | `data/modality/` | `scripts/modality_ablation.py` |
+| publication-recency control ([@sec:model-reading-spectra-formula]) | `data/audit/recency_control.json` | `scripts/contamination_recency.py` |
+| forward-verification, original arm ([@sec:result]) | `data/fverify/` | `scripts/forward_verify.py` |
 | …extended to all 194 compounds | `data/fverify_main/` | `scripts/forward_verify_main.py`, `scripts/forward_verify_all.py` |
-| generate-wide arm (§5.3) | `data/gw/`, `data/fverify2/` | `scripts/score_generate_wide.py`, `scripts/ladder_significance.py` |
+| generate-wide arm ([@sec:generate-wide-testing-recipe]) | `data/gw/`, `data/fverify2/` | `scripts/score_generate_wide.py`, `scripts/ladder_significance.py` |
 | …its coverage gap, closed | `data/fverify_gw/` | `scripts/forward_verify_gw.py` |
-| non-LLM verifier comparison (Table 8) | `data/fverify/hose_results.txt`, `data/fverify/verifier_table_results.txt` | `scripts/hose_predict.py` (incl. `coverage`), `scripts/verifier_table.py`, `scripts/verifier_leakage.py` |
-| negative control and selective prediction (§5.5) | — | `scripts/verifier_diagnostics.py` |
-| what a miss is, and isomer separability (§4.1, §5.1) | — | `scripts/analyze_misses.py`, `scripts/isomer_separability.py` |
-| difficulty-threshold sensitivity (§3) | — | `scripts/difficulty_sensitivity.py` |
-| licence-pool split (§2.1) | — | `scripts/split_license_pools.py` |
+| non-LLM verifier comparison ([@tab:verifier-comparison-conditional-recall]) | `data/fverify/hose_results.txt`, `data/fverify/verifier_table_results.txt` | `scripts/hose_predict.py` (incl. `coverage`), `scripts/verifier_table.py`, `scripts/verifier_leakage.py` |
+| negative control and selective prediction ([@sec:negative-control]) | — | `scripts/verifier_diagnostics.py` |
+| what a miss is, and isomer separability ([@sec:headline-performance], [@sec:method]) | — | `scripts/analyze_misses.py`, `scripts/isomer_separability.py` |
+| difficulty-threshold sensitivity ([@sec:benchmark-design-irspectra-bench]) | — | `scripts/difficulty_sensitivity.py` |
+| licence-pool split ([@sec:motivation]) | — | `scripts/split_license_pools.py` |
 | recall headroom and scaffold enumeration | — | `scripts/analyze_recall_headroom.py`, `scripts/enumerate_isomers.py`, `scripts/closing_the_gap.py` |
-| blinded expert-audit package (§7) | `data/audit/` | `scripts/make_audit_sample.py` |
+| blinded expert-audit package ([@sec:limitations]) | `data/audit/` | `scripts/make_audit_sample.py` |
 | manuscript integrity gates | — | `scripts/check_manuscript.py`, `scripts/verify_statistics.py` |
 
-**Trained complements**, both fenced from the training-free protocol. The §5.6
+**Trained complements**, both fenced from the training-free protocol. The [@sec:recall-wall-task-intrinsic]
 generator ships as a self-contained bundle at `contrib/generator_probe/` — candidates,
 the de-leaked split with its InChIKey-14 manifest, the verification scripts
 (`scripts/closing_the_gap_gen.py`, `scripts/forward_verify_gen.py`,
 `scripts/verify_leakage_exact40.py`) and the blind forward-prediction outputs behind its
 verified top-1 (`data/fverify_gen/`), so its scorer runs with no missing predictions.
-The §5.4 learned verifier ships `scripts/gnn_predict.py` (extract / train / score /
+The [@sec:non-llm-verifiers-deterministic] learned verifier ships `scripts/gnn_predict.py` (extract / train / score /
 control), the trained model `data/nmrshiftdb/gnn_c13.pt`, per-compound results and both
 leakage checks (`data/fverify/gnn_results.txt`), and the write-up
 `docs/VERIFIER_PROBE.md`. Model checkpoints are deposited on Zenodo. Both trained
-predictors of §5.4 need the nmrshiftdb2 dump, which we cannot redistribute; the README
+predictors of [@sec:non-llm-verifiers-deterministic] need the nmrshiftdb2 dump, which we cannot redistribute; the README
 gives the one-line fetch.
 
 Companion technical notes: `docs/BENCHMARK.md`, `docs/FORWARD_VERIFY.md`,
@@ -1713,7 +1713,7 @@ this dataset (Zenodo DOI above) and attribute the original publications via each
 **I.Y.:** conceptualization, methodology,
 software, formal analysis, investigation, data curation, visualization, writing —
 original draft. **R.S.:** methodology, software, formal analysis, investigation,
-validation (trained-generator and learned-verifier probes, §5.4 and §5.6), writing —
+validation (trained-generator and learned-verifier probes, [@sec:non-llm-verifiers-deterministic] and [@sec:recall-wall-task-intrinsic]), writing —
 review and editing. **R.A.V.-H.:** conceptualization, methodology, supervision,
 writing — review and editing.
 
@@ -1726,7 +1726,7 @@ The authors declare no competing interests.
 This work studies a large language model, and LLMs were also used as instruments and as
 writing aids; we state both roles explicitly. **As an object of study:** all reported
 elucidation, forward-prediction and verification results were produced by Claude models
-invoked under the protocol of §3 and §8 — these are the measurements the paper reports,
+invoked under the protocol of [@sec:benchmark-design-irspectra-bench] and [@sec:methods] — these are the measurements the paper reports,
 not assistance in producing it. **As a writing aid:** the authors used an LLM-based
 coding assistant for figure generation, analysis scripting, manuscript copy-editing, and
 for the internal review pass that produced several of the corrections recorded in the

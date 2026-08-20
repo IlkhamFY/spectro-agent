@@ -5,6 +5,8 @@ Keeps PAPER.md clean: figure plates are appended to a temporary copy, and unicod
 glyphs (super/subscripts, math relations) are mapped for XeTeX via newunicodechar.
 Run from the repo root:  python3 scripts/build_pdf.py
 """
+import sys, os as _os
+sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
 import os, re, subprocess, tempfile, pypandoc
 
 # PDF engine: tectonic by default; override with PDF_ENGINE=xelatex for a texlive host.
@@ -279,6 +281,11 @@ def build_esi(h_path, bib):
 
 def main():
     md = open("docs/PAPER.md").read()
+    # Section, figure and table numbers are derived from position, never typed. See
+    # scripts/crossref.py -- the manuscript carried 202 hand-typed numbers, one of which
+    # (Table 9 sitting physically before Tables 6-8) was already wrong in the merged text.
+    import crossref
+    md, _labels = crossref.resolve(md)
     md = breakable_paths(md)
     md = proportional_tables(md)
     # RSC requires a table-of-contents (graphical abstract) entry: one image plus a

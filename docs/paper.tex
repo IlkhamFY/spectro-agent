@@ -1381,13 +1381,13 @@ replication}\label{does-the-diagnosis-hold-outside-one-vendor-a-four-vendor-repl
 
 Every number so far comes from one lineage, which §7 (iii) named as the
 most important external-validity gap in this work. We closed it. Six
-non-Claude models were run over the same 60 compounds as Table 6's first
+non-Claude models were run over the same 60 compounds as Table 7's first
 column, under the identical blind protocol --- one fresh context per six
 compounds, closed-book, three ranked candidates --- and the three whose
 output was well-formed enough to justify it were carried through forward
 verification as well.
 
-\textbf{Table 9. Cross-vendor decomposition on the 60-compound arm.}
+\textbf{Table 6. Cross-vendor decomposition on the 60-compound arm.}
 Recall and precision have different denominators, so the criterion is
 the inequality, not a difference.
 
@@ -1410,7 +1410,7 @@ multi-candidate only
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Claude Opus (Table 6) & 19/60 = 32\% {[}21, 44{]} & 16/19 =
+Claude Opus (Table 7) & 19/60 = 32\% {[}21, 44{]} & 16/19 =
 \textbf{84\%} {[}62, 94{]} & 10/13 = 77\% \\
 Grok 4.6 & 32/60 = \textbf{53\%} {[}41, 65{]} & 20/32 = 62\% {[}45,
 77{]} & 20/32 = 62\% \\
@@ -1627,7 +1627,7 @@ benchmark, where the recall-conditional claim actually lives.
 
 \needspace{16\baselineskip}
 
-\textbf{Table 6. Forward-verification decomposition}, on the original
+\textbf{Table 7. Forward-verification decomposition}, on the original
 arm and on the whole benchmark.
 
 \begin{longtable}[]{@{}
@@ -1700,7 +1700,7 @@ conditional on recall (42/46 vs 16/19, Fisher exact p=0.41), the same
 restricted to multi-candidate compounds (20/24 vs 10/13, p=0.68),
 self-ranking on that subset (19/24 vs 8/13, p=0.28) --- and even on the
 composition detail above, the single-candidate fraction (22/46 vs 6/19,
-p=0.28). Table 6 keeps them in separate columns anyway, so a reader who
+p=0.28). Table 7 keeps them in separate columns anyway, so a reader who
 prefers the original arm can read it unpooled.
 
 Either way the margin over self-ranking remains a small, unresolved
@@ -1726,7 +1726,7 @@ an aggregate.
 
 LLM elucidation therefore factorises into two near-independent levers:
 the \textbf{verifier is already strong (89\%)}; the \textbf{generator
-(34\% recall) is the wall} (Fig. 1). Table 6 regenerates from the
+(34\% recall) is the wall} (Fig. 1). Table 7 regenerates from the
 released artifacts via
 \texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify\_\hspace{0pt}all.py}.
 
@@ -1743,8 +1743,8 @@ tested it directly: ten independent solver agents proposed up to
 the originals, and the 65 new candidates were forward-predicted and
 re-ranked as before. The measured result:
 
-\textbf{Table 7. Generate-wide vs original}, both on the 60-compound
-arm. The ``original'' column is Table 6's first column, not its
+\textbf{Table 8. Generate-wide vs original}, both on the 60-compound
+arm. The ``original'' column is Table 7's first column, not its
 full-benchmark one; wide generation was run on this arm only, so the
 comparison is held to it.
 
@@ -1771,7 +1771,7 @@ verification precision (conditional on recall) & 84\% & 72\% \\
 Wide generation lifts recall +10 points (32\%→42\%, i.e.~19/60→25/60)
 and exact top-1 +7 points over the self-ranking baseline (23\%→30\%,
 14/60→18/60) --- equivalently +3 over the original forward-verified
-top-1 (27\%→30\%, 16/60→18/60, Table 7) --- on the same 60 compounds
+top-1 (27\%→30\%, 16/60→18/60, Table 8) --- on the same 60 compounds
 (Fig. 6), with no training.
 
 \begin{figure}
@@ -1803,7 +1803,7 @@ alternatives, the \textasciitilde2 ppm predictor prefers some of them,
 and it cannot tell them from the truth. That is the precision ceiling of
 the paragraph below observed directly rather than inferred, and it is
 why recall --- not verification, and not prediction coverage --- remains
-the binding constraint. Table 7 and this coverage analysis regenerate
+the binding constraint. Table 8 and this coverage analysis regenerate
 from the released artifacts via
 \texttt{scripts/\hspace{0pt}score\_\hspace{0pt}generate\_\hspace{0pt}wide.py}
 and
@@ -1878,7 +1878,7 @@ sits}, and answering that needs a predictor that differs from the lookup
 in method while holding data and evaluation fixed --- not the best model
 available.
 
-\textbf{Table 8. Verifier comparison, conditional on recall}, on
+\textbf{Table 9. Verifier comparison, conditional on recall}, on
 identical candidate sets. Only the ¹³C predictor changes between rows.
 
 \begin{longtable}[]{@{}
@@ -1963,7 +1963,7 @@ control (1,000 derangements) places the real result above the 97.5th
 percentile of the chance distribution (n=19: real 84\% vs mean 58.6\%,
 95\% range 42.1--73.7\%, one-sided p\textless0.05). Like §5.6, the
 learned verifier is a \textbf{trained complement}, reported outside the
-training-free protocol. Table 8 and both leakage checks regenerate from
+training-free protocol. Table 9 and both leakage checks regenerate from
 the released artifacts
 (\texttt{scripts/\hspace{0pt}verifier\_\hspace{0pt}table.py},
 \texttt{scripts/\hspace{0pt}verifier\_\hspace{0pt}leakage.py},
@@ -2568,7 +2568,7 @@ generate-wide arm (§5.3) & \texttt{data/\hspace{0pt}gw/\hspace{0pt}},
 \ldots its coverage gap, closed &
 \texttt{data/\hspace{0pt}fverify\_\hspace{0pt}gw/\hspace{0pt}} &
 \texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify\_\hspace{0pt}gw.py} \\
-non-LLM verifier comparison (Table 8) &
+non-LLM verifier comparison (Table 9) &
 \texttt{data/\hspace{0pt}fverify/\hspace{0pt}hose\_\hspace{0pt}results.txt},
 \texttt{data/\hspace{0pt}fverify/\hspace{0pt}verifier\_\hspace{0pt}table\_\hspace{0pt}results.txt}
 & \texttt{scripts/\hspace{0pt}hose\_\hspace{0pt}predict.py}

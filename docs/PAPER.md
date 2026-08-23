@@ -33,12 +33,14 @@ exactly as reported in an open-access paper, how often does a frontier large lan
 (here, Claude) recover the correct molecular *constitution*? We find 28% (top-1, n=194;
 95% CI 22–35) — far below the near-100% implied by curated demonstrations, and 15% once the
 benchmark's deliberate 50/50 difficulty balance is reweighted to the corpus it was drawn
-from ([@sec:benchmark-design-irspectra-bench]).
+from. Every rate below carries the same correction, which we give with each
+([@sec:benchmark-design-irspectra-bench]).
 
 The bottleneck lies in the model's *proposal* rather than its judgment. The true structure
 is proposed for only 34% of compounds; where it is, forward-verification — predicting each
 candidate's ¹³C spectrum and re-ranking by agreement with the observed one — selects it 89%
-of the time (58/65; 81% on the 37 where a ranker had a choice to make). **Recall, not
+of the time (58/65; 81% on the 37 where a ranker had a choice to make, and 71% under corpus
+weights against a reweighted recall of 20%). **Recall, not
 verification, is the wall.**
 
 That split needs no new data to apply to published work: a system reporting top-1 and
@@ -883,8 +885,7 @@ deterministic isomer enumerator can reach (`scripts/analyze_recall_headroom.py`)
 those to the 65 already recalled gives a loose upper bound of 106/194 = 54.6%, and the
 enumerator's realised reach is 41.8% ([@sec:generate-wide-testing-recipe]), so roughly a
 third of the remaining wall is substituent placement around a scaffold the model already
-has, and two thirds is a scaffold it never proposed. The bound is loose because generic-
-scaffold equality overcounts what an enumerator can actually build; we report the realised
+has, and two thirds is a scaffold it never proposed. The bound is loose because generic-scaffold equality overcounts what an enumerator can actually build; we report the realised
 figure as the achievable one.
 
 ### Non-LLM verifiers: a deterministic lookup and a learned model {#sec:non-llm-verifiers-deterministic}
@@ -1046,26 +1047,27 @@ stereochemistry-strict figure and a connectivity figure differ by 21 points on N
 own identical predictions. Candidate budgets differ and are given, because a recall measured
 over three candidates is mechanically smaller than one measured over ten.
 
-| system | data | top-1 | top-*k* (*k*) | recall | prec. |
+| system | data (*n*) | top-1 | top-*k* (*k*) | recall | prec. |
 |---|---|--:|--:|--:|--:|
 | ***scored on connectivity*** | | | | | |
-| this work, solver alone | literature | 28.4% | 33.5% (3) | 33.5% | 84.6% |
-| this work, + forward-verification | literature | 29.9% | 33.5% (3) | 33.5% | **89.2%** |
-| NMR-Solver[@jin2025nmrsolver] | literature | 52.9% | 67.3% (10) | ≥ 67.3% | ≤ 78.6% |
-| NMRAgent[@fang2026nmragent] | literature | 61.6% | 70.0% (10) | ≥ 70.0% | ≤ 88.0% |
+| this work, solver alone | literature (194) | 28.4% | 33.5% (3) | 33.5% | 84.6% |
+| this work, + forward-verification | literature (194) | 29.9% | 33.5% (3) | 33.5% | **89.2%** |
+| NMR-Solver[@jin2025nmrsolver] | literature (450) | 52.9% | 67.3% (10) | ≥ 67.3% | ≤ 78.6% |
+| NMRAgent[@fang2026nmragent] | literature (450) | 61.6% | 70.0% (10) | ≥ 70.0% | ≤ 88.0% |
 | ***scored with stereochemistry*** | | | | | |
-| this work | literature | 21.1% | 25.8% (3) | ≥ 25.8% | ≤ 81.8% |
-| NMR-Solver[@jin2025nmrsolver] | simulated | 66.9% | 89.9% (10) | ≥ 89.9% | ≤ 74.4% |
-| NMR-Solver[@jin2025nmrsolver] | literature | 31.6% | 53.8% (10) | ≥ 53.8% | ≤ 58.7% |
-| Espejo Morales[@espejo2026agentic] | education | 80.9% | 90.0% (5) | ≥ 90.0% | ≤ 89.9% |
-| Espejo Morales[@espejo2026agentic] | industrial | 20.6% | 29.1% (5) | ≥ 29.1% | ≤ 70.9% |
-| ***criterion not stated by the authors*** | | | | | |
-| Alberts, 6–13 atoms[@alberts2025benchmarks] | NIST IR | 63.8% | 84.0% (10) | 84.0% | 75.9% |
-| Alberts, 5–35 atoms[@alberts2025benchmarks] | NIST IR | 59.9% | 78.5% (10) | 78.5% | 76.4% |
-| SpecX, random split[@xiang2026specx] | simulated | 59.0% | 81.8% (10) | 81.8% | 72.2% |
-| SpecX, scaffold split[@xiang2026specx] | simulated | 29.7% | 50.6% (10) | 50.6% | 58.7% |
-| IR-Agent[@noh2025iragent] | NIST IR | 10.3% | 21.6% (10) | 21.6% | 47.7% |
-| Priessner[@priessner2026reasoning] | experimental | 20.6% | — | 26.5% | 77.8% |
+| this work | literature (194) | 21.1% | 25.8% (3) | ≥ 25.8% | ≤ 81.8% |
+| NMR-Solver[@jin2025nmrsolver] | simulated (1,000) | 66.9% | 89.9% (10) | ≥ 89.9% | ≤ 74.4% |
+| NMR-Solver[@jin2025nmrsolver] | literature (450) | 31.6% | 53.8% (10) | ≥ 53.8% | ≤ 58.7% |
+| Espejo Morales[@espejo2026agentic] | education (236) | 80.9% | 90.0% (5) | ≥ 90.0% | ≤ 89.9% |
+| Espejo Morales[@espejo2026agentic] | industrial (34) | 20.6% | 29.1% (5) | ≥ 29.1% | ≤ 70.9% |
+| ***exact match, stereo handling not stated*** | | | | | |
+| Alberts, 6–13 atoms[@alberts2025benchmarks] | NIST IR (3,455) | 63.8% | 84.0% (10) | 84.0% | 75.9% |
+| Alberts, 5–35 atoms[@alberts2025benchmarks] | NIST IR (5,024) | 59.9% | 78.5% (10) | 78.5% | 76.4% |
+| SpecX, random split[@xiang2026specx] | simulated (99,439) | 59.0% | 81.8% (10) | 81.8% | 72.2% |
+| SpecX, scaffold split[@xiang2026specx] | simulated (99,439) | 29.7% | 50.6% (10) | 50.6% | 58.7% |
+| IR-Agent[@noh2025iragent] | NIST IR (905) | 10.3% | 21.6% (10) | 21.6% | 47.7% |
+| ***criterion not stated*** | | | | | |
+| Priessner[@priessner2026reasoning] | experimental (34) | 20.6% | — | 26.5% | 77.8% |
 
 **Three groups have already run the control this paper needed.** Hold the system, the
 criterion and the candidate budget fixed and change only the data. Since top-1 = recall ×
@@ -1095,7 +1097,14 @@ where recall is exact that share is 38% on SpecX's simulated random split and 39
 Alberts' NIST gas-phase library, where ranking is therefore the larger term; 56% on SpecX's
 scaffold split; 67% for IR-Agent on experimental NIST spectra; and 87–91% on ours. What
 separates the low end from the high is not method sophistication — the two extremes are both
-trained transformers — but how far the evaluation data are from one curated distribution. Ranking is co-equal or dominant where
+trained transformers — but how far the evaluation data are from one curated distribution.
+
+Candidate budget confounds this, and pushes it our way: recall measured over three
+candidates is mechanically smaller than recall over ten, which raises our share. Our own
+generate-wide arm supplies the test, since it widens the budget on the same compounds — at
+recall 42% and top-1 30% the share is 72%, down from 91% but still far above the 38–39% of
+the simulated and single-library rows ([@sec:generate-wide-testing-recipe]). The ordering
+survives the confound; the magnitude should be read with it in mind. Ranking is co-equal or dominant where
 spectra are simulated or drawn from one curated instrument library with the formula
 supplied; recall binds where they are real and heterogeneous. The clearest counterexample is
 Priessner et al., whose reasoning-LLM re-ranker moves top-1 from 41.2% to 67.6% on a fixed

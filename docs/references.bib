@@ -190,17 +190,22 @@
   note    = {circulated in v1 as {MolSpectLLM}}
 }
 
-@article{zhuang2025treesearch,
-  author  = {Zhuang, Xiang and Wu, Bin and Cui, Jiyu and Feng, Kehua and
-             Li, Xiaotong and Xing, Huabin and Ding, Keyan and
-             Zhang, Qiang and Chen, Huajun},
-  title   = {Boosting {LLM}'s molecular structure elucidation with
-             knowledge-enhanced tree-search reasoning},
-  journal = {Proc. 63rd Annu. Meet. Assoc. Comput. Linguist. (Vol. 1: Long Papers)},
-  year    = {2025},
-  pages   = {22561--22576},
-  doi     = {10.18653/v1/2025.acl-long.1100},
-  url     = {https://aclanthology.org/2025.acl-long.1100/}
+% ACL 2025 long paper, not a journal article: typed @article the proceedings title landed
+% in `journal`, so the RSC style took its article-journal branch and printed the venue and
+% page range bare, without the "in ..., pp. ..." its sibling proceedings entries carry.
+% Venue, pages and DOI verified against the ACL Anthology (2025.acl-long.1100).
+@inproceedings{zhuang2025treesearch,
+  author    = {Zhuang, Xiang and Wu, Bin and Cui, Jiyu and Feng, Kehua and
+               Li, Xiaotong and Xing, Huabin and Ding, Keyan and
+               Zhang, Qiang and Chen, Huajun},
+  title     = {Boosting {LLM}'s molecular structure elucidation with
+               knowledge-enhanced tree-search reasoning},
+  booktitle = {{Proc. 63rd Annu. Meet. Assoc. Comput. Linguist.
+                (Vol. 1: Long Papers)}},
+  year      = {2025},
+  pages     = {22561--22576},
+  doi       = {10.18653/v1/2025.acl-long.1100},
+  url       = {https://aclanthology.org/2025.acl-long.1100/}
 }
 
 @article{smith2010dp4,

@@ -112,11 +112,17 @@ for i, ax in enumerate(axes):
         ax.set_xticklabels([])
 axes[2].set_xlabel("$^{13}$C chemical shift (ppm)", labelpad=2)
 
-fig.legend(handles=[Line2D([0], [0], color=fs.FAINT, lw=3.4, label="observed"),
+# The observed spectrum is drawn twice, at two weights: near-black in (a), where it IS
+# the panel, and pale grey behind (b) and (c), where it is the reference the prediction
+# is read against. One pale swatch labelled "observed" therefore disagreed with panel
+# (a) -- it matched only the ghost. Both weights are keyed, and the legend is set at the
+# panel-title size rather than a size below the print floor.
+fig.legend(handles=[Line2D([0], [0], color=fs.INK, lw=1.5, label="observed"),
+                    Line2D([0], [0], color=fs.FAINT, lw=3.4, label="observed, ghosted"),
                     Line2D([0], [0], color=fs.GREEN, lw=1.5, label="predicted, true"),
                     Line2D([0], [0], color=fs.VERMIL, lw=1.5, label="predicted, wrong")],
-           loc="upper left", bbox_to_anchor=(0.36, 0.99), ncol=3, fontsize=fs.FS_SMALL,
-           handlelength=1.2, columnspacing=1.4, borderaxespad=0)
+           loc="upper left", bbox_to_anchor=(0.34, 0.995), ncol=4, fontsize=fs.FS_BODY,
+           handlelength=1.2, columnspacing=1.1, handletextpad=0.4, borderaxespad=0)
 
 plt.savefig("docs/figures/fig_mechanism.png")
 print("wrote docs/figures/fig_mechanism.png")

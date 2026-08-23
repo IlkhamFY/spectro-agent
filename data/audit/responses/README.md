@@ -4,6 +4,11 @@ One JSON file per reviewer, exported from [`../worksheet.html`](../worksheet.htm
 Name it after the reviewer (`r-sondhi.json`). Commit them; they are the audit's
 primary record, and `scripts/score_audit.py` reads every `*.json` in this directory.
 
+**`r-sondhi.json` is not a panel response.** It is from a co-author of the article,
+recorded while checking that the worksheet and the scorer work end to end. The panel is
+three chemists independent of the authors; no reported number draws on this file, and
+whoever scores the panel should exclude it.
+
 ```
 python3 scripts/score_audit.py                  # Table A + Table B
 python3 scripts/score_audit.py --json out.json  # ...and machine-readable read-outs

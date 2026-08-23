@@ -282,9 +282,9 @@ justify it. Composer and Luna were left out at 67% and 76% adherence.
 for all four vendors, which is the criterion `docs/CROSS_VENDOR.md` sets. Reading the two
 marginal intervals against each other is the wrong test — recall and precision are measured
 on the same compounds, so the claim belongs to the paired difference. Bootstrapping
-compounds (`scripts/cross_vendor_gap.py`) resolves three of the four: Claude, Gemini
-+23.3 points [+2.9, +44.3] and GPT-5.6 Sol +26.3 [+4.2, +49.0] exclude zero, while Grok
-+9.2 [−10.7, +30.3] stays directional at n=60.
+compounds (`scripts/cross_vendor_gap.py`) resolves three of the four: Claude
++52.5 points [+31.2, +71.7], GPT-5.6 Sol +26.3 [+4.5, +48.6] and Gemini +23.3
+[+3.2, +44.3] exclude zero, while Grok +9.2 [−11.7, +30.0] stays directional at n=60.
 
 Two things are worth more than the headline.
 

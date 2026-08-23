@@ -13,7 +13,12 @@ import os, re, subprocess, tempfile, pypandoc
 TECTONIC = os.environ.get("PDF_ENGINE", "/tmp/tectonic")
 OUT = "docs/paper.pdf"
 
-# Supporting-Information figures (numbered Fig. S1-S4)
+# Supporting-Information figures. Numbered S1, S2, ... by their order in this list --
+# scripts/crossref.si_labels() reads that order back out of here, so a caption may be
+# reworded but the filenames and their order may not be reshuffled casually.
+# Section pointers are written as [@sec:...] and resolved in build_esi(), for the same
+# reason the manuscript stopped typing them: "\\S5.6" is right on the day it is typed
+# and silently wrong the moment a section moves.
 SI_FIGS = [
     ("fig0_overview.png", "Study design: open multimodal data (IRexp) → blind, "
      "complexity-stratified benchmark → decoupled blind solving → "
@@ -24,15 +29,18 @@ SI_FIGS = [
      "top-1 gradient with heavy-atom count."),
     ("fig6_electrolyte.png", "IRSpectra-Bench-Electrolyte by battery-electrolyte class "
      "(n=46): sp$^3$-C--F easiest (50\\%), sulfonyl and nitrile hardest (12\\%)."),
-    ("fig_generator_probe.png", "Trained-generator probe (\\S5.6; a complement, not part "
-     "of the training-free protocol). Candidate recall and deterministic-HOSE top-1 on "
-     "the 194-compound benchmark for Claude / + scaffold enumeration / + trained "
+    ("fig_generator_probe.png",
+     "Trained-generator probe ([@sec:recall-wall-task-intrinsic]; a complement, not "
+     "part of the training-free protocol). Candidate recall and deterministic-HOSE "
+     "top-1 on the 194-compound benchmark for Claude / + scaffold enumeration / + trained "
      "generator: enumeration's near-degenerate isomers collapse the verifier "
      "(28.4→16.0\\%) while the generator's formula-correct candidates convert "
      "(28.4→35.1\\%)."),
-    ("fig_verifier.png", "Learned-verifier probe (\\S5.4; a complement, not part of the "
-     "training-free protocol). (**a**) Conditional-on-recall top-1 over the whole benchmark "
-     "(n=65) across four verifiers: a GNN trained on the same nmrshiftdb2 data as the "
+    ("fig_verifier.png",
+     "Learned-verifier probe ([@sec:non-llm-verifiers-deterministic]; a complement, not "
+     "part of the training-free protocol). (**a**) Conditional-on-recall top-1 over the "
+     "whole benchmark (n=65) across four verifiers: a GNN trained on the same "
+     "nmrshiftdb2 data as the "
      "HOSE lookup reaches the LLM verifier's level (91\\% against 89\\%) where the "
      "lookup (85\\%) does not move off the solver's own ranking. (**b**) Held-out $^{13}$C "
      "MAE --- the learned model is roughly 2$\\times$ sharper (1.70 vs 3.23 ppm)."),
@@ -43,9 +51,13 @@ UNI = {
     # long file paths in \texttt breakable; see breakable_paths() below.
     "\u200b": r"\allowbreak{}",
     "±": r"\ensuremath{\pm}", "×": r"\ensuremath{\times}", "−": r"\ensuremath{-}",
-    "→": r"\ensuremath{\rightarrow}", "≈": r"\ensuremath{\approx}",
-    "≤": r"\ensuremath{\leq}", "≥": r"\ensuremath{\geq}", "≫": r"\ensuremath{\gg}",
-    "⊂": r"\ensuremath{\subset}", "∩": r"\ensuremath{\cap}",
+    "≈": r"\ensuremath{\approx}",
+    # Relations and bounds set their own spacing; see \relspaced and \atmost in header().
+    # A bare \ensuremath{\leq} is a single atom with no neighbours, so TeX contributes
+    # nothing and the printed gap is whatever the author happened to type around it.
+    "→": r"\relspaced{\rightarrow}", "≫": r"\relspaced{\gg}",
+    "⊂": r"\relspaced{\subset}", "∩": r"\relspaced{\cap}",
+    "≤": r"\atmost{\leq}", "≥": r"\atmost{\geq}",
     "∼": r"\ensuremath{\sim}",
     # Greek — Latin Modern roman lacks these glyphs, so route through math mode
     "χ": r"\ensuremath{\chi}", "μ": r"\ensuremath{\mu}", "σ": r"\ensuremath{\sigma}",
@@ -61,7 +73,13 @@ UNI = {
     "₉": r"\textsubscript{9}",
 }
 
-TEXTWIDTH_IN = 6.3   # \textwidth at 1-inch margins on US-letter
+# Cap on figure width. \textwidth at 1-inch margins on US-letter is 6.5in; the cap
+# sits at the 6.3in the wide plates are drawn at, so it currently never binds -- it
+# is a guard against a future figure exported wider than the measure, not a
+# statement of what the measure is. (The 0.2in it leaves means a full-width plate
+# does not line up with the text block; closing that is a change to the figure
+# scripts, since fig_width() must never upscale.)
+TEXTWIDTH_IN = 6.3
 
 def fig_width(path):
     """Render each figure at its native design size (px / dpi), capped at the text
@@ -269,8 +287,17 @@ def proportional_tables(md):
                     # ended 330pt short and its second opened with an empty ruled header
                     # above the caption. A long table breaks anyway, and its head repeats.
                     need = 8
+                    # ... and set it at caption size. \captionsetup{font=small} in the
+                    # preamble reaches figures only, because a figure caption is a real
+                    # \caption and a table caption here is an ordinary markdown
+                    # paragraph. So figure captions printed at 9.96pt and table captions
+                    # at 10.91pt -- body size -- on facing pages, the same mismatch of
+                    # convention the caption package was brought in to end. \small has to
+                    # close *after* the paragraph, so the closing \par is set with the
+                    # small \baselineskip too.
                     out[k:k] = ["```{=latex}", f"\\needspace{{{need}\\baselineskip}}",
-                                "```", ""]
+                                r"\begingroup\small", "```", ""]
+                    out += ["```{=latex}", r"\endgroup", "```", ""]
             out.extend(lines[i:j])
             i = j
             continue
@@ -409,6 +436,11 @@ def title_block(md):
 
 def header():
     lines = [r"\usepackage{newunicodechar}", r"\usepackage{graphicx}",
+             # etoolbox supplies \pretocmd, \ifcsdef, \AtBeginEnvironment and
+             # \AfterEndEnvironment, all used below. pandoc's own template happens to load
+             # it first, and so does fvextra, which is why the load used to sit *after*
+             # its first use and still work. Declare the dependency where it is needed.
+             r"\usepackage{etoolbox}",
              r"\renewcommand{\figurename}{Fig.}",
              # TeX's default extra space after a period assumes the period ends a
              # sentence. This text is dense with abbreviations that it does not --
@@ -447,17 +479,25 @@ def header():
              # column gets deferred to the top of a page and can end up alone on one.
              # Fig. 6 held a page with four lines of text on it. Allow "here".
              r"\makeatletter\renewcommand{\fps@figure}{htbp}\makeatother",
+             # (\displaywidowpenalty sat here too and did nothing: it only fires at a page
+             # break inside displayed maths, and neither document sets a display -- no
+             # equation, align, gather or \[ in either .tex.)
              r"\clubpenalty=10000", r"\widowpenalty=10000",
-             r"\displaywidowpenalty=10000",
              # ... and a heading with one line under it at the foot of a page is the same
              # defect one level up. Reserve enough for the heading plus a few lines.
              r"\pretocmd{\section}{\needspace{4\baselineskip}}{}{}",
              r"\pretocmd{\subsection}{\needspace{3.5\baselineskip}}{}{}",
              r"\pretocmd{\subsubsection}{\needspace{3\baselineskip}}{}{}",
              # Hyphenations TeX gets wrong in this vocabulary, each seen broken in the
-             # built PDF: "regioi-somers", "McNe-mar", "Y-randomisation", "IR-exp".
-             r"\hyphenation{regio-isomer regio-isomers regio-isomeric McNemar"
-             r" InChI-Key IRexp rand-om-isa-tion nitro-phenyl HOSE Che-mo-tion}",
+             # built PDF: "regioi-somers", "McNe-mar", "IR-exp".
+             #
+             # "regioisomeric" and "randomisation" were listed here too and neither can
+             # ever be reached: the first appears in no document, and the second only
+             # ever appears as "Y-randomisation", where the explicit hyphen ends the word
+             # as far as TeX's pattern matching is concerned, so the exception is never
+             # consulted. The break that was actually seen is the one at that hyphen.
+             r"\hyphenation{regio-isomer regio-isomers McNemar"
+             r" InChI-Key IRexp nitro-phenyl HOSE Che-mo-tion}",
              # Long unbreakable DOIs in the reference list cannot hyphenate, so a
              # justified paragraph stretches interword space towards one word per line.
              # Set the generated bibliography ragged-right instead.
@@ -471,7 +511,6 @@ def header():
              #
              # Guarded, because this same preamble builds the ESI, which cites nothing
              # and so never gets pandoc's citeproc block or \CSLRightInline with it.
-             r"\usepackage{etoolbox}",
              r"\ifcsdef{CSLRightInline}{"
              # link-bibliography wraps whole entries in \href, so with colorlinks on, some
              # references printed entirely blue and others black with only the DOI blue.
@@ -500,6 +539,31 @@ def header():
                   r"\AfterEndEnvironment{longtable}{\linenumbers}",
                   r"\AtBeginEnvironment{figure}{\nolinenumbers}",
                   r"\AfterEndEnvironment{figure}{\linenumbers}"]
+    # Spacing for the relation glyphs, fixed here rather than left to the source.
+    #
+    # \ensuremath{\leq} is one atom with nothing beside it, so TeX's own relation spacing
+    # never fires and the printed gap is exactly the spaces the author typed: the same
+    # glyph read "≥ 0.45" on one page and "≤15" on another, "1/20 → 3/20" against
+    # "19/60→25/60". Both definitions swallow the neighbouring spaces (\unskip behind,
+    # \ignorespaces ahead) and lay down their own, so the source can go on being written
+    # whichever way reads best in markdown.
+    #
+    #   \relspaced  a genuine binary relation between two operands (→, ⊂, ∩, ≫): a thin
+    #               space on both sides. The one behind is a kern and the one ahead is
+    #               glue, which is how TeX treats a relation in math -- a line may break
+    #               after it, never before, so "A →" cannot be stranded at a line end.
+    #   \atmost     ≤ and ≥ never relate two operands in this manuscript; every one of
+    #               them reads "at most 15", "at least 0.45" -- a prefix on the quantity
+    #               that follows. So: an ordinary atom, not a relation, bound tight to
+    #               its number with no space and no breakpoint between the two. The space
+    #               to its left is a word boundary rather than relation spacing, and is
+    #               left to the source, which varies it correctly ("Tanimoto ≥0.45" but
+    #               "p≥0.25").
+    lines += [
+        r"\newcommand{\relspaced}[1]{\leavevmode\unskip\,\ensuremath{#1}"
+        r"\hskip0.16667em\relax\ignorespaces}",
+        r"\newcommand{\atmost}[1]{\ensuremath{\mathord{#1}}\ignorespaces}",
+    ]
     for ch, cmd in UNI.items():
         lines.append(f"\\newunicodechar{{{ch}}}{{{cmd}}}")
     return "\n".join(lines)
@@ -540,18 +604,17 @@ def build_esi(h_path, bib):
           "```{=latex}\n\\renewcommand{\\thefigure}{S\\arabic{figure}}"
           "\\setcounter{figure}{0}"
           "\n```\n\n")
+    # The ESI is numbered independently but shares the label namespace with the main
+    # text, so [@sec:...] pointing back into the article still resolves.
+    import crossref
+    article = crossref.audit(open("docs/PAPER.md").read())["labels"]
     # Prose sections, if any: detail displaced from the main text during the cut lives in
     # docs/ESI.md, which is ordinary markdown and carries the same citations. Figures are
     # appended after it, so a reader meets the methods before the plates.
     body = "docs/ESI.md"
     if os.path.exists(body):
         esi_src = open(body).read()
-        # The ESI is numbered independently but shares the label namespace with the main
-        # text, so [@sec:...] pointing back into the article still resolves.
-        import crossref
-        esi_src, _ = crossref.resolve(
-            esi_src, external=crossref.audit(open("docs/PAPER.md").read())["labels"],
-            prefix="S")
+        esi_src, _ = crossref.resolve(esi_src, external=article, prefix="S")
         # The same two helpers the article gets. Without them the ESI's tables fell back to
         # pandoc's equal-column division, so script paths in Tables S1, S2 and S4 overprinted
         # the neighbouring column, and Table S5's caption stranded a page above its table --
@@ -570,6 +633,11 @@ def build_esi(h_path, bib):
     for fn, cap in SI_FIGS:
         path = f"docs/figures/{fn}"
         if os.path.exists(path):
+            # The plate captions are a second caption source, and they pointed at the
+            # article by typed number ("\\S5.6"). crossref exists so no number is typed;
+            # run them through it as well, and an undefined label now stops the build
+            # instead of printing a stale pointer.
+            cap, _ = crossref.resolve(cap, external=article, prefix="S")
             md += f"![{cap}]({path}){{width={fig_width(path)}}}\n\n"
             n += 1
     if not n:
@@ -644,7 +712,9 @@ def main():
         "-M", "link-bibliography=true",
         "-V", "geometry:margin=1in", "-V", "fontsize=11pt",
         "-V", "linkcolor=blue", "-V", "urlcolor=blue", "-V", "colorlinks=true",
-        "-V", "subparagraph",
+        # ("-V subparagraph" was here. It only suppresses pandoc's run-in patch for
+        # \paragraph/\subparagraph, and the manuscript has no heading that deep -- no
+        # "####" in PAPER.md or ESI.md, and no \paragraph in the emitted .tex.)
         "-H", h_path,
     ]
     pypandoc.convert_file(md_path, "pdf", format="markdown", outputfile=OUT,

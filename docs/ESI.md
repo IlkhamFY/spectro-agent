@@ -355,19 +355,24 @@ with unpredicted candidates reports a lower bound on verified top-1 rather than 
 measurement — which is why the generate-wide arm was re-run to completion.
 
 **Table {#tab:esi-coverage}. Forward-prediction coverage, by arm.** Batch size is 17
-anonymised SMILES throughout.
+anonymised SMILES throughout. The candidate count is what each pass was responsible for
+rather than a cumulative pool: candidates new to the pool for the widened arm, and
+candidates still outstanding — proposed earlier but never predicted — for the two closure
+arms.
 
 | arm | data directory | candidates | forward-predicted | agents |
-|------------------------------------|--------------------------|---------------:|------------------:|-------:|
+|------------------------------------|--------------------------|-----------:|------------------:|-------:|
 | original 60-compound arm | `data/fverify/` | 126 | 126 | 8 |
-| widened candidate pool | `data/fverify2/` | 65 new | 65 | 4 |
+| widened candidate pool | `data/fverify2/` | 65 | 65 | 4 |
 | extension to the whole benchmark | `data/fverify_main/` | 247 | 247 | 15 |
-| generate-wide coverage-gap closure | `data/fverify_gw/` | 152 outstanding | 152 | 9 |
-| trained-generator arm, re-run | `data/fverify_gen/` | 75 outstanding | 75 | 5 |
+| generate-wide coverage-gap closure | `data/fverify_gw/` | 152 | 152 | 9 |
+| trained-generator arm, re-run | `data/fverify_gen/` | 75 | 75 | 5 |
 
 Across the whole benchmark that is **373 of 373** candidates forward-predicted by 23
-independent agents over 194 targets, so nothing in
-[@tab:forward-verification-decomposition] is a lower bound. In the generate-wide arm all
+independent agents over 194 targets — the first and third rows of the table above, 126 and
+247 candidates over 8 and 15 agents; the remaining three rows re-rank the widened
+generate-wide pool and the generator probe, which the decomposition does not draw on — so
+nothing in [@tab:forward-verification-decomposition] is a lower bound. In the generate-wide arm all
 **217 of 217** distinct new candidates are now predicted where the original pass had
 predicted 65, and **not one number moves**: recall 42%, forward-verified top-1 30%,
 precision 72%. The added coverage buys a direct view of the mechanism — on **18 of the 60**
@@ -438,9 +443,12 @@ and **no benchmark answer appears in the database at all** (0/373; the 60-compou
 training molecule is **0.44**, three candidates above 0.80, and over the **65 true
 structures the verifier must identify** the nearest training analog has median Tanimoto
 **0.50** and maximum **0.81** — no compound the conditional analysis scores has a
-near-duplicate in training. A Y-randomisation control (1,000 derangements) places the
-learned verifier above the 97.5th percentile of chance (n=19: real 84% against a permuted
-mean of 58.6%, 95% range 42.1–73.7%, one-sided p<0.05). Both checks regenerate via
+near-duplicate in training. A Y-randomisation control (1,000 derangements) was run on the
+60-compound arm rather than the whole benchmark, and places the learned verifier above the
+97.5th percentile of chance (n=19: real 16/19 = 84% against a permuted mean of 58.6%,
+95% range 42.1–73.7%, one-sided p<0.05); that chance floor is
+predictor-dependent, so it is not the derangement floor quoted for the LLM verifier in
+[@sec:esi-forward] (`docs/VERIFIER_PROBE.md`). Both checks regenerate via
 `scripts/verifier_leakage.py`; neither predictor is redistributable end-to-end, the
 nmrshiftdb2 dump being one a reader must supply.
 
@@ -462,10 +470,11 @@ committed `sweep_prompts/`, one fresh subagent per batch, at no API cost. Raw re
 `sweep_out/`.
 
 **Table {#tab:esi-vendor-generation}. Generation stage, every model run on the 60-compound
-arm**, with the article's Claude Opus arm for reference.
+arm**, with the article's Claude Opus arm for reference. *Formula* is the share of returned
+candidates whose composition matches the molecular formula the solver was given.
 
-| model | route | answered | recall | top-1 | parse | matches the given formula |
-|---------------------------------|--------------|---------:|-------:|------:|------:|--------------------------:|
+| model | route | answered | recall | top-1 | parse | formula |
+|---------------------------------|--------------|---------:|-------:|------:|------:|--------:|
 | `grok-4.6` | cloud agent | 60/60 | **53%** | 38% | 99% | 95% |
 | `gemini-3.7-flash` | cloud agent | 60/60 | **50%** | 38% | 98% | 94% |
 | `gpt-5.6-sol` | cloud agent | 60/60 | **42%** | 35% | 100% | **100%** |
@@ -492,17 +501,18 @@ difference.
 
 | model | generation recall | verification precision given recall | multi-candidate only |
 |-------------------------------|------------------:|------------------------------------:|---------------------:|
-| *Claude Opus (reference arm)* | *19/60 = 32%* [21, 44] | *16/19 = 84%* [62, 94] | *10/13 = 77%* |
-| `grok-4.6` | 32/60 = 53% [41, 65] | 20/32 = 62% [45, 77] | 20/32 = 62% |
-| `gemini-3.7-flash` | 30/60 = 50% [38, 62] | 22/30 = 73% [56, 86] | 22/30 = 73% |
-| `gpt-5.6-sol` | 25/60 = 42% [30, 54] | 17/25 = 68% [48, 83] | 16/24 = 67% |
+| *Claude Opus (reference arm)* | *19/60 = 32%* [21–44] | *16/19 = 84%* [62–94] | *10/13 = 77%* |
+| `grok-4.6` | 32/60 = 53% [41–65] | 20/32 = 62% [45–77] | 20/32 = 62% |
+| `gemini-3.7-flash` | 30/60 = 50% [38–62] | 22/30 = 73% [56–86] | 22/30 = 73% |
+| `gpt-5.6-sol` | 25/60 = 42% [30–54] | 17/25 = 68% [48–83] | 16/24 = 67% |
 
 **Two corrections the marginal intervals above do not show.** Recall and precision are
 measured on the same compounds, so the inequality belongs to the *paired* difference, not
 to whether two intervals overlap. Bootstrapping compounds
-(`scripts/cross_vendor_gap.py`) resolves three of the four arms — Claude, Gemini
-+23.3 points [+2.9, +44.3], GPT-5.6 Sol +26.3 [+4.2, +49.0] — and leaves Grok
-+9.2 [−10.7, +30.3] directional. And the recall column is not budget-matched: the
+(`scripts/cross_vendor_gap.py`) resolves three of the four arms — Claude
++52.5 points [+31.2 to +71.7], GPT-5.6 Sol +26.3 [+4.5 to +48.6], Gemini +23.3
+[+3.2 to +44.3] — and leaves Grok +9.2 [−11.7 to +30.0] directional. Claude's is the
+widest and the least informative: its singleton-heavy candidate sets inflate it. And the recall column is not budget-matched: the
 reference arm holds 2.20 candidates per compound against exactly 3.00 for every comparison
 model (Composer 2.82), and a longer list can only raise recall. At one candidate, the only
 budget every model met, recall is 14/60 = 23% for Claude, 23/60 = 38% for Grok, 23/60 = 38%
@@ -528,8 +538,8 @@ re-ran all ten batches from a clean clone (`sweep_out/grok-4.6-clean/`).
 
 | arm | recall | 95% CI | parse | formula match |
 |-----------------------------------|-------------:|--------:|--------:|--------------:|
-| original (answer files present) | 32/60 = 53% | [41, 65] | 179/180 | 171/180 |
-| clean clone (answer files absent) | 28/60 = 47% | [35, 59] | 176/180 | 174/180 |
+| original (answer files present) | 32/60 = 53% | [41–65] | 179/180 | 171/180 |
+| clean clone (answer files absent) | 28/60 = 47% | [35–59] | 176/180 | 174/180 |
 
 Paired, that is **b=8, c=4, McNemar exact p=0.39**. The decisive detail is the asymmetry
 rather than the totals: a model reading the key would solve a superset, and instead **four
@@ -576,11 +586,12 @@ hazard[@xu2024contamination] head-on rather than by masking: publication years w
 resolved for all 194 compounds from their accessions (`scripts/contamination_recency.py`)
 and span 2008–2026. Accuracy is flat: **28.6%** for the older half (≤2020, n=112) against
 **28.0%** for the newer (n=82), point-biserial r between year and correctness of **−0.007**, the most
-recent bucket (≥2024, n=25) in fact highest at 40% [23, 59]. The raw split is biased against
+recent bucket (≥2024, n=25) in fact highest at 40% [23–59]. The raw split is biased against
 the newer half, since newer papers skew larger (median 22 heavy atoms against 20) and size
-dominates accuracy; stratifying by heavy-atom band removes that (≤15: 64% against 58%;
-16–25: 34% against 25%; >25: 6% against 8%). The size-adjusted older-minus-newer difference
-is **−5.1 points, 95% CI [−17.2, +7.0]** (Cochran–Mantel–Haenszel χ²=0.42, p=0.51,
+dominates accuracy; stratifying by heavy-atom band removes that (newer against older —
+≤15: 64% against 58%; 16–25: 34% against 25%; >25: 6% against 8%). The size-adjusted
+older-minus-newer difference
+is **−5.1 points, 95% CI [−17.2 to +7.0]** (Cochran–Mantel–Haenszel χ²=0.42, p=0.51,
 continuity-corrected) — a bound on any recency effect, not a reversed one.
 
 ## Human-expert audit: protocol and status {#sec:esi-audit}
@@ -624,9 +635,12 @@ the Task 1 draw for recall-positive compounds would raise the very rate Task 1 j
 
 **Status.** The panel has not been run and the article reports no audit result
 ([@sec:limitations]). One reviewer file is deposited at `data/audit/responses/` (submitted
-2026-08-18 UTC), incomplete against the 37-item kit; a single partial reviewer supports
-neither read-out, inter-rater agreement needing at least two reviewers and the
-pre-registered panel being three. Scoring is mechanical (`scripts/score_audit.py`), and the
+2026-08-18 UTC), incomplete against the 37-item kit. **It is from a co-author of this
+article**, recorded while testing that the worksheet and the scorer work end to end, and it
+is therefore not a panel response: the panel is defined as three chemists independent of the
+authors, and no reported number will draw on this file. A single partial reviewer would
+support neither read-out in any case, inter-rater agreement needing at least two reviewers
+and the pre-registered panel being three. Scoring is mechanical (`scripts/score_audit.py`), and the
 three Task 2 sets holding a single candidate (A19, A21, A30) cannot be ranked, so the
 scorer excludes and flags them. Until expert results are in, the
 two claims the panel targets — what a miss actually is ([@sec:well-llms-elucidate-real]),

@@ -163,9 +163,9 @@ pretrained on 1,399,806 simulated spectra[@alberts2025benchmarks]. That headline
 LLM and the purpose-trained transformer are closer than the headline numbers suggest. Size
 is not the whole story, though, and we do not claim it is: the same work reports 59.94%
 on a 5–35-heavy-atom set (n=5,024), which spans most of our range and falls only four
-points. What differs there is the data rather than the size: a single-instrument gas-phase
-library against heterogeneous literature-reported band lists. Neither setting bounds the
-other. Reported accuracies also swing
+points below that 63.8% headline. What differs there is the data rather than the size: a
+single-instrument gas-phase library against heterogeneous literature-reported band lists.
+Neither setting bounds the other. Reported accuracies also swing
 with inference method and scoring harness: GPT-4o is scored at 1.4% on MolPuzzle by
 the benchmark's own authors[@guo2024molpuzzle], at 27.8% under a plain
 chain-of-thought harness, and at 57.8% with knowledge-enhanced tree-search
@@ -299,11 +299,11 @@ filtered (57/60 pass; [@sec:limitations]).
 **Difficulty is declared in advance, as a property of the compound.** By RDKit ring
 analysis a compound is *simple* iff it has at most two rings, no fused/spiro/bridgehead
 system and ≤22 heavy atoms; all others are *complex* (98 simple / 96 complex), so the
-split is exhaustive. The threshold is not load-bearing: sweeping it from 18 to 26 moves
-the simple-minus-complex top-1 gap only between 36 and 40 points (39.6 as released;
-`scripts/difficulty_sensitivity.py`). This axis is distinct from the continuous size
-gradient of [@sec:headline-performance] (≤15 / 16–25 / >25 heavy atoms), and InChIKey
-de-duplication across rounds prevents leakage.
+split is exhaustive. The threshold is not load-bearing: sweeping it from 18 to 26 leaves
+the simple-minus-complex top-1 gap inside a 36–40-point band throughout (36.1 at the
+narrowest, 39.6 as released; `scripts/difficulty_sensitivity.py`). This axis is distinct
+from the continuous size gradient of [@sec:headline-performance] (≤15 / 16–25 / >25 heavy
+atoms), and InChIKey de-duplication across rounds prevents leakage.
 
 **The 50/50 balance is by design, and the corpus is not balanced.** The sampler fills each
 stratum to half the round, so "98 simple / 96 complex" is a property of the draw and not an
@@ -325,9 +325,9 @@ layer (first 14 characters) matches the reference: we score *constitution*, so c
 constitution with wrong stereochemistry counts as correct. We report the strict
 alternative rather than assert it is immaterial — the *full*, stereochemistry-sensitive
 InChIKey gives 21.1% top-1 and 25.8% recovered (41/194 and 50/194) against 28.4% /
-33.5%, 7.3 points lower, so the constitution figure is an upper bound on
-full-stereochemistry accuracy. Constitution is the headline because 1D ¹H/¹³C/IR rarely
-fixes absolute configuration: only 10.3% (20/194) of answers carry a *defined* (assigned
+33.5% — 7.3 points lower on top-1 and 7.7 on recovered — so the constitution figure is an
+upper bound on full-stereochemistry accuracy. Constitution is the headline because 1D
+¹H/¹³C/IR rarely fixes absolute configuration: only 10.3% (20/194) of answers carry a *defined* (assigned
 R/S) stereocentre, and a model is penalised there for information the prompt never
 contained (`scripts/score_main.py --stereo`).
 
@@ -377,7 +377,7 @@ the variable that [@sec:methodology-dominates-within-compound] shows matters. Th
 | metric | overall (n=194) | simple (n=98) | complex (n=96) |
 |---|--:|--:|--:|
 | top-1 exact constitution | **28.4%** [22–35] | 48.0% [39–57] | 8.3% [3–15] |
-| recovered (within top-3) | 33.5% [27–40] | 54.1% [44–63] | 12.5% [6–20] |
+| recovered (top-3) | 33.5% [27–40] | 54.1% [44–63] | 12.5% [6–20] |
 | scaffold-level (best Tanimoto ≥ 0.45) | 56% | 73% | 39% |
 | mean best Tanimoto | 0.59 | 0.73 | 0.45 |
 
@@ -446,8 +446,8 @@ systems report more still, on data of their own making: Spectro 93% (82% with
 fixed embeddings) on a split whose IR is plotted from reference data and whose NMR is
 software-*predicted*[@chacko2024spectro]; NMIRacle 48% top-1 / 66% top-15 on molecules
 held out from a *simulated* corpus inside its own training distribution, as its authors
-note[@ottomano2025nmiracle]. Ours is 28.4% top-1 (33.5% top-3), 29.9% with forward
-verification ([@sec:forward-verification-elucidation]), on blind, real, literature-mined
+note[@ottomano2025nmiracle]. Ours is 28.4% top-1 (33.5% recovered, top-3), 29.9% with
+forward verification ([@sec:forward-verification-elucidation]), on blind, real, literature-mined
 experimental spectra of out-of-distribution compounds.
 
 One asymmetry cuts against us: NMIRacle takes no molecular formula where we supply it
@@ -653,10 +653,14 @@ different denominators, so the criterion is the inequality rather than a differe
 The inequality holds in every arm ([@fig:fig7-crossvendor]): verification precision
 exceeds generation recall for four independent model families. Recall and precision are
 measured on the same compounds, so what carries the claim is the paired difference rather than
-whether two marginal intervals overlap. Bootstrapping compounds
-(`scripts/cross_vendor_gap.py`) resolves three of the four: Claude, Gemini +23.3 points
-[+2.9 to +44.3] and GPT-5.6 Sol +26.3 [+4.2 to +49.0] all exclude zero. Grok does not —
-+9.2 [−10.7 to +30.3] — and we report its gap as directional.
+whether two marginal intervals overlap. The quantity bootstrapped is that difference
+*within* each vendor — its verification precision conditional on recall minus its own
+generation recall — not a difference against Claude. Resampling compounds
+(`scripts/cross_vendor_gap.py`) separates it from zero in three of the four arms: Claude
++52.5 points [+31.2 to +71.7], GPT-5.6 Sol +26.3 [+4.5 to +48.6] and Gemini +23.3
+[+3.2 to +44.3]. Grok does not — +9.2 [−11.7 to +30.0] — and we report its gap as
+directional. Claude's is the widest of the four and also the least informative: the
+singleton composition described next inflates it.
 
 Two findings sit underneath. Six of Claude's nineteen recall-positive compounds carried one
 candidate, so nothing was ranked and any verifier scores them by construction; [@sec:result]
@@ -687,7 +691,7 @@ formula adherence beside recall. A seventh arm, DeepSeek V4 Pro, returned answer
 its recall is a lower bound and it is excluded from the comparison rather than from the
 release — both its solve and verify files are deposited.
 
-![Every model measured on the 60-compound arm. (**a**) Generation recall, each model at the candidate budget it used: 3.00 candidates per compound for all but ours (2.20) and Composer (2.82). That axis therefore favours the models that always returned three. Grey marks models below the formula-adherence floor, whose recall is not a chemistry result. (**b**) The claim itself: verification precision against generation recall, with the diagonal. Every model sits above the line, so verification is better than generation for all four families; hollow marks an incomplete arm, where recall is a lower bound. The four Claude models of [@sec:model-comparison-benchmark-ranks] are deliberately absent: they ran a different 24-compound subset, and putting them here would imply a comparison that was never made.](docs/figures/fig7_crossvendor.png){#fig:fig7-crossvendor}
+![Every model measured on the 60-compound arm. (**a**) Generation recall, each model at the candidate budget it used: 3.00 candidates per compound for all but ours (2.20) and Composer (2.82). That axis therefore favours the models that always returned three. Grey marks models below the formula-adherence floor, whose recall is not a chemistry result, and hatching marks an incomplete arm — DeepSeek V4 Pro answered 18 of 60 — whose recall is a lower bound. (**b**) The claim itself: verification precision against generation recall, with the diagonal. Every model sits above the line, so verification is better than generation for all four families; the hatched hollow marker is again the incomplete arm. The four Claude models of [@sec:model-comparison-benchmark-ranks] are deliberately absent: they ran a different 24-compound subset, and putting them here would imply a comparison that was never made.](docs/figures/fig7_crossvendor.png){#fig:fig7-crossvendor}
 
 **Contamination was controlled.** Blindness rested on an instruction: these
 runs used cloud agents with repository access to tracked answer keys. Grok re-solved all ten
@@ -849,9 +853,10 @@ exist[@williamson2024mpnn; @han2024dftgnn; @xu2025nmrbench].
 | LLM forward-verifier ([@sec:result]) | 16/19 (84%) | 58/65 (89%) | — |
 
 The lookup ties the solver's own score at both sample sizes
-([@tab:verifier-comparison-conditional-recall]). Coverage explains it: of the 6,360 candidate
-carbons, only 2% match a training environment at r=4 and 71% resolve at r≤2 or the
-hybridisation prior, too coarse to separate regioisomers.
+([@tab:verifier-comparison-conditional-recall]). Coverage is the natural explanation, and
+the next paragraph is the test of it: of the 6,360 candidate carbons, only 2% match a
+training environment at r=4 and 71% resolve at r≤2 or the hybridisation prior, too coarse
+to separate regioisomers.
 
 The GNN matches and slightly exceeds the LLM verifier, 59/65 against 58/65
 ([@sfig:verifier]), though not significantly: *suggestive and directional*, consistent with
@@ -860,7 +865,10 @@ established. Neither predictor reaches the near-degenerate-regioisomer precision
 ([@sec:generate-wide-testing-recipe]/[@sec:negative-control]), where DFT-level accuracy or
 orthogonal 2D-NMR constraints remain the genuine fix.
 
-Leakage is slight — no benchmark answer appears in nmrshiftdb2 at all (0/373) — and a
+Leakage is slight: of the 373 candidate structures the two predictors re-rank (364
+distinct InChIKey-14), two appear in nmrshiftdb2, and both are distractors on
+recall-negative compounds; none of the 65 candidates that *are* benchmark answers appears
+there (`scripts/verifier_leakage.py`). A
 Y-randomisation control (1,000 derangements) places the real result above the 97.5th
 percentile of chance (n=19: real 84% vs mean 58.6%, one-sided p<0.05). Like
 [@sec:recall-wall-task-intrinsic], the learned verifier is a trained complement, reported
@@ -878,14 +886,16 @@ verifier acts on real spectral agreement rather than a candidate-list artefact. 
 because 28 of the 65 recall-positive compounds carry a single scorable candidate, and a
 compound with nothing to rank is scored correct under *every* pairing. Those compounds
 enter the permuted score as guaranteed hits while carrying no verification signal, so the
-control was partly measuring the composition of the recall-positive set. On the 37
-multi-candidate compounds — the set that [@sec:result] calls the one that measures verification —
-the floor falls to 54.0% and the real value is 81.1% (30/37), a margin of +27.1
+control was partly measuring the composition of the recall-positive set. On the 37 of
+those 65 that carried more than one candidate — the set that [@sec:result] calls the one
+that measures verification — the floor falls to 54.0% and the real value is 81.1% (30/37), a margin of +27.1
 points rather than +15.4, at the same one-sided p=0.001. We report the restricted figure
 as the verifier's margin over chance and the pooled one for continuity with
 [@sec:result]'s denominator.
 
-**Confidence calibration (a negative result).** Ranking the 138 multi-candidate compounds by
+**Confidence calibration (a negative result).** Ranking the 138 multi-candidate compounds
+of the whole benchmark — every compound that received more than one candidate, of the 192
+that received any, and so a wider set than the 37 recall-positive ones above — by
 chamfer margin and answering only the most-confident fraction leaves top-1 flat and
 non-monotonic with coverage (22% at full coverage, 24% at 75%, 28% at 50%, 24% at 25%).
 Single-candidate compounds, which have no margin, must be excluded; retaining them in an
@@ -927,8 +937,11 @@ above it.
 Two controls guard against memorisation: the fine-tuning split removes every benchmark
 InChIKey-14 (train∩benchmark = 0, val∩benchmark = 0), with none of the 40 newly-recovered
 compounds in either training stage (0/40 in simulated pretraining, 0/40 in fine-tuning);
-and the simulated-pretrained model alone recovers 0/248 benchmark structures zero-shot,
-rising to 25% only after IRexp fine-tuning. The IRexp data, rather than the architecture,
+and the simulated-pretrained model alone recovers 0/248 zero-shot on the probe's own
+held-out split — all four cohorts pooled and de-duplicated at InChIKey-14 (140 main, 48
+electrolyte, 40 v3, 20 v2-control), a superset of the 194-compound benchmark — rising to
+25% on that same 248-structure split, and only after IRexp fine-tuning
+(`contrib/generator_probe/`). The IRexp data, rather than the architecture,
 is the active ingredient, so the recall ceiling is elicitation-specific rather than
 task-intrinsic. We
 report this as a probe, not part of the headline training-free protocol.
@@ -967,9 +980,9 @@ generator lifts pooled recall to 54.1% and top-1 to 35.1%
 ([@sec:recall-wall-task-intrinsic]). The claim is narrower and survives that. What ages out
 each model generation is a *particular* trained artefact; what compounds is the open,
 experimental data any such artefact needs, and a benchmark honest enough to tell whether it
-worked. The probe is the evidence: the same architecture recovers 0/248 structures
-without IRexp and 25% with it, so the released data, rather than the architecture, is the active
-ingredient. Inference-time scaffolding is the second durable lever for the same reason — it
+worked. The probe is the evidence: on its own 248-structure held-out split the same
+architecture recovers 0/248 without IRexp and 25% with it, so the released data, rather
+than the architecture, is the active ingredient. Inference-time scaffolding is the second durable lever for the same reason — it
 needs no training, so it rides each new model rather than being replaced by it.
 
 Protocol is a lever of the same order as capability: a number quoted without its
@@ -1087,8 +1100,9 @@ n=24, so quantitative claims should be read as holding for the Claude family. Th
 cross-vendor question is no longer open: [@sec:diagnosis-hold-outside-one] finds
 verification precision exceeding generation recall for Grok 4.6, Gemini 3.7 Flash and
 GPT-5.6 Sol on the 60-compound arm, as for Claude. What remains is weaker than the
-original gap but real. Bootstrapping the paired difference resolves three of the four
-arms and leaves Grok's directional at n=60. Those models were reached through a
+original gap but real. Bootstrapping the paired difference within each arm resolves three
+of the four — Claude, GPT-5.6 Sol and Gemini — and leaves Grok's directional at n=60
+([@sec:diagnosis-hold-outside-one]). Those models were reached through a
 coding-assistant harness exposing reasoning-effort tiers, a decoding control our own arm
 never had — and the tier serving each arm was not recorded, so the arms are not
 demonstrably matched to each other either, which bounds the recall *ranking* while leaving

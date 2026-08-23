@@ -28,6 +28,10 @@ sys.path.insert(0, "scripts")
 from cross_vendor_sweep import _canon, chamfer, ik14        # noqa: E402
 
 OUT = "data/cross_vendor"
+# Claude's arm is not in data/cross_vendor/ -- it is the forward-verification release, and
+# the sweep was built to compare *against* it. Reading it here is what lets the paper say
+# "three of the four" and have a script behind all four.
+OURS = "data/fverify"
 B = 10000
 
 
@@ -54,14 +58,40 @@ def gap(sample):
     return (sum(hits) / len(hits) - recall) if hits else None
 
 
+def ours_rows():
+    """The reference arm, from the forward-verification release, in the same shape.
+
+    Same quantity as every other row: did the candidate set contain the true structure,
+    and did the chamfer re-rank put it first."""
+    import glob
+    from collections import defaultdict
+
+    cands = [json.loads(l) for l in open(f"{OURS}/candidates.jsonl")]
+    amap = json.load(open(f"{OURS}/anon_map.json"))
+    pred = {}
+    for f in glob.glob(f"{OURS}/raw/*.json"):
+        pred.update(json.load(open(f)))
+    comp, obs = defaultdict(list), {}
+    for c in cands:
+        k = (c["dir"], c["qid"])
+        comp[k].append((c["smiles"], c["is_true"], pred.get(amap.get(c["smiles"]))))
+        obs[k] = c["obs_c13"]
+    out = []
+    for k in sorted(comp):
+        scored = sorted((chamfer(p, obs[k]), t) for _, t, p in comp[k] if p)
+        out.append((int(any(t for _, t, _ in comp[k])),
+                    int(scored[0][1]) if scored else None))
+    return out
+
+
 def main():
     meta = json.load(open(f"{OUT}/key.json"))
     key, k = meta["key"], meta["k"]
     rng = random.Random(0)
     print(f"{'vendor':<18}{'recall':>8}{'prec|rec':>10}{'gap':>8}"
           f"   95% CI of the paired difference")
-    for v in ("grok-4.6", "gemini-3.7-flash", "gpt-5.6-sol"):
-        rows = rows_for(v, key, k)
+    for v in ("claude-opus (ours)", "grok-4.6", "gemini-3.7-flash", "gpt-5.6-sol"):
+        rows = ours_rows() if v.startswith("claude") else rows_for(v, key, k)
         n = len(rows)
         point = gap(rows)
         bs = sorted(g for g in (gap([rows[rng.randrange(n)] for _ in range(n)])

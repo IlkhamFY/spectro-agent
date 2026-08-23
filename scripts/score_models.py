@@ -140,8 +140,11 @@ def main():
         ax.plot([], [], "o", ms=5, color=fs.BLUE, label="exact top-1 (95% CI)")
         ax.plot([], [], "o", ms=5, mfc="white", mec=fs.SKY, mew=1.0, label="recovered (top-3)")
         ax.legend(loc="lower right", fontsize=fs.FS_SMALL, handlelength=1.0)
-        ax.text(0.02, 0.04, "n=24 · adjacent models n.s. after Holm", transform=ax.transAxes,
-                ha="left", va="bottom", fontsize=fs.FS_SMALL, color=fs.MUTED)
+        # The in-panel note ("n=24 · adjacent models n.s. after Holm") is gone. The
+        # caption already says the subset is underpowered to separate adjacent models
+        # and points at the section that reports the Holm-adjusted p-values, so the note
+        # restated the caption in grey type -- and once the shared style lifted every
+        # figure to its 7 pt print floor, it also ran into the legend.
         plt.tight_layout(); plt.savefig("docs/figures/fig5_models.png")
         print("wrote docs/figures/fig5_models.png")
 

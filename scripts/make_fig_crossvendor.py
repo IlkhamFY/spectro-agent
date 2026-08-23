@@ -39,7 +39,7 @@ GATE = 78          # bottom of Claude's own adherence band (§3)
 # Panel (b) carries five direct point labels on a 0-100 square, so it needs the wider
 # box: at the old 1.25:1 a 6 pt name spanned half the data range and no single label
 # offset could be made to clear both the neighbouring markers and the diagonal.
-fig, (ax, bx) = plt.subplots(1, 2, figsize=(fs.COL2, 3.20),
+fig, (ax, bx) = plt.subplots(1, 2, figsize=(fs.COL2, 2.86),
                              gridspec_kw={"width_ratios": [0.82, 1]})
 
 # ---- (a) generation recall, gated by whether the output contract was met -----
@@ -61,7 +61,11 @@ for y, m in zip(ys, order):
     ax.text(100 * m[1] / 60 + 1.2, y, f"{m[1]}/60",
             va="center", fontsize=fs.FS_SMALL, color=fs.INK)
 ax.set_xlabel("generation recall (%)", labelpad=1)
-ax.set_xlim(0, 68)
+# The same axis label appears under both panels, so it has to mean the same thing in
+# both: (a) ran 0-68 while (b) ran 0-100, and a reader who reads a bar's length in (a)
+# against the same model's x-position in (b) was reading two different rulers. Same
+# range, same ticks.
+ax.set_xlim(0, 100); ax.set_xticks([0, 25, 50, 75, 100])
 ax.grid(axis="x", color=fs.FAINT, lw=0.5, zorder=0); ax.set_axisbelow(True)
 ax.text(-0.42, 1.04, "a", transform=ax.transAxes,
         fontsize=fs.FS_PANEL, fontweight="bold", color=fs.INK)
@@ -98,21 +102,15 @@ bx.set_xticks([0, 25, 50, 75, 100]); bx.set_yticks([0, 25, 50, 75, 100])
 bx.text(-0.30, 1.04, "b", transform=bx.transAxes,
         fontsize=fs.FS_PANEL, fontweight="bold", color=fs.INK)
 
-plt.tight_layout(w_pad=1.6, rect=[0, 0.105, 1, 1])
+plt.tight_layout(w_pad=1.6)
 
-# Both keys live in one footnote strip under the panels rather than floating inside
-# them. Inside panel (b) the y = x rule runs through the only free corner and printed
-# straight over the note; inside panel (a) a 7 pt note overshot the right spine. On the
-# full measure they set at tick-label size, in a grey that is >50% black, touching
-# nothing.
-fig.text(0.012, 0.062,
-         "(a)  grey: below the formula-adherence floor — recall is not a chemistry "
-         "result;  hatched: an incomplete arm, so recall is a lower bound",
-         fontsize=fs.FS_BODY, color=fs.NOTE, ha="left", va="bottom")
-fig.text(0.012, 0.014,
-         "(b)  above the line: verification beats generation;  "
-         "hollow: an incomplete arm, so recall is a lower bound",
-         fontsize=fs.FS_BODY, color=fs.NOTE, ha="left", va="bottom")
+# The footnote strip that used to run under the panels is gone. Both of its lines said
+# what the caption already says -- grey marks a model below the formula-adherence floor
+# whose recall is not a chemistry result; hollow/hatched marks an incomplete arm whose
+# recall is a lower bound; every point above the line is a vendor where verification
+# beats generation -- and the caption says it at 10 pt on the full measure. A 7 pt grey
+# restatement under the figure is a second, worse copy of the same key. The 0.34 in the
+# strip occupied comes off the figure height, so the panels keep their printed size.
 
 # The diagonal's on-screen angle depends on the final axes box, so label it only after
 # tight_layout has settled -- a hardcoded rotation silently goes wrong when it moves.

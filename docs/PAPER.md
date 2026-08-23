@@ -4,12 +4,24 @@
 
 *^a^ Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario L8S 4L8, Canada.*
 
-<!-- AUTHORS — ORCID iDs are required by RSC for the corresponding author and requested
-     for all co-authors. Fill these in before submission; they are deliberately left as
-     visible placeholders rather than omitted, so nothing is silently missing:
+<!-- AUTHORS — name forms and ORCID iDs below are taken from each author's own published
+     bylines and ORCID record, not guessed. RSC links iDs through the submission system
+     rather than printing them in the manuscript body, so they are recorded here.
        I. Yabbarov            ORCID: [TODO: 0000-0000-0000-0000]
-       R. Sondhi              ORCID: [TODO: 0000-0000-0000-0000]
-       R. A. Vargas-Hernández ORCID: [TODO: 0000-0000-0000-0000]
+                              (corresponding; yabbaroi@mcmaster.ca)
+       R. Sondhi              ORCID: 0009-0003-3034-7347
+                              verified: https://orcid.org/0009-0003-3034-7347
+                              name form identical across every byline he has;
+                              no email found in any public source — ask him
+       R. A. Vargas-Hernández ORCID: 0000-0002-5559-6521
+                              verified: https://orcid.org/0000-0002-5559-6521
+                              email vargashr@mcmaster.ca (his own corresponding-author
+                              footnote, arXiv:2509.13504 / Digital Discovery 2026)
+                              accented surname with middle initial is the form on every
+                              2025–26 byline, including his own Digital Discovery paper;
+                              he also carries two further McMaster affiliations (School of
+                              Computational Science and Engineering; Brockhouse Institute
+                              for Materials Research) — ask whether he wants them listed
      `python scripts/check_manuscript.py` lists every outstanding item of this kind. -->
 
 ---
@@ -499,6 +511,7 @@ next-best top-1 yet still misses the majority, leaving the benchmark far from sa
 used Claude-family models because they are callable for free under one subscription; a
 cross-vendor sweep needs API access we did without, though the large monotonic spread makes
 it unlikely the pattern is lineage-specific.
+
 ### Domain case study: battery-electrolyte chemistry {#sec:domain-case-study-battery}
 
 To test the recall-bound regime on battery-electrolyte chemistry rather than on organic

@@ -415,8 +415,11 @@ def check_scripts_numbers():
 # would be worse for a reader than an acknowledged gap. The gate lists them so the
 # remaining work is a short, explicit checklist rather than a hunt.
 PENDING = [
-    (PAPER, r'ORCID:\s*\[TODO', "ORCID iDs for all three authors (RSC requires the "
-                                "corresponding author's)"),
+    (PAPER, r'ORCID:\s*\[TODO', "ORCID iD for the corresponding author (Sondhi and "
+                                "Vargas-Hern\u00e1ndez are recorded and verified)"),
+    (PAPER, r'no email found in any public source',
+     "Rudra Sondhi's email \u2014 no address appears in any public source, so he must "
+     "supply it"),
     (PAPER, r'10\.5281/zenodo\.X+', "Zenodo DOI for the data/code deposit — mint on submission"),
     (PAPER, r'To be completed before submission.*funding', "funding sources and "
                                                            "acknowledgements"),
@@ -424,6 +427,60 @@ PENDING = [
 
 
 # ---- L. section cross-references ---------------------------------------------
+def check_heading_blank_lines():
+    """A heading glued to the line above it is not a heading.
+
+    pandoc's markdown requires a blank line before an ATX heading; without one the
+    "### ..." prints as literal text in the middle of a running paragraph, and the section
+    silently loses its title -- which is what happened to the battery-electrolyte case
+    study, where the slice boundaries of the compression pass butted a heading against the
+    previous sentence. It is invisible in the source and unmissable on the page.
+
+    Fenced code blocks are skipped: the ESI quotes prompts whose own text begins with "#".
+    """
+    for doc in (PAPER, "docs/ESI.md"):
+        if not os.path.exists(doc):
+            continue
+        lines = read(doc).split("\n")
+        fenced = False
+        for i, line in enumerate(lines):
+            if line.lstrip().startswith("```"):
+                fenced = not fenced
+                continue
+            if fenced or i == 0:
+                continue
+            if re.match(r"^#{1,6}\s", line) and lines[i - 1].strip():
+                fail("N", f"{doc}:{i + 1} heading has no blank line before it, so it "
+                          f"renders as literal text: {line.strip()[:60]}")
+
+
+def check_placeholders():
+    """Editorial placeholders must not reach a built page.
+
+    The Zenodo DOI and the acknowledgements are author-supplied and are *reported* by the
+    pending list rather than failed -- that is deliberate. This check is narrower: it
+    catches a placeholder that has escaped that list, in any document, so nothing prints
+    a bare TODO the pending report does not already name.
+    """
+    known = {"10.5281/zenodo.XXXXXXX", "0000-0000-0000-0000",
+             "To be completed before submission"}
+    for doc in [PAPER] + [os.path.join("docs", f) for f in sorted(os.listdir("docs"))
+                          if f.endswith(".md")]:
+        if not os.path.exists(doc):
+            continue
+        body = read(doc)
+        for m in re.finditer(r"\[TODO[^\]]*\]|XXXXXXX|FIXME|PLACEHOLDER", body):
+            frag = m.group(0)
+            if any(k in frag or frag in k for k in known):
+                continue
+            # A placeholder quoted in backticks is prose *about* a placeholder -- the
+            # submission checklist names them on purpose -- not one waiting to be printed.
+            if body[max(0, m.start() - 1)] == "`" or body[m.end():m.end() + 1] == "`":
+                continue
+            ctx = " ".join(read(doc)[max(0, m.start() - 60):m.start() + 60].split())
+            fail("N", f"{doc}: unlisted placeholder {frag!r} — …{ctx}…")
+
+
 def check_section_refs():
     """Every section number a *companion* document points at must exist in the paper.
 
@@ -550,6 +607,8 @@ def main():
     check_propagation()
     check_crossrefs()
     check_section_refs()
+    check_heading_blank_lines()
+    check_placeholders()
     check_cross_vendor_disclosure()
     pend = report_pending()
     if FAIL:
@@ -571,6 +630,7 @@ def main():
     print("  K reader-facing numbers inside scripts match the paper")
     print("  L cross-references derive from position; none typed by hand")
     print("  M companion documents point only at sections the paper has")
+    print("  N every heading renders as a heading; no stray placeholders")
     if pend:
         print(f"\nAWAITING THE AUTHORS ({len(pend)} item(s)) — not defects, and not "
               f"fillable by anyone else:")

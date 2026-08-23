@@ -263,7 +263,12 @@ def proportional_tables(md):
                 while k > 0 and out[k - 1].strip():
                     k -= 1
                 if out[k].startswith("**Table "):
-                    need = min(len(rows) + 4, 16)
+                    # Reserve the caption, the head and a couple of body rows -- not the
+                    # whole table. Reserving for a table longer than the page cannot
+                    # succeed, and the attempt abandoned a page: the ESI's first page
+                    # ended 330pt short and its second opened with an empty ruled header
+                    # above the caption. A long table breaks anyway, and its head repeats.
+                    need = 8
                     out[k:k] = ["```{=latex}", f"\\needspace{{{need}\\baselineskip}}",
                                 "```", ""]
             out.extend(lines[i:j])
@@ -307,7 +312,7 @@ def bibliography(tmpdir):
 INLINE_TEX = (
     (r"\*\*(.+?)\*\*", r"\\textbf{\1}"),
     (r"(?<!\*)\*([^*]+?)\*(?!\*)", r"\\textit{\1}"),
-    (r"\^([A-Za-z0-9,]+)\^", r"\\textsuperscript{\1}"),
+    (r"\^([A-Za-z0-9,*]+)\^", r"\\textsuperscript{\1}"),
 )
 
 
@@ -354,11 +359,13 @@ def title_block(md):
     corr = re.search(r"\s*\*\(corresponding author:\s*([^)]*)\)\*,?", authors)
     email = corr.group(1).strip() if corr else ""
     if corr:
-        authors = (authors[:corr.start()] + ", " + authors[corr.end():]).replace(
+        # RSC marks the corresponding author on the byline itself. Without it three authors
+        # share one affiliation and one address with nothing tying the two together.
+        authors = (authors[:corr.start()] + "^*^," + authors[corr.end():]).replace(
             ", ,", ",").rstrip(", ")
     authors = _inline(authors)
     note = (r"\vspace{0.25em}" "\n"
-            r"{\small\textit{E-mail: }\texttt{" + email.replace("_", r"\_") + r"}\par}"
+            r"{\small\textsuperscript{*}\textit{E-mail: }" + email.replace("_", r"\_") + r"\par}"
             "\n") if email else ""
     head = ("```{=latex}\n"
             r"\begin{center}" "\n"

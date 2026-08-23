@@ -174,11 +174,11 @@
 {\LARGE\bfseries\setlength{\baselineskip}{1.15\baselineskip}
 Recall, not verification, is the bottleneck when frontier LLMs elucidate molecular structures from real spectra\par}
 \vspace{1.1em}
-{\large \textbf{Ilkham Yabbarov}\textsuperscript{a},  \textbf{Rudra Sondhi}\textsuperscript{a}, \textbf{Rodrigo A. Vargas-Hernández}\textsuperscript{a}\par}
+{\large \textbf{Ilkham Yabbarov}\textsuperscript{a}\textsuperscript{*}, \textbf{Rudra Sondhi}\textsuperscript{a}, \textbf{Rodrigo A. Vargas-Hernández}\textsuperscript{a}\par}
 \vspace{0.5em}
 {\small\begin{minipage}{0.82\linewidth}\centering \textit{\textsuperscript{a} Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario L8S 4L8, Canada.}\end{minipage}\par}
 \vspace{0.25em}
-{\small\textit{E-mail: }\texttt{yabbaroi@mcmaster.ca}\par}
+{\small\textsuperscript{*}\textit{E-mail: }yabbaroi@mcmaster.ca\par}
 \end{center}
 \vspace{0.6em}
 
@@ -232,7 +232,7 @@ do it off-the-shelf: a non-peer-reviewed 2026 industrial white paper
 found that Claude Opus matched or beat commercial NMR-prediction
 software in the forward direction (structure→spectrum, ±0.08 ppm ¹H) and
 ``recovered all eight simpler structures on every attempt'' in the
-inverse.\textsuperscript{2} We treat those numbers as a motivating claim
+inverse\textsuperscript{2}. We treat those numbers as a motivating claim
 to test against peer-reviewed benchmarks, not as an established
 baseline.
 
@@ -466,7 +466,7 @@ licensing}\label{contents-and-licensing}}
 
 Table~1 gives what the release holds and where each part came from.
 
-\needspace{14\baselineskip}
+\needspace{8\baselineskip}
 
 \textbf{Table 1. IRexp dataset contents and provenance.}
 
@@ -648,7 +648,7 @@ The benchmark is all 194 compounds (134 spectrally-validated + 60
 controlled-round;
 \texttt{data/\hspace{0pt}benchmark\_main/\hspace{0pt}raw/}).
 
-\needspace{10\baselineskip}
+\needspace{8\baselineskip}
 
 \textbf{Table 2. Headline elucidation performance on IRSpectra-Bench
 (n=194).} Overall and by difficulty stratum, with bootstrap 95\% CIs.
@@ -721,7 +721,7 @@ reports}\label{reconciling-with-prior-reports}}
 
 Our 28\% top-1 sits far below the ≈100\% on ``simple'' molecules
 reported for the same model class in a non-peer-reviewed company white
-paper.\textsuperscript{2} Unscored independently, it is best read
+paper\textsuperscript{2}. Unscored independently, it is best read
 against the \emph{peer-reviewed} record: MolPuzzle\textsuperscript{13}
 and its re-scorings\textsuperscript{12}, and the trained
 baselines\textsuperscript{1,5}. Four methodology and scoring choices
@@ -833,7 +833,7 @@ weaker one's compounds --- so the benchmark is capability-sensitive, but
 at n=24 it is underpowered to separate adjacent models (§4.4).}
 \end{figure}
 
-\needspace{10\baselineskip}
+\needspace{8\baselineskip}
 
 \textbf{Table 3. Four-model comparison on a fixed 24-compound subset.}
 All four models ran the identical blind protocol.
@@ -910,7 +910,7 @@ ranking rather than the §5 measurement (Fig.~S4). The per-class
 breakdown is Table~4; at eight compounds a class the intervals overlap
 throughout.
 
-\needspace{12\baselineskip}
+\needspace{8\baselineskip}
 
 \textbf{Table 4. Per-class performance on IRSpectra-Bench-Electrolyte
 (n=46).}
@@ -965,7 +965,7 @@ control}\label{is-the-model-reading-the-spectra-a-formula-only-control}}
 
 Every benchmark compound is mined from open-access literature, so a
 frontier model may have met it in pretraining, a well-documented hazard
-for LLM evaluation.\textsuperscript{37} We reran the identical blind
+for LLM evaluation\textsuperscript{37}. We reran the identical blind
 protocol with every spectral channel masked, leaving the solver the
 molecular formula and nothing else. A formula does not determine
 constitution, so accuracy materially above the floor would indicate
@@ -1077,7 +1077,7 @@ Six non-Claude models solved the same 60 compounds as Table~7's first
 column under the identical blind protocol; the three whose output was
 well-formed enough were carried through forward-verification (Table~6).
 
-\needspace{10\baselineskip}
+\needspace{8\baselineskip}
 
 \textbf{Table 6. Cross-vendor decomposition on the 60-compound arm.}
 Recall and precision have different denominators, so the criterion is
@@ -1215,7 +1215,7 @@ elucidation}\label{forward-verification-elucidation}}
 
 The inverse direction is the model's hard, isomer-blind direction; the
 forward direction (structure→spectrum) is its easy, accurate
-one.\textsuperscript{2} We close a training-free generator--verifier
+one\textsuperscript{2}. We close a training-free generator--verifier
 loop:
 
 \begin{quote}
@@ -1276,7 +1276,7 @@ column below is the 60-compound arm (v3 + v2-control) on which
 were forward-predicted, so nothing here is a lower bound; the
 self-ranking row re-derives Table~2 from §4's output.
 
-\needspace{16\baselineskip}
+\needspace{8\baselineskip}
 
 \textbf{Table 7. Forward-verification decomposition.} Original arm and
 full benchmark.
@@ -1337,11 +1337,11 @@ recipe}\label{generate-wide-testing-the-recipe}}
 
 The decomposition implies a recipe: \emph{generate wide, verify by
 forward prediction} --- a chemistry analog of self-consistency
-sampling.\textsuperscript{42} Ten solver agents proposed up to six
+sampling\textsuperscript{42}. Ten solver agents proposed up to six
 regiochemistry-aware candidates per compound, pooled with the originals
 and re-ranked as before.
 
-\needspace{9\baselineskip}
+\needspace{8\baselineskip}
 
 \textbf{Table 8. Generate-wide vs original.} On the 60-compound arm
 only, since wide generation was run there; the ``original'' column is
@@ -1408,10 +1408,9 @@ slot. We tested a HOSE-code\textsuperscript{43}-style lookup and a small
 message-passing GNN, both trained on the same nmrshiftdb2
 dump\textsuperscript{44} and applied to the same §5.2 candidate sets, so
 that only the predictor changes. The GNN is deliberately modest; sharper
-purpose-built ¹³C models
-exist.{[}\textsuperscript{38}{]}\textsuperscript{39}\textsuperscript{40}
+purpose-built ¹³C models exist\textsuperscript{38--40}.
 
-\needspace{10\baselineskip}
+\needspace{8\baselineskip}
 
 \textbf{Table 9. Verifier comparison, conditional on recall.}
 
@@ -1934,11 +1933,11 @@ Table~10 lists every released component and the script that regenerates
 it, all of them in the project repository. The archival deposit --- a
 complete frozen snapshot of dataset, benchmark, answer keys,
 predictions, scripts, figure regeneration and the expert-audit package
---- will carry DOI {[}TODO: 10.5281/zenodo.XXXXXXX --- mint on
-submission{]}; GitHub is the development mirror and the Zenodo record
-the citable version.
+--- is deposited on Zenodo, and its DOI is supplied at proof stage;
+GitHub is the development mirror and the Zenodo record the citable
+version.
 
-\needspace{16\baselineskip}
+\needspace{8\baselineskip}
 
 \textbf{Table 10. Released artefacts, and the data and code behind each
 one.}
@@ -2094,10 +2093,6 @@ each record's \texttt{source\_doi}.
 
 \hypertarget{acknowledgements}{%
 \subsection{Acknowledgements}\label{acknowledgements}}
-
-\emph{(To be completed before submission: funding sources,
-compute/infrastructure, and any individual acknowledgements. ---
-AUTHORS)}
 
 \hypertarget{use-of-ai-tools}{%
 \subsubsection{Use of AI tools}\label{use-of-ai-tools}}

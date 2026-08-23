@@ -447,9 +447,8 @@ PENDING = [
     (PAPER, r'no email found in any public source',
      "Rudra Sondhi's email \u2014 no address appears in any public source, so he must "
      "supply it"),
-    (PAPER, r'10\.5281/zenodo\.X+', "Zenodo DOI for the data/code deposit — mint on submission"),
-    (PAPER, r'To be completed before submission.*funding', "funding sources and "
-                                                           "acknowledgements"),
+    (PAPER, r'<!--\s*ZENODO', "Zenodo DOI for the data/code deposit — mint on submission"),
+    (PAPER, r'<!--\s*ACKNOWLEDGEMENTS', "funding sources and acknowledgements"),
 ]
 
 

@@ -66,7 +66,7 @@ models trained on paired corpora; *Spectro*, for one, learns ¹H/¹³C/IR → SE
 off-the-shelf: a non-peer-reviewed 2026 industrial white paper found that Claude Opus
 matched or beat commercial NMR-prediction software in the forward direction
 (structure→spectrum, ±0.08 ppm ¹H) and "recovered all eight simpler structures on every
-attempt" in the inverse.[@kamber2026chemist] We treat those numbers as a motivating claim
+attempt" in the inverse[@kamber2026chemist]. We treat those numbers as a motivating claim
 to test against peer-reviewed benchmarks, not as an established baseline.
 
 That evaluation is narrow: 15 inverse problems on curated single-ring or two-fragment
@@ -409,7 +409,7 @@ connectivity at the right composition*.
 ### Reconciling with prior reports {#sec:reconciling-prior-reports}
 
 Our 28% top-1 sits far below the ≈100% on "simple" molecules reported for the same model
-class in a non-peer-reviewed company white paper.[@kamber2026chemist] Unscored
+class in a non-peer-reviewed company white paper[@kamber2026chemist]. Unscored
 independently, it is best read against the *peer-reviewed* record:
 MolPuzzle[@guo2024molpuzzle] and its re-scorings[@zhuang2025treesearch], and the trained
 baselines[@chacko2024spectro; @ottomano2025nmiracle]. Four methodology and scoring
@@ -566,7 +566,7 @@ failure of [@sec:headline-performance] in a domain-specific guise, and it is whe
 ### Is the model reading the spectra? A formula-only control {#sec:model-reading-spectra-formula}
 
 Every benchmark compound is mined from open-access literature, so a frontier model may have
-met it in pretraining, a well-documented hazard for LLM evaluation.[@xu2024contamination]
+met it in pretraining, a well-documented hazard for LLM evaluation[@xu2024contamination].
 We reran the identical blind protocol with every spectral channel masked, leaving the
 solver the molecular formula and nothing else. A formula does not determine constitution,
 so accuracy materially above the floor would indicate recall rather than reasoning.
@@ -720,7 +720,7 @@ argument and the shared protocol.
 ### Method {#sec:method}
 
 The inverse direction is the model's hard, isomer-blind direction; the forward
-direction (structure→spectrum) is its easy, accurate one.[@kamber2026chemist] We close a
+direction (structure→spectrum) is its easy, accurate one[@kamber2026chemist]. We close a
 training-free generator–verifier loop:
 
 > *generate* candidate structures (inverse) → *forward-predict* each candidate's
@@ -798,7 +798,7 @@ Elucidation factorises into two near-independent levers: the verifier is already
 ### Generate-wide: testing the recipe {#sec:generate-wide-testing-recipe}
 
 The decomposition implies a recipe: *generate wide, verify by forward prediction* — a
-chemistry analog of self-consistency sampling.[@wang2023selfconsistency] Ten solver agents
+chemistry analog of self-consistency sampling[@wang2023selfconsistency]. Ten solver agents
 proposed up to six regiochemistry-aware candidates per compound, pooled with the
 originals and re-ranked as before.
 
@@ -837,7 +837,7 @@ verifier slot. We tested a HOSE-code[@bremser1978hose]-style lookup and a small
 message-passing GNN, both trained on the same nmrshiftdb2 dump[@kuhn2015nmrshiftdb2] and
 applied to the same [@sec:result] candidate sets, so that only the predictor changes. The
 GNN is deliberately modest; sharper purpose-built ¹³C models
-exist.[@williamson2024mpnn][@han2024dftgnn][@xu2025nmrbench]
+exist[@williamson2024mpnn; @han2024dftgnn; @xu2025nmrbench].
 
 **Table {#tab:verifier-comparison-conditional-recall}. Verifier comparison, conditional on recall.**
 
@@ -1244,8 +1244,12 @@ There are no conflicts to declare.
 [@tab:artefacts] lists every released component and the script that regenerates it, all of
 them in the project repository. The archival deposit — a complete frozen
 snapshot of dataset, benchmark, answer keys, predictions, scripts, figure regeneration and
-the expert-audit package — will carry DOI [TODO: 10.5281/zenodo.XXXXXXX — mint on
-submission]; GitHub is the development mirror and the Zenodo record the citable version.
+the expert-audit package — is deposited on Zenodo, and its DOI is supplied at proof stage;
+GitHub is the development mirror and the Zenodo record the citable version.
+
+<!-- ZENODO: mint the deposit and substitute its DOI for "supplied at proof stage" above.
+     Reserve it at 10.5281/zenodo.XXXXXXX; `python scripts/check_manuscript.py` lists this
+     until it is done. -->
 
 **Table {#tab:artefacts}. Released artefacts, and the data and code behind each one.**
 
@@ -1315,8 +1319,10 @@ this dataset (Zenodo DOI above) and attribute the original publications via each
 
 ## Acknowledgements
 
-*(To be completed before submission: funding sources, compute/infrastructure, and any
-individual acknowledgements. — AUTHORS)*
+<!-- ACKNOWLEDGEMENTS — To be completed before submission: funding sources,
+     compute/infrastructure, and any individual acknowledgements. RSC requires the funding
+     declaration in this section. `python scripts/check_manuscript.py` lists this until it
+     is written. — AUTHORS -->
 
 ### Use of AI tools
 

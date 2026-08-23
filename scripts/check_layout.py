@@ -28,6 +28,7 @@ MARGIN = 72.0          # 1in, as build_pdf passes to geometry
 SLOP = 4.0             # glyph overhang and italic correction
 MIN_PT = 5.9           # below this, type is not legible in print
 MAX_RULE_GAP = 8.0     # a bottom rule should sit as close as the header rule does
+MAX_SHORT_PAGE = 150.0 # a prose page should not stop this far above its foot
 FAIL = []
 
 
@@ -58,6 +59,17 @@ def check(path):
         # --- a page with neither text nor an image
         if not pg.get_text().strip() and not pg.get_images():
             fail(path, i + 1, "blank page")
+
+        # --- a page abandoned well before its foot, with no float to explain it.
+        # Reserving space for a table longer than the page cannot succeed, and the attempt
+        # ended the ESI's first page 330pt short. A figure legitimately leaves a band; a
+        # page of nothing but prose should not.
+        words = pg.get_text("words")
+        if words and i < d.page_count - 1 and not pg.get_images():
+            gap = (pg.rect.height - MARGIN) - max(w[3] for w in words)
+            if gap > MAX_SHORT_PAGE:
+                fail(path, i + 1, f"page ends {gap:.0f}pt above the bottom margin with no "
+                                  f"figure to explain it")
 
         # --- table rules: the gap under the last row should match the gap under the header
         rules = sorted([dr["rect"] for dr in pg.get_drawings()
@@ -91,7 +103,7 @@ def main():
     print(f"LAYOUT GATE: {len(docs)} document(s), {total} pages, all checks pass")
     print("  no text past the measure")
     print("  no type below 5.9pt")
-    print("  no blank pages")
+    print("  no blank pages, and none abandoned above its foot")
     print("  every table's bottom rule sits as close as its header rule")
     return 0
 

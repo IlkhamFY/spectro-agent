@@ -48,8 +48,12 @@ def _number_sections(text, prefix=""):
         title = m.group(2)
         lbl = re.search(r'\{#sec:([A-Za-z0-9_-]+)\}', title)
         # unnumbered front/back matter keeps its heading and takes no number
-        if re.match(r'(Abstract|References|Acknowledgements|Conflicts|Author '
-                    r'Contributions|Use of AI|Data and code|Licensing|Supporting)',
+        # Back-matter headings are matched by name, so a rename silently numbers one:
+        # "Data and code availability" became "Data availability" for RSC house style and
+        # the built PDF promptly printed "9. Data availability".
+        if re.match(r'(Abstract|References|Acknowledgements|Conflicts|Author'
+                    r'|Contributions|Use of AI|Data availability'
+                    r'|Data and code availability|Licensing|Supporting)',
                     re.sub(r'\s*\{#.*', '', title), re.I):
             out.append(re.sub(r'\s*\{#sec:[^}]*\}', '', line)); continue
         counters[depth] += 1

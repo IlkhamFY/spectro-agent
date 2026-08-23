@@ -52,16 +52,23 @@ fs.ygrid(axB)
 # the pooled rate, for reference
 pooled = 100 * sum(b["top1"] for b in bk) / sum(b["n"] for b in bk)
 axB.axhline(pooled, color=fs.MUTED, lw=0.7, ls=(0, (4, 3)), zorder=2)
-axB.text(len(bk) - 0.5, pooled + 1.5, f"pooled {pooled:.0f}%", ha="right", va="bottom",
-         fontsize=fs.FS_SMALL, color=fs.MUTED)
+# Pulled in off the right spine (it used to end flush against it) and set at
+# tick-label size in NOTE grey, with a white halo where it crosses the dashed rule.
+axB.text(len(bk) - 0.72, pooled + 1.8, f"pooled {pooled:.0f}%", ha="right", va="bottom",
+         fontsize=fs.FS_BODY, color=fs.NOTE,
+         bbox=dict(fc="white", ec="none", pad=0.8))
 axB.set_xticks(xs)
-axB.set_xticklabels([f"{b['label']}\n(n={b['n']})" for b in bk], fontsize=fs.FS_SMALL)
+# The bucket keys in the JSON are ASCII (">=2024", "2015-2019"); the printed ticks use
+# the same glyphs the prose does -- U+2265 and U+2013 -- so figure and text agree.
+def tick(lab):
+    return lab.replace(">=", "\u2265").replace("<=", "\u2264").replace("-", "\u2013")
+axB.set_xticklabels([f"{tick(b['label'])}\n(n={b['n']})" for b in bk], fontsize=fs.FS_SMALL)
 axB.set_xlim(-0.5, len(bk) - 0.5); axB.set_ylim(0, 68)
 axB.set_ylabel("exact top-1 (%)"); axB.set_xlabel("source publication year", labelpad=2)
 # U+2212 MINUS, not a hyphen: the caption prints "r = \u22120.007" and the figure must match
 r_txt = f"r = {rc['point_biserial_r']:+.3f}".replace("-", "\u2212")
 axB.text(0.02, 0.96, r_txt, transform=axB.transAxes,
-         ha="left", va="top", fontsize=fs.FS_SMALL, color=fs.INK)
+         ha="left", va="top", fontsize=fs.FS_BODY, color=fs.INK)
 fs.panel(axB, "b", x=-0.20)
 
 plt.tight_layout()

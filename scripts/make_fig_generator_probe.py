@@ -29,7 +29,7 @@ ax.axhline(28.4, color=fs.MUTED, lw=0.6, ls=(0, (4, 3)), zorder=2)
 ax.plot([0.022, 0.022], [28.4, 44.2], transform=ax.get_yaxis_transform(),
         color=fs.MUTED, lw=0.5, zorder=2, clip_on=False)
 ax.text(0.030, 44.5, "Claude-only top-1", transform=ax.get_yaxis_transform(),
-        fontsize=fs.FS_SMALL, color=fs.MUTED, va="bottom", ha="left")
+        fontsize=fs.FS_BODY, color=fs.NOTE, va="bottom", ha="left")
 
 ax.set_xticks(x); ax.set_xticklabels(pools)
 ax.set_ylabel("% of 194 compounds"); ax.set_ylim(0, 64); ax.set_yticks([0, 20, 40, 60])

@@ -227,15 +227,42 @@ def check_cross(md):
 
 
 # ---- F. CIs contain their point estimate -------------------------------------
+# An interval may be written [22, 35], [22-35] with an en-dash, or [-17.2 to +7.0] where a
+# dash would collide with the sign. All three appear in the manuscript, and a check that
+# knows only the first silently matches nothing after a notation pass -- which is exactly
+# what happened when the intervals were normalised to en-dashes.
+CI = re.compile(r'\[\s*([+\u2212-]?\d+\.?\d*)\s*(?:,|\u2013|\u2014|-|\s+to\s+)\s*'
+                r'([+\u2212-]?\d+\.?\d*)\s*\]')
+NUMBER_BEFORE = re.compile(r'(\d+\.?\d*)\s*%?\s*(?:\*\*)?\s*\|?\s*$')
+
+
+def _num(tok):
+    return float(tok.replace("\u2212", "-").replace("+", ""))
+
+
 def check_cis(md):
-    for m in re.finditer(r'(\d+\.?\d*)%\s*\[(\d+\.?\d*),\s*(\d+\.?\d*)\]', md):
-        pt, lo, hi = float(m.group(1)), float(m.group(2)), float(m.group(3))
+    """Every confidence interval must contain the estimate it is attached to.
+
+    Written to be loud when it stops working: an interval notation this does not
+    understand is reported, rather than passing silently. A gate that matches nothing
+    reports success, which is worse than a gate that fails.
+    """
+    seen = 0
+    for m in CI.finditer(md):
+        head = md[max(0, m.start() - 40):m.start()]
+        pm = NUMBER_BEFORE.search(head.rstrip())
+        if not pm:
+            continue                       # an interval with no adjacent point estimate
+        pt, lo, hi = float(pm.group(1)), _num(m.group(1)), _num(m.group(2))
+        if hi < lo:
+            lo, hi = hi, lo
+        seen += 1
         if not (lo - 0.6 <= pt <= hi + 0.6):
-            fail("F", f"point estimate {pt}% lies outside its CI [{lo}, {hi}]")
-    for m in re.finditer(r'\*\*(\d+\.?\d*)%\*\*\s*\|\s*\[(\d+\.?\d*),\s*(\d+\.?\d*)\]', md):
-        pt, lo, hi = float(m.group(1)), float(m.group(2)), float(m.group(3))
-        if not (lo - 0.6 <= pt <= hi + 0.6):
-            fail("F", f"table point estimate {pt}% outside CI [{lo}, {hi}]")
+            fail("F", f"point estimate {pt} lies outside its interval "
+                      f"[{m.group(1)}, {m.group(2)}]")
+    if seen < 20:
+        fail("F", f"only {seen} point-estimate/interval pairs were recognised — the "
+                  f"notation has drifted and this check is no longer reading the paper")
 
 
 # ---- G. ground truth vs the formula the solver was given ---------------------

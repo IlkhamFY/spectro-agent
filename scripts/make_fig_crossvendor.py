@@ -36,15 +36,26 @@ MODELS = [
 ]
 GATE = 78          # bottom of Claude's own adherence band (§3)
 
-fig, (ax, bx) = plt.subplots(1, 2, figsize=(fs.COL2, 2.9),
-                             gridspec_kw={"width_ratios": [1.25, 1]})
+# Panel (b) carries five direct point labels on a 0-100 square, so it needs the wider
+# box: at the old 1.25:1 a 6 pt name spanned half the data range and no single label
+# offset could be made to clear both the neighbouring markers and the diagonal.
+fig, (ax, bx) = plt.subplots(1, 2, figsize=(fs.COL2, 3.20),
+                             gridspec_kw={"width_ratios": [0.82, 1]})
 
 # ---- (a) generation recall, gated by whether the output contract was met -----
+PARTIAL = "DeepSeek V4 Pro"        # 18/60 answered: this recall is a lower bound
 order = sorted(MODELS, key=lambda m: m[1])
 ys = range(len(order))
 cols = [fs.MUTED if (m[2] is not None and m[2] < GATE) else
         (fs.ORANGE if m[0] == "Claude Opus" else fs.BLUE) for m in order]
-ax.barh(list(ys), [100 * m[1] / 60 for m in order], color=cols, height=0.62, zorder=3)
+# The incomplete arm is drawn hollow in BOTH panels. It used to be solid here and
+# hollow only in (b) -- and (a) is the panel the recall number is actually read off,
+# so the caveat has to be attached where the reading happens.
+for y, m, c in zip(ys, order, cols):
+    part = m[0] == PARTIAL
+    ax.barh(y, 100 * m[1] / 60, height=0.62, zorder=3,
+            color="white" if part else c, edgecolor=c,
+            linewidth=0.9 if part else 0, hatch="////" if part else None)
 ax.set_yticks(list(ys)); ax.set_yticklabels([m[0] for m in order])
 for y, m in zip(ys, order):
     ax.text(100 * m[1] / 60 + 1.2, y, f"{m[1]}/60",
@@ -52,9 +63,6 @@ for y, m in zip(ys, order):
 ax.set_xlabel("generation recall (%)", labelpad=1)
 ax.set_xlim(0, 68)
 ax.grid(axis="x", color=fs.FAINT, lw=0.5, zorder=0); ax.set_axisbelow(True)
-ax.text(0.40, 0.12, "grey: below the formula-adherence floor —\n"
-        "recall is not a chemistry result",
-        transform=ax.transAxes, fontsize=fs.FS_SMALL, color=fs.MUTED, va="bottom")
 ax.text(-0.42, 1.04, "a", transform=ax.transAxes,
         fontsize=fs.FS_PANEL, fontweight="bold", color=fs.INK)
 
@@ -64,43 +72,54 @@ ax.text(-0.42, 1.04, "a", transform=ax.transAxes,
 # stretches the vertical gaps between models about twice as far as the horizontal
 # ones and makes the distance above the diagonal look larger than it is.
 bx.plot([0, 100], [0, 100], color=fs.MUTED, lw=0.7, ls="--", zorder=1)
+# ONE offset for every point -- 6 pt to the right, vertically centred. The labels
+# used to sit right, left and below their markers, with a leader arrow on the
+# DeepSeek point that ran into its own label; five different placements read as five
+# different meanings. The five models are far enough apart in y that a single
+# rightward offset clears every neighbouring marker; where a label crosses the
+# y = x rule a white halo keeps both readable.
+LBL_DX = 6
 for name, r, _adh, p in MODELS:
     if p is None:
         continue
     x = 100 * r / 60
     c = fs.ORANGE if name == "Claude Opus" else fs.BLUE
-    partial = name.startswith("DeepSeek")          # 18/60 answered: a lower bound
+    partial = name == PARTIAL
     bx.scatter([x], [p], s=26, zorder=4, linewidth=0.9,
-               facecolor="white" if partial else c, edgecolor=c)
-    if partial:
-        bx.annotate("", (x + 5.5, p), (x + 0.8, p),
-                    arrowprops=dict(arrowstyle="->", color=fs.MUTED, lw=0.7))
-    # Offsets keep every label off the diagonal and off its neighbours' markers:
-    # Grok and GPT-5.6 Sol label to the LEFT because the space to their right is
-    # where the y = x rule passes.
-    OFF = {"Grok 4.6": (-5, -2, "right"), "Gemini 3.7 Flash": (-5, 4, "right"),
-           "GPT-5.6 Sol": (-5, 3, "right"), "Claude Opus": (5, 2, "left"),
-           "DeepSeek V4 Pro": (7, -11, "center")}
-    dx, dy, ha = OFF.get(name, (4, 4, "left"))
-    bx.annotate(name, (x, p), textcoords="offset points", xytext=(dx, dy),
-                fontsize=fs.FS_SMALL, color=fs.INK, ha=ha)
+               facecolor="white" if partial else c, edgecolor=c,
+               hatch="////" if partial else None)
+    bx.annotate(name, (x, p), textcoords="offset points", xytext=(LBL_DX, 0),
+                fontsize=fs.FS_SMALL, color=fs.INK, ha="left", va="center", zorder=5,
+                bbox=dict(fc="white", ec="none", pad=0.8))
 bx.set_xlabel("generation recall (%)", labelpad=1)
 bx.set_ylabel("verification precision | recall (%)", labelpad=2)
 bx.set_xlim(0, 100); bx.set_ylim(0, 100)
 bx.set_xticks([0, 25, 50, 75, 100]); bx.set_yticks([0, 25, 50, 75, 100])
 bx.text(-0.30, 1.04, "b", transform=bx.transAxes,
         fontsize=fs.FS_PANEL, fontweight="bold", color=fs.INK)
-bx.text(0.03, 0.04, "above the line: verification beats generation\n"
-        "hollow: incomplete arm, recall is a lower bound",
-        transform=bx.transAxes, fontsize=fs.FS_SMALL, color=fs.MUTED, va="bottom")
 
-plt.tight_layout(w_pad=1.6)
+plt.tight_layout(w_pad=1.6, rect=[0, 0.105, 1, 1])
+
+# Both keys live in one footnote strip under the panels rather than floating inside
+# them. Inside panel (b) the y = x rule runs through the only free corner and printed
+# straight over the note; inside panel (a) a 7 pt note overshot the right spine. On the
+# full measure they set at tick-label size, in a grey that is >50% black, touching
+# nothing.
+fig.text(0.012, 0.062,
+         "(a)  grey: below the formula-adherence floor — recall is not a chemistry "
+         "result;  hatched: an incomplete arm, so recall is a lower bound",
+         fontsize=fs.FS_BODY, color=fs.NOTE, ha="left", va="bottom")
+fig.text(0.012, 0.014,
+         "(b)  above the line: verification beats generation;  "
+         "hollow: an incomplete arm, so recall is a lower bound",
+         fontsize=fs.FS_BODY, color=fs.NOTE, ha="left", va="bottom")
 
 # The diagonal's on-screen angle depends on the final axes box, so label it only after
 # tight_layout has settled -- a hardcoded rotation silently goes wrong when it moves.
 fig.canvas.draw()
 (x0, y0), (x1, y1) = bx.transData.transform([(20, 20), (80, 80)])
-bx.text(78, 71, "precision = recall", fontsize=fs.FS_SMALL, color=fs.MUTED,
+# Below the rule, low down: the upper-right stretch is now under the Gemini label.
+bx.text(38, 32, "precision = recall", fontsize=fs.FS_SMALL, color=fs.NOTE,
         rotation=np.degrees(np.arctan2(y1 - y0, x1 - x0)), rotation_mode="anchor",
         ha="center", va="center")
 plt.savefig("docs/figures/fig7_crossvendor.png")

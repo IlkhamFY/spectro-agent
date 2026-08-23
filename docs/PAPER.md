@@ -31,31 +31,30 @@
 Given the molecular formula together with the infrared band list and ¹H/¹³C shift lists
 exactly as reported in an open-access paper, how often does a frontier large language model
 (here, Claude) recover the correct molecular *constitution*? We find 28% (top-1, n=194;
-95% CI 22–35) — far below the near-100% implied by curated demonstrations, and 15% once
-the benchmark's deliberate 50/50 difficulty balance is reweighted to the composition of the
-corpus it was drawn from ([@sec:benchmark-design-irspectra-bench]).
+95% CI 22–35) — far below the near-100% implied by curated demonstrations, and 15% once the
+benchmark's deliberate 50/50 difficulty balance is reweighted to the corpus it was drawn
+from ([@sec:benchmark-design-irspectra-bench]).
 
-The bottleneck lies in the model's *proposal* rather than its judgment. The model proposes
-the true structure for only 34% of compounds; where it does, forward-verification —
-predicting each candidate's ¹³C spectrum and re-ranking by agreement with the observed one
-— selects it 89% of the time (58/65, and 81% on the 37 where more than one candidate
-existed and a ranker had something to do). Recall, not verification, is the wall.
+The bottleneck lies in the model's *proposal* rather than its judgment. The true structure
+is proposed for only 34% of compounds; where it is, forward-verification — predicting each
+candidate's ¹³C spectrum and re-ranking by agreement with the observed one — selects it 89%
+of the time (58/65; 81% on the 37 where a ranker had a choice to make). **Recall, not
+verification, is the wall.**
 
-We release three things: *IRexp*, the largest openly redistributable collection of
-*experimental* infrared band lists (121,233 records, a third structure-linked);
-*IRSpectra-Bench*, a blind, mechanically scored benchmark of 194 compounds; and a
-training-free *forward-verification* recipe. The two levers are distinct. Verification
-re-ranks a fixed candidate set and lifts top-1 from 28% to 30% over all 194 compounds.
-*Generating wider* moves recall from 32% to 42% and carries top-1 from 23% to 30% over the
-60 compounds of the two controlled rounds, where wide generation was run ([@sec:result],
-[@sec:generate-wide-testing-recipe]). Both of those top-1 steps are directional rather than
-statistically resolved, and the recall gain is the better-supported effect. Fine-tuning a small generator on IRexp moves the recall bound rather than removing it
-([@sec:recall-wall-task-intrinsic]). Two contamination controls agree: masking the spectra
-drops top-1 from 23% to 5% on those same 60 compounds, and accuracy is flat in the source
-paper's publication year ([@sec:model-reading-spectra-formula]). The diagnosis also holds
-outside one vendor: Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all verify better than they
-generate ([@sec:diagnosis-hold-outside-one]). All data, predictions and code are released.
-
+We release *IRexp*, the largest openly redistributable collection of *experimental* infrared
+band lists (121,233 records, a third structure-linked); *IRSpectra-Bench*, a blind,
+mechanically scored benchmark of 194 compounds; and a training-free *forward-verification*
+recipe. The two levers are distinct: verification re-ranks a fixed candidate set and lifts
+top-1 from 28% to 30% across all 194 compounds, while generating wider moves recall from 32%
+to 42% and top-1 from 23% to 30% on the 60 controlled-round compounds where it was run
+([@sec:result], [@sec:generate-wide-testing-recipe]). Both top-1 steps are directional rather
+than statistically resolved; the recall gain is better supported. Fine-tuning a small
+generator on IRexp moves the recall bound rather than removing it
+([@sec:recall-wall-task-intrinsic]). Masking the spectra drops top-1 from 23% to 5% on those
+same 60 compounds, and accuracy is flat in the source paper's publication year
+([@sec:model-reading-spectra-formula]); Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all
+verify better than they generate, so the diagnosis is not confined to one vendor
+([@sec:diagnosis-hold-outside-one]). All data, predictions and code are released.
 ---
 
 ## Introduction {#sec:introduction}
@@ -122,16 +121,21 @@ probes, fenced as complements to the training-free core.
 ### Related work {#sec:related-work}
 
 **Trained spectra→structure models.** The dominant line trains sequence or graph decoders
-on spectra: *Spectro*[@chacko2024spectro], a multitask CNN+transformer for routine
-1D-NMR[@hu2024multitask], set/graph transformers such as NMRTrans[@yang2026nmrtrans], and
-— closest to our multimodal setting — *NMIRacle*[@ottomano2025nmiracle], conditioned
-jointly on IR + ¹H + ¹³C. They are accurate *in-distribution* but retrained per modality
+on spectra: *Spectro*, from our own group[@chacko2024spectro]; a multitask
+CNN+transformer for routine 1D-NMR[@hu2024multitask]; set/graph transformers such as
+NMRTrans[@yang2026nmrtrans]; and — closest to our multimodal setting —
+*NMIRacle*[@ottomano2025nmiracle], conditioned jointly on IR + ¹H + ¹³C. They are accurate *in-distribution* but retrained per modality
 and dependent on a labelled spectra→structure corpus. That resource is scarce rather than
 absent, and one concurrent effort attacks it the same way we do: NMRTrans builds NMRSpec,
 a literature-mined corpus of experimental ¹H/¹³C spectra[@yang2026nmrtrans]. IRexp is the
 complement rather than the competitor — infrared band lists, released under permissive
 licences for redistribution ([@sec:contents-licensing]) — and the two together are the
-open, experimental, multimodal corpus neither supplies alone.
+open, experimental, multimodal corpus neither supplies alone. Our own group's prior
+infrared work sits upstream of elucidation rather than at it: *vIR-OLO* recasts
+functional-group identification as object detection, localising bands as well as labelling
+them[@garcilazocruz2026virolo], and *j-IR-vis* learns transferable spectral embeddings from
+IR[@sondhi2025jirvis]. Neither generates candidate structures, which is the step this paper
+finds binding.
 
 **LLMs as elucidators, and how this work differs.** LLM-orchestrated tools already plan
 and execute real syntheses (ChemCrow[@mbran2024chemcrow],
@@ -334,10 +338,11 @@ appears among the up-to-three returned candidates, the lenient "recovery" protoc
 fraction whose reference is in the candidate pool *before* re-ranking, the ceiling any
 verifier can reach; it coincides with recovered (top-3) except in the generate-wide arm of
 [@sec:generate-wide-testing-recipe], where the pool is larger. *Verification
-precision (conditional on recall)*, measured over recall-positive compounds alone, isolates
-verification from generation.
+precision (conditional on recall)*, measured over the *recall-positive* compounds alone —
+those whose reference the solver did propose — isolates verification from generation.
 The forward-verifier ranks by a symmetric *chamfer distance* between predicted and
-observed ¹³C peak sets (lower is better, no equal-count requirement); Morgan(2, 2048)[@rogers2010ecfp] Tanimoto gives a graded scaffold-family signal. CIs are bootstrap
+observed ¹³C peak sets (lower is better, no equal-count requirement); Morgan(2, 2048)
+Tanimoto[@rogers2010ecfp] gives a graded scaffold-family signal. CIs are bootstrap
 95%; model-vs-model differences use McNemar's exact test[@mcnemar1947] with Holm
 correction[@holm1979].
 
@@ -411,8 +416,8 @@ baselines[@chacko2024spectro; @ottomano2025nmiracle]. Four methodology and scori
 choices differ, each in the direction that raises a reported number; we name them without
 apportioning the gap. **Difficulty:** ring count bounds difficulty from below rather than
 proxying for it — our simple stratum includes a hexasubstituted benzene, while ≥4 rings
-mark 38% of recall-negative compounds (those whose true structure the solver never
-proposed) against 3% of recall-positive ones ([@sec:generate-wide-testing-recipe]). **Scoring:** prior work counts a recovery if the
+mark 38% of recall-negative compounds (those whose reference was never proposed) against 3%
+of recall-positive ones ([@sec:generate-wide-testing-recipe]). **Scoring:** prior work counts a recovery if the
 reference appears among three ranked candidates over three independent runs; we report
 single-run top-1 and top-3. **Hints:** prior hard targets got the starting-material SMILES
 and we give none, though the formula we do give is worth 5% top-1 alone with the spectra

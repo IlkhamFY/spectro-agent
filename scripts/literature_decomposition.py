@@ -15,6 +15,13 @@ For a system that returns a ranked list and reports top-1 = a and top-k = b:
                            above b divides the same a by a larger number, so a/b is a ceiling
     ranking loss >= b - a  the compounds where the truth was found and then not ranked first
 
+The floor on recall is *exact* when k equals the system's candidate budget: a system that
+returns three candidates and reports top-3 has told you its recall outright, whether or not
+it says so. Our own main arm is that case -- the solver returns at most three, and its
+measured recall of 65/194 = 33.5% is identical to its published "recovered within top-3".
+Where a system's pool is larger than the k it reports, the floor is a genuine lower bound
+and the ceiling on precision correspondingly loose.
+
 Both are one-sided, and that is the point: a *ceiling* on conditional precision is what
 decides whether ranking can be the dominant loss. Where the ceiling is high the question is
 open; where it is low, ranking is provably not where the accuracy went.

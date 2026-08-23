@@ -11,6 +11,8 @@ Okabe-Ito). Never assign these colours by any other logic:
   GREEN  a CORRECT / true / selected / verified outcome
   VERMIL a WRONG / rejected / failure-mode outcome
   MUTED  baseline / reference / de-emphasised steps
+  NOTE   in-plot explanatory text (a darker grey than MUTED: a 5-7 pt annotation set
+         in MUTED is ~34% black and dissolves on paper; NOTE is ~57%)
 Rules: sans-serif (Helvetica-class), <=7 pt text, no top/right spines, ticks out,
 whisper-faint y-grid for bars only, direct labels over legends, no in-panel titles."""
 import matplotlib as mpl
@@ -19,6 +21,7 @@ import matplotlib.pyplot as plt
 # Okabe-Ito, colourblind-safe (hex per Wong 2011)
 INK    = "#222222"   # text / spines (never pure black)
 MUTED  = "#9aa0a6"   # de-emphasised text, n= labels, baseline series
+NOTE   = "#5f6368"   # in-plot annotations: grey, but >=50% black so it survives print
 FAINT  = "#e6e6e6"   # barely-there gridlines
 BLUE   = "#0072B2"   # primary series / main metric
 SKY    = "#56B4E9"   # secondary / broader series

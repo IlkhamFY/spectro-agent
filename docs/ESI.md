@@ -45,30 +45,29 @@ available proxy for collection time — a proxy, not a harness timestamp.
 | trained-generator arm re-run: 5 agents, 75 outstanding candidates | Claude Opus | `data/fverify_gen/` | 2026-08-07 03:55–04:05 |
 | cross-vendor sweep, non-Claude models ([@sec:esi-cross-vendor]) | see [@tab:esi-vendor-generation] | `sweep_out/` | 2026-08-13 to 2026-08-17 |
 
-Invocations fall into three dated windows, not one. **2026-06-09 to 2026-06-11** produced
+Invocations fall into three dated windows, not one. 2026-06-09 to 2026-06-11 produced
 every candidate structure behind the headline results and behind the pools all of
-[@sec:forward-verification-elucidation] re-ranks. **2026-07-28** is the formula-only
+[@sec:forward-verification-elucidation] re-ranks. 2026-07-28 is the formula-only
 control, which generates its own candidates (3/60 correct) by design, a masked-input
-control being meaningful only as a fresh run. **2026-08-07** carries three
+control being meaningful only as a fresh run. 2026-08-07 carries three
 forward-prediction collections that predict ¹³C for candidates the June solver had already
 produced, so none introduces a new candidate or moves a recall number. All later commits
 re-score frozen outputs and re-query no model.
 
 ### Version strings, snapshots and decoding parameters {#sec:esi-versions}
 
-`Claude Opus 4.8` is the only Claude version string anywhere in the repository, and it is
-evidenced only for the 2026-06-09 pilot (`docs/BENCHMARK.md`). It is a display version, not
-a snapshot identifier: it pins no checkpoint. `Fable 5` appears as a display name; **no
-version number of any kind appears for Claude Sonnet or Claude Haiku**, and no dated
-snapshot identifier exists for any of the four, because the consumer harness exposes no
-checkpoint identifier, announces no build change, and records nothing about which build
-served a request. Two numbers from one window are therefore known to share a window and
-*not* known to share a build: **a mid-window build change cannot be excluded**, and the
-article does not claim the pilot build served the main round two days later. **No sampling
-parameters were set for any run and none are recorded** — no temperature, `top_p`, `top_k`,
-`max_tokens`, generation seed or thinking budget appears in any script, document, config or
-artifact; the `seed=` values in the repository are for analysis determinism only.
-Reproduction is distributional, not exact.
+[@sec:methods] states what can and cannot be reported about the model builds; this section
+is the evidence behind it. `Claude Opus 4.8` is the only Claude version string anywhere in
+the repository, and it is evidenced only for the 2026-06-09 pilot (`docs/BENCHMARK.md`). It
+is a display version, not a snapshot identifier: it pins no checkpoint. `Fable 5` appears as
+a display name; **no version number of any kind appears for Claude Sonnet or Claude
+Haiku**, and no dated snapshot identifier exists for any of the four, because the consumer
+harness exposes no checkpoint identifier, announces no build change, and records nothing
+about which build served a request. Two numbers from one window are therefore known to
+share a window and *not* known to share a build. **No sampling parameters were set for any
+run and none are recorded** — no temperature, `top_p`, `top_k`, `max_tokens`, generation
+seed or thinking budget appears in any script, document, config or artifact; the `seed=`
+values in the repository are for analysis determinism only.
 
 One protocol asymmetry belongs here, because
 [@sec:methodology-dominates-within-compound] measures a large effect of the variable it
@@ -91,6 +90,11 @@ formula/parse check — except the arm (a) baseline of
 variable it isolates. Closed-book status was grep-audited over the task transcripts at run
 time; the transcripts are not committed ([@sec:limitations]).
 
+One exception to the blinding sits in the data rather than in the instruction, and is
+measured rather than removed: in 10 of the 194 records the source paper's own peak
+assignments name a ring system, so the shift string a solver was handed carries a partial
+structural hint the prompt never gave it ([@sec:benchmark-design-irspectra-bench]).
+
 **Candidate budget:** up to **three ranked candidate SMILES per compound**, best first, in
 every arm except generate-wide, where ten independent solver agents each proposed up to
 **six regiochemistry-aware candidates** and the pools were merged. Scoring reads the first
@@ -111,6 +115,14 @@ held two candidates for some one compound — but with no observed spectrum in h
 nothing for that to leak: at most a predictor notices that two structures are isomers,
 evident from either alone.
 
+[@sfig:overview] draws the protocol end to end, and the join between the two stages is the
+part to read: the solver's context closes before the predictor's opens, and no observed
+spectrum ever reaches the predictor. That separation is what lets the recall and
+conditional-precision rows of [@tab:forward-verification-decomposition] be read as
+independent measurements rather than as two views of one ranking — and it is why nothing
+downstream of the join can lift recall, the candidate pool being fixed before any
+re-ranking is computed.
+
 **Verbatim prompts, and what they are not.** The prompts below are committed
 (`sweep_prompts/solve_01.md` … `solve_10.md`, `sweep_prompts/verify/`) and emitted by
 `scripts/cross_vendor_sweep.py`. They are the harness prompts for the cross-vendor
@@ -130,7 +142,7 @@ elucidation header:
 
 You are given real experimental spectra (from the published literature) for a set of
 organic molecules. For EACH compound you are given the molecular formula (from HRMS),
-the IR band list, and the 1H and 13C NMR shift lists. No name, SMILES, or scaffold hint is given deliberately; in 10 of the 194 the source paper's own peak assignments name a ring system, which is measured in [@sec:benchmark-design-irspectra-bench] rather than removed.
+the IR band list, and the 1H and 13C NMR shift lists. No name, SMILES, or hint is given.
 
 For each compound, propose the 3 most likely structures, best first, as SMILES.
 
@@ -211,7 +223,11 @@ of IRexp. A record enters the sampling pool only if it carries an IR band list, 
 string carries at least three parenthesised entries; and the raw ¹H string, re-fetched from
 the source article, contains genuine J information. Draws are balanced between the
 difficulty strata, and every compound revealed in a prior round is excluded by InChIKey-14
-beforehand, so none appears twice (`scripts/benchmark_v2.py`).
+beforehand, so none appears twice (`scripts/benchmark_v2.py`). [@sfig:dataset] shows why
+that pool is so much smaller than the corpus it is drawn from: the attrition is not at the
+IR stage but at the two joins after it — resolving a structure, then demanding both nuclei
+on the same record — so what caps benchmark size is provenance and linkage, not spectral
+coverage.
 
 **Table {#tab:esi-cohort}. Rounds behind the n=194 cohort.**
 
@@ -222,20 +238,19 @@ beforehand, so none appears twice (`scripts/benchmark_v2.py`).
 | within-compound control | `data/benchmark_v2_ctrl/` | 20 | 20 | context/tooling control, pre-registered |
 | electrolyte case study | `data/benchmark_electrolyte/` | 48 | — | domain subset, 46 scored, held apart |
 
-**What was excluded, and why.** Every main-round ground truth passes an automated RDKit
-self-consistency check — ¹³C peak count against symmetry-unique carbons, formula match,
-SELFIES round-trip — which excluded 6 of 140: five report more ¹³C peaks than the structure
-has carbons (R03 28>24, R14 11>8, R65 26>18, R67 23>16, R131 34>17: merged or contaminated
-spectra) and one is too sparse to constrain (R82, 5 peaks for 22 symmetry-unique carbons).
+**What was excluded, and why.** Every main-round ground truth passes an automated
+RDKit[@landrum_rdkit] self-consistency check — ¹³C peak count against symmetry-unique
+carbons, formula match, SELFIES[@krenn2020selfies] round-trip — which excluded 6 of 140:
+five report more ¹³C peaks than the structure has carbons (R03 28>24, R14 11>8, R65 26>18,
+R67 23>16, R131 34>17: merged or contaminated spectra) and one is too sparse to constrain
+(R82, 5 peaks for 22 symmetry-unique carbons).
 The two controlled rounds are used **whole**, being fixed and pre-registered as controls
 before the audit existed; the same audit is reported on them rather than applied (57/60
 pass), and [@sec:headline-performance] gives the strictly-validated 191-compound cohort as
-a robustness check. The filter (`scripts/validate_benchmark.py`, which regenerates every
-`clean_qids.json` from the released questions and answers) tests ¹³C against the carbon
-count and does not gate on ¹H: in **13 of the 194** retained records the reported ¹H
-integral exceeds the reference structure's hydrogen count. These are printed as a
-diagnostic, not excluded, because the cohort was fixed in advance; dropping all 13 moves
-the headline from 28.4% to 29.3% (53/181).
+a robustness check. The filter itself is `scripts/validate_benchmark.py`, which regenerates
+every `clean_qids.json` from the released questions and answers; it tests ¹³C against the
+carbon count and does not gate on ¹H at all. [@sec:benchmark-design-irspectra-bench]
+reports what that leaves standing and how much the headline moves if it is dropped.
 
 **Complexity stratification, and when it was defined.** Difficulty is a declared property
 of the compound, assigned by RDKit ring analysis at sampling time — before anything was
@@ -243,16 +258,21 @@ solved — and exhaustive by construction, so nothing falls between the classes.
 is **complex** if it has a spiro atom, a bridgehead atom, three or more rings, any fused
 ring system, **or** more than 24 heavy atoms; **simple** if it has at most two rings and at
 most 22 heavy atoms; anything else (the 23–24-heavy-atom band, 13 compounds) is complex on
-size alone. The cohort splits 98 simple / 96 complex. The 22-atom threshold is not
-load-bearing: sweeping it from 18 to 26 moves the simple-minus-complex top-1 gap only
-between 36 and 40 points, against 39.6 at the released value
-(`scripts/difficulty_sensitivity.py`). This axis is distinct from the heavy-atom bands
-(≤15 / 16–25 / >25) of [@sec:headline-performance] and [@sfig:size].
+size alone. The cohort splits 98 simple / 96 complex. What the 22-atom boundary is worth is
+measured rather than asserted: `scripts/difficulty_sensitivity.py` re-runs the whole split
+across a range of thresholds, and [@sec:benchmark-design-irspectra-bench] reports the
+result. This axis is distinct from
+the heavy-atom bands (≤15 / 16–25 / >25) of [@sec:headline-performance] and [@sfig:size].
 
 The battery-electrolyte subset ([@sec:domain-case-study-battery]) came from the same corpus
 by SMARTS filters for six electrolyte functional classes, eight per class (48 curated, 46
 scored), J-enriched and spectrally validated identically to the main rounds and excluding
-every compound used elsewhere.
+every compound used elsewhere. [@sfig:electrolyte] breaks that subset down class by class,
+pairing exact top-1 against recovered. It carries no intervals and is not a ranking — at
+eight compounds a class the spread is within sampling noise
+([@sec:domain-case-study-battery]) — but the paired bars show the shape of the failure
+plainly: in most classes recovered barely clears top-1, so what the subset is short of is
+candidates, not a way to choose between them.
 
 ## Scoring: what the criterion accepts and rejects {#sec:esi-scoring}
 
@@ -260,11 +280,13 @@ A prediction is **correct** if the first 14 characters of the RDKit InChIKey com
 its SMILES equal those of the reference — the InChIKey **connectivity layer**, which hashes
 the molecular skeleton; the later blocks, carrying stereochemistry, isotopic substitution
 and protonation state, are not compared. Top-1 asks this of the first-ranked candidate,
-recovered (top-3) of the up-to-three returned, generation recall of the whole pool. Nothing
+recovered (top-3) of the up-to-three returned — the lenient recovery protocol of ref.
+[@kamber2026chemist] — and generation recall of the whole pool. Nothing
 is model-mediated: RDKit only, in `scripts/score_main.py` and `scripts/specmetrics.py`.
 Morgan(2, 2048) Tanimoto[@rogers2010ecfp] is reported alongside as a graded signal, 0.45
 being the scaffold-level threshold; intervals are bootstrap 95% over compounds (2,000
-resamples, analysis seed 0), model comparisons McNemar exact with Holm correction.
+resamples, analysis seed 0), model comparisons McNemar exact[@mcnemar1947] with Holm
+correction[@holm1979].
 
 **What it accepts.** A candidate with the right constitution and the wrong stereochemistry
 scores correct. This is a deliberate floor whose cost is measured rather than assumed:
@@ -297,9 +319,9 @@ That is the dominant shape of failure: of the 137 analysable top-1 misses (139 i
 predictions did not parse), **76.6% are constitutional isomers** of the true structure and
 23.4% have the wrong formula outright, 22.6% share the true Murcko scaffold, and the median
 isomeric-miss Tanimoto is 0.39 (`scripts/analyze_misses.py`). Formula adherence is not
-part of the criterion — a wrong-composition answer is simply a miss — and it is not
-uniform across rounds: on top-1 answers, 95.0% (38/40) in v3, 90.0% (18/20) in the within-compound control
-and 77.6% (104/134) in the main round.
+part of the criterion at all — a wrong-composition answer is scored as a miss, not as a
+separate class of error — and its variation across rounds is reported in
+[@sec:benchmark-design-irspectra-bench].
 
 ## Forward-verification detail {#sec:esi-forward}
 
@@ -355,7 +377,7 @@ compounds the verifier abandons its previous pick for a newly-selectable candida
 **The margin the method works on.** Taking the chamfer between the *predicted* spectra of
 every pair of candidates proposed for one target (`scripts/isomer_separability.py`),
 isomeric pairs sit at a median separation of **1.21 ppm** (quartiles 0.84 and 1.78) and
-**82% are predicted closer together than the predictor's own ~2 ppm error** — usually
+**82% are predicted closer together than the predictor's own ≈2 ppm error** — usually
 within the noise. What shows that a ranking on so thin a margin is nonetheless real is the
 derangement control of [@sec:negative-control]: over 1,000 permutations of which observed spectrum each candidate
 set is scored against, conditional-on-recall precision falls from **89.2% (58/65)** to a
@@ -390,7 +412,7 @@ validation / 1,632 test at seed 5 (the lookup's figures above are this set minus
 size 64, smooth-L1 loss, plateau learning-rate halving, early stopping. Held-out **MAE
 1.70 ppm (median 1.02)**, roughly twice as sharp as the lookup (`scripts/gnn_predict.py`,
 `data/nmrshiftdb/gnn_c13.pt`). It is deliberately modest — purpose-built ¹³C models reach
-~1 ppm[@williamson2024mpnn] and 0.94 ppm coupled to DFT shielding tensors[@han2024dftgnn] —
+≈1 ppm[@williamson2024mpnn] and 0.94 ppm coupled to DFT shielding tensors[@han2024dftgnn] —
 the question being only whether the predictor slot is where the leverage sits.
 
 **Held-out error against benchmark behaviour.** [@tab:verifier-comparison-conditional-recall]
@@ -400,7 +422,12 @@ p=1.00), reshuffling energetically while carrying no net discriminative signal. 
 diagnosis is that of the **6,360 candidate carbons only 2.1% match a training environment at
 the most specific sphere (r=4)**, 71% resolving only at r≤2 or falling through to the prior.
 The GNN's margins are directional and none reaches significance (against the lookup p=0.34,
-against self-ranking p=0.22, against the LLM verifier p=1.00).
+against self-ranking p=0.22, against the LLM verifier p=1.00). [@sfig:verifier] sets those
+two things side by side — the conditional-on-recall accuracies in one panel, the held-out
+¹³C errors in the other — and the point to take is how little of the second survives into
+the first: roughly halving the prediction error buys parity with the LLM verifier and no
+more, while the lookup, at twice the error, does not move off the solver's own ranking at
+all. On this sample the verifier slot is not where the remaining leverage sits.
 
 **Leakage analysis** is the decisive control for a *learned* verifier, which can memorise a
 molecule's spectrum where a bin average cannot. Exact overlap with the whole nmrshiftdb2
@@ -416,6 +443,14 @@ learned verifier above the 97.5th percentile of chance (n=19: real 84% against a
 mean of 58.6%, 95% range 42.1–73.7%, one-sided p<0.05). Both checks regenerate via
 `scripts/verifier_leakage.py`; neither predictor is redistributable end-to-end, the
 nmrshiftdb2 dump being one a reader must supply.
+
+[@sfig:generator-probe] is the complementary experiment, and belongs here because the
+verifier it holds fixed is the deterministic lookup described above: only the source of
+candidates changes. It shows that the lookup's coverage problem is a property of what it is
+asked to separate rather than of the predictor — scaffold enumeration raises recall while
+filling the pool with near-degenerate isomers, and top-1 falls; the trained generator
+raises recall with formula-correct candidates, and top-1 rises. A verifier is only as
+useful as the candidates are distinguishable.
 
 ## Cross-vendor replication {#sec:esi-cross-vendor}
 
@@ -531,15 +566,16 @@ without, **none** the other way round (b=11, c=0, McNemar exact p=0.001), for 3/
 
 The three formula-only successes are named rather than rounded away, because they do not
 all support one reading: **C₁₅H₁₅ClF₂O₃SSi**, a 2-(trimethylsilyl)aryl sulfonate whose
-composition is a near-unique benzyne-precursor signature and which is absent from PubChem,
-so the formula is close to determining; **C₁₃H₁₉NO₄S**, *N*-tosyl-leucine (CAS 67368-40-5),
-where inference and recall are both available; and **C₁₇H₂₆O₃**, [6]-paradol (CAS
-27113-22-0), a catalogued natural product that composition alone constrains very little.
+composition is a near-unique benzyne-precursor signature and which is absent from
+PubChem[@kim2023pubchem], so the formula is close to determining; **C₁₃H₁₉NO₄S**,
+*N*-tosyl-leucine (CAS 67368-40-5), where inference and recall are both available; and
+**C₁₇H₂₆O₃**, [6]-paradol (CAS 27113-22-0), a catalogued natural product that composition alone constrains very little.
 
-**The recency control** is independent and agrees. Publication years were resolved for all
-194 compounds from their accessions (`scripts/contamination_recency.py`) and span
-2008–2026. Accuracy is flat: **28.6%** for the older half (≤2020, n=112) against **28.0%**
-for the newer (n=82), point-biserial r between year and correctness of **−0.007**, the most
+**The recency control** is independent and agrees. It addresses the pretraining-exposure
+hazard[@xu2024contamination] head-on rather than by masking: publication years were
+resolved for all 194 compounds from their accessions (`scripts/contamination_recency.py`)
+and span 2008–2026. Accuracy is flat: **28.6%** for the older half (≤2020, n=112) against
+**28.0%** for the newer (n=82), point-biserial r between year and correctness of **−0.007**, the most
 recent bucket (≥2024, n=25) in fact highest at 40% [23, 59]. The raw split is biased against
 the newer half, since newer papers skew larger (median 22 heavy atoms against 20) and size
 dominates accuracy; stratifying by heavy-atom band removes that (≤15: 64% against 58%;
@@ -625,3 +661,29 @@ InChIKey) but not yet human-validated.
      from recorded parameters. -->
 <!-- GAP: transcripts of the run-time closed-book audit are not deposited, so that audit
      cannot be re-verified from the release; the article states this. -->
+
+<!-- TO-PAPER: two passages below are results, not operational detail. They are left in
+     place because docs/PAPER.md is owned by another editor; both should move, and the ESI
+     copy should then be cut to a pointer.
+
+     1. From the forward-verification-detail section, the paragraph on the widened pool:
+
+        "The added coverage buys a direct view of the mechanism — on **18 of the 60**
+        compounds the verifier abandons its previous pick for a newly-selectable
+        candidate, and in **not one** does the outcome change; every switch is wrong
+        structure to wrong structure."
+
+        Belongs in [@sec:generate-wide-testing-recipe], next to the statement that no
+        number moves when coverage is completed: it is the reason no number moves, and it
+        is the strongest direct evidence in the manuscript that the ceiling is recall
+        rather than ranking.
+
+     2. From the non-LLM-verifier section, on the deterministic lookup:
+
+        "The lookup's tie with self-ranking there is not agreement: at n=65 it **gains
+        seven compounds and loses seven** (McNemar b=c=7, p=1.00), reshuffling
+        energetically while carrying no net discriminative signal."
+
+        Belongs in [@sec:non-llm-verifiers-deterministic], where the lookup's tie with
+        self-ranking is reported: the tie is currently readable as the lookup agreeing
+        with the solver, and b=c=7 says the opposite. -->

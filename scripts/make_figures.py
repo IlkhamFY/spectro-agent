@@ -33,15 +33,20 @@ plt.tight_layout(); plt.savefig("docs/figures/fig1_difficulty.png"); plt.close()
 # Fig 2 - accuracy vs molecular size. Both lines descend left->right, so the
 # upper-right corner is empty: put the legend there (direct labels on such steep,
 # converging lines can't avoid crossing them).
-buckets = ["≤15", "16-25", ">25"]
-sub = lambda b: [r for r in R if r['hac'] == ("<=15" if b == "≤15" else b)]
-t1 = [rate(sub(b), 'top1') for b in buckets]; rc = [rate(sub(b), 'rec') for b in buckets]
+# The scorer's bucket keys are ASCII; the printed labels use the same glyphs as the
+# prose (U+2264 LESS-THAN OR EQUAL, U+2013 EN DASH), so the figure and the running text
+# do not disagree three lines apart. Keys and labels are kept separate on purpose.
+KEYS   = ["<=15", "16-25", ">25"]
+LABELS = ["\u226415", "16\u201325", ">25"]
+sub = lambda k: [r for r in R if r['hac'] == k]
+t1 = [rate(sub(k), 'top1') for k in KEYS]; rc = [rate(sub(k), 'rec') for k in KEYS]
 fig, ax = plt.subplots(figsize=(fs.COL1, 2.5))
-ax.plot(buckets, rc, "s--", color=fs.SKY, mfc="white", mec=fs.SKY, label="recovered (top-3)")
-ax.plot(buckets, t1, "o-", color=fs.BLUE, label="exact top-1")
+x = np.arange(len(KEYS))
+ax.plot(x, rc, "s--", color=fs.SKY, mfc="white", mec=fs.SKY, label="recovered (top-3)")
+ax.plot(x, t1, "o-", color=fs.BLUE, label="exact top-1")
 ax.legend(loc="upper right", handlelength=1.8, borderaxespad=0.4)
-ax.set_xticks(range(len(buckets)))
-ax.set_xticklabels([f"{b}\n(n={len(sub(b))})" for b in buckets])
+ax.set_xticks(x)
+ax.set_xticklabels([f"{lab}\n(n={len(sub(k))})" for lab, k in zip(LABELS, KEYS)])
 ax.set_xlabel("heavy atoms", labelpad=1); ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, 78)
 ax.margins(x=0.10)
 # message in caption; no in-panel title

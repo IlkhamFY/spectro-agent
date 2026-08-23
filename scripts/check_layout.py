@@ -71,6 +71,21 @@ def check(path):
                 fail(path, i + 1, f"page ends {gap:.0f}pt above the bottom margin with no "
                                   f"figure to explain it")
 
+        # --- a table split leaving a fragment: rules on the page with almost nothing
+        # between them and nothing after. Table 1 once put a single row on the following
+        # page with no header and no caption above it.
+        rules_all = sorted([dr["rect"] for dr in pg.get_drawings()
+                            if dr["rect"].height < 1.5 and dr["rect"].width > 400],
+                           key=lambda r: r.y0)
+        if rules_all and len(rules_all) <= 2:
+            body = [w for w in pg.get_text("words") if w[0] > MARGIN - 6]
+            inside = {round(w[3]) for w in body
+                      if rules_all[0].y1 < w[1] and w[3] < rules_all[-1].y0}
+            after = {round(w[3]) for w in body if w[1] > rules_all[-1].y1}
+            if len(inside) <= 1 and len(after) <= 1:
+                fail(path, i + 1, "a table fragment: ruled rows with no header, no caption "
+                                  "and nothing following them on the page")
+
         # --- table rules: the gap under the last row should match the gap under the header
         rules = sorted([dr["rect"] for dr in pg.get_drawings()
                         if dr["rect"].height < 1.5 and dr["rect"].width > 400],
@@ -105,6 +120,7 @@ def main():
     print("  no type below 5.9pt")
     print("  no blank pages, and none abandoned above its foot")
     print("  every table's bottom rule sits as close as its header rule")
+    print("  no table split leaves a fragment on its own page")
     return 0
 
 

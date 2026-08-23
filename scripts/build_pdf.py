@@ -281,12 +281,19 @@ def proportional_tables(md):
                 while k > 0 and out[k - 1].strip():
                     k -= 1
                 if out[k].startswith("**Table "):
-                    # Reserve the caption, the head and a couple of body rows -- not the
-                    # whole table. Reserving for a table longer than the page cannot
-                    # succeed, and the attempt abandoned a page: the ESI's first page
-                    # ended 330pt short and its second opened with an empty ruled header
-                    # above the caption. A long table breaks anyway, and its head repeats.
-                    need = 8
+                    # A table that fits on a page should not be broken; a table that
+                    # cannot fit should not have a page reserved for it, because the
+                    # attempt abandons the page -- the ESI's first page once ended 330pt
+                    # short that way. So reserve the whole table when the whole table
+                    # plausibly fits, and only the caption, head and two rows when it
+                    # cannot. Without this Table 1 split with a single row stranded on the
+                    # next page under no header.
+                    whole = len(rows) + 4
+                    # 12, not 8: a reserve that fits the caption and the head
+                    # but no body rows leaves the head at the foot of a page
+                    # and repeats it overleaf, which reads as two headers with
+                    # nothing between them.
+                    need = whole if whole <= 28 else 12
                     # ... and set it at caption size. \captionsetup{font=small} in the
                     # preamble reaches figures only, because a figure caption is a real
                     # \caption and a table caption here is an ordinary markdown

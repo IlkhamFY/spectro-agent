@@ -425,8 +425,8 @@ A strictly-validated subset with the controlled rounds restricted to their clean
 metric — top-1 28.8%, 95% CI 23–36; recall 34.0%; simple 49.0% / complex 8.4% — so the
 asymmetric inclusion of the pre-registered controlled sets does not drive it. What does
 move the overall figure is the deliberate 50/50 difficulty balance: reweighted to the
-17.5%-simple composition of the eligible corpus, top-1 is 15.2% [10.7–20.4] and
-recall 19.8% [14.3–25.7]
+17.5%-simple composition of the eligible corpus, top-1 is 15.2% [10.6–20.4] and
+recall 19.8% [14.4–25.8]
 ([@sec:benchmark-design-irspectra-bench]). The per-stratum figures are unaffected — only
 the weights change — and the reweighted number is the one to read as
 performance on an arbitrary paper.
@@ -1060,7 +1060,7 @@ over three candidates is mechanically smaller than one measured over ten.
 | Espejo Morales[@espejo2026agentic] | education | 80.9% | 90.0% (5) | ≥ 90.0% | ≤ 89.9% |
 | Espejo Morales[@espejo2026agentic] | industrial | 20.6% | 29.1% (5) | ≥ 29.1% | ≤ 70.9% |
 | ***criterion not stated by the authors*** | | | | | |
-| Alberts, 6–13 atoms[@alberts2025benchmarks] | NIST IR | 63.2% | 83.6% (10) | 83.6% | 75.7% |
+| Alberts, 6–13 atoms[@alberts2025benchmarks] | NIST IR | 63.8% | 84.0% (10) | 84.0% | 75.9% |
 | Alberts, 5–35 atoms[@alberts2025benchmarks] | NIST IR | 59.9% | 78.5% (10) | 78.5% | 76.4% |
 | SpecX, random split[@xiang2026specx] | simulated | 59.0% | 81.8% (10) | 81.8% | 72.2% |
 | SpecX, scaffold split[@xiang2026specx] | simulated | 29.7% | 50.6% (10) | 50.6% | 58.7% |

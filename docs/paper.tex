@@ -516,7 +516,7 @@ licensing}\label{contents-and-licensing}}
 
 Table~1 gives what the release holds and where each part came from.
 
-\needspace{8\baselineskip}
+\needspace{14\baselineskip}
 \begingroup\small
 
 \textbf{Table 1. IRexp dataset contents and provenance.}
@@ -709,7 +709,7 @@ The benchmark is all 194 compounds (134 spectrally-validated + 60
 controlled-round;
 \texttt{data/\hspace{0pt}benchmark\_main/\hspace{0pt}raw/}).
 
-\needspace{8\baselineskip}
+\needspace{10\baselineskip}
 \begingroup\small
 
 \textbf{Table 2. Headline elucidation performance on IRSpectra-Bench
@@ -751,8 +751,8 @@ CI 23--36; recall 34.0\%; simple 49.0\% / complex 8.4\% --- so the
 asymmetric inclusion of the pre-registered controlled sets does not
 drive it. What does move the overall figure is the deliberate 50/50
 difficulty balance: reweighted to the 17.5\%-simple composition of the
-eligible corpus, top-1 is 15.2\% {[}10.7--20.4{]} and recall 19.8\%
-{[}14.3--25.7{]} (§3). The per-stratum figures are unaffected --- only
+eligible corpus, top-1 is 15.2\% {[}10.6--20.4{]} and recall 19.8\%
+{[}14.4--25.8{]} (§3). The per-stratum figures are unaffected --- only
 the weights change --- and the reweighted number is the one to read as
 performance on an arbitrary paper. Accuracy falls monotonically with
 size in step with the difficulty gradient (Fig.~2): 60.5\% top-1 at ≤15
@@ -901,7 +901,7 @@ weaker one's compounds --- so the benchmark is capability-sensitive, but
 at n=24 it is underpowered to separate adjacent models (§4.4).}
 \end{figure}
 
-\needspace{8\baselineskip}
+\needspace{10\baselineskip}
 \begingroup\small
 
 \textbf{Table 3. Four-model comparison on a fixed 24-compound subset.}
@@ -981,7 +981,7 @@ ranking rather than the §5 measurement (Fig.~S4). The per-class
 breakdown is Table~4; at eight compounds a class the intervals overlap
 throughout.
 
-\needspace{8\baselineskip}
+\needspace{12\baselineskip}
 \begingroup\small
 
 \textbf{Table 4. Per-class performance on IRSpectra-Bench-Electrolyte
@@ -1154,7 +1154,7 @@ Six non-Claude models solved the same 60 compounds as Table~7's first
 column under the identical blind protocol; the three whose output was
 well-formed enough were carried through forward-verification (Table~6).
 
-\needspace{8\baselineskip}
+\needspace{10\baselineskip}
 \begingroup\small
 
 \textbf{Table 6. Cross-vendor decomposition on the 60-compound arm.}
@@ -1363,7 +1363,7 @@ column below is the 60-compound arm (v3 + v2-control) on which
 were forward-predicted, so nothing here is a lower bound; the
 self-ranking row re-derives Table~2 from §4's output.
 
-\needspace{8\baselineskip}
+\needspace{16\baselineskip}
 \begingroup\small
 
 \textbf{Table 7. Forward-verification decomposition.} Original arm and
@@ -1431,7 +1431,7 @@ sampling\textsuperscript{48}. Ten solver agents proposed up to six
 regiochemistry-aware candidates per compound, pooled with the originals
 and re-ranked as before.
 
-\needspace{8\baselineskip}
+\needspace{9\baselineskip}
 \begingroup\small
 
 \textbf{Table 8. Generate-wide vs original.} On the 60-compound arm
@@ -1517,7 +1517,7 @@ dump\textsuperscript{50} and applied to the same §5.2 candidate sets, so
 that only the predictor changes. The GNN is deliberately modest; sharper
 purpose-built ¹³C models exist\textsuperscript{44--46}.
 
-\needspace{8\baselineskip}
+\needspace{10\baselineskip}
 \begingroup\small
 
 \textbf{Table 9. Verifier comparison, conditional on recall.}
@@ -1720,7 +1720,7 @@ forward-verification exceeds it at 58/65 = 89.2\% precisely by
 re-ordering. The distance from \emph{a}/\emph{b} to 100\% is the room a
 re-ranker has.
 
-\needspace{8\baselineskip}
+\needspace{24\baselineskip}
 \begingroup\small
 
 \textbf{Table 10. } Recall and ranking loss recovered from published
@@ -1777,8 +1777,8 @@ Espejo Morales\textsuperscript{30} & education & 80.9\% & 90.0\% (5) & ≥
 Espejo Morales\textsuperscript{30} & industrial & 20.6\% & 29.1\% (5) &
 ≥ 29.1\% & ≤ 70.9\% \\
 \textbf{\emph{criterion not stated by the authors}} & & & & & \\
-Alberts, 6--13 atoms\textsuperscript{18} & NIST IR & 63.2\% & 83.6\%
-(10) & 83.6\% & 75.7\% \\
+Alberts, 6--13 atoms\textsuperscript{18} & NIST IR & 63.8\% & 84.0\%
+(10) & 84.0\% & 75.9\% \\
 Alberts, 5--35 atoms\textsuperscript{18} & NIST IR & 59.9\% & 78.5\%
 (10) & 78.5\% & 76.4\% \\
 SpecX, random split\textsuperscript{20} & simulated & 59.0\% & 81.8\%
@@ -2290,7 +2290,7 @@ predictions, scripts, figure regeneration and the expert-audit package
 GitHub is the development mirror and the Zenodo record the citable
 version.
 
-\needspace{8\baselineskip}
+\needspace{12\baselineskip}
 \begingroup\small
 
 \textbf{Table 11. Released artefacts, and the data and code behind each

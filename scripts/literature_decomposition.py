@@ -104,10 +104,14 @@ ROWS = [
               "differ"),
     dict(system="Alberts IR transformer, NIST 6-13 HA", realism="single-library experimental",
          n=3455, criterion="exact match, stereo handling unstated", budget=10,
-         top1=63.25, top_k=(10, 83.56), recall=None, precision=None, exact=True,
-         where="Alberts et al., Table 4; Methods 4.5 'ten ranked SMILES strings per sample "
-               "are generated', so top-10 is the emitted list and the recall is exact",
-         note="IR alone plus the formula, against IR + 1H + 13C here"),
+         top1=63.8, top_k=(10, 84.0), recall=None, precision=None, exact=True,
+         where="Alberts et al., abstract, for the constrained-decoding configuration; "
+               "Methods 4.5 'ten ranked SMILES strings per sample are generated', so "
+               "top-10 is the emitted list and the recall is exact",
+         note="IR alone plus the formula, against IR + 1H + 13C here. Table 4 gives 63.25 "
+              "and 83.56 for what the abstract states as 63.79 and 83.95; the manuscript "
+              "quotes the abstract throughout, and the decomposition is unaffected "
+              "(75.9% against 75.7%)"),
     dict(system="Alberts IR transformer, NIST 5-35 HA", realism="single-library experimental",
          n=5024, criterion="exact match, stereo handling unstated", budget=10,
          top1=59.94, top_k=(10, 78.46), recall=None, precision=None, exact=True,
@@ -115,16 +119,21 @@ ROWS = [
     dict(system="SpecX transformer, random split", realism="simulated", n=99439,
          criterion="exact match, stereo handling unstated", budget=10,
          top1=59.04, top_k=(10, 81.77), recall=None, precision=None, exact=True,
-         where="Xiang et al., multi-modal transformer, random split"),
+         where="Xiang et al., Table 3, multi-modal transformer, random split; "
+               "n from Table 17"),
     dict(system="SpecX transformer, scaffold split", realism="simulated", n=99439,
          criterion="exact match, stereo handling unstated", budget=10,
          top1=29.66, top_k=(10, 50.56), recall=None, precision=None, exact=True,
-         where="Xiang et al., multi-modal transformer, scaffold split",
+         where="Xiang et al., Table 3, multi-modal transformer, scaffold split; "
+               "n from Table 17",
          note="paired with the row above: one system, one criterion, split changed"),
     dict(system="IR-Agent, experimental NIST IR", realism="single-library experimental",
          n=905, criterion="exact match, stereo handling unstated", budget=10,
+         # the paper says matching is done "after conversion to the InChI representation",
+         # which does not settle whether stereochemistry survives that conversion
          top1=10.3, top_k=(10, 21.6), recall=None, precision=None, exact=True,
-         where="Noh et al., multi-agent with o3-mini; no formula supplied"),
+         where="Noh et al., Table 1, multi-agent with o3-mini; no formula supplied; "
+               "n is the 10% experimental test split of 9,052"),
     # Reported for one system, not spliced across two: the baseline HSQC matcher on the
     # analogue-seeded condition. Its 7/9 precision and 9/34 recall multiply to the 20.6%
     # top-1 of that same arm; the 23.5% quoted elsewhere is the reasoning-LLM re-rank, a
@@ -178,9 +187,23 @@ import math
 
 def main():
     strict = "--check" in sys.argv
-    missing = [r["system"] for r in ROWS if not r.get("where")]
-    if strict and missing:
-        print("rows without provenance:", ", ".join(missing))
+    problems = []
+    for r in ROWS:
+        # Provenance must name a table or a section, not merely be non-empty: a row whose
+        # source cannot be reopened is a row nobody can check.
+        if not r.get("where") or not any(w in r["where"].lower() for w in
+                                         ("table", "section", "fig", "abstract", "methods")):
+            problems.append(f"{r['system']}: provenance does not name a table or section")
+        # top-1 = recall x precision must hold wherever both are measured rather than
+        # bounded. A row that fails it is splicing two systems -- which one did.
+        if r.get("recall") is not None and r.get("precision") is not None:
+            expect = r["recall"] * r["precision"] / 100
+            if abs(expect - r["top1"]) > 0.6:
+                problems.append(f"{r['system']}: recall x precision = {expect:.1f}% but "
+                                f"top-1 is {r['top1']}% — the row mixes two systems")
+    if strict and problems:
+        for x in problems:
+            print("  " + x)
         return 1
 
     by_criterion = {}

@@ -1,6 +1,6 @@
 # Recall, not verification, is the bottleneck when frontier LLMs elucidate molecular structures from real spectra
 
-**Ilkham Yabbarov**^a^ *(corresponding author: ilkhamfy@gmail.com)*, **Rudra Sondhi**^a^, **Rodrigo A. Vargas-Hernández**^a^
+**Ilkham Yabbarov**^a^ *(corresponding author: yabbaroi@mcmaster.ca)*, **Rudra Sondhi**^a^, **Rodrigo A. Vargas-Hernández**^a^
 
 *^a^ Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario L8S 4L8, Canada.*
 

@@ -276,7 +276,11 @@ def title_block(md):
             r"\vspace{1.1em}" "\n"
             r"{\large " f"{authors}" r"\par}" "\n"
             r"\vspace{0.5em}" "\n"
-            r"{\small " f"{affil}" r"\par}" "\n"
+            # A full Canadian address is a little too long for the measure and breaks with
+            # "Canada." alone on the second line. Set it in a narrower centred box so the
+            # break falls inside the address instead of after it.
+            r"{\small\begin{minipage}{0.82\linewidth}\centering " f"{affil}"
+            r"\end{minipage}\par}" "\n"
             f"{note}"
             r"\end{center}" "\n"
             r"\vspace{0.6em}" "\n"

@@ -462,6 +462,18 @@ difference.
 | `gemini-3.7-flash` | 30/60 = 50% [38, 62] | 22/30 = 73% [56, 86] | 22/30 = 73% |
 | `gpt-5.6-sol` | 25/60 = 42% [30, 54] | 17/25 = 68% [48, 83] | 16/24 = 67% |
 
+**Two corrections the marginal intervals above do not show.** Recall and precision are
+measured on the same compounds, so the inequality belongs to the *paired* difference, not
+to whether two intervals overlap. Bootstrapping compounds
+(`scripts/cross_vendor_gap.py`) resolves three of the four arms — Claude, Gemini
++23.3 points [+2.9, +44.3], GPT-5.6 Sol +26.3 [+4.2, +49.0] — and leaves Grok
++9.2 [−10.7, +30.3] directional. And the recall column is not budget-matched: the
+reference arm holds 2.20 candidates per compound against exactly 3.00 for every comparison
+model (Composer 2.82), and a longer list can only raise recall. At one candidate, the only
+budget every model met, recall is 14/60 = 23% for Claude, 23/60 = 38% for Grok, 23/60 = 38%
+for Gemini and 21/60 = 35% for GPT-5.6 Sol (`scripts/cross_vendor_budget.py`); the ordering
+is unchanged and Grok's margin is 15 points rather than 21.
+
 **What these identifiers name.** The models are as served by the coding-agent harness, not
 stock vendor endpoints, and the harness supplies its own agent system prompt above the task
 text. Its allowlist reads `gpt-5.6-sol-xhigh`, `gpt-5.6-sol-high`, `gpt-5.6-luna-high`,

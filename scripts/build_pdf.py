@@ -91,7 +91,9 @@ def breakable_paths(md):
         inner = m.group(1)
         if "/" not in inner and "_" not in inner:
             return m.group(0)
-        return "`" + re.sub(r"([/_])", r"\1" + ZWSP, inner) + "`"
+        # Not after a *trailing* separator: `data/audit/` would then be allowed to break
+        # at its own end, stranding the following comma at the head of the next line.
+        return "`" + re.sub(r"([/_])(?=.)", r"\1" + ZWSP, inner) + "`"
     return re.sub(r"`([^`\n]+)`", fix, md)
 
 SEP_RE = re.compile(r'^\|(?:\s*:?-{2,}:?\s*\|)+$')

@@ -279,9 +279,12 @@ justify it. Composer and Luna were left out at 67% and 76% adherence.
 | `gpt-5.6-sol` | 25/60 = 42% [30, 54] | 17/25 = 68% [48, 83] | 16/24 = 67% |
 
 **The inequality holds in every arm** — verification precision exceeds generation recall
-for all four vendors, which is the criterion `docs/CROSS_VENDOR.md` sets. Only Claude's
-gap is interval-disjoint; for the three new models the intervals overlap at n=60, so
-those are directional rather than established.
+for all four vendors, which is the criterion `docs/CROSS_VENDOR.md` sets. Reading the two
+marginal intervals against each other is the wrong test — recall and precision are measured
+on the same compounds, so the claim belongs to the paired difference. Bootstrapping
+compounds (`scripts/cross_vendor_gap.py`) resolves three of the four: Claude, Gemini
++23.3 points [+2.9, +44.3] and GPT-5.6 Sol +26.3 [+4.2, +49.0] exclude zero, while Grok
++9.2 [−10.7, +30.3] stays directional at n=60.
 
 Two things are worth more than the headline.
 

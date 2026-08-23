@@ -1052,11 +1052,13 @@ quantitative claims should be read as holding **for the Claude family**. The
 cross-**vendor** question is no longer open: [@sec:diagnosis-hold-outside-one] finds
 verification precision exceeding generation recall for Grok 4.6, Gemini 3.7 Flash and
 GPT-5.6 Sol on the 60-compound arm, as for Claude. What remains is weaker than the
-original gap but real: only Claude's inequality is interval-disjoint at n=60, the other
-three are directional. Those models were reached through a coding-assistant harness
-exposing reasoning-effort tiers, a decoding control our own arm never had, so they
-measure a model as served rather than a bare endpoint. The clean-clone contamination
-control was run for Grok alone, and the cross-vendor arms cover 60 compounds.
+original gap but real. Bootstrapping the paired difference resolves three of the four
+arms and leaves Grok's directional at n=60. Those models were reached through a
+coding-assistant harness exposing reasoning-effort tiers, a decoding control our own arm
+never had — and the tier serving each arm was not recorded, so the arms are not
+demonstrably matched to each other either, which bounds the recall *ranking* while leaving
+each arm's inequality internally valid ([@sec:diagnosis-hold-outside-one]). The clean-clone
+contamination control was run for Grok alone, and the cross-vendor arms cover 60 compounds.
 
 **(iv) Domain-subset scope:** the battery-electrolyte case study
 ([@sec:domain-case-study-battery]) uses *literature compounds bearing

@@ -82,11 +82,14 @@ openly *redistributable* collection of experimental IR *band lists* (121,233 rec
 43,060 structure-linked; 33,201 IR + ¹H + ¹³C + structure); the superlative is scoped to that
 object type, since view-only libraries such as SDBS and commercial libraries hold more
 structure-linked *spectra* but cannot be redistributed ([@sec:motivation]). On it,
-*IRSpectra-Bench* ([@sec:benchmark-design-irspectra-bench]) is, to our knowledge, the
-first blind, mechanically scored, complexity-stratified evaluation of frontier-LLM
-elucidation on real spectra: measured in depth on Claude, replicated across three other
-model families ([@sec:diagnosis-hold-outside-one]), and isolating a large
-solver-methodology effect with a within-compound control ([@sec:well-llms-elucidate-real]).
+*IRSpectra-Bench* ([@sec:benchmark-design-irspectra-bench]) is a blind, mechanically
+scored, complexity-stratified evaluation of frontier-LLM elucidation on real spectra. It is
+not the first blind, mechanically scored one — MolQuest scores 530 post-2025 compounds by
+exact canonical SMILES[@han2026molquest] — and what is ours is the stratification, the
+multimodal IR + ¹H + ¹³C input, and the decomposition it supports: measured in depth on
+Claude, replicated across three other model families
+([@sec:diagnosis-hold-outside-one]), and isolating a large solver-methodology effect with a
+within-compound control ([@sec:well-llms-elucidate-real]).
 Its ground truth is literature structures resolved deterministically (OPSIN/RDKit) and
 checked mechanically against the source articles (560/560 bands on a seed-fixed sample,
 [@sec:contents-licensing]; the *expert-chemist* review is prepared but not yet run,
@@ -185,8 +188,9 @@ principle that *verification by forward prediction is easier than inverse genera
 *Computer-assisted structure elucidation* (CASE) has run the loop since the 1990s and
 overturned published assignments[@elyashberg2012case; @elyashberg2015case]; its generator
 is a strict enumerator with exhaustive recall by construction[@elyashberg2015case] — the axis
-on which we find the LLM weak, and the axis existing LLM benchmarks leave unmeasured by
-reporting a single aggregate score. The decomposition is stable under every perturbation
+on which we find the LLM weak, and the axis the LLM benchmark literature almost never
+reports: across every paper we could read in full it appears once, in a supplementary
+figure caption ([@sec:literature-decomposition]). The decomposition is stable under every perturbation
 we could run — four Claude models, a second chemical domain, four verifiers, all
 recall-bound ([@sec:model-comparison-benchmark-ranks], [@sec:domain-case-study-battery],
 [@sec:non-llm-verifiers-deterministic]) — but is not tested outside the Claude family
@@ -195,8 +199,11 @@ recall-bound ([@sec:model-comparison-benchmark-ranks], [@sec:domain-case-study-b
 **The generate-and-forward-verify loop is not ours.** *NMR-Solver*[@jin2025nmrsolver]
 builds it without an LLM, retrieving and fragment-recombining candidates and ranking them
 by ¹H/¹³C shifts forward-predicted with NMRNet (¹³C MAE 1.098 ppm); on ≈450 experimental
-literature spectra with the formula supplied it reports 52.89% top-1, well above our
-28.4%. [@sec:forward-verification-elucidation] asks a different question — *how much of
+literature spectra with the formula supplied it reports 52.89% top-1 with
+stereochemistry ignored, well above our 28.4% on the same criterion; the twin
+supplementary table scores the identical predictions with stereochemistry preserved and
+gives 31.56%, against our 21.1%. We quote both because the gap between them, 21 points on
+one system's own predictions, is larger than most differences anyone compares. [@sec:forward-verification-elucidation] asks a different question — *how much of
 the remaining error is generation and how much is verification* — answered by
 decomposition ([@sec:result]) rather than by a better solver. Its predictor is roughly
 twice as sharp as the ≈2 ppm LLM forward-predictor that [@sec:method] identifies as the
@@ -218,8 +225,14 @@ frame — search rather than a learned map — is orthogonal to ours: they ask w
 architecture, we ask which stage of it binds. Their inputs are raw instrument files and ours
 published reports, which they exclude by design ([@sec:limitations]). We claim priority on
 neither that frame, nor on external simulation tools improving agent elucidation, nor on
-placing frontier LLMs near a quarter on real peak lists; only on the decomposition, which
-none of them reports.
+placing frontier LLMs near a quarter on real peak lists. Nor on the idea that candidate
+supply binds: Priessner *et al.* measure generator recall as a standalone quantity and
+state the constraint outright — a re-ranker "cannot overcome cases where the correct
+structure is entirely absent from the candidate pool"[@priessner2026reasoning]. What we
+add is the measurement at scale and the generalisation: the split on 194 compounds across
+four model families and four verifiers, and then recovered from the published top-*k*
+figures of every system we could read ([@sec:literature-decomposition]), where it turns out
+to hold in some regimes and fail in others.
 
 ---
 
@@ -454,7 +467,10 @@ in-distribution accuracy on simulated spectra; Alberts et al. do not — 63.8% t
 alone, formula supplied, on experimental NIST gas-phase spectra of a curated
 single-instrument library of 6–13-heavy-atom molecules[@alberts2025benchmarks]. Ours
 span 8–60 heavy atoms (median 20), only 15 of 194 (8%) in that window; against our
-≤15-heavy-atom stratum (60.5%) their 63.8% is a near-tie. Size alone does not explain the
+≤15-heavy-atom stratum (60.5%) their 63.8% is level — and level is not parity in our
+favour, because their model reads infrared alone where ours reads infrared and ¹H and ¹³C.
+A three-modality frontier LLM matching a single-modality trained transformer is the
+comparison, and it does not flatter the LLM. Size alone does not explain the
 rest: the same work reports 59.94% over 5–35 heavy atoms (n=5,024), a range that covers
 most of ours. The remaining difference is what the spectra are — one gas-phase instrument
 against thousands of laboratories — and the comparison bounds the gap between those
@@ -985,6 +1001,91 @@ downstream users must de-leak; see *Data availability*.
 
 ---
 
+## The decomposition across the published literature {#sec:literature-decomposition}
+
+The split measured above needs no new data to apply to work already published. A system
+that returns a ranked list and reports top-1 = *a* and top-*k* = *b* has already said this
+much: the true structure was in its candidate set at least as often as it reached the top
+*k*, so **recall ≥ *b***; conditional precision is **≤ *a*/*b***, since any recall above *b*
+divides the same *a* by a larger number; and at least *b* − *a* compounds were proposed and
+then mis-ranked. Where a paper states that its emitted list is capped at the reported *k*
+the floor is exact — Alberts et al. generate ten ranked SMILES per sample — and where the
+internal pool is larger it is a genuine bound, as with NMR-Solver's documented
+1,000-molecule pool behind a top-10 column. [@tab:literature-decomposition] applies this to
+every system we could read in full (`scripts/literature_decomposition.py`).
+
+One caution governs the whole table. The *a*/*b* ceiling bounds the ranking a pipeline
+*already does*, not what any verifier could do: our own solver's ranking is 55/65 = 84.6%,
+which 28.4/33.5 = 84.8% recovers from our published figures alone, and forward-verification
+exceeds it at 58/65 = 89.2% precisely by re-ordering. The distance from *a*/*b* to 100% is
+the room a re-ranker has.
+
+**Table {#tab:literature-decomposition}.** Recall and ranking loss recovered from published
+top-*k* figures. Rows are comparable only within a correctness criterion; a
+stereochemistry-strict figure and a connectivity figure differ by 21 points on NMR-Solver's
+own identical predictions. Candidate budgets differ and are given, because a recall measured
+over three candidates is mechanically smaller than one measured over ten.
+
+| system | data | top-1 | top-*k* (*k*) | recall | prec. |
+|---|---|--:|--:|--:|--:|
+| ***scored on connectivity*** | | | | | |
+| this work, solver alone | literature | 28.4% | 33.5% (3) | 33.5% | 84.6% |
+| this work, + forward-verification | literature | 29.9% | 33.5% (3) | 33.5% | **89.2%** |
+| NMR-Solver[@jin2025nmrsolver] | literature | 52.9% | 67.3% (10) | ≥ 67.3% | ≤ 78.6% |
+| NMRAgent[@fang2026nmragent] | literature | 61.6% | 70.0% (10) | ≥ 70.0% | ≤ 88.0% |
+| ***scored with stereochemistry*** | | | | | |
+| this work | literature | 21.1% | 25.8% (3) | ≥ 25.8% | ≤ 81.8% |
+| NMR-Solver[@jin2025nmrsolver] | simulated | 66.9% | 89.9% (10) | ≥ 89.9% | ≤ 74.4% |
+| NMR-Solver[@jin2025nmrsolver] | literature | 31.6% | 53.8% (10) | ≥ 53.8% | ≤ 58.7% |
+| Espejo Morales[@espejo2026agentic] | education | 80.9% | 90.0% (5) | ≥ 90.0% | ≤ 89.9% |
+| Espejo Morales[@espejo2026agentic] | industrial | 20.6% | 29.1% (5) | ≥ 29.1% | ≤ 70.9% |
+| ***criterion not stated by the authors*** | | | | | |
+| Alberts, 6–13 atoms[@alberts2025benchmarks] | NIST IR | 63.2% | 83.6% (10) | 83.6% | 75.7% |
+| Alberts, 5–35 atoms[@alberts2025benchmarks] | NIST IR | 59.9% | 78.5% (10) | 78.5% | 76.4% |
+| SpecX, random split[@xiang2026specx] | simulated | 59.0% | 81.8% (10) | 81.8% | 72.2% |
+| SpecX, scaffold split[@xiang2026specx] | simulated | 29.7% | 50.6% (10) | 50.6% | 58.7% |
+| IR-Agent[@noh2025iragent] | NIST IR | 10.3% | 21.6% (10) | 21.6% | 47.7% |
+| Priessner[@priessner2026reasoning] | experimental | 23.5% | — | 26.5% | 77.8% |
+
+**Three groups have already run the control this paper needed.** Hold the system, the
+criterion and the candidate budget fixed and change only the data. NMR-Solver moves from
+simulated spectra to real literature ones: its ranking loss goes from 23.0 to 22.2 points
+while its miss rate goes from at most 10.1% to at most 46.2%. SpecX's transformer moves from
+a random split to a scaffold split: ranking loss 22.7 to 20.9, miss rate 18.2% to 49.4%.
+Espejo Morales et al.'s agent moves from a chemistry-education set to industrial samples:
+ranking loss 9.1 to 8.5, miss rate at most 10.0% to at most 70.9%. In each pair the ranking
+term is flat to within a point or two and the entire collapse is carried by structures that
+stopped being proposed. None of the three papers reports this, and none was testing it.
+
+**Published gains have come almost entirely from the supply side.** NMRAgent's own ablation
+runs 36.89 → 60.47 → 64.27 → 64.42: retrieval and de-novo generation account for 27.38 of
+the 27.53-point span, and the verifier-driven optimisation loop that earns the paper the
+word *evidential* is worth 0.15 points[@fang2026nmragent]. NMRGym's formula ablation moves
+recall at *k*=10 from 17.37% to 36.48% while conditional precision moves only from 36.1% to
+49.1% — the constraint buys candidates, not judgment[@fang2026nmrgym]. Even IR-Agent's
+agentic layer adds 4.0 points of recall against 0.5 points of top-1[@noh2025iragent].
+
+**The regime has a boundary, and it is data realism rather than method.** Among the rows
+where recall is exact, the ratio of miss rate to ranking loss is 0.8 on Alberts' NIST
+gas-phase library and 0.8 on SpecX's random split — ranking binds there — against 6.9 for
+IR-Agent on experimental IR and 18.5 for our own arm. Ranking is co-equal or dominant where
+spectra are simulated or drawn from one curated instrument library with the formula
+supplied; recall binds where they are real and heterogeneous. The clearest counterexample is
+Priessner et al., whose reasoning-LLM re-ranker moves top-1 from 41.2% to 67.6% on a fixed
+candidate pool[@priessner2026reasoning] — 26 points bought purely by re-ordering, on the row
+whose recall is highest by construction because the true structure is supplied as the
+starting guess.
+
+**What the field does not measure.** Across every paper we read, the frequency with which
+the true structure was proposed at all appears once, in a supplementary figure
+caption[@priessner2026reasoning]. Espejo Morales et al. declare a ten-candidate output and
+report *k* = 1, 2 and 5[@espejo2026agentic]; NMRAgent's verifier emits a `need_bigger_pool`
+verdict and the paper never reports how often it fires[@fang2026nmragent]. One collision is
+worth naming: NMR-Solver defines *recall@K* as the proportion of cases where the correct
+structure appears among the top *K* candidates[@jin2025nmrsolver], so its "52.89% recall" is
+a top-1 accuracy and is not the quantity we call recall. Setting our 33.5% beside it would
+compare incommensurable numbers.
+
 ## Discussion {#sec:discussion}
 
 The Claude-family models we tested are reliable scaffold-level elucidators and good
@@ -997,8 +1098,16 @@ The diagnosis held under every perturbation we were able to apply — four Claud
 a second chemical domain, four verifiers — and reproduces inside a single application
 domain ([@sec:domain-case-study-battery]): the binding constraint is *generation recall*,
 consistent with the bottleneck being structural rather than incidental.
-Whether it holds outside the Claude family is the open question, not a settled one
-([@sec:limitations]). We measured the improvement's ceiling rather than projecting past
+
+It also has a boundary, and reading the published literature through the same lens locates
+it ([@sec:literature-decomposition]). Recall binds where the spectra are real and
+heterogeneous; ranking is co-equal or dominant where they are simulated, or drawn from one
+curated instrument library with the formula supplied. Among the systems whose recall can be
+read exactly from their own figures, the ratio of miss rate to ranking loss is 0.8 on a NIST
+gas-phase library and on a simulated random split, against 18.5 on our arm. So "recall, not
+verification" is a statement about a regime rather than about the task, and the sharpest
+evidence for it is not ours: three groups changed nothing but their data and each watched
+the ranking term stay flat while the miss rate multiplied. We measured the improvement's ceiling rather than projecting past
 it: forward-verification moves top-1 from 28% to 30% across the whole benchmark
 ([@sec:result]), while recall plateaus at 42% ([@sec:generate-wide-testing-recipe]).
 
@@ -1138,7 +1247,8 @@ cross-model evidence ([@sec:model-comparison-benchmark-ranks]) is four Claude-fa
 models on a shared 24-compound subset. That comparison is underpowered: the ranking is
 robust (strictly nested, weakest floored at 0%) but no adjacent gap is established at
 n=24, so quantitative claims should be read as holding for the Claude family. The
-cross-vendor question is no longer open: [@sec:diagnosis-hold-outside-one] finds
+cross-vendor question is narrowed rather than closed: [@sec:diagnosis-hold-outside-one]
+finds
 verification precision exceeding generation recall for Grok 4.6, Gemini 3.7 Flash and
 GPT-5.6 Sol on the 60-compound arm, as for Claude. What remains is weaker than the
 original gap but real. Bootstrapping the paired difference within each arm resolves three

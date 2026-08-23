@@ -405,7 +405,13 @@ hand-selected; ours scraped, unfiltered for solvability.
 
 **Versus trained models — a bound, not a leaderboard.** No system has been scored on our
 test set, and published numbers differ in the three respects that most move the score:
-spectrum realism, hints, exact-match definition. Most trained baselines report
+spectrum realism, hints, exact-match definition. That is a reason not to read the
+comparisons below as a ranking; it is not a reason no baseline was run, and none was. We
+built and released the benchmark, so running an existing open elucidator on it is possible
+and is the obvious next comparison — it needs a system whose weights and inference code are
+public and that accepts IR + ¹H + ¹³C with a supplied formula, which we did not have. The
+nearest thing here is the trained generator of [@sec:recall-wall-task-intrinsic], and it is
+ours, not independent. Most trained baselines report
 in-distribution accuracy on simulated spectra; Alberts et al. do not — 63.8% top-1 from IR
 alone, formula supplied, on **experimental** NIST gas-phase spectra of a curated
 single-instrument library of **6–13-heavy-atom** molecules[@alberts2025benchmarks]. Ours
@@ -661,9 +667,16 @@ spectra cannot supply, Grok reproduced 0/3 correct descriptors, Gemini 0/2 and G
 
 Two limits. The models were reached through a coding-assistant harness exposing
 reasoning-effort tiers, a decoding control the Claude arm never had ([@sec:methods]), so
-these measure a model *as served*, not a bare endpoint. And the clean-clone control covers
-only Grok; Gemini and GPT-5.6 Sol rest on the stereochemistry argument and the shared
-protocol.
+these measure a model *as served*, not a bare endpoint — and **which tier served each arm
+was not recorded**. The harness allowlist carries both `gpt-5.6-sol-xhigh` and
+`gpt-5.6-sol-high`, and the run did not report its selection, so the arms are not
+demonstrably matched to one another either. That bounds what this section can claim, and
+the bound falls unevenly. Recall and precision within an arm come from the same run at the
+same tier, whichever it was, so the **inequality** — the result — is internally valid in
+every arm. A recall *ranking between named models* is not: it orders models at unknown
+effort, and the 15-point margin above should be read as such. The other limit is that the
+clean-clone control covers only Grok; Gemini and GPT-5.6 Sol rest on the stereochemistry
+argument and the shared protocol.
 
 
 ---
@@ -858,7 +871,11 @@ substituting a small (~16M-parameter) ¹H/¹³C→SMILES transformer for the enu
 candidates were pooled with Claude's and re-ranked by the same verifiers.
 
 On the 194-compound benchmark the true structure enters the candidate pool for **54.1%** of
-compounds, versus 41.8% for scaffold enumeration and 33.5% for Claude alone. Where
+compounds, versus 41.8% for scaffold enumeration and 33.5% for Claude alone. Neither of the
+first two is an independent elucidator, and the comparison should not be read as one:
+enumeration relocates substituents *on a model candidate* (`scripts/enumerate_isomers.py`),
+so it is Claude-seeded, and the generator's candidates are pooled with Claude's. All three
+rows measure what is added to the LLM's pool, not what a system reaches on its own. Where
 enumeration's near-degenerate regioisomers *collapse* the HOSE verifier (top-1 28.4%→16.0%,
 the [@sec:generate-wide-testing-recipe] precision-loss mechanism), the generator's
 formula-correct, ¹³C-separable candidates **convert**: top-1 rises **28.4%→35.1%** (McNemar
@@ -908,14 +925,17 @@ Whether it holds outside the Claude family is the open question, not a settled o
 it: forward verification moves top-1 from 28% to 30% across the whole benchmark
 ([@sec:result]), while recall plateaus at 42% ([@sec:generate-wide-testing-recipe]).
 
-This reframes the engineering problem. The durable levers are not a bespoke
-spectra→structure model — a target the frontier already meets at the scaffold level, and
-one that ages out each model generation — but open, hard, honestly scored benchmarks and
-inference-time scaffolding that needs no training. Our trained-generator probe
-([@sec:recall-wall-task-intrinsic]) shows the recall wall is *elicitation-specific, not
-task-intrinsic*, and the gain comes entirely from the released data (0→25% with
-fine-tuning, 0/248 without): the **open dataset**, not a bespoke architecture, does the
-work when training helps.
+This reframes the engineering problem, and not in the direction of "do not train a model".
+Purpose-trained systems win on this task today and we report it: NMR-Solver at 52.9% and a
+trained IR transformer at 63.8% against a training-free 28–30%, and our own 16M-parameter
+generator lifts pooled recall to 54.1% and top-1 to 35.1%
+([@sec:recall-wall-task-intrinsic]). The claim is narrower and survives that. What ages out
+each model generation is a *particular* trained artefact; what compounds is the open,
+experimental data any such artefact needs, and a benchmark honest enough to tell whether it
+worked. The probe is the evidence: the same architecture recovers **0/248** structures
+without IRexp and 25% with it, so the released data, not the architecture, is the active
+ingredient. Inference-time scaffolding is the second durable lever for the same reason — it
+needs no training, so it rides each new model rather than being replaced by it.
 
 **Protocol is a lever of the same order as capability**: a number quoted without its
 protocol is uninterpretable. We do *not* claim protocol dominates capability — the model

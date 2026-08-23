@@ -727,27 +727,33 @@ unfiltered for solvability.
 \textbf{Versus trained models --- a bound, not a leaderboard.} No system
 has been scored on our test set, and published numbers differ in the
 three respects that most move the score: spectrum realism, hints,
-exact-match definition. Most trained baselines report in-distribution
-accuracy on simulated spectra; Alberts et al.~do not --- 63.8\% top-1
-from IR alone, formula supplied, on \textbf{experimental} NIST gas-phase
-spectra of a curated single-instrument library of
-\textbf{6--13-heavy-atom} molecules\textsuperscript{14}. Ours span 8--60
-heavy atoms (median 20), only \textbf{15 of 194 (8\%)} in that window;
-against our ≤15-heavy-atom stratum (60.5\%) their 63.8\% is a near-tie.
-Size alone does not explain the rest: the same work reports
-\textbf{59.94\%} over 5--35 heavy atoms (n=5,024), a range that covers
-most of ours. The remaining difference is what the spectra are --- one
-gas-phase instrument against thousands of laboratories --- and the
-comparison bounds the gap between those regimes rather than ranking the
-two systems. Multimodal systems report more still, on data of their own
-making: Spectro \textbf{93\%} (\textbf{82\%} with fixed embeddings) on a
-split whose IR is plotted from reference data and whose NMR is
-software-\emph{predicted}\textsuperscript{1}; NMIRacle 48\% top-1 / 66\%
-top-15 on molecules held out from a \emph{simulated} corpus inside its
-own training distribution, as its authors note\textsuperscript{5}. Ours
-is 28.4\% top-1 (33.5\% top-3), 29.9\% with forward verification (§5),
-on \textbf{blind, real, literature-mined experimental} spectra of
-out-of-distribution compounds.
+exact-match definition. That is a reason not to read the comparisons
+below as a ranking; it is not a reason no baseline was run, and none
+was. We built and released the benchmark, so running an existing open
+elucidator on it is possible and is the obvious next comparison --- it
+needs a system whose weights and inference code are public and that
+accepts IR + ¹H + ¹³C with a supplied formula, which we did not have.
+The nearest thing here is the trained generator of §5.6, and it is ours,
+not independent. Most trained baselines report in-distribution accuracy
+on simulated spectra; Alberts et al.~do not --- 63.8\% top-1 from IR
+alone, formula supplied, on \textbf{experimental} NIST gas-phase spectra
+of a curated single-instrument library of \textbf{6--13-heavy-atom}
+molecules\textsuperscript{14}. Ours span 8--60 heavy atoms (median 20),
+only \textbf{15 of 194 (8\%)} in that window; against our ≤15-heavy-atom
+stratum (60.5\%) their 63.8\% is a near-tie. Size alone does not explain
+the rest: the same work reports \textbf{59.94\%} over 5--35 heavy atoms
+(n=5,024), a range that covers most of ours. The remaining difference is
+what the spectra are --- one gas-phase instrument against thousands of
+laboratories --- and the comparison bounds the gap between those regimes
+rather than ranking the two systems. Multimodal systems report more
+still, on data of their own making: Spectro \textbf{93\%} (\textbf{82\%}
+with fixed embeddings) on a split whose IR is plotted from reference
+data and whose NMR is software-\emph{predicted}\textsuperscript{1};
+NMIRacle 48\% top-1 / 66\% top-15 on molecules held out from a
+\emph{simulated} corpus inside its own training distribution, as its
+authors note\textsuperscript{5}. Ours is 28.4\% top-1 (33.5\% top-3),
+29.9\% with forward verification (§5), on \textbf{blind, real,
+literature-mined experimental} spectra of out-of-distribution compounds.
 
 One asymmetry cuts against us: NMIRacle takes \textbf{no molecular
 formula} where we supply it (§3), so the settings differ on opposite
@@ -1159,10 +1165,19 @@ reproduced 0/3 correct descriptors, Gemini 0/2 and GPT-5.6 Sol 0/2.
 
 Two limits. The models were reached through a coding-assistant harness
 exposing reasoning-effort tiers, a decoding control the Claude arm never
-had (§8), so these measure a model \emph{as served}, not a bare
-endpoint. And the clean-clone control covers only Grok; Gemini and
-GPT-5.6 Sol rest on the stereochemistry argument and the shared
-protocol.
+had (§8), so these measure a model \emph{as served}, not a bare endpoint
+--- and \textbf{which tier served each arm was not recorded}. The
+harness allowlist carries both \texttt{gpt-5.6-sol-xhigh} and
+\texttt{gpt-5.6-sol-high}, and the run did not report its selection, so
+the arms are not demonstrably matched to one another either. That bounds
+what this section can claim, and the bound falls unevenly. Recall and
+precision within an arm come from the same run at the same tier,
+whichever it was, so the \textbf{inequality} --- the result --- is
+internally valid in every arm. A recall \emph{ranking between named
+models} is not: it orders models at unknown effort, and the 15-point
+margin above should be read as such. The other limit is that the
+clean-clone control covers only Grok; Gemini and GPT-5.6 Sol rest on the
+stereochemistry argument and the shared protocol.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -1477,10 +1492,16 @@ the same verifiers.
 
 On the 194-compound benchmark the true structure enters the candidate
 pool for \textbf{54.1\%} of compounds, versus 41.8\% for scaffold
-enumeration and 33.5\% for Claude alone. Where enumeration's
-near-degenerate regioisomers \emph{collapse} the HOSE verifier (top-1
-28.4\%→16.0\%, the §5.3 precision-loss mechanism), the generator's
-formula-correct, ¹³C-separable candidates \textbf{convert}: top-1 rises
+enumeration and 33.5\% for Claude alone. Neither of the first two is an
+independent elucidator, and the comparison should not be read as one:
+enumeration relocates substituents \emph{on a model candidate}
+(\texttt{scripts/\hspace{0pt}enumerate\_\hspace{0pt}isomers.py}), so it
+is Claude-seeded, and the generator's candidates are pooled with
+Claude's. All three rows measure what is added to the LLM's pool, not
+what a system reaches on its own. Where enumeration's near-degenerate
+regioisomers \emph{collapse} the HOSE verifier (top-1 28.4\%→16.0\%, the
+§5.3 precision-loss mechanism), the generator's formula-correct,
+¹³C-separable candidates \textbf{convert}: top-1 rises
 \textbf{28.4\%→35.1\%} (McNemar exact p=0.015; +6.7 points, 95\% CI
 {[}+2.1, +11.9{]}; Fig. S5). The family this is corrected over is the
 probe's own three arms --- Claude alone, plus enumeration, plus
@@ -1535,15 +1556,20 @@ We measured the improvement's ceiling rather than projecting past it:
 forward verification moves top-1 from 28\% to 30\% across the whole
 benchmark (§5.2), while recall plateaus at 42\% (§5.3).
 
-This reframes the engineering problem. The durable levers are not a
-bespoke spectra→structure model --- a target the frontier already meets
-at the scaffold level, and one that ages out each model generation ---
-but open, hard, honestly scored benchmarks and inference-time
-scaffolding that needs no training. Our trained-generator probe (§5.6)
-shows the recall wall is \emph{elicitation-specific, not
-task-intrinsic}, and the gain comes entirely from the released data
-(0→25\% with fine-tuning, 0/248 without): the \textbf{open dataset}, not
-a bespoke architecture, does the work when training helps.
+This reframes the engineering problem, and not in the direction of ``do
+not train a model''. Purpose-trained systems win on this task today and
+we report it: NMR-Solver at 52.9\% and a trained IR transformer at
+63.8\% against a training-free 28--30\%, and our own 16M-parameter
+generator lifts pooled recall to 54.1\% and top-1 to 35.1\% (§5.6). The
+claim is narrower and survives that. What ages out each model generation
+is a \emph{particular} trained artefact; what compounds is the open,
+experimental data any such artefact needs, and a benchmark honest enough
+to tell whether it worked. The probe is the evidence: the same
+architecture recovers \textbf{0/248} structures without IRexp and 25\%
+with it, so the released data, not the architecture, is the active
+ingredient. Inference-time scaffolding is the second durable lever for
+the same reason --- it needs no training, so it rides each new model
+rather than being replaced by it.
 
 \textbf{Protocol is a lever of the same order as capability}: a number
 quoted without its protocol is uninterpretable. We do \emph{not} claim

@@ -322,6 +322,14 @@ report which allowlist entry it selected. That is a gap to close before any of t
 written up: the tier belongs beside each row, and a run at `-xhigh` is not the same
 measurement as one at `-high`.
 
+**It was not closed, and the write-up says so.** The raw replies in `sweep_out/` carry no
+tier marker, so it cannot be recovered after the fact; re-running all four arms at one
+declared tier is the only way to close it. §4.7 of the paper now records the tier as
+unrecorded and scopes the claim accordingly: the precision-exceeds-recall inequality holds
+within each arm, where both quantities come from the same run at the same tier, while the
+recall ranking between named models orders models at unknown effort. Closing this properly
+is the first thing to do in any revision.
+
 ### Contamination — controlled for, and the control passes
 
 The Cursor agents cloned the whole repository, and `data/benchmark_v3/answers2.jsonl` and

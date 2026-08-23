@@ -204,6 +204,25 @@ def proportional_tables(md):
             widths = [w + 2 for w in widths]
             total = sum(widths)
             scaled = [max(MIN_COL, round(w * TABLE_MEASURE / total)) for w in widths]
+            # Scaling can push a column back under the floor it was given, and then the
+            # longest token in it has nowhere to go but into the next column -- which is
+            # how a row of companion-document paths came to print 44pt past the margin.
+            # Restore each floor, and pay for it out of the widest columns.
+            floors = [min(t, TABLE_MEASURE // max(n, 1) * 2) for t in longest_token]
+            for _ in range(n):
+                deficit = sum(max(0, floors[k] - scaled[k]) for k in range(n))
+                if not deficit:
+                    break
+                donors = sorted(range(n), key=lambda k: scaled[k] - floors[k], reverse=True)
+                for k in range(n):
+                    if scaled[k] < floors[k]:
+                        scaled[k] = floors[k]
+                for k in donors:
+                    if deficit <= 0:
+                        break
+                    give = min(deficit, max(0, scaled[k] - max(floors[k], MIN_COL)))
+                    scaled[k] -= give
+                    deficit -= give
             cells = []
             for (left, right), w in zip(aligns, scaled):
                 if left and right:
@@ -376,6 +395,41 @@ def header():
              # sets its own PDFs.
              r"\frenchspacing",
              r"\usepackage{needspace}",   # keep each table caption with its table
+             # A code block that overruns the measure does not wrap -- it runs off the
+             # page and its text is simply absent from the PDF. The ESI quotes verbatim
+             # prompts, and one lost the rest of a sentence that way. pandoc emits plain
+             # `verbatim` for an unlabelled block, so redefine that as a fancyvrb
+             # environment which can break.
+             r"\usepackage{fvextra}",
+             r"\DefineVerbatimEnvironment{verbatim}{Verbatim}"
+             r"{breaklines=true,breakanywhere=true,fontsize=\small,"
+             r"breaksymbolleft={},breakautoindent=false}",
+             # A caption package, for one reason: figures were labelled "Fig. 1:" while
+             # tables -- which are written as markdown paragraphs, not LaTeX captions --
+             # read "**Table 1.**". Two conventions on facing pages. This makes the figure
+             # label match the table one.
+             r"\usepackage{caption}",
+             r"\captionsetup{labelsep=period,labelfont=bf,font=small}",
+             # Single lines stranded across a page break. TeX's defaults tolerate them;
+             # a journal page should not.
+             # A paragraph listing five monospaced paths in a row overran the measure by
+             # 43pt: TeX had breakpoints between the items but the resulting line would
+             # have been loose, and at the default tolerance of 200 it prefers to overrun.
+             # 1500 lets it take the loose line instead, which is the right trade in a
+             # document this full of unbreakable identifiers; \hbadness keeps the resulting
+             # underfull reports out of the log so a real one still stands out.
+             r"\tolerance=1500", r"\hbadness=1500",
+             r"\clubpenalty=10000", r"\widowpenalty=10000",
+             r"\displaywidowpenalty=10000",
+             # ... and a heading with one line under it at the foot of a page is the same
+             # defect one level up. Reserve enough for the heading plus a few lines.
+             r"\pretocmd{\section}{\needspace{4\baselineskip}}{}{}",
+             r"\pretocmd{\subsection}{\needspace{3.5\baselineskip}}{}{}",
+             r"\pretocmd{\subsubsection}{\needspace{3\baselineskip}}{}{}",
+             # Hyphenations TeX gets wrong in this vocabulary, each seen broken in the
+             # built PDF: "regioi-somers", "McNe-mar", "Y-randomisation", "IR-exp".
+             r"\hyphenation{regio-isomer regio-isomers regio-isomeric McNemar"
+             r" InChI-Key IRexp rand-om-isa-tion nitro-phenyl HOSE Che-mo-tion}",
              # Long unbreakable DOIs in the reference list cannot hyphenate, so a
              # justified paragraph stretches interword space towards one word per line.
              # Set the generated bibliography ragged-right instead.
@@ -391,7 +445,11 @@ def header():
              # and so never gets pandoc's citeproc block or \CSLRightInline with it.
              r"\usepackage{etoolbox}",
              r"\ifcsdef{CSLRightInline}{"
-             r"\AtBeginEnvironment{CSLReferences}{\sloppy}"
+             # link-bibliography wraps whole entries in \href, so with colorlinks on, some
+             # references printed entirely blue and others black with only the DOI blue.
+             # RSC prints its reference list black. Keep the links live, drop the colour.
+             r"\AtBeginEnvironment{CSLReferences}"
+             r"{\sloppy\hypersetup{linkcolor=black,urlcolor=black,citecolor=black}}"
              r"\renewcommand{\CSLRightInline}[1]"
              r"{\parbox[t]{\linewidth - \csllabelwidth}{\raggedright #1}\break}"
              r"}{}"]

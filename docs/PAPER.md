@@ -1215,7 +1215,11 @@ submission]**; GitHub is the development mirror and the Zenodo record the citabl
 | licence-pool split ([@sec:motivation]) | — | `scripts/split_license_pools.py` |
 | recall headroom and scaffold enumeration | — | `scripts/analyze_recall_headroom.py`, `scripts/enumerate_isomers.py`, `scripts/closing_the_gap.py` |
 | blinded expert-audit package ([@sec:limitations]) | `data/audit/` | `scripts/make_audit_sample.py` |
-| manuscript integrity gates | — | `scripts/check_manuscript.py`, `scripts/verify_statistics.py` |
+| corpus reweighting ([@sec:benchmark-design-irspectra-bench]) | — | `scripts/corpus_reweight.py` |
+| cross-vendor recall at matched budget, and the paired gap ([@sec:diagnosis-hold-outside-one]) | `data/cross_vendor/` | `scripts/cross_vendor_budget.py`, `scripts/cross_vendor_gap.py` |
+| ring-system names in peak assignments ([@sec:benchmark-design-irspectra-bench]) | — | `scripts/prompt_leakage.py` |
+| paraphrase-invariant benchmark, for the control not yet run ([@sec:limitations]) | — (regenerated, not deposited) | `scripts/jitter_control.py` |
+| manuscript integrity gates | — | `scripts/check_manuscript.py`, `scripts/verify_statistics.py`, `scripts/check_compression.py` |
 
 **Trained complements**, both fenced from the training-free protocol. The [@sec:recall-wall-task-intrinsic]
 generator ships as a self-contained bundle at `contrib/generator_probe/` — candidates,

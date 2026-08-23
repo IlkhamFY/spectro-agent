@@ -1902,9 +1902,9 @@ submission{]}}; GitHub is the development mirror and the Zenodo record
 the citable version.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2292}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4375}}@{}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2632}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3158}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4211}}@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 component
@@ -1977,9 +1977,21 @@ recall headroom and scaffold enumeration & --- &
 blinded expert-audit package (§7) &
 \texttt{data/\hspace{0pt}audit/\hspace{0pt}} &
 \texttt{scripts/\hspace{0pt}make\_\hspace{0pt}audit\_\hspace{0pt}sample.py} \\
+corpus reweighting (§3) & --- &
+\texttt{scripts/\hspace{0pt}corpus\_\hspace{0pt}reweight.py} \\
+cross-vendor recall at matched budget, and the paired gap (§4.7) &
+\texttt{data/\hspace{0pt}cross\_\hspace{0pt}vendor/\hspace{0pt}} &
+\texttt{scripts/\hspace{0pt}cross\_\hspace{0pt}vendor\_\hspace{0pt}budget.py},
+\texttt{scripts/\hspace{0pt}cross\_\hspace{0pt}vendor\_\hspace{0pt}gap.py} \\
+ring-system names in peak assignments (§3) & --- &
+\texttt{scripts/\hspace{0pt}prompt\_\hspace{0pt}leakage.py} \\
+paraphrase-invariant benchmark, for the control not yet run (§7) & ---
+(regenerated, not deposited) &
+\texttt{scripts/\hspace{0pt}jitter\_\hspace{0pt}control.py} \\
 manuscript integrity gates & --- &
 \texttt{scripts/\hspace{0pt}check\_\hspace{0pt}manuscript.py},
-\texttt{scripts/\hspace{0pt}verify\_\hspace{0pt}statistics.py} \\
+\texttt{scripts/\hspace{0pt}verify\_\hspace{0pt}statistics.py},
+\texttt{scripts/\hspace{0pt}check\_\hspace{0pt}compression.py} \\
 \end{longtable}
 
 \textbf{Trained complements}, both fenced from the training-free

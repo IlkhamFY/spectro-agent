@@ -145,16 +145,18 @@ off-the-shelf[@kamber2026chemist], as have multimodal models over multi-spectral
 (SpectraLLM, SpecMol)[@su2025spectrallm; @shen2025specmol] and knowledge-enhanced
 tree-search reasoning[@zhuang2025treesearch]; *MolPuzzle*[@guo2024molpuzzle] supplies
 IR+MS+¹H+¹³C puzzles with the formula given, and *IR-Agent*[@noh2025iragent] emulates
-expert IR interpretation on experimental spectra with a multi-agent framework. We claim
-priority on none of them: IR-Agent improves *how the model reads a spectrum*, where we ask
-what limits the outcome once it has.
+expert IR interpretation on experimental spectra with a multi-agent framework. Priessner
+*et al.* run the same generate-then-rerank shape in this journal, re-ranking generator
+candidates with a reasoning LLM[@priessner2026reasoning]. We claim priority on none of
+them: IR-Agent improves *how the model reads a spectrum*, where we ask what limits the
+outcome once it has.
 
 Prior benchmarks and trained baselines evaluate on simulated or software-predicted
 spectra[@chacko2024spectro; @ottomano2025nmiracle] or on curated single-instrument
 libraries — Alberts et al. use NIST gas-phase IR[@alberts2024ir; @alberts2025benchmarks] —
 where IRSpectra-Bench uses spectra as reported by the authors of the source papers,
 across thousands of laboratories and instruments; the contrast is with both simulation
-*and* curated uniformity. That line is also the state of the art for *trained,
+*and* curated uniformity. Recent benchmarks bound the task elsewhere: NMRGym's 269,999-molecule scaffold-split experimental ¹H/¹³C suite[@fang2026nmrgym]; MolQuest, agentic and multi-turn, where the best models reach roughly 50% and most fall below 30%[@han2026molquest]; and SpecX, where multimodal LLMs "lack precise spectral grounding"[@xiang2026specx] — the limit [@sec:method] measures. That line is also the state of the art for *trained,
 formula-conditioned IR* elucidation — an IR→structure transformer[@alberts2024ir] now at
 63.8% top-1 / 84.0% top-10 on experimental NIST gas-phase spectra given the formula,
 pretrained on 1,399,806 simulated spectra[@alberts2025benchmarks]. That headline is on a
@@ -203,6 +205,21 @@ binding constraint, and it delivers roughly twice the top-1. That is what our
 separability measurement implies. *NMRAgent*[@fang2026nmragent] couples spectral tools to a knowledge
 graph and validates on newly isolated natural products; it is complementary — a
 best-effort system, where we measure an off-the-shelf model.
+
+**Concurrent work, and what we do not claim.** Kliuev *et al.* give six frontier LLMs the ¹H
+and ¹³C peak lists for 105 molecules: the best solves 24%, against 69% for the best of four
+specialised solvers, and every model "drift[s] toward smaller molecules"[@kliuev2026canai] —
+an independent replication of our headline and of its size dependence. Espejo Morales *et
+al.* instead put a frozen LLM in a curated environment of processing tools, tabulated shifts
+and hard formula, unsaturation and integration checks: 80.9% top-1 on a chemistry-education
+set (N=236), 71.1% on the 15 molecules where graduate students reach 66.7%, and 20.6% on 34
+industrial samples where a trained transformer reaches 14.7%[@espejo2026agentic]. Their
+frame — search rather than a learned map — is orthogonal to ours: they ask which
+architecture, we ask which stage of it binds. Their inputs are raw instrument files and ours
+published reports, which they exclude by design ([@sec:limitations]). We claim priority on
+neither that frame, nor on external simulation tools improving agent elucidation, nor on
+placing frontier LLMs near a quarter on real peak lists; only on the decomposition, which
+none of them reports.
 
 ---
 
@@ -874,6 +891,18 @@ percentile of chance (n=19: real 84% vs mean 58.6%, one-sided p<0.05). Like
 [@sec:recall-wall-task-intrinsic], the learned verifier is a trained complement, reported
 outside the training-free protocol.
 
+Concurrent industry work adds a fourth point on the same axis, outside our protocol. Wagen
+gave a frontier LLM up to ten calls to MagNET, an equivariant graph transformer whose
+predictions on the true structures of that benchmark reach 1.20 ppm MAE and 1.60 ppm RMSD
+against experiment[@adams2026magnet], on eight ¹³C problems drawn from structures that were
+misassigned and later corrected computationally[@novitskiy2022peculiar], at 56 runs per
+configuration[@wagen2026simtools]. Scored as we score, on connectivity, the external
+predictor moves 46.4% (26/56) to 55.4% (31/56) — the same order as our own ladder
+([@sec:generate-wide-testing-recipe]); the larger 21.4% to 51.8% headline is on exact SMILES
+including stereochemistry, which our protocol does not test ([@sec:limitations]). The author
+reports the study as underpowered and preliminary at n=8 and flags possible training-set
+leakage, so we read it as evidence of direction rather than of magnitude.
+
 ### Negative control {#sec:negative-control}
 
 **Permutation negative control (Y-randomisation analog).** A re-ranker exploiting genuine
@@ -984,6 +1013,18 @@ worked. The probe is the evidence: on its own 248-structure held-out split the s
 architecture recovers 0/248 without IRexp and 25% with it, so the released data, rather
 than the architecture, is the active ingredient. Inference-time scaffolding is the second durable lever for the same reason — it
 needs no training, so it rides each new model rather than being replaced by it.
+
+Concurrent work sharpens both halves. Kliuev *et al.* independently place the best of six
+frontier LLMs at 24% on 105 experimental ¹H/¹³C peak lists[@kliuev2026canai], within a few
+points of our 28%, so the headline is not an artefact of our corpus or our model. Espejo
+Morales *et al.* then push the lever our decomposition names as binding harder than we do:
+environment design alone — processing tools, tabulated shifts, hard constraint checks, and
+no shift-matching ranker — carries a frozen LLM to 71.1% top-1 on the 15-molecule set where
+graduate students reach 66.7%, against 24.4–40.0% for frontier LLMs given the same inputs in
+a bare coding harness[@espejo2026agentic]. That movement is entirely on the proposal side,
+where we locate the headroom; what it does not report is the split that locates it. And
+their own 80.9% on curated education spectra against 20.6% on 34 industrial samples is our
+central empirical claim, measured by someone else.
 
 Protocol is a lever of the same order as capability: a number quoted without its
 protocol is uninterpretable. We do *not* claim protocol dominates capability — the model
@@ -1136,6 +1177,16 @@ methodology and total-synthesis literature; it is not representative of
 organometallic/coordination compounds, large biomolecules (peptides, oligonucleotides,
 oligosaccharides), or stereochemistry-heavy targets, and our results should not be
 extrapolated to them.
+
+**(viii) Input regime:** IRSpectra-Bench supplies peak lists as transcribed by the source
+paper's authors, not raw instrument files. Concurrent work excludes author-transcribed
+reports for exactly that reason — they are human-generated and vary by
+practitioner[@espejo2026agentic] — and reports 20.6% top-1 on 34 industrial samples
+processed from raw spectra, scored with stereochemistry retained. Our comparable figure is
+the full-InChIKey 21.1%, not the 28.4% constitution-only headline
+([@sec:benchmark-design-irspectra-bench]). The two settings measure different things:
+reading the published record across thousands of laboratories, and inference from
+instrument output in one. Neither bounds the other.
 
 ---
 

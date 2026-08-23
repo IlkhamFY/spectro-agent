@@ -135,14 +135,20 @@ ROWS = [
 ]
 
 
-# Pairs that differ only in the data. Each entry is (system, realism), matched to a row.
+# Pairs that differ only in the data. Matched on (system, realism, criterion) -- the
+# criterion is not optional: "NMR-Solver, real literature" appears twice, once scored on
+# connectivity and once with stereochemistry preserved, and matching without it silently
+# paired a stereo-strict simulated row against a connectivity real one. That is exactly the
+# mixing the blocked table above exists to prevent, and it produced a wrong number.
+STEREO = "full InChIKey (stereochemistry)"
+UNSTATED = "exact match, stereo handling unstated"
 PAIRS = [
-    (("NMR-Solver, simulated", "simulated"),
-     ("NMR-Solver, real literature", "literature-reported")),
-    (("SpecX transformer, random split", "simulated"),
-     ("SpecX transformer, scaffold split", "simulated")),
-    (("Espejo Morales, education set", "curated educational"),
-     ("Espejo Morales, AstraZeneca", "raw instrument files")),
+    (("NMR-Solver, simulated", "simulated", STEREO),
+     ("NMR-Solver, real literature", "literature-reported", STEREO)),
+    (("SpecX transformer, random split", "simulated", UNSTATED),
+     ("SpecX transformer, scaffold split", "simulated", UNSTATED)),
+    (("Espejo Morales, education set", "curated educational", STEREO),
+     ("Espejo Morales, AstraZeneca", "raw instrument files", STEREO)),
 ]
 
 
@@ -206,7 +212,11 @@ def main():
     print(f"{'system':<38}{'dataset':<28}{'top-1':>8}{'rank loss':>11}{'miss':>9}")
     for a, b in PAIRS:
         for r in (a, b):
-            row = next(x for x in ROWS if x["system"] == r[0] and x["realism"] == r[1])
+            match = [x for x in ROWS if x["system"] == r[0] and x["realism"] == r[1]
+                     and x["criterion"] == r[2]]
+            if len(match) != 1:
+                raise SystemExit(f"pair {r} matches {len(match)} rows, not one")
+            row = match[0]
             k, tk = row["top_k"]
             rel = "" if row["exact"] else "<= "
             print(f"{row['system']:<38}{row['realism']:<28}{row['top1']:>7.1f}%"

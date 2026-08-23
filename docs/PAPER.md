@@ -41,19 +41,23 @@ candidate's ¹³C spectrum and re-ranking by agreement with the observed one —
 of the time (58/65; 81% on the 37 where a ranker had a choice to make). **Recall, not
 verification, is the wall.**
 
+That split needs no new data to apply to published work: a system reporting top-1 and
+top-*k* has already bounded its own recall and its own ranking loss. Read that way, three
+groups have run this control without reporting it — hold the system, the scoring criterion
+and the candidate budget fixed, change only the data, and the ranking term stays flat while
+the miss rate multiplies ([@sec:literature-decomposition]). The boundary is data realism
+rather than method: ranking binds on simulated spectra and single curated instrument
+libraries, recall binds where spectra are real and heterogeneous.
+
 We release *IRexp*, the largest openly redistributable collection of *experimental* infrared
 band lists (121,233 records, a third structure-linked); *IRSpectra-Bench*, a blind,
 mechanically scored benchmark of 194 compounds; and a training-free *forward-verification*
-recipe. The two levers are distinct: verification re-ranks a fixed candidate set and lifts
-top-1 from 28% to 30% across all 194 compounds, while generating wider moves recall from 32%
-to 42% and top-1 from 23% to 30% on the 60 controlled-round compounds where it was run
-([@sec:result], [@sec:generate-wide-testing-recipe]). Both top-1 steps are directional rather
-than statistically resolved; the recall gain is better supported. Fine-tuning a small
-generator on IRexp moves the recall bound rather than removing it
-([@sec:recall-wall-task-intrinsic]). Masking the spectra drops top-1 from 23% to 5% on those
-same 60 compounds, and accuracy is flat in the source paper's publication year
-([@sec:model-reading-spectra-formula]); Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all
-verify better than they generate, so the diagnosis is not confined to one vendor
+recipe. Verification lifts top-1 from 28% to 30% across all 194 compounds, while generating
+wider moves recall from 32% to 42% and top-1 from 23% to 30% on the 60 controlled-round
+compounds ([@sec:result], [@sec:generate-wide-testing-recipe]); both top-1 steps are
+directional rather than statistically resolved. Masking the spectra drops top-1 from 23% to
+5% on those same 60 compounds ([@sec:model-reading-spectra-formula]), and Grok 4.6, Gemini
+3.7 Flash and GPT-5.6 Sol all verify better than they generate
 ([@sec:diagnosis-hold-outside-one]). All data, predictions and code are released.
 ---
 
@@ -343,8 +347,13 @@ the benchmark's 20), so simple compounds are enriched 2.9×
 (`scripts/corpus_reweight.py`). Balancing is the right choice for measuring a gradient —
 an unbalanced draw would put almost no mass in the stratum where the model succeeds — but
 it means the headline is a weighted average under weights we chose. Reweighted to the
-corpus, top-1 falls from 28.4% to 15.2% [10.7–20.4] and recall from 33.5% to
-19.8% [14.3–25.7], on bootstrap 95% CIs. We report
+corpus, top-1 falls from 28.4% to 15.2% [10.6–20.4] and recall from 33.5% to
+19.8% [14.4–25.8], on bootstrap 95% CIs. **Verification precision has to be reweighted with
+them**, or the flattering half of the decomposition keeps the favourable composition: it is
+94.3% (50/53) on simple compounds and 66.7% (8/12) on complex ones, so the pooled 89.2%
+becomes **71.5% [50.2–92.5]** under corpus weights — a wide interval on twelve complex
+compounds, and we report it as such. The inequality is unaffected and if anything sharpened:
+71.5% against a 19.8% recall. We report
 the benchmark figure as the headline because it is the one the released set reproduces, and
 the reweighted figure as the better estimate of what a chemist meets on an arbitrary paper.
 The reweighting assumes the one sampler filter it cannot apply — recovery of the raw ¹H
@@ -1075,6 +1084,18 @@ Priessner et al., whose reasoning-LLM re-ranker moves top-1 from 41.2% to 67.6% 
 candidate pool[@priessner2026reasoning] — 26 points bought purely by re-ordering, on the row
 whose recall is highest by construction because the true structure is supplied as the
 starting guess.
+
+**One number the table explains with our own measurement.** NMR-Solver's conditional
+precision is bounded at 78.6%, *below* our 89.2%, even though its ¹³C predictor is roughly
+twice as sharp as ours. The explanation is pool width rather than predictor sharpness, and
+we measured it directly: candidates for one target are predicted a median 1.21 ppm apart,
+inside the predictor's own error for 82.1% of isomeric pairs
+(`scripts/isomer_separability.py`), so every candidate added to a pool adds a near-degenerate
+competitor. Our own ladder shows the same tension from the inside — verification precision
+falls from 84% to 72% as the pool widens ([@sec:generate-wide-testing-recipe]) — and
+NMR-Solver ranks a documented 1,000-molecule pool where we rank three. Conditional precision
+and recall trade against each other along the candidate budget, which is why neither number
+means much without the other, and why we report the budget with both.
 
 **What the field does not measure.** Across every paper we read, the frequency with which
 the true structure was proposed at all appears once, in a supplementary figure

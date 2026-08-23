@@ -33,6 +33,15 @@ GOLD = "data/irexp_resolved/irexp_resolved.jsonl.gz"
 # Per-stratum top-1 and recall from the released scorer, as reported in the paper.
 ACC = {"simple": (47 / 98, 53 / 98), "complex": (8 / 96, 12 / 96)}
 
+# Verification precision conditional on recall, per stratum, from the deposited
+# forward-verification bundle (scripts/forward_verify_main.py; 50/53 and 8/12).
+#
+# Reweighting only the unflattering half would be the easy mistake: recall falls from 33.5%
+# to 19.8% under the corpus weights, and leaving precision pooled at 89.2% keeps the
+# favourable composition for the number that favours us. Precision is far higher on simple
+# compounds, and the corpus is mostly complex.
+PREC = {"simple": (50, 53), "complex": (8, 12)}
+
 
 def difficulty(mol) -> str:
     """Verbatim from benchmark_v2.difficulty -- duplicated rather than imported because
@@ -67,6 +76,11 @@ def main():
         counts[difficulty(m)] += 1
         hac.append(m.GetNumHeavyAtoms())
 
+    # The corpus weights are effectively exact at n=28,988, so the uncertainty that matters
+    # is in the per-stratum rates. Bootstrap those and reweight each resample.
+    import random
+    rng = random.Random(0)
+
     n = sum(counts.values())
     w = counts["simple"] / n
     hac.sort()
@@ -78,10 +92,22 @@ def main():
     print(f"benchmark                  n = 194   simple 98 (50.5%)   median 20")
     print(f"  simple enriched          {w and (98 / 194) / w:.1f}x over the corpus")
     print()
-    # The corpus weights are effectively exact at n=28,988, so the uncertainty that matters
-    # is in the two per-stratum accuracies. Bootstrap those and reweight each resample.
-    import random
-    rng = random.Random(0)
+    # conditional precision, reweighted the same way and with the same bootstrap
+    ks, ns = PREC["simple"]
+    kc, nc = PREC["complex"]
+    pooled = 100 * (ks + kc) / (ns + nc)
+    corpus_p = 100 * (w * ks / ns + (1 - w) * kc / nc)
+    vs = [1] * ks + [0] * (ns - ks)
+    vc = [1] * kc + [0] * (nc - kc)
+    bs = sorted(w * sum(vs[rng.randrange(ns)] for _ in range(ns)) / ns
+                + (1 - w) * sum(vc[rng.randrange(nc)] for _ in range(nc)) / nc
+                for _ in range(20000))
+    print(f"{'verification precision':16s} benchmark {pooled:5.1f}%     "
+          f"corpus-reweighted {corpus_p:5.1f}% "
+          f"[{100 * bs[500]:.1f}, {100 * bs[19499]:.1f}]")
+    print(f"{'':16s} per stratum: simple {100 * ks / ns:.1f}% ({ks}/{ns}), "
+          f"complex {100 * kc / nc:.1f}% ({kc}/{nc})")
+
     for i, name in enumerate(("top-1", "recall (top-3)")):
         bench = (98 * ACC["simple"][i] + 96 * ACC["complex"][i]) / 194
         corpus = w * ACC["simple"][i] + (1 - w) * ACC["complex"][i]

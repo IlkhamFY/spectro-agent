@@ -876,6 +876,17 @@ regioisomers enter the pool. This recall/precision tension is the ceiling of the
 training-free approach: closing the gap requires sharper verification or 2D-NMR
 constraints, not merely more candidates.
 
+**How much of the wall is regiochemistry?** Enough to matter and not enough to remove it.
+Of the 129 compounds the solver misses, 97 (75.2%) have a candidate of the *right molecular
+formula* and 41 (31.8%) share both formula and generic scaffold with one — the class a
+deterministic isomer enumerator can reach (`scripts/analyze_recall_headroom.py`). Adding
+those to the 65 already recalled gives a loose upper bound of 106/194 = 54.6%, and the
+enumerator's realised reach is 41.8% ([@sec:generate-wide-testing-recipe]), so roughly a
+third of the remaining wall is substituent placement around a scaffold the model already
+has, and two thirds is a scaffold it never proposed. The bound is loose because generic-
+scaffold equality overcounts what an enumerator can actually build; we report the realised
+figure as the achievable one.
+
 ### Non-LLM verifiers: a deterministic lookup and a learned model {#sec:non-llm-verifiers-deterministic}
 
 [@sec:generate-wide-testing-recipe] suggests an obvious fix: a non-LLM ¹³C predictor in the

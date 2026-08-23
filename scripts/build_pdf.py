@@ -442,6 +442,11 @@ def header():
              # document this full of unbreakable identifiers; \hbadness keeps the resulting
              # underfull reports out of the log so a real one still stands out.
              r"\tolerance=1500", r"\hbadness=1500",
+             # pandoc emits a bare \begin{figure}, whose default placement is [tbp] --
+             # "here" is not among the options, so a figure that would sit happily in the
+             # column gets deferred to the top of a page and can end up alone on one.
+             # Fig. 6 held a page with four lines of text on it. Allow "here".
+             r"\makeatletter\renewcommand{\fps@figure}{htbp}\makeatother",
              r"\clubpenalty=10000", r"\widowpenalty=10000",
              r"\displaywidowpenalty=10000",
              # ... and a heading with one line under it at the foot of a page is the same

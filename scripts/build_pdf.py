@@ -485,16 +485,30 @@ def build_esi(h_path, bib):
     RSC requires the ESI as a separate file, not appended to the article PDF. Figures are
     numbered S1, S2, ... and the ESI carries its own title block so it stands alone.
     """
-    # Title in the body, not pandoc metadata: a long subtitle in the %-block renders as a
-    # non-wrapping author line and runs off the page.
-    md = ("# Electronic Supplementary Information\n\n"
-          "**Recall, not verification, is the bottleneck when frontier LLMs elucidate "
-          "molecular structures from real spectra**\n\n"
-          "Ilkham Yabbarov, Rudra Sondhi, Rodrigo A. Vargas-Hern\u00e1ndez\n\n"
-          "This document contains the Supporting Information figures referenced in the "
-          "main article. Data, predictions, and the code that regenerates every figure "
-          "are released with the manuscript; see *Data and code availability* in the "
-          "main text.\n\n"
+    # Title set as a display block, the way the article's is -- not as an H1, which
+    # rendered the ESI's own title at section weight and made the first page read as a
+    # continuation of something rather than the head of a document. Raw LaTeX rather than
+    # pandoc metadata: a long subtitle in the %-block renders as a non-wrapping author
+    # line and runs off the page.
+    md = ("```{=latex}\n"
+          r"\begin{center}" "\n"
+          r"{\Large\bfseries Electronic Supplementary Information\par}" "\n"
+          r"\vspace{0.7em}" "\n"
+          r"{\large\bfseries\setlength{\baselineskip}{1.15\baselineskip}" "\n"
+          "Recall, not verification, is the bottleneck when frontier LLMs\\\\\n"
+          "elucidate molecular structures from real spectra\\par}\n"
+          r"\vspace{0.7em}" "\n"
+          "Ilkham Yabbarov, Rudra Sondhi, Rodrigo A. Vargas-Hern\u00e1ndez\\par\n"
+          r"\vspace{0.3em}" "\n"
+          r"{\small\begin{minipage}{0.82\linewidth}\centering\itshape "
+          "Department of Chemistry and Chemical Biology, McMaster University, Hamilton, "
+          r"Ontario L8S 4L8, Canada.\end{minipage}\par}" "\n"
+          r"\end{center}" "\n"
+          r"\vspace{0.4em}\noindent\rule{\linewidth}{0.4pt}" "\n"
+          "```\n\n"
+          "Data, predictions, and the code that regenerates every figure and every number "
+          "below are released with the manuscript; see *Data availability* in the main "
+          "text.\n\n"
           "```{=latex}\n\\renewcommand{\\thefigure}{S\\arabic{figure}}"
           "\\setcounter{figure}{0}"
           "\n```\n\n")

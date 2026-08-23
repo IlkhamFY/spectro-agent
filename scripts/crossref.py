@@ -116,7 +116,11 @@ def resolve(md, external=None, prefix=""):
     md, tab = _number(md, DEF_TAB, "tab", lambda m, n: f"**Table {prefix}{n}. ", prefix)
     md, fig = _number(md, DEF_FIG, "fig", lambda m, n: m.group(1))
     labels = {**(external or {}), **sec, **tab, **fig, **si_labels()}
-    word = {"sec": "§", "tab": "Table ", "fig": "Fig. ", "sfig": "Fig. "}
+    # A non-breaking space between the label and its number. "Fig. 3" split across a line
+    # break reads as a sentence ending in "Fig." and a new one starting with a numeral;
+    # it happened twice in the built PDF. pandoc turns U+00A0 into a LaTeX tie.
+    NB = "\u00a0"
+    word = {"sec": "§", "tab": "Table" + NB, "fig": "Fig." + NB, "sfig": "Fig." + NB}
     def sub(m):
         key = f"{m.group(1)}:{m.group(2)}"
         if key not in labels:

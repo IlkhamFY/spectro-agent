@@ -63,7 +63,7 @@ ROWS = [
          note="the re-ranker exceeds the solver's own ceiling: 58/65 against 55/65"),
     dict(system="This work, stereo-strict", realism="literature-reported", n=194,
          criterion="full InChIKey (stereochemistry)", budget=3, top1=21.1, top_k=(3, 25.8),
-         recall=None, precision=None, exact=True,
+         recall=25.8, precision=81.8, exact=True,
          where="Section 3 of this paper; scripts/score_main.py",
          note="the same runs scored strictly, for comparison with stereo-strict work"),
 
@@ -125,9 +125,15 @@ ROWS = [
          n=905, criterion="exact match, stereo handling unstated", budget=10,
          top1=10.3, top_k=(10, 21.6), recall=None, precision=None, exact=True,
          where="Noh et al., multi-agent with o3-mini; no formula supplied"),
-    dict(system="Priessner, real NMR, wrong initial guess", realism="curated experimental",
-         n=34, criterion="not stated", budget=None, top1=23.5, top_k=None,
-         recall=26.5, precision=77.8, exact=True,
+    # Reported for one system, not spliced across two: the baseline HSQC matcher on the
+    # analogue-seeded condition. Its 7/9 precision and 9/34 recall multiply to the 20.6%
+    # top-1 of that same arm; the 23.5% quoted elsewhere is the reasoning-LLM re-rank, a
+    # different system, and pairing it with 77.8% would break top-1 = recall x precision.
+    # Not marked exact: the supplementary figures give conflicting denominators (8 against
+    # 9 molecules) for the two conditions.
+    dict(system="Priessner, analogue-seeded", realism="curated experimental",
+         n=34, criterion="not stated", budget=None, top1=20.6, top_k=None,
+         recall=26.5, precision=77.8, exact=False,
          where="Priessner et al., Supplementary Fig. 4 caption ('7 out of 9 molecules'), "
                "read in the ChemRxiv preprint; the version of record could not be opened",
          note="the one published system that reports candidate recall separately, once, "
@@ -165,6 +171,9 @@ def bound(row):
 
 def fmt(x, suffix="%"):
     return "—" if x is None else f"{x:.1f}{suffix}"
+
+
+import math
 
 
 def main():
@@ -209,8 +218,15 @@ def main():
     print("\n\n=== paired within-system controls ===")
     print("One system, one correctness criterion, one candidate budget; only the data")
     print("change. These are the only comparisons that need no cross-paper assumption.\n")
-    print(f"{'system':<38}{'dataset':<28}{'top-1':>8}{'rank loss':>11}{'miss':>9}")
+    # The absolute gap b - a is the wrong statistic for a paired comparison: it is bounded
+    # above by b, so it compresses mechanically as recall falls and reads as "flat" when
+    # ranking is in fact degrading. top-1 = recall x precision, so the honest split is
+    # multiplicative -- log(top-1) = log(recall) + log(precision) -- and each term's share
+    # of the collapse is its share of the log ratio.
+    print(f"{'system':<38}{'dataset':<24}{'top-1':>7}{'recall':>8}"
+          f"{'prec.':>7}{'1-a/b':>8}")
     for a, b in PAIRS:
+        rows = []
         for r in (a, b):
             match = [x for x in ROWS if x["system"] == r[0] and x["realism"] == r[1]
                      and x["criterion"] == r[2]]
@@ -218,12 +234,33 @@ def main():
                 raise SystemExit(f"pair {r} matches {len(match)} rows, not one")
             row = match[0]
             k, tk = row["top_k"]
-            rel = "" if row["exact"] else "<= "
-            print(f"{row['system']:<38}{row['realism']:<28}{row['top1']:>7.1f}%"
-                  f"{tk - row['top1']:>10.1f}{rel + f'{100 - tk:.1f}':>9}")
+            rows.append(row)
+            print(f"{row['system']:<38}{row['realism']:<24}{row['top1']:>6.1f}%"
+                  f"{tk:>7.1f}%{100 * row['top1'] / tk:>6.1f}%"
+                  f"{100 - 100 * row['top1'] / tk:>7.1f}%")
+        (a1, b1), (a2, b2) = ((r["top1"], r["top_k"][1]) for r in rows)
+        lr = math.log(b2 / b1)
+        lp = math.log((a2 / b2) / (a1 / b1))
+        print(f"{'':38}{'-> of the collapse, recall carries':<24}"
+              f"{100 * lr / (lr + lp):>5.0f}%, ranking {100 * lp / (lr + lp):.0f}%")
         print()
-    print("In each pair the ranking loss barely moves and the miss rate carries the")
-    print("collapse. That is the decomposition's claim, in data none of us collected.")
+    print("Both terms degrade; recall carries most of each collapse. The absolute gap")
+    print("b - a looks flat only because it is bounded by b, which is why the share is")
+    print("computed on the log ratio instead.")
+
+    # ---- the same statistic within a single row -----------------------------------
+    # -log(top-1) = -log(recall) - log(precision), so recall's share of a system's total
+    # loss from perfection is log(recall)/log(top-1). Scale-free, and unlike the additive
+    # miss:ranking ratio it is not driven by where the reported k happens to fall.
+    print("\n\n=== recall's share of the total loss, where recall is exact ===\n")
+    print(f"{'system':<38}{'data':<24}{'top-1':>7}{'recall share':>14}")
+    for r in ROWS:
+        if not r.get("exact") or not r.get("top_k") or r["top1"] <= 0:
+            continue
+        rec = r["recall"] if r.get("recall") is not None else r["top_k"][1]
+        share = math.log(rec / 100) / math.log(r["top1"] / 100)
+        print(f"{r['system']:<38}{r['realism']:<24}{r['top1']:>6.1f}%{100 * share:>13.0f}%")
+    print("\nRecall's share rises with the realism and heterogeneity of the spectra.")
     return 0
 
 

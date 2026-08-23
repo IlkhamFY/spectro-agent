@@ -206,11 +206,11 @@ That split needs no new data to apply to published work: a system
 reporting top-1 and top-\emph{k} has already bounded its own recall and
 its own ranking loss. Read that way, three groups have run this control
 without reporting it --- hold the system, the scoring criterion and the
-candidate budget fixed, change only the data, and the ranking term stays
-flat while the miss rate multiplies (§6). The boundary is data realism
-rather than method: ranking binds on simulated spectra and single
-curated instrument libraries, recall binds where spectra are real and
-heterogeneous.
+candidate budget fixed, change only the data, and recall carries
+68--83\% of the resulting collapse in each (§6). Ranking degrades too;
+it is simply the smaller term where spectra are real and heterogeneous,
+and the larger one on simulated spectra and single curated instrument
+libraries.
 
 We release \emph{IRexp}, the largest openly redistributable collection
 of \emph{experimental} infrared band lists (121,233 records, a third
@@ -1787,22 +1787,25 @@ SpecX, scaffold split\textsuperscript{20} & simulated & 29.7\% & 50.6\%
 (10) & 50.6\% & 58.7\% \\
 IR-Agent\textsuperscript{15} & NIST IR & 10.3\% & 21.6\% (10) & 21.6\% &
 47.7\% \\
-Priessner\textsuperscript{16} & experimental & 23.5\% & --- & 26.5\% &
+Priessner\textsuperscript{16} & experimental & 20.6\% & --- & 26.5\% &
 77.8\% \\
 \end{longtable}
 
 \textbf{Three groups have already run the control this paper needed.}
 Hold the system, the criterion and the candidate budget fixed and change
-only the data. NMR-Solver moves from simulated spectra to real
-literature ones: its ranking loss goes from 23.0 to 22.2 points while
-its miss rate goes from at most 10.1\% to at most 46.2\%. SpecX's
-transformer moves from a random split to a scaffold split: ranking loss
-22.7 to 20.9, miss rate 18.2\% to 49.4\%. Espejo Morales et al.'s agent
-moves from a chemistry-education set to industrial samples: ranking loss
-9.1 to 8.5, miss rate at most 10.0\% to at most 70.9\%. In each pair the
-ranking term is flat to within a point or two and the entire collapse is
-carried by structures that stopped being proposed. None of the three
-papers reports this, and none was testing it.
+only the data. Since top-1 = recall × precision, each term's share of
+the resulting collapse is its share of the log ratio; reading the
+absolute gap \emph{b} − \emph{a} instead would mislead, because that gap
+is bounded by \emph{b} and so shrinks whenever recall does. NMR-Solver
+moves from simulated spectra to real literature ones and loses 35 points
+of top-1, of which \textbf{recall carries 68\%}. SpecX's transformer
+moves from a random split to a scaffold split: \textbf{70\%}. Espejo
+Morales et al.'s agent moves from a chemistry-education set to
+industrial samples: \textbf{83\%}. Ranking degrades in all three ---
+relative loss 25.6\% → 41.3\%, 27.8\% → 41.3\%, 10.1\% → 29.1\% --- so
+this is not a claim that verification is unaffected. It is a claim about
+which term dominates, and in every pair it is the same one. None of the
+three papers reports this, and none was testing it.
 
 \textbf{Published gains have come almost entirely from the supply side.}
 NMRAgent's own ablation runs 36.89 → 60.47 → 64.27 → 64.42: retrieval
@@ -1815,34 +1818,44 @@ constraint buys candidates, not judgment\textsuperscript{19}. Even
 IR-Agent's agentic layer adds 4.0 points of recall against 0.5 points of
 top-1\textsuperscript{15}.
 
-\textbf{The regime has a boundary, and it is data realism rather than
-method.} Among the rows where recall is exact, the ratio of miss rate to
-ranking loss is 0.8 on Alberts' NIST gas-phase library and 0.8 on
-SpecX's random split --- ranking binds there --- against 6.9 for
-IR-Agent on experimental IR and 18.5 for our own arm. Ranking is
-co-equal or dominant where spectra are simulated or drawn from one
-curated instrument library with the formula supplied; recall binds where
-they are real and heterogeneous. The clearest counterexample is
-Priessner et al., whose reasoning-LLM re-ranker moves top-1 from 41.2\%
-to 67.6\% on a fixed candidate pool\textsuperscript{16} --- 26 points
-bought purely by re-ordering, on the row whose recall is highest by
-construction because the true structure is supplied as the starting
-guess.
+\textbf{The regime has a boundary.} Since −log(top-1) = −log(recall) −
+log(precision), recall's share of a system's total loss is
+log(recall)/log(top-1) --- scale-free, and unlike a miss-to-ranking
+ratio not driven by where the reported \emph{k} happens to fall. Among
+the rows where recall is exact that share is 38\% on SpecX's simulated
+random split and 39\% on Alberts' NIST gas-phase library, where ranking
+is therefore the larger term; 56\% on SpecX's scaffold split; 67\% for
+IR-Agent on experimental NIST spectra; and 87--91\% on ours. What
+separates the low end from the high is not method sophistication --- the
+two extremes are both trained transformers --- but how far the
+evaluation data are from one curated distribution. Ranking is co-equal
+or dominant where spectra are simulated or drawn from one curated
+instrument library with the formula supplied; recall binds where they
+are real and heterogeneous. The clearest counterexample is Priessner et
+al., whose reasoning-LLM re-ranker moves top-1 from 41.2\% to 67.6\% on
+a fixed candidate pool\textsuperscript{16} --- 26 points bought purely
+by re-ordering. That is their condition in which the true structure
+seeds the pool, which is not the row tabulated above and is why its
+recall is high by construction; the tabulated row is the harder,
+analogue-seeded one.
 
 \textbf{One number the table explains with our own measurement.}
-NMR-Solver's conditional precision is bounded at 78.6\%, \emph{below}
-our 89.2\%, even though its ¹³C predictor is roughly twice as sharp as
-ours. The explanation is pool width rather than predictor sharpness, and
-we measured it directly: candidates for one target are predicted a
-median 1.21 ppm apart, inside the predictor's own error for 82.1\% of
-isomeric pairs (\texttt{scripts/\hspace{0pt}isomer\_separability.py}),
-so every candidate added to a pool adds a near-degenerate competitor.
-Our own ladder shows the same tension from the inside --- verification
-precision falls from 84\% to 72\% as the pool widens (§5.3) --- and
-NMR-Solver ranks a documented 1,000-molecule pool where we rank three.
-Conditional precision and recall trade against each other along the
-candidate budget, which is why neither number means much without the
-other, and why we report the budget with both.
+NMR-Solver's conditional precision is bounded at 78.6\% --- below our
+pooled 89.2\%, though above the 71.5\% we get under corpus weights, and
+we say so because §3 calls the reweighted figure the better estimate.
+Either way the ordering is not what a sharper predictor predicts: theirs
+is roughly twice as sharp as ours. The explanation is pool width rather
+than predictor sharpness, and we measured it directly: candidates for
+one target are predicted a median 1.21 ppm apart, inside the predictor's
+own error for 82.1\% of isomeric pairs
+(\texttt{scripts/\hspace{0pt}isomer\_separability.py}), so every
+candidate added to a pool adds a near-degenerate competitor. Our own
+ladder shows the same tension from the inside --- verification precision
+falls from 84\% to 72\% as the pool widens (§5.3) --- and NMR-Solver
+ranks a documented 1,000-molecule pool where we rank three. Conditional
+precision and recall trade against each other along the candidate
+budget, which is why neither number means much without the other, and
+why we report the budget with both.
 
 \textbf{What the field does not measure.} Across every paper we read,
 the frequency with which the true structure was proposed at all appears
@@ -1876,15 +1889,15 @@ being structural rather than incidental.
 It also has a boundary, and reading the published literature through the
 same lens locates it (§6). Recall binds where the spectra are real and
 heterogeneous; ranking is co-equal or dominant where they are simulated,
-or drawn from one curated instrument library with the formula supplied.
-Among the systems whose recall can be read exactly from their own
-figures, the ratio of miss rate to ranking loss is 0.8 on a NIST
-gas-phase library and on a simulated random split, against 18.5 on our
-arm. So ``recall, not verification'' is a statement about a regime
-rather than about the task, and the sharpest evidence for it is not
-ours: three groups changed nothing but their data and each watched the
-ranking term stay flat while the miss rate multiplied. We measured the
-improvement's ceiling rather than projecting past it:
+or drawn from one curated instrument library. Among the systems whose
+recall can be read exactly from their own figures, recall's share of the
+total loss runs from 38--39\% on a simulated random split and a NIST
+gas-phase library to 87--91\% on ours. So ``recall, not verification''
+is a statement about a regime rather than about the task, and the
+sharpest evidence for it is not ours: three groups changed nothing but
+their data, and in each case recall carried the larger share of the
+collapse --- 68\%, 70\% and 83\%, with ranking taking the rest. We
+measured the improvement's ceiling rather than projecting past it:
 forward-verification moves top-1 from 28\% to 30\% across the whole
 benchmark (§5.2), while recall plateaus at 42\% (§5.3).
 

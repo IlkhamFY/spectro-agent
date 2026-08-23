@@ -31,10 +31,10 @@ SI_FIGS = [
      "(28.4→16.0\\%) while the generator's formula-correct candidates convert "
      "(28.4→35.1\\%)."),
     ("fig_verifier.png", "Learned-verifier probe (\\S5.4; a complement, not part of the "
-     "training-free protocol). (A) Conditional-on-recall top-1 over the whole benchmark "
+     "training-free protocol). (**a**) Conditional-on-recall top-1 over the whole benchmark "
      "(n=65) across four verifiers: a GNN trained on the same nmrshiftdb2 data as the "
      "HOSE lookup reaches the LLM verifier's level (91\\% against 89\\%) where the "
-     "lookup (85\\%) does not move off the solver's own ranking. (B) Held-out $^{13}$C "
+     "lookup (85\\%) does not move off the solver's own ranking. (**b**) Held-out $^{13}$C "
      "MAE --- the learned model is roughly 2$\\times$ sharper (1.70 vs 3.23 ppm)."),
 ]
 
@@ -87,17 +87,33 @@ def breakable_paths(md):
     ordinary prose is untouched. UNI maps the character to \allowbreak, which permits
     a break without printing a hyphen (a hyphen would read as part of the path).
     """
-    def fix(m):
+    def fix(m, in_table):
         inner = m.group(1)
         if "/" not in inner and "_" not in inner:
             return m.group(0)
         # Not after a *trailing* separator: `data/audit/` would then be allowed to break
         # at its own end, stranding the following comma at the head of the next line.
-        # Only after "/". A break at "_" splits a single identifier -- MODALITY_ABLATION.md
-        # printed as "MODALITY_" / "ABLATION.md", which reads as two names -- while "/" is
-        # where a reader already segments a path.
-        return "`" + re.sub(r"(/)(?=.)", r"\1" + ZWSP, inner) + "`"
-    return re.sub(r"`([^`\n]+)`", fix, md)
+        #
+        # In prose, only after "/". A break at "_" splits a single identifier --
+        # MODALITY_ABLATION.md printed as "MODALITY_" / "ABLATION.md", which reads as two
+        # names -- while "/" is where a reader already segments a path.
+        #
+        # Inside a table cell the trade reverses, but only when the cell cannot otherwise
+        # fit. A column is narrow by construction and a reader expects wrapping there,
+        # whereas an unbreakable filename sets the column's minimum width and takes that
+        # room from its neighbours. So allow the underscore break in a table -- but only
+        # for a token long enough that refusing would squeeze the column: a 20-character
+        # threshold leaves `score_main.py` and `clean_qids.json` whole and gives
+        # `verifier_table_results.txt` somewhere to go.
+        def sub(mm):
+            tok = mm.group(0)
+            return re.sub(r"([/_])(?=.)", r"\1" + ZWSP, tok) if (
+                in_table and len(tok) >= 20) else re.sub(r"(/)(?=.)", r"\1" + ZWSP, tok)
+        return "`" + re.sub(r"\S+", sub, inner) + "`"
+
+    return "\n".join(
+        re.sub(r"`([^`\n]+)`", lambda m: fix(m, line.lstrip().startswith("|")), line)
+        for line in md.split("\n"))
 
 SEP_RE = re.compile(r'^\|(?:\s*:?-{2,}:?\s*\|)+$')
 TABLE_MEASURE = 96          # target separator-row width, comfortably over pandoc's 72

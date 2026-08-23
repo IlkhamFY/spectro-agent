@@ -49,29 +49,100 @@ import sys
 # number are not on the same axis. `where` is the provenance -- table or section in the
 # cited work -- and no row may enter this table without one.
 ROWS = [
-    dict(system="This work, solver alone", data="IRexp literature IR + 1H/13C",
-         realism="literature-reported", n=194, formula=True,
-         criterion="InChIKey connectivity",
-         top1=28.4, top_k=(3, 33.5),
-         recall=33.5, precision=84.6,
+    # -- this work ---------------------------------------------------------------
+    dict(system="This work, solver alone", realism="literature-reported", n=194,
+         criterion="InChIKey connectivity", budget=3, top1=28.4, top_k=(3, 33.5),
+         recall=33.5, precision=84.6, exact=True,
          where="Tables 2 and 7 of this paper; scripts/score_main.py",
-         note="recall and its own ranking measured directly (65/194 and 55/65); the bound "
-              "from the published top-1 and top-3 alone would give >=33.5% and <=84.8%, "
-              "which is how every other row here is read"),
-    dict(system="This work, + forward-verification", data="IRexp literature IR + 1H/13C",
-         realism="literature-reported", n=194, formula=True,
-         criterion="InChIKey connectivity",
-         top1=29.9, top_k=(3, 33.5),
-         recall=33.5, precision=89.2,
+         note="recall measured directly (65/194) and identical to recovered-within-top-3, "
+              "because the solver emits at most three candidates; its own ranking is 55/65"),
+    dict(system="This work, + forward-verification", realism="literature-reported", n=194,
+         criterion="InChIKey connectivity", budget=3, top1=29.9, top_k=(3, 33.5),
+         recall=33.5, precision=89.2, exact=True,
          where="Table 7 of this paper; scripts/forward_verify_main.py",
          note="the re-ranker exceeds the solver's own ceiling: 58/65 against 55/65"),
-    dict(system="This work, stereo-strict", data="IRexp literature IR + 1H/13C",
-         realism="literature-reported", n=194, formula=True,
-         criterion="full InChIKey (stereochemistry)",
-         top1=21.1, top_k=(3, 25.8),
-         recall=None, precision=None,
+    dict(system="This work, stereo-strict", realism="literature-reported", n=194,
+         criterion="full InChIKey (stereochemistry)", budget=3, top1=21.1, top_k=(3, 25.8),
+         recall=None, precision=None, exact=True,
          where="Section 3 of this paper; scripts/score_main.py",
          note="the same runs scored strictly, for comparison with stereo-strict work"),
+
+    # -- prior and concurrent systems, from their own published top-k -------------
+    dict(system="NMR-Solver, real literature", realism="literature-reported", n=450,
+         criterion="InChIKey connectivity", budget=1000, top1=52.89, top_k=(10, 67.33),
+         recall=None, precision=None, exact=False,
+         where="Jin et al., Supplementary Table 4 (titled 'stereochemistry ignored'); "
+               "pool size num_pool=1000, Supplementary Table 3",
+         note="pool far exceeds the reported k, so the recall floor is loose"),
+    dict(system="NMR-Solver, simulated", realism="simulated", n=1000,
+         criterion="full InChIKey (stereochemistry)", budget=1000,
+         top1=66.90, top_k=(10, 89.90), recall=None, precision=None, exact=False,
+         where="Jin et al., Table 1, 'exact molecular match with stereochemistry considered'",
+         note="paired with the row below: one system, one criterion, two datasets"),
+    dict(system="NMR-Solver, real literature", realism="literature-reported", n=450,
+         criterion="full InChIKey (stereochemistry)", budget=1000,
+         top1=31.56, top_k=(10, 53.78), recall=None, precision=None, exact=False,
+         where="Jin et al., Supplementary Table 5 (titled 'stereochemistry preserved')",
+         note="the same cells as the connectivity row above: 21 points of the difference "
+              "between 52.89 and 31.56 is the criterion alone, on identical predictions"),
+    dict(system="NMRAgent, Exp450", realism="literature-reported", n=450,
+         criterion="InChIKey connectivity", budget=None, top1=61.60, top_k=(10, 70.00),
+         recall=None, precision=None, exact=False,
+         where="Fang et al., Table C, Exp450 row"),
+    dict(system="Espejo Morales, AstraZeneca", realism="raw instrument files", n=34,
+         criterion="full InChIKey (stereochemistry)", budget=10,
+         top1=20.60, top_k=(5, 29.06), recall=None, precision=None, exact=False,
+         where="Espejo Morales et al., Table 1, 'Ours (kimi-k2.6)'; Methods declare a "
+               "ten-candidate output and the paper reports only k=1, 2 and 5",
+         note="stereo retained: 'an incorrect stereochemical prediction results always in "
+              "a zero hit'"),
+    dict(system="Espejo Morales, education set", realism="curated educational", n=236,
+         criterion="full InChIKey (stereochemistry)", budget=10,
+         top1=80.87, top_k=(5, 90.00), recall=None, precision=None, exact=False,
+         where="Espejo Morales et al., Table 1, 'Ours (kimi-k2.6)'",
+         note="same agent, same backbone, same criterion as the row above; only the data "
+              "differ"),
+    dict(system="Alberts IR transformer, NIST 6-13 HA", realism="single-library experimental",
+         n=3455, criterion="exact match, stereo handling unstated", budget=10,
+         top1=63.25, top_k=(10, 83.56), recall=None, precision=None, exact=True,
+         where="Alberts et al., Table 4; Methods 4.5 'ten ranked SMILES strings per sample "
+               "are generated', so top-10 is the emitted list and the recall is exact",
+         note="IR alone plus the formula, against IR + 1H + 13C here"),
+    dict(system="Alberts IR transformer, NIST 5-35 HA", realism="single-library experimental",
+         n=5024, criterion="exact match, stereo handling unstated", budget=10,
+         top1=59.94, top_k=(10, 78.46), recall=None, precision=None, exact=True,
+         where="Alberts et al., Table 4"),
+    dict(system="SpecX transformer, random split", realism="simulated", n=99439,
+         criterion="exact match, stereo handling unstated", budget=10,
+         top1=59.04, top_k=(10, 81.77), recall=None, precision=None, exact=True,
+         where="Xiang et al., multi-modal transformer, random split"),
+    dict(system="SpecX transformer, scaffold split", realism="simulated", n=99439,
+         criterion="exact match, stereo handling unstated", budget=10,
+         top1=29.66, top_k=(10, 50.56), recall=None, precision=None, exact=True,
+         where="Xiang et al., multi-modal transformer, scaffold split",
+         note="paired with the row above: one system, one criterion, split changed"),
+    dict(system="IR-Agent, experimental NIST IR", realism="single-library experimental",
+         n=905, criterion="exact match, stereo handling unstated", budget=10,
+         top1=10.3, top_k=(10, 21.6), recall=None, precision=None, exact=True,
+         where="Noh et al., multi-agent with o3-mini; no formula supplied"),
+    dict(system="Priessner, real NMR, wrong initial guess", realism="curated experimental",
+         n=34, criterion="not stated", budget=None, top1=23.5, top_k=None,
+         recall=26.5, precision=77.8, exact=True,
+         where="Priessner et al., Supplementary Fig. 4 caption ('7 out of 9 molecules'), "
+               "read in the ChemRxiv preprint; the version of record could not be opened",
+         note="the one published system that reports candidate recall separately, once, "
+              "in a caption"),
+]
+
+
+# Pairs that differ only in the data. Each entry is (system, realism), matched to a row.
+PAIRS = [
+    (("NMR-Solver, simulated", "simulated"),
+     ("NMR-Solver, real literature", "literature-reported")),
+    (("SpecX transformer, random split", "simulated"),
+     ("SpecX transformer, scaffold split", "simulated")),
+    (("Espejo Morales, education set", "curated educational"),
+     ("Espejo Morales, AstraZeneca", "raw instrument files")),
 ]
 
 
@@ -104,7 +175,7 @@ def main():
     for criterion, rows in by_criterion.items():
         print(f"\n=== correctness criterion: {criterion} "
               f"— rows are comparable only within this block ===\n")
-        print(f"{'system':<34}{'data':<22}{'n':>5}{'top-1':>8}{'top-k':>15}"
+        print(f"{'system':<38}{'data':<28}{'n':>5}{'top-1':>8}{'top-k':>15}"
               f"{'recall':>13}{'prec|rec':>13}")
         for r in rows:
             bd = bound(r)
@@ -115,7 +186,7 @@ def main():
             else:
                 rec = prec = "not reported"
             kv = f"{r['top_k'][1]:.1f}% (k={r['top_k'][0]})" if r.get("top_k") else "—"
-            print(f"{r['system']:<34}{r['realism']:<22}{r['n']:>5}"
+            print(f"{r['system']:<38}{r['realism']:<28}{r['n']:>5}"
                   f"{fmt(r['top1']):>8}{kv:>15}{rec:>13}{prec:>13}")
 
     print("\nprovenance")
@@ -126,6 +197,23 @@ def main():
     print("\nBounds are one-sided: top-k floors recall, and top-1/top-k ceilings the")
     print("conditional precision. A low ceiling is the informative case -- it shows that")
     print("ranking cannot be where the accuracy went.")
+
+    # ---- the strongest evidence in the table: one system, one criterion, one k, --
+    # ---- two datasets. Both terms move or only one does. -------------------------
+    print("\n\n=== paired within-system controls ===")
+    print("One system, one correctness criterion, one candidate budget; only the data")
+    print("change. These are the only comparisons that need no cross-paper assumption.\n")
+    print(f"{'system':<38}{'dataset':<28}{'top-1':>8}{'rank loss':>11}{'miss':>9}")
+    for a, b in PAIRS:
+        for r in (a, b):
+            row = next(x for x in ROWS if x["system"] == r[0] and x["realism"] == r[1])
+            k, tk = row["top_k"]
+            rel = "" if row["exact"] else "<= "
+            print(f"{row['system']:<38}{row['realism']:<28}{row['top1']:>7.1f}%"
+                  f"{tk - row['top1']:>10.1f}{rel + f'{100 - tk:.1f}':>9}")
+        print()
+    print("In each pair the ranking loss barely moves and the miss rate carries the")
+    print("collapse. That is the decomposition's claim, in data none of us collected.")
     return 0
 
 

@@ -83,7 +83,7 @@ def breakable_paths(md):
     Paths set in \texttt cannot hyphenate, so `scripts/forward_verify_main.py` in
     running prose overflows the measure and, inside a narrow table cell, spills into
     the neighbouring column. Insert a zero-width space after the separators a path is
-    naturally read in chunks by -- / and _ -- but only inside inline code spans, so
+    naturally read in chunks by -- / -- but only inside inline code spans, so
     ordinary prose is untouched. UNI maps the character to \allowbreak, which permits
     a break without printing a hyphen (a hyphen would read as part of the path).
     """
@@ -93,7 +93,10 @@ def breakable_paths(md):
             return m.group(0)
         # Not after a *trailing* separator: `data/audit/` would then be allowed to break
         # at its own end, stranding the following comma at the head of the next line.
-        return "`" + re.sub(r"([/_])(?=.)", r"\1" + ZWSP, inner) + "`"
+        # Only after "/". A break at "_" splits a single identifier -- MODALITY_ABLATION.md
+        # printed as "MODALITY_" / "ABLATION.md", which reads as two names -- while "/" is
+        # where a reader already segments a path.
+        return "`" + re.sub(r"(/)(?=.)", r"\1" + ZWSP, inner) + "`"
     return re.sub(r"`([^`\n]+)`", fix, md)
 
 SEP_RE = re.compile(r'^\|(?:\s*:?-{2,}:?\s*\|)+$')
@@ -101,11 +104,48 @@ TABLE_MEASURE = 96          # target separator-row width, comfortably over pando
 MIN_COL = 4                 # characters; below this a numeric column pinches its digits
 
 
+# Latin Modern Mono sets every character on a 0.6em body; Latin Modern Roman's lowercase
+# averages nearer 0.45em. A run of code is therefore about a third wider than the same
+# number of letters in prose, and counting characters flat under-measures it -- which is
+# how `benchmark_v2_ctrl/` came to overprint the column beside it.
+MONO_WIDTH = 1.3
+
+
+def _measure(text):
+    """Approximate typeset width of a cell, in units of one prose character."""
+    text = text.strip().replace(ZWSP, "")
+    text = re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1', text)     # [text](link) -> text
+    width = 0.0
+    for i, part in enumerate(text.split("`")):                  # odd parts are code spans
+        width += len(re.sub(r'\*\*|\*|~~', '', part)) * (MONO_WIDTH if i % 2 else 1.0)
+    return width
+
+
 def _cell_len(cell):
-    """Rendered width of a markdown cell, ignoring markup that prints nothing."""
-    s = re.sub(r'\*\*|\*|`|~~', '', cell.strip())
-    s = re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1', s)      # [text](link) -> text
-    return len(s)
+    """Rendered width of a markdown cell, ignoring markup that prints nothing.
+
+    Zero-width spaces count here too, and they must not: breakable_paths() runs first, so a
+    path cell arrives carrying one per separator and measures several characters wider than
+    it prints. The column then wins width it does not need and its neighbours lose it --
+    which is what wrapped "Claude Opus 4.8" onto three lines in the ESI's first table.
+    """
+    return int(round(_measure(cell)))
+
+
+def _cell_len_tokens(cell):
+    """The unbreakable runs in a cell, for the floor on a column's width.
+
+    A column can be narrower than its widest cell -- the text wraps -- but never narrower
+    than its longest single token, which has nowhere to break.
+    """
+    text = cell.strip().replace(ZWSP, " ")
+    text = re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1', text)
+    out = []
+    for i, part in enumerate(text.split("`")):
+        scale = MONO_WIDTH if i % 2 else 1.0
+        for tok in re.sub(r'\*\*|\*|~~', '', part).split():
+            out.append("x" * int(round(len(tok) * scale)))
+    return out
 
 
 def proportional_tables(md):
@@ -136,12 +176,28 @@ def proportional_tables(md):
             aligns = [(c.strip().startswith(":"), c.strip().endswith(":"))
                       for c in rows[1]]
             n = len(aligns)
-            widths = [MIN_COL] * n
-            for r in rows[:1] + rows[2:]:
-                if len(r) != n:
-                    continue                    # ragged row: leave it out of the measure
-                for k, c in enumerate(r):
-                    widths[k] = max(widths[k], _cell_len(c))
+            body = [r for r in rows[:1] + rows[2:] if len(r) == n]   # ragged rows: not measured
+            cols = [[_cell_len(r[k]) for r in body] for k in range(n)]
+            # Sizing on the widest cell over-serves a column of prose. Prose wraps happily
+            # and its long cells are long because they are sentences; a column of short
+            # noun phrases does not wrap happily, and one 88-character neighbour was
+            # squeezing "Claude Opus 4.8" onto three lines in the ESI's first table.
+            #
+            # Size on the *mean* instead, which is a fairer proxy for how much room a
+            # column will actually use, and bound it: never below the longest unbreakable
+            # token in the column (or it cannot be set at all), never above the widest cell
+            # (or the column is given room it can never fill).
+            longest_token = [
+                max((max((len(t) for t in _cell_len_tokens(r[k])), default=0)
+                     for r in body), default=0)
+                for k in range(n)
+            ]
+            widths = []
+            for k in range(n):
+                col = cols[k] or [MIN_COL]
+                mean = sum(col) / len(col)
+                widths.append(max(MIN_COL, longest_token[k],
+                                  min(max(col), round(mean))))
             # A character count is only a proxy for a typeset width, and digits and
             # capitals run wider than the lowercase it is calibrated on. Two characters
             # of slack per column keeps a header that just fits from wrapping anyway.
@@ -347,11 +403,17 @@ def header():
     # nine. Suspending numbering around longtable and around floats is the standard
     # remedy and costs nothing: a reviewer cites a table by its number, not by a line.
     if os.environ.get("LINENOS", "1") != "0":
+        # Numbering resumes *after* the environment, not at its end. \AtEndEnvironment
+        # injects its code inside the environment, and switching \linenumbers back on
+        # there costs a row of vertical space: every table in the document carried its
+        # bottom rule 17.8pt below the last row, against 4.1pt under the header rule.
+        # \AfterEndEnvironment puts the switch outside, where it belongs -- 17.8pt -> 4.3pt,
+        # and numbering still resumes.
         lines += [r"\usepackage{lineno}", r"\linenumbers",
                   r"\AtBeginEnvironment{longtable}{\nolinenumbers}",
-                  r"\AtEndEnvironment{longtable}{\linenumbers}",
+                  r"\AfterEndEnvironment{longtable}{\linenumbers}",
                   r"\AtBeginEnvironment{figure}{\nolinenumbers}",
-                  r"\AtEndEnvironment{figure}{\linenumbers}"]
+                  r"\AfterEndEnvironment{figure}{\linenumbers}"]
     for ch, cmd in UNI.items():
         lines.append(f"\\newunicodechar{{{ch}}}{{{cmd}}}")
     return "\n".join(lines)
@@ -390,6 +452,19 @@ def build_esi(h_path, bib):
         esi_src, _ = crossref.resolve(
             esi_src, external=crossref.audit(open("docs/PAPER.md").read())["labels"],
             prefix="S")
+        # The same two helpers the article gets. Without them the ESI's tables fell back to
+        # pandoc's equal-column division, so script paths in Tables S1, S2 and S4 overprinted
+        # the neighbouring column, and Table S5's caption stranded a page above its table --
+        # the \needspace guard that prevents that lives inside proportional_tables().
+        esi_src = breakable_paths(esi_src)
+        esi_src = proportional_tables(esi_src)
+        # Figures inside the ESI prose need their widths computed too; the plates appended
+        # below already get theirs.
+        esi_src = re.sub(r"!\[(.*?)\]\((docs/figures/[^)]+)\)(?!\{)",
+                         lambda m: (f"![{m.group(1)}]({m.group(2)})"
+                                    f"{{width={fig_width(m.group(2))}}}"
+                                    if os.path.exists(m.group(2)) else m.group(0)),
+                         esi_src, flags=re.S)
         md += esi_src.rstrip() + "\n\n"
     n = 0
     for fn, cap in SI_FIGS:

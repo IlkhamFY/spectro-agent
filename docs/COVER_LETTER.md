@@ -14,7 +14,7 @@ training-free method rather than with a curated demonstration.
 Given the molecular formula, the IR band list and the ¹H/¹³C shifts exactly as reported
 in an open-access paper, a frontier model recovers the correct constitution for 28.4% of
 194 compounds (95% CI 22–35), or 15.2% once reweighted to the corpus from which the
-benchmark was drawn (15% rounded) — far below the near-100% implied by prior curated
+benchmark was drawn — far below the near-100% implied by prior curated
 evaluations. We reconcile that gap quantitatively — difficulty, scoring, hints, curation
 — and show with a within-compound control that reported numbers are sensitive to how the
 problem is posed, not to raw capability alone.
@@ -33,10 +33,11 @@ learned simulator and reach 71.1% top-1 versus 66.7% for graduate students on 15
 molecules, yet 20.6% on 34 industrial samples — independent support that proposal supply
 binds and that curated versus real spectra collapse. We claim the decomposition at scale
 across four model families and verifiers, not their architectural frame. Complementary
-industry evidence comes from Wagen and Rowan, who loop a frontier LLM with MagNET, an
-external ¹³C predictor, on eight corrected misassignments: connectivity gains are modest,
-but stereochemistry-aware scoring improves markedly — consistent with sharper shift
-prediction aiding verification, without over-reading a preliminary n=8 study.
+industry evidence comes from Wagen (Rowan Scientific), who looped a frontier LLM with
+MagNET, an external ¹³C predictor, on eight corrected misassignments: connectivity moves
+46.4% to 55.4%, while exact-SMILES scoring including stereochemistry moves 21.4% to
+51.8% — consistent with a sharper verifier helping most where stereochemistry is scored,
+without over-reading a preliminary n=8 study.
 
 We claim the decomposition, not the loop. NMR-Solver (Jin *et al.*, 2025) implements the
 same generate-and-verify loop without an LLM and reports higher accuracy with a sharper
@@ -56,8 +57,9 @@ structures from literature spectra daily.
 The core protocol uses no model training and no paid API. Two probes are clearly fenced
 as complements rather than as part of it: a small generator fine-tuned on IRexp,
 which establishes that the recall wall is elicitation-specific rather than
-task-intrinsic, and a learned ¹³C verifier. All data, agent transcripts, predictions,
-figures and code are released, both probes included with their reproducers.
+task-intrinsic, and a learned ¹³C verifier. All data, predictions, figures and code are
+released, both probes included with their reproducers; solver transcripts are available
+on request.
 
 The work is original, not under consideration elsewhere, and all authors approve the
 submission. We have no competing interests to declare, and would be glad to suggest

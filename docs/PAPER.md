@@ -28,7 +28,26 @@
 
 ## Abstract
 
-Given the molecular formula, the infrared band list and the ¹H/¹³C shift lists exactly as reported in an open-access paper, a frontier large language model recovers the correct molecular constitution for 28% of 194 compounds (top-1; 95% CI 22–35) — far below the near-100% implied by curated demonstrations, and 15% once the benchmark's deliberate 50/50 difficulty balance is reweighted to the corpus it was drawn from. The bottleneck is proposal, not judgment: the true structure is generated for only 34% of compounds, and where it is, a training-free forward-verification step that predicts each candidate's ¹³C spectrum and re-ranks by agreement with experiment selects it 89% of the time (58/65; 81% on the 37 compounds where a ranker had a choice). The same split, recovered from published top-*k* figures, shows that recall carries 68–83% of the accuracy collapse when three independent systems move from curated or simulated data to real, heterogeneous spectra. Generating more candidates lifts recall from 32% to 42% and top-1 from 23% to 30% on 60 compounds; verification itself moves whole-benchmark top-1 only from 28% to 30%. Masking the spectra drops top-1 from 23% to 5%, and Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all verify better than they generate. We release *IRexp*, the largest openly redistributable collection of *experimental* infrared band lists (121,233 records), *IRSpectra-Bench*, a blind mechanically scored evaluation of 194 compounds, and all predictions and code.
+Given the molecular formula, the infrared band list and the ¹H/¹³C shift lists
+exactly as reported in an open-access paper, a frontier large language model
+recovers the correct molecular constitution for 28% of 194 compounds (top-1; 95%
+CI 22–35) — far below the near-100% implied by curated demonstrations, and 15%
+once the benchmark's deliberate 50/50 difficulty balance is reweighted to the
+corpus it was drawn from. The bottleneck is proposal, not judgment: the true
+structure is generated for only 34% of compounds, and where it is, a
+training-free forward-verification step that predicts each candidate's ¹³C
+spectrum and re-ranks by agreement with experiment selects it 89% of the time
+(58/65; 81% on the 37 compounds where a ranker had a choice). The same split,
+recovered from published top-*k* figures, shows that recall carries 68–83% of
+the accuracy collapse when three independent systems move from curated or
+simulated data to real, heterogeneous spectra. Generating more candidates lifts
+recall from 32% to 42% and top-1 from 23% to 30% on 60 compounds; verification
+itself moves whole-benchmark top-1 only from 28% to 30%. Masking the spectra
+drops top-1 from 23% to 5%, and Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all
+verify better than they generate. We release *IRexp*, the largest openly
+redistributable collection of *experimental* infrared band lists (121,233
+records), *IRSpectra-Bench*, a blind mechanically scored evaluation of 194
+compounds, and all predictions and code.
 
 ---
 
@@ -193,8 +212,9 @@ and hard formula, unsaturation and integration checks: 80.9% top-1 on a chemistr
 set (N=236), 71.1% on the 15 molecules where graduate students reach 66.7%, and 20.6% on 34
 industrial samples where a trained transformer reaches 14.7%[@espejo2026agentic]. Their
 frame — search rather than a learned map — is orthogonal to ours: they ask which
-architecture to adopt, we ask which stage of it binds. Their inputs are raw instrument files and ours are
-published reports, which they exclude by design ([@sec:limitations]). We claim priority on
+architecture to adopt, we ask which stage of it binds. Their inputs are raw instrument
+files and ours are published reports, which they exclude by design ([@sec:limitations]). We
+claim priority on
 neither that frame, nor on external simulation tools improving agent elucidation, nor on
 placing frontier LLMs near a quarter on real peak lists. Nor on the idea that candidate
 supply binds: Priessner *et al.* measure generator recall as a standalone quantity and
@@ -982,7 +1002,7 @@ This reframes the engineering problem away from "do not train a model". NMR-Solv
 52.9%, a trained IR transformer reaches 63.8%, against our training-free 28–30%; our 16M-parameter
 generator lifts pooled recall to 54.1% and top-1 to 35.1%
 ([@sec:recall-wall-task-intrinsic]). The claim is narrower and survives that. What ages out
-is a *particular* trained artefact; what remains is open experimental data and an honest
+is a *particular* trained artefact; what compounds is open experimental data and an honest
 benchmark. The same architecture on a 248-structure held-out split recovers 0/248 without
 IRexp and 25% with it — the released data, not the architecture, is the active ingredient.
 Inference-time scaffolding is the second durable lever: it needs no training and rides each

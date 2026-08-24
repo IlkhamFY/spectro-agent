@@ -16,6 +16,12 @@ python scripts/build_pdf.py            # docs/paper.pdf, docs/paper.tex, docs/pa
 `build_pdf.py` writes line numbers by default, which is what RSC asks for under review;
 set `LINENOS=0` for a reading copy.
 
+**Venue.** *Digital Discovery* (RSC) Article. The abstract is a single paragraph of 232
+words (RSC: 50–250, one paragraph). Suggested submission-system keywords: structure
+elucidation; NMR spectroscopy; infrared spectroscopy; large language models; chemical
+information; benchmark. Graphical abstract: `docs/figures/graphical_abstract.png` plus
+the ≤250-character TOC text that `scripts/build_pdf.py` appends.
+
 ---
 
 ## 1. Three values only the authors can supply

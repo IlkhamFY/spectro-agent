@@ -52,7 +52,7 @@ def _number_sections(text, prefix=""):
         # "Data and code availability" became "Data availability" for RSC house style and
         # the built PDF promptly printed "9. Data availability".
         if re.match(r'(Abstract|References|Acknowledgements|Conflicts|Author'
-                    r'|Contributions|Use of AI|Data availability'
+                    r'|Contributions|Data availability'
                     r'|Data and code availability|Licensing|Supporting)',
                     re.sub(r'\s*\{#.*', '', title), re.I):
             out.append(re.sub(r'\s*\{#sec:[^}]*\}', '', line)); continue

@@ -397,7 +397,7 @@ TITLE_RE = re.compile(
 
 
 ABS_RE = re.compile(
-    r"^---\n+## Abstract\n+(?P<abstract>.*?)\n+---\s*\n",
+    r"^## Abstract\n+(?P<abstract>.*?)(?=\n## |\Z)",
     re.M | re.S)
 
 
@@ -702,6 +702,13 @@ def attach_table_captions(tex):
 def postprocess_tex(tex):
     """RSC-article two-column float conventions, no journal class required."""
     tex = tex.replace("{docs/figures/", "{figures/")
+    # Markdown thematic breaks (---) become half-column rules. Section headings
+    # already mark hierarchy; a senior desk would not put a rule between them.
+    tex = re.sub(
+        r"\n?\\begin\{center\}\\rule\{0\.5\\linewidth\}\{0\.5pt\}\\end\{center\}\n?",
+        "\n",
+        tex,
+    )
     tex = convert_longtables(tex)
     tex = attach_table_captions(tex)
     tex = star_wide_figures(tex)
@@ -735,7 +742,7 @@ def build_esi(h_path, bib):
           "Department of Chemistry and Chemical Biology, McMaster University, Hamilton, "
           r"Ontario L8S 4L8, Canada.\end{minipage}\par}" "\n"
           r"\end{center}" "\n"
-          r"\vspace{0.4em}\noindent\rule{\linewidth}{0.4pt}" "\n"
+          r"\vspace{0.8em}" "\n"
           "```\n\n"
           "Data, predictions, and the code that regenerates every figure and every number "
           "below are released with the manuscript; see *Data availability* in the main "

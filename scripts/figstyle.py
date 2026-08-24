@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """Shared figure system — one typographic + colour language for every panel.
 
-Design brief (Nature / Cell Methods grade):
+Design brief (Nature / Cell / Science grade):
   • One typeface, one type scale, one ink weight everywhere.
-  • Okabe–Ito semantic palette (Wong, Nat. Methods 2011): a colour means ONE thing.
+  • Paul Tol *Vibrant* qualitative scheme (SRON; colourblind-safe, print-tuned) —
+    not raw Okabe–Ito. Wong 2011 is the accessibility textbook; Tol Vibrant is what
+    high-end Nature/Science figure desks actually favour: deeper blue, teal good-
+    mark, print-friendly orange/red, less "default colourblind Excel" sheen.
   • No top/right spines; ticks out; whisper-faint reference grid on the VALUE axis only.
   • Direct labels preferred over legends; when a legend is needed, identical styling.
   • Fixed column widths so on-page type size never drifts between figures.
@@ -13,7 +16,7 @@ SEMANTIC PALETTE — never reassign by convenience:
   BLUE    primary series / main metric (exact top-1; reference model)
   SKY     secondary / broader series (recovered top-3; candidate-recall pool)
   ORANGE  the single highlighted "hero" element per figure
-  GREEN   CORRECT / true / selected / verified
+  GREEN   CORRECT / true / selected / verified  (Tol teal)
   VERMIL  WRONG / rejected / failure-mode
   MUTED   baseline / de-emphasised / gated-out
   NOTE    in-plot explanatory text (~57% black; survives print)
@@ -26,18 +29,19 @@ from __future__ import annotations
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-# ---- Okabe–Ito (print-tuned: slightly deeper ink, quieter grid) ---------------
+# ---- Paul Tol Vibrant (print-tuned neutrals around it) -----------------------
+# Hex from Tol, SRON: https://personal.sron.nl/~pault/  (Vibrant qualitative)
 INK    = "#1a1a1a"   # text / spines (near-black, not pure #000)
-MUTED  = "#8e9499"   # de-emphasised bars, n= labels, gated-out series
+MUTED  = "#9aa0a6"   # de-emphasised bars (darker than Tol's #BBB so bars hold on white)
 NOTE   = "#5c636a"   # in-plot annotations (readable grey)
 FAINT  = "#e8e8e8"   # whisper gridlines only
 GHOST  = "#c5c9cd"   # reference overlays (ghosted spectra, soft rules)
-BLUE   = "#0072B2"   # primary
-SKY    = "#56B4E9"   # secondary
-GREEN  = "#009E73"   # correct / selected
-VERMIL = "#D55E00"   # wrong / rejected
-ORANGE = "#E69F00"   # hero highlight
-PURPLE = "#CC79A7"   # spare 5th category
+BLUE   = "#0077BB"   # primary   (Tol vibrant blue)
+SKY    = "#33BBEE"   # secondary (Tol vibrant cyan)
+GREEN  = "#009988"   # correct   (Tol vibrant teal — Nature-desk favourite)
+VERMIL = "#CC3311"   # wrong     (Tol vibrant red)
+ORANGE = "#EE7733"   # hero      (Tol vibrant orange)
+PURPLE = "#EE3377"   # spare     (Tol vibrant magenta)
 
 PRIMARY, SECONDARY, ACCENT, GOOD, BAD = BLUE, SKY, ORANGE, GREEN, VERMIL
 

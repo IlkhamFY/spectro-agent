@@ -72,6 +72,43 @@ def extract(txt):
     return None
 
 
+def collect_verify(src, vendor):
+    """Merge the forward-prediction replies the way `collect` merges the solve replies.
+
+    Both stages are run by hand through a chat window and both drop numbered JSON files
+    into the same folder, but only the solve stage had a collector. That left the raw
+    verify replies committed and the verification-precision column unregenerable from
+    them -- the one place the cross-vendor claim actually lives. The roster here is the
+    anonymised candidate map rather than the compound key, because the verify stage is
+    blind: it sees `P000`, not a compound.
+    """
+    src = os.path.abspath(os.path.expanduser(src))
+    amap = f"{OUT}/anon_{vendor}.json"
+    if not os.path.exists(amap):
+        sys.exit(f"no {amap}; run: cross_vendor_sweep.py prep-verify {vendor}")
+    roster = set(json.load(open(amap)).values())
+    files = sorted(sum((glob.glob(f"{src}/verify_*{e}") for e in (".json", ".txt", ".md")), []))
+    if not files:
+        sys.exit(f"no verify_*.json in {src}")
+    merged, bad = {}, []
+    for f in files:
+        got = extract(open(f, encoding="utf-8").read())
+        if not isinstance(got, dict) or not got:
+            bad.append(os.path.basename(f)); continue
+        merged.update(got)
+        print(f"  {os.path.basename(f):<18} {len(got):>3} candidate(s)")
+    missing = sorted(roster - set(merged))
+    print(f"\n  coverage {len(roster & set(merged))}/{len(roster)} candidates")
+    if bad:
+        print(f"  !! {len(bad)} unparseable file(s): {', '.join(bad)}")
+    if missing:
+        print(f"  !! {len(missing)} without a prediction: {', '.join(missing[:8])}"
+              f"{' …' if len(missing) > 8 else ''}")
+    out = f"{OUT}/verify_{vendor}.json"
+    json.dump(merged, open(out, "w"), indent=1)
+    print(f"\nwrote {out}")
+
+
 def collect(src, vendor):
     src = os.path.abspath(os.path.expanduser(src))
     key = json.load(open(f"{OUT}/key.json"))["key"]
@@ -113,11 +150,12 @@ def collect(src, vendor):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3 or sys.argv[1] not in ("export", "collect"):
+    if len(sys.argv) < 3 or sys.argv[1] not in ("export", "collect", "collect-verify"):
         sys.exit(__doc__)
     if sys.argv[1] == "export":
         export(sys.argv[2])
     else:
         if len(sys.argv) < 4:
             sys.exit("collect needs a vendor name: collect <folder> <vendor>")
-        collect(sys.argv[2], sys.argv[3])
+        (collect_verify if sys.argv[1] == "collect-verify" else collect)(
+            sys.argv[2], sys.argv[3])

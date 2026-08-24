@@ -2,6 +2,7 @@
 """Fig S5 - trained-generator probe on the 194-compound benchmark."""
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import numpy as np
 import figstyle as fs
 fs.apply()
@@ -17,11 +18,16 @@ b2 = ax.bar(x + c/2, top1,  bw, color=fs.BLUE, zorder=3, label="HOSE top-1")
 fs.barlabels(ax, b1, fmt="{:.1f}", dy=1)
 fs.barlabels(ax, b2, fmt="{:.1f}", dy=1)
 
+# Dashed baseline at Claude-only top-1 — explained in the legend, not overlaid on bars.
 fs.refline(ax, y=28.4)
-fs.reflabel(ax, 28.4, "Claude-only top-1", x=0.99, ha="right")
 
 ax.set_xticks(x); ax.set_xticklabels(pools)
 ax.set_ylabel("% of 194 compounds"); ax.set_ylim(0, 64); ax.set_yticks([0, 20, 40, 60])
-fs.legend(ax, loc="upper left")
-fs.finish(); fs.save("docs/figures/fig_generator_probe.png")
+fs.legend(ax, loc="upper left", handles=[
+    b1, b2,
+    Line2D([0], [0], color=fs.MUTED, lw=fs.REF_LW, ls=fs.REF_LS,
+           label="Claude-only top-1"),
+])
+fs.finish()
+fs.save("docs/figures/fig_generator_probe.png")
 print("wrote docs/figures/fig_generator_probe.png")

@@ -14,35 +14,17 @@ tags:
 size_categories:
   - 100K<n<1M
 pretty_name: IRexp
-dataset_info:
-  features:
-    - name: id
-      dtype: string
-      description: InChIKey (full)
-    - name: inchikey
-      dtype: string
-    - name: smiles
-      dtype: string
-    - name: selfies
-      dtype: string
-    - name: ir_bands_cm-1
-      sequence: float64
-      description: Experimental IR wavenumbers (cm⁻¹), author-transcribed or peak-picked
-    - name: h_nmr
-      dtype: string
-      description: ¹H shift list as printed in the source paper
-    - name: c_nmr
-      dtype: string
-      description: ¹³C shift list as printed in the source paper
-    - name: ir_source
-      dtype: string
-      description: Always "experimental"
-    - name: source_doi
-      dtype: string
-      description: DOI or accession of the source publication
-    - name: license
-      dtype: string
-      description: CC-BY-4.0 (PMC) or CC-BY-SA-4.0 (Chemotion)
+configs:
+  - config_name: resolved
+    data_files: data/irexp_resolved.jsonl.gz
+  - config_name: train_no_bench
+    data_files: data/train_no_bench.jsonl.gz
+  - config_name: train_no_bench_nmr
+    data_files: data/train_no_bench_nmr.jsonl.gz
+  - config_name: pretrain_ir
+    data_files: data/pretrain_ir.jsonl.gz
+  - config_name: all
+    data_files: data/irexp.jsonl.gz
 ---
 
 # IRexp — experimental IR band lists from open-access literature
@@ -72,26 +54,23 @@ IRexp is the largest **openly redistributable** collection of **experimental inf
 ```python
 from datasets import load_dataset
 
-# Full structure-linked corpus (43,060 records)
-ds = load_dataset("ilkhamfy/IRexp", data_files="data/irexp_resolved.jsonl.gz", split="train")
+# Structure-linked corpus (43,060 records)
+ds = load_dataset("ilkhamfy/IRexp", "resolved", split="train")
 
 row = ds[0]
 print(row["ir_bands_cm-1"][:5], row["smiles"][:40])
 ```
 
-For **fine-tuning without benchmark leakage**, use `train_no_bench.jsonl.gz` (not the legacy `irexp_release/train.jsonl.gz`, which overlaps 117/200 benchmark compounds):
+For **fine-tuning without benchmark leakage**, use the `train_no_bench` config:
+
+```python
+ds = load_dataset("ilkhamfy/IRexp", "train_no_bench", split="train")
+```
+
+Or load a file path directly:
 
 ```python
 ds = load_dataset("ilkhamfy/IRexp", data_files="data/train_no_bench.jsonl.gz", split="train")
-```
-
-Or clone the GitHub repo / Zenodo deposit and read locally:
-
-```python
-import gzip, json
-
-with gzip.open("irexp_resolved.jsonl.gz", "rt") as f:
-    row = json.loads(f.readline())
 ```
 
 ## Record schema

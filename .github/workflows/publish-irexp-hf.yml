@@ -1,17 +1,10 @@
 name: Publish IRexp to Hugging Face
 
+# Manual only — requires repo secret HF_TOKEN (Write). Auto-push was removed so
+# CI does not fail when the secret is absent; publish with:
+#   HF_TOKEN=hf_... python scripts/publish_hf.py
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "data/irexp_release/**"
-      - "data/irexp/**"
-      - "data/irexp_resolved/**"
-      - "scripts/publish_hf.py"
-      - ".github/workflows/publish-irexp-hf.yml"
-    branches:
-      - main
-      - cursor/scientific-editor-pass-9a67
 
 jobs:
   publish:
@@ -25,6 +18,12 @@ jobs:
           python-version: "3.12"
       - name: Install huggingface_hub
         run: pip install -U "huggingface_hub[cli]"
+      - name: Require HF_TOKEN
+        run: |
+          if [ -z "${{ secrets.HF_TOKEN }}" ]; then
+            echo "Add repo secret HF_TOKEN (Write) before running this workflow."
+            exit 1
+          fi
       - name: Upload IRexp
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}

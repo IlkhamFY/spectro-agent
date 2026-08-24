@@ -13,8 +13,10 @@ python scripts/crossref.py docs/PAPER.md   # every figure/table/section referenc
 python scripts/build_pdf.py            # docs/paper.pdf, docs/paper.tex, docs/paper_esi.pdf
 ```
 
-`build_pdf.py` writes line numbers by default for review copies; set `LINENOS=0` for a
-reading copy.
+`build_pdf.py` writes a **reading copy by default** (no line numbers). Set `LINENOS=1`
+for a referee PDF when a journal asks for continuous line numbers at peer review —
+they are not part of the printed article and should not be on the author PDF you
+iterate against.
 
 **Venue.** Not yet selected — to be decided with the PI (R. A. Vargas-Hernández) before
 submission. The abstract is a single paragraph (~204 words). Suggested keywords: structure

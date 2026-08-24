@@ -29,16 +29,18 @@ from __future__ import annotations
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-# ---- Paul Tol Vibrant (print-tuned neutrals around it) -----------------------
-# Hex from Tol, SRON: https://personal.sron.nl/~pault/  (Vibrant qualitative)
+# ---- Paul Tol Vibrant core + Nature-desk secondary ---------------------------
+# Primary/hero/good/bad from Tol Vibrant (SRON). Secondary is a *same-hue* light
+# companion to BLUE rather than Tol's neon cyan (#33BBEE): paired bars then read as
+# one family at two weights, which is what high-end Nature/Science plates do.
 INK    = "#1a1a1a"   # text / spines (near-black, not pure #000)
 MUTED  = "#9aa0a6"   # de-emphasised bars (darker than Tol's #BBB so bars hold on white)
 NOTE   = "#5c636a"   # in-plot annotations (readable grey)
-FAINT  = "#e8e8e8"   # whisper gridlines only
+FAINT  = "#ececec"   # whisper gridlines only
 GHOST  = "#c5c9cd"   # reference overlays (ghosted spectra, soft rules)
 BLUE   = "#0077BB"   # primary   (Tol vibrant blue)
-SKY    = "#33BBEE"   # secondary (Tol vibrant cyan)
-GREEN  = "#009988"   # correct   (Tol vibrant teal — Nature-desk favourite)
+SKY    = "#6BAFD4"   # secondary (same-hue light companion — not neon cyan)
+GREEN  = "#009988"   # correct   (Tol vibrant teal)
 VERMIL = "#CC3311"   # wrong     (Tol vibrant red)
 ORANGE = "#EE7733"   # hero      (Tol vibrant orange)
 PURPLE = "#EE3377"   # spare     (Tol vibrant magenta)
@@ -108,7 +110,7 @@ def apply():
         "ytick.labelsize": FS_BODY,
         "legend.fontsize": FS_BODY,
         "axes.edgecolor": INK,
-        "axes.linewidth": 0.55,
+        "axes.linewidth": 0.50,
         "axes.spines.top": False,
         "axes.spines.right": False,
         "axes.titlelocation": "left",
@@ -199,10 +201,15 @@ def refline(ax, y=None, x=None, **kwargs):
 
 
 def save(path, fig=None):
-    """One save path: fixed pad, no tight crop, 600 dpi. Prefer over plt.savefig.
+    """One save path: fixed pad, no tight crop, 600 dpi PNG + vector PDF twin.
 
     Do not pass bbox_inches here — mpl≥3.8 rejects the rc alias "standard" as a
     kwarg. apply() sets savefig.bbox='standard' so the authored figsize is preserved.
+
+    The PDF twin is what LaTeX embeds (crisp type at any zoom). The PNG stays for
+    Overleaf preview and markdown viewers that cannot render PDF images.
     """
     fig = fig or plt.gcf()
     fig.savefig(path, dpi=DPI_SAVE, pad_inches=PAD_INCHES, facecolor="white")
+    if path.lower().endswith(".png"):
+        fig.savefig(path[:-4] + ".pdf", pad_inches=PAD_INCHES, facecolor="white")

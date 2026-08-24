@@ -84,12 +84,31 @@ TEXTWIDTH_IN = 6.3
 def fig_width(path):
     """Render each figure at its native design size (px / dpi), capped at the text
     width — never upscaled. Upscaling a small figure is what makes lines and type look
-    chunky; journals place figures at 1:1."""
+    chunky; journals place figures at 1:1.
+
+    Prefer a sibling .pdf when present (vector twin from figstyle.save): LaTeX embeds
+    it crisply. Width still comes from the PNG's dpi metadata when available.
+    """
     from PIL import Image
-    im = Image.open(path)
+    png = path if path.lower().endswith(".png") else (path[:-4] + ".png"
+          if path.lower().endswith(".pdf") else path)
+    measure = png if os.path.exists(png) else path
+    if measure.lower().endswith(".pdf"):
+        # Fallback: authored COL widths are 3.30 / 6.30 in; use 6.30 for unknown PDFs.
+        return f"{TEXTWIDTH_IN:.2f}in"
+    im = Image.open(measure)
     dpi = (im.info.get("dpi") or (600, 600))[0] or 600
     w_in = im.size[0] / dpi
     return f"{min(w_in, TEXTWIDTH_IN):.2f}in"
+
+
+def prefer_vector(path):
+    """Swap docs/figures/foo.png -> foo.pdf when the vector twin exists."""
+    if path.lower().endswith(".png"):
+        pdf = path[:-4] + ".pdf"
+        if os.path.exists(pdf):
+            return pdf
+    return path
 
 
 ZWSP = "\u200b"
@@ -527,14 +546,15 @@ def header():
              r"\renewcommand{\CSLRightInline}[1]"
              r"{\parbox[t]{\linewidth - \csllabelwidth}{\raggedright #1}\break}"
              r"}{}"]
-    # Continuous line numbers, which RSC asks for on a manuscript under review. Off for
-    # a reading copy: LINENOS=0.
+        # Continuous line numbers, which many journals ask for on a manuscript *under
+    # review*. They are NOT part of a submission-ready reading copy and they are not
+    # how the paper will print. Default OFF; set LINENOS=1 for a referee PDF.
     #
     # lineno predates longtable and cannot number inside it -- left alone it aborts the
     # run with an \prevdepth error on the first pipe table, of which this manuscript has
     # nine. Suspending numbering around longtable and around floats is the standard
     # remedy and costs nothing: a reviewer cites a table by its number, not by a line.
-    if os.environ.get("LINENOS", "1") != "0":
+    if os.environ.get("LINENOS", "0") == "1":
         # Numbering resumes *after* the environment, not at its end. \AtEndEnvironment
         # injects its code inside the environment, and switching \linenumbers back on
         # there costs a row of vertical space: every table in the document carried its
@@ -546,8 +566,7 @@ def header():
                   r"\AfterEndEnvironment{longtable}{\linenumbers}",
                   r"\AtBeginEnvironment{figure}{\nolinenumbers}",
                   r"\AfterEndEnvironment{figure}{\linenumbers}"]
-    # Spacing for the relation glyphs, fixed here rather than left to the source.
-    #
+    # Spacing for the relation glyphs, fixed here rather than left to the source.    #
     # \ensuremath{\leq} is one atom with nothing beside it, so TeX's own relation spacing
     # never fires and the printed gap is exactly the spaces the author typed: the same
     # glyph read "≥ 0.45" on one page and "≤15" on another, "1/20 → 3/20" against
@@ -631,14 +650,14 @@ def build_esi(h_path, bib):
         # Figures inside the ESI prose need their widths computed too; the plates appended
         # below already get theirs.
         esi_src = re.sub(r"!\[(.*?)\]\((docs/figures/[^)]+)\)(?!\{)",
-                         lambda m: (f"![{m.group(1)}]({m.group(2)})"
-                                    f"{{width={fig_width(m.group(2))}}}"
-                                    if os.path.exists(m.group(2)) else m.group(0)),
+                         lambda m: (lambda p: (
+                                    f"![{m.group(1)}]({p}){{width={fig_width(p)}}}"
+                                    if os.path.exists(p) else m.group(0)))(prefer_vector(m.group(2))),
                          esi_src, flags=re.S)
         md += esi_src.rstrip() + "\n\n"
     n = 0
     for fn, cap in SI_FIGS:
-        path = f"docs/figures/{fn}"
+        path = prefer_vector(f"docs/figures/{fn}")
         if os.path.exists(path):
             # The plate captions are a second caption source, and they pointed at the
             # article by typed number ("\\S5.6"). crossref exists so no number is typed;
@@ -673,7 +692,7 @@ def main():
     # RSC requires a table-of-contents (graphical abstract) entry: one image plus a
     # <=250-character text summary. Appended as its own page so the submission bundle
     # carries it; journals lift it out of the PDF.
-    toc = "docs/figures/graphical_abstract.png"
+    toc = prefer_vector("docs/figures/graphical_abstract.png")
     if os.path.exists(toc):
         md += ("\n\n\\clearpage\n\n# Table of contents entry\n\n"
                f"![]({toc}){{width={fig_width(toc)}}}\n\n"
@@ -690,7 +709,7 @@ def main():
     # drift from the text the way the old duplicate list did. Widths are computed here
     # because markdown cannot: each figure renders at native size, never upscaled.
     def _size(m):
-        path = m.group(2)
+        path = prefer_vector(m.group(2))
         return f"![{m.group(1)}]({path}){{width={fig_width(path)}}}" if os.path.exists(path) else m.group(0)
     # (?!\{) so an image that already carries an attribute block -- the graphical
     # abstract appended above -- is not stamped a second time and left rendering its
@@ -719,6 +738,9 @@ def main():
         "-M", "link-bibliography=true",
         "-V", "geometry:margin=1in", "-V", "fontsize=11pt",
         "-V", "linkcolor=blue", "-V", "urlcolor=blue", "-V", "colorlinks=true",
+        # Section numbers help reviewers ("§3.2") and match how RSC/Nature articles print.
+        # Pandoc otherwise emits secnumdepth=-\maxdimen and the PDF looks like a blog.
+        "--number-sections",
         # ("-V subparagraph" was here. It only suppresses pandoc's run-in patch for
         # \paragraph/\subparagraph, and the manuscript has no heading that deep -- no
         # "####" in PAPER.md or ESI.md, and no \paragraph in the emitted .tex.)
@@ -733,6 +755,7 @@ def main():
                                       "--citeproc",
                                       f"--bibliography={bib}",
                                       "--csl=docs/rsc.csl",
+                                      "--number-sections",
                                       "-V", "geometry:margin=1in",
                                       "-V", "fontsize=11pt"])
     sz = os.path.getsize(OUT)

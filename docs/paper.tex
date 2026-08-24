@@ -290,27 +290,10 @@ so generation binds the result (Fig.~1). Gain is bounded (top-1 28\% →
 was also tested) and, by our own measurements, cannot exceed a
 recall/precision ceiling without sharper verification or 2D-NMR data.
 
-This paper contributes:
-
-\begin{itemize}
-\tightlist
-\item
-  \textbf{IRexp} --- 121,233 experimental IR band lists, 33,201 full IR
-  + ¹H + ¹³C + structure quadruples, permissively licensed and
-  redistributable.
-\item
-  \textbf{IRSpectra-Bench} --- a blind, mechanically scored 194-compound
-  benchmark on literature-reported peak lists, complexity-stratified,
-  with a within-compound control.
-\item
-  \textbf{A recall/verification decomposition} on every compound: the
-  true structure is proposed for 34\% and, once proposed, selected 89\%
-  of the time.
-\item
-  \textbf{A four-vendor replication} (Grok, Gemini, GPT, Claude) showing
-  the same split, plus training-free and trained complements that move
-  the ceiling rather than the protocol.
-\end{itemize}
+We contribute IRexp and IRSpectra-Bench, a recall/verification
+decomposition on every compound (34\% proposed; 89\% selected once
+proposed), and a four-vendor replication of that split --- numbers that
+match the abstract throughout.
 
 \begin{figure*}
 \centering
@@ -1335,27 +1318,15 @@ proposers (34\% recall) on real literature spectra. The contribution is
 a diagnosis with a bounded, training-free improvement, not a solved
 elucidator.
 
-The split held across four Claude models, a battery-electrolyte subset,
-four verifiers and four vendor families (§6). Concurrent work sharpens
-it: Kliuev \emph{et al.} place the best LLM at 24\% on 105 peak
-lists\textsuperscript{\protect\hyperlink{ref-kliuev2026canai}{29}};
-Espejo Morales \emph{et al.} show environment design moves proposal
-(71.1\% on 15 molecules) while their education → industrial drop (80.9\%
-→ 20.6\%) is our claim measured
-independently\textsuperscript{\protect\hyperlink{ref-espejo2026agentic}{30}};
-Wagen's MagNET
-loop\textsuperscript{\protect\hyperlink{ref-wagen2026simtools}{51},\protect\hyperlink{ref-adams2026magnet}{52}}
-moves connectivity 46.4\% → 55.4\% on eight problems. Those three levers
---- proposal environment, external simulation, wider generation ---
-attack one search problem.
+That split held across four Claude models, a battery-electrolyte subset,
+four verifiers and four vendor families (§6); concurrent systems that
+move the same levers are surveyed in §1.1.
 
 Training is not foreclosed: IRexp fine-tuning lifts recall to 54\%
 (§5.6). What compounds is open experimental data, honest benchmarks, and
 inference scaffolding that rides each new model. Two practical findings:
 bounded contexts with tool access may help (§4.3); use forward-predicted
-¹³C agreement to re-rank, not as an abstention gauge (§5.5). Learned
-embeddings rarely beat ECFP under controlled
-evaluation\textsuperscript{\protect\hyperlink{ref-praski2025embeddings}{54}}.
+¹³C agreement to re-rank, not as an abstention gauge (§5.5).
 
 \hypertarget{limitations}{%
 \section{8. Limitations}\label{limitations}}
@@ -1418,58 +1389,11 @@ answers, per-agent raw outputs, predictions and scorer outputs are
 released; the sampler, scorer and forward-verification harness are
 scripted end-to-end.
 
-\hypertarget{supporting-information-figures}{%
-\section{Supporting Information
-figures}\label{supporting-information-figures}}
+\hypertarget{supporting-information}{%
+\section{Supporting Information}\label{supporting-information}}
 
-These are supplied as a separate Electronic Supplementary Information
-document (\texttt{docs/\hspace{0pt}paper\_esi.pdf}, built by
-\texttt{scripts/\hspace{0pt}build\_pdf.py}); they are listed here for
-reference.
-
-\begin{itemize}
-\tightlist
-\item
-  \textbf{Fig.~S1}
-  (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig0\_overview.png}) ---
-  study design: open multimodal data (IRexp) → blind,
-  complexity-stratified benchmark → decoupled blind solving →
-  forward-verification re-ranking; training-free core pipeline.
-\item
-  \textbf{Fig.~S2}
-  (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig4\_dataset.png}) ---
-  IRexp composition: IR records → NMR-paired → structure-linked → full
-  IR + ¹H + ¹³C + structure quadruples.
-\item
-  \textbf{Fig.~S3}
-  (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig2\_size.png}) ---
-  accuracy vs molecular size (heavy-atom bucket); the monotonic 60\% →
-  7\% top-1 gradient.
-\item
-  \textbf{Fig.~S4}
-  (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig6\_electrolyte.png})
-  --- top-1 and recovered accuracy on IRSpectra-Bench-Electrolyte by
-  battery-electrolyte chemical class (n=46): sp³-C--F easiest (50\%),
-  sulfonyl and nitrile hardest (12\%); overall 26\%/28\%.
-\item
-  \textbf{Fig.~S5}
-  (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig\_generator\_probe.png})
-  --- trained-generator probe (§5.6; complement, not training-free
-  protocol): generation recall and deterministic-HOSE top-1 on the
-  194-compound benchmark for Claude / + scaffold enumeration / + trained
-  generator. Enumeration's near-degenerate isomers collapse the verifier
-  (28.4 → 16.0\%) while the generator's formula-correct candidates
-  convert (28.4 → 35.1\%).
-\item
-  \textbf{Fig.~S6}
-  (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig\_verifier.png}) ---
-  learned-verifier probe (§5.4; complement, not training-free protocol).
-  (A) Conditional-on-recall top-1 (n=65, whole benchmark) for four
-  verifiers: a GNN trained on the same nmrshiftdb2 data as the HOSE
-  lookup reaches the LLM verifier's level (91\% vs 89\%) where the
-  lookup (85\%) does not move off the solver's own ranking. (B) Held-out
-  ¹³C MAE --- the learned model is ≈2× sharper (1.70 vs 3.23 ppm).
-\end{itemize}
+Supplementary figures and extended methods appear in the Electronic
+Supplementary Information (\texttt{docs/\hspace{0pt}paper\_esi.pdf}).
 
 \hypertarget{author-contributions}{%
 \section{Author contributions}\label{author-contributions}}
@@ -1498,13 +1422,19 @@ mirror. IRexp is also mirrored at
 (use \texttt{data/\hspace{0pt}train\_no\_bench.jsonl.gz} for fine-tuning
 without benchmark leakage).
 
+\needspace{16\baselineskip}
+\begingroup\small
+
+\textbf{Table 11. Headline released artefacts.} Script-level inventory
+lives in the repository README.
+
+\endgroup
+
 \begin{table*}[htbp]
 \centering\small
-\caption*{Table 11. Released artefacts, and the data and code behind each
-one.}
 \begin{tabular}{@{}
-  >{\raggedright\arraybackslash}p{(\textwidth - 2\tabcolsep) * \real{0.3229}}
-  >{\raggedright\arraybackslash}p{(\textwidth - 2\tabcolsep) * \real{0.6771}}@{}}
+  >{\raggedright\arraybackslash}p{(\textwidth - 2\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\textwidth - 2\tabcolsep) * \real{0.7500}}@{}}
 \toprule
 \begin{minipage}[b]{\linewidth}\raggedright
 component
@@ -1515,90 +1445,39 @@ data and code
 
 \bottomrule
 
-IRexp and its structure-complete split &
-\texttt{data/\hspace{0pt}irexp/},
-\texttt{data/\hspace{0pt}irexp\_\hspace{0pt}resolved/} ---
-\texttt{spectro\_scraper/} (mining pipeline) \\
-benchmark rounds and the within-compound control &
+IRexp / \texttt{irexp\_resolved} & \texttt{data/\hspace{0pt}irexp/},
+\texttt{data/\hspace{0pt}irexp\_\hspace{0pt}resolved/} \\
+benchmark + within-compound control &
 \texttt{data/\hspace{0pt}benchmark*/} ---
 \texttt{scripts/\hspace{0pt}benchmark\_\hspace{0pt}v2.py} \\
-ground-truth integrity audit &
-\texttt{data/\hspace{0pt}benchmark*/\hspace{0pt}clean\_\hspace{0pt}qids.json}
---- \texttt{scripts/\hspace{0pt}validate\_\hspace{0pt}benchmark.py} \\
-headline accuracy (Table~2) &
+headline scoring (Table~2) &
 \texttt{scripts/\hspace{0pt}score\_\hspace{0pt}main.py} \\
-battery-electrolyte subset (§4.5) &
-\texttt{data/\hspace{0pt}benchmark\_\hspace{0pt}electrolyte/} ---
-\texttt{scripts/\hspace{0pt}build\_\hspace{0pt}electrolyte\_\hspace{0pt}bench.py},
-\texttt{scripts/\hspace{0pt}score\_\hspace{0pt}electrolyte.py} \\
-formula-only contamination control (§4.6) &
-\texttt{data/\hspace{0pt}modality/} ---
-\texttt{scripts/\hspace{0pt}modality\_\hspace{0pt}ablation.py} \\
-publication-recency control (§4.6) &
-\texttt{data/\hspace{0pt}audit/\hspace{0pt}recency\_\hspace{0pt}control.json}
----
-\texttt{scripts/\hspace{0pt}contamination\_\hspace{0pt}recency.py} \\
-forward-verification, original arm (§5.2) &
-\texttt{data/\hspace{0pt}fverify/} ---
-\texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify.py} \\
-\ldots extended to all 194 compounds &
+forward-verification (+ full-bench extension) &
+\texttt{data/\hspace{0pt}fverify/},
 \texttt{data/\hspace{0pt}fverify\_main/} ---
-\texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify\_\hspace{0pt}main.py},
-\texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify\_\hspace{0pt}all.py} \\
-generate-wide arm (§5.3) & \texttt{data/\hspace{0pt}gw/},
-\texttt{data/\hspace{0pt}fverify2/} ---
-\texttt{scripts/\hspace{0pt}score\_\hspace{0pt}generate\_\hspace{0pt}wide.py},
-\texttt{scripts/\hspace{0pt}ladder\_\hspace{0pt}significance.py} \\
-\ldots its coverage gap, closed & \texttt{data/\hspace{0pt}fverify\_gw/}
----
-\texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify\_\hspace{0pt}gw.py} \\
-non-LLM verifier comparison (Table~9) &
-\texttt{data/\hspace{0pt}fverify/\hspace{0pt}hose\_\hspace{0pt}results.txt},
-\texttt{data/\hspace{0pt}fverify/\hspace{0pt}verifier\_\hspace{0pt}table\_\hspace{0pt}results.txt}
---- \texttt{scripts/\hspace{0pt}hose\_\hspace{0pt}predict.py}
-(incl.~\texttt{coverage}),
-\texttt{scripts/\hspace{0pt}verifier\_\hspace{0pt}table.py},
-\texttt{scripts/\hspace{0pt}verifier\_\hspace{0pt}leakage.py} \\
-negative control and selective prediction (§5.5) &
-\texttt{scripts/\hspace{0pt}verifier\_\hspace{0pt}diagnostics.py} \\
-what a miss is, and isomer separability (§4.1, §5.1) &
-\texttt{scripts/\hspace{0pt}analyze\_\hspace{0pt}misses.py},
-\texttt{scripts/\hspace{0pt}isomer\_\hspace{0pt}separability.py} \\
-difficulty-threshold sensitivity (§3) &
-\texttt{scripts/\hspace{0pt}difficulty\_\hspace{0pt}sensitivity.py} \\
-licence-pool split (§2.1) &
-\texttt{scripts/\hspace{0pt}split\_\hspace{0pt}license\_\hspace{0pt}pools.py} \\
-recall headroom and scaffold enumeration &
-\texttt{scripts/\hspace{0pt}analyze\_\hspace{0pt}recall\_\hspace{0pt}headroom.py},
-\texttt{scripts/\hspace{0pt}enumerate\_\hspace{0pt}isomers.py},
-\texttt{scripts/\hspace{0pt}closing\_\hspace{0pt}the\_\hspace{0pt}gap.py} \\
-blinded expert-audit package (§8) & \texttt{data/\hspace{0pt}audit/} ---
-\texttt{scripts/\hspace{0pt}make\_\hspace{0pt}audit\_\hspace{0pt}sample.py} \\
-corpus reweighting (§3) &
-\texttt{scripts/\hspace{0pt}corpus\_\hspace{0pt}reweight.py} \\
-cross-vendor recall at matched budget, and the paired gap (§4.7) &
-\texttt{data/\hspace{0pt}cross\_vendor/} ---
+\texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify.py},
+\texttt{scripts/\hspace{0pt}forward\_\hspace{0pt}verify\_\hspace{0pt}main.py} \\
+generate-wide (§5.3) & \texttt{data/\hspace{0pt}gw/},
+\texttt{data/\hspace{0pt}fverify2/},
+\texttt{data/\hspace{0pt}fverify\_gw/} ---
+\texttt{scripts/\hspace{0pt}score\_\hspace{0pt}generate\_\hspace{0pt}wide.py} \\
+cross-vendor (§4.7) & \texttt{data/\hspace{0pt}cross\_vendor/} ---
 \texttt{scripts/\hspace{0pt}cross\_\hspace{0pt}vendor\_\hspace{0pt}budget.py},
 \texttt{scripts/\hspace{0pt}cross\_\hspace{0pt}vendor\_\hspace{0pt}gap.py} \\
-ring-system names in peak assignments (§3) &
-\texttt{scripts/\hspace{0pt}prompt\_\hspace{0pt}leakage.py} \\
-paraphrase-invariant benchmark, for the control not yet run (§8) & ---
-(regenerated, not deposited) ---
-\texttt{scripts/\hspace{0pt}jitter\_\hspace{0pt}control.py} \\
-manuscript integrity gates &
-\texttt{scripts/\hspace{0pt}check\_\hspace{0pt}manuscript.py},
-\texttt{scripts/\hspace{0pt}verify\_\hspace{0pt}statistics.py},
-\texttt{scripts/\hspace{0pt}check\_\hspace{0pt}compression.py},
-\texttt{scripts/\hspace{0pt}check\_\hspace{0pt}layout.py} \\
-all figures (PNG + PDF twins) & \texttt{docs/\hspace{0pt}figures/} ---
+contamination / recency (§4.6) & \texttt{data/\hspace{0pt}modality/},
+\texttt{data/\hspace{0pt}audit/\hspace{0pt}recency\_\hspace{0pt}control.json}
+--- \texttt{scripts/\hspace{0pt}modality\_\hspace{0pt}ablation.py},
+\texttt{scripts/\hspace{0pt}contamination\_\hspace{0pt}recency.py} \\
+figures & \texttt{docs/\hspace{0pt}figures/} ---
 \texttt{scripts/\hspace{0pt}make\_\hspace{0pt}all\_\hspace{0pt}figures.sh} \\
-trained generator probe (§5.6) &
+trained generator + GNN verifier &
 \texttt{contrib/\hspace{0pt}generator\_\hspace{0pt}probe/},
-\texttt{data/\hspace{0pt}fverify\_gen/} \\
-learned GNN verifier (§5.4) &
+\texttt{data/\hspace{0pt}fverify\_gen/} ---
 \texttt{scripts/\hspace{0pt}gnn\_\hspace{0pt}predict.py},
-\texttt{data/\hspace{0pt}nmrshiftdb/\hspace{0pt}gnn\_\hspace{0pt}c13.pt},
-\texttt{data/\hspace{0pt}fverify/\hspace{0pt}gnn\_\hspace{0pt}results.txt} \\
+\texttt{data/\hspace{0pt}nmrshiftdb/\hspace{0pt}gnn\_\hspace{0pt}c13.pt} \\
+integrity gates &
+\texttt{scripts/\hspace{0pt}check\_\hspace{0pt}manuscript.py},
+\texttt{scripts/\hspace{0pt}check\_\hspace{0pt}layout.py} \\
 \end{tabular}
 \end{table*}
 
@@ -1947,12 +1826,6 @@ Liu, T. Smidt, R. S. Paton, R. Y. Liu, C. W. Coley and E. E. Kwan,
 \CSLRightInline{\href{https://doi.org/10.1021/acs.joc.2c00749}{I. M.
 Novitskiy and A. G. Kutateladze, \emph{J. Org. Chem.}, 2022,
 \textbf{87}, 8589--8598}.}
-
-\leavevmode\vadjust pre{\hypertarget{ref-praski2025embeddings}{}}%
-\CSLLeftMargin{54 }%
-\CSLRightInline{M. Praski, J. Adamczyk and W. Czech, \emph{arXiv}, 2025,
-preprint, DOI:
-\href{https://doi.org/10.48550/arXiv.2508.06199}{10.48550/arXiv.2508.06199}.}
 
 \end{CSLReferences}
 

@@ -11,6 +11,7 @@ python scripts/check_manuscript.py     # gates A–M, then the pending list belo
 python scripts/verify_statistics.py    # every hand-rolled statistic vs SciPy
 python scripts/crossref.py docs/PAPER.md   # every figure/table/section reference resolves
 python scripts/build_pdf.py            # docs/paper.pdf, docs/paper.tex, docs/paper_esi.pdf
+python scripts/make_all_figures.sh     # regenerate every figure plate (PNG + PDF)
 ```
 
 `build_pdf.py` writes a **reading copy by default** (no line numbers). Set `LINENOS=1`
@@ -26,7 +27,7 @@ the ≤250-character TOC text that `scripts/build_pdf.py` appends.
 
 ---
 
-## 1. Three values only the authors can supply
+## 1. Items only the authors can supply
 
 None of these can be guessed, and a wrong one is worse for a reader than an
 acknowledged gap — an ORCID belongs to a specific person and a DOI either resolves or

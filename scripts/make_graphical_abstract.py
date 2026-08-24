@@ -71,7 +71,7 @@ ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.ax
 ax.text(50, 97.5, "28% top-1 on blind, real IR + NMR spectra", ha="center", va="top",
         fontsize=8, fontweight="bold", color=fs.INK)
 
-ax.text(2, 87.5, "observed $^{13}$C,  C$_{10}$H$_{14}$N$_2$O", ha="left", va="top",
+ax.text(2, 87.5, "observed \u00b9\u00b3C,  C10H14N2O", ha="left", va="top",
         fontsize=MIN_PT, color=fs.NOTE)
 xa, xb, PPM = 40.0, 98.0, 175.0
 px = lambda p: xb - (p / PPM) * (xb - xa)

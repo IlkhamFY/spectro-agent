@@ -76,6 +76,25 @@ UNI = {
 # scripts, since fig_width() must never upscale.)
 TEXTWIDTH_IN = 6.3
 
+def fig_size(path):
+    """Native width and height in inches (from PNG dpi), capped at TEXTWIDTH_IN — never upscaled."""
+    from PIL import Image
+    png = path if path.lower().endswith(".png") else (path[:-4] + ".png"
+          if path.lower().endswith(".pdf") else path)
+    measure = png if os.path.exists(png) else path
+    if measure.lower().endswith(".pdf"):
+        return f"{TEXTWIDTH_IN:.2f}in", f"{TEXTWIDTH_IN * 0.55:.2f}in"
+    im = Image.open(measure)
+    dpi = (im.info.get("dpi") or (600, 600))[0] or 600
+    w_in = im.size[0] / dpi
+    h_in = im.size[1] / dpi
+    if w_in > TEXTWIDTH_IN:
+        scale = TEXTWIDTH_IN / w_in
+        w_in *= scale
+        h_in *= scale
+    return f"{w_in:.2f}in", f"{h_in:.2f}in"
+
+
 def fig_width(path):
     """Render each figure at its native design size (px / dpi), capped at the text
     width — never upscaled. Upscaling a small figure is what makes lines and type look
@@ -84,17 +103,7 @@ def fig_width(path):
     Prefer a sibling .pdf when present (vector twin from figstyle.save): LaTeX embeds
     it crisply. Width still comes from the PNG's dpi metadata when available.
     """
-    from PIL import Image
-    png = path if path.lower().endswith(".png") else (path[:-4] + ".png"
-          if path.lower().endswith(".pdf") else path)
-    measure = png if os.path.exists(png) else path
-    if measure.lower().endswith(".pdf"):
-        # Fallback: authored COL widths are 3.30 / 6.30 in; use 6.30 for unknown PDFs.
-        return f"{TEXTWIDTH_IN:.2f}in"
-    im = Image.open(measure)
-    dpi = (im.info.get("dpi") or (600, 600))[0] or 600
-    w_in = im.size[0] / dpi
-    return f"{min(w_in, TEXTWIDTH_IN):.2f}in"
+    return fig_size(path)[0]
 
 
 def prefer_vector(path):
@@ -384,7 +393,7 @@ TITLE_RE = re.compile(
 
 
 def title_block(md):
-    """Lay out the title, authors and abstract the way a journal sets them.
+    r"""Lay out the title, authors and abstract the way a journal sets them.
 
     Pandoc's default template renders the H1 as \section and the author line as an
     ordinary bold paragraph, so the first page reads as the start of a report rather
@@ -471,6 +480,7 @@ def header():
              # sets its own PDFs.
              r"\frenchspacing",
              r"\usepackage{needspace}",   # keep each table caption with its table
+             r"\emergencystretch=2em",    # minor overfull lines in justified prose
              # A code block that overruns the measure does not wrap -- it runs off the
              # page and its text is simply absent from the PDF. The ESI quotes verbatim
              # prompts, and one lost the rest of a sentence that way. pandoc emits plain
@@ -646,8 +656,8 @@ def build_esi(h_path, bib):
         # below already get theirs.
         esi_src = re.sub(r"!\[(.*?)\]\((docs/figures/[^)]+)\)(?!\{)",
                          lambda m: (lambda p: (
-                                    f"![{m.group(1)}]({p}){{width={fig_width(p)}}}"
-                                    if os.path.exists(p) else m.group(0)))(prefer_vector(m.group(2))),
+                                    (lambda wh: f"![{m.group(1)}]({p}){{width={wh[0]} height={wh[1]}}}")
+                                    (fig_size(p)) if os.path.exists(p) else m.group(0)))(prefer_vector(m.group(2))),
                          esi_src, flags=re.S)
         md += esi_src.rstrip() + "\n\n"
     n = 0
@@ -659,7 +669,8 @@ def build_esi(h_path, bib):
             # run them through it as well, and an undefined label now stops the build
             # instead of printing a stale pointer.
             cap, _ = crossref.resolve(cap, external=article, prefix="S")
-            md += f"![{cap}]({path}){{width={fig_width(path)}}}\n\n"
+            w, h = fig_size(path)
+            md += f"![{cap}]({path}){{width={w} height={h}}}\n\n"
             n += 1
     if not n:
         return None
@@ -690,7 +701,7 @@ def main():
     toc = prefer_vector("docs/figures/graphical_abstract.png")
     if os.path.exists(toc):
         md += ("\n\n\\clearpage\n\n# Table of contents entry\n\n"
-               f"![]({toc}){{width={fig_width(toc)}}}\n\n"
+               f"![]({toc}){{width={fig_size(toc)[0]} height={fig_size(toc)[1]}}}\n\n"
                # RSC caps the table-of-contents text at 250 characters. The earlier
                # wording also invited an arithmetic a reader will actually do: 34% x 89%
                # is 30%, not the 28% it opened with, because 28% is the solver alone and
@@ -705,7 +716,12 @@ def main():
     # because markdown cannot: each figure renders at native size, never upscaled.
     def _size(m):
         path = prefer_vector(m.group(2))
-        return f"![{m.group(1)}]({path}){{width={fig_width(path)}}}" if os.path.exists(path) else m.group(0)
+        if not os.path.exists(path):
+            return m.group(0)
+        w, h = fig_size(path)
+        # Explicit height stops pandoc from injecting height=\textheight, which once
+        # forced tall plates into a full-page box and blew the page (Fig. 6 + Table 7).
+        return f"![{m.group(1)}]({path}){{width={w} height={h}}}"
     # (?!\{) so an image that already carries an attribute block -- the graphical
     # abstract appended above -- is not stamped a second time and left rendering its
     # own width as literal body text.

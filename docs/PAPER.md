@@ -90,7 +90,7 @@ for only 34%, so generation binds the result ([@fig:fig-wall]). Gain is bounded 
 and, by our own measurements, cannot exceed a recall/precision ceiling without sharper
 verification or 2D-NMR data.
 
-![Diagnosis on IRSpectra-Bench (n=194): generation recall, not verification, is the bottleneck. Where the true structure is proposed, forward-verification ranks it first 89% of the time (58/65); where it is never proposed (66% of the bar), no ranker can recover it. End-to-end top-1 is the product of those two rates (≈30%), which have different denominators and are not differenced.](docs/figures/fig_wall.png){#fig:fig-wall}
+![Diagnosis on IRSpectra-Bench (n=194): generation recall, not verification, is the bottleneck. Where the true structure is never proposed, no ranker can recover it; where it is proposed, verification usually selects it. End-to-end top-1 is the product of those two rates, which have different denominators and are not differenced.](docs/figures/fig_wall.png){#fig:fig-wall}
 
 Solver and verifier ([@sfig:overview]) are LLM agents on a consumer subscription, with no
 fine-tuning and no API spend. Inference is not exactly reproducible — no pinned snapshot,
@@ -778,6 +778,7 @@ prefer `data/train_no_bench.jsonl.gz` there for fine-tuning without benchmark le
 | ring-system names in peak assignments ([@sec:benchmark-design-irspectra-bench]) | `scripts/prompt_leakage.py` |
 | paraphrase-invariant benchmark, for the control not yet run ([@sec:limitations]) | — (regenerated, not deposited) — `scripts/jitter_control.py` |
 | manuscript integrity gates | `scripts/check_manuscript.py`, `scripts/verify_statistics.py`, `scripts/check_compression.py`, `scripts/check_layout.py` |
+| all figures (PNG + PDF twins) | `docs/figures/` — `scripts/make_all_figures.sh` |
 
 **Trained complements**, both fenced from the training-free protocol. The [@sec:recall-wall-task-intrinsic]
 generator ships as a self-contained bundle at `contrib/generator_probe/` — candidates,

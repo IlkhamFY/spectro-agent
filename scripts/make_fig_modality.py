@@ -21,7 +21,12 @@ def ik(s):
     return Chem.MolToInchiKey(m)[:14] if m else None
 
 def main(d="data/modality"):
-    key = json.load(open(f"{d}/key.json"))
+    key_path = f"{d}/key.json"
+    if not os.path.exists(key_path):
+        print(f"missing {key_path} — run the ablation first (see docs/MODALITY_ABLATION.md). "
+              f"No figure written.")
+        return
+    key = json.load(open(key_path))
     truth = {m: ik(v["true_smiles"]) for m, v in key.items()}
     outs = {c: (json.load(open(f"{d}/out_{c}.json")) if os.path.exists(f"{d}/out_{c}.json") else None)
             for c, _ in CONDS}

@@ -72,8 +72,8 @@ def molimg(smi):
     arr = _draw(smi, round(font))
     return arr, INSET_W_IN * 72 / arr.shape[1]
 
-fig = plt.figure(figsize=(fs.COL2, 4.15))
-gs = fig.add_gridspec(3, 1, hspace=0.42, left=0.34, right=0.985, top=0.90, bottom=0.115)
+fig = plt.figure(figsize=(fs.COL2, 3.55))
+gs = fig.add_gridspec(3, 1, hspace=0.32, left=0.34, right=0.985, top=0.90, bottom=0.115)
 axes = [fig.add_subplot(gs[i]) for i in range(3)]
 XMAX = 172
 
@@ -83,7 +83,7 @@ for ax in axes:
 
 axes[0].vlines(OBS, 0, 1, color=fs.INK, lw=fs.STICK_LW)
 axes[0].set_title("observed spectrum", fontsize=fs.FS_BODY, color=fs.INK, loc="left")
-axes[0].text(-0.255, 0.5, "unknown\nC$_{10}$H$_{14}$N$_2$O", transform=axes[0].transAxes,
+axes[0].text(-0.255, 0.5, "unknown\nC10H14N2O", transform=axes[0].transAxes,
              ha="center", va="center", fontsize=fs.FS_BODY, color=fs.INK)
 fs.panel(axes[0], "a", x=-0.34, y=1.06)
 
@@ -107,7 +107,7 @@ for i, ax in enumerate(axes):
     ax.spines[["left", "right", "top"]].set_visible(False)
     if i < 2:
         ax.set_xticklabels([])
-axes[2].set_xlabel("$^{13}$C chemical shift (ppm)", labelpad=2)
+axes[2].set_xlabel("\u00b9\u00b3C chemical shift (ppm)", labelpad=2)
 
 fig.legend(handles=[Line2D([0], [0], color=fs.INK, lw=fs.STICK_LW, label="observed"),
                     Line2D([0], [0], color=fs.GHOST, lw=3.2, label="observed, ghosted"),

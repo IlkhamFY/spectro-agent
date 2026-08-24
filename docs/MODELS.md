@@ -130,8 +130,12 @@ Two honest caveats on the Opus row:
   **The transcripts themselves are not committed** — the released artifacts are the parsed
   per-compound predictions. A reader cannot re-verify the audit from this repository.
 - **Inputs given to the model.** Molecular formula + IR band list + ¹H and ¹³C shift lists
-  with multiplicities/J where reported; no name, SMILES, or hint. The exact prompts are
-  released as the batch files (`data/*/batch_*.txt`, `data/*/fbatch_*.txt`).
+  with multiplicities/J where reported; no name, SMILES, or scaffold hint (10 of
+  194 carry a ring-system name inside the source paper's own peak assignments;
+  `scripts/prompt_leakage.py`). The per-compound payloads are
+  released as the batch files (`data/*/batch_*.txt`, `data/*/fbatch_*.txt`). The
+  instruction text those payloads were wrapped in was not captured for the main rounds;
+  the cross-vendor arm's prompts are complete (`sweep_prompts/`).
 
 ## 4. Scoring code path
 
@@ -225,16 +229,19 @@ Listed so no reader mistakes them for part of the LLM system under test.
 | §5.6 | trained-generator probe | ~16M-parameter ¹H/¹³C→SMILES transformer, ensemble of four, trained locally; `contrib/generator_probe/`, checkpoints on Zenodo |
 | §5.4 | learned ¹³C verifier | 4-layer message-passing GNN trained on the same nmrshiftdb2 dump; `scripts/gnn_predict.py`, `data/nmrshiftdb/gnn_c13.pt` |
 
-## Cross-vendor sweep — five vendors, run 2026-08-13 to 2026-08-17
+## Cross-vendor sweep — seven models across five vendors, run 2026-08-13 to 2026-08-17
 
-Six non-Claude models were run through `scripts/cross_vendor_sweep.py` on the `fverify60`
+Seven non-Claude models were run through `scripts/cross_vendor_sweep.py` on the `fverify60`
 arm — the same 60 compounds Table 6's first column reports. Two came from OpenRouter
-(`scripts/openrouter_run.py`); four were driven by Cursor cloud agents against the
+(`scripts/openrouter_run.py`); five were driven by Cursor cloud agents against the
 committed `sweep_prompts/`, one fresh subagent per batch, at no API cost. Raw replies are
 in `sweep_out/`.
 
-**Nothing here is reported in `docs/PAPER.md`.** §7 (iii) stands as written. The contamination
-caveat below is the reason, and it is not a formality.
+Four of the seven carry the decomposition in §4.7 of `docs/PAPER.md`. Three do not:
+Composer 2.5 and GPT-5.6 Luna fall below the formula-adherence floor, nemotron could not
+return a structure of the requested composition at all, and DeepSeek V4 Pro answered only
+18 of 60 before the run ended, so its recall is a lower bound. All seven are released; the
+paper names the exclusions and why.
 
 ### Generation
 
@@ -250,8 +257,14 @@ caveat below is the reason, and it is not a formality.
 | `nvidia/nemotron-3.5-lightning` | OpenRouter | 60/60 | 0% | 0% | 61% | **2%** |
 
 Three models exceed Claude's generation recall on the identical compounds, Grok by 21
-points. Read the formula-adherence column first: nemotron's zero is not a chemistry
-result, it is a model that could not return a structure of the requested composition.
+points at the candidate budgets each model actually used — but those budgets differ.
+Claude returns 2.20 candidates per compound here against exactly 3.00 for every
+comparison model, and a longer list can only raise recall. At one candidate, the only
+matched budget, the margin is 15 points rather than 21 (Claude 23%, Grok 38%, Gemini 38%,
+GPT-5.6 Sol 35%; `scripts/cross_vendor_budget.py`). The ordering is unchanged.
+
+Read the formula-adherence column first: nemotron's zero is not a chemistry result, it is
+a model that could not return a structure of the requested composition.
 
 ### The decomposition
 
@@ -266,9 +279,12 @@ justify it. Composer and Luna were left out at 67% and 76% adherence.
 | `gpt-5.6-sol` | 25/60 = 42% [30, 54] | 17/25 = 68% [48, 83] | 16/24 = 67% |
 
 **The inequality holds in every arm** — verification precision exceeds generation recall
-for all four vendors, which is the criterion `docs/CROSS_VENDOR.md` sets. Only Claude's
-gap is interval-disjoint; for the three new models the intervals overlap at n=60, so
-those are directional rather than established.
+for all four vendors, which is the criterion `docs/CROSS_VENDOR.md` sets. Reading the two
+marginal intervals against each other is the wrong test — recall and precision are measured
+on the same compounds, so the claim belongs to the paired difference. Bootstrapping
+compounds (`scripts/cross_vendor_gap.py`) resolves three of the four: Claude
++52.5 points [+31.2, +71.7], GPT-5.6 Sol +26.3 [+4.5, +48.6] and Gemini +23.3
+[+3.2, +44.3] exclude zero, while Grok +9.2 [−11.7, +30.0] stays directional at n=60.
 
 Two things are worth more than the headline.
 
@@ -308,6 +324,14 @@ overclaim.
 report which allowlist entry it selected. That is a gap to close before any of this is
 written up: the tier belongs beside each row, and a run at `-xhigh` is not the same
 measurement as one at `-high`.
+
+**It was not closed, and the write-up says so.** The raw replies in `sweep_out/` carry no
+tier marker, so it cannot be recovered after the fact; re-running all four arms at one
+declared tier is the only way to close it. §4.7 of the paper now records the tier as
+unrecorded and scopes the claim accordingly: the precision-exceeds-recall inequality holds
+within each arm, where both quantities come from the same run at the same tier, while the
+recall ranking between named models orders models at unknown effort. Closing this properly
+is the first thing to do in any revision.
 
 ### Contamination — controlled for, and the control passes
 

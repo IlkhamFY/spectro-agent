@@ -23,7 +23,7 @@ Checks:
   I  a claim corrected in one document is corrected in all of them
   J  the model-snapshot disclosure is intact and internally consistent
   K  reader-facing numbers written into scripts still match the paper
-  L  every section cross-reference names a section the paper actually has
+  L  cross-references are derived from position, and none is typed by hand
 """
 import gzip, json, os, re, sys
 
@@ -127,8 +127,11 @@ def check_fractions(md):
 def check_refs(md):
     bib = read("docs/references.bib")
     defined = set(re.findall(r'@\w+\{([^,]+),', bib))
+    # [@sec:…], [@fig:…], [@tab:…], [@sfig:…] are cross-references, not citations;
+    # they share the bracket-@ syntax and would otherwise read as undefined bib keys.
     used = {k.rstrip('.,;') for k in re.findall(
-        r'@([A-Za-z][\w:.-]*)', ' '.join(re.findall(r'\[([^\]]*@[^\]]*)\]', md)))}
+        r'@([A-Za-z][\w:.-]*)', ' '.join(re.findall(r'\[([^\]]*@[^\]]*)\]', md)))
+        if not k.startswith(('sec:', 'fig:', 'tab:', 'sfig:'))}
     for k in sorted(used - defined):
         fail("C", f"citation @{k} is used but not defined in references.bib")
     for k in sorted(defined - used):
@@ -224,15 +227,42 @@ def check_cross(md):
 
 
 # ---- F. CIs contain their point estimate -------------------------------------
+# An interval may be written [22, 35], [22-35] with an en-dash, or [-17.2 to +7.0] where a
+# dash would collide with the sign. All three appear in the manuscript, and a check that
+# knows only the first silently matches nothing after a notation pass -- which is exactly
+# what happened when the intervals were normalised to en-dashes.
+CI = re.compile(r'\[\s*([+\u2212-]?\d+\.?\d*)\s*(?:,|\u2013|\u2014|-|\s+to\s+)\s*'
+                r'([+\u2212-]?\d+\.?\d*)\s*\]')
+NUMBER_BEFORE = re.compile(r'(\d+\.?\d*)\s*%?\s*(?:\*\*)?\s*\|?\s*$')
+
+
+def _num(tok):
+    return float(tok.replace("\u2212", "-").replace("+", ""))
+
+
 def check_cis(md):
-    for m in re.finditer(r'(\d+\.?\d*)%\s*\[(\d+\.?\d*),\s*(\d+\.?\d*)\]', md):
-        pt, lo, hi = float(m.group(1)), float(m.group(2)), float(m.group(3))
+    """Every confidence interval must contain the estimate it is attached to.
+
+    Written to be loud when it stops working: an interval notation this does not
+    understand is reported, rather than passing silently. A gate that matches nothing
+    reports success, which is worse than a gate that fails.
+    """
+    seen = 0
+    for m in CI.finditer(md):
+        head = md[max(0, m.start() - 40):m.start()]
+        pm = NUMBER_BEFORE.search(head.rstrip())
+        if not pm:
+            continue                       # an interval with no adjacent point estimate
+        pt, lo, hi = float(pm.group(1)), _num(m.group(1)), _num(m.group(2))
+        if hi < lo:
+            lo, hi = hi, lo
+        seen += 1
         if not (lo - 0.6 <= pt <= hi + 0.6):
-            fail("F", f"point estimate {pt}% lies outside its CI [{lo}, {hi}]")
-    for m in re.finditer(r'\*\*(\d+\.?\d*)%\*\*\s*\|\s*\[(\d+\.?\d*),\s*(\d+\.?\d*)\]', md):
-        pt, lo, hi = float(m.group(1)), float(m.group(2)), float(m.group(3))
-        if not (lo - 0.6 <= pt <= hi + 0.6):
-            fail("F", f"table point estimate {pt}% outside CI [{lo}, {hi}]")
+            fail("F", f"point estimate {pt} lies outside its interval "
+                      f"[{m.group(1)}, {m.group(2)}]")
+    if seen < 20:
+        fail("F", f"only {seen} point-estimate/interval pairs were recognised — the "
+                  f"notation has drifted and this check is no longer reading the paper")
 
 
 # ---- G. ground truth vs the formula the solver was given ---------------------
@@ -412,46 +442,146 @@ def check_scripts_numbers():
 # would be worse for a reader than an acknowledged gap. The gate lists them so the
 # remaining work is a short, explicit checklist rather than a hunt.
 PENDING = [
-    (PAPER, r'ORCID:\s*\[TODO', "ORCID iDs for all three authors (RSC requires the "
-                                "corresponding author's)"),
-    (PAPER, r'10\.5281/zenodo\.X+', "Zenodo DOI for the data/code deposit — mint on submission"),
-    (PAPER, r'To be completed before submission.*funding', "funding sources and "
-                                                           "acknowledgements"),
+    (PAPER, r'ORCID:\s*\[TODO', "ORCID iD for the corresponding author (Sondhi and "
+                                "Vargas-Hern\u00e1ndez are recorded and verified)"),
+    (PAPER, r'no email found in any public source',
+     "Rudra Sondhi's email \u2014 no address appears in any public source, so he must "
+     "supply it"),
+    (PAPER, r'<!--\s*ZENODO', "Zenodo DOI for the data/code deposit — mint on submission"),
+    (PAPER, r'<!--\s*ACKNOWLEDGEMENTS', "funding sources and acknowledgements"),
 ]
 
 
 # ---- L. section cross-references ---------------------------------------------
+def check_heading_blank_lines():
+    """A heading glued to the line above it is not a heading.
+
+    pandoc's markdown requires a blank line before an ATX heading; without one the
+    "### ..." prints as literal text in the middle of a running paragraph, and the section
+    silently loses its title -- which is what happened to the battery-electrolyte case
+    study, where the slice boundaries of the compression pass butted a heading against the
+    previous sentence. It is invisible in the source and unmissable on the page.
+
+    Fenced code blocks are skipped: the ESI quotes prompts whose own text begins with "#".
+    """
+    for doc in (PAPER, "docs/ESI.md"):
+        if not os.path.exists(doc):
+            continue
+        lines = read(doc).split("\n")
+        fenced = False
+        for i, line in enumerate(lines):
+            if line.lstrip().startswith("```"):
+                fenced = not fenced
+                continue
+            if fenced or i == 0:
+                continue
+            if re.match(r"^#{1,6}\s", line) and lines[i - 1].strip():
+                fail("N", f"{doc}:{i + 1} heading has no blank line before it, so it "
+                          f"renders as literal text: {line.strip()[:60]}")
+
+
+def check_placeholders():
+    """Editorial placeholders must not reach a built page.
+
+    The Zenodo DOI and the acknowledgements are author-supplied and are *reported* by the
+    pending list rather than failed -- that is deliberate. This check is narrower: it
+    catches a placeholder that has escaped that list, in any document, so nothing prints
+    a bare TODO the pending report does not already name.
+    """
+    known = {"10.5281/zenodo.XXXXXXX", "0000-0000-0000-0000",
+             "To be completed before submission"}
+    for doc in [PAPER] + [os.path.join("docs", f) for f in sorted(os.listdir("docs"))
+                          if f.endswith(".md")]:
+        if not os.path.exists(doc):
+            continue
+        body = read(doc)
+        for m in re.finditer(r"\[TODO[^\]]*\]|XXXXXXX|FIXME|PLACEHOLDER", body):
+            frag = m.group(0)
+            if any(k in frag or frag in k for k in known):
+                continue
+            # A placeholder quoted in backticks is prose *about* a placeholder -- the
+            # submission checklist names them on purpose -- not one waiting to be printed.
+            if body[max(0, m.start() - 1)] == "`" or body[m.end():m.end() + 1] == "`":
+                continue
+            ctx = " ".join(read(doc)[max(0, m.start() - 60):m.start() + 60].split())
+            fail("N", f"{doc}: unlisted placeholder {frag!r} — …{ctx}…")
+
+
 def check_section_refs():
-    """Every section number a document points at must be a section that exists.
+    """Every section number a *companion* document points at must exist in the paper.
 
     The learned-verifier arm was drafted as its own subsection, numbered 5.7, and was
     later folded into 5.4. The heading moved; five pointers to it did not. PAPER.md, the
     cover letter and MODELS.md all went on directing a reader to a section that is not in
     the paper -- and because each pointer is well-formed prose, nothing else here caught
-    it. Sections are cheap to enumerate, so enumerate them.
+    it.
+
+    PAPER.md itself no longer needs this check: its numbers are derived by crossref and
+    check L enforces that nothing is typed. The companion documents still type theirs, and
+    they are the half that now rots silently, because the paper's numbering can shift
+    underneath them without a single edit to their text. So enumerate the sections the
+    *resolved* paper actually has, and hold the companions to it.
     """
-    md = read(PAPER)
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("crossref", "scripts/crossref.py")
+    cr = importlib.util.module_from_spec(spec); spec.loader.exec_module(cr)
+    resolved, _ = cr.resolve(read(PAPER))
     have = set()
-    for m in re.finditer(r'^#{2,4}\s+(\d+(?:\.\d+)?)[.\s]', md, re.M):
+    for m in re.finditer(r'^#{2,4}\s+(\d+(?:\.\d+)?)[.\s]', resolved, re.M):
         have.add(m.group(1))
         have.add(m.group(1).split(".")[0])     # "5" from "5.4"
     if not have:
-        fail("L", "no numbered section headings found in PAPER.md")
+        fail("M", "no numbered sections found in the resolved paper")
         return
-    docs = [PAPER] + [os.path.join("docs", f) for f in sorted(os.listdir("docs"))
-                      if f.endswith(".md") and f != os.path.basename(PAPER)]
+    docs = [os.path.join("docs", f) for f in sorted(os.listdir("docs"))
+            if f.endswith(".md") and f != os.path.basename(PAPER)]
+    docs += ["README.md"]
     for doc in docs:
         if not os.path.exists(doc):
             continue
         body = read(doc)
-        # Skip the historical drafts, which name the section they were proposed as.
         for m in re.finditer(r'§(\d+(?:\.\d+)?)', body):
             sec = m.group(1)
             if sec in have:
                 continue
             ctx = " ".join(body[max(0, m.start() - 90):m.start() + 40].split())
-            fail("L", f"{doc} points at §{sec}, which is not a section of the paper "
-                      f"— …{ctx}…")
+            fail("M", f"{doc} points at \u00a7{sec}, which is not a section of the paper "
+                      f"\u2014 \u2026{ctx}\u2026")
+
+
+def check_crossrefs():
+    """Numbers that point at something must be derived from where it sits.
+
+    Check L used to verify that a typed section number named a real heading. That was the
+    weaker half of the problem: 202 numbers were typed by hand, and a typed number can be
+    perfectly valid on the day it is written and wrong the moment anything moves. It had
+    already happened -- Table 9 sat physically before Tables 6 to 8 in the merged text,
+    because §4.7 was inserted after them and its table kept the number it was given.
+
+    So the gate now enforces the mechanism, not the outcome: every reference resolves,
+    every label is defined once, and no bare "Fig. N" / "Table N" / "§N" survives in the
+    source at all.
+    """
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("crossref", "scripts/crossref.py")
+    cr = importlib.util.module_from_spec(spec); spec.loader.exec_module(cr)
+    md = read(PAPER)
+    try:
+        a = cr.audit(md)
+    except KeyError as e:
+        fail("L", f"cross-reference does not resolve: {e}")
+        return
+    for r in a["undefined"]:
+        fail("L", f"reference to a label that is never defined: {r}")
+    for t in sorted(set(a["typed"])):
+        fail("L", f"hand-typed cross-reference {t!r} — use [@sec:…], [@tab:…], "
+                  f"[@fig:…] or [@sfig:…] so the number follows the object")
+    # a resolved document must number its tables in the order a reader meets them
+    import re as _re
+    out, _ = cr.resolve(md)
+    seq = [int(m.group(1)) for m in _re.finditer(r'\*\*Table (\d+)\.', out)]
+    if seq != sorted(seq):
+        fail("L", f"tables are not in reading order after resolution: {seq}")
 
 
 def check_cross_vendor_disclosure():
@@ -501,7 +631,10 @@ def main():
     check_snapshot_disclosure()
     check_scripts_numbers()
     check_propagation()
+    check_crossrefs()
     check_section_refs()
+    check_heading_blank_lines()
+    check_placeholders()
     check_cross_vendor_disclosure()
     pend = report_pending()
     if FAIL:
@@ -521,7 +654,9 @@ def main():
     print("  I every correction propagated to every file that made the claim")
     print("  J the unobtainable-snapshot disclosure is intact and consistent")
     print("  K reader-facing numbers inside scripts match the paper")
-    print("  L every § cross-reference names a section that exists")
+    print("  L cross-references derive from position; none typed by hand")
+    print("  M companion documents point only at sections the paper has")
+    print("  N every heading renders as a heading; no stray placeholders")
     if pend:
         print(f"\nAWAITING THE AUTHORS ({len(pend)} item(s)) — not defects, and not "
               f"fillable by anyone else:")

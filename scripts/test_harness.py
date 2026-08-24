@@ -101,9 +101,18 @@ def main():
 
     # ---- breakable_paths: only inside code spans -------------------------------
     ZW = bp.ZWSP
-    check("breakable_paths/inside code span",
+    check("breakable_paths/breaks after a slash, inside code spans only",
           bp.breakable_paths("see `scripts/forward_verify.py` now"),
-          f"see `scripts/{ZW}forward_{ZW}verify.py` now")
+          f"see `scripts/{ZW}forward_verify.py` now")
+    # Not after "_": that splits one identifier into what reads as two names --
+    # MODALITY_ABLATION.md printed as "MODALITY_" / "ABLATION.md" in the ESI.
+    check("breakable_paths/does not break an identifier at an underscore",
+          bp.breakable_paths("`docs/MODALITY_ABLATION.md`"),
+          f"`docs/{ZW}MODALITY_ABLATION.md`")
+    # A trailing separator must not take a break either, or the following comma is
+    # stranded at the head of the next line.
+    check("breakable_paths/no break after a trailing separator",
+          bp.breakable_paths("`data/audit/`, and"), f"`data/{ZW}audit/`, and")
     check("breakable_paths/leaves prose alone",
           bp.breakable_paths("a/b and c_d in prose"), "a/b and c_d in prose")
     check("breakable_paths/leaves plain code alone",

@@ -68,7 +68,8 @@ into a human-anchored claim.
 > **Table A.** Human audit of top-1 elucidations (n=30, 3 reviewers, blinded). Mean
 > consistency score; verdict distribution; Fleiss' κ; fraction of InChIKey-misses
 > judged "chemically reasonable given the spectra." Note that what a miss *is* has since
-> been measured mechanically — 76.6% constitutional isomers, 22.6% scaffold-preserving
+> been measured mechanically over the 137 analysable misses — 76.6% constitutional
+> isomers, 22.6% scaffold-preserving
 > (`scripts/analyze_misses.py`) — so the reviewers' task is the judgement that
 > measurement cannot supply, not the classification.
 >

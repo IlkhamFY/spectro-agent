@@ -40,12 +40,22 @@ print(f"arms: {', '.join(ARMS)}  ({len(comp)} compounds with candidates)\n")
 keys = sorted(comp)
 recall_pos = [k for k in keys if any(t for _, t, _ in comp[k])]   # true is in candidate set
 
-def precision_given_obs(obs_map):
-    """fraction of recall-positive compounds whose min-chamfer candidate is the true one."""
+def precision_given_obs(obs_map, multi_only=False):
+    """fraction of recall-positive compounds whose min-chamfer candidate is the true one.
+
+    `multi_only` drops compounds with a single scorable candidate. Those are correct
+    under *every* pairing -- there is nothing to rank, so the true structure wins whichever
+    spectrum it is scored against -- which means they enter the permuted score as
+    guaranteed hits and raise the chance floor without carrying any verification signal.
+    On this arm that is 28 of 65 compounds, and it is why the floor reads 74%: the control
+    was measuring the composition of the recall-positive set as much as the verifier. The
+    multi-candidate subset is the same set 5.2 calls the one that measures verification."""
     hit = tot = 0
     for k in recall_pos:
         scored = [(chamfer(p, obs_map[k]), t) for _, t, p in comp[k] if p]
         if not any(t for _, t in scored):   # true had no prediction -> not selectable
+            continue
+        if multi_only and len(scored) < 2:
             continue
         tot += 1
         scored.sort(key=lambda x: x[0])
@@ -83,7 +93,28 @@ print(f"   real conditional-on-recall precision : {real:.3f}  ({h}/{t})")
 print(f"   permuted (n={N})                      : {mean_perm:.3f}  "
       f"[{perm_scores[int(.025*N)]:.3f}-{perm_scores[int(.975*N)]:.3f}]")
 print(f"   empirical p: one-sided {p_one:.4f}  two-sided {p_two:.4f}")
-print(f"   => verifier signal is real: {real:.0%} vs chance {mean_perm:.0%}\n")
+print(f"   => verifier signal is real: {real:.0%} vs chance {mean_perm:.0%}")
+
+# ---- A'. the same control on the compounds that actually have a ranking to do -------
+hm, tm = precision_given_obs(obs, multi_only=True)
+real_m = hm / tm
+perm_m = []
+rngm = random.Random(0)
+for _ in range(N):
+    perm = deranged(order, rngm)
+    pmap = {keys[i]: vals[perm[i]] for i in order}
+    hh, tt = precision_given_obs(pmap, multi_only=True)
+    perm_m.append(hh / tt if tt else 0)
+perm_m.sort()
+mean_m = sum(perm_m) / N
+ge_m = sum(s >= real_m for s in perm_m)
+p1m = (ge_m + 1) / (N + 1)
+print(f"   multi-candidate only ({tm} compounds, singletons dropped):")
+print(f"     real {real_m:.3f} ({hm}/{tm})   permuted {mean_m:.3f} "
+      f"[{perm_m[int(.025*N)]:.3f}-{perm_m[int(.975*N)]:.3f}]  "
+      f"one-sided p {p1m:.4f}  two-sided {min(1.0, 2*p1m):.4f}")
+print(f"     margin over chance: {100*(real_m-mean_m):+.1f} points "
+      f"(against {100*(real-mean_perm):+.1f} with singletons included)\n")
 
 # ---- B. accuracy-at-coverage (margin defined only for >=2 candidates) ----
 rows = []

@@ -3,8 +3,8 @@ message: "If you use this dataset or code, please cite it as below."
 type: dataset
 title: "IRexp, IRSpectra-Bench, and forward-verification for LLM molecular structure elucidation"
 abstract: >-
-  Open data and code for the manuscript "Recall, not verification, is the bottleneck
-  when frontier LLMs elucidate molecular structures from real spectra": the IRexp experimental-IR
+  Open data and code for the manuscript "Candidate recall, not verification, limits LLM
+  structure elucidation from real experimental IR and NMR": the IRexp experimental-IR
   dataset, the blind IRSpectra-Bench benchmark, model predictions, and the
   training-free forward-verification method.
 authors:

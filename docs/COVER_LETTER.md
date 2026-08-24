@@ -1,7 +1,7 @@
 # Cover letter — *Digital Discovery* (RSC)
 
-**Re: Submission of "Recall, not verification, is the bottleneck when frontier LLMs
-elucidate molecular structures from real spectra"**
+**Re: Submission of "Candidate recall, not verification, limits LLM structure
+elucidation from real experimental IR and NMR"**
 
 Dear Editor,
 

@@ -594,8 +594,8 @@ def build_esi(h_path, bib):
           r"{\Large\bfseries Electronic Supplementary Information\par}" "\n"
           r"\vspace{0.7em}" "\n"
           r"{\large\bfseries\setlength{\baselineskip}{1.15\baselineskip}" "\n"
-          "Recall, not verification, is the bottleneck when frontier LLMs\\\\\n"
-          "elucidate molecular structures from real spectra\\par}\n"
+          "Candidate recall, not verification, limits LLM structure elucidation\\\\\n"
+          "from real experimental IR and NMR\\par}\n"
           r"\vspace{0.7em}" "\n"
           "Ilkham Yabbarov, Rudra Sondhi, Rodrigo A. Vargas-Hern\u00e1ndez\\par\n"
           r"\vspace{0.3em}" "\n"
@@ -681,10 +681,10 @@ def main():
                # wording also invited an arithmetic a reader will actually do: 34% x 89%
                # is 30%, not the 28% it opened with, because 28% is the solver alone and
                # 30% is the solver with forward verification. Say both.
-               "Recall, not verification, is the wall. On real, blind IR + "
-               "\u00b9H + \u00b9\u00b3C literature spectra a frontier LLM proposes the true "
-               "structure for 34% of 194 compounds and, once proposed, selects it 89% of "
-               "the time \u2014 lifting top-1 from 28% to 30%.\n\n")
+               "Candidate recall, not verification, limits LLM elucidation on real "
+               "literature IR + \u00b9H + \u00b9\u00b3C: the true structure is proposed for "
+               "34% of 194 compounds and, once proposed, selected 89% of the time \u2014 "
+               "lifting top-1 from 28% to 30%.\n\n")
     # Main-text figures are inline in PAPER.md, placed at first discussion as a journal
     # requires. Their captions live there too -- one source of truth, so a caption cannot
     # drift from the text the way the old duplicate list did. Widths are computed here

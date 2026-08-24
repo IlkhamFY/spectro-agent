@@ -174,7 +174,7 @@
 
 \begin{center}
 {\LARGE\bfseries\setlength{\baselineskip}{1.15\baselineskip}
-Candidate recall, not verification, limits LLM structure elucidation from real experimental IR and NMR\par}
+IRSpectra-Bench and IRexp: candidate recall, not verification, limits LLM elucidation from real experimental IR and NMR\par}
 \vspace{1.1em}
 {\large \textbf{Ilkham Yabbarov}\textsuperscript{a}\textsuperscript{*}, \textbf{Rudra Sondhi}\textsuperscript{a}, \textbf{Rodrigo A. Vargas-Hernández}\textsuperscript{a}\par}
 \vspace{0.5em}
@@ -187,29 +187,26 @@ Candidate recall, not verification, limits LLM structure elucidation from real e
 \begingroup\small\setlength{\leftskip}{2em}\setlength{\rightskip}{2em}
 \noindent\rule{\dimexpr\linewidth-4em\relax}{0.4pt}\vspace{-0.4em}
 
-Given the molecular formula, the infrared band list and the ¹H/¹³C shift
-lists exactly as reported in an open-access paper, a frontier large
-language model recovers the correct molecular constitution for 28\% of
-194 compounds (top-1; 95\% CI 22--35) --- far below the near-100\%
-implied by curated demonstrations, and 15\% once the benchmark's
-deliberate 50/50 difficulty balance is reweighted to the corpus it was
-drawn from. The bottleneck is proposal, not judgment: the true structure
-is generated for only 34\% of compounds, and where it is, a
-training-free forward-verification step that predicts each candidate's
-¹³C spectrum and re-ranks by agreement with experiment selects it 89\%
-of the time (58/65; 81\% on the 37 compounds where a ranker had a
-choice). The same split, recovered from published top-\emph{k} figures,
-shows that recall carries 68--83\% of the accuracy collapse when three
-independent systems move from curated or simulated data to real,
-heterogeneous spectra. Generating more candidates lifts recall from 32\%
-to 42\% and top-1 from 23\% to 30\% on 60 compounds; verification itself
-moves whole-benchmark top-1 only from 28\% to 30\%. Masking the spectra
-drops top-1 from 23\% to 5\%, and Grok 4.6, Gemini 3.7 Flash and GPT-5.6
-Sol all verify better than they generate. We release \emph{IRexp}, the
-largest openly redistributable collection of \emph{experimental}
-infrared band lists (121,233 records), \emph{IRSpectra-Bench}, a blind
-mechanically scored evaluation of 194 compounds, and all predictions and
-code.
+We release \emph{IRexp}, the largest openly redistributable collection
+of experimental infrared band lists (121,233 records; 43,060
+structure-linked; 33,201 full IR + ¹H + ¹³C + structure quadruples), and
+\emph{IRSpectra-Bench}, a blind mechanically scored benchmark of 194
+compounds drawn from it. On IRSpectra-Bench, given the molecular formula
+and peak lists exactly as reported in open-access papers, a frontier
+large language model recovers the correct constitution for 28\% (top-1;
+95\% CI 22--35), or 15\% once reweighted to the corpus composition ---
+far below the near-100\% implied by curated demonstrations. The
+bottleneck is candidate proposal, not verification: the true structure
+enters the pool for only 34\% of compounds, and where it does,
+training-free forward-verification selects it 89\% of the time (58/65;
+81\% on the 37 compounds where a ranker had a choice). Recovered from
+published top-\emph{k} figures, the same split carries 68--83\% of the
+accuracy collapse when three systems move from curated or simulated data
+to real heterogeneous spectra. Generating wider lifts recall 32\%→42\%
+and top-1 23\%→30\% on 60 compounds; verification itself moves
+whole-benchmark top-1 only 28\%→30\%. Masking the spectra drops top-1
+from 23\% to 5\%, and Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all
+verify better than they generate. All predictions and code are released.
 
 \vspace{-0.4em}\noindent\rule{\dimexpr\linewidth-4em\relax}{0.4pt}\endgroup
 
@@ -231,26 +228,27 @@ two-fragment molecules, NMR only, seven given the
 \emph{starting-material structure} as a hint, and ``recovery'' scored
 leniently over three runs and three ranked candidates. The chemist's
 question --- \emph{take an arbitrary experimental spectrum from a paper
-and recover the structure} --- remains open. It needs a large, diverse,
-real benchmark; blind, reproducible scoring; and honest accounting for
-choices that inflate or deflate the score.
+and recover the structure} --- remains open. It needs open experimental
+data at scale, a blind benchmark others can report against, and honest
+accounting of which stage of elucidation binds.
 
 We provide all three. \emph{IRexp} (§2) is, to our knowledge, the
 largest openly \emph{redistributable} collection of experimental IR
 \emph{band lists} (121,233 records; 43,060 structure-linked; 33,201 IR +
 ¹H + ¹³C + structure); view-only libraries such as SDBS hold more
 structure-linked \emph{spectra} but cannot be redistributed (§2.1).
-\emph{IRSpectra-Bench} (§3) is a blind, mechanically scored,
-complexity-stratified evaluation on real spectra --- not the first such
-benchmark (MolQuest scores 530 post-2025 compounds by exact canonical
-SMILES\textsuperscript{3}) --- but ours adds stratification, multimodal
-IR + ¹H + ¹³C input, and decomposition: measured on Claude, replicated
-across three other model families (§4.7), with a within-compound
-solver-methodology control (§4). Ground truth is literature structures
-resolved deterministically (OPSIN/RDKit) and checked mechanically
-(560/560 bands on a seed-fixed sample, §2.3; expert-chemist review
-prepared but not yet run, §8); no LLM curates labels or scores
-predictions.
+\emph{IRSpectra-Bench} (§3) is the blind, mechanically scored benchmark
+built from it --- 194 compounds, complexity-stratified, multimodal IR +
+¹H + ¹³C --- not the first such suite (MolQuest scores 530 post-2025
+compounds by exact canonical SMILES\textsuperscript{3}) but, to our
+knowledge, the first openly redistributable one on literature-reported
+peak lists with a recall/verification decomposition measured on Claude,
+replicated across three other model families (§4.7), with a
+within-compound solver-methodology control (§4). Ground truth is
+literature structures resolved deterministically (OPSIN/RDKit) and
+checked mechanically (560/560 bands on a seed-fixed sample, §2.3;
+expert-chemist review prepared but not yet run, §8); no LLM curates
+labels or scores predictions.
 
 Forward-verification elucidation (§5) turns the model's \emph{strong}
 direction (forward prediction) against its \emph{weak} one (inverse
@@ -1917,9 +1915,9 @@ preprint, DOI:
 
 \includegraphics[width=3.15in,height=\textheight]{docs/figures/graphical_abstract.png}
 
-Candidate recall, not verification, limits LLM elucidation on real
-literature IR + ¹H + ¹³C: the true structure is proposed for 34\% of 194
-compounds and, once proposed, selected 89\% of the time --- lifting
-top-1 from 28\% to 30\%.
+IRSpectra-Bench and IRexp on real literature IR + ¹H + ¹³C: candidate
+recall, not verification, limits LLM elucidation --- the true structure
+is proposed for 34\% of 194 compounds and, once proposed, selected 89\%
+of the time, lifting top-1 from 28\% to 30\%.
 
 \end{document}

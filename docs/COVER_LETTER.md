@@ -1,15 +1,17 @@
 # Cover letter — *Digital Discovery* (RSC)
 
-**Re: Submission of "Candidate recall, not verification, limits LLM structure
-elucidation from real experimental IR and NMR"**
+**Re: Submission of "IRSpectra-Bench and IRexp: candidate recall, not verification,
+limits LLM elucidation from real experimental IR and NMR"**
 
 Dear Editor,
 
 We submit the enclosed manuscript for consideration as an Article in *Digital
-Discovery*. It asks a question of immediate interest to this readership — *how well do
-frontier large language models actually recover molecular structure from real
-experimental spectra?* — and answers it with open data, a blind benchmark and a
-training-free method rather than with a curated demonstration.
+Discovery*. We release **IRexp**, the largest permissively licensed, redistributable
+collection of experimental infrared band lists (121,233 records; 43,060 structure-linked;
+33,201 full IR + ¹H + ¹³C + structure quadruples), and **IRSpectra-Bench**, a blind,
+mechanically scored benchmark of 194 compounds built from it — then ask how well frontier
+large language models recover structure from the peak lists exactly as reported in
+open-access papers.
 
 Given the molecular formula, the IR band list and the ¹H/¹³C shifts exactly as reported
 in an open-access paper, a frontier model recovers the correct constitution for 28.4% of
@@ -77,15 +79,12 @@ yabbaroi@mcmaster.ca
 
 ## Significance statement (for the field)
 
-Claims that large language models can "read" spectra and name molecules have outpaced
-the evidence, which rests on small, curated, hinted, NMR-only tests. This work supplies
-what was missing: the largest permissively licensed, redistributable collection of
-experimental-IR band lists by record count (121,233 records, 43,060 structure-linked), a
-blind and mechanically scored benchmark on real literature spectra, and an honest
-accounting of the gap between optimistic demonstrations and realistic performance. Its
-central finding — that the binding constraint is *candidate recall* (65/194), not
-verification (58/65 conditional on recall), and that a training-free forward-verification
-step exploits this for a real but bounded gain — redirects effort from bespoke
-architectures toward open data, open benchmarks, and inference-time methods that improve
-with each model generation. A battery-electrolyte case study shows the diagnosis
-transfers to a domain where structure-from-spectrum assignment is daily practice.
+Open experimental IR for machine learning has lagged NMR: view-only archives such as SDBS
+cannot be redistributed, and most elucidation benchmarks use simulated or single-instrument
+spectra. This work releases **IRexp** (121,233 literature-mined band lists) and
+**IRSpectra-Bench** (194 blind, mechanically scored compounds) as citable infrastructure,
+then uses them to show where frontier LLMs actually fail on real peak lists — not near
+100% on curated demos, but 28% top-1 (15% corpus-reweighted). The binding constraint is
+*candidate recall* (34%), not verification (89% conditional on recall): effort should
+shift toward open data, wider generation, and inference-time methods that improve with
+each model generation, not toward bespoke architectures alone.

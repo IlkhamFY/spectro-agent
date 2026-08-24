@@ -1,4 +1,4 @@
-# Candidate recall, not verification, limits LLM structure elucidation from real experimental IR and NMR
+# IRSpectra-Bench and IRexp: candidate recall, not verification, limits LLM elucidation from real experimental IR and NMR
 
 **Ilkham Yabbarov**^a^ *(corresponding author: yabbaroi@mcmaster.ca)*, **Rudra Sondhi**^a^, **Rodrigo A. Vargas-Hernández**^a^
 
@@ -28,26 +28,22 @@
 
 ## Abstract
 
-Given the molecular formula, the infrared band list and the ¹H/¹³C shift lists
-exactly as reported in an open-access paper, a frontier large language model
-recovers the correct molecular constitution for 28% of 194 compounds (top-1; 95%
-CI 22–35) — far below the near-100% implied by curated demonstrations, and 15%
-once the benchmark's deliberate 50/50 difficulty balance is reweighted to the
-corpus it was drawn from. The bottleneck is proposal, not judgment: the true
-structure is generated for only 34% of compounds, and where it is, a
-training-free forward-verification step that predicts each candidate's ¹³C
-spectrum and re-ranks by agreement with experiment selects it 89% of the time
-(58/65; 81% on the 37 compounds where a ranker had a choice). The same split,
-recovered from published top-*k* figures, shows that recall carries 68–83% of
-the accuracy collapse when three independent systems move from curated or
-simulated data to real, heterogeneous spectra. Generating more candidates lifts
-recall from 32% to 42% and top-1 from 23% to 30% on 60 compounds; verification
-itself moves whole-benchmark top-1 only from 28% to 30%. Masking the spectra
-drops top-1 from 23% to 5%, and Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all
-verify better than they generate. We release *IRexp*, the largest openly
-redistributable collection of *experimental* infrared band lists (121,233
-records), *IRSpectra-Bench*, a blind mechanically scored evaluation of 194
-compounds, and all predictions and code.
+We release *IRexp*, the largest openly redistributable collection of experimental
+infrared band lists (121,233 records; 43,060 structure-linked; 33,201 full IR + ¹H + ¹³C +
+structure quadruples), and *IRSpectra-Bench*, a blind mechanically scored benchmark of 194
+compounds drawn from it. On IRSpectra-Bench, given the molecular formula and peak lists
+exactly as reported in open-access papers, a frontier large language model recovers the
+correct constitution for 28% (top-1; 95% CI 22–35), or 15% once reweighted to the corpus
+composition — far below the near-100% implied by curated demonstrations. The bottleneck is
+candidate proposal, not verification: the true structure enters the pool for only 34% of
+compounds, and where it does, training-free forward-verification selects it 89% of the time
+(58/65; 81% on the 37 compounds where a ranker had a choice). Recovered from published
+top-*k* figures, the same split carries 68–83% of the accuracy collapse when three systems
+move from curated or simulated data to real heterogeneous spectra. Generating wider lifts
+recall 32%→42% and top-1 23%→30% on 60 compounds; verification itself moves whole-benchmark
+top-1 only 28%→30%. Masking the spectra drops top-1 from 23% to 5%, and Grok 4.6, Gemini
+3.7 Flash and GPT-5.6 Sol all verify better than they generate. All predictions and code
+are released.
 
 ---
 
@@ -66,23 +62,23 @@ That evaluation is narrow: 15 inverse problems on curated single-ring or two-fra
 molecules, NMR only, seven given the *starting-material structure* as a hint, and "recovery"
 scored leniently over three runs and three ranked candidates. The chemist's question —
 *take an arbitrary experimental spectrum from a paper and recover the structure* — remains
-open. It needs a large, diverse, real benchmark; blind, reproducible scoring; and honest
-accounting for choices that inflate or deflate the score.
+open. It needs open experimental data at scale, a blind benchmark others can report against,
+and honest accounting of which stage of elucidation binds.
 
 We provide all three. *IRexp* ([@sec:irexp-dataset]) is, to our knowledge, the largest
 openly *redistributable* collection of experimental IR *band lists* (121,233 records;
 43,060 structure-linked; 33,201 IR + ¹H + ¹³C + structure); view-only libraries such as
 SDBS hold more structure-linked *spectra* but cannot be redistributed ([@sec:motivation]).
-*IRSpectra-Bench* ([@sec:benchmark-design-irspectra-bench]) is a blind, mechanically
-scored, complexity-stratified evaluation on real spectra — not the first such benchmark
-(MolQuest scores 530 post-2025 compounds by exact canonical SMILES[@han2026molquest]) —
-but ours adds stratification, multimodal IR + ¹H + ¹³C input, and decomposition:
-measured on Claude, replicated across three other model families
-([@sec:diagnosis-hold-outside-one]), with a within-compound solver-methodology control
-([@sec:well-llms-elucidate-real]). Ground truth is literature structures resolved
-deterministically (OPSIN/RDKit) and checked mechanically (560/560 bands on a seed-fixed
-sample, [@sec:contents-licensing]; expert-chemist review prepared but not yet run,
-[@sec:limitations]); no LLM curates labels or scores predictions.
+*IRSpectra-Bench* ([@sec:benchmark-design-irspectra-bench]) is the blind, mechanically
+scored benchmark built from it — 194 compounds, complexity-stratified, multimodal IR + ¹H +
+¹³C — not the first such suite (MolQuest scores 530 post-2025 compounds by exact canonical
+SMILES[@han2026molquest]) but, to our knowledge, the first openly redistributable one on
+literature-reported peak lists with a recall/verification decomposition measured on Claude,
+replicated across three other model families ([@sec:diagnosis-hold-outside-one]), with a
+within-compound solver-methodology control ([@sec:well-llms-elucidate-real]). Ground truth is
+literature structures resolved deterministically (OPSIN/RDKit) and checked mechanically
+(560/560 bands on a seed-fixed sample, [@sec:contents-licensing]; expert-chemist review
+prepared but not yet run, [@sec:limitations]); no LLM curates labels or scores predictions.
 
 Forward-verification elucidation ([@sec:forward-verification-elucidation]) turns the
 model's *strong* direction (forward prediction) against its *weak* one (inverse

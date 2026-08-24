@@ -3,10 +3,10 @@ message: "If you use this dataset or code, please cite it as below."
 type: dataset
 title: "IRexp, IRSpectra-Bench, and forward-verification for LLM molecular structure elucidation"
 abstract: >-
-  Open data and code for the manuscript "Candidate recall, not verification, limits LLM
-  structure elucidation from real experimental IR and NMR": the IRexp experimental-IR
-  dataset, the blind IRSpectra-Bench benchmark, model predictions, and the
-  training-free forward-verification method.
+  Open data and code for IRSpectra-Bench and IRexp — the manuscript
+  "IRSpectra-Bench and IRexp: candidate recall, not verification, limits LLM
+  elucidation from real experimental IR and NMR": experimental-IR band lists,
+  the blind benchmark, model predictions, and training-free forward-verification code.
 authors:
   - family-names: Yabbarov
     given-names: Ilkham

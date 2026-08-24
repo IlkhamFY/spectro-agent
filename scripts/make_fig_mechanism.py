@@ -73,7 +73,7 @@ def molimg(smi):
     return arr, INSET_W_IN * 72 / arr.shape[1]
 
 fig = plt.figure(figsize=(fs.COL2, 3.70))
-gs = fig.add_gridspec(3, 1, hspace=0.32, left=0.34, right=0.985, top=0.90, bottom=0.115)
+gs = fig.add_gridspec(3, 1, hspace=0.32, left=0.36, right=0.985, top=0.88, bottom=0.115)
 axes = [fig.add_subplot(gs[i]) for i in range(3)]
 XMAX = 172
 
@@ -85,7 +85,7 @@ axes[0].vlines(OBS, 0, 1, color=fs.INK, lw=fs.STICK_LW)
 axes[0].set_title("observed spectrum", fontsize=fs.FS_BODY, color=fs.INK, loc="left")
 axes[0].text(-0.255, 0.5, "unknown\nC10H14N2O", transform=axes[0].transAxes,
              ha="center", va="center", fontsize=fs.FS_BODY, color=fs.INK)
-fs.panel(axes[0], "a")
+fs.panel(axes[0], "a", x=-0.08, y=1.08)
 
 for ax, lett, (pred, smi, name, dist), col, mark in [
         (axes[1], "b", TRUE,  fs.GREEN,  "selected"),
@@ -101,7 +101,7 @@ for ax, lett, (pred, smi, name, dist), col, mark in [
                   xycoords="axes fraction", frameon=True, box_alignment=(0.5, 0.5),
                   pad=0.30, bboxprops=dict(edgecolor=col, lw=1.25,
                                            boxstyle="round,pad=0.28")))
-    fs.panel(ax, lett)
+    fs.panel(ax, lett, x=-0.08, y=1.08)
 
 for i, ax in enumerate(axes):
     ax.set_xlim(XMAX, 0); ax.set_ylim(0, 1.18); ax.set_yticks([])

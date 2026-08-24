@@ -171,11 +171,11 @@ def xgrid(ax):
     ax.yaxis.grid(False)
 
 
-def panel(ax, letter, x=0.02, y=0.98, ha="left", va="top"):
-    """Heavy panel letter, *inside* the axes (top-left by default).
+def panel(ax, letter, x=-0.12, y=1.05, ha="left", va="bottom"):
+    """Heavy panel letter, outside the axes (top-left by default).
 
-    Letters placed in negative axes-fraction were clipped by savefig.bbox='standard'
-    — only a sliver of the glyph survived, which read as a faint un-bold 'a'.
+    Negative x / y>1 in axes-fraction sit just outside the plot box; clip_on=False
+    keeps them visible when finish() reserves left/top margin for letters.
     """
     fp = FontProperties(family="Liberation Sans", weight="bold", size=FS_PANEL)
     ax.text(x, y, letter, transform=ax.transAxes, fontproperties=fp,
@@ -209,7 +209,7 @@ def refline(ax, y=None, x=None, **kwargs):
     raise ValueError("refline requires y= or x=")
 
 
-def finish(fig=None, pad=0.35, w_pad=None, h_pad=None):
+def finish(fig=None, pad=0.35, w_pad=None, h_pad=None, left=0.12, top=0.955):
     """Standard outer padding before save — one tight_layout call everywhere."""
     fig = fig or plt.gcf()
     kw = dict(pad=pad)
@@ -218,6 +218,9 @@ def finish(fig=None, pad=0.35, w_pad=None, h_pad=None):
     if h_pad is not None:
         kw["h_pad"] = h_pad
     fig.tight_layout(**kw)
+    # Headroom for outside panel letters (panel() defaults: x≈−0.12, y≈1.05).
+    p = fig.subplotpars
+    fig.subplots_adjust(left=max(p.left, left), top=min(p.top, top))
 
 
 def key_row(ax, labels, y, x0=0, x1=1, transform=None, **text_kw):

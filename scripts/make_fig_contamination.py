@@ -44,7 +44,10 @@ axB.errorbar(xs, pts, yerr=[lo, hi], fmt="o", ms=fs.MARKER, color=fs.BLUE,
 fs.ygrid(axB)
 pooled = 100 * sum(b["top1"] for b in bk) / sum(b["n"] for b in bk)
 fs.refline(axB, y=pooled)
-fs.reflabel(axB, pooled, f"pooled {pooled:.0f}%", x=0.99, ha="right", dy_frac=0.035)
+ymax_ci = max(b["ci"][1] for b in bk)
+label_y = min(YMAX - 1.0, ymax_ci + 1.5)
+axB.text(0.99, label_y, f"pooled {pooled:.0f}%", transform=axB.get_yaxis_transform(),
+         ha="right", va="bottom", fontsize=fs.FS_BODY, color=fs.NOTE, clip_on=False)
 axB.set_xticks(xs)
 
 def tick(lab):
@@ -53,10 +56,11 @@ axB.set_xticklabels([f"{tick(b['label'])}\n(n={b['n']})" for b in bk])
 axB.set_xlim(-0.5, len(bk) - 0.5); axB.set_ylim(0, YMAX)
 axB.set_xlabel("source publication year", labelpad=2)
 r_txt = f"r = {rc['point_biserial_r']:+.3f}".replace("-", "\u2212")
-axB.text(0.02, 0.86, r_txt, transform=axB.transAxes,
-         ha="left", va="top", fontsize=fs.FS_BODY, color=fs.INK)
+axB.text(-0.02, 1.02, r_txt, transform=axB.transAxes,
+         ha="left", va="bottom", fontsize=fs.FS_BODY, color=fs.INK, clip_on=False,
+         bbox=dict(boxstyle="round,pad=0.25", fc="white", ec="none"))
 fs.panel(axB, "b")
 
-fs.finish(w_pad=1.6)
+fs.finish(w_pad=1.6, left=0.13)
 fs.save("docs/figures/fig_contamination.png")
 print("wrote docs/figures/fig_contamination.png")

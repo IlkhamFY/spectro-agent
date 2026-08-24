@@ -45,16 +45,6 @@ top-1 only 28%→30%. Masking the spectra drops top-1 from 23% to 5%, and Grok 4
 3.7 Flash and GPT-5.6 Sol all verify better than they generate. All predictions and code
 are released.
 
-We release *IRexp*, the largest openly redistributable collection of *experimental* infrared
-band lists (121,233 records, a third structure-linked); *IRSpectra-Bench*, a blind,
-mechanically scored benchmark of 194 compounds; and a training-free *forward-verification*
-recipe. Verification lifts top-1 from 28% to 30% across all 194 compounds, while generating
-wider moves recall from 32% to 42% and top-1 from 23% to 30% on the 60 controlled-round
-compounds ([@sec:result], [@sec:generate-wide-testing-recipe]); both top-1 steps are
-directional rather than statistically resolved. Masking the spectra drops top-1 from 23% to
-5% on those same 60 compounds ([@sec:model-reading-spectra-formula]), and Grok 4.6, Gemini
-3.7 Flash and GPT-5.6 Sol all verify better than they generate
-([@sec:diagnosis-hold-outside-one]). All data, predictions and code are released.
 ---
 
 ## Introduction {#sec:introduction}

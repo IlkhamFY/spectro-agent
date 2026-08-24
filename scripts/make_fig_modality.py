@@ -54,7 +54,7 @@ def main(d="data/modality"):
     ax.set_ylabel("accuracy (%)")
     ax.set_ylim(0, max(rec + t1) * 1.22)
     fs.legend(ax, loc="upper right")
-    plt.tight_layout(pad=0.35)
+    fs.finish()
     fs.save("docs/figures/fig_modality.png")
     print(f"wrote docs/figures/fig_modality.png  (n={len(ids)}; full top-1 {t1[0]:.0f}%)")
 

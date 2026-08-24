@@ -92,8 +92,9 @@ for ax, lett, (pred, smi, name, dist), col, mark in [
         (axes[2], "c", FALSE, fs.VERMIL, "rejected")]:
     ax.vlines(OBS, 0, 1, color=fs.GHOST, lw=3.2)
     ax.vlines(pred, 0, 1, color=col, lw=fs.STICK_LW)
-    ax.set_title(f"{name}   ·   chamfer {dist:.2f} ppm, {mark}",
-                 fontsize=fs.FS_BODY, color=col, loc="left")
+    ax.set_title(f"{name} ({mark})", fontsize=fs.FS_BODY, color=col, loc="left")
+    ax.text(1.01, 0.90, f"{dist:.2f} ppm", transform=ax.transAxes,
+            ha="left", va="top", fontsize=fs.FS_BODY, color=col, clip_on=False)
     img, zoom = molimg(smi)
     ax.add_artist(AnnotationBbox(OffsetImage(img, zoom=zoom), (-0.255, 0.5),
                   xycoords="axes fraction", frameon=True, box_alignment=(0.5, 0.5),

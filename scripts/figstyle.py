@@ -200,6 +200,57 @@ def refline(ax, y=None, x=None, **kwargs):
     raise ValueError("refline requires y= or x=")
 
 
+def finish(fig=None, pad=0.35, w_pad=None, h_pad=None):
+    """Standard outer padding before save — one tight_layout call everywhere."""
+    fig = fig or plt.gcf()
+    kw = dict(pad=pad)
+    if w_pad is not None:
+        kw["w_pad"] = w_pad
+    if h_pad is not None:
+        kw["h_pad"] = h_pad
+    fig.tight_layout(**kw)
+
+
+def key_row(ax, labels, y, x0=0, x1=1, transform=None, **text_kw):
+    """Place labels in equal columns on one baseline (Fig 1 key-row language)."""
+    n = len(labels)
+    transform = transform or ax.transAxes
+    defaults = dict(ha="center", va="center", fontsize=FS_BODY, color=NOTE)
+    defaults.update(text_kw)
+    for i, lab in enumerate(labels):
+        x = x0 + (x1 - x0) * (2 * i + 1) / (2 * n)
+        ax.text(x, y, lab, transform=transform, **defaults)
+
+
+def reflabel(ax, y, text, x=0.99, ha="right", va="bottom", color=None, dy_frac=0.012):
+    """Inline label on a horizontal reference — no leader line."""
+    y0, y1 = ax.get_ylim()
+    ax.text(x, y + dy_frac * (y1 - y0), text, transform=ax.get_yaxis_transform(),
+            ha=ha, va=va, fontsize=FS_BODY, color=color or NOTE, clip_on=False)
+
+
+def barlabels_inside(ax, bars, fmt="{:.0f}", color="white", min_h_frac=0.08):
+    """White in-bar value labels (Fig 1 segment language). Skips bars too thin."""
+    y0, y1 = ax.get_ylim()
+    thresh = y0 + min_h_frac * (y1 - y0)
+    for b in bars:
+        h = b.get_height()
+        if h < thresh:
+            continue
+        ax.text(b.get_x() + b.get_width() / 2, h / 2, fmt.format(h),
+                ha="center", va="center", fontsize=FS_BODY, fontweight="bold",
+                color=color, zorder=5)
+
+
+def twin_panel(figsize=None, width_ratios=None, w_pad=1.4):
+    """Two-panel row with shared height token and consistent inter-panel gap."""
+    kw = dict(figsize=figsize or (COL2, H2))
+    if width_ratios:
+        kw["gridspec_kw"] = {"width_ratios": width_ratios}
+    fig, axes = plt.subplots(1, 2, **kw)
+    return fig, axes[0], axes[1]
+
+
 def save(path, fig=None):
     """One save path: fixed pad, no tight crop, 600 dpi PNG + vector PDF twin.
 

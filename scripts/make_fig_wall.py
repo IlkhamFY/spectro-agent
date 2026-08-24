@@ -61,10 +61,7 @@ ax.text((bx0 + bx1) / 2, by + 0.022, "65 recalled (34%)",
         zorder=3, clip_on=False)
 
 # ---- labels: three equal columns, one baseline ------------------------------
-Y_LAB = 0.12
-for i, lab in enumerate(labels):
-    ax.text(N * (2 * i + 1) / 6, Y_LAB, lab, ha="center", va="center",
-            fontsize=fs.FS_BODY, color=fs.NOTE, zorder=3)
+fs.key_row(ax, labels, y=0.12, x0=0, x1=N, transform=ax.transData)
 
 fs.save("docs/figures/fig_wall.png")
 print("wrote docs/figures/fig_wall.png")

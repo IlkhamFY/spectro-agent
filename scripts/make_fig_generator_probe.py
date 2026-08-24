@@ -18,13 +18,10 @@ fs.barlabels(ax, b1, fmt="{:.1f}", dy=1)
 fs.barlabels(ax, b2, fmt="{:.1f}", dy=1)
 
 fs.refline(ax, y=28.4)
-ax.plot([0.022, 0.022], [28.4, 44.2], transform=ax.get_yaxis_transform(),
-        color=fs.MUTED, lw=0.5, zorder=2, clip_on=False)
-ax.text(0.030, 44.5, "Claude-only top-1", transform=ax.get_yaxis_transform(),
-        fontsize=fs.FS_BODY, color=fs.NOTE, va="bottom", ha="left")
+fs.reflabel(ax, 28.4, "Claude-only top-1", x=0.99, ha="right")
 
 ax.set_xticks(x); ax.set_xticklabels(pools)
 ax.set_ylabel("% of 194 compounds"); ax.set_ylim(0, 64); ax.set_yticks([0, 20, 40, 60])
 fs.legend(ax, loc="upper left")
-plt.tight_layout(pad=0.35); fs.save("docs/figures/fig_generator_probe.png")
+fs.finish(); fs.save("docs/figures/fig_generator_probe.png")
 print("wrote docs/figures/fig_generator_probe.png")

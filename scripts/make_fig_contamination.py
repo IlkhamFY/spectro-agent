@@ -19,13 +19,7 @@ vals = [5.0, 23.3]
 cols = [fs.MUTED, fs.BLUE]
 bars = axA.bar([0, 1], vals, width=fs.BAR_W, color=cols, zorder=3)
 fs.ygrid(axA)
-# Offsets are fractions of the shared y-range, so the value and its denominator keep
-# the same printed gap now that both panels run to YMAX.
-for b, v, k in zip(bars, vals, ["3/60", "14/60"]):
-    axA.text(b.get_x() + b.get_width()/2, v + 0.019 * YMAX, f"{v:.0f}%",
-             ha="center", va="bottom", fontsize=fs.FS_BODY, color=fs.INK)
-    axA.text(b.get_x() + b.get_width()/2, v + 0.081 * YMAX, k,
-             ha="center", va="bottom", fontsize=fs.FS_BODY, color=fs.NOTE)
+fs.barlabels_inside(axA, bars, fmt="{:.0f}%")
 axA.set_xticks([0, 1]); axA.set_xticklabels(labels)
 axA.set_ylabel("exact top-1 (%)"); axA.set_ylim(0, YMAX)
 fs.panel(axA, "a", x=-0.18)
@@ -42,10 +36,7 @@ axB.errorbar(xs, pts, yerr=[lo, hi], fmt="o", ms=fs.MARKER, color=fs.BLUE,
 fs.ygrid(axB)
 pooled = 100 * sum(b["top1"] for b in bk) / sum(b["n"] for b in bk)
 fs.refline(axB, y=pooled)
-LX = len(bk) - 1.5
-axB.plot([LX, LX], [pooled + 0.6, 39.2], color=fs.MUTED, lw=0.5, zorder=2)
-axB.text(LX, 40.0, f"pooled {pooled:.0f}%", ha="center", va="bottom",
-         fontsize=fs.FS_BODY, color=fs.NOTE)
+fs.reflabel(axB, pooled, f"pooled {pooled:.0f}%", x=0.99, ha="right")
 axB.set_xticks(xs)
 
 def tick(lab):
@@ -59,6 +50,6 @@ axB.text(0.02, 0.96, r_txt, transform=axB.transAxes,
          ha="left", va="top", fontsize=fs.FS_BODY, color=fs.INK)
 fs.panel(axB, "b", x=-0.18)
 
-plt.tight_layout(pad=0.4, w_pad=1.4)
+fs.finish(w_pad=1.4)
 fs.save("docs/figures/fig_contamination.png")
 print("wrote docs/figures/fig_contamination.png")

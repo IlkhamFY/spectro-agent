@@ -369,7 +369,7 @@ therefore not protocol-matched and, if anything, handicapped by the longer conte
 touches neither the nesting nor the Fable-vs-Haiku contrast, and a clean re-run is
 outstanding in `docs/MODELS.md`.
 
-![Four-model comparison on a fixed 24-compound subset, solved blind under one protocol: Fable 5 46% > Opus 25% > Sonnet 21% > Haiku 0% top-1. The outcomes are strictly nested — each stronger model solves a superset of the weaker one's compounds — so the benchmark is capability-sensitive, but at n=24 it is underpowered to separate adjacent models ([@sec:model-comparison-benchmark-ranks]).](docs/figures/fig5_models.png){#fig:fig5-models}
+![Four-model comparison on a fixed 24-compound subset, solved blind under one protocol. Outcomes are strictly nested — each stronger model solves a superset of the weaker one's compounds — so the benchmark is capability-sensitive, but at n=24 it is underpowered to separate adjacent models ([@sec:model-comparison-benchmark-ranks]).](docs/figures/fig5_models.png){#fig:fig5-models}
 
 **Table {#tab:four-model-comparison-fixed}. Four-model comparison on a fixed 24-compound subset.** All four models ran the identical blind protocol.
 
@@ -476,7 +476,7 @@ in shuffled, anonymised batches, blind to the observed spectrum and target ident
 Predicted and observed ¹³C peak sets are compared by symmetric chamfer distance
 ([@fig:fig-mechanism]).
 
-![Forward-verification on a benchmark regioisomer pair: picolinamide and nicotinamide are indistinguishable to the inverse task, but the true isomer's forward-predicted ¹³C spectrum matches the observed one at a chamfer of 0.42 ppm against 1.30 ppm for the alternative ([@sec:method]).](docs/figures/fig_mechanism.png){#fig:fig-mechanism}
+![Forward-verification on a benchmark regioisomer pair: picolinamide and nicotinamide are indistinguishable to the inverse task, but forward-predicted ¹³C sticks separate the true isomer from the alternative ([@sec:method]).](docs/figures/fig_mechanism.png){#fig:fig-mechanism}
 
 Regioisomers separate by a median 1.21 ppm in forward prediction, but 82% lie within the
 predictor's ≈2 ppm error — a thin margin confirmed against a derangement null at p=0.001
@@ -540,7 +540,7 @@ Wide generation lifts recall 32%→42% and top-1 23%→30% (McNemar p=0.34;
 falls 84%→72% — the training-free ceiling. Roughly a third of misses need only
 regiochemistry around a correct scaffold; two thirds need a scaffold never proposed.
 
-![Forward-verification inference ladder on the 60-compound arm: 23% / 27% / 30% top-1 ([@sec:generate-wide-testing-recipe]).](docs/figures/fig3_method.png){#fig:fig3-method}
+![Forward-verification inference ladder on the 60-compound arm ([@sec:generate-wide-testing-recipe]). Each stage adds a check on the same compounds; the hero bar is generate-wide top-1.](docs/figures/fig3_method.png){#fig:fig3-method}
 
 ### Non-LLM verifiers: a deterministic lookup and a learned model {#sec:non-llm-verifiers-deterministic}
 

@@ -41,13 +41,22 @@ ax.set_yticks(list(ys)); ax.set_yticklabels([m[0] for m in order])
 for y, m in zip(ys, order):
     ax.text(100 * m[1] / 60 + 1.2, y, f"{m[1]}/60",
             va="center", fontsize=fs.FS_SMALL, color=fs.INK)
+ax.text(0.98, 0.02, "hatched = partial formula gate", transform=ax.transAxes,
+        ha="right", va="bottom", fontsize=fs.FS_SMALL, color=fs.NOTE, clip_on=False)
 ax.set_xlabel("generation recall (%)", labelpad=2)
 ax.set_xlim(0, 100); ax.set_xticks([0, 25, 50, 75, 100])
 fs.xgrid(ax)
 fs.panel(ax, "a", x=-0.42)
 
 bx.plot([0, 100], [0, 100], color=fs.MUTED, lw=fs.REF_LW, ls=fs.REF_LS, zorder=1)
-LBL_DX = 6
+# Per-point offsets keep labels off the diagonal and each other (no shared dx).
+LBL = {
+    "Grok 4.6":         (7,  6),
+    "Gemini 3.7 Flash": (7, -10),
+    "GPT-5.6 Sol":      (7,  8),
+    "Claude Opus":      (-7, 0),
+    "DeepSeek V4 Pro":  (7, -8),
+}
 for name, r, _adh, p in MODELS:
     if p is None:
         continue
@@ -57,16 +66,18 @@ for name, r, _adh, p in MODELS:
     bx.scatter([x], [p], s=28, zorder=4, linewidth=0.95,
                facecolor="white" if partial else c, edgecolor=c,
                hatch="////" if partial else None)
-    bx.annotate(name, (x, p), textcoords="offset points", xytext=(LBL_DX, 0),
-                fontsize=fs.FS_SMALL, color=fs.INK, ha="left", va="center", zorder=5,
-                bbox=dict(fc="white", ec="none", pad=0.7))
+    dx, dy = LBL.get(name, (6, 0))
+    ha = "right" if dx < 0 else "left"
+    bx.annotate(name, (x, p), textcoords="offset points", xytext=(dx, dy),
+                fontsize=fs.FS_SMALL, color=fs.INK, ha=ha, va="center", zorder=5,
+                bbox=dict(fc="white", ec="none", pad=0.5))
 bx.set_xlabel("generation recall (%)", labelpad=2)
 bx.set_ylabel("verification precision | recall (%)", labelpad=2)
 bx.set_xlim(0, 100); bx.set_ylim(0, 100)
 bx.set_xticks([0, 25, 50, 75, 100]); bx.set_yticks([0, 25, 50, 75, 100])
 fs.panel(bx, "b", x=-0.28)
 
-plt.tight_layout(pad=0.35, w_pad=1.6)
+fs.finish(w_pad=1.6)
 
 fig.canvas.draw()
 (x0, y0), (x1, y1) = bx.transData.transform([(20, 20), (80, 80)])

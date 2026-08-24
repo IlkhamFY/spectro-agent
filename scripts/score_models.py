@@ -141,7 +141,7 @@ def main():
         ax.plot([], [], "o", ms=fs.MARKER, mfc="white", mec=fs.SKY, mew=1.1,
                 label="recovered (top-3)")
         fs.legend(ax, loc="lower right")
-        plt.tight_layout(pad=0.35); fs.save("docs/figures/fig5_models.png")
+        fs.finish(); fs.save("docs/figures/fig5_models.png")
         print("wrote docs/figures/fig5_models.png")
 if __name__ == "__main__":
     main()

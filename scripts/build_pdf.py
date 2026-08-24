@@ -25,25 +25,20 @@ SI_FIGS = [
      "forward-verification re-ranking; training-free core pipeline."),
     ("fig4_dataset.png", "IRexp composition: IR records, NMR-paired, structure-linked, "
      "and full IR+$^1$H+$^{13}$C+structure quadruples."),
-    ("fig2_size.png", "Accuracy versus molecular size; the monotonic 60\\%→7\\% "
-     "top-1 gradient with heavy-atom count."),
+    ("fig2_size.png", "Accuracy versus molecular size; top-1 falls monotonically as "
+     "heavy-atom count increases."),
     ("fig6_electrolyte.png", "IRSpectra-Bench-Electrolyte by battery-electrolyte class "
-     "(n=46): sp$^3$-C--F easiest (50\\%), sulfonyl and nitrile hardest (12\\%)."),
+     "(n=46)."),
     ("fig_generator_probe.png",
      "Trained-generator probe ([@sec:recall-wall-task-intrinsic]; a complement, not "
      "part of the training-free protocol). Candidate recall and deterministic-HOSE "
-     "top-1 on the 194-compound benchmark for Claude / + scaffold enumeration / + trained "
-     "generator: enumeration's near-degenerate isomers collapse the verifier "
-     "(28.4→16.0\\%) while the generator's formula-correct candidates convert "
-     "(28.4→35.1\\%)."),
+     "top-1 for Claude-only, + scaffold enumeration, and + trained generator on the "
+     "194-compound benchmark."),
     ("fig_verifier.png",
      "Learned-verifier probe ([@sec:non-llm-verifiers-deterministic]; a complement, not "
      "part of the training-free protocol). (**a**) Conditional-on-recall top-1 over the "
-     "whole benchmark (n=65) across four verifiers: a GNN trained on the same "
-     "nmrshiftdb2 data as the "
-     "HOSE lookup reaches the LLM verifier's level (91\\% against 89\\%) where the "
-     "lookup (85\\%) does not move off the solver's own ranking. (**b**) Held-out $^{13}$C "
-     "MAE --- the learned model is roughly 2$\\times$ sharper (1.70 vs 3.23 ppm)."),
+     "whole benchmark (n=65) across four verifiers. (**b**) Held-out $^{13}$C MAE "
+     "(lower is better)."),
 ]
 
 UNI = {

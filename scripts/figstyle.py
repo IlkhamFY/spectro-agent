@@ -1,109 +1,204 @@
 #!/usr/bin/env python3
-"""Shared figure style — SciencePlots' Nature base (garrettj403) plus a strict,
-colourblind-safe Okabe-Ito semantic palette, so every figure in the paper reads as one
-system. Import, call apply(), use the palette + helpers.
+"""Shared figure system — one typographic + colour language for every panel.
 
-SEMANTIC PALETTE — one colour means ONE thing, everywhere (Wong, Nat. Methods 2011;
-Okabe-Ito). Never assign these colours by any other logic:
-  BLUE   primary series / main metric (exact top-1; the reference model in a comparison)
-  SKY    secondary/broader series (recovered top-3; candidate-recall pool)
-  ORANGE the single highlighted "hero" element per figure (Fable; the GNN result)
-  GREEN  a CORRECT / true / selected / verified outcome
-  VERMIL a WRONG / rejected / failure-mode outcome
-  MUTED  baseline / reference / de-emphasised steps
-  NOTE   in-plot explanatory text (a darker grey than MUTED: a 7 pt annotation set
-         in MUTED is ~34% black and dissolves on paper; NOTE is ~57%)
-Rules: sans-serif (Helvetica-class), 7 pt text and nothing smaller, no top/right
-spines, ticks out, whisper-faint y-grid for bars only, direct labels over legends,
-no in-panel titles."""
+Design brief (Nature / Cell Methods grade):
+  • One typeface, one type scale, one ink weight everywhere.
+  • Okabe–Ito semantic palette (Wong, Nat. Methods 2011): a colour means ONE thing.
+  • No top/right spines; ticks out; whisper-faint reference grid on the VALUE axis only.
+  • Direct labels preferred over legends; when a legend is needed, identical styling.
+  • Fixed column widths so on-page type size never drifts between figures.
+  • One save path (standard bbox + fixed pad) so whitespace is coherent.
+
+SEMANTIC PALETTE — never reassign by convenience:
+  BLUE    primary series / main metric (exact top-1; reference model)
+  SKY     secondary / broader series (recovered top-3; candidate-recall pool)
+  ORANGE  the single highlighted "hero" element per figure
+  GREEN   CORRECT / true / selected / verified
+  VERMIL  WRONG / rejected / failure-mode
+  MUTED   baseline / de-emphasised / gated-out
+  NOTE    in-plot explanatory text (~57% black; survives print)
+  GHOST   reference overlay behind coloured marks (spectra, baselines)
+
+Import, call apply(), use palette + helpers. Prefer save() over raw plt.savefig.
+"""
+from __future__ import annotations
+
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-# Okabe-Ito, colourblind-safe (hex per Wong 2011)
-INK    = "#222222"   # text / spines (never pure black)
-MUTED  = "#9aa0a6"   # de-emphasised text, n= labels, baseline series
-NOTE   = "#5f6368"   # in-plot annotations: grey, but >=50% black so it survives print
-FAINT  = "#e6e6e6"   # barely-there gridlines
-BLUE   = "#0072B2"   # primary series / main metric
-SKY    = "#56B4E9"   # secondary / broader series
-GREEN  = "#009E73"   # correct / selected / verified
+# ---- Okabe–Ito (print-tuned: slightly deeper ink, quieter grid) ---------------
+INK    = "#1a1a1a"   # text / spines (near-black, not pure #000)
+MUTED  = "#8e9499"   # de-emphasised bars, n= labels, gated-out series
+NOTE   = "#5c636a"   # in-plot annotations (readable grey)
+FAINT  = "#e8e8e8"   # whisper gridlines only
+GHOST  = "#c5c9cd"   # reference overlays (ghosted spectra, soft rules)
+BLUE   = "#0072B2"   # primary
+SKY    = "#56B4E9"   # secondary
+GREEN  = "#009E73"   # correct / selected
 VERMIL = "#D55E00"   # wrong / rejected
-ORANGE = "#E69F00"   # the one hero highlight per figure
+ORANGE = "#E69F00"   # hero highlight
 PURPLE = "#CC79A7"   # spare 5th category
 
-# semantic aliases
 PRIMARY, SECONDARY, ACCENT, GOOD, BAD = BLUE, SKY, ORANGE, GREEN, VERMIL
 
-# ---- canonical column widths (inches) -------------------------------------
-# Every figure is authored at exactly ONE of these so, placed 1:1 in the PDF,
-# their type renders at an identical physical size. No in-between widths.
-COL1 = 3.30    # single column (~85 mm)
-COL2 = 6.30    # full width  (== \textwidth at 1-in margins)
-SINGLE  = (3.30, 2.5)
-DOUBLE  = (6.30, 3.0)
+# ---- canonical sizes (inches) ------------------------------------------------
+# Author EVERY chart at exactly one of these so type prints at one physical size.
+COL1 = 3.30          # single column (~85 mm)
+COL2 = 6.30          # full text width
+H1   = 2.55          # default single-panel height
+H2   = 2.75          # default two-panel height
+SINGLE = (COL1, H1)
+DOUBLE = (COL2, H2)
 
-# ---- type scale (points) --------------------------------------------------
-# The ONLY sizes any figure may use, so text is coherent across the whole set.
-FS_BODY  = 7    # axis labels, tick labels, most text
-# The "secondary" tier is a role, not a smaller size. Every figure is placed 1:1, so a
-# 6 pt annotation printed at 6 pt -- under the 7 pt floor for this page, below the 10 pt
-# captions and smaller than the tick labels beside it. Secondary marks are now separated
-# by COLOUR (NOTE grey) and position, never by dropping below the floor.
-FS_SMALL = 7    # secondary annotations, n= notes -- at the print floor, same as body
-FS_PANEL = 8    # bold panel letters (a, b, c)
-FS_EMPH  = 9    # a single emphasised figure where hierarchy genuinely helps
+# ---- type scale (points) — nothing below the print floor ---------------------
+FS_BODY  = 7         # axis labels, ticks, most text
+FS_SMALL = 7         # secondary annotations (role via NOTE colour, not size)
+FS_PANEL = 8         # bold panel letters (a, b, c)
+FS_EMPH  = 9         # rare emphasised figure hierarchy
+
+# ---- geometry tokens (shared bar / mark / dash language) ---------------------
+BAR_W       = 0.58   # single-series vertical bar width
+BAR_H       = 0.58   # single-series horizontal bar height
+GROUP_C     = 0.38   # centre-to-centre of a paired group
+GROUP_W     = 0.34   # width of each bar in a paired group
+ERR         = dict(lw=0.7, ecolor=INK, capthick=0.7, capsize=2.0)
+REF_LS      = (0, (3.2, 2.4))   # dashed reference lines
+REF_LW      = 0.65
+STICK_LW    = 1.45   # NMR stick spectra
+MARKER      = 4.5
+LINE_W      = 1.35
+PAD_INCHES  = 0.04   # identical outer whitespace on every saved PNG
+DPI_SAVE    = 600
+
 
 def apply():
-    # Cutting-edge journal base: SciencePlots' Nature style (thin lines, 7 pt, tight),
-    # then our Helvetica-class font + Okabe-Ito overrides on top.
-    try:
-        import scienceplots  # noqa: F401
-        plt.style.use(["science", "nature", "no-latex"])
-    except Exception:
-        pass
+    """Install the house style. Self-contained — no SciencePlots dependency."""
     mpl.rcParams.update({
-        # Force "standard" (NOT "tight") to override SciencePlots' nature style, which
-        # sets bbox=tight. A tight bbox trims each figure to its own content, so the
-        # placed width — and thus on-page type size — drifts per figure. With "standard"
-        # the saved size == figsize exactly, so authoring at COL1/COL2 gives identical
-        # on-page type everywhere.
-        "figure.dpi": 150, "savefig.dpi": 600, "savefig.bbox": "standard",
-        "figure.facecolor": "white", "savefig.facecolor": "white",
+        "figure.dpi": 150,
+        "savefig.dpi": DPI_SAVE,
+        # "standard" = fixed figsize (Nature-grade: type size stays honest across figures).
+        # Pass this ONLY via rcParams — savefig(bbox_inches="standard") raises on mpl≥3.8.
+        "savefig.bbox": "standard",
+        "savefig.pad_inches": PAD_INCHES,
+        "figure.facecolor": "white",
+        "savefig.facecolor": "white",
+        "savefig.transparent": False,
         "font.family": "sans-serif",
-        "font.sans-serif": ["Liberation Sans", "Helvetica", "Arial", "FreeSans"],
-        "mathtext.fontset": "custom", "mathtext.rm": "Liberation Sans",
-        "mathtext.it": "Liberation Sans:italic", "mathtext.bf": "Liberation Sans:bold",
-        "axes.prop_cycle": mpl.cycler(color=[BLUE, ORANGE, GREEN, SKY, VERMIL, PURPLE]),
-        "font.size": 7,
-        "axes.titlesize": 7, "axes.labelsize": 7,
-        "xtick.labelsize": 7, "ytick.labelsize": 7, "legend.fontsize": FS_BODY,
-        "axes.edgecolor": INK, "axes.linewidth": 0.5,
-        "axes.spines.top": False, "axes.spines.right": False,
-        "axes.titlelocation": "left", "axes.titlepad": 5, "axes.titleweight": "normal",
-        "axes.labelcolor": INK, "axes.titlecolor": INK, "text.color": INK,
-        "xtick.color": INK, "ytick.color": INK,
-        "xtick.direction": "out", "ytick.direction": "out",
-        "xtick.top": False, "ytick.right": False,          # SciencePlots turns these on
-        "xtick.minor.visible": False, "ytick.minor.visible": False,
-        "xtick.major.size": 2.5, "ytick.major.size": 2.5,
-        "xtick.major.width": 0.5, "ytick.major.width": 0.5,
-        "xtick.major.pad": 2.5, "ytick.major.pad": 2.5,
-        "axes.grid": False, "legend.frameon": False, "legend.handlelength": 1.1,
-        "legend.handletextpad": 0.5, "legend.labelspacing": 0.35,
-        "lines.linewidth": 1.2, "lines.markersize": 4, "patch.linewidth": 0,
+        # Liberation Sans: Helvetica metric-compatible, full Regular/Bold/Italic, and
+        # the ≤ ≥ − glyphs the tick labels need (Noto Sans is missing those codepoints).
+        "font.sans-serif": [
+            "Liberation Sans", "Noto Sans", "Helvetica", "Arial", "DejaVu Sans",
+        ],
+        "mathtext.fontset": "custom",
+        "mathtext.rm": "Liberation Sans",
+        "mathtext.it": "Liberation Sans:italic",
+        "mathtext.bf": "Liberation Sans:bold",
+        "mathtext.default": "regular",
+        "mathtext.fallback": "stix",
+        "axes.prop_cycle": mpl.cycler(
+            color=[BLUE, ORANGE, GREEN, SKY, VERMIL, PURPLE]),
+        "font.size": FS_BODY,
+        "axes.titlesize": FS_BODY,
+        "axes.labelsize": FS_BODY,
+        "xtick.labelsize": FS_BODY,
+        "ytick.labelsize": FS_BODY,
+        "legend.fontsize": FS_BODY,
+        "axes.edgecolor": INK,
+        "axes.linewidth": 0.55,
+        "axes.spines.top": False,
+        "axes.spines.right": False,
+        "axes.titlelocation": "left",
+        "axes.titlepad": 4.5,
+        "axes.titleweight": "normal",
+        "axes.labelcolor": INK,
+        "axes.titlecolor": INK,
+        "axes.labelpad": 3.0,
+        "text.color": INK,
+        "xtick.color": INK,
+        "ytick.color": INK,
+        "xtick.direction": "out",
+        "ytick.direction": "out",
+        "xtick.top": False,
+        "ytick.right": False,
+        "xtick.minor.visible": False,
+        "ytick.minor.visible": False,
+        "xtick.major.size": 2.6,
+        "ytick.major.size": 2.6,
+        "xtick.major.width": 0.55,
+        "ytick.major.width": 0.55,
+        "xtick.major.pad": 2.4,
+        "ytick.major.pad": 2.4,
+        "axes.grid": False,
+        "grid.color": FAINT,
+        "grid.linewidth": 0.45,
+        "legend.frameon": False,
+        "legend.handlelength": 1.15,
+        "legend.handletextpad": 0.45,
+        "legend.labelspacing": 0.32,
+        "legend.borderaxespad": 0.35,
+        "legend.columnspacing": 1.0,
+        "lines.linewidth": LINE_W,
+        "lines.markersize": MARKER,
+        "lines.solid_capstyle": "round",
+        "patch.linewidth": 0,
+        "hatch.linewidth": 0.55,
+        "pdf.fonttype": 42,                  # editable text in Illustrator
+        "ps.fonttype": 42,
     })
 
+
 def ygrid(ax):
-    """Whisper-faint y-only reference lines behind bars (Nature: minimal)."""
+    """Whisper-faint y-only reference lines (for vertical-value charts)."""
     ax.set_axisbelow(True)
-    ax.yaxis.grid(True, color=FAINT, linewidth=0.4)
+    ax.yaxis.grid(True, color=FAINT, linewidth=0.45)
     ax.xaxis.grid(False)
 
+
+def xgrid(ax):
+    """Whisper-faint x-only reference lines (for horizontal-value charts)."""
+    ax.set_axisbelow(True)
+    ax.xaxis.grid(True, color=FAINT, linewidth=0.45)
+    ax.yaxis.grid(False)
+
+
 def panel(ax, letter, x=-0.16, y=1.04):
-    ax.text(x, y, letter, transform=ax.transAxes, fontsize=FS_PANEL, fontweight="bold",
-            va="bottom", ha="left", color=INK)
+    """Bold panel letter in the shared position language."""
+    ax.text(x, y, letter, transform=ax.transAxes, fontsize=FS_PANEL,
+            fontweight="bold", va="bottom", ha="left", color=INK,
+            clip_on=False)
+
 
 def barlabels(ax, bars, fmt="{:.0f}", dy=1.0, size=FS_BODY, color=None):
     for b in bars:
-        ax.text(b.get_x() + b.get_width()/2, b.get_height() + dy, fmt.format(b.get_height()),
+        ax.text(b.get_x() + b.get_width() / 2, b.get_height() + dy,
+                fmt.format(b.get_height()),
                 ha="center", va="bottom", fontsize=size, color=color or INK)
+
+
+def legend(ax, **kwargs):
+    """Identical legend chrome everywhere (callers only pick loc / ncol / handles)."""
+    kw = dict(frameon=False, handlelength=1.15, handletextpad=0.45,
+              labelspacing=0.32, borderaxespad=0.35, fontsize=FS_BODY)
+    kw.update(kwargs)
+    return ax.legend(**kw)
+
+
+def refline(ax, y=None, x=None, **kwargs):
+    """Muted dashed reference rule (shared dash pattern + weight)."""
+    kw = dict(color=MUTED, lw=REF_LW, ls=REF_LS, zorder=2)
+    kw.update(kwargs)
+    if y is not None:
+        return ax.axhline(y, **kw)
+    if x is not None:
+        return ax.axvline(x, **kw)
+    raise ValueError("refline requires y= or x=")
+
+
+def save(path, fig=None):
+    """One save path: fixed pad, no tight crop, 600 dpi. Prefer over plt.savefig.
+
+    Do not pass bbox_inches here — mpl≥3.8 rejects the rc alias "standard" as a
+    kwarg. apply() sets savefig.bbox='standard' so the authored figsize is preserved.
+    """
+    fig = fig or plt.gcf()
+    fig.savefig(path, dpi=DPI_SAVE, pad_inches=PAD_INCHES, facecolor="white")

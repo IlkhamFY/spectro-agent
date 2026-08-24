@@ -72,37 +72,33 @@ def molimg(smi):
     arr = _draw(smi, round(font))
     return arr, INSET_W_IN * 72 / arr.shape[1]
 
-# Taller than before (3.7 in) so the enlarged insets clear one another between panels.
 fig = plt.figure(figsize=(fs.COL2, 4.15))
 gs = fig.add_gridspec(3, 1, hspace=0.42, left=0.34, right=0.985, top=0.90, bottom=0.115)
 axes = [fig.add_subplot(gs[i]) for i in range(3)]
 XMAX = 172
 
-# faint vertical guides at each observed shift -> the stack reads as small-multiples
 for ax in axes:
     for o in OBS:
-        ax.axvline(o, color=fs.FAINT, lw=0.5, zorder=0)
+        ax.axvline(o, color=fs.FAINT, lw=0.45, zorder=0)
 
-# panel a - observed. Left column carries the formula, matching the b/c structure column.
-axes[0].vlines(OBS, 0, 1, color=fs.INK, lw=1.5)
-axes[0].set_title("observed spectrum", fontsize=7, color=fs.INK, loc="left")
+axes[0].vlines(OBS, 0, 1, color=fs.INK, lw=fs.STICK_LW)
+axes[0].set_title("observed spectrum", fontsize=fs.FS_BODY, color=fs.INK, loc="left")
 axes[0].text(-0.255, 0.5, "unknown\nC$_{10}$H$_{14}$N$_2$O", transform=axes[0].transAxes,
-             ha="center", va="center", fontsize=7, color=fs.INK)
+             ha="center", va="center", fontsize=fs.FS_BODY, color=fs.INK)
 fs.panel(axes[0], "a", x=-0.34, y=1.06)
 
-# panels b, c - predicted (coloured) over a ghost of the observed (grey)
 for ax, lett, (pred, smi, name, dist), col, mark in [
         (axes[1], "b", TRUE,  fs.GREEN,  "selected"),
         (axes[2], "c", FALSE, fs.VERMIL, "rejected")]:
-    ax.vlines(OBS, 0, 1, color=fs.FAINT, lw=3.4)          # observed reference (ghost)
-    ax.vlines(pred, 0, 1, color=col, lw=1.5)
-    # name + chamfer in the title bar (above the sticks), so no label overlaps the data
+    ax.vlines(OBS, 0, 1, color=fs.GHOST, lw=3.2)
+    ax.vlines(pred, 0, 1, color=col, lw=fs.STICK_LW)
     ax.set_title(f"{name}   ·   chamfer {dist:.2f} ppm, {mark}",
-                 fontsize=7, color=col, loc="left")
+                 fontsize=fs.FS_BODY, color=col, loc="left")
     img, zoom = molimg(smi)
     ax.add_artist(AnnotationBbox(OffsetImage(img, zoom=zoom), (-0.255, 0.5),
                   xycoords="axes fraction", frameon=True, box_alignment=(0.5, 0.5),
-                  pad=0.25, bboxprops=dict(edgecolor=col, lw=0.9, boxstyle="round,pad=0.22")))
+                  pad=0.25, bboxprops=dict(edgecolor=col, lw=0.95,
+                                           boxstyle="round,pad=0.22")))
     fs.panel(ax, lett, x=-0.34, y=1.06)
 
 for i, ax in enumerate(axes):
@@ -112,17 +108,12 @@ for i, ax in enumerate(axes):
         ax.set_xticklabels([])
 axes[2].set_xlabel("$^{13}$C chemical shift (ppm)", labelpad=2)
 
-# The observed spectrum is drawn twice, at two weights: near-black in (a), where it IS
-# the panel, and pale grey behind (b) and (c), where it is the reference the prediction
-# is read against. One pale swatch labelled "observed" therefore disagreed with panel
-# (a) -- it matched only the ghost. Both weights are keyed, and the legend is set at the
-# panel-title size rather than a size below the print floor.
-fig.legend(handles=[Line2D([0], [0], color=fs.INK, lw=1.5, label="observed"),
-                    Line2D([0], [0], color=fs.FAINT, lw=3.4, label="observed, ghosted"),
-                    Line2D([0], [0], color=fs.GREEN, lw=1.5, label="predicted, true"),
-                    Line2D([0], [0], color=fs.VERMIL, lw=1.5, label="predicted, wrong")],
+fig.legend(handles=[Line2D([0], [0], color=fs.INK, lw=fs.STICK_LW, label="observed"),
+                    Line2D([0], [0], color=fs.GHOST, lw=3.2, label="observed, ghosted"),
+                    Line2D([0], [0], color=fs.GREEN, lw=fs.STICK_LW, label="predicted, true"),
+                    Line2D([0], [0], color=fs.VERMIL, lw=fs.STICK_LW, label="predicted, wrong")],
            loc="upper left", bbox_to_anchor=(0.34, 0.995), ncol=4, fontsize=fs.FS_BODY,
            handlelength=1.2, columnspacing=1.1, handletextpad=0.4, borderaxespad=0)
 
-plt.savefig("docs/figures/fig_mechanism.png")
+fs.save("docs/figures/fig_mechanism.png")
 print("wrote docs/figures/fig_mechanism.png")

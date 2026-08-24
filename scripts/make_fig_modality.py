@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Figure for the modality ablation. Reads the harness outputs
-(data/modality/out_<cond>.json + key.json) and renders a grouped-bar chart of top-1
-and recovered accuracy by leave-one-out condition. Produces NOTHING if results are
-absent (so a placeholder figure can never ship). Run after modality_ablation.py score.
+"""Modality ablation figure — leave-one-out top-1 / recovered, house style.
 
-  python scripts/make_fig_modality.py            # render from data/modality/out_*.json
-  python scripts/make_fig_modality.py <dir>      # render from an alternate results dir
+Produces NOTHING if results are absent (so a placeholder figure can never ship).
+
+  python scripts/make_fig_modality.py            # from data/modality/out_*.json
+  python scripts/make_fig_modality.py <dir>      # alternate results dir
 """
 import json, os, sys
 import matplotlib; matplotlib.use("Agg")
@@ -13,10 +12,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from rdkit import Chem
 from rdkit import RDLogger; RDLogger.DisableLog("rdApp.*")
+import figstyle as fs
 
 CONDS = [("full", "full\n(IR+¹H+¹³C)"), ("noIR", "−IR"), ("noH", "−¹H"), ("noC", "−¹³C")]
-COL_T = ["#013a63", "#2a6f97", "#2a6f97", "#2a6f97"]   # full highlighted
-COL_R = ["#6fb1cc", "#a9d6e5", "#a9d6e5", "#a9d6e5"]
 
 def ik(s):
     m = Chem.MolFromSmiles(s) if s else None
@@ -41,19 +39,23 @@ def main(d="data/modality"):
         t1.append(np.mean([(lambda cs: bool(cs) and cs[0] == truth[m])
                            ([ik(s) for s in (outs[c].get(m) or [])[:1]]) for m in ids]) * 100)
         rec.append(np.mean([truth[m] in [ik(s) for s in (outs[c].get(m) or [])[:3]] for m in ids]) * 100)
-    x = np.arange(len(CONDS)); w = 0.38
-    fig, ax = plt.subplots(figsize=(6.0, 3.8))
-    ax.bar(x - w/2, t1, w, color=COL_T, label="top-1")
-    ax.bar(x + w/2, rec, w, color=COL_R, label="recovered (top-3)")
-    for i, (a, b) in enumerate(zip(t1, rec)):
-        ax.text(i - w/2, a + 1, f"{a:.0f}", ha="center", fontsize=8)
-        ax.text(i + w/2, b + 1, f"{b:.0f}", ha="center", fontsize=8)
-    ax.set_xticks(x); ax.set_xticklabels([l for _, l in CONDS], fontsize=9)
-    ax.set_ylabel("accuracy (%)"); ax.set_ylim(0, max(rec + t1) * 1.25)
-    ax.set_title(f"Modality ablation (leave-one-out, n={len(ids)})", fontsize=11)
-    ax.legend(frameon=False, fontsize=8.5)
-    ax.spines[["top", "right"]].set_visible(False)
-    plt.tight_layout(); plt.savefig("docs/figures/fig_modality.png", dpi=170, bbox_inches="tight")
+
+    fs.apply()
+    x = np.arange(len(CONDS)); c = fs.GROUP_C; bw = fs.GROUP_W
+    # Highlight the full condition; ablations share the secondary/primary pair.
+    col_t = [fs.BLUE if i == 0 else fs.MUTED for i in range(len(CONDS))]
+    col_r = [fs.SKY  if i == 0 else fs.GHOST for i in range(len(CONDS))]
+    fig, ax = plt.subplots(figsize=(fs.COL1, fs.H1)); fs.ygrid(ax)
+    b1 = ax.bar(x - c/2, t1, bw, color=col_t, label="exact top-1", zorder=3)
+    b2 = ax.bar(x + c/2, rec, bw, color=col_r, label="recovered (top-3)", zorder=3)
+    fs.barlabels(ax, b1, fmt="{:.0f}", dy=1.0)
+    fs.barlabels(ax, b2, fmt="{:.0f}", dy=1.0)
+    ax.set_xticks(x); ax.set_xticklabels([l for _, l in CONDS])
+    ax.set_ylabel("accuracy (%)")
+    ax.set_ylim(0, max(rec + t1) * 1.22)
+    fs.legend(ax, loc="upper right")
+    plt.tight_layout(pad=0.35)
+    fs.save("docs/figures/fig_modality.png")
     print(f"wrote docs/figures/fig_modality.png  (n={len(ids)}; full top-1 {t1[0]:.0f}%)")
 
 if __name__ == "__main__":

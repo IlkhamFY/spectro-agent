@@ -67,36 +67,31 @@ def molimg(smi):
 fig = plt.figure(figsize=(W_IN, H_IN))
 ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.axis("off")
 
-# ---- title -------------------------------------------------------------------
-# Figures of merit are the whole-benchmark ones (n=194), matching the results section:
-# the graphical abstract is the first thing an editor reads and must not quote a
-# superseded subset.
-ax.text(50, 98, "28% top-1 on blind, real IR + NMR spectra", ha="center", va="top",
+# Figures of merit are the whole-benchmark ones (n=194), matching the results section.
+ax.text(50, 97.5, "28% top-1 on blind, real IR + NMR spectra", ha="center", va="top",
         fontsize=8, fontweight="bold", color=fs.INK)
 
-# ---- observed 13C, one stick row ---------------------------------------------
-ax.text(2, 88, "observed $^{13}$C,  C$_{10}$H$_{14}$N$_2$O", ha="left", va="top",
-        fontsize=MIN_PT, color=fs.INK)
+ax.text(2, 87.5, "observed $^{13}$C,  C$_{10}$H$_{14}$N$_2$O", ha="left", va="top",
+        fontsize=MIN_PT, color=fs.NOTE)
 xa, xb, PPM = 40.0, 98.0, 175.0
 px = lambda p: xb - (p / PPM) * (xb - xa)
 for p in OBS:
-    ax.plot([px(p), px(p)], [70, 84], color=fs.INK, lw=1.0, solid_capstyle="butt")
-ax.plot([xa - 1, xb + 1], [70, 70], color=fs.MUTED, lw=0.7)
+    ax.plot([px(p), px(p)], [70, 84], color=fs.INK, lw=fs.STICK_LW,
+            solid_capstyle="butt")
+ax.plot([xa - 1, xb + 1], [70, 70], color=fs.GHOST, lw=0.75)
 
-# ---- the two candidates the inverse task cannot separate ----------------------
 for smi, xc, col, dist, verdict in [
         ("CC(C)(C)NC(=O)c1ccccn1", 26, fs.GREEN,  "0.42 ppm", "selected"),
         ("CC(C)(C)NC(=O)c1cccnc1", 74, fs.VERMIL, "1.30 ppm", "rejected")]:
     img, zoom = molimg(smi)
     ax.add_artist(AnnotationBbox(OffsetImage(img, zoom=zoom), (xc, 43),
                   frameon=True, box_alignment=(0.5, 0.5),
-                  bboxprops=dict(edgecolor=col, lw=0.9, boxstyle="round,pad=0.18")))
+                  bboxprops=dict(edgecolor=col, lw=0.95, boxstyle="round,pad=0.18")))
     ax.text(xc, 14, f"{dist}  {verdict}", ha="center", va="center",
             fontsize=MIN_PT, fontweight="bold", color=col)
 
-# ---- the claim ---------------------------------------------------------------
-ax.text(50, 0.8, "recall (34%), not verification (89%), is the wall",
+ax.text(50, 1.0, "recall (34%), not verification (89%), is the wall",
         ha="center", va="bottom", fontsize=MIN_PT, color=fs.INK)
 
-plt.savefig("docs/figures/graphical_abstract.png")
+fs.save("docs/figures/graphical_abstract.png")
 print(f"wrote docs/figures/graphical_abstract.png  ({W_IN*2.54:.0f} x {H_IN*2.54:.0f} cm)")

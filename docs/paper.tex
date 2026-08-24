@@ -1490,24 +1490,21 @@ There are no conflicts to declare.
 \hypertarget{data-availability}{%
 \section{Data availability}\label{data-availability}}
 
-Table~11 lists every released component and the script that regenerates
-it, all of them in the project repository. The archival deposit --- a
-complete frozen snapshot of dataset, benchmark, answer keys,
-predictions, scripts, figure regeneration and the expert-audit package
---- is deposited on Zenodo, and its DOI is supplied at proof stage;
-GitHub is the development mirror and the Zenodo record the citable
-version. IRexp is also mirrored for ML loaders at
-\href{https://huggingface.co/datasets/ilkhamfy/IRexp}{huggingface.co/datasets/ilkhamfy/IRexp};
-prefer \texttt{data/\hspace{0pt}train\_no\_bench.jsonl.gz} there for
-fine-tuning without benchmark leakage.
+Data, predictions, scoring scripts and figure regeneration are in the
+project repository; Table~11 lists each component. A frozen snapshot
+will be deposited on Zenodo (DOI at proof); GitHub is the development
+mirror. IRexp is also mirrored at
+\href{https://huggingface.co/datasets/ilkhamfy/IRexp}{huggingface.co/datasets/ilkhamfy/IRexp}
+(use \texttt{data/\hspace{0pt}train\_no\_bench.jsonl.gz} for fine-tuning
+without benchmark leakage).
 
 \begin{table*}[htbp]
 \centering\small
 \caption*{Table 11. Released artefacts, and the data and code behind each
 one.}
 \begin{tabular}{@{}
-  >{\raggedright\arraybackslash}p{(\textwidth - 2\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\textwidth - 2\tabcolsep) * \real{0.6667}}@{}}
+  >{\raggedright\arraybackslash}p{(\textwidth - 2\tabcolsep) * \real{0.3229}}
+  >{\raggedright\arraybackslash}p{(\textwidth - 2\tabcolsep) * \real{0.6771}}@{}}
 \toprule
 \begin{minipage}[b]{\linewidth}\raggedright
 component
@@ -1595,88 +1592,33 @@ manuscript integrity gates &
 \texttt{scripts/\hspace{0pt}check\_\hspace{0pt}layout.py} \\
 all figures (PNG + PDF twins) & \texttt{docs/\hspace{0pt}figures/} ---
 \texttt{scripts/\hspace{0pt}make\_\hspace{0pt}all\_\hspace{0pt}figures.sh} \\
+trained generator probe (§5.6) &
+\texttt{contrib/\hspace{0pt}generator\_\hspace{0pt}probe/},
+\texttt{data/\hspace{0pt}fverify\_gen/} \\
+learned GNN verifier (§5.4) &
+\texttt{scripts/\hspace{0pt}gnn\_\hspace{0pt}predict.py},
+\texttt{data/\hspace{0pt}nmrshiftdb/\hspace{0pt}gnn\_\hspace{0pt}c13.pt},
+\texttt{data/\hspace{0pt}fverify/\hspace{0pt}gnn\_\hspace{0pt}results.txt} \\
 \end{tabular}
 \end{table*}
 
 
-\textbf{Trained complements}, both fenced from the training-free
-protocol. The §5.6 generator ships as a self-contained bundle at
-\texttt{contrib/\hspace{0pt}generator\_probe/} --- candidates, the
-de-leaked split with its InChIKey-14 manifest, the verification scripts
-(\texttt{scripts/\hspace{0pt}closing\_the\_gap\_gen.py},
-\texttt{scripts/\hspace{0pt}forward\_verify\_gen.py},
-\texttt{scripts/\hspace{0pt}verify\_leakage\_exact40.py}) and the blind
-forward-prediction outputs behind its verified top-1
-(\texttt{data/\hspace{0pt}fverify\_gen/}), so its scorer runs with no
-missing predictions. The §5.4 learned verifier ships
-\texttt{scripts/\hspace{0pt}gnn\_predict.py} (extract / train / score /
-control), the trained model
-\texttt{data/\hspace{0pt}nmrshiftdb/\hspace{0pt}gnn\_c13.pt},
-per-compound results and both leakage checks
-(\texttt{data/\hspace{0pt}fverify/\hspace{0pt}gnn\_results.txt}), and
-the write-up \texttt{docs/\hspace{0pt}VERIFIER\_PROBE.md}. Model
-checkpoints are deposited on Zenodo. Both trained predictors of §5.4
-need the nmrshiftdb2 dump, which we cannot redistribute; the README
-gives the one-line fetch.
-
-Companion technical notes: \texttt{docs/\hspace{0pt}BENCHMARK.md},
-\texttt{docs/\hspace{0pt}FORWARD\_VERIFY.md},
-\texttt{docs/\hspace{0pt}MODALITY\_ABLATION.md},
-\texttt{docs/\hspace{0pt}EXPERT\_AUDIT\_PROTOCOL.md},
-\texttt{docs/\hspace{0pt}MODELS.md}.
-
-\textbf{Two cautions for re-users.} The public
-\texttt{irexp\_release/\hspace{0pt}train} split does not hold out
-IRSpectra-Bench --- it overlaps by 117/200 InChIKey-14 --- so de-leak
-with
+IRexp redistributes extracted numeric data only (band lists, shifts,
+structures, source DOIs) from PMC-OA (CC-BY-4.0) and Chemotion
+(CC-BY-SA-4.0); pools are separable by \texttt{source\_doi}
+(\texttt{scripts/\hspace{0pt}split\_license\_pools.py}). Code is MIT.
+Cite the Zenodo deposit and attribute sources via each record's
+\texttt{source\_doi}. De-leak with
 \texttt{contrib/\hspace{0pt}generator\_probe/\hspace{0pt}build\_exp\_manifest.py}
-before training anything that will be evaluated on the benchmark. And
-the held-out answer keys
+before training against the benchmark; withhold
 \texttt{data/\hspace{0pt}audit/\hspace{0pt}key.jsonl} and
-\texttt{data/\hspace{0pt}modality/\hspace{0pt}key.json} are deposited
-but flagged \emph{withhold from blinded reviewers}.
-
-\hypertarget{licensing-and-attribution}{%
-\subsection{Licensing and attribution}\label{licensing-and-attribution}}
-
-IRexp is derived from two open-access source pools and redistributed
-under terms compatible with each (see \texttt{data/\hspace{0pt}NOTICE}).
-\textbf{(a) Redistribution:} we release only \emph{extracted numeric
-data} --- IR band lists, ¹H/¹³C shift lists, and resolved structures
-(SMILES/SELFIES/InChIKey) --- plus each record's source DOI/accession,
-not source full text, figures, or PDFs. \textbf{(b) Two separable
-pools:} 119,345 records derive from the PMC Open-Access Subset
-(CC-BY-4.0) and 1,888 from the Chemotion RADAR4Chem FT-IR deposit
-(CC-BY-SA-4.0). The two are separable losslessly by \texttt{source\_doi}
---- Chemotion records carry the \texttt{10.22000} prefix --- and
-\texttt{scripts/\hspace{0pt}split\_license\_pools.py} materialises them
-as two files with each record stamped \texttt{license}, so users may
-take the CC-BY pool alone; any combined or Chemotion-derived release
-carries CC-BY-SA-4.0 to honour the ShareAlike term. Code is released
-under the MIT License. \textbf{(c) Attribution:} re-users must cite this
-dataset (Zenodo DOI above) and attribute the original publications via
-each record's \texttt{source\_doi}.
+\texttt{data/\hspace{0pt}modality/\hspace{0pt}key.json} from blinded
+reviewers.
 
 \hypertarget{acknowledgements}{%
 \section{Acknowledgements}\label{acknowledgements}}
 
-\hypertarget{use-of-ai-tools}{%
-\subsection{Use of AI tools}\label{use-of-ai-tools}}
-
-This work studies a large language model, and LLMs were also used as
-instruments and as writing aids; we state both roles explicitly.
-\textbf{As an object of study:} all reported elucidation,
-forward-prediction and verification results were produced by Claude
-models invoked under the protocol of §3 and §9 --- these are the
-measurements the paper reports, not assistance in producing it.
-\textbf{As a writing aid:} the authors used an LLM-based coding
-assistant for figure generation, analysis scripting, manuscript
-copy-editing, and for the internal review pass that produced several of
-the corrections recorded in the repository history. No text, number,
-figure or citation in this manuscript was accepted without author
-verification against the released data and code; every quantitative
-claim regenerates from the scripts in \texttt{scripts/}. The authors
-take full responsibility for the content.
+Funding and institutional support will be added at proof.
 
 \hypertarget{references}{%
 \section{References}\label{references}}

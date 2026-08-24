@@ -77,8 +77,10 @@ UNI = {
 # scripts, since fig_width() must never upscale.)
 TEXTWIDTH_IN = 6.30
 # RSC-article two-column page (A4). No journal class; no preprint chrome.
-GEO_ARTICLE = ("a4paper,top=1.65cm,bottom=1.75cm,left=1.5cm,right=1.5cm,"
-               "columnsep=0.6cm,headheight=14pt")
+# headheight=0: fancyhdr carries no running head, so do not reserve a dead band.
+# columnsep slightly above article.cls default so the gutter breathes.
+GEO_ARTICLE = ("a4paper,top=1.55cm,bottom=1.85cm,left=1.5cm,right=1.5cm,"
+               "columnsep=0.65cm,headheight=0pt,includehead=false")
 
 def fig_size(path):
     """Native width and height in inches (from PNG dpi), capped at TEXTWIDTH_IN — never upscaled."""
@@ -439,8 +441,9 @@ def title_block(md):
             f"{note}"
             r"\vspace{0.85em}" "\n"
             r"\begin{minipage}{\textwidth}" "\n"
-            r"\setlength{\parindent}{0pt}\setlength{\parskip}{0.35em}" "\n"
-            r"\small\noindent\textbf{Abstract.}\enspace " f"{abstract}" r"\par" "\n"
+            r"\setlength{\parindent}{0pt}\setlength{\parskip}{0.28em}" "\n"
+            r"\small\setlength{\baselineskip}{11.2pt}" "\n"
+            r"\noindent\textbf{Abstract.}\enspace " f"{abstract}" r"\par" "\n"
             r"\end{minipage}" "\n"
             r"\vspace{0.7em}" "\n"
             r"}]" "\n"
@@ -473,10 +476,31 @@ def header():
              r"\frenchspacing",
              r"\usepackage{needspace}",   # keep each table caption with its table
              r"\emergencystretch=2em",    # minor overfull lines in justified prose
+             # Protrusion + expansion: the single biggest polish for a justified
+             # two-column Times page (rivers, loose lines around long chem tokens).
+             r"\usepackage{microtype}",
+             # Section titles must not hyphenate mid-word ("ca- / pability").
+             r"\usepackage{titlesec}",
+             r"\titleformat{\section}{\large\bfseries\raggedright}{}{0em}{}",
+             r"\titleformat{\subsection}{\normalsize\bfseries\raggedright}{}{0em}{}",
+             r"\titleformat{\subsubsection}{\normalsize\bfseries\raggedright}{}{0em}{}",
+             r"\titlespacing*{\section}{0pt}{1.55ex plus 0.3ex}{0.75ex plus 0.15ex}",
+             r"\titlespacing*{\subsection}{0pt}{1.15ex plus 0.25ex}{0.45ex plus 0.1ex}",
+             r"\titlespacing*{\subsubsection}{0pt}{1.0ex plus 0.2ex}{0.4ex plus 0.1ex}",
+             # Compact contribution / bullet lists — not letter-spaced list gaps.
+             r"\usepackage{enumitem}",
+             r"\setlist{nosep,leftmargin=1.35em,labelsep=0.45em}",
              # RSC / Digital Discovery article measure: Times, indented paragraphs,
              # no running headers -- page number only in the footer.
              r"\setlength{\parindent}{12pt}",
              r"\setlength{\parskip}{0pt plus 1pt}",
+             r"\setlength{\footskip}{30pt}",
+             # Float rhythm: one language for single- and double-column plates.
+             r"\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}",
+             r"\setlength{\floatsep}{10pt plus 2pt minus 2pt}",
+             r"\setlength{\intextsep}{10pt plus 2pt minus 2pt}",
+             r"\setlength{\dbltextfloatsep}{14pt plus 2pt minus 2pt}",
+             r"\setlength{\dblfloatsep}{12pt plus 2pt minus 2pt}",
              r"\usepackage{fancyhdr}",
              r"\usepackage{dblfloatfix}",
              r"\pagestyle{fancy}",
@@ -500,9 +524,10 @@ def header():
              # A caption package, for one reason: figures were labelled "Fig. 1:" while
              # tables -- which are written as markdown paragraphs, not LaTeX captions --
              # read "**Table 1.**". Two conventions on facing pages. This makes the figure
-             # label match the table one.
+             # label match the table one. skip= matches the floatsep language above.
              r"\usepackage{caption}",
-             r"\captionsetup{labelsep=period,labelfont=bf,font=small}",
+             r"\captionsetup{labelsep=period,labelfont=bf,font=small,"
+             r"skip=6pt,aboveskip=6pt,belowskip=2pt}",
              r"\renewcommand{\figurename}{Fig.}",
              # Single lines stranded across a page break. TeX's defaults tolerate them;
              # a journal page should not.

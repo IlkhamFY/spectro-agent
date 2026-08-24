@@ -40,7 +40,7 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\usepackage[a4paper,top=1.65cm,bottom=1.75cm,left=1.5cm,right=1.5cm,columnsep=0.6cm,headheight=14pt]{geometry}
+\usepackage[a4paper,top=1.55cm,bottom=1.85cm,left=1.5cm,right=1.5cm,columnsep=0.65cm,headheight=0pt,includehead=false]{geometry}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -99,8 +99,24 @@
 \frenchspacing
 \usepackage{needspace}
 \emergencystretch=2em
+\usepackage{microtype}
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries\raggedright}{}{0em}{}
+\titleformat{\subsection}{\normalsize\bfseries\raggedright}{}{0em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\raggedright}{}{0em}{}
+\titlespacing*{\section}{0pt}{1.55ex plus 0.3ex}{0.75ex plus 0.15ex}
+\titlespacing*{\subsection}{0pt}{1.15ex plus 0.25ex}{0.45ex plus 0.1ex}
+\titlespacing*{\subsubsection}{0pt}{1.0ex plus 0.2ex}{0.4ex plus 0.1ex}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=1.35em,labelsep=0.45em}
 \setlength{\parindent}{12pt}
 \setlength{\parskip}{0pt plus 1pt}
+\setlength{\footskip}{30pt}
+\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}
+\setlength{\floatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{10pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{14pt plus 2pt minus 2pt}
+\setlength{\dblfloatsep}{12pt plus 2pt minus 2pt}
 \usepackage{fancyhdr}
 \usepackage{dblfloatfix}
 \pagestyle{fancy}
@@ -112,7 +128,7 @@
 \usepackage{fvextra}
 \DefineVerbatimEnvironment{verbatim}{Verbatim}{breaklines=true,breakanywhere=true,fontsize=\small,breaksymbolleft={},breakautoindent=false}
 \usepackage{caption}
-\captionsetup{labelsep=period,labelfont=bf,font=small}
+\captionsetup{labelsep=period,labelfont=bf,font=small,skip=6pt,aboveskip=6pt,belowskip=2pt}
 \renewcommand{\figurename}{Fig.}
 \tolerance=1500
 \hbadness=1500
@@ -197,8 +213,9 @@ IRSpectra-Bench and IRexp: candidate recall, not verification, limits LLM elucid
 {\small\textsuperscript{*}\textit{E-mail: }yabbaroi@mcmaster.ca\par}
 \vspace{0.85em}
 \begin{minipage}{\textwidth}
-\setlength{\parindent}{0pt}\setlength{\parskip}{0.35em}
-\small\noindent\textbf{Abstract.}\enspace We release \textit{IRexp}, the largest openly redistributable collection of experimental
+\setlength{\parindent}{0pt}\setlength{\parskip}{0.28em}
+\small\setlength{\baselineskip}{11.2pt}
+\noindent\textbf{Abstract.}\enspace We release \textit{IRexp}, the largest openly redistributable collection of experimental
 infrared band lists (121,233 records; 43,060 structure-linked; 33,201 full IR + ¹H + ¹³C +
 structure quadruples), and \textit{IRSpectra-Bench}, a blind mechanically scored benchmark of 194
 compounds drawn from it. On IRSpectra-Bench, given the molecular formula and peak lists
@@ -210,8 +227,8 @@ compounds, and where it does, training-free forward-verification selects it 89\%
 (58/65; 81\% on the 37 compounds where a ranker had a choice). Recovered from published
 top-\textit{k} figures, the same split carries 68–83\% of the accuracy collapse when three systems
 move from curated or simulated data to real heterogeneous spectra. Generating wider lifts
-recall 32\%→42\% and top-1 23\%→30\% on 60 compounds; verification itself moves whole-benchmark
-top-1 only 28\%→30\%. Masking the spectra drops top-1 from 23\% to 5\%, and Grok 4.6, Gemini
+recall 32\% → 42\% and top-1 23\% → 30\% on 60 compounds; verification itself moves whole-benchmark
+top-1 only 28\% → 30\%. Masking the spectra drops top-1 from 23\% to 5\%, and Grok 4.6, Gemini
 3.7 Flash and GPT-5.6 Sol all verify better than they generate. All predictions and code
 are released.\par
 \end{minipage}
@@ -228,7 +245,7 @@ paired corpora; \emph{Spectro}, for one, learns ¹H/¹³C/IR → SELFIES from
 molecules\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{1}}.
 General-purpose LLMs are now reported off-the-shelf: a non-peer-reviewed
 2026 industrial white paper found Claude Opus matching or beating
-commercial NMR-prediction software forward (structure→spectrum, ±0.08
+commercial NMR-prediction software forward (structure → spectrum, ±0.08
 ppm ¹H) and ``recovering all eight simpler structures on every attempt''
 in the
 inverse\textsuperscript{\protect\hyperlink{ref-kamber2026chemist}{2}}.
@@ -268,10 +285,10 @@ regiochemistry); the loop is prior art (§1.1), the decomposition ours,
 run training-free on every compound. The finding is sharp asymmetry:
 given a candidate set containing it, the model \emph{verifies} the
 correct structure 89\% of the time yet \emph{proposes} it for only 34\%,
-so generation binds the result (Fig.~1). Gain is bounded (top-1
-28\%→30\% on n=194; 23\%→30\% on the 60-compound arm where wide
-generation was also tested) and, by our own measurements, cannot exceed
-a recall/precision ceiling without sharper verification or 2D-NMR data.
+so generation binds the result (Fig.~1). Gain is bounded (top-1 28\% →
+30\% on n=194; 23\% → 30\% on the 60-compound arm where wide generation
+was also tested) and, by our own measurements, cannot exceed a
+recall/precision ceiling without sharper verification or 2D-NMR data.
 
 This paper contributes:
 
@@ -315,7 +332,7 @@ every training-free number regenerates from them. The HOSE lookup, GNN
 \hypertarget{related-work}{%
 \subsection{1.1 Related work}\label{related-work}}
 
-\textbf{Trained spectra→structure models.} The dominant line trains
+\textbf{Trained spectra → structure models.} The dominant line trains
 sequence or graph decoders on paired corpora ---
 \emph{Spectro}\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{1}},
 multitask 1D-NMR
@@ -549,11 +566,10 @@ prevents leakage.
 \textbf{The 50/50 balance is by design.} The sampler fills each
 difficulty stratum to half the round; the eligible corpus is 17.5\%
 simple / 82.5\% complex. Reweighted to that composition, top-1 falls
-28.4\%→15.2\% {[}10.6--20.4{]} and recall 33.5\%→19.8\%
-{[}14.4--25.8{]}; verification precision must be reweighted too
-(89.2\%→71.5\% {[}50.2--92.5{]}). We report the benchmark figure as
-released and the reweighted figure as the better estimate on an
-arbitrary paper.
+28.4\% → 15.2\% {[}10.6--20.4{]} and recall 33.5\% → 19.8\%
+{[}14.4--25.8{]}; verification precision must be reweighted too (89.2\%
+→ 71.5\% {[}50.2--92.5{]}). We report the benchmark figure as released
+and the reweighted figure as the better estimate on an arbitrary paper.
 
 \textbf{Scoring is mechanical.} A prediction is \emph{correct} if its
 RDKit InChIKey connectivity layer (first 14 characters) matches the
@@ -710,10 +726,10 @@ control}\label{methodology-dominates-a-within-compound-control}}
 
 The same 20 molecules were solved two ways: (a) one long context, no
 tools; (b) four agents, five compounds each, with RDKit
-formula-checking. Recovered rose 5\%→15\% and top-1 0\%→15\% (McNemar
-p=0.25 at n=20). Bounded, frequently-reset contexts with tool access may
-raise measured performance --- a directional demonstration, not a
-quantified contribution to the headline gap.
+formula-checking. Recovered rose 5\% → 15\% and top-1 0\% → 15\%
+(McNemar p=0.25 at n=20). Bounded, frequently-reset contexts with tool
+access may raise measured performance --- a directional demonstration,
+not a quantified contribution to the headline gap.
 
 \hypertarget{model-comparison-the-benchmark-orders-capability-but-separates-only-the-extremes}{%
 \subsection{4.4 Model comparison: the benchmark orders capability but
@@ -728,7 +744,7 @@ One protocol asymmetry must be disclosed: the three comparison models
 solved the 24 compounds as four six-compound contexts each, whereas the
 Opus column reuses the headline run, where those items sat in one
 six-compound and two twelve-compound contexts --- the variable that §4.3
-measures at 5\%→15\%. The Opus estimate is therefore not
+measures at 5\% → 15\%. The Opus estimate is therefore not
 protocol-matched and, if anything, handicapped by the longer contexts;
 this touches neither the nesting nor the Fable-vs-Haiku contrast, and a
 clean re-run is outstanding in \texttt{docs/\hspace{0pt}MODELS.md}.
@@ -970,7 +986,7 @@ elucidation}\label{forward-verification-elucidation}}
 \subsection{5.1 Method}\label{method}}
 
 The inverse direction is the model's hard, isomer-blind direction; the
-forward direction (structure→spectrum) is its easy, accurate
+forward direction (structure → spectrum) is its easy, accurate
 one\textsuperscript{\protect\hyperlink{ref-kamber2026chemist}{2}}. We
 close a training-free generator--verifier loop:
 
@@ -1063,7 +1079,7 @@ derangement floor (§5.5) --- +27.1 points; self-ranking 27/37 (73\%).
 The margin over self-ranking remains small and unresolved: seven
 compounds gained, four lost, McNemar exact p=0.55. We do not claim it.
 Precision is high in absolute terms while recall binds: top-1 moves only
-28\%→30\% because the true structure was never proposed for 129 of 194
+28\% → 30\% because the true structure was never proposed for 129 of 194
 compounds, which no re-ranking can repair. The verifier converts recall
 almost completely on \emph{simple} targets (50/53, 94\%) and ties
 self-ranking on \emph{complex} ones (8/12, 67\%). Elucidation factorises
@@ -1114,9 +1130,9 @@ verification precision (conditional on recall) & 84\% & 72\% \\
 \end{table*}
 
 
-Wide generation lifts recall 32\%→42\% and top-1 23\%→30\% (McNemar
+Wide generation lifts recall 32\% → 42\% and top-1 23\% → 30\% (McNemar
 p=0.34; Fig.~7). Recall plateaus at 42\% on polycyclic targets;
-verification precision falls 84\%→72\% --- the training-free ceiling.
+verification precision falls 84\% → 72\% --- the training-free ceiling.
 Roughly a third of misses need only regiochemistry around a correct
 scaffold; two thirds need a scaffold never proposed.
 
@@ -1179,15 +1195,15 @@ The HOSE lookup ties self-ranking; the GNN reaches 59/65 (91\%) vs the
 LLM's 58/65 (89\%), directionally (Table~9, Fig.~S6). Wagen's
 MagNET-in-the-loop
 study\textsuperscript{\protect\hyperlink{ref-wagen2026simtools}{51}--\protect\hyperlink{ref-novitskiy2022peculiar}{53}}
-moves connectivity 46.4\%→55.4\% on eight problems --- same order as our
-ladder, underpowered at n=8.
+moves connectivity 46.4\% → 55.4\% on eight problems --- same order as
+our ladder, underpowered at n=8.
 
 \hypertarget{negative-control}{%
 \subsection{5.5 Negative control}\label{negative-control}}
 
-Deranging observed ¹³C pairings collapses verification precision
-89.2\%→73.8\% mean (one-sided p=0.001); on multi-candidate sets alone,
-81.1\% vs a 54.0\% floor (+27.1 points). Chamfer margin does not support
+Deranging observed ¹³C pairings collapses verification precision 89.2\%
+→ 73.8\% mean (one-sided p=0.001); on multi-candidate sets alone, 81.1\%
+vs a 54.0\% floor (+27.1 points). Chamfer margin does not support
 selective prediction (flat top-1 across coverage fractions) --- a
 reported null.
 
@@ -1196,10 +1212,10 @@ reported null.
 probe}\label{is-the-recall-wall-task-intrinsic-a-trained-generator-probe}}
 
 That ceiling is a property of training-free LLM elicitation, not the
-task. Pooling a small IRexp-fine-tuned ¹H/¹³C→SMILES generator with
-Claude's candidates lifts recall 33.5\%→54.1\% and top-1 28.4\%→35.1\%
-(McNemar p=0.015; Fig.~S5). Zero-shot without IRexp fine-tuning recovers
-0/248; with it, 25\%. NMR-Solver
+task. Pooling a small IRexp-fine-tuned ¹H/¹³C → SMILES generator with
+Claude's candidates lifts recall 33.5\% → 54.1\% and top-1 28.4\% →
+35.1\% (McNemar p=0.015; Fig.~S5). Zero-shot without IRexp fine-tuning
+recovers 0/248; with it, 25\%. NMR-Solver
 (52.9\%)\textsuperscript{\protect\hyperlink{ref-jin2025nmrsolver}{27}}
 and trained IR transformers
 (63.8\%)\textsuperscript{\protect\hyperlink{ref-alberts2025benchmarks}{18}}
@@ -1298,8 +1314,8 @@ Priessner\textsuperscript{\protect\hyperlink{ref-priessner2026reasoning}{16}}
 
 
 \textbf{Three groups changed only the data} and recall carried 68\%
-(NMR-Solver simulated→real), 70\% (SpecX random→scaffold) and 83\%
-(Espejo education→industrial) of each collapse. Published gains come
+(NMR-Solver simulated → real), 70\% (SpecX random → scaffold) and 83\%
+(Espejo education → industrial) of each collapse. Published gains come
 mainly from candidate supply (NMRAgent
 ablation\textsuperscript{\protect\hyperlink{ref-fang2026nmragent}{28}},
 NMRGym formula
@@ -1324,12 +1340,12 @@ four verifiers and four vendor families (§6). Concurrent work sharpens
 it: Kliuev \emph{et al.} place the best LLM at 24\% on 105 peak
 lists\textsuperscript{\protect\hyperlink{ref-kliuev2026canai}{29}};
 Espejo Morales \emph{et al.} show environment design moves proposal
-(71.1\% on 15 molecules) while their education→industrial drop
-(80.9\%→20.6\%) is our claim measured
+(71.1\% on 15 molecules) while their education → industrial drop (80.9\%
+→ 20.6\%) is our claim measured
 independently\textsuperscript{\protect\hyperlink{ref-espejo2026agentic}{30}};
 Wagen's MagNET
 loop\textsuperscript{\protect\hyperlink{ref-wagen2026simtools}{51},\protect\hyperlink{ref-adams2026magnet}{52}}
-moves connectivity 46.4\%→55.4\% on eight problems. Those three levers
+moves connectivity 46.4\% → 55.4\% on eight problems. Those three levers
 --- proposal environment, external simulation, wider generation ---
 attack one search problem.
 
@@ -1346,7 +1362,7 @@ evaluation\textsuperscript{\protect\hyperlink{ref-praski2025embeddings}{54}}.
 
 Scoring is mechanical; solver runs were transcript-audited for zero
 ground-truth access (transcripts on request). \textbf{(i) Pretraining
-contamination} is bounded by formula-only (23\%→5\%) and flat recency
+contamination} is bounded by formula-only (23\% → 5\%) and flat recency
 controls (§4.6) but not excluded; verbatim spectral strings in prompts
 remain a retrieval confound. \textbf{(ii) Human audit} of elucidation
 outputs is prepared (\texttt{data/\hspace{0pt}audit/}) but not yet run.
@@ -1427,8 +1443,8 @@ reference.
 \item
   \textbf{Fig.~S3}
   (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig2\_size.png}) ---
-  accuracy vs molecular size (heavy-atom bucket); the monotonic 60\%→7\%
-  top-1 gradient.
+  accuracy vs molecular size (heavy-atom bucket); the monotonic 60\% →
+  7\% top-1 gradient.
 \item
   \textbf{Fig.~S4}
   (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig6\_electrolyte.png})
@@ -1442,8 +1458,8 @@ reference.
   protocol): generation recall and deterministic-HOSE top-1 on the
   194-compound benchmark for Claude / + scaffold enumeration / + trained
   generator. Enumeration's near-degenerate isomers collapse the verifier
-  (28.4→16.0\%) while the generator's formula-correct candidates convert
-  (28.4→35.1\%).
+  (28.4 → 16.0\%) while the generator's formula-correct candidates
+  convert (28.4 → 35.1\%).
 \item
   \textbf{Fig.~S6}
   (\texttt{docs/\hspace{0pt}figures/\hspace{0pt}fig\_verifier.png}) ---

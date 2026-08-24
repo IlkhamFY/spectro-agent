@@ -32,35 +32,31 @@ Given the molecular formula together with the infrared band list and ¹H/¹³C s
 exactly as reported in an open-access paper, how often does a frontier large language model
 (here, Claude) recover the correct molecular *constitution*? We find 28% (top-1, n=194;
 95% CI 22–35) — far below the near-100% implied by curated demonstrations, and 15% once the
-benchmark's deliberate 50/50 difficulty balance is reweighted to the corpus it was drawn
-from. Every rate below carries the same correction, which we give with each
+benchmark's deliberate 50/50 difficulty balance is reweighted to the corpus it came from
 ([@sec:benchmark-design-irspectra-bench]).
 
 The bottleneck lies in the model's *proposal* rather than its judgment. The true structure
 is proposed for only 34% of compounds; where it is, forward-verification — predicting each
 candidate's ¹³C spectrum and re-ranking by agreement with the observed one — selects it 89%
-of the time (58/65; 81% on the 37 where a ranker had a choice to make, and 71% under corpus
-weights against a reweighted recall of 20%). **Recall, not
-verification, is the wall.**
+of the time (58/65), 81% where a ranker had a choice, and 71% under the same corpus weights
+against a reweighted recall of 20%. **Recall, not verification, is the wall.**
 
 That split needs no new data to apply to published work: a system reporting top-1 and
 top-*k* has already bounded its own recall and its own ranking loss. Read that way, three
 groups have run this control without reporting it — hold the system, the scoring criterion
 and the candidate budget fixed, change only the data, and recall carries 68–83% of the
-resulting collapse in each ([@sec:literature-decomposition]). Ranking degrades too; it is
-simply the smaller term where spectra are real and heterogeneous, and the larger one on
-simulated spectra and single curated instrument libraries.
+resulting collapse ([@sec:literature-decomposition]). Ranking degrades too; it is simply the
+smaller term where spectra are real and heterogeneous, and the larger one on simulated
+spectra and single curated instrument libraries.
 
 We release *IRexp*, the largest openly redistributable collection of *experimental* infrared
 band lists (121,233 records, a third structure-linked); *IRSpectra-Bench*, a blind,
 mechanically scored benchmark of 194 compounds; and a training-free *forward-verification*
-recipe. Verification lifts top-1 from 28% to 30% across all 194 compounds, while generating
-wider moves recall from 32% to 42% and top-1 from 23% to 30% on the 60 controlled-round
-compounds ([@sec:result], [@sec:generate-wide-testing-recipe]); both top-1 steps are
-directional rather than statistically resolved. Masking the spectra drops top-1 from 23% to
-5% on those same 60 compounds ([@sec:model-reading-spectra-formula]), and Grok 4.6, Gemini
-3.7 Flash and GPT-5.6 Sol all verify better than they generate
-([@sec:diagnosis-hold-outside-one]). All data, predictions and code are released.
+recipe, which lifts top-1 from 28% to 30% where generating wider moves recall from 32% to
+42% — both directional rather than statistically resolved ([@sec:result],
+[@sec:generate-wide-testing-recipe]). Masking the spectra drops top-1 from 23% to 5% on the
+same compounds ([@sec:model-reading-spectra-formula]). All data, predictions and code are
+released.
 ---
 
 ## Introduction {#sec:introduction}

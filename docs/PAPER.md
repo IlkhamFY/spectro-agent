@@ -86,16 +86,9 @@ for only 34%, so generation binds the result ([@fig:fig-wall]). Gain is bounded 
 and, by our own measurements, cannot exceed a recall/precision ceiling without sharper
 verification or 2D-NMR data.
 
-This paper contributes:
-
-- **IRexp** — 121,233 experimental IR band lists, 33,201 full IR + ¹H + ¹³C + structure
-  quadruples, permissively licensed and redistributable.
-- **IRSpectra-Bench** — a blind, mechanically scored 194-compound benchmark on
-  literature-reported peak lists, complexity-stratified, with a within-compound control.
-- **A recall/verification decomposition** on every compound: the true structure is
-  proposed for 34% and, once proposed, selected 89% of the time.
-- **A four-vendor replication** (Grok, Gemini, GPT, Claude) showing the same split, plus
-  training-free and trained complements that move the ceiling rather than the protocol.
+We contribute IRexp and IRSpectra-Bench, a recall/verification decomposition on every
+compound (34% proposed; 89% selected once proposed), and a four-vendor replication of that
+split — numbers that match the abstract throughout.
 
 ![Diagnosis on IRSpectra-Bench (n=194): generation recall, not verification, is the bottleneck. Where the true structure is never proposed, no ranker can recover it; where it is proposed, verification usually selects it. End-to-end top-1 is the product of those two rates, which have different denominators and are not differenced.](docs/figures/fig_wall.png){#fig:fig-wall}
 
@@ -623,21 +616,16 @@ Frontier LLMs are good verifiers (89% conditional precision) and weak proposers 
 recall) on real literature spectra. The contribution is a diagnosis with a bounded,
 training-free improvement, not a solved elucidator.
 
-The split held across four Claude models, a battery-electrolyte subset, four verifiers and
-four vendor families ([@sec:literature-decomposition]). Concurrent work sharpens it: Kliuev
-*et al.* place the best LLM at 24% on 105 peak lists[@kliuev2026canai]; Espejo Morales *et
-al.* show environment design moves proposal (71.1% on 15 molecules) while their
-education → industrial drop (80.9% → 20.6%) is our claim measured independently
-[@espejo2026agentic]; Wagen's MagNET loop[@wagen2026simtools; @adams2026magnet] moves
-connectivity 46.4% → 55.4% on eight problems. Those three levers — proposal environment, external simulation, wider
-generation — attack one search problem.
+That split held across four Claude models, a battery-electrolyte subset, four verifiers and
+four vendor families ([@sec:literature-decomposition]); concurrent systems that move the
+same levers are surveyed in [@sec:related-work].
 
-Training is not foreclosed: IRexp fine-tuning lifts recall to 54% ([@sec:recall-wall-task-intrinsic]).
-What compounds is open experimental data, honest benchmarks, and inference scaffolding that
-rides each new model. Two practical findings: bounded contexts with tool access may help
+Training is not foreclosed: IRexp fine-tuning lifts recall to 54%
+([@sec:recall-wall-task-intrinsic]). What compounds is open experimental data, honest
+benchmarks, and inference scaffolding that rides each new model. Two practical findings:
+bounded contexts with tool access may help
 ([@sec:methodology-dominates-within-compound]); use forward-predicted ¹³C agreement to
-re-rank, not as an abstention gauge ([@sec:negative-control]). Learned embeddings rarely beat
-ECFP under controlled evaluation[@praski2025embeddings].
+re-rank, not as an abstention gauge ([@sec:negative-control]).
 
 ## Limitations {#sec:limitations}
 
@@ -687,33 +675,10 @@ neither ([@sec:methods]). Fixed are frozen per-compound outputs and mechanical s
 raw outputs, predictions and scorer outputs are released; the sampler, scorer and
 forward-verification harness are scripted end-to-end.
 
-## Supporting Information figures
+## Supporting Information
 
-These are supplied as a separate Electronic Supplementary Information document
-(`docs/paper_esi.pdf`, built by `scripts/build_pdf.py`); they are listed
-here for reference.
-
-- **[@sfig:overview]** (`docs/figures/fig0_overview.png`) — study design: open multimodal data
-  (IRexp) → blind, complexity-stratified benchmark → decoupled blind solving →
-  forward-verification re-ranking; training-free core pipeline.
-- **[@sfig:dataset]** (`docs/figures/fig4_dataset.png`) — IRexp composition: IR records →
-  NMR-paired → structure-linked → full IR + ¹H + ¹³C + structure quadruples.
-- **[@sfig:size]** (`docs/figures/fig2_size.png`) — accuracy vs molecular size (heavy-atom
-  bucket); the monotonic 60% → 7% top-1 gradient.
-- **[@sfig:electrolyte]** (`docs/figures/fig6_electrolyte.png`) — top-1 and recovered accuracy on
-  IRSpectra-Bench-Electrolyte by battery-electrolyte chemical class (n=46): sp³-C–F
-  easiest (50%), sulfonyl and nitrile hardest (12%); overall 26%/28%.
-- **[@sfig:generator-probe]** (`docs/figures/fig_generator_probe.png`) — trained-generator probe ([@sec:recall-wall-task-intrinsic];
-  complement, not training-free protocol): generation recall and deterministic-HOSE top-1
-  on the 194-compound benchmark for Claude / + scaffold enumeration / + trained generator.
-  Enumeration's near-degenerate isomers collapse the verifier (28.4 → 16.0%) while the
-  generator's formula-correct candidates convert (28.4 → 35.1%).
-- **[@sfig:verifier]** (`docs/figures/fig_verifier.png`) — learned-verifier probe ([@sec:non-llm-verifiers-deterministic];
-  complement, not training-free protocol). (A) Conditional-on-recall top-1 (n=65, whole
-  benchmark) for four verifiers: a GNN trained on the same nmrshiftdb2 data as the HOSE
-  lookup reaches the LLM verifier's level (91% vs 89%) where the lookup (85%) does not
-  move off the solver's own ranking. (B) Held-out ¹³C MAE — the learned model is ≈2×
-  sharper (1.70 vs 3.23 ppm).
+Supplementary figures and extended methods appear in the Electronic Supplementary
+Information (`docs/paper_esi.pdf`).
 
 ## Author contributions
 
@@ -741,36 +706,21 @@ IRexp is also mirrored at
      Reserve it at 10.5281/zenodo.XXXXXXX; `python scripts/check_manuscript.py` lists this
      until it is done. -->
 
-**Table {#tab:artefacts}. Released artefacts, and the data and code behind each one.**
+**Table {#tab:artefacts}. Headline released artefacts.** Script-level inventory lives in the
+repository README.
 
 | component | data and code |
 |:---|:---|
-| IRexp and its structure-complete split | `data/irexp/`, `data/irexp_resolved/` — `spectro_scraper/` (mining pipeline) |
-| benchmark rounds and the within-compound control | `data/benchmark*/` — `scripts/benchmark_v2.py` |
-| ground-truth integrity audit | `data/benchmark*/clean_qids.json` — `scripts/validate_benchmark.py` |
-| headline accuracy ([@tab:headline-elucidation-performance-irspectra]) | `scripts/score_main.py` |
-| battery-electrolyte subset ([@sec:domain-case-study-battery]) | `data/benchmark_electrolyte/` — `scripts/build_electrolyte_bench.py`, `scripts/score_electrolyte.py` |
-| formula-only contamination control ([@sec:model-reading-spectra-formula]) | `data/modality/` — `scripts/modality_ablation.py` |
-| publication-recency control ([@sec:model-reading-spectra-formula]) | `data/audit/recency_control.json` — `scripts/contamination_recency.py` |
-| forward-verification, original arm ([@sec:result]) | `data/fverify/` — `scripts/forward_verify.py` |
-| …extended to all 194 compounds | `data/fverify_main/` — `scripts/forward_verify_main.py`, `scripts/forward_verify_all.py` |
-| generate-wide arm ([@sec:generate-wide-testing-recipe]) | `data/gw/`, `data/fverify2/` — `scripts/score_generate_wide.py`, `scripts/ladder_significance.py` |
-| …its coverage gap, closed | `data/fverify_gw/` — `scripts/forward_verify_gw.py` |
-| non-LLM verifier comparison ([@tab:verifier-comparison-conditional-recall]) | `data/fverify/hose_results.txt`, `data/fverify/verifier_table_results.txt` — `scripts/hose_predict.py` (incl. `coverage`), `scripts/verifier_table.py`, `scripts/verifier_leakage.py` |
-| negative control and selective prediction ([@sec:negative-control]) | `scripts/verifier_diagnostics.py` |
-| what a miss is, and isomer separability ([@sec:headline-performance], [@sec:method]) | `scripts/analyze_misses.py`, `scripts/isomer_separability.py` |
-| difficulty-threshold sensitivity ([@sec:benchmark-design-irspectra-bench]) | `scripts/difficulty_sensitivity.py` |
-| licence-pool split ([@sec:motivation]) | `scripts/split_license_pools.py` |
-| recall headroom and scaffold enumeration | `scripts/analyze_recall_headroom.py`, `scripts/enumerate_isomers.py`, `scripts/closing_the_gap.py` |
-| blinded expert-audit package ([@sec:limitations]) | `data/audit/` — `scripts/make_audit_sample.py` |
-| corpus reweighting ([@sec:benchmark-design-irspectra-bench]) | `scripts/corpus_reweight.py` |
-| cross-vendor recall at matched budget, and the paired gap ([@sec:diagnosis-hold-outside-one]) | `data/cross_vendor/` — `scripts/cross_vendor_budget.py`, `scripts/cross_vendor_gap.py` |
-| ring-system names in peak assignments ([@sec:benchmark-design-irspectra-bench]) | `scripts/prompt_leakage.py` |
-| paraphrase-invariant benchmark, for the control not yet run ([@sec:limitations]) | — (regenerated, not deposited) — `scripts/jitter_control.py` |
-| manuscript integrity gates | `scripts/check_manuscript.py`, `scripts/verify_statistics.py`, `scripts/check_compression.py`, `scripts/check_layout.py` |
-| all figures (PNG + PDF twins) | `docs/figures/` — `scripts/make_all_figures.sh` |
-| trained generator probe ([@sec:recall-wall-task-intrinsic]) | `contrib/generator_probe/`, `data/fverify_gen/` |
-| learned GNN verifier ([@sec:non-llm-verifiers-deterministic]) | `scripts/gnn_predict.py`, `data/nmrshiftdb/gnn_c13.pt`, `data/fverify/gnn_results.txt` |
+| IRexp / `irexp_resolved` | `data/irexp/`, `data/irexp_resolved/` |
+| benchmark + within-compound control | `data/benchmark*/` — `scripts/benchmark_v2.py` |
+| headline scoring ([@tab:headline-elucidation-performance-irspectra]) | `scripts/score_main.py` |
+| forward-verification (+ full-bench extension) | `data/fverify/`, `data/fverify_main/` — `scripts/forward_verify.py`, `scripts/forward_verify_main.py` |
+| generate-wide ([@sec:generate-wide-testing-recipe]) | `data/gw/`, `data/fverify2/`, `data/fverify_gw/` — `scripts/score_generate_wide.py` |
+| cross-vendor ([@sec:diagnosis-hold-outside-one]) | `data/cross_vendor/` — `scripts/cross_vendor_budget.py`, `scripts/cross_vendor_gap.py` |
+| contamination / recency ([@sec:model-reading-spectra-formula]) | `data/modality/`, `data/audit/recency_control.json` — `scripts/modality_ablation.py`, `scripts/contamination_recency.py` |
+| figures | `docs/figures/` — `scripts/make_all_figures.sh` |
+| trained generator + GNN verifier | `contrib/generator_probe/`, `data/fverify_gen/` — `scripts/gnn_predict.py`, `data/nmrshiftdb/gnn_c13.pt` |
+| integrity gates | `scripts/check_manuscript.py`, `scripts/check_layout.py` |
 
 IRexp redistributes extracted numeric data only (band lists, shifts, structures, source
 DOIs) from PMC-OA (CC-BY-4.0) and Chemotion (CC-BY-SA-4.0); pools are separable by

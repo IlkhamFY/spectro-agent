@@ -24,8 +24,6 @@
                               for Materials Research) — ask whether he wants them listed
      `python scripts/check_manuscript.py` lists every outstanding item of this kind. -->
 
----
-
 ## Abstract
 
 We release *IRexp*, the largest openly redistributable collection of experimental
@@ -44,8 +42,6 @@ recall 32%→42% and top-1 23%→30% on 60 compounds; verification itself moves 
 top-1 only 28%→30%. Masking the spectra drops top-1 from 23% to 5%, and Grok 4.6, Gemini
 3.7 Flash and GPT-5.6 Sol all verify better than they generate. All predictions and code
 are released.
-
----
 
 ## Introduction {#sec:introduction}
 
@@ -158,8 +154,6 @@ missing candidate[@priessner2026reasoning]. We add measurement at scale: the spl
 compounds across four model families and four verifiers, recovered from published top-*k*
 figures ([@sec:literature-decomposition]).
 
----
-
 ## The IRexp dataset {#sec:irexp-dataset}
 
 ### Motivation {#sec:motivation}
@@ -226,8 +220,6 @@ requiring human reading; that audit is prepared but not yet run ([@sec:limitatio
 
 `irexp_resolved` (43,060 records, 100% structure-linked) is the benchmark-ready split,
 ≈6× the 6,833-molecule set used to train Spectro[@chacko2024spectro] ([@sfig:dataset]).
-
----
 
 ## Benchmark design (IRSpectra-Bench) {#sec:benchmark-design-irspectra-bench}
 
@@ -468,8 +460,6 @@ different denominators, so the criterion is the inequality rather than a differe
 ![Cross-vendor decomposition on the 60-compound arm: generation recall vs verification precision ([@sec:diagnosis-hold-outside-one]).](docs/figures/fig7_crossvendor.png){#fig:fig7-crossvendor}
 
 
----
-
 ## Forward-verification elucidation {#sec:forward-verification-elucidation}
 
 ### Method {#sec:method}
@@ -586,8 +576,6 @@ and top-1 28.4%→35.1% (McNemar p=0.015; [@sfig:generator-probe]). Zero-shot wi
 fine-tuning recovers 0/248; with it, 25%. NMR-Solver (52.9%)[@jin2025nmrsolver] and trained
 IR transformers (63.8%)[@alberts2025benchmarks] confirm the task is not bound at 28–30%.
 
----
-
 ## The decomposition across the published literature {#sec:literature-decomposition}
 
 The split measured above applies to any system reporting top-1 = *a* and top-*k* = *b*:
@@ -651,8 +639,6 @@ rides each new model. Two practical findings: bounded contexts with tool access 
 re-rank, not as an abstention gauge ([@sec:negative-control]). Learned embeddings rarely beat
 ECFP under controlled evaluation[@praski2025embeddings].
 
----
-
 ## Limitations {#sec:limitations}
 
 Scoring is mechanical; solver runs were transcript-audited for zero ground-truth access
@@ -665,8 +651,6 @@ Claude Opus**; cross-vendor evidence is on 60 compounds ([@sec:diagnosis-hold-ou
 **(v) Constitution-only scoring** (21.1% with stereochemistry). **(vi) Single-sample scoring**
 per compound. **(vii) Organic literature bias.** **(viii) Author-transcribed peak lists**, not
 raw instrument files — a different regime from Espejo *et al.*[@espejo2026agentic].
-
----
 
 ## Methods {#sec:methods}
 
@@ -703,8 +687,6 @@ neither ([@sec:methods]). Fixed are frozen per-compound outputs and mechanical s
 raw outputs, predictions and scorer outputs are released; the sampler, scorer and
 forward-verification harness are scripted end-to-end.
 
----
-
 ## Supporting Information figures
 
 These are supplied as a separate Electronic Supplementary Information document
@@ -732,8 +714,6 @@ here for reference.
   lookup reaches the LLM verifier's level (91% vs 89%) where the lookup (85%) does not
   move off the solver's own ranking. (B) Held-out ¹³C MAE — the learned model is ≈2×
   sharper (1.70 vs 3.23 ppm).
-
----
 
 ## Author contributions
 

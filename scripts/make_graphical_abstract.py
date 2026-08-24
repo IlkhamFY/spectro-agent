@@ -91,7 +91,9 @@ def main():
         ha="center", va="top", fontsize=8, fontweight="bold", color=fs.INK,
     )
 
-    # 2 — observed ¹³C sticks (full width, subtle baseline only)
+    # 2 — observed ¹³C sticks (full width)
+    ax.text(3.0, 80.5, "observed \u00b9\u00b3C", ha="left", va="bottom",
+            fontsize=MIN_PT, color=fs.NOTE)
     spec_x0, spec_x1 = 3.0, 97.0
     stick_y0, stick_y1 = 58.0, 78.0
     for ppm in OBS:
@@ -120,7 +122,7 @@ def main():
     ax.text(
         50, 1.5,
         "recall 34% binds · verification 89% does not",
-        ha="center", va="bottom", fontsize=MIN_PT, color=fs.NOTE,
+        ha="center", va="bottom", fontsize=MIN_PT, color=fs.INK,
     )
 
     fs.save("docs/figures/graphical_abstract.png")

@@ -43,14 +43,15 @@ axB.errorbar(xs, pts, yerr=[lo, hi], fmt="o", ms=fs.MARKER, color=fs.BLUE,
 fs.ygrid(axB)
 pooled = 100 * sum(b["top1"] for b in bk) / sum(b["n"] for b in bk)
 fs.refline(axB, y=pooled)
-# Both labels outside the axes (top edge) — every CI crosses the pooled
-# line, so any in-panel / on-line label collides with an error bar.
-axB.text(-0.04, 1.04, f"r = {rc['point_biserial_r']:+.3f}".replace("-", "\u2212"),
-         transform=axB.transAxes, ha="left", va="bottom",
-         fontsize=fs.FS_BODY, color=fs.NOTE, clip_on=False)
-axB.text(0.98, 1.04, f"pooled {pooled:.0f}%",
-         transform=axB.transAxes, ha="right", va="bottom",
-         fontsize=fs.FS_BODY, color=fs.NOTE, clip_on=False)
+# One outside baseline above the axes. Every CI crosses y≈pooled, and the
+# ≥2024 upper whisker reaches the frame — so no in-panel / top-right label.
+axB.text(
+    0.0, 1.06,
+    f"r = {rc['point_biserial_r']:+.3f}".replace("-", "\u2212")
+    + f"  ·  pooled {pooled:.0f}%",
+    transform=axB.transAxes, ha="left", va="bottom",
+    fontsize=fs.FS_BODY, color=fs.NOTE, clip_on=False,
+)
 
 def tick(lab):
     return lab.replace(">=", "\u2265").replace("<=", "\u2264").replace("-", "\u2013")

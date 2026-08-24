@@ -35,6 +35,6 @@ axB.text(0.97, 0.86, "lower = better", transform=axB.transAxes, ha="right",
          va="top", fontsize=fs.FS_BODY, color=fs.NOTE)
 fs.panel(axB, "b")
 
-fs.finish(w_pad=1.4)
+fs.finish(w_pad=1.4, left=0.13)
 fs.save("docs/figures/fig_verifier.png")
 print("wrote docs/figures/fig_verifier.png")

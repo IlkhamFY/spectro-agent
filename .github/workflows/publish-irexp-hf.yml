@@ -1,0 +1,30 @@
+name: Publish IRexp to Hugging Face
+
+# Manual only — requires repo secret HF_TOKEN (Write). Auto-push was removed so
+# CI does not fail when the secret is absent; publish with:
+#   HF_TOKEN=hf_... python scripts/publish_hf.py
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install huggingface_hub
+        run: pip install -U "huggingface_hub[cli]"
+      - name: Require HF_TOKEN
+        run: |
+          if [ -z "${{ secrets.HF_TOKEN }}" ]; then
+            echo "Add repo secret HF_TOKEN (Write) before running this workflow."
+            exit 1
+          fi
+      - name: Upload IRexp
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python scripts/publish_hf.py

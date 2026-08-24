@@ -1,0 +1,9 @@
+{
+  "source": "data/irexp_resolved/irexp_resolved.jsonl.gz",
+  "output": "data/irexp_release/train_no_bench_nmr.jsonl.gz",
+  "benchmark_ik14_excluded": 248,
+  "rows_written": 32949,
+  "skipped_benchmark_overlap": 252,
+  "skipped_missing_nmr": 9859,
+  "require_nmr": true
+}

@@ -4,6 +4,13 @@ An open, blind benchmark for molecular structure elucidation from real experimen
 spectra by large language models, with the literature-mined dataset (IRexp) and a
 training-free forward-verification method behind it.
 
+**Leaderboard:** [`docs/LEADERBOARD.md`](docs/LEADERBOARD.md) — submit results with
+`scripts/score_submission.py`.
+
+**IRexp on Hugging Face:** https://huggingface.co/datasets/ilkhamfy/IRexp  
+Dataset card source: [`data/irexp_release/README_HF.md`](data/irexp_release/README_HF.md).  
+Publish / refresh: `HF_TOKEN=hf_... python scripts/publish_hf.py`
+
 Given molecular formula + IR + 1H + 13C, a frontier LLM recovers the exact constitution
 of 28.4% of real, blind compounds (95% CI 22-35). The binding constraint is candidate
 recall, not verification; a training-free generate-and-verify step lifts top-1 from
@@ -11,9 +18,11 @@ recall, not verification; a training-free generate-and-verify step lifts top-1 f
 
 ## Contents
 
+- `docs/LEADERBOARD.md` - official benchmark leaderboard and submission instructions.
 - `docs/paper.pdf` (source `docs/PAPER.md`) - the manuscript.
 - `data/irexp/`, `data/irexp_resolved/` - IRexp: 121,233 experimental-IR records,
   43,060 linked to a resolved structure, mined from open-access literature.
+- `data/irexp_release/` - training splits; **`train_no_bench.jsonl.gz`** (benchmark held out).
 - `data/benchmark_*/` - IRSpectra-Bench (194 compounds) and the battery-electrolyte
   subset: blind questions, answer keys, and model predictions.
 - `data/fverify/`, `data/gw/` - forward-verification and generate-wide results.
@@ -31,6 +40,8 @@ and what is already machine-verified.
 ```
 pip install -r requirements.txt
 python scripts/score_main.py            # Table 2  - headline accuracy (n=194)
+python scripts/score_submission.py --predictions yours.jsonl --name "YourModel"
+python scripts/build_train_no_bench.py  # IRexp training split without benchmark leakage
 python scripts/forward_verify_all.py    # Table 6  - recall/verification decomposition (n=194)
 python scripts/score_generate_wide.py   # Table 7  - generate-wide arm
 python scripts/ladder_significance.py   # the paired tests behind §5.3

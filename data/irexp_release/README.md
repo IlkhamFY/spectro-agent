@@ -1,12 +1,24 @@
-# IRexp release — open experimental IR for Spectro training
+# IRexp release — open experimental IR for training
 
 Built from IRexp (119,345 unique real experimental IR records scraped from
 open-access papers; no synthetic/computed IR). Gzipped; `gunzip` to use.
 
 | file | rows | use |
 |---|--:|---|
-| train.jsonl.gz / test.jsonl.gz | 25,280 / 2,808 | **supervised IR -> structure** (IR bands + SELFIES target; 90/10 split) |
+| **train_no_bench.jsonl.gz** | **42,808** | **recommended supervised pool** — structure-linked, benchmark IK-14 held out |
+| train_no_bench_nmr.jsonl.gz | 32,949 | same, requiring both ¹H and ¹³C |
+| train.jsonl.gz / test.jsonl.gz | 25,280 / 2,808 | legacy 90/10 split — **overlaps benchmark (117/200 IK-14)** |
 | pretrain_ir.jsonl.gz | 119,345 | IR-encoder pretraining (all IR, label-free) |
+
+Rebuild held-out splits:
+
+```bash
+python scripts/build_train_no_bench.py
+python scripts/build_train_no_bench.py --require-nmr
+```
+
+**Hugging Face dataset card:** see [`README_HF.md`](README_HF.md) — copy to `README.md` when
+uploading to Hugging Face.
 
 Tiers within IRexp:
 - **27,856 full multimodal** (IR + NMR + structure) -- directly-trainable Spectro samples

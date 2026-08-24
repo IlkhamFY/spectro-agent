@@ -730,15 +730,14 @@ There are no conflicts to declare.
 
 ## Data availability
 
-[@tab:artefacts] lists every released component and the script that regenerates it, all of
-them in the project repository. The archival deposit — a complete frozen
-snapshot of dataset, benchmark, answer keys, predictions, scripts, figure regeneration and
-the expert-audit package — is deposited on Zenodo, and its DOI is supplied at proof stage;
-GitHub is the development mirror and the Zenodo record the citable version. IRexp is also
-mirrored for ML loaders at [huggingface.co/datasets/ilkhamfy/IRexp](https://huggingface.co/datasets/ilkhamfy/IRexp);
-prefer `data/train_no_bench.jsonl.gz` there for fine-tuning without benchmark leakage.
+Data, predictions, scoring scripts and figure regeneration are in the project
+repository; [@tab:artefacts] lists each component. A frozen snapshot will be
+deposited on Zenodo (DOI at proof); GitHub is the development mirror.
+IRexp is also mirrored at
+[huggingface.co/datasets/ilkhamfy/IRexp](https://huggingface.co/datasets/ilkhamfy/IRexp)
+(use `data/train_no_bench.jsonl.gz` for fine-tuning without benchmark leakage).
 
-<!-- ZENODO: mint the deposit and substitute its DOI for "supplied at proof stage" above.
+<!-- ZENODO: mint the deposit and substitute its DOI for "DOI at proof" above.
      Reserve it at 10.5281/zenodo.XXXXXXX; `python scripts/check_manuscript.py` lists this
      until it is done. -->
 
@@ -770,65 +769,21 @@ prefer `data/train_no_bench.jsonl.gz` there for fine-tuning without benchmark le
 | paraphrase-invariant benchmark, for the control not yet run ([@sec:limitations]) | — (regenerated, not deposited) — `scripts/jitter_control.py` |
 | manuscript integrity gates | `scripts/check_manuscript.py`, `scripts/verify_statistics.py`, `scripts/check_compression.py`, `scripts/check_layout.py` |
 | all figures (PNG + PDF twins) | `docs/figures/` — `scripts/make_all_figures.sh` |
+| trained generator probe ([@sec:recall-wall-task-intrinsic]) | `contrib/generator_probe/`, `data/fverify_gen/` |
+| learned GNN verifier ([@sec:non-llm-verifiers-deterministic]) | `scripts/gnn_predict.py`, `data/nmrshiftdb/gnn_c13.pt`, `data/fverify/gnn_results.txt` |
 
-**Trained complements**, both fenced from the training-free protocol. The [@sec:recall-wall-task-intrinsic]
-generator ships as a self-contained bundle at `contrib/generator_probe/` — candidates,
-the de-leaked split with its InChIKey-14 manifest, the verification scripts
-(`scripts/closing_the_gap_gen.py`, `scripts/forward_verify_gen.py`,
-`scripts/verify_leakage_exact40.py`) and the blind forward-prediction outputs behind its
-verified top-1 (`data/fverify_gen/`), so its scorer runs with no missing predictions.
-The [@sec:non-llm-verifiers-deterministic] learned verifier ships `scripts/gnn_predict.py` (extract / train / score /
-control), the trained model `data/nmrshiftdb/gnn_c13.pt`, per-compound results and both
-leakage checks (`data/fverify/gnn_results.txt`), and the write-up
-`docs/VERIFIER_PROBE.md`. Model checkpoints are deposited on Zenodo. Both trained
-predictors of [@sec:non-llm-verifiers-deterministic] need the nmrshiftdb2 dump, which we cannot redistribute; the README
-gives the one-line fetch.
-
-Companion technical notes: `docs/BENCHMARK.md`, `docs/FORWARD_VERIFY.md`,
-`docs/MODALITY_ABLATION.md`, `docs/EXPERT_AUDIT_PROTOCOL.md`, `docs/MODELS.md`.
-
-**Two cautions for re-users.** The public `irexp_release/train` split does not hold
-out IRSpectra-Bench — it overlaps by 117/200 InChIKey-14 — so de-leak with
-`contrib/generator_probe/build_exp_manifest.py` before training anything that will be
-evaluated on the benchmark. And the held-out answer keys `data/audit/key.jsonl` and
-`data/modality/key.json` are deposited but flagged *withhold from blinded reviewers*.
-
-### Licensing and attribution
-
-IRexp is derived from two open-access source pools and redistributed under terms
-compatible with each (see `data/NOTICE`). **(a) Redistribution:** we release only
-*extracted numeric data* — IR band lists, ¹H/¹³C shift lists, and resolved structures
-(SMILES/SELFIES/InChIKey) — plus each record's source DOI/accession, not source full
-text, figures, or PDFs. **(b) Two separable pools:** 119,345 records derive from the PMC
-Open-Access Subset (CC-BY-4.0) and 1,888 from the Chemotion RADAR4Chem FT-IR deposit
-(CC-BY-SA-4.0). The two are separable losslessly by `source_doi` — Chemotion records
-carry the `10.22000` prefix — and `scripts/split_license_pools.py` materialises them as
-two files with each record stamped `license`, so users may take the CC-BY pool alone;
-any combined or Chemotion-derived release carries CC-BY-SA-4.0 to honour the ShareAlike
-term. Code is released under the MIT License. **(c) Attribution:** re-users must cite
-this dataset (Zenodo DOI above) and attribute the original publications via each record's
-`source_doi`.
+IRexp redistributes extracted numeric data only (band lists, shifts, structures, source
+DOIs) from PMC-OA (CC-BY-4.0) and Chemotion (CC-BY-SA-4.0); pools are separable by
+`source_doi` (`scripts/split_license_pools.py`). Code is MIT. Cite the Zenodo deposit and
+attribute sources via each record’s `source_doi`. De-leak with
+`contrib/generator_probe/build_exp_manifest.py` before training against the benchmark;
+withhold `data/audit/key.jsonl` and `data/modality/key.json` from blinded reviewers.
 
 ## Acknowledgements
 
-<!-- ACKNOWLEDGEMENTS — To be completed before submission: funding sources,
-     compute/infrastructure, and any individual acknowledgements.
-     `python scripts/check_manuscript.py` lists this until it
-     is written. — AUTHORS -->
+<!-- ACKNOWLEDGEMENTS — funding sources and institutional support — AUTHORS -->
 
-### Use of AI tools
-
-This work studies a large language model, and LLMs were also used as instruments and as
-writing aids; we state both roles explicitly. **As an object of study:** all reported
-elucidation, forward-prediction and verification results were produced by Claude models
-invoked under the protocol of [@sec:benchmark-design-irspectra-bench] and [@sec:methods] — these are the measurements the paper reports,
-not assistance in producing it. **As a writing aid:** the authors used an LLM-based
-coding assistant for figure generation, analysis scripting, manuscript copy-editing, and
-for the internal review pass that produced several of the corrections recorded in the
-repository history. No text, number, figure or citation in this manuscript was accepted
-without author verification against the released data and code; every quantitative claim
-regenerates from the scripts in `scripts/`. The authors take full responsibility for the
-content.
+Funding and institutional support will be added at proof.
 
 ## References
 

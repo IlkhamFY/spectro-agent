@@ -73,7 +73,7 @@ IRexp is the largest **openly redistributable** collection of **experimental inf
 from datasets import load_dataset
 
 # Full structure-linked corpus (43,060 records)
-ds = load_dataset("IlkhamFY/IRexp", data_files="irexp_resolved.jsonl.gz", split="train")
+ds = load_dataset("ilkhamfy/IRexp", data_files="data/irexp_resolved.jsonl.gz", split="train")
 
 row = ds[0]
 print(row["ir_bands_cm-1"][:5], row["smiles"][:40])
@@ -82,7 +82,7 @@ print(row["ir_bands_cm-1"][:5], row["smiles"][:40])
 For **fine-tuning without benchmark leakage**, use `train_no_bench.jsonl.gz` (not the legacy `irexp_release/train.jsonl.gz`, which overlaps 117/200 benchmark compounds):
 
 ```python
-ds = load_dataset("IlkhamFY/IRexp", data_files="train_no_bench.jsonl.gz", split="train")
+ds = load_dataset("ilkhamfy/IRexp", data_files="data/train_no_bench.jsonl.gz", split="train")
 ```
 
 Or clone the GitHub repo / Zenodo deposit and read locally:
@@ -150,9 +150,10 @@ python scripts/build_train_no_bench.py --require-nmr  # 32,949 rows (H+C require
 
 ## Links
 
+- **Dataset (Hugging Face):** https://huggingface.co/datasets/ilkhamfy/IRexp
 - **Code & benchmark:** https://github.com/IlkhamFY/spectro-agent
 - **Leaderboard:** https://github.com/IlkhamFY/spectro-agent/blob/main/docs/LEADERBOARD.md
 - **Zenodo:** DOI minted at publication
-- **Licence details:** `data/NOTICE` in the repository
+- **Licence details:** `NOTICE` in this repository (and `data/NOTICE` in the GitHub mirror)
 
-When uploading to Hugging Face, copy this file to `README.md` in the dataset repository root.
+When uploading to Hugging Face, this file is the repository `README.md`.

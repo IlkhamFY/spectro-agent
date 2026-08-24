@@ -1,0 +1,31 @@
+name: Publish IRexp to Hugging Face
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "data/irexp_release/**"
+      - "data/irexp/**"
+      - "data/irexp_resolved/**"
+      - "scripts/publish_hf.py"
+      - ".github/workflows/publish-irexp-hf.yml"
+    branches:
+      - main
+      - cursor/scientific-editor-pass-9a67
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install huggingface_hub
+        run: pip install -U "huggingface_hub[cli]"
+      - name: Upload IRexp
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python scripts/publish_hf.py

@@ -7,8 +7,9 @@ training-free forward-verification method behind it.
 **Leaderboard:** [`docs/LEADERBOARD.md`](docs/LEADERBOARD.md) — submit results with
 `scripts/score_submission.py`.
 
-**IRexp on Hugging Face:** copy [`data/irexp_release/README_HF.md`](data/irexp_release/README_HF.md)
-to the dataset repo README when publishing.
+**IRexp on Hugging Face:** https://huggingface.co/datasets/ilkhamfy/IRexp  
+Dataset card source: [`data/irexp_release/README_HF.md`](data/irexp_release/README_HF.md).  
+Publish / refresh: `HF_TOKEN=hf_... python scripts/publish_hf.py`
 
 Given molecular formula + IR + 1H + 13C, a frontier LLM recovers the exact constitution
 of 28.4% of real, blind compounds (95% CI 22-35). The binding constraint is candidate

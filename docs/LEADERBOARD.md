@@ -109,7 +109,7 @@ We will verify scoring with `scripts/score_submission.py` before adding a row.
 
 ## Related resources
 
-- **IRexp dataset (training):** `data/irexp_release/README_HF.md` — use `train_no_bench.jsonl.gz` to avoid benchmark leakage
+- **IRexp dataset (training):** https://huggingface.co/datasets/ilkhamfy/IRexp — use `data/train_no_bench.jsonl.gz` to avoid benchmark leakage (`data/irexp_release/README_HF.md`)
 - **Cross-vendor protocol:** `docs/CROSS_VENDOR.md`
 - **Forward-verification:** `docs/FORWARD_VERIFY.md`
 - **Full reproduction:** `README.md` in repository root

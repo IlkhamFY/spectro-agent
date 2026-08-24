@@ -743,7 +743,9 @@ There are no conflicts to declare.
 them in the project repository. The archival deposit — a complete frozen
 snapshot of dataset, benchmark, answer keys, predictions, scripts, figure regeneration and
 the expert-audit package — is deposited on Zenodo, and its DOI is supplied at proof stage;
-GitHub is the development mirror and the Zenodo record the citable version.
+GitHub is the development mirror and the Zenodo record the citable version. IRexp is also
+mirrored for ML loaders at [huggingface.co/datasets/ilkhamfy/IRexp](https://huggingface.co/datasets/ilkhamfy/IRexp);
+prefer `data/train_no_bench.jsonl.gz` there for fine-tuning without benchmark leakage.
 
 <!-- ZENODO: mint the deposit and substitute its DOI for "supplied at proof stage" above.
      Reserve it at 10.5281/zenodo.XXXXXXX; `python scripts/check_manuscript.py` lists this

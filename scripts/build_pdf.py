@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Render docs/PAPER.md to a submission-quality PDF (pandoc + tectonic/XeTeX).
+"""Render docs/PAPER.md to a ChemRxiv-ready PDF (pandoc + tectonic/XeTeX).
 
-Keeps PAPER.md clean: figure plates are appended to a temporary copy, and unicode
-glyphs (super/subscripts, math relations) are mapped for XeTeX via newunicodechar.
+Two-column RSC *article* measure (Digital Discovery layout) without RSC/DD
+branding: running header is "ChemRxiv preprint". PAPER.md stays clean; figure
+plates and unicode mapping live in the build. ESI stays single-column.
 Run from the repo root:  python3 scripts/build_pdf.py
 """
 import sys, os as _os

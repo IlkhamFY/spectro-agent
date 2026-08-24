@@ -90,7 +90,7 @@ for only 34%, so generation binds the result ([@fig:fig-wall]). Gain is bounded 
 and, by our own measurements, cannot exceed a recall/precision ceiling without sharper
 verification or 2D-NMR data.
 
-![All 194 compounds as one part-to-whole bar: verified top-1 for 58 (green), recalled but mis-ranked for 7 (vermilion), never proposed for 129 (grey) — *the wall*, 66% of the bar. Generation recall is 65/194 = 34%; of those 65, forward-verification ranks 58 first (58/65 = 89% precision conditional on recall). Their product is the 30% end-to-end top-1. The two rates have different denominators and are not differenced.](docs/figures/fig_wall.png){#fig:fig-wall}
+![Diagnosis on IRSpectra-Bench (n=194): generation recall, not verification, is the bottleneck. Where the true structure is proposed, forward-verification ranks it first 89% of the time (58/65); where it is never proposed (66% of the bar), no ranker can recover it. End-to-end top-1 is the product of those two rates (≈30%), which have different denominators and are not differenced.](docs/figures/fig_wall.png){#fig:fig-wall}
 
 Solver and verifier ([@sfig:overview]) are LLM agents on a consumer subscription, with no
 fine-tuning and no API spend. Inference is not exactly reproducible — no pinned snapshot,

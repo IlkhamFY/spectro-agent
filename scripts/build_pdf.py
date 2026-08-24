@@ -74,7 +74,11 @@ UNI = {
 # statement of what the measure is. (The 0.2in it leaves means a full-width plate
 # does not line up with the text block; closing that is a change to the figure
 # scripts, since fig_width() must never upscale.)
-TEXTWIDTH_IN = 6.3
+TEXTWIDTH_IN = 6.30
+# ChemRxiv / RSC-article two-column page (A4). No journal class: branding lives in
+# the running header as "ChemRxiv preprint" only.
+GEO_ARTICLE = ("a4paper,top=1.65cm,bottom=1.75cm,left=1.5cm,right=1.5cm,"
+               "columnsep=0.6cm,headheight=14pt")
 
 def fig_size(path):
     """Native width and height in inches (from PNG dpi), capped at TEXTWIDTH_IN — never upscaled."""
@@ -382,7 +386,7 @@ def _inline(md):
     let the default template lay one out."""
     for pat, rep in INLINE_TEX:
         md = re.sub(pat, rep, md)
-    return md.replace("&", r"\&").replace("~", r"\textasciitilde{}")
+    return md.replace("&", r"\&").replace("~", r"\textasciitilde{}").replace("%", r"\%")
 
 
 TITLE_RE = re.compile(
@@ -392,75 +396,72 @@ TITLE_RE = re.compile(
     re.S)
 
 
+KEYWORDS = (
+    "structure elucidation; NMR spectroscopy; infrared spectroscopy; "
+    "large language models; chemical information; benchmark"
+)
+
+ABS_RE = re.compile(
+    r"^---\n+## Abstract\n+(?P<abstract>.*?)\n+---\s*\n",
+    re.M | re.S)
+
+
 def title_block(md):
-    r"""Lay out the title, authors and abstract the way a journal sets them.
+    r"""Lay out title, authors and abstract as a ChemRxiv / RSC-article banner.
 
-    Pandoc's default template renders the H1 as \section and the author line as an
-    ordinary bold paragraph, so the first page reads as the start of a report rather
-    than the head of an article: no centring, no size contrast, and the abstract sitting
-    under a numbered-looking heading among the body sections.
-
-    The substitution happens here rather than in PAPER.md so the source stays plain
-    markdown -- readable on GitHub, and still checkable by the gates, which look for the
-    `## Abstract` heading this function removes.
+    Two-column body (Digital Discovery / RSC article measure) with the banner
+    spanning both columns. No journal name, logo, or copyright line -- ChemRxiv
+    must not look already published. The `## Abstract` heading is removed here so
+    PAPER.md stays checkable on GitHub.
     """
     m = TITLE_RE.search(md)
     if not m:
         return md
     title, affil = (_inline(m.group(k).strip()) for k in ("title", "affil"))
-    # The corresponding-author note sits inline in the markdown, which is the readable
-    # place for it on GitHub and the wrong place in print: it doubles the length of the
-    # author line, so the last author breaks across two centred lines with a surname
-    # stranded on its own. Journals set it as a separate note under the affiliation.
     authors = m.group("authors").strip()
     corr = re.search(r"\s*\*\(corresponding author:\s*([^)]*)\)\*,?", authors)
     email = corr.group(1).strip() if corr else ""
     if corr:
-        # RSC marks the corresponding author on the byline itself. Without it three authors
-        # share one affiliation and one address with nothing tying the two together.
         authors = (authors[:corr.start()] + "^*^," + authors[corr.end():]).replace(
             ", ,", ",").rstrip(", ")
     authors = _inline(authors)
-    note = (r"\vspace{0.25em}" "\n"
-            r"{\small\textsuperscript{*}\textit{E-mail: }" + email.replace("_", r"\_") + r"\par}"
-            "\n") if email else ""
+    note = (r"{\small\textsuperscript{*}\textit{E-mail: }"
+            + email.replace("_", r"\_") + r"\par}" "\n") if email else ""
+    am = ABS_RE.search(md)
+    abstract = _inline(am.group("abstract").strip()) if am else ""
+    # \twocolumn[{...}] is how article.cls sets a full-width title on a two-column
+    # paper. Do NOT also pass classoption=twocolumn -- that path errors on a second
+    # \twocolumn call.
     head = ("```{=latex}\n"
-            r"\begin{center}" "\n"
+            r"\twocolumn[{" "\n"
+            r"\centering" "\n"
+            r"{\small\color{preprintink}\textit{ChemRxiv preprint"
+            r" --- this version has not been peer reviewed.}\par}" "\n"
+            r"\vspace{0.85em}" "\n"
             r"{\LARGE\bfseries\setlength{\baselineskip}{1.15\baselineskip}" "\n"
             f"{title}\\par}}\n"
-            r"\vspace{1.1em}" "\n"
+            r"\vspace{0.85em}" "\n"
             r"{\large " f"{authors}" r"\par}" "\n"
-            r"\vspace{0.5em}" "\n"
-            # A full Canadian address is a little too long for the measure and breaks with
-            # "Canada." alone on the second line. Set it in a narrower centred box so the
-            # break falls inside the address instead of after it.
-            r"{\small\begin{minipage}{0.82\linewidth}\centering " f"{affil}"
-            r"\end{minipage}\par}" "\n"
+            r"\vspace{0.4em}" "\n"
+            r"{\small " f"{affil}" r"\par}" "\n"
             f"{note}"
-            r"\end{center}" "\n"
-            r"\vspace{0.6em}" "\n"
+            r"\vspace{0.85em}" "\n"
+            r"\begin{minipage}{\textwidth}" "\n"
+            r"\setlength{\parindent}{0pt}\setlength{\parskip}{0.35em}" "\n"
+            r"\small\noindent\textbf{Abstract.}\enspace " f"{abstract}" r"\par" "\n"
+            r"\vspace{0.35em}" "\n"
+            r"{\small\noindent\textbf{Keywords.}\enspace " f"{KEYWORDS}" r"\par}" "\n"
+            r"\end{minipage}" "\n"
+            r"\vspace{0.7em}" "\n"
+            r"}]" "\n"
             "```\n\n")
     md = md[:m.start()] + head + md[m.end():]
-
-    # The abstract is set narrower and smaller, with rules above and below, and loses its
-    # heading -- an abstract needs no label where it sits. Kept as markdown between two
-    # raw blocks so its citations and cross-references still resolve.
-    # re.sub's replacement string eats backslashes, and every one of these is LaTeX;
-    # pass a lambda so the text goes through untouched.
-    # The rules must span the *narrowed* measure, not \linewidth: inside a group with
-    # \leftskip and \rightskip at 2em each, a \linewidth rule hangs 4em past the right
-    # margin -- an overfull \hbox of exactly 40pt, and visible on the page.
-    rule = r"\rule{\dimexpr\linewidth-4em\relax}{0.4pt}"
-    open_abs = ("```{=latex}\n"
-                r"\begingroup\small\setlength{\leftskip}{2em}"
-                r"\setlength{\rightskip}{2em}" "\n"
-                r"\noindent" + rule + r"\vspace{-0.4em}" "\n"
-                "```\n\n")
-    close_abs = ("```{=latex}\n"
-                 r"\vspace{-0.4em}\noindent" + rule + r"\endgroup" "\n"
-                 "```\n")
-    md = re.sub(r"^---\n+## Abstract\n", lambda _: open_abs, md, count=1, flags=re.M)
-    md = re.sub(r"^---\n(?=\n*## 1\.)", lambda _: close_abs, md, count=1, flags=re.M)
+    md = ABS_RE.sub("", md, count=1)
+    # The H1 was consumed by the banner, so remaining ## must become \section, not
+    # \subsection 0.1. Crossref already writes "1. Introduction" into the heading;
+    # secnumdepth is 0 so LaTeX does not number it a second time.
+    md = re.sub(r"^(#{2,4})(\s)", lambda m: "#" * (len(m.group(1)) - 1) + m.group(2),
+                md, flags=re.M)
     return md
 
 
@@ -471,7 +472,8 @@ def header():
              # it first, and so does fvextra, which is why the load used to sit *after*
              # its first use and still work. Declare the dependency where it is needed.
              r"\usepackage{etoolbox}",
-             r"\renewcommand{\figurename}{Fig.}",
+             r"\graphicspath{{./}{../}{figures/}{docs/figures/}}",
+             r"\setcounter{secnumdepth}{0}",
              # TeX's default extra space after a period assumes the period ends a
              # sentence. This text is dense with abbreviations that it does not --
              # "Fig. 5", "e.g.", "i.e.", "vs.", and every abbreviated journal name in the
@@ -481,6 +483,25 @@ def header():
              r"\frenchspacing",
              r"\usepackage{needspace}",   # keep each table caption with its table
              r"\emergencystretch=2em",    # minor overfull lines in justified prose
+             # RSC / Digital Discovery article measure: Times, indented paragraphs,
+             # running ChemRxiv ident -- never a journal logo or "accepted manuscript".
+             r"\definecolor{preprintink}{HTML}{5c636a}",
+             r"\setlength{\parindent}{12pt}",
+             r"\setlength{\parskip}{0pt plus 1pt}",
+             r"\usepackage{fancyhdr}",
+             r"\usepackage{dblfloatfix}",
+             r"\pagestyle{fancy}",
+             r"\fancyhf{}",
+             r"\renewcommand{\headrulewidth}{0.35pt}",
+             r"\renewcommand{\footrulewidth}{0pt}",
+             r"\fancyhead[L]{\small\color{preprintink} ChemRxiv preprint}",
+             r"\fancyhead[R]{\small\color{preprintink}\itshape IRSpectra-Bench}",
+             r"\fancyfoot[C]{\small\thepage}",
+             r"\fancypagestyle{plain}{\fancyhf{}"
+             r"\renewcommand{\headrulewidth}{0.35pt}"
+             r"\fancyhead[L]{\small\color{preprintink} ChemRxiv preprint}"
+             r"\fancyhead[R]{\small\color{preprintink}\itshape IRSpectra-Bench}"
+             r"\fancyfoot[C]{\small\thepage}}",
              # A code block that overruns the measure does not wrap -- it runs off the
              # page and its text is simply absent from the PDF. The ESI quotes verbatim
              # prompts, and one lost the rest of a sentence that way. pandoc emits plain
@@ -496,6 +517,7 @@ def header():
              # label match the table one.
              r"\usepackage{caption}",
              r"\captionsetup{labelsep=period,labelfont=bf,font=small}",
+             r"\renewcommand{\figurename}{Fig.}",
              # Single lines stranded across a page break. TeX's defaults tolerate them;
              # a journal page should not.
              # A paragraph listing five monospaced paths in a row overran the measure by
@@ -598,6 +620,106 @@ def header():
     for ch, cmd in UNI.items():
         lines.append(f"\\newunicodechar{{{ch}}}{{{cmd}}}")
     return "\n".join(lines)
+
+
+def convert_longtables(tex):
+    """longtable is illegal in two-column mode; emit table* + tabular instead."""
+    needle = r"\begin{longtable}[]{"
+    out, i = [], 0
+    while True:
+        j = tex.find(needle, i)
+        if j < 0:
+            out.append(tex[i:])
+            break
+        out.append(tex[i:j])
+        brace = j + len(needle) - 1
+        depth, p = 0, brace
+        while p < len(tex):
+            if tex[p] == "{":
+                depth += 1
+            elif tex[p] == "}":
+                depth -= 1
+                if depth == 0:
+                    break
+            p += 1
+        cols = (tex[brace + 1:p]
+                .replace(r"\columnwidth", r"\textwidth")
+                .replace(r"\linewidth", r"\textwidth"))
+        end = tex.find(r"\end{longtable}", p)
+        body = tex[p + 1:end]
+        for tag in (r"\endfirsthead", r"\endhead", r"\endfoot", r"\endlastfoot",
+                    r"\noalign{}"):
+            body = body.replace(tag, "")
+        out.append("\\begin{table*}[htbp]\n\\centering\\small\n"
+                   f"\\begin{{tabular}}{{{cols}}}{body}\\end{{tabular}}\n"
+                   "\\end{table*}\n")
+        i = end + len(r"\end{longtable}")
+    return "".join(out)
+
+
+def star_wide_figures(tex):
+    """Plates authored wider than one column ride in figure* (full measure)."""
+    def repl(m):
+        inner = m.group(1)
+        wm = re.search(r"width=([\d.]+)in", inner)
+        if wm and float(wm.group(1)) >= 4.0:
+            return r"\begin{figure*}" + inner + r"\end{figure*}"
+        return m.group(0)
+    return re.sub(r"\\begin\{figure\}(.*?)\\end\{figure\}", repl, tex, flags=re.S)
+
+
+def attach_table_captions(tex):
+    """Hoist the markdown table title into \\caption* so it travels with table*."""
+    out, i = [], 0
+    key = r"\textbf{Table "
+    while True:
+        j = tex.find(key, i)
+        if j < 0:
+            out.append(tex[i:])
+            break
+        # only rewrite the needspace/begingroup sandwich immediately before
+        pre = tex[max(0, j - 80):j]
+        if r"\begingroup\small" not in pre:
+            out.append(tex[i:j + len(key)])
+            i = j + len(key)
+            continue
+        # brace-match the \textbf{...}
+        b = tex.find("{", j)
+        depth, p = 0, b
+        while p < len(tex):
+            if tex[p] == "{":
+                depth += 1
+            elif tex[p] == "}":
+                depth -= 1
+                if depth == 0:
+                    break
+            p += 1
+        cap = tex[b + 1:p]
+        rest = tex[p + 1:]
+        m = re.match(r"\s*\\endgroup\s*\\begin\{table\*\}\[htbp\]\s*\\centering\\small\s*", rest)
+        if not m:
+            out.append(tex[i:j + len(key)])
+            i = j + len(key)
+            continue
+        ns = tex.rfind(r"\needspace", i, j)
+        if ns < 0:
+            out.append(tex[i:j + len(key)])
+            i = j + len(key)
+            continue
+        out.append(tex[i:ns])
+        out.append("\\begin{table*}[htbp]\n\\centering\\small\n"
+                   f"\\caption*{{{cap}}}\n")
+        i = p + 1 + m.end()
+    return "".join(out)
+
+
+def postprocess_tex(tex):
+    """RSC-article two-column float conventions, no journal class required."""
+    tex = tex.replace("{docs/figures/", "{figures/")
+    tex = convert_longtables(tex)
+    tex = attach_table_captions(tex)
+    tex = star_wide_figures(tex)
+    return tex
 
 ESI_OUT = "docs/paper_esi.pdf"
 
@@ -735,40 +857,30 @@ def main():
     bibdir = tempfile.mkdtemp()
     bib = bibliography(bibdir)
 
-    args = [
-        f"--pdf-engine={TECTONIC}",
-        # Citations: [@key] in PAPER.md -> numbered RSC-style list, built from the
-        # bibliography. Numbering is never hand-maintained.
+    tex_args = [
+        "-s", "-H", h_path,
         "--citeproc",
         f"--bibliography={bib}",
         "--csl=docs/rsc.csl",
-        # Make the superscript citation numbers jump to their reference entry, and the
-        # entries carry their DOI as a link. Without link-citations the in-text markers
-        # render as inert text and a reader has to scroll to the list by hand.
         "-M", "link-citations=true",
         "-M", "link-bibliography=true",
-        "-V", "geometry:margin=1in", "-V", "fontsize=11pt",
+        "-V", f"geometry:{GEO_ARTICLE}",
+        "-V", "fontsize=10pt",
+        "-V", "mainfont=Liberation Serif",
+        "-V", "sansfont=Liberation Sans",
         "-V", "linkcolor=blue", "-V", "urlcolor=blue", "-V", "colorlinks=true",
-        # Section numbers help reviewers ("§3.2") and match how RSC/Nature articles print.
-        # Pandoc otherwise emits secnumdepth=-\maxdimen and the PDF looks like a blog.
-        "--number-sections",
-        # ("-V subparagraph" was here. It only suppresses pandoc's run-in patch for
-        # \paragraph/\subparagraph, and the manuscript has no heading that deep -- no
-        # "####" in PAPER.md or ESI.md, and no \paragraph in the emitted .tex.)
-        "-H", h_path,
     ]
-    pypandoc.convert_file(md_path, "pdf", format="markdown", outputfile=OUT,
-                          extra_args=args)
-    # also emit a standalone, Overleaf-portable .tex (compile with XeLaTeX)
     pypandoc.convert_file(md_path, "latex", format="markdown",
-                          outputfile="docs/paper.tex",
-                          extra_args=["-s", "-H", h_path,
-                                      "--citeproc",
-                                      f"--bibliography={bib}",
-                                      "--csl=docs/rsc.csl",
-                                      "--number-sections",
-                                      "-V", "geometry:margin=1in",
-                                      "-V", "fontsize=11pt"])
+                          outputfile="docs/paper.tex", extra_args=tex_args)
+    with open("docs/paper.tex") as fh:
+        tex = fh.read()
+    with open("docs/paper.tex", "w") as fh:
+        fh.write(postprocess_tex(tex))
+    run = subprocess.run([TECTONIC, "-o", "docs", "docs/paper.tex"],
+                         capture_output=True, text=True)
+    if run.returncode:
+        sys.stderr.write(run.stderr or run.stdout)
+        raise SystemExit(run.returncode)
     sz = os.path.getsize(OUT)
     n_esi = build_esi(h_path, bib)          # needs h_path, so clean up after
     os.unlink(md_path); os.unlink(h_path)

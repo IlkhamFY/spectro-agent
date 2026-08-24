@@ -19,11 +19,12 @@ for a referee PDF when a journal asks for continuous line numbers at peer review
 they are not part of the printed article and should not be on the author PDF you
 iterate against.
 
-**Venue.** Not yet selected — to be decided with the PI (R. A. Vargas-Hernández) before
-submission. The abstract is a single paragraph (~204 words). Suggested keywords: structure
-elucidation; NMR spectroscopy; infrared spectroscopy; large language models; chemical
-information; benchmark. Graphical abstract: `docs/figures/graphical_abstract.png` plus
-the ≤250-character TOC text that `scripts/build_pdf.py` appends.
+**Venue.** ChemRxiv first (two-column RSC-article *layout*, no Digital Discovery / RSC
+branding), then a journal with the PI (R. A. Vargas-Hernández). The PDF is a preprint:
+running header “ChemRxiv preprint”, not an accepted-manuscript stamp. The abstract is a
+single paragraph (~204 words). Keywords: structure elucidation; NMR spectroscopy;
+infrared spectroscopy; large language models; chemical information; benchmark.
+Graphical abstract: `docs/figures/graphical_abstract.png`.
 
 ---
 

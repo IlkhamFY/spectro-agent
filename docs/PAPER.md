@@ -90,6 +90,17 @@ for only 34%, so generation binds the result ([@fig:fig-wall]). Gain is bounded 
 and, by our own measurements, cannot exceed a recall/precision ceiling without sharper
 verification or 2D-NMR data.
 
+This paper contributes:
+
+- **IRexp** — 121,233 experimental IR band lists, 33,201 full IR + ¹H + ¹³C + structure
+  quadruples, permissively licensed and redistributable.
+- **IRSpectra-Bench** — a blind, mechanically scored 194-compound benchmark on
+  literature-reported peak lists, complexity-stratified, with a within-compound control.
+- **A recall/verification decomposition** on every compound: the true structure is
+  proposed for 34% and, once proposed, selected 89% of the time.
+- **A four-vendor replication** (Grok, Gemini, GPT, Claude) showing the same split, plus
+  training-free and trained complements that move the ceiling rather than the protocol.
+
 ![Diagnosis on IRSpectra-Bench (n=194): generation recall, not verification, is the bottleneck. Where the true structure is never proposed, no ranker can recover it; where it is proposed, verification usually selects it. End-to-end top-1 is the product of those two rates, which have different denominators and are not differenced.](docs/figures/fig_wall.png){#fig:fig-wall}
 
 Solver and verifier ([@sfig:overview]) are LLM agents on a consumer subscription, with no

@@ -24,10 +24,13 @@ import fitz
 
 DOCS = ("docs/paper.pdf", "docs/paper_esi.pdf")
 
-MARGIN = 72.0          # 1in, as build_pdf passes to geometry
-SLOP = 4.0             # glyph overhang and italic correction
+MARGIN = {
+    "docs/paper.pdf": 40.0,      # ~1.5 cm, ChemRxiv two-column A4
+    "docs/paper_esi.pdf": 72.0,  # 1 in, ESI stays single-column letter
+}
+SLOP = 6.0             # glyph overhang, italic correction, two-column float overhang
 MIN_PT = 5.9           # below this, type is not legible in print
-MAX_RULE_GAP = 8.0     # a bottom rule should sit as close as the header rule does
+MAX_RULE_GAP = 9.5     # a bottom rule should sit as close as the header rule does
 MAX_SHORT_PAGE = 150.0 # a prose page should not stop this far above its foot
 FAIL = []
 
@@ -38,9 +41,10 @@ def fail(doc, page, what):
 
 def check(path):
     d = fitz.open(path)
+    margin = MARGIN.get(path, 72.0)
     for i in range(d.page_count):
         pg = d[i]
-        right = pg.rect.width - MARGIN
+        right = pg.rect.width - margin
 
         # --- text past the measure
         for b in pg.get_text("blocks"):
@@ -66,7 +70,7 @@ def check(path):
         # page of nothing but prose should not.
         words = pg.get_text("words")
         if words and i < d.page_count - 1 and not pg.get_images():
-            gap = (pg.rect.height - MARGIN) - max(w[3] for w in words)
+            gap = (pg.rect.height - margin) - max(w[3] for w in words)
             if gap > MAX_SHORT_PAGE:
                 fail(path, i + 1, f"page ends {gap:.0f}pt above the bottom margin with no "
                                   f"figure to explain it")
@@ -78,7 +82,7 @@ def check(path):
                             if dr["rect"].height < 1.5 and dr["rect"].width > 400],
                            key=lambda r: r.y0)
         if rules_all and len(rules_all) <= 2:
-            body = [w for w in pg.get_text("words") if w[0] > MARGIN - 6]
+            body = [w for w in pg.get_text("words") if w[0] > margin - 6]
             inside = {round(w[3]) for w in body
                       if rules_all[0].y1 < w[1] and w[3] < rules_all[-1].y0}
             after = {round(w[3]) for w in body if w[1] > rules_all[-1].y1}

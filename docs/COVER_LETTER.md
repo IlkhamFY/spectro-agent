@@ -1,4 +1,4 @@
-# Cover letter — draft (venue TBD)
+# Cover letter — draft (ChemRxiv, then journal TBD)
 
 **Re: "IRSpectra-Bench and IRexp: candidate recall, not verification,
 limits LLM elucidation from real experimental IR and NMR"**

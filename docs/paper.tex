@@ -64,7 +64,7 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\setcounter{secnumdepth}{5}
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
 \newlength{\csllabelwidth}
@@ -108,12 +108,6 @@
 \pretocmd{\subsubsection}{\needspace{3\baselineskip}}{}{}
 \hyphenation{regio-isomer regio-isomers McNemar InChI-Key IRexp nitro-phenyl HOSE Che-mo-tion}
 \ifcsdef{CSLRightInline}{\AtBeginEnvironment{CSLReferences}{\sloppy\hypersetup{linkcolor=black,urlcolor=black,citecolor=black}}\renewcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\raggedright #1}\break}}{}
-\usepackage{lineno}
-\linenumbers
-\AtBeginEnvironment{longtable}{\nolinenumbers}
-\AfterEndEnvironment{longtable}{\linenumbers}
-\AtBeginEnvironment{figure}{\nolinenumbers}
-\AfterEndEnvironment{figure}{\linenumbers}
 \newcommand{\relspaced}[1]{\leavevmode\unskip\,\ensuremath{#1}\hskip0.16667em\relax\ignorespaces}
 \newcommand{\atmost}[1]{\ensuremath{\mathord{#1}}\ignorespaces}
 \newunicodechar{​}{\allowbreak{}}
@@ -208,19 +202,6 @@ whole-benchmark top-1 only 28\%→30\%. Masking the spectra drops top-1
 from 23\% to 5\%, and Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol all
 verify better than they generate. All predictions and code are released.
 
-We release \emph{IRexp}, the largest openly redistributable collection
-of \emph{experimental} infrared band lists (121,233 records, a third
-structure-linked); \emph{IRSpectra-Bench}, a blind, mechanically scored
-benchmark of 194 compounds; and a training-free
-\emph{forward-verification} recipe. Verification lifts top-1 from 28\%
-to 30\% across all 194 compounds, while generating wider moves recall
-from 32\% to 42\% and top-1 from 23\% to 30\% on the 60 controlled-round
-compounds (§5.2, §5.3); both top-1 steps are directional rather than
-statistically resolved. Masking the spectra drops top-1 from 23\% to 5\%
-on those same 60 compounds (§4.6), and Grok 4.6, Gemini 3.7 Flash and
-GPT-5.6 Sol all verify better than they generate (§4.7). All data,
-predictions and code are released.
-
 \vspace{-0.4em}\noindent\rule{\dimexpr\linewidth-4em\relax}{0.4pt}\endgroup
 
 \hypertarget{introduction}{%
@@ -276,7 +257,7 @@ a recall/precision ceiling without sharper verification or 2D-NMR data.
 
 \begin{figure}
 \centering
-\includegraphics[width=6.3in,height=\textheight]{docs/figures/fig_wall.png}
+\includegraphics[width=6.3in,height=\textheight]{docs/figures/fig_wall.pdf}
 \caption{All 194 compounds as one part-to-whole bar: verified top-1 for
 58 (green), recalled but mis-ranked for 7 (vermilion), never proposed
 for 129 (grey) --- \emph{the wall}, 66\% of the bar. Generation recall
@@ -621,7 +602,7 @@ above 25 (Fig.~S3).
 
 \begin{figure}
 \centering
-\includegraphics[width=3.3in,height=\textheight]{docs/figures/fig1_difficulty.png}
+\includegraphics[width=3.3in,height=\textheight]{docs/figures/fig1_difficulty.pdf}
 \caption{Top-1 and recovered accuracy on IRSpectra-Bench by difficulty
 (all / simple / complex, n=194), with bootstrap 95\% confidence
 intervals. The benchmark separates a realistic difficulty range: simple
@@ -687,7 +668,7 @@ clean re-run is outstanding in \texttt{docs/\hspace{0pt}MODELS.md}.
 
 \begin{figure}
 \centering
-\includegraphics[width=3.3in,height=\textheight]{docs/figures/fig5_models.png}
+\includegraphics[width=3.3in,height=\textheight]{docs/figures/fig5_models.pdf}
 \caption{Four-model comparison on a fixed 24-compound subset, solved
 blind under one protocol: Fable 5 46\% \textgreater{} Opus 25\%
 \textgreater{} Sonnet 21\% \textgreater{} Haiku 0\% top-1. The outcomes
@@ -838,7 +819,7 @@ pretraining recall. We claim a strong bound, not exclusion (§8).
 
 \begin{figure}
 \centering
-\includegraphics[width=6.3in,height=\textheight]{docs/figures/fig_contamination.png}
+\includegraphics[width=6.3in,height=\textheight]{docs/figures/fig_contamination.pdf}
 \caption{Two contamination controls. (\textbf{a}) Formula-only vs full
 modality on 60 compounds. (\textbf{b}) Accuracy vs source-paper year
 (n=194).}
@@ -899,7 +880,7 @@ GPT-5.6 Sol & 25/60 = 42\% {[}30--54{]} & 17/25 = 68\% {[}48--83{]} &
 
 \begin{figure}
 \centering
-\includegraphics[width=6.3in,height=\textheight]{docs/figures/fig7_crossvendor.png}
+\includegraphics[width=6.3in,height=\textheight]{docs/figures/fig7_crossvendor.pdf}
 \caption{Cross-vendor decomposition on the 60-compound arm: generation
 recall vs verification precision (§4.7).}
 \end{figure}
@@ -932,7 +913,7 @@ compared by symmetric chamfer distance (Fig.~6).
 
 \begin{figure}
 \centering
-\includegraphics[width=6.3in,height=\textheight]{docs/figures/fig_mechanism.png}
+\includegraphics[width=6.3in,height=\textheight]{docs/figures/fig_mechanism.pdf}
 \caption{Forward-verification on a benchmark regioisomer pair:
 picolinamide and nicotinamide are indistinguishable to the inverse task,
 but the true isomer's forward-predicted ¹³C spectrum matches the
@@ -1058,7 +1039,7 @@ scaffold; two thirds need a scaffold never proposed.
 
 \begin{figure}
 \centering
-\includegraphics[width=3.3in,height=\textheight]{docs/figures/fig3_method.png}
+\includegraphics[width=3.3in,height=\textheight]{docs/figures/fig3_method.pdf}
 \caption{Forward-verification inference ladder on the 60-compound arm:
 23\% / 27\% / 30\% top-1 (§5.3).}
 \end{figure}
@@ -1929,7 +1910,7 @@ preprint, DOI:
 \hypertarget{table-of-contents-entry}{%
 \section{Table of contents entry}\label{table-of-contents-entry}}
 
-\includegraphics[width=3.15in,height=\textheight]{docs/figures/graphical_abstract.png}
+\includegraphics[width=3.15in,height=\textheight]{docs/figures/graphical_abstract.pdf}
 
 IRSpectra-Bench and IRexp on real literature IR + ¹H + ¹³C: candidate
 recall, not verification, limits LLM elucidation --- the true structure

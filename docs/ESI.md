@@ -110,8 +110,8 @@ compounds per context**.
 anonymised SMILES only, pooled across compounds, canonicalised, de-duplicated, shuffled and
 re-labelled, in fixed batches of 17. They saw neither the observed spectrum, nor the
 compound's identity, nor which candidates belong to one target. Shuffling does not keep a
-target's own candidates in separate batches — in the [@sec:result] arm 5 of the 8 batches
-held two candidates for some one compound — but with no observed spectrum in hand there is
+target's own candidates in separate batches — in the [@sec:result] arm, 5 of the 8 batches
+held two candidates for a single compound — but with no observed spectrum in hand there is
 nothing for that to leak: at most a predictor notices that two structures are isomers,
 evident from either alone.
 
@@ -268,8 +268,8 @@ The battery-electrolyte subset ([@sec:domain-case-study-battery]) came from the 
 by SMARTS filters for six electrolyte functional classes, eight per class (48 curated, 46
 scored), J-enriched and spectrally validated identically to the main rounds and excluding
 every compound used elsewhere. [@sfig:electrolyte] breaks that subset down class by class,
-pairing exact top-1 against recovered. It carries no intervals and is not a ranking — at
-eight compounds a class the spread is within sampling noise
+pairing exact top-1 against recovered. It carries no intervals and is not a ranking — with
+eight compounds per class, the spread is within sampling noise
 ([@sec:domain-case-study-battery]) — but the paired bars show the shape of the failure
 plainly: in most classes recovered barely clears top-1, so what the subset is short of is
 candidates, not a way to choose between them.
@@ -348,7 +348,7 @@ def chamfer(pred, obs):
 \endgroup
 ```
 
-**The re-ranking.** Within a compound the candidate of smallest chamfer becomes the top-1
+**The re-ranking.** Within a compound, the candidate of smallest chamfer becomes the top-1
 answer and the solver's own ordering is discarded. The sentinel matters: a candidate with no
 forward prediction takes 999.0, effectively infinite, and can never be selected, so an arm
 with unpredicted candidates reports a lower bound on verified top-1 rather than a
@@ -372,7 +372,7 @@ Across the whole benchmark that is **373 of 373** candidates forward-predicted b
 independent agents over 194 targets — the first and third rows of the table above, 126 and
 247 candidates over 8 and 15 agents; the remaining three rows re-rank the widened
 generate-wide pool and the generator probe, which the decomposition does not draw on — so
-nothing in [@tab:forward-verification-decomposition] is a lower bound. In the generate-wide arm all
+nothing in [@tab:forward-verification-decomposition] is a lower bound. In the generate-wide arm, all
 **217 of 217** distinct new candidates are now predicted where the original pass had
 predicted 65, and **not one number moves**: recall 42%, forward-verified top-1 30%,
 precision 72%. The added coverage buys a direct view of the mechanism — on **18 of the 60**
@@ -424,7 +424,7 @@ the question being only whether the predictor slot is where the leverage sits.
 gives the four verifiers conditional on recall. The lookup's tie with self-ranking there is
 not agreement: at n=65 it **gains seven compounds and loses seven** (McNemar b=c=7,
 p=1.00), reshuffling energetically while carrying no net discriminative signal. Its coverage
-diagnosis is that of the **6,360 candidate carbons only 2.1% match a training environment at
+diagnosis is that of the **6,360 candidate carbons, only 2.1% match a training environment at
 the most specific sphere (r=4)**, 71% resolving only at r≤2 or falling through to the prior.
 The GNN's margins are directional and none reaches significance (against the lookup p=0.34,
 against self-ranking p=0.22, against the LLM verifier p=1.00). [@sfig:verifier] sets those
@@ -441,8 +441,8 @@ wrong candidates on recall-negative compounds, which never enter the conditional
 and **no benchmark answer appears in the database at all** (0/373; the 60-compound arm is
 0/126). Analog overlap is likewise absent: median Morgan(2, 2048) Tanimoto to the nearest
 training molecule is **0.44**, three candidates above 0.80, and over the **65 true
-structures the verifier must identify** the nearest training analog has median Tanimoto
-**0.50** and maximum **0.81** — no compound the conditional analysis scores has a
+structures the verifier must identify**, the nearest training analog has median Tanimoto
+**0.50** and maximum **0.81** — no compound that the conditional analysis scores has a
 near-duplicate in training. A Y-randomisation control (1,000 derangements) was run on the
 60-compound arm rather than the whole benchmark, and places the learned verifier above the
 97.5th percentile of chance (n=19: real 16/19 = 84% against a permuted mean of 58.6%,
@@ -512,7 +512,7 @@ to whether two intervals overlap. Bootstrapping compounds
 (`scripts/cross_vendor_gap.py`) resolves three of the four arms — Claude
 +52.5 points [+31.2 to +71.7], GPT-5.6 Sol +26.3 [+4.5 to +48.6], Gemini +23.3
 [+3.2 to +44.3] — and leaves Grok +9.2 [−11.7 to +30.0] directional. Claude's is the
-widest and the least informative: its singleton-heavy candidate sets inflate it. And the recall column is not budget-matched: the
+widest and the least informative: its singleton-heavy candidate sets inflate it. The recall column is not budget-matched: the
 reference arm holds 2.20 candidates per compound against exactly 3.00 for every comparison
 model (Composer 2.82), and a longer list can only raise recall. At one candidate, the only
 budget every model met, recall is 14/60 = 23% for Claude, 23/60 = 38% for Grok, 23/60 = 38%
@@ -530,7 +530,7 @@ measurement as one at `-high`, which is why the article reports these as vendor-
 results.
 
 **Contamination control.** The cloud agents cloned the whole repository and the answer files
-for these 60 compounds are tracked, so blindness rested on an instruction nothing verifies
+for these 60 compounds are tracked, so blindness rested on an instruction that nothing verifies
 after the fact. The control is a re-solve with those files out of the workspace: Grok 4.6
 re-ran all ten batches from a clean clone (`sweep_out/grok-4.6-clean/`).
 
@@ -585,8 +585,8 @@ PubChem[@kim2023pubchem], so the formula is close to determining; **C₁₃H₁�
 hazard[@xu2024contamination] head-on rather than by masking: publication years were
 resolved for all 194 compounds from their accessions (`scripts/contamination_recency.py`)
 and span 2008–2026. Accuracy is flat: **28.6%** for the older half (≤2020, n=112) against
-**28.0%** for the newer (n=82), point-biserial r between year and correctness of **−0.007**, the most
-recent bucket (≥2024, n=25) in fact highest at 40% [23–59]. The raw split is biased against
+**28.0%** for the newer (n=82), point-biserial r between year and correctness of **−0.007**; the most
+recent bucket (≥2024, n=25) is in fact highest at 40% [23–59]. The raw split is biased against
 the newer half, since newer papers skew larger (median 22 heavy atoms against 20) and size
 dominates accuracy; stratifying by heavy-atom band removes that (newer against older —
 ≤15: 64% against 58%; 16–25: 34% against 25%; >25: 6% against 8%). The size-adjusted
@@ -601,11 +601,11 @@ themselves is an expert-chemist review of the outputs. The audit package is blin
 pre-registered and **frozen** before any review, and regenerates deterministically at seed 0
 from `scripts/make_audit_sample.py` into `data/audit/`.
 
-The panel is three independent PhD-level synthetic or analytical chemists with no prior
+The panel comprises three independent PhD-level synthetic or analytical chemists with no prior
 exposure to the benchmark answers, at roughly 3–4 person-hours each. The sample is a
 difficulty-stratified draw (15 simple, 15 complex) from the 60-compound
 forward-verification set, the only split carrying both the ranked candidates and the
-observed spectra. Per compound a reviewer sees the exact solver prompt — formula, IR, ¹H,
+observed spectra. Per compound, a reviewer sees the exact solver prompt — formula, IR, ¹H,
 ¹³C — and the model's top-ranked candidate rendered as a 2D structure, with model identity
 and ground truth hidden.
 
@@ -624,7 +624,7 @@ and ground truth hidden.
 Task 1 scores the model's top-1 for consistency with all provided spectra (1–5), gives a
 categorical verdict (correct / wrong-regiochemistry / wrong-scaffold / uninterpretable) and
 names the single most diagnostic peak; the read-outs are inter-rater agreement and the
-fraction of mechanically-wrong top-1 answers judged spectrally consistent but a different
+fraction of mechanically-wrong top-1 answers judged spectrally consistent but as a different
 regioisomer. Task 2 presents the shuffled, unlabelled candidate set for ranking by spectral
 fit, against the LLM forward-verifier's and the deterministic lookup's picks on identical
 sets. Task 2 is shown on **every** compound, so its presence signals nothing: an
@@ -640,7 +640,7 @@ article**, recorded while testing that the worksheet and the scorer work end to 
 is therefore not a panel response: the panel is defined as three chemists independent of the
 authors, and no reported number will draw on this file. A single partial reviewer would
 support neither read-out in any case, inter-rater agreement needing at least two reviewers
-and the pre-registered panel being three. Scoring is mechanical (`scripts/score_audit.py`), and the
+and the pre-registered panel being three. Scoring is mechanical (`scripts/score_audit.py`); the
 three Task 2 sets holding a single candidate (A19, A21, A30) cannot be ranked, so the
 scorer excludes and flags them. Until expert results are in, the
 two claims the panel targets — what a miss actually is ([@sec:well-llms-elucidate-real]),

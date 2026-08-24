@@ -33,15 +33,15 @@ FALSE= ([28.6, 51.6, 123.5, 130.5, 135.5, 148.5, 151.5, 164.5], "CC(C)(C)NC(=O)c
 # maps one canvas pixel to zoom/72 inch, so a glyph drawn at F canvas px prints at
 # F * zoom points: fix the inset's printed WIDTH, derive zoom from it, then derive the
 # RDKit font from the printed size we want.
-INSET_W_IN  = 1.34    # printed width of the structure inset
-ATOM_LABEL_PT = 7.0   # printed size of the C/N/O/H glyphs — the body size
+INSET_W_IN  = 1.38    # printed width of the structure inset
+ATOM_LABEL_PT = 8.0   # printed size of the C/N/O/H glyphs — the body size
 CANVAS = (760, 430)   # RDKit canvas; only the aspect matters, zoom absorbs the rest
 
 
 def _draw(smi, font_px):
     mol = Chem.MolFromSmiles(smi)
     d = rdMolDraw2D.MolDraw2DCairo(*CANVAS)
-    o = d.drawOptions(); o.useBWAtomPalette(); o.bondLineWidth = 2; o.padding = 0.04
+    o = d.drawOptions(); o.useBWAtomPalette(); o.bondLineWidth = 2.8; o.padding = 0.06
     o.fixedFontSize = int(max(1, font_px))
     rdMolDraw2D.PrepareAndDrawMolecule(d, mol)
     d.FinishDrawing()
@@ -49,7 +49,7 @@ def _draw(smi, font_px):
     bg = Image.new("RGB", im.size, (255, 255, 255))
     bbox = ImageChops.difference(im, bg).getbbox()      # trim white margin
     if bbox:
-        pad = 10
+        pad = 16
         im = im.crop((max(0, bbox[0] - pad), max(0, bbox[1] - pad),
                       min(im.width, bbox[2] + pad), min(im.height, bbox[3] + pad)))
     return np.asarray(im)
@@ -72,7 +72,7 @@ def molimg(smi):
     arr = _draw(smi, round(font))
     return arr, INSET_W_IN * 72 / arr.shape[1]
 
-fig = plt.figure(figsize=(fs.COL2, 3.55))
+fig = plt.figure(figsize=(fs.COL2, 3.70))
 gs = fig.add_gridspec(3, 1, hspace=0.32, left=0.34, right=0.985, top=0.90, bottom=0.115)
 axes = [fig.add_subplot(gs[i]) for i in range(3)]
 XMAX = 172
@@ -85,7 +85,7 @@ axes[0].vlines(OBS, 0, 1, color=fs.INK, lw=fs.STICK_LW)
 axes[0].set_title("observed spectrum", fontsize=fs.FS_BODY, color=fs.INK, loc="left")
 axes[0].text(-0.255, 0.5, "unknown\nC10H14N2O", transform=axes[0].transAxes,
              ha="center", va="center", fontsize=fs.FS_BODY, color=fs.INK)
-fs.panel(axes[0], "a", x=-0.34, y=1.06)
+fs.panel(axes[0], "a")
 
 for ax, lett, (pred, smi, name, dist), col, mark in [
         (axes[1], "b", TRUE,  fs.GREEN,  "selected"),
@@ -93,14 +93,15 @@ for ax, lett, (pred, smi, name, dist), col, mark in [
     ax.vlines(OBS, 0, 1, color=fs.GHOST, lw=3.2)
     ax.vlines(pred, 0, 1, color=col, lw=fs.STICK_LW)
     ax.set_title(f"{name} ({mark})", fontsize=fs.FS_BODY, color=col, loc="left")
-    ax.text(1.01, 0.90, f"{dist:.2f} ppm", transform=ax.transAxes,
-            ha="left", va="top", fontsize=fs.FS_BODY, color=col, clip_on=False)
+    ax.text(0.995, 0.90, f"{dist:.2f} ppm", transform=ax.transAxes,
+            ha="right", va="top", fontsize=fs.FS_BODY, fontweight="bold",
+            color=col, clip_on=False)
     img, zoom = molimg(smi)
     ax.add_artist(AnnotationBbox(OffsetImage(img, zoom=zoom), (-0.255, 0.5),
                   xycoords="axes fraction", frameon=True, box_alignment=(0.5, 0.5),
-                  pad=0.25, bboxprops=dict(edgecolor=col, lw=0.95,
-                                           boxstyle="round,pad=0.22")))
-    fs.panel(ax, lett, x=-0.34, y=1.06)
+                  pad=0.30, bboxprops=dict(edgecolor=col, lw=1.25,
+                                           boxstyle="round,pad=0.28")))
+    fs.panel(ax, lett)
 
 for i, ax in enumerate(axes):
     ax.set_xlim(XMAX, 0); ax.set_ylim(0, 1.18); ax.set_yticks([])

@@ -700,7 +700,7 @@ def main():
     # carries it; journals lift it out of the PDF.
     toc = prefer_vector("docs/figures/graphical_abstract.png")
     if os.path.exists(toc):
-        md += ("\n\n\\clearpage\n\n# Table of contents entry\n\n"
+        md += ("\n\n\\clearpage\n\n```{=latex}\n\\section*{Table of contents entry}\n```\n\n"
                f"![]({toc}){{width={fig_size(toc)[0]} height={fig_size(toc)[1]}}}\n\n"
                # RSC caps the table-of-contents text at 250 characters. The earlier
                # wording also invited an arithmetic a reader will actually do: 34% x 89%

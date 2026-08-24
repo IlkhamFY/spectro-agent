@@ -28,6 +28,8 @@ from __future__ import annotations
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib import patheffects
+from matplotlib.font_manager import FontProperties
 
 # ---- Paul Tol Vibrant core + Nature-desk secondary ---------------------------
 # Primary/hero/good/bad from Tol Vibrant (SRON). Secondary is a *same-hue* light
@@ -36,7 +38,7 @@ import matplotlib.pyplot as plt
 INK    = "#1a1a1a"   # text / spines (near-black, not pure #000)
 MUTED  = "#9aa0a6"   # de-emphasised bars (darker than Tol's #BBB so bars hold on white)
 NOTE   = "#5c636a"   # in-plot annotations (readable grey)
-FAINT  = "#ececec"   # whisper gridlines only
+FAINT  = "#e0e0e0"   # whisper gridlines only
 GHOST  = "#c5c9cd"   # reference overlays (ghosted spectra, soft rules)
 BLUE   = "#0077BB"   # primary   (Tol vibrant blue)
 SKY    = "#6BAFD4"   # secondary (same-hue light companion — not neon cyan)
@@ -51,29 +53,31 @@ PRIMARY, SECONDARY, ACCENT, GOOD, BAD = BLUE, SKY, ORANGE, GREEN, VERMIL
 # Author EVERY chart at exactly one of these so type prints at one physical size.
 COL1 = 3.30          # single column (~85 mm)
 COL2 = 6.30          # full text width
-H1   = 2.55          # default single-panel height
-H2   = 2.75          # default two-panel height
+H1   = 2.70          # default single-panel height
+H2   = 3.15          # default two-panel height
 SINGLE = (COL1, H1)
 DOUBLE = (COL2, H2)
 
 # ---- type scale (points) — nothing below the print floor ---------------------
-FS_BODY  = 7         # axis labels, ticks, most text
-FS_SMALL = 7         # secondary annotations (role via NOTE colour, not size)
-FS_PANEL = 8         # bold panel letters (a, b, c)
-FS_EMPH  = 9         # rare emphasised figure hierarchy
+# Printed at authored COL width (no downscaling). 8 pt body survives photocopy;
+# panel letters are a full step above so a/b/c read as letters, not tick labels.
+FS_BODY  = 8         # axis labels, ticks, most text
+FS_SMALL = 8         # secondary annotations (role via NOTE colour, not size)
+FS_PANEL = 12        # bold panel letters (a, b, c) — one step above body, stroked
+FS_EMPH  = 10        # rare emphasised figure hierarchy
 
 # ---- geometry tokens (shared bar / mark / dash language) ---------------------
 BAR_W       = 0.58   # single-series vertical bar width
 BAR_H       = 0.58   # single-series horizontal bar height
 GROUP_C     = 0.38   # centre-to-centre of a paired group
 GROUP_W     = 0.34   # width of each bar in a paired group
-ERR         = dict(lw=0.7, ecolor=INK, capthick=0.7, capsize=2.0)
+ERR         = dict(lw=0.85, ecolor=INK, capthick=0.85, capsize=2.4)
 REF_LS      = (0, (3.2, 2.4))   # dashed reference lines
-REF_LW      = 0.65
-STICK_LW    = 1.45   # NMR stick spectra
-MARKER      = 4.5
-LINE_W      = 1.35
-PAD_INCHES  = 0.04   # identical outer whitespace on every saved PNG
+REF_LW      = 0.75
+STICK_LW    = 1.70   # NMR stick spectra
+MARKER      = 5.5
+LINE_W      = 1.50
+PAD_INCHES  = 0.05   # identical outer whitespace on every saved PNG
 DPI_SAVE    = 600
 
 
@@ -110,7 +114,7 @@ def apply():
         "ytick.labelsize": FS_BODY,
         "legend.fontsize": FS_BODY,
         "axes.edgecolor": INK,
-        "axes.linewidth": 0.50,
+        "axes.linewidth": 0.70,
         "axes.spines.top": False,
         "axes.spines.right": False,
         "axes.titlelocation": "left",
@@ -128,15 +132,15 @@ def apply():
         "ytick.right": False,
         "xtick.minor.visible": False,
         "ytick.minor.visible": False,
-        "xtick.major.size": 2.6,
-        "ytick.major.size": 2.6,
-        "xtick.major.width": 0.55,
-        "ytick.major.width": 0.55,
-        "xtick.major.pad": 2.4,
-        "ytick.major.pad": 2.4,
+        "xtick.major.size": 3.0,
+        "ytick.major.size": 3.0,
+        "xtick.major.width": 0.65,
+        "ytick.major.width": 0.65,
+        "xtick.major.pad": 2.8,
+        "ytick.major.pad": 2.8,
         "axes.grid": False,
         "grid.color": FAINT,
-        "grid.linewidth": 0.45,
+        "grid.linewidth": 0.55,
         "legend.frameon": False,
         "legend.handlelength": 1.15,
         "legend.handletextpad": 0.45,
@@ -156,22 +160,27 @@ def apply():
 def ygrid(ax):
     """Whisper-faint y-only reference lines (for vertical-value charts)."""
     ax.set_axisbelow(True)
-    ax.yaxis.grid(True, color=FAINT, linewidth=0.45)
+    ax.yaxis.grid(True, color=FAINT, linewidth=0.55)
     ax.xaxis.grid(False)
 
 
 def xgrid(ax):
     """Whisper-faint x-only reference lines (for horizontal-value charts)."""
     ax.set_axisbelow(True)
-    ax.xaxis.grid(True, color=FAINT, linewidth=0.45)
+    ax.xaxis.grid(True, color=FAINT, linewidth=0.55)
     ax.yaxis.grid(False)
 
 
-def panel(ax, letter, x=-0.16, y=1.04):
-    """Bold panel letter in the shared position language."""
-    ax.text(x, y, letter, transform=ax.transAxes, fontsize=FS_PANEL,
-            fontweight="bold", va="bottom", ha="left", color=INK,
-            clip_on=False)
+def panel(ax, letter, x=0.02, y=0.98, ha="left", va="top"):
+    """Heavy panel letter, *inside* the axes (top-left by default).
+
+    Letters placed in negative axes-fraction were clipped by savefig.bbox='standard'
+    — only a sliver of the glyph survived, which read as a faint un-bold 'a'.
+    """
+    fp = FontProperties(family="Liberation Sans", weight="bold", size=FS_PANEL)
+    ax.text(x, y, letter, transform=ax.transAxes, fontproperties=fp,
+            va=va, ha=ha, color=INK, clip_on=False, zorder=10,
+            path_effects=[patheffects.withStroke(linewidth=0.85, foreground=INK)])
 
 
 def barlabels(ax, bars, fmt="{:.0f}", dy=1.0, size=FS_BODY, color=None):

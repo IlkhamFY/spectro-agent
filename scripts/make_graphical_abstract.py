@@ -18,6 +18,8 @@ image already shows two candidates and one verdict.
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+from matplotlib.font_manager import FontProperties
+from matplotlib import patheffects
 import numpy as np, io
 from PIL import Image, ImageChops
 from rdkit import Chem
@@ -31,13 +33,13 @@ OBS = [28.9, 51.0, 121.9, 126.0, 137.9, 147.9, 151.0, 163.6]
 CM = 1 / 2.54
 W_IN, H_IN = 8 * CM, 4 * CM      # RSC's table-of-contents box, exactly
 MIN_PT = 7                       # nothing in this graphic may be smaller
-STRUCT_W_IN = 1.24               # printed width of each structure
+STRUCT_W_IN = 1.28               # printed width of each structure
 CANVAS = (760, 430)
 
 
 def _draw(smi, font_px):
     d = rdMolDraw2D.MolDraw2DCairo(*CANVAS)
-    o = d.drawOptions(); o.useBWAtomPalette(); o.bondLineWidth = 2; o.padding = 0.04
+    o = d.drawOptions(); o.useBWAtomPalette(); o.bondLineWidth = 3; o.padding = 0.06
     o.fixedFontSize = int(max(1, font_px))
     rdMolDraw2D.PrepareAndDrawMolecule(d, Chem.MolFromSmiles(smi))
     d.FinishDrawing()
@@ -45,7 +47,7 @@ def _draw(smi, font_px):
     bg = Image.new("RGB", im.size, (255, 255, 255))
     bbox = ImageChops.difference(im, bg).getbbox()
     if bbox:
-        pad = 8
+        pad = 14
         im = im.crop((max(0, bbox[0] - pad), max(0, bbox[1] - pad),
                       min(im.width, bbox[2] + pad), min(im.height, bbox[3] + pad)))
     return np.asarray(im)
@@ -72,7 +74,7 @@ ax.text(50, 97.5, "28% top-1 on blind, real IR + NMR spectra", ha="center", va="
         fontsize=8, fontweight="bold", color=fs.INK)
 
 ax.text(2, 87.5, "observed \u00b9\u00b3C,  C10H14N2O", ha="left", va="top",
-        fontsize=MIN_PT, color=fs.NOTE)
+        fontsize=MIN_PT, color=fs.INK)
 xa, xb, PPM = 40.0, 98.0, 175.0
 px = lambda p: xb - (p / PPM) * (xb - xa)
 for p in OBS:
@@ -80,17 +82,21 @@ for p in OBS:
             solid_capstyle="butt")
 ax.plot([xa - 1, xb + 1], [70, 70], color=fs.GHOST, lw=0.75)
 
-for smi, xc, col, dist, verdict in [
-        ("CC(C)(C)NC(=O)c1ccccn1", 26, fs.GREEN,  "0.42 ppm", "selected"),
-        ("CC(C)(C)NC(=O)c1cccnc1", 74, fs.VERMIL, "1.30 ppm", "rejected")]:
+for smi, xc, col, dist, verdict, lett in [
+        ("CC(C)(C)NC(=O)c1ccccn1", 26, fs.GREEN,  "0.42 ppm", "selected", "a"),
+        ("CC(C)(C)NC(=O)c1cccnc1", 74, fs.VERMIL, "1.30 ppm", "rejected", "b")]:
     img, zoom = molimg(smi)
     ax.add_artist(AnnotationBbox(OffsetImage(img, zoom=zoom), (xc, 43),
                   frameon=True, box_alignment=(0.5, 0.5),
-                  bboxprops=dict(edgecolor=col, lw=0.95, boxstyle="round,pad=0.18")))
+                  bboxprops=dict(edgecolor=col, lw=1.35, boxstyle="round,pad=0.28")))
+    fp = FontProperties(family="Liberation Sans", weight="bold", size=9)
+    ax.text(xc - 21, 61.5, lett, ha="center", va="center",
+            fontproperties=fp, color=fs.INK,
+            path_effects=[patheffects.withStroke(linewidth=0.7, foreground=fs.INK)])
     ax.text(xc, 14, f"{dist}  {verdict}", ha="center", va="center",
             fontsize=MIN_PT, fontweight="bold", color=col)
 
-ax.text(50, 1.0, "recall (34%), not verification (89%), is the wall",
+ax.text(50, 1.0, "recall (34%) is the bottleneck, not verification (89%)",
         ha="center", va="bottom", fontsize=MIN_PT, color=fs.INK)
 
 fs.save("docs/figures/graphical_abstract.png")

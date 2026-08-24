@@ -32,7 +32,7 @@ segs = [
 ]
 labels = ["verified", "mis-ranked", "never proposed"]
 
-fig = plt.figure(figsize=(fs.COL2, 1.28))
+fig = plt.figure(figsize=(fs.COL2, 1.42))
 ax = fig.add_axes([0.025, 0.02, 0.95, 0.94])
 ax.set_xlim(0, N)
 ax.set_ylim(0, 1)

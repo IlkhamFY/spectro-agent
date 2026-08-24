@@ -31,7 +31,7 @@ axB.set_ylabel("held-out \u00b9\u00b3C MAE (ppm)")
 # NOTE grey, not MUTED: this reads the axis for the reader (the only panel in the paper
 # where a smaller bar is the better result), and at ~34% black it was the faintest mark
 # in the figure.
-axB.text(0.97, 0.96, "lower = better", transform=axB.transAxes, ha="right",
+axB.text(0.97, 0.86, "lower = better", transform=axB.transAxes, ha="right",
          va="top", fontsize=fs.FS_BODY, color=fs.NOTE)
 fs.panel(axB, "b")
 

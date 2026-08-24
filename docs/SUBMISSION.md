@@ -13,11 +13,11 @@ python scripts/crossref.py docs/PAPER.md   # every figure/table/section referenc
 python scripts/build_pdf.py            # docs/paper.pdf, docs/paper.tex, docs/paper_esi.pdf
 ```
 
-`build_pdf.py` writes line numbers by default, which is what RSC asks for under review;
-set `LINENOS=0` for a reading copy.
+`build_pdf.py` writes line numbers by default for review copies; set `LINENOS=0` for a
+reading copy.
 
-**Venue.** *Digital Discovery* (RSC) Article. The abstract is a single paragraph of 232
-words (RSC: 50–250, one paragraph). Suggested submission-system keywords: structure
+**Venue.** Not yet selected — to be decided with the PI (R. A. Vargas-Hernández) before
+submission. The abstract is a single paragraph (~204 words). Suggested keywords: structure
 elucidation; NMR spectroscopy; infrared spectroscopy; large language models; chemical
 information; benchmark. Graphical abstract: `docs/figures/graphical_abstract.png` plus
 the ≤250-character TOC text that `scripts/build_pdf.py` appends.
@@ -32,9 +32,10 @@ it does not.
 
 | # | item | where it goes | note |
 |---|---|---|---|
-| 1 | **ORCID iDs**, all three authors | `docs/PAPER.md`, author block (visible `[TODO: 0000-…]` placeholders) | RSC requires the corresponding author's; co-authors' are requested |
+| 1 | **ORCID iDs**, all three authors | `docs/PAPER.md`, author block (visible `[TODO: 0000-…]` placeholders) | corresponding author's ORCID is typically required at submission |
 | 2 | **Zenodo DOI** for the data/code deposit | `docs/PAPER.md`, Data and code availability (`[TODO: 10.5281/zenodo.XXXXXXX]`) | mint at submission; the Licensing section points re-users at it for attribution |
 | 3 | **Funding sources and acknowledgements** | `docs/PAPER.md`, Acknowledgements (marked `— AUTHORS`) | currently the only empty section |
+| 4 | **Target journal** | cover letter + submission metadata | decide with PI before finalising house style / cover letter |
 
 ### Not on this list any more: model snapshot identifiers
 

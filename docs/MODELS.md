@@ -205,7 +205,8 @@ is the honest boundary of a zero-cost subscription protocol — it buys reproduc
 Three items, all outside the repository's reach:
 
 1. **ORCID iDs** for all three authors → `docs/PAPER.md` author block, visible
-   `[TODO: 0000-0000-0000-0000]` placeholders. RSC requires the corresponding author's.
+   `[TODO: 0000-0000-0000-0000]` placeholders. Corresponding-author ORCID is typically
+   required at submission.
 2. **Zenodo DOI** for the data/code deposit → `docs/PAPER.md`, *Data and code
    availability*. Mint at submission.
 3. **Funding sources and acknowledgements** → `docs/PAPER.md`, *Acknowledgements*,
@@ -421,6 +422,6 @@ surface a missing citation. Four additions, two of which required correcting cla
 | work | why it matters | action |
 |---|---|---|
 | **NMR-Solver** (Jin et al., arXiv:2509.00640) | implements §5's generate-and-forward-verify loop *without* an LLM (NMRNet, ¹³C MAE 1.098 ppm); 52.89% top-1 on ~450 experimental literature spectra with formula | cited; §1.1 and Contribution 3 now state the loop is prior art and that its sharper predictor **corroborates** the §5.1 resolution diagnosis |
-| **Alberts, Zipoli & Laino** (*Digital Discovery* **4**, 1936, 2025) | successor to the 2024 paper we cite, **in our target journal**; 63.8% top-1 / 84.0% top-10 on *experimental* NIST gas-phase IR with formula | cited; falsified our claim that "the strongest trained baselines report accuracy in-distribution on simulated spectra" — corrected, and the real/curated distinction restated as literature-heterogeneous vs single-instrument |
+| **Alberts, Zipoli & Laino** (*Digital Discovery* **4**, 1936, 2025) | successor to the 2024 paper we cite; 63.8% top-1 / 84.0% top-10 on *experimental* NIST gas-phase IR with formula | cited; falsified our claim that "the strongest trained baselines report accuracy in-distribution on simulated spectra" — corrected, and the real/curated distinction restated as literature-heterogeneous vs single-instrument |
 | **NMRAgent** (Fang et al., arXiv:2606.29776) | closest LLM-agent counterpart; validates on newly isolated natural products | cited as complementary |
 | **NMRArena** (odanchem, GitHub) | 105 molecules, experimental ¹H/¹³C, benchmarks six general LLMs *including Claude Opus 4.8* against four specialist models | **not cited** — publication is a placeholder ("final citation to be added on publication"), so it is concurrent unpublished work. Contribution 2's priority claim is hedged "to our knowledge"; **authors should re-check before submission** in case it has since appeared. |

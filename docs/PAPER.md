@@ -5,8 +5,8 @@
 *^a^ Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario L8S 4L8, Canada.*
 
 <!-- AUTHORS — name forms and ORCID iDs below are taken from each author's own published
-     bylines and ORCID record, not guessed. RSC links iDs through the submission system
-     rather than printing them in the manuscript body, so they are recorded here.
+     bylines and ORCID record, not guessed. Many journals link iDs through the submission
+     system rather than printing them in the manuscript body, so they are recorded here.
        I. Yabbarov            ORCID: [TODO: 0000-0000-0000-0000]
                               (corresponding; yabbaroi@mcmaster.ca)
        R. Sondhi              ORCID: 0009-0003-3034-7347
@@ -15,10 +15,10 @@
                               no email found in any public source — ask him
        R. A. Vargas-Hernández ORCID: 0000-0002-5559-6521
                               verified: https://orcid.org/0000-0002-5559-6521
-                              email vargashr@mcmaster.ca (his own corresponding-author
-                              footnote, arXiv:2509.13504 / Digital Discovery 2026)
+                              email vargashr@mcmaster.ca (corresponding-author
+                              footnote, arXiv:2509.13504)
                               accented surname with middle initial is the form on every
-                              2025–26 byline, including his own Digital Discovery paper;
+                              2025–26 byline;
                               he also carries two further McMaster affiliations (School of
                               Computational Science and Engineering; Brockhouse Institute
                               for Materials Research) — ask whether he wants them listed
@@ -697,7 +697,7 @@ forward-verification harness are scripted end-to-end.
 ## Supporting Information figures
 
 These are supplied as a separate Electronic Supplementary Information document
-(`docs/paper_esi.pdf`, built by `scripts/build_pdf.py`), as RSC requires; they are listed
+(`docs/paper_esi.pdf`, built by `scripts/build_pdf.py`); they are listed
 here for reference.
 
 - **[@sfig:overview]** (`docs/figures/fig0_overview.png`) — study design: open multimodal data
@@ -820,8 +820,8 @@ this dataset (Zenodo DOI above) and attribute the original publications via each
 ## Acknowledgements
 
 <!-- ACKNOWLEDGEMENTS — To be completed before submission: funding sources,
-     compute/infrastructure, and any individual acknowledgements. RSC requires the funding
-     declaration in this section. `python scripts/check_manuscript.py` lists this until it
+     compute/infrastructure, and any individual acknowledgements.
+     `python scripts/check_manuscript.py` lists this until it
      is written. — AUTHORS -->
 
 ### Use of AI tools

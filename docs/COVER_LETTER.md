@@ -1,17 +1,16 @@
-# Cover letter — *Digital Discovery* (RSC)
+# Cover letter — draft (venue TBD)
 
-**Re: Submission of "IRSpectra-Bench and IRexp: candidate recall, not verification,
+**Re: "IRSpectra-Bench and IRexp: candidate recall, not verification,
 limits LLM elucidation from real experimental IR and NMR"**
 
 Dear Editor,
 
-We submit the enclosed manuscript for consideration as an Article in *Digital
-Discovery*. We release **IRexp**, the largest permissively licensed, redistributable
-collection of experimental infrared band lists (121,233 records; 43,060 structure-linked;
-33,201 full IR + ¹H + ¹³C + structure quadruples), and **IRSpectra-Bench**, a blind,
-mechanically scored benchmark of 194 compounds built from it — then ask how well frontier
-large language models recover structure from the peak lists exactly as reported in
-open-access papers.
+We enclose a manuscript for consideration. We release **IRexp**, the largest
+permissively licensed, redistributable collection of experimental infrared band lists
+(121,233 records; 43,060 structure-linked; 33,201 full IR + ¹H + ¹³C + structure
+quadruples), and **IRSpectra-Bench**, a blind, mechanically scored benchmark of 194
+compounds built from it — then ask how well frontier large language models recover
+structure from the peak lists exactly as reported in open-access papers.
 
 Given the molecular formula, the IR band list and the ¹H/¹³C shifts exactly as reported
 in an open-access paper, a frontier model recovers the correct constitution for 28.4% of

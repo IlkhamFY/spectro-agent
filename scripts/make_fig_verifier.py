@@ -28,6 +28,9 @@ fs.ygrid(axB); fs.barlabels(axB, bB, fmt="{:.2f}", dy=0.06, size=fs.FS_BODY)
 axB.set_xticks(xB); axB.set_xticklabels(labelsB)
 axB.set_ylim(0, 4.0); axB.set_yticks([0, 1, 2, 3, 4])
 axB.set_ylabel("held-out $^{13}$C MAE (ppm)")
+# NOTE grey, not MUTED: this reads the axis for the reader (the only panel in the paper
+# where a smaller bar is the better result), and at ~34% black it was the faintest mark
+# in the figure.
 axB.text(0.97, 0.96, "lower = better", transform=axB.transAxes, ha="right",
          va="top", fontsize=fs.FS_BODY, color=fs.NOTE)
 fs.panel(axB, "b")

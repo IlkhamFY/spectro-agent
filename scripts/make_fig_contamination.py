@@ -19,6 +19,8 @@ vals = [5.0, 23.3]
 cols = [fs.MUTED, fs.BLUE]
 bars = axA.bar([0, 1], vals, width=fs.BAR_W, color=cols, zorder=3)
 fs.ygrid(axA)
+# Offsets are fractions of the shared y-range, so the value and its denominator keep
+# the same printed gap now that both panels run to YMAX.
 for b, v, k in zip(bars, vals, ["3/60", "14/60"]):
     axA.text(b.get_x() + b.get_width()/2, v + 0.019 * YMAX, f"{v:.0f}%",
              ha="center", va="bottom", fontsize=fs.FS_BODY, color=fs.INK)

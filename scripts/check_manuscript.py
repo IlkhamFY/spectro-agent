@@ -432,9 +432,9 @@ def check_scripts_numbers():
                 fail("K", f"{path}: {why}")
     # and the abstract must carry the live pair
     ga = read("scripts/make_graphical_abstract.py")
-    if not re.search(r'recall \(34%\).*verification \(89%\)', ga):
-        fail("K", "make_graphical_abstract.py no longer states recall (34%) / "
-                  "verification (89%) — the image would disagree with §5.2")
+    if not re.search(r'recall 34%.*verification 89%', ga):
+        fail("K", "make_graphical_abstract.py no longer states recall 34% / "
+                  "verification 89% — the image would disagree with §5.2")
 
 
 # ---- author-supplied items (reported, never failed) --------------------------

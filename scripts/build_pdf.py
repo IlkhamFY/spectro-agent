@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Render docs/PAPER.md to a ChemRxiv-ready PDF (pandoc + tectonic/XeTeX).
+"""Render docs/PAPER.md to a clean two-column article PDF (pandoc + tectonic/XeTeX).
 
-Two-column RSC *article* measure (Digital Discovery layout) without RSC/DD
-branding: running header is "ChemRxiv preprint". PAPER.md stays clean; figure
-plates and unicode mapping live in the build. ESI stays single-column.
-Run from the repo root:  python3 scripts/build_pdf.py
+Two-column RSC *article* measure (Digital Discovery layout) without journal or
+preprint chrome: no running headers, page number only in the footer. PAPER.md
+stays clean; figure plates and unicode mapping live in the build. ESI stays
+single-column. Run from the repo root:  python3 scripts/build_pdf.py
 """
 import sys, os as _os
 sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
@@ -76,8 +76,7 @@ UNI = {
 # does not line up with the text block; closing that is a change to the figure
 # scripts, since fig_width() must never upscale.)
 TEXTWIDTH_IN = 6.30
-# ChemRxiv / RSC-article two-column page (A4). No journal class: branding lives in
-# the running header as "ChemRxiv preprint" only.
+# RSC-article two-column page (A4). No journal class; no preprint chrome.
 GEO_ARTICLE = ("a4paper,top=1.65cm,bottom=1.75cm,left=1.5cm,right=1.5cm,"
                "columnsep=0.6cm,headheight=14pt")
 
@@ -397,23 +396,18 @@ TITLE_RE = re.compile(
     re.S)
 
 
-KEYWORDS = (
-    "structure elucidation; NMR spectroscopy; infrared spectroscopy; "
-    "large language models; chemical information; benchmark"
-)
-
 ABS_RE = re.compile(
     r"^---\n+## Abstract\n+(?P<abstract>.*?)\n+---\s*\n",
     re.M | re.S)
 
 
 def title_block(md):
-    r"""Lay out title, authors and abstract as a ChemRxiv / RSC-article banner.
+    r"""Lay out title, authors and abstract as a clean article banner.
 
     Two-column body (Digital Discovery / RSC article measure) with the banner
-    spanning both columns. No journal name, logo, or copyright line -- ChemRxiv
-    must not look already published. The `## Abstract` heading is removed here so
-    PAPER.md stays checkable on GitHub.
+    spanning both columns. No journal name, logo, preprint label, or copyright
+    line. The `## Abstract` heading is removed here so PAPER.md stays checkable
+    on GitHub.
     """
     m = TITLE_RE.search(md)
     if not m:
@@ -436,9 +430,6 @@ def title_block(md):
     head = ("```{=latex}\n"
             r"\twocolumn[{" "\n"
             r"\centering" "\n"
-            r"{\small\color{preprintink}\textit{ChemRxiv preprint"
-            r" --- this version has not been peer reviewed.}\par}" "\n"
-            r"\vspace{0.85em}" "\n"
             r"{\LARGE\bfseries\setlength{\baselineskip}{1.15\baselineskip}" "\n"
             f"{title}\\par}}\n"
             r"\vspace{0.85em}" "\n"
@@ -450,8 +441,6 @@ def title_block(md):
             r"\begin{minipage}{\textwidth}" "\n"
             r"\setlength{\parindent}{0pt}\setlength{\parskip}{0.35em}" "\n"
             r"\small\noindent\textbf{Abstract.}\enspace " f"{abstract}" r"\par" "\n"
-            r"\vspace{0.35em}" "\n"
-            r"{\small\noindent\textbf{Keywords.}\enspace " f"{KEYWORDS}" r"\par}" "\n"
             r"\end{minipage}" "\n"
             r"\vspace{0.7em}" "\n"
             r"}]" "\n"
@@ -485,23 +474,19 @@ def header():
              r"\usepackage{needspace}",   # keep each table caption with its table
              r"\emergencystretch=2em",    # minor overfull lines in justified prose
              # RSC / Digital Discovery article measure: Times, indented paragraphs,
-             # running ChemRxiv ident -- never a journal logo or "accepted manuscript".
-             r"\definecolor{preprintink}{HTML}{5c636a}",
+             # no running headers -- page number only in the footer.
              r"\setlength{\parindent}{12pt}",
              r"\setlength{\parskip}{0pt plus 1pt}",
              r"\usepackage{fancyhdr}",
              r"\usepackage{dblfloatfix}",
              r"\pagestyle{fancy}",
              r"\fancyhf{}",
-             r"\renewcommand{\headrulewidth}{0.35pt}",
+             r"\renewcommand{\headrulewidth}{0pt}",
              r"\renewcommand{\footrulewidth}{0pt}",
-             r"\fancyhead[L]{\small\color{preprintink} ChemRxiv preprint}",
-             r"\fancyhead[R]{\small\color{preprintink}\itshape IRSpectra-Bench}",
              r"\fancyfoot[C]{\small\thepage}",
              r"\fancypagestyle{plain}{\fancyhf{}"
-             r"\renewcommand{\headrulewidth}{0.35pt}"
-             r"\fancyhead[L]{\small\color{preprintink} ChemRxiv preprint}"
-             r"\fancyhead[R]{\small\color{preprintink}\itshape IRSpectra-Bench}"
+             r"\renewcommand{\headrulewidth}{0pt}"
+             r"\renewcommand{\footrulewidth}{0pt}"
              r"\fancyfoot[C]{\small\thepage}}",
              # A code block that overruns the measure does not wrap -- it runs off the
              # page and its text is simply absent from the PDF. The ESI quotes verbatim

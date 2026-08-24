@@ -2,7 +2,7 @@
 """Fig. 7 — every model measured, on one axis where they share a compound set.
 
 (a) ranks by generation recall on the 60-compound arm; formula-adherence gate in colour.
-(b) recall against verification precision, with the diagonal.
+(b) recall against verification precision — numbered marks + key (no overlapping names).
 """
 import sys
 import numpy as np
@@ -26,6 +26,9 @@ MODELS = [
 GATE = 78
 PARTIAL = "DeepSeek V4 Pro"
 
+# Scatter models with verification, numbered for the key (recall-descending).
+SCATTER = [(n, r, a, p) for n, r, a, p in MODELS if p is not None]
+
 fig, (ax, bx) = plt.subplots(1, 2, figsize=(fs.COL2, 3.45),
                              gridspec_kw={"width_ratios": [0.92, 1]})
 
@@ -46,7 +49,7 @@ for y, m in zip(ys, order):
             va="center", fontsize=fs.FS_BODY, color=fs.INK)
 ax.set_xlabel("generation recall (%)", labelpad=2)
 ax.set_xlim(0, 100); ax.set_xticks([0, 25, 50, 75, 100])
-ax.set_ylim(-0.7, 8.35)
+ax.set_ylim(-0.7, 8.55)
 fs.xgrid(ax)
 fs.legend(ax, handles=[
     Patch(facecolor="white", edgecolor=fs.BLUE, hatch="////", linewidth=0.9,
@@ -58,40 +61,38 @@ bx.plot([0, 100], [0, 100], color=fs.MUTED, lw=fs.REF_LW, ls=fs.REF_LS, zorder=1
 bx.set_axisbelow(True)
 bx.yaxis.grid(True, color=fs.FAINT, linewidth=0.55)
 bx.xaxis.grid(True, color=fs.FAINT, linewidth=0.55)
-# Per-point offsets keep labels off the diagonal and each other (no shared dx).
-LBL = {
-    "Grok 4.6":         (8, -10),
-    "Gemini 3.7 Flash": (-8, 8),
-    "GPT-5.6 Sol":      (8,  8),
-    "Claude Opus":      (-8, 0),
-    "DeepSeek V4 Pro":  (8, -10),
-}
-for name, r, _adh, p in MODELS:
-    if p is None:
-        continue
+
+# Numbered marks — no name callouts on the scatter (they collide).
+for i, (name, r, _adh, p) in enumerate(SCATTER, start=1):
     x = 100 * r / 60
     c = fs.ORANGE if name == "Claude Opus" else fs.BLUE
     partial = name == PARTIAL
-    bx.scatter([x], [p], s=42, zorder=4, linewidth=1.05,
+    bx.scatter([x], [p], s=48, zorder=4, linewidth=1.05,
                facecolor="white" if partial else c, edgecolor=c,
                hatch="////" if partial else None)
-    dx, dy = LBL.get(name, (7, 0))
-    ha = "right" if dx < 0 else "left"
-    bx.annotate(name, (x, p), textcoords="offset points", xytext=(dx, dy),
-                fontsize=fs.FS_BODY, color=fs.INK, ha=ha, va="center", zorder=5,
-                bbox=dict(fc="white", ec="none", pad=0.6))
+    # Digit slightly below-left of the mark, clear of neighbours.
+    bx.text(x - 1.8, p - 3.2, str(i), fontsize=fs.FS_BODY, fontweight="bold",
+            color=fs.INK, ha="right", va="top", zorder=5, clip_on=False)
+
+# Key in empty lower-right quadrant (below the cloud, right of the diagonal label).
+key = "\n".join(f"{i}. {n}" for i, (n, *_rest) in enumerate(SCATTER, start=1))
+bx.text(0.98, 0.04, key, transform=bx.transAxes, fontsize=fs.FS_BODY,
+        color=fs.INK, ha="right", va="bottom", linespacing=1.35, zorder=6,
+        bbox=dict(boxstyle="round,pad=0.30", facecolor="white",
+                  edgecolor=fs.FAINT, linewidth=0.6))
+
 bx.set_xlabel("generation recall (%)", labelpad=2)
 bx.set_ylabel("verification precision | recall (%)", labelpad=2)
 bx.set_xlim(0, 100); bx.set_ylim(0, 100)
 bx.set_xticks([0, 25, 50, 75, 100]); bx.set_yticks([0, 25, 50, 75, 100])
 fs.panel(bx, "b")
 
-fs.finish(w_pad=1.8)
+fs.finish(w_pad=1.8, left=0.14, top=0.93)
 
 fig.canvas.draw()
 (x0, y0), (x1, y1) = bx.transData.transform([(20, 20), (80, 80)])
 bx.text(38, 32, "precision = recall", fontsize=fs.FS_BODY, color=fs.NOTE,
         rotation=np.degrees(np.arctan2(y1 - y0, x1 - x0)), rotation_mode="anchor",
-        ha="center", va="center")
+        ha="center", va="center", zorder=2)
 fs.save("docs/figures/fig7_crossvendor.png")
 print("wrote docs/figures/fig7_crossvendor.png")

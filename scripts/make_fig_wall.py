@@ -33,8 +33,10 @@ for x, w, col in segs:
 # bracket over the 65 recalled (green + vermilion), the key sub-total
 bx0, bx1, by = 0 + GAP, RECALLED, 1.28
 ax.plot([bx0, bx0, bx1, bx1], [by - 0.12, by, by, by - 0.12], color=fs.INK, lw=0.8)
-ax.text((bx0 + bx1) / 2, by + 0.08, "65 recalled = 34%   ·   of these, 89% verify",
-        ha="center", va="bottom", fontsize=fs.FS_SMALL, color=fs.INK)
+# An isolated spaced middle dot between two clauses is a list separator doing a
+# sentence's work; an en dash reads as the break it is.
+ax.text((bx0 + bx1) / 2, by + 0.08, "65 recalled = 34% \u2013 of these, 89% verify",
+        ha="center", va="bottom", fontsize=fs.FS_BODY, color=fs.INK)
 
 # segment labels below, aligned to each segment's centre
 def below(xc, n, word, col, y1=-0.2):
@@ -48,10 +50,13 @@ below(RECALLED + WALL / 2, "129", "never proposed — “the wall”", fs.INK)
 ax.add_patch(FancyArrowPatch((RECALLED - MISRANKED / 2, 1.0), (RECALLED + 13, 1.62),
              arrowstyle="-", lw=0.6, color=fs.VERMIL, shrinkA=0, shrinkB=2))
 ax.text(RECALLED + 14.3, 1.66, "7 mis-ranked", ha="left", va="center",
-        fontsize=fs.FS_SMALL, color=fs.VERMIL)
+        fontsize=fs.FS_BODY, color=fs.VERMIL)
 
+# The denominator of the whole bar: 7 pt (the print floor) in NOTE grey. It was 6 pt in
+# MUTED -- ~34% black, the faintest and smallest mark on the page, and smaller than the
+# tick labels of the figure opposite.
 ax.text(-0.7, 2.12, "194 real spectra", ha="left", va="top",
-        fontsize=fs.FS_SMALL, color=fs.MUTED)
+        fontsize=fs.FS_BODY, color=fs.NOTE)
 
 plt.savefig("docs/figures/fig_wall.png")
 print("wrote docs/figures/fig_wall.png")

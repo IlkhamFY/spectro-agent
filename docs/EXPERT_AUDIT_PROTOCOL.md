@@ -44,7 +44,11 @@ regiochemistry-bottleneck claim with human judgement rather than only string mat
 
 ## Task 2 — verifier calibration (validates §5)
 
-For the recall-positive compounds (9 in the frozen sample; up to 19 across the full
+Task 2 is presented for every compound in the kit, so that its presence reveals nothing
+about whether the true structure is among the candidates. Precision is scored on the 13
+that carry the truth alongside a real choice; the 21 with no correct candidate measure
+whether an expert declines to be confident when nothing on offer is right. (Up to 19
+recall-positive compounds exist across the full
 forward-verify set), present the reviewer with the **candidate set**
 (true + distractors, shuffled, unlabelled) and ask them to rank by spectral fit, then
 compare:
@@ -64,7 +68,8 @@ into a human-anchored claim.
 > **Table A.** Human audit of top-1 elucidations (n=30, 3 reviewers, blinded). Mean
 > consistency score; verdict distribution; Fleiss' κ; fraction of InChIKey-misses
 > judged "chemically reasonable given the spectra." Note that what a miss *is* has since
-> been measured mechanically — 76.6% constitutional isomers, 22.6% scaffold-preserving
+> been measured mechanically over the 137 analysable misses — 76.6% constitutional
+> isomers, 22.6% scaffold-preserving
 > (`scripts/analyze_misses.py`) — so the reviewers' task is the judgement that
 > measurement cannot supply, not the classification.
 >
@@ -75,7 +80,8 @@ into a human-anchored claim.
 ## Integrity controls
 
 - Reviewers are blind to model identity and ground truth throughout.
-- The 30-compound sample, the rendered structures, and the scoring sheet are frozen
+- The 37-compound kit (30 carrying Task 1), the rendered structures, and the scoring
+  sheet are frozen
   and released under `data/audit/` *before* review begins.
 - Scoring of the completed sheets is mechanical (no further model involvement).
 - Pre-register the two read-out hypotheses (regiochemistry dominates misses;

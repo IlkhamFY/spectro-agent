@@ -165,8 +165,8 @@ This is a property of the harness, not an omission in the write-up: sub-agents d
 through the Agent tool under a consumer subscription do not expose decoding parameters,
 so every run used whatever defaults that surface applied at the time. **Reproduction is
 therefore distributional, not exact**, and a re-run will not reproduce the per-compound
-predictions byte-for-byte even against an identical checkpoint. `docs/PAPER.md` §7 (vi)
-states the consequence for the reported numbers: each headline compound is scored from a
+predictions byte-for-byte even against an identical checkpoint. `docs/PAPER.md` Limitations
+(viii) states the consequence for the reported numbers: each headline compound is scored from a
 single solver run, so the bootstrap CIs reflect compound sampling only and carry no
 run-to-run LLM-sampling variance; §5.3 pooling ten generation passes lifted recall
 31%→41%, which bounds how much single-pass scoring understates generator stochasticity.
@@ -379,11 +379,13 @@ the IDE or a parent whose model list includes them.
 - **Modality ablation** (`scripts/modality_ablation.py`, `data/modality/`): the *leave-one-
   modality-out* arms (`noIR`, `noH`, `noC`) remain staged only — `prompt_noIR.txt`,
   `prompt_noH.txt`, `prompt_noC.txt` exist (2026-06-16, commit `f3fe901`) with no
-  corresponding `out_*.json`. The paper reports no leave-one-out result. (One `noIR`
+  corresponding `out_*.json`. **Abandoned for this manuscript** (`docs/PAPER.md`
+  Limitations (vii)); the paper reports no leave-one-out result. (One `noIR`
   attempt was made and **discarded as confounded**; `docs/MODALITY_ABLATION.md` records
   why.)
 - **Expert-chemist audit** (`data/audit/`, `docs/EXPERT_AUDIT_PROTOCOL.md`): human
-  protocol, frozen and blinded, not yet run (`docs/PAPER.md` §7 (ii)).
+  protocol, frozen and blinded, **formally deferred** — not run (`docs/PAPER.md`
+  Limitations (vii)).
 - ~~**§5.6 forward-verified arm**: `data/fverify_gen/raw/` is an empty directory.~~
   **Resolved 2026-08-07.** The original blind forward-prediction JSONs behind the
   provisional 41% top-1 were never committed and are lost. Rather than keep citing an
@@ -424,4 +426,4 @@ surface a missing citation. Four additions, two of which required correcting cla
 | **NMR-Solver** (Jin et al., arXiv:2509.00640) | implements §5's generate-and-forward-verify loop *without* an LLM (NMRNet, ¹³C MAE 1.098 ppm); 52.89% top-1 on ~450 experimental literature spectra with formula | cited; §1.1 and Contribution 3 now state the loop is prior art and that its sharper predictor **corroborates** the §5.1 resolution diagnosis |
 | **Alberts, Zipoli & Laino** (*Digital Discovery* **4**, 1936, 2025) | successor to the 2024 paper we cite; 63.8% top-1 / 84.0% top-10 on *experimental* NIST gas-phase IR with formula | cited; falsified our claim that "the strongest trained baselines report accuracy in-distribution on simulated spectra" — corrected, and the real/curated distinction restated as literature-heterogeneous vs single-instrument |
 | **NMRAgent** (Fang et al., arXiv:2606.29776) | closest LLM-agent counterpart; validates on newly isolated natural products | cited as complementary |
-| **NMRArena** (odanchem, GitHub) | 105 molecules, experimental ¹H/¹³C, benchmarks six general LLMs *including Claude Opus 4.8* against four specialist models | **not cited** — publication is a placeholder ("final citation to be added on publication"), so it is concurrent unpublished work. Contribution 2's priority claim is hedged "to our knowledge"; **authors should re-check before submission** in case it has since appeared. |
+| **NMRArena** (odanchem, GitHub) | 105 molecules, experimental ¹H/¹³C, benchmarks six general LLMs *including Claude Opus 4.8* against four specialist models | **not cited** — publication is a placeholder ("final citation to be added on publication"), so it is concurrent unpublished work. Absolute-first hedge on IRSpectra-Bench was softened to name concurrent suites; **authors should re-check before submission** in case NMRArena has since appeared. |

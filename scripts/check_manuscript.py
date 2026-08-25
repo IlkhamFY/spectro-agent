@@ -609,8 +609,8 @@ def check_cross_vendor_disclosure():
         fail("D", f"{len(ran)} vendor output file(s) on disk but docs/MODELS.md carries "
                   f"no record of a cross-vendor run")
     if not (unrun or pilot):
-        fail("D", "docs/MODELS.md makes no cross-vendor disclosure either way — §7 (iii) "
-                  "rests on it")
+        fail("D", "docs/MODELS.md makes no cross-vendor disclosure either way — Limitations "
+                  "cross-vendor scope rests on it")
 
 
 def report_pending():

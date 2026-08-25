@@ -69,14 +69,15 @@ openly *redistributable* collection of experimental IR *band lists* (121,233 rec
 SDBS hold more structure-linked *spectra* but cannot be redistributed ([@sec:motivation]).
 *IRSpectra-Bench* ([@sec:benchmark-design-irspectra-bench]) is the blind, mechanically
 scored benchmark built from it — 194 compounds, complexity-stratified, multimodal IR + ¹H +
-¹³C — not the first such suite (MolQuest scores 530 post-2025 compounds by exact canonical
-SMILES[@han2026molquest]) but, to our knowledge, the first openly redistributable one on
-literature-reported peak lists with a recall/verification decomposition measured on Claude,
-replicated across three other model families ([@sec:diagnosis-hold-outside-one]), with a
-within-compound solver-methodology control ([@sec:well-llms-elucidate-real]). Ground truth is
-literature structures resolved deterministically (OPSIN/RDKit) and checked mechanically
-(560/560 bands on a seed-fixed sample, [@sec:contents-licensing]; expert-chemist review
-prepared but not yet run, [@sec:limitations]); no LLM curates labels or scores predictions.
+¹³C. Concurrent 2026 suites bound related tasks (MolQuest scores 530 post-2025 compounds by
+exact canonical SMILES[@han2026molquest]; SpecX[@xiang2026specx]; NMRGym[@fang2026nmrgym]);
+ours is an openly redistributable suite on literature-reported peak lists with a
+recall/verification decomposition measured on Claude, replicated across three other model
+families ([@sec:diagnosis-hold-outside-one]), with a within-compound solver-methodology
+control ([@sec:well-llms-elucidate-real]). Ground truth is literature structures resolved
+deterministically (OPSIN/RDKit) and checked mechanically (560/560 bands on a seed-fixed
+sample, [@sec:contents-licensing]; expert-chemist review of elucidation outputs is formally
+deferred, [@sec:limitations]); no LLM curates labels or scores predictions.
 
 Forward-verification elucidation ([@sec:forward-verification-elucidation]) turns the
 model's *strong* direction (forward prediction) against its *weak* one (inverse
@@ -88,9 +89,11 @@ for only 34%, so generation binds the result ([@fig:fig-wall]). Gain is bounded 
 and, by our own measurements, cannot exceed a recall/precision ceiling without sharper
 verification or 2D-NMR data.
 
-We contribute IRexp and IRSpectra-Bench, a recall/verification decomposition on every
-compound (34% proposed; 89% selected once proposed), and a four-vendor replication of that
-split — numbers that match the abstract throughout.
+We contribute IRexp and IRSpectra-Bench — open peak lists plus decomposable
+recall/verification metrics others can report — measured on every compound (34% proposed;
+89% selected once proposed), with a four-vendor replication of that split. The paper fills
+an accounting and infrastructure gap: it diagnoses where elucidation binds; it does not
+solve it.
 
 ![Diagnosis on IRSpectra-Bench (n=194): generation recall, not verification, is the bottleneck. Where the true structure is never proposed, no ranker can recover it; where it is proposed, verification usually selects it. End-to-end top-1 is the product of those two rates, which have different denominators and are not differenced.](docs/figures/fig_wall.png){#fig:fig-wall}
 
@@ -122,12 +125,10 @@ we ask which stage binds once it has read them.
 
 Most benchmarks use simulated or single-instrument spectra[@chacko2024spectro;
 @ottomano2025nmiracle; @alberts2024ir; @alberts2025benchmarks]; IRSpectra-Bench uses
-literature-reported peak lists across thousands of laboratories. Recent suites bound the
-task elsewhere (NMRGym[@fang2026nmrgym], MolQuest[@han2026molquest],
-SpecX[@xiang2026specx]). Cross-paper numbers swing with harness: GPT-4o scores 1.4% on
-MolPuzzle[@guo2024molpuzzle], 27.8% with chain-of-thought, 57.8% with tree-search
-[@zhuang2025treesearch]. We fix one pre-registered RDKit-InChIKey protocol with bootstrap
-CIs.
+literature-reported peak lists across thousands of laboratories. Cross-paper numbers swing
+with harness: GPT-4o scores 1.4% on MolPuzzle[@guo2024molpuzzle], 27.8% with
+chain-of-thought, 57.8% with tree-search[@zhuang2025treesearch]. We fix one pre-registered
+RDKit-InChIKey protocol with bootstrap CIs.
 
 **Forward verification and CASE.** Matching predicted to observed shifts — DP4[@smith2010dp4;
 @grimblat2015dp4plus], NMR crystallography[@pickard2001gipaw; @ashbrook2016nmrcryst], CASE
@@ -211,7 +212,8 @@ article and checked every recorded wavenumber against its text: 560/560 bands an
 records were confirmed (Wilson 95% CI 99.3–100% and 94–100%). This bounds *transcription*
 error — hallucinated, mis-parsed or unit-mangled values — below 1% of bands. It does
 not measure whether the parser found every IR string in every paper — a recall question
-requiring human reading; that audit is prepared but not yet run ([@sec:limitations]).
+requiring human reading; that extraction-recall audit is formally deferred
+([@sec:limitations]).
 
 `irexp_resolved` (43,060 records, 100% structure-linked) is the benchmark-ready split,
 ≈6× the 6,833-molecule set used to train Spectro[@chacko2024spectro] ([@sfig:dataset]).
@@ -601,7 +603,7 @@ never reports whether the true structure was proposed at all
 
 Frontier LLMs are good verifiers (89% conditional precision) and weak proposers (34%
 recall) on real literature spectra. The contribution is a diagnosis with a bounded,
-training-free improvement, not a solved elucidator.
+training-free improvement, not a solved elucidator ([@sec:limitations]).
 
 That split held across four Claude models, a battery-electrolyte subset, four verifiers and
 four vendor families ([@sec:literature-decomposition]); concurrent systems that move the
@@ -617,15 +619,40 @@ re-rank, not as an abstention gauge ([@sec:negative-control]).
 ## Limitations {#sec:limitations}
 
 Scoring is mechanical; solver runs were transcript-audited for zero ground-truth access
-(transcripts on request). **(i) Pretraining contamination** is bounded by formula-only
-(23% → 5%) and flat recency controls ([@sec:model-reading-spectra-formula]) but not excluded;
-verbatim spectral strings in prompts remain a retrieval confound. **(ii) Human audit** of
-elucidation outputs is prepared (`data/audit/`) but not yet run. **(iii) Headline n=194 is
-Claude Opus**; cross-vendor evidence is on 60 compounds ([@sec:diagnosis-hold-outside-one]).
-**(iv) Battery subset** uses literature electrolyte chemistry, not operando spectra.
-**(v) Constitution-only scoring** (21.1% with stereochemistry). **(vi) Single-sample scoring**
-per compound. **(vii) Organic literature bias.** **(viii) Author-transcribed peak lists**, not
-raw instrument files — a different regime from Espejo *et al.*[@espejo2026agentic].
+(transcripts on request). **(i) Consumer harness.** Runs used a consumer subscription that
+exposes no model snapshot, temperature, seed or thinking tier; exact inference is not
+reproducible. Scoring is: frozen predictions, ground truth and mechanical scorers regenerate
+every training-free number. The instruction text wrapping Claude solver and
+forward-prediction batches was not captured — only per-compound payloads are released —
+so the verbatim prompts in the ESI are the cross-vendor harness prompts.
+**(ii) Pretraining contamination** is bounded by formula-only (23% → 5%) and flat recency
+controls ([@sec:model-reading-spectra-formula]) but not excluded; verbatim spectral strings
+from PMC in the prompt remain a retrieval confound.
+**(iii) Object type, formula and scoring.** Inputs are author-transcribed band and shift
+lists, not raw absorbance traces or FIDs — a different object from digitised spectra and
+from Espejo *et al.*[@espejo2026agentic]. The molecular formula is supplied (as from HRMS);
+systems such as NMIRacle[@ottomano2025nmiracle] that take no formula solve a harder prior,
+so absolute accuracies are not interchangeable. Headline metrics score constitution
+(InChIKey connectivity); with stereochemistry, top-1 is 21.1%.
+**(iv) Statistical honesty.** Forward-verification vs self-ranking is unresolved (McNemar
+p=0.55); generate-wide top-1 likewise (p=0.34). The four-model comparison at n=24 is
+underpowered for adjacent ranks and carries a disclosed protocol asymmetry
+([@sec:model-comparison-benchmark-ranks]). The inference ladder diagnoses a bottleneck; it
+is not a demonstrated accuracy advance.
+**(v) Missing on-bench baselines.** Spectro, NMIRacle and CASE were not scored on
+IRSpectra-Bench, so the LLM recall wall is not cleanly separated from harness or modality
+choice — left to future leaderboard work.
+**(vi) Cross-vendor scope.** Headline n=194 is Claude Opus; the four-vendor replication is
+on 60 compounds. Candidate budgets differ across vendors (Claude mean 2.20 vs 3.00), so
+recall rankings are approximate ([@sec:diagnosis-hold-outside-one]).
+**(vii) Deferred and abandoned arms.** The expert-chemist audit of elucidation outputs is
+frozen at `data/audit/` and formally deferred — not run. Leave-one-modality-out ablation
+(`noIR`/`noH`/`noC`) was specified and never completed; it is abandoned for this manuscript
+(`docs/MODELS.md`; ESI). The extraction-recall human audit of parser coverage
+([@sec:contents-licensing]) is likewise deferred.
+**(viii) Scope.** Battery subset uses literature electrolyte chemistry, not operando
+spectra. Single-sample scoring per compound (bootstrap CIs reflect compound sampling only).
+Organic literature bias of PMC-OA sources.
 
 ## Methods {#sec:methods}
 

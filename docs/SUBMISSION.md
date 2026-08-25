@@ -56,7 +56,8 @@ either file drifts back to describing them as pending.
 ## 2. The expert-chemist audit
 
 `docs/EXPERT_AUDIT_PROTOCOL.md`; blinded 30-compound kit frozen at `data/audit/`
-(regenerate with `scripts/make_audit_sample.py`). §7 reports it as prepared but not run.
+(regenerate with `scripts/make_audit_sample.py`). `docs/PAPER.md` Limitations formally
+**defers** it — not run; do not describe it as merely "prepared."
 
 **Do not substitute an LLM.** The paper's guarantee is that no LLM curates the labels or
 scores the predictions; having one play chemist would falsify the claim the methodology
@@ -90,9 +91,20 @@ bears on a claim; they are collected here so nothing depends on a reader finding
   only behind a 403. **Two co-authors wrote Spectro** — please confirm both.
 - **NMRArena** (github.com/odanchem/NMRArena) benchmarks six general LLMs — Claude Opus
   4.8 among them — on 105 molecules with experimental ¹H/¹³C. Its citation is still a
-  placeholder, so it is concurrent unpublished work and is deliberately uncited. It
-  bears on Contribution 2's "to our knowledge the first of its kind"; if it has appeared
-  by submission, cite it and re-check that hedge.
+  placeholder, so it is concurrent unpublished work and is deliberately uncited. The
+  absolute-first hedge on IRSpectra-Bench was softened (2026-08-25 audit) to name concurrent
+  suites without claiming priority over unpublished benches; re-cite NMRArena if it appears
+  before submission.
+
+---
+
+## 4b. Limitations locked from peer-review audit (2026-08-25)
+
+`docs/PAPER.md` Limitations rewritten from the inspiro/peer-review audit: consumer-harness
+non-reproducibility, uncaptured main-arm prompts, constitution/formula/object-type honesty,
+statistical non-claims (p=0.55 / p=0.34 / n=24), missing on-bench baselines, candidate-budget
+inequality, formally deferred expert audit, abandoned leave-one-modality arm. Author TODOs
+(ORCID/Zenodo/funding) stay in this file, not in Limitations.
 
 ## 5. What is already verified (so you needn't re-do it)
 

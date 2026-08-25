@@ -29,7 +29,7 @@ configs:
 
 # IRexp — experimental IR band lists from open-access literature
 
-**Paper:** [IRSpectra-Bench and IRexp: candidate recall, not verification, limits LLM elucidation from real experimental IR and NMR](https://github.com/IlkhamFY/spectro-agent) (manuscript in preparation, 2026)
+**Paper:** [IRexp and IRSpectra-Bench: redistributable experimental IR band lists, a blind peak-list benchmark, and a recall-bound diagnosis of LLM elucidation](https://github.com/IlkhamFY/spectro-agent) (manuscript in preparation, 2026)
 
 IRexp is the largest **openly redistributable** collection of **experimental infrared band lists** mined from open-access chemistry papers, often with co-reported ¹H/¹³C shift lists and resolved structures.
 
@@ -118,11 +118,11 @@ python scripts/build_train_no_bench.py --require-nmr  # 32,949 rows (H+C require
 
 ```bibtex
 @article{yabbarov2026irspectra,
-  title   = {IRSpectra-Bench and {IRexp}: candidate recall, not verification,
-             limits {LLM} elucidation from real experimental {IR} and {NMR}},
+  title   = {{IRexp} and {IRSpectra-Bench}: redistributable experimental {IR} band lists,
+             a blind peak-list benchmark, and a recall-bound diagnosis of {LLM} elucidation},
   author  = {Yabbarov, Ilkham and Sondhi, Rudra and Vargas-Hern{\'a}ndez, Rodrigo A.},
   year    = {2026},
-  note    = {Manuscript in preparation}
+  note    = {Manuscript in preparation; target J. Chem. Inf. Model.}
 }
 ```
 

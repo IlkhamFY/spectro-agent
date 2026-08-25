@@ -2,7 +2,7 @@
 
 Blind structure elucidation from **molecular formula + IR + ¹H + ¹³C** peak lists exactly as reported in open-access papers. Constitution scoring uses RDKit InChIKey connectivity (first 14 characters) unless noted.
 
-**Paper:** [IRSpectra-Bench and IRexp](https://github.com/IlkhamFY/spectro-agent) (manuscript in preparation, 2026).
+**Paper:** [IRexp and IRSpectra-Bench](https://github.com/IlkhamFY/spectro-agent) (manuscript in preparation, 2026).
 
 ---
 
@@ -122,12 +122,12 @@ If you use IRSpectra-Bench or report numbers on it, please cite:
 
 ```bibtex
 @article{yabbarov2026irspectra,
-  title   = {IRSpectra-Bench and {IRexp}: candidate recall, not verification,
-             limits {LLM} elucidation from real experimental {IR} and {NMR}},
+  title   = {{IRexp} and {IRSpectra-Bench}: redistributable experimental {IR} band lists,
+             a blind peak-list benchmark, and a recall-bound diagnosis of {LLM} elucidation},
   author  = {Yabbarov, Ilkham and Sondhi, Rudra and Vargas-Hern{\'a}ndez, Rodrigo A.},
   year    = {2026},
-  note    = {Manuscript in preparation}
+  note    = {Manuscript in preparation; target J. Chem. Inf. Model.}
 }
 ```
 
-*Last updated: 2026-08-24 (paper baseline rows). External submissions listed after verification.*
+*Last updated: 2026-08-25 (JCIM editorial strengthen). External submissions listed after verification.*

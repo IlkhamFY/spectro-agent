@@ -1,4 +1,4 @@
-# IRSpectra-Bench and IRexp: candidate recall, not verification, limits LLM elucidation from real experimental IR and NMR
+# IRexp and IRSpectra-Bench: redistributable experimental IR band lists, a blind peak-list benchmark, and a recall-bound diagnosis of LLM elucidation
 
 **Ilkham Yabbarov**^1^ *(corresponding author: yabbaroi@mcmaster.ca)*, **Rudra Sondhi**^1^, **Rodrigo A. Vargas-Hernández**^2,1,3^
 
@@ -28,31 +28,37 @@
 
 ## Abstract
 
-We release *IRexp*, the largest openly redistributable collection of experimental
-infrared band lists (121,233 records; 43,060 structure-linked; 33,201 full IR + ¹H + ¹³C +
-structure quadruples), and *IRSpectra-Bench*, a blind mechanically scored benchmark of 194
-compounds drawn from it. On IRSpectra-Bench, given the molecular formula and peak lists
-exactly as reported in open-access papers, a frontier large language model recovers the
-correct constitution for 28% (top-1; 95% CI 22–35), or 15% once reweighted to the corpus
-composition — far below the near-100% implied by curated demonstrations. The bottleneck is
-candidate proposal, not verification: the true structure enters the pool for only 34% of
-compounds, and where it does, training-free forward-verification selects it 89% of the time
-(58/65; 81% on the 37 compounds where a ranker had a choice). Recovered from published
-top-*k* figures, the same split carries 68–83% of the accuracy collapse when three systems
-move from curated or simulated data to real heterogeneous spectra. Generating wider lifts
-recall 32% → 42% and top-1 23% → 30% on 60 compounds; verification itself moves whole-benchmark
-top-1 only 28% → 30%. Masking the spectra drops top-1 from 23% to 5%, and Grok 4.6, Gemini
-3.7 Flash and GPT-5.6 Sol all verify better than they generate. All predictions and code
-are released.
+We release *IRexp* and *IRSpectra-Bench* as chemical-information resources: the largest
+openly redistributable collection of experimental infrared *band lists* (121,233 records;
+43,060 structure-linked; 33,201 full IR + ¹H + ¹³C + structure quadruples), a blind
+mechanically scored peak-list benchmark of 194 compounds, a fixed RDKit InChIKey-connectivity
+scoring contract, and decomposable generation-recall / verification-precision metrics others
+can report. On IRSpectra-Bench, given the molecular formula and peak lists exactly as
+reported in open-access papers, a frontier large language model recovers the correct
+constitution for 28% (top-1; 95% CI 22–35), or 15% once reweighted to the corpus composition
+— far below the near-100% implied by curated demonstrations. The bottleneck is candidate
+proposal, not verification: the true structure enters the pool for only 34% of compounds,
+and where it does, training-free forward-verification selects it 89% of the time (58/65; 81%
+on the 37 compounds where a ranker had a choice). Recovered from published top-*k* figures,
+the same split carries 68–83% of the accuracy collapse when three systems move from curated
+or simulated data to real heterogeneous spectra. Generating wider lifts recall 32% → 42% and
+top-1 23% → 30% on 60 compounds; verification itself moves whole-benchmark top-1 only
+28% → 30%. Masking the spectra drops top-1 from 23% to 5%, and Grok 4.6, Gemini 3.7 Flash
+and GPT-5.6 Sol all verify better than they generate. Frozen predictions, scorers and code
+are released for mechanical re-evaluation.
 
 ## Introduction {#sec:introduction}
 
-Determining structure from spectra is central to synthetic and analytical chemistry. Machine
-learning uses encoder–decoder models on paired corpora; *Spectro*, for one, learns
-¹H/¹³C/IR → SELFIES from 6,833 molecules[@chacko2024spectro]. General-purpose LLMs are
-now reported off-the-shelf: a non-peer-reviewed 2026 industrial white paper found Claude
-Opus matching or beating commercial NMR-prediction software forward (structure → spectrum,
-±0.08 ppm ¹H) and "recovering all eight simpler structures on every attempt" in the
+Open experimental infrared data usable for machine learning remain a chemical-information
+bottleneck. View-only archives such as AIST SDBS[@sdbs] hold more structure-linked *spectra*
+than any redistributable corpus, yet forbid bulk reuse; most public elucidation suites train
+or evaluate on simulated or single-instrument spectra. Determining structure from spectra is
+nonetheless central to synthetic and analytical chemistry. Machine learning uses
+encoder–decoder models on paired corpora; *Spectro*, for one, learns ¹H/¹³C/IR → SELFIES
+from 6,833 molecules[@chacko2024spectro]. General-purpose LLMs are now reported
+off-the-shelf: a non-peer-reviewed 2026 industrial white paper found Claude Opus matching or
+beating commercial NMR-prediction software forward (structure → spectrum, ±0.08 ppm ¹H) and
+"recovering all eight simpler structures on every attempt" in the
 inverse[@kamber2026chemist]. We treat those numbers as a claim to test, not an established
 baseline.
 
@@ -60,24 +66,28 @@ That evaluation is narrow: 15 inverse problems on curated single-ring or two-fra
 molecules, NMR only, seven given the *starting-material structure* as a hint, and "recovery"
 scored leniently over three runs and three ranked candidates. The chemist's question —
 *take an arbitrary experimental spectrum from a paper and recover the structure* — remains
-open. It needs open experimental data at scale, a blind benchmark others can report against,
-and honest accounting of which stage of elucidation binds.
+open. It needs open experimental data at scale, a blind benchmark with a fixed molecular-
+representation scoring contract, and honest accounting of which stage of elucidation binds.
 
-We provide all three. *IRexp* ([@sec:irexp-dataset]) is, to our knowledge, the largest
-openly *redistributable* collection of experimental IR *band lists* (121,233 records;
-43,060 structure-linked; 33,201 IR + ¹H + ¹³C + structure); view-only libraries such as
-SDBS hold more structure-linked *spectra* but cannot be redistributed ([@sec:motivation]).
-*IRSpectra-Bench* ([@sec:benchmark-design-irspectra-bench]) is the blind, mechanically
-scored benchmark built from it — 194 compounds, complexity-stratified, multimodal IR + ¹H +
-¹³C. Concurrent 2026 suites bound related tasks (MolQuest scores 530 post-2025 compounds by
-exact canonical SMILES[@han2026molquest]; SpecX[@xiang2026specx]; NMRGym[@fang2026nmrgym]);
-ours is an openly redistributable suite on literature-reported peak lists with a
-recall/verification decomposition measured on Claude, replicated across three other model
+We provide all three as reusable chemical-information objects. *IRexp*
+([@sec:irexp-dataset]) is, to our knowledge, the largest openly *redistributable* collection
+of experimental IR *band lists* (121,233 records; 43,060 structure-linked; 33,201 IR + ¹H +
+¹³C + structure); SDBS remains larger for view-only structure-linked spectra but cannot be
+redistributed ([@sec:motivation]). *IRSpectra-Bench*
+([@sec:benchmark-design-irspectra-bench]) is the blind, mechanically scored peak-list
+benchmark built from it — 194 compounds, complexity-stratified, multimodal IR + ¹H + ¹³C —
+with RDKit InChIKey-connectivity scoring and decomposable generation-recall /
+verification-precision metrics. Concurrent 2026 suites bound related tasks (MolQuest scores
+530 post-2025 compounds by exact canonical SMILES[@han2026molquest]; SpecX[@xiang2026specx];
+NMRGym[@fang2026nmrgym]); ours is an openly redistributable suite on literature-reported peak
+lists with a stage decomposition measured on Claude, replicated across three other model
 families ([@sec:diagnosis-hold-outside-one]), with a within-compound solver-methodology
 control ([@sec:well-llms-elucidate-real]). Ground truth is literature structures resolved
 deterministically (OPSIN/RDKit) and checked mechanically (560/560 bands on a seed-fixed
 sample, [@sec:contents-licensing]; expert-chemist review of elucidation outputs is formally
-deferred, [@sec:limitations]); no LLM curates labels or scores predictions.
+deferred, [@sec:limitations]); no LLM curates labels or scores predictions. Priessner *et
+al.*[@priessner2026reasoning] already note that re-ranking cannot recover a missing
+candidate; we supply the missing measurement infrastructure at scale.
 
 Forward-verification elucidation ([@sec:forward-verification-elucidation]) turns the
 model's *strong* direction (forward prediction) against its *weak* one (inverse
@@ -89,11 +99,12 @@ for only 34%, so generation binds the result ([@fig:fig-wall]). Gain is bounded 
 and, by our own measurements, cannot exceed a recall/precision ceiling without sharper
 verification or 2D-NMR data.
 
-We contribute IRexp and IRSpectra-Bench — open peak lists plus decomposable
-recall/verification metrics others can report — measured on every compound (34% proposed;
-89% selected once proposed), with a four-vendor replication of that split. The paper fills
-an accounting and infrastructure gap: it diagnoses where elucidation binds; it does not
-solve it.
+**Contribution.** We release IRexp and IRSpectra-Bench — redistributable experimental band
+lists, a fixed blind peak-list protocol, and decomposable recall/verification metrics others
+can report on a shared InChIKey scorer — measured on every compound (34% proposed; 89%
+selected once proposed), with a four-vendor replication of that split. The paper fills an
+infrastructure and accounting gap in cheminformatics: it diagnoses where elucidation binds;
+it does not claim a solved elucidator.
 
 ![Diagnosis on IRSpectra-Bench (n=194): generation recall, not verification, is the bottleneck. Where the true structure is never proposed, no ranker can recover it; where it is proposed, verification usually selects it. End-to-end top-1 is the product of those two rates, which have different denominators and are not differenced.](docs/figures/fig_wall.png){#fig:fig-wall}
 
@@ -106,49 +117,53 @@ are fenced complements.
 
 ### Related work {#sec:related-work}
 
-**Trained spectra → structure models.** The dominant line trains sequence or graph decoders
-on paired corpora — *Spectro*[@chacko2024spectro], multitask 1D-NMR models[@hu2024multitask],
-NMRTrans/NMRSpec[@yang2026nmrtrans],
-*NMIRacle* (IR + ¹H + ¹³C)[@ottomano2025nmiracle] — accurate in-distribution but
-retrained per modality. IRexp ([@sec:contents-licensing]) complements NMRSpec with
-redistributable IR band lists; neither corpus alone is multimodal. Upstream IR work from
-our group (*vIR-OLO*[@garcilazocruz2026virolo], *j-IR-vis*[@sondhi2025jirvis]) identifies
-functional groups but does not generate candidate structures.
+Four camps surround this work; IRexp/IRSpectra-Bench occupy a distinct wedge —
+*redistributable experimental IR band lists*, a *blind literature peak-list protocol*, and
+*stage-decomposed metrics* — rather than a claim to state-of-the-art agent accuracy.
 
-**LLMs as elucidators.** LLM agents already plan syntheses (ChemCrow[@mbran2024chemcrow],
-Coscientist[@boiko2023coscientist]) and call elucidation routines; we measure what one
-returns. Off-the-shelf and multimodal LLMs[@kamber2026chemist; @su2025spectrallm;
-@shen2025specmol; @zhuang2025treesearch], puzzle benchmarks (MolPuzzle[@guo2024molpuzzle]),
-and agentic IR interpreters (IR-Agent[@noh2025iragent]; Priessner *et al.*
-[@priessner2026reasoning]) improve *how* a model reads spectra or re-ranks a fixed pool;
-we ask which stage binds once it has read them.
+**Trained spectra → structure models.** Sequence and graph decoders on paired corpora —
+*Spectro*[@chacko2024spectro], multitask 1D-NMR models[@hu2024multitask],
+NMRTrans/NMRSpec[@yang2026nmrtrans], *NMIRacle* (IR + ¹H + ¹³C)[@ottomano2025nmiracle],
+Alberts IR transformers[@alberts2024ir; @alberts2025benchmarks] — are accurate
+in-distribution but retrained per modality and typically scored end-to-end. IRexp
+([@sec:contents-licensing]) complements NMRSpec with redistributable IR band lists; neither
+corpus alone is multimodal. Upstream IR work from our group
+(*vIR-OLO*[@garcilazocruz2026virolo], *j-IR-vis*[@sondhi2025jirvis]) identifies functional
+groups but does not generate candidate structures. We do not score Spectro, NMIRacle or CASE
+on IRSpectra-Bench ([@sec:limitations]); the resource is designed so those baselines can be
+added under one scorer.
 
-Most benchmarks use simulated or single-instrument spectra[@chacko2024spectro;
-@ottomano2025nmiracle; @alberts2024ir; @alberts2025benchmarks]; IRSpectra-Bench uses
-literature-reported peak lists across thousands of laboratories. Cross-paper numbers swing
-with harness: GPT-4o scores 1.4% on MolPuzzle[@guo2024molpuzzle], 27.8% with
-chain-of-thought, 57.8% with tree-search[@zhuang2025treesearch]. We fix one pre-registered
-RDKit-InChIKey protocol with bootstrap CIs.
+**LLM agents and puzzle benches.** Off-the-shelf and multimodal LLMs[@kamber2026chemist;
+@su2025spectrallm; @shen2025specmol; @zhuang2025treesearch], puzzle benchmarks
+(MolPuzzle[@guo2024molpuzzle]), and agentic IR interpreters (IR-Agent[@noh2025iragent];
+Priessner *et al.*[@priessner2026reasoning]) improve *how* a model reads spectra or re-ranks
+a fixed pool. Cross-paper numbers swing with harness: GPT-4o scores 1.4% on
+MolPuzzle[@guo2024molpuzzle], 27.8% with chain-of-thought, 57.8% with
+tree-search[@zhuang2025treesearch]. We fix one pre-registered RDKit-InChIKey protocol with
+bootstrap CIs and ask which stage binds once the spectra have been read.
 
-**Forward verification and CASE.** Matching predicted to observed shifts — DP4[@smith2010dp4;
-@grimblat2015dp4plus], NMR crystallography[@pickard2001gipaw; @ashbrook2016nmrcryst], CASE
-[@elyashberg2012case; @elyashberg2015case] — is easier than inverse generation. We swap DFT
-for a forward LLM. CASE enumerators have exhaustive recall by construction; the LLM
+**Contamination-aware and heterogeneous-data benches.** Most prior suites use simulated or
+single-instrument spectra[@chacko2024spectro; @ottomano2025nmiracle; @alberts2024ir;
+@alberts2025benchmarks]. IRSpectra-Bench uses literature-reported peak lists across
+thousands of laboratories and reports formula-only and recency controls
+([@sec:model-reading-spectra-formula]). Espejo Morales *et al.* frame agentic search on raw
+instrument files: 80.9% on education spectra, 20.6% on 34 industrial
+samples[@espejo2026agentic] — they ask which architecture; we ask which stage binds on
+published reports ([@sec:limitations]).
+
+**Forward verification, CASE and prior loops.** Matching predicted to observed shifts —
+DP4[@smith2010dp4; @grimblat2015dp4plus], NMR crystallography[@pickard2001gipaw;
+@ashbrook2016nmrcryst], CASE[@elyashberg2012case; @elyashberg2015case] — is easier than
+inverse generation. CASE enumerators have exhaustive recall by construction; the LLM
 literature almost never reports whether the true structure was proposed at all
-([@sec:literature-decomposition]).
-
-**Prior loops and concurrent work.** *NMR-Solver*[@jin2025nmrsolver] runs the same
+([@sec:literature-decomposition]). *NMR-Solver*[@jin2025nmrsolver] runs the same
 generate-and-verify loop without an LLM (52.9% top-1 on literature ¹H/¹³C, formula
 supplied; 31.6% with stereochemistry). We decompose error rather than beat that score.
-*NMRAgent*[@fang2026nmragent] is a complementary best-effort system. Kliuev *et al.*
-place the best of six LLMs at 24% on 105 peak lists[@kliuev2026canai]. Espejo Morales *et
-al.* frame agentic search with processing tools and hard checks: 80.9% on education spectra,
-20.6% on 34 industrial samples[@espejo2026agentic] — they ask which architecture; we ask
-which stage binds. Their inputs are raw instrument files; ours are published reports
-([@sec:limitations]). Priessner *et al.* already state that re-ranking cannot recover a
-missing candidate[@priessner2026reasoning]. We add measurement at scale: the split on 194
-compounds across four model families and four verifiers, recovered from published top-*k*
-figures ([@sec:literature-decomposition]).
+*NMRAgent*[@fang2026nmragent] is a complementary best-effort system. Kliuev *et al.* place
+the best of six LLMs at 24% on 105 peak lists[@kliuev2026canai]. Priessner *et al.* already
+state that re-ranking cannot recover a missing candidate[@priessner2026reasoning]. We add
+measurement at scale: the split on 194 compounds across four model families and four
+verifiers, recovered from published top-*k* figures ([@sec:literature-decomposition]).
 
 ## The IRexp dataset {#sec:irexp-dataset}
 
@@ -218,6 +233,14 @@ requiring human reading; that extraction-recall audit is formally deferred
 `irexp_resolved` (43,060 records, 100% structure-linked) is the benchmark-ready split,
 ≈6× the 6,833-molecule set used to train Spectro[@chacko2024spectro] ([@sfig:dataset]).
 
+**Reuse.** Each record carries `source_doi`, licence stamp and resolved molecular
+representations (canonical SMILES, InChIKey, SELFIES). Fine-tuning against IRSpectra-Bench
+should use `data/train_no_bench.jsonl.gz` (or rebuild with
+`contrib/generator_probe/build_exp_manifest.py`) so benchmark InChIKeys are withheld.
+Licence pools are separable (`scripts/split_license_pools.py`); cite the Zenodo deposit once
+minted and attribute sources via each record’s `source_doi` ([@sec:data-availability]
+below; Hugging Face mirror `ilkhamfy/IRexp`).
+
 ## Benchmark design (IRSpectra-Bench) {#sec:benchmark-design-irspectra-bench}
 
 From `irexp_resolved` we draw *IRSpectra-Bench*, 194 blind elucidation problems, each
@@ -257,16 +280,18 @@ top-1 falls 28.4% → 15.2% [10.6–20.4] and recall 33.5% → 19.8% [14.4–25.
 precision must be reweighted too (89.2% → 71.5% [50.2–92.5]). We report the benchmark figure
 as released and the reweighted figure as the better estimate on an arbitrary paper.
 
-**Scoring is mechanical.** A prediction is *correct* if its RDKit InChIKey connectivity
-layer (first 14 characters) matches the reference: we score *constitution*, so correct
-constitution with wrong stereochemistry counts as correct. The *full*,
-stereochemistry-sensitive InChIKey gives 21.1% top-1 and 25.8% recovered (41/194 and
+**Scoring is mechanical (the leaderboard contract).** A prediction is *correct* if its RDKit
+InChIKey connectivity layer (first 14 characters) matches the reference: we score
+*constitution*, so correct constitution with wrong stereochemistry counts as correct. The
+*full*, stereochemistry-sensitive InChIKey gives 21.1% top-1 and 25.8% recovered (41/194 and
 50/194) against 28.4% / 33.5% — 7.3 points lower on top-1 and 7.7 on recovered — so the
 constitution figure is an upper bound on full-stereochemistry accuracy. Constitution is
 the headline because 1D ¹H/¹³C/IR rarely fixes absolute configuration: only 10.3%
 (20/194) of answers carry a *defined* (assigned R/S) stereocentre, and a model is
 penalised there for information the prompt never contained (`scripts/score_main.py
---stereo`).
+--stereo`). External submissions follow the same contract via
+`scripts/score_submission.py` and the protocol in `docs/LEADERBOARD.md`: up to three ranked
+SMILES per `qid`, no structure hints, document model version and tool access.
 
 **Metrics.** *Top-1 (exact constitution)*: best-ranked candidate matches at the
 connectivity layer; *recovered (top-3)*: reference among up to three returned candidates,
@@ -278,7 +303,8 @@ compounds isolates verification from generation. The forward-verifier ranks by s
 *chamfer distance* between predicted and observed ¹³C peak sets (lower is better);
 Morgan(2, 2048) Tanimoto[@rogers2010ecfp] gives a graded scaffold-family signal. CIs are
 bootstrap 95%; model-vs-model differences use McNemar's exact test[@mcnemar1947] with
-Holm correction[@holm1979].
+Holm correction[@holm1979]. Reports on IRSpectra-Bench should quote all three primary
+numbers — top-1, generation recall, and verification precision | recall — not top-1 alone.
 
 Solvers are frontier LLM agents (Claude Opus), one sub-agent per batch, closed-book under
 a consumer subscription: no tools beyond an RDKit formula check, no ground truth, verified
@@ -286,6 +312,10 @@ by grep-auditing transcripts. Formula-adherence rates by round are reported in t
 Electronic Supplementary Information.
 
 ## How well do LLMs elucidate real structures? {#sec:well-llms-elucidate-real}
+
+Having defined IRexp and IRSpectra-Bench as reusable data objects, we next report the
+decomposable metrics they enable — top-1 constitution, generation recall, and verification
+precision — rather than a single end-to-end accuracy claim.
 
 ### Headline performance {#sec:headline-performance}
 
@@ -602,12 +632,26 @@ never reports whether the true structure was proposed at all
 ## Discussion {#sec:discussion}
 
 Frontier LLMs are good verifiers (89% conditional precision) and weak proposers (34%
-recall) on real literature spectra. The contribution is a diagnosis with a bounded,
-training-free improvement, not a solved elucidator ([@sec:limitations]).
+recall) on real literature spectra. The primary contribution is chemical-information
+infrastructure — IRexp, IRSpectra-Bench, frozen predictions and a decomposable scorer —
+with a diagnosis and a bounded, training-free improvement attached; not a solved
+elucidator ([@sec:limitations]).
 
 That split held across four Claude models, a battery-electrolyte subset, four verifiers and
 four vendor families ([@sec:literature-decomposition]); concurrent systems that move the
 same levers are surveyed in [@sec:related-work].
+
+**Reporting on IRSpectra-Bench.** External work should deposit ranked SMILES under the
+released protocol (`docs/LEADERBOARD.md`; `scripts/score_submission.py`) and report, at
+minimum: (i) top-1 constitution (InChIKey connectivity), (ii) generation recall (true
+structure in the candidate pool before re-ranking), and (iii) verification precision
+conditional on recall, with bootstrap CIs and candidate budget. Top-1 alone conflates the
+two stages this paper separates. Nonsignificant ladder gains (forward-verification vs
+self-ranking, McNemar p=0.55; generate-wide top-1, p=0.34) should be cited as diagnostic,
+not as accuracy advances. Corpus-reweighted top-1 (15.2%) is the better estimate for an
+arbitrary literature draw; the released 50/50 figure remains the comparable leaderboard
+number. IRexp re-users should keep PMC and Chemotion licence pools separable and de-leak
+benchmark InChIKeys before training ([@sec:contents-licensing]).
 
 Training is not foreclosed: IRexp fine-tuning lifts recall to 54%
 ([@sec:recall-wall-task-intrinsic]). What compounds is open experimental data, honest
@@ -639,9 +683,10 @@ p=0.55); generate-wide top-1 likewise (p=0.34). The four-model comparison at n=2
 underpowered for adjacent ranks and carries a disclosed protocol asymmetry
 ([@sec:model-comparison-benchmark-ranks]). The inference ladder diagnoses a bottleneck; it
 is not a demonstrated accuracy advance.
-**(v) Missing on-bench baselines.** Spectro, NMIRacle and CASE were not scored on
-IRSpectra-Bench, so the LLM recall wall is not cleanly separated from harness or modality
-choice — left to future leaderboard work.
+**(v) Missing on-bench cheminformatics baselines.** Spectro, NMIRacle, Alberts IR
+transformers and CASE were not scored on IRSpectra-Bench, so the LLM recall wall is not
+cleanly separated from harness or modality choice — left to future leaderboard work under
+the released InChIKey scorer.
 **(vi) Cross-vendor scope.** Headline n=194 is Claude Opus; the four-vendor replication is
 on 60 compounds. Candidate budgets differ across vendors (Claude mean 2.20 vs 3.00), so
 recall rankings are approximate ([@sec:diagnosis-hold-outside-one]).
@@ -709,16 +754,18 @@ and [@sec:recall-wall-task-intrinsic]), writing — review and editing.
 
 There are no conflicts to declare.
 
-## Data availability
+## Data availability {#sec:data-availability}
 
-Data, predictions, scoring scripts and figure regeneration are in the project
-repository; [@tab:artefacts] lists each component. A frozen snapshot will be
-deposited on Zenodo (DOI at proof); GitHub is the development mirror.
-IRexp is also mirrored at
+Data, frozen predictions, scoring scripts and figure regeneration are in the project
+repository ([github.com/IlkhamFY/spectro-agent](https://github.com/IlkhamFY/spectro-agent));
+[@tab:artefacts] lists each component. A frozen archival snapshot will be deposited on
+Zenodo ([TODO: 10.5281/zenodo.XXXXXXX]; DOI at proof); GitHub remains the development
+mirror. IRexp is also mirrored at
 [huggingface.co/datasets/ilkhamfy/IRexp](https://huggingface.co/datasets/ilkhamfy/IRexp)
-(use `data/train_no_bench.jsonl.gz` for fine-tuning without benchmark leakage).
+(use `data/train_no_bench.jsonl.gz` for fine-tuning without benchmark leakage). Leaderboard
+submissions follow `docs/LEADERBOARD.md`.
 
-<!-- ZENODO: mint the deposit and substitute its DOI for "DOI at proof" above.
+<!-- ZENODO: mint the deposit and substitute its DOI for "DOI at proof" / the TODO above.
      Reserve it at 10.5281/zenodo.XXXXXXX; `python scripts/check_manuscript.py` lists this
      until it is done. -->
 

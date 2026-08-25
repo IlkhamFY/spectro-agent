@@ -21,11 +21,19 @@ they are not part of the printed article and should not be on the author PDF you
 iterate against.
 
 **Venue.** ChemRxiv first (deposit venue only — the PDF is a clean two-column article
-with no ChemRxiv or journal chrome), then a journal with the PI (R. A. Vargas-Hernández).
-The abstract is a single paragraph (~204 words). Keywords (for the ChemRxiv deposit form,
-not printed in the PDF): structure elucidation; NMR spectroscopy; infrared spectroscopy;
-large language models; chemical information; benchmark. Graphical abstract:
+with no ChemRxiv or journal chrome), then ***Journal of Chemical Information and Modeling*
+(JCIM) as the primary journal target** (cheminformatics resource + benchmark + diagnostic
+metrics), decided with the PI (R. A. Vargas-Hernández). The abstract is a single paragraph
+(~230 words). Keywords (for the ChemRxiv deposit form, not printed in the PDF): structure
+elucidation; infrared spectroscopy; NMR spectroscopy; chemical information; benchmark;
+molecular representation; large language models. Graphical abstract:
 `docs/figures/graphical_abstract.png`.
+
+**Editorial positioning (2026-08-25 JCIM strengthen).** Manuscript reframed as a JCIM
+chemical-information paper: IRexp/IRSpectra-Bench as first-class data objects, InChIKey
+scorer contract, community reporting instructions (recall, verification precision, top-1),
+baselines positioned as neighbours not SOTA claims. Title updated to foreground resource +
+benchmark + diagnosis. Limitations honesty retained (including missing on-bench baselines).
 
 ---
 
@@ -40,7 +48,7 @@ it does not.
 | 1 | **ORCID iDs**, all three authors | `docs/PAPER.md`, author block (visible `[TODO: 0000-…]` placeholders) | corresponding author's ORCID is typically required at submission |
 | 2 | **Zenodo DOI** for the data/code deposit | `docs/PAPER.md`, Data and code availability (`[TODO: 10.5281/zenodo.XXXXXXX]`) | mint at submission; the Licensing section points re-users at it for attribution |
 | 3 | **Funding sources and acknowledgements** | `docs/PAPER.md`, Acknowledgements (marked `— AUTHORS`) | currently the only empty section |
-| 4 | **Target journal** | cover letter + submission metadata | decide with PI before finalising house style / cover letter |
+| 4 | **Target journal** | cover letter + submission metadata | **JCIM primary** after ChemRxiv deposit; confirm house style with PI |
 
 ### Not on this list any more: model snapshot identifiers
 
@@ -105,6 +113,20 @@ non-reproducibility, uncaptured main-arm prompts, constitution/formula/object-ty
 statistical non-claims (p=0.55 / p=0.34 / n=24), missing on-bench baselines, candidate-budget
 inequality, formally deferred expert audit, abandoned leave-one-modality arm. Author TODOs
 (ORCID/Zenodo/funding) stay in this file, not in Limitations.
+
+## 4c. JCIM editorial strengthen (2026-08-25)
+
+Deep pass retargeting the manuscript as a JCIM cheminformatics resource + benchmark +
+diagnostic-metrics paper (not an LLM-agent race or solved-elucidation claim):
+
+- Title → *IRexp and IRSpectra-Bench: redistributable experimental IR band lists, a blind
+  peak-list benchmark, and a recall-bound diagnosis of LLM elucidation*
+- Abstract / intro / related work / dataset / benchmark / discussion / data availability
+  elevated for chemical-information reuse (InChIKey scorer contract; report top-1, recall,
+  verification precision)
+- Cover letter retargeted to JCIM; ChemRxiv remains the first deposit venue
+- Limitations honesty preserved; on-bench baseline gap restated with Alberts/CASE/NMIRacle
+- Numbers, figure layout, editorial cuts (1)–(8) unchanged
 
 ## 5. What is already verified (so you needn't re-do it)
 

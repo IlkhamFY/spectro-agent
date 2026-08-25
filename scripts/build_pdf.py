@@ -561,11 +561,10 @@ def header():
              # A heading stranded with no body at a column foot (§2 on p2; §6 mid-page)
              # is the same defect one level up from a widow line. Reserve heading + body.
              # Section: reserve heading + body; keep club/widow absolute.
-             r"\pretocmd{\section}{\needspace{6\baselineskip}"
-             r"\clubpenalty=10000\widowpenalty=10000}{}{}",
-             # Subsection: light needspace + relaxed club/widow for the following
-             # paragraph. At clubpenalty=10000, §2.2 Construction refused to open in
-             # the ~85pt left under Motivation and jumped columns (p2 blank band).
+             r"\pretocmd{\section}{\needspace{6\baselineskip}}{}{}",
+             # Subsection: light needspace + relaxed club/widow so §2.2 can open in the
+             # band left under Motivation (p2). At clubpenalty=10000 alone, Construction
+             # refused the ~45pt remainder and jumped columns.
              r"\pretocmd{\subsection}{\needspace{2\baselineskip}"
              r"\clubpenalty=2000\widowpenalty=2000}{}{}",
              r"\pretocmd{\subsubsection}{\needspace{2\baselineskip}"

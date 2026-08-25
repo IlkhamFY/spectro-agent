@@ -204,20 +204,25 @@
 \begin{document}
 
 \twocolumn[{
+\begingroup\sffamily
 \centering
+\vspace{1em}
 {\LARGE\bfseries\setlength{\baselineskip}{1.15\baselineskip}
 IRSpectra-Bench and IRexp: candidate recall, not verification, limits LLM elucidation from real experimental IR and NMR\par}
-\vspace{1.0em}
-{\large \textbf{Ilkham Yabbarov}\textsuperscript{a}\textsuperscript{*}, \textbf{Rudra Sondhi}\textsuperscript{a}, \textbf{Rodrigo A. Vargas-Hernández}\textsuperscript{a}\par}
-\vspace{0.48em}
-{\small \textit{\textsuperscript{a} Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario L8S 4L8, Canada.}\par}
+\vspace{0.5cm}
+{\Large Ilkham Yabbarov\textit{$^{1}$}, Rudra Sondhi\textit{$^{1}$}, Rodrigo A. Vargas-Hernández\textit{$^{2,1,3}$}\par}
+\vspace{0.35em}
+{\normalsize\setlength{\parskip}{0.25em}
+\noindent 1.\ Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario L8S 4L8, Canada.\par
+\noindent 2.\ Brockhouse Institute for Materials Research, McMaster University, Hamilton, Ontario L8S 4L8, Canada.\par
+\noindent 3.\ School of Computational Science and Engineering, McMaster University, Hamilton, Ontario L8S 4L8, Canada.\par
+}
 \vspace{0.3em}
-{\small\textsuperscript{*}\textit{E-mail: }yabbaroi@mcmaster.ca\par}
-\vspace{1.05em}
-\begin{minipage}{\textwidth}
-\setlength{\parindent}{0pt}\setlength{\parskip}{0.34em}
-\small\setlength{\baselineskip}{12.6pt}
-\noindent\textbf{Abstract.}\enspace We release \textit{IRexp}, the largest openly redistributable collection of experimental
+{\normalsize * \textit{E-mail: }yabbaroi@mcmaster.ca\par}
+\vspace{0.5cm}
+\rmfamily\normalsize
+\setlength{\parindent}{0pt}\setlength{\parskip}{0pt}
+\noindent We release \textit{IRexp}, the largest openly redistributable collection of experimental
 infrared band lists (121,233 records; 43,060 structure-linked; 33,201 full IR + ¹H + ¹³C +
 structure quadruples), and \textit{IRSpectra-Bench}, a blind mechanically scored benchmark of 194
 compounds drawn from it. On IRSpectra-Bench, given the molecular formula and peak lists
@@ -233,8 +238,8 @@ recall 32\% → 42\% and top-1 23\% → 30\% on 60 compounds; verification itsel
 top-1 only 28\% → 30\%. Masking the spectra drops top-1 from 23\% to 5\%, and Grok 4.6, Gemini
 3.7 Flash and GPT-5.6 Sol all verify better than they generate. All predictions and code
 are released.\par
-\end{minipage}
-\vspace{0.85em}
+\endgroup
+\vspace{1.0cm}
 }]
 
 \hypertarget{introduction}{%

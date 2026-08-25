@@ -1,8 +1,10 @@
 # IRSpectra-Bench and IRexp: candidate recall, not verification, limits LLM elucidation from real experimental IR and NMR
 
-**Ilkham Yabbarov**^a^ *(corresponding author: yabbaroi@mcmaster.ca)*, **Rudra Sondhi**^a^, **Rodrigo A. Vargas-Hernández**^a^
+**Ilkham Yabbarov**^1^ *(corresponding author: yabbaroi@mcmaster.ca)*, **Rudra Sondhi**^1^, **Rodrigo A. Vargas-Hernández**^2,1,3^
 
-*^a^ Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario L8S 4L8, Canada.*
+^1^ Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario L8S 4L8, Canada.
+^2^ Brockhouse Institute for Materials Research, McMaster University, Hamilton, Ontario L8S 4L8, Canada.
+^3^ School of Computational Science and Engineering, McMaster University, Hamilton, Ontario L8S 4L8, Canada.
 
 <!-- AUTHORS — name forms and ORCID iDs below are taken from each author's own published
      bylines and ORCID record, not guessed. Many journals link iDs through the submission

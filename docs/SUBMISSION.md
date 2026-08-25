@@ -133,3 +133,11 @@ Agreed length cuts on `docs/PAPER.md` (main text only; ESI retained displaced de
 | (6) | “Reconciling with prior reports” → 2–3 sentences | applied |
 | (7) | within-compound control (n=20, p=0.25) → one sentence | applied |
 | (8) | ECFP aside in Discussion | applied (with (3); Praski bib dropped) |
+
+## 7. Front-matter typography (2026-08-25)
+
+`scripts/build_pdf.py` title band now matches the authors' earlier RSC-layout article:
+sans-serif title block, `\Large` author line with italic superscript affiliation markers,
+numbered affiliation list below authors (Rodrigo: 2,1,3), and abstract text with no
+"Abstract." label. ChemRxiv two-column measure, float barriers, and editorial cuts are
+unchanged.

@@ -395,13 +395,53 @@ def _inline(md):
 TITLE_RE = re.compile(
     r"\A#\s+(?P<title>.+?)\n+"          # H1
     r"(?P<authors>\*\*.+?)\n\n"         # author line (starts bold)
-    r"(?P<affil>\*\^a\^.+?)\n",         # affiliation line
+    r"(?P<affils>(?:\^[^\n]+\n)+)",    # numbered affiliation lines (^1^ …)
     re.S)
+
+AUTHOR_PART = re.compile(r"\*\*([^*]+)\*\*(?:\^([^\^]+)\^)?")
+AFFIL_LINE = re.compile(r"^\*\^([^\^]+)\^(.+?)\*\s*$|"
+                        r"^\^([^\^]+)\^(.+?)\s*$")
 
 
 ABS_RE = re.compile(
     r"^## Abstract\n+(?P<abstract>.*?)(?=\n## |\Z)",
     re.M | re.S)
+
+
+def _parse_affiliations(block):
+    """Return [(marker, text), ...] from ^1^ … lines in PAPER.md."""
+    affils = []
+    for line in block.strip().split("\n"):
+        m = AFFIL_LINE.match(line.strip())
+        if m:
+            num = m.group(1) or m.group(3)
+            text = m.group(2) or m.group(4)
+            affils.append((num.strip(), text.strip()))
+    return affils
+
+
+def _format_authors(authors_raw):
+    """Author names with italic superscript affiliation markers (RSC article style)."""
+    corr = re.search(r"\s*\*\(corresponding author:\s*([^)]*)\)\*,?", authors_raw)
+    email = corr.group(1).strip() if corr else ""
+    text = ((authors_raw[:corr.start()] + authors_raw[corr.end():]) if corr
+            else authors_raw)
+    parts = []
+    for m in AUTHOR_PART.finditer(text):
+        name = m.group(1)
+        markers = (m.group(2) or "").strip()
+        if markers:
+            parts.append(f"{name}\\textit{{$^{{{markers}}}$}}")
+        else:
+            parts.append(name)
+    return ", ".join(parts), email
+
+
+def _format_affiliations(affils):
+    """Numbered affiliation list below the author line."""
+    return "\n".join(
+        f"\\noindent {num}.\\ {_inline(text)}\\par"
+        for num, text in affils)
 
 
 def title_block(md):
@@ -411,45 +451,46 @@ def title_block(md):
     spanning both columns. No journal name, logo, preprint label, or copyright
     line. The `## Abstract` heading is removed here so PAPER.md stays checkable
     on GitHub.
+
+    Front-matter typography follows the authors' earlier RSC-layout article:
+    sans-serif title band, Large author line with italic superscripts, numbered
+    affiliations listed below authors, and abstract text with no "Abstract." label.
     """
     m = TITLE_RE.search(md)
     if not m:
         return md
-    title, affil = (_inline(m.group(k).strip()) for k in ("title", "affil"))
-    authors = m.group("authors").strip()
-    corr = re.search(r"\s*\*\(corresponding author:\s*([^)]*)\)\*,?", authors)
-    email = corr.group(1).strip() if corr else ""
-    if corr:
-        authors = (authors[:corr.start()] + "^*^," + authors[corr.end():]).replace(
-            ", ,", ",").rstrip(", ")
-    authors = _inline(authors)
-    note = (r"{\small\textsuperscript{*}\textit{E-mail: }"
+    title = _inline(m.group("title").strip())
+    authors_tex, email = _format_authors(m.group("authors").strip())
+    affils = _parse_affiliations(m.group("affils"))
+    affil_block = _format_affiliations(affils) if affils else ""
+    note = (r"{\normalsize * \textit{E-mail: }"
             + email.replace("_", r"\_") + r"\par}" "\n") if email else ""
     am = ABS_RE.search(md)
     abstract = _inline(am.group("abstract").strip()) if am else ""
     # \twocolumn[{...}] is how article.cls sets a full-width title on a two-column
     # paper. Do NOT also pass classoption=twocolumn -- that path errors on a second
     # \twocolumn call.
-    # Title-band vspaces are ~15–20% roomier than a tight preprint stack:
-    # especially email→abstract and abstract leading, without magazine air.
     head = ("```{=latex}\n"
             r"\twocolumn[{" "\n"
+            r"\begingroup\sffamily" "\n"
             r"\centering" "\n"
+            r"\vspace{1em}" "\n"
             r"{\LARGE\bfseries\setlength{\baselineskip}{1.15\baselineskip}" "\n"
             f"{title}\\par}}\n"
-            r"\vspace{1.0em}" "\n"
-            r"{\large " f"{authors}" r"\par}" "\n"
-            r"\vspace{0.48em}" "\n"
-            r"{\small " f"{affil}" r"\par}" "\n"
+            r"\vspace{0.5cm}" "\n"
+            r"{\Large " f"{authors_tex}" r"\par}" "\n"
+            r"\vspace{0.35em}" "\n"
+            r"{\normalsize\setlength{\parskip}{0.25em}" "\n"
+            f"{affil_block}\n"
+            r"}" "\n"
             r"\vspace{0.3em}" "\n"
             f"{note}"
-            r"\vspace{1.05em}" "\n"
-            r"\begin{minipage}{\textwidth}" "\n"
-            r"\setlength{\parindent}{0pt}\setlength{\parskip}{0.34em}" "\n"
-            r"\small\setlength{\baselineskip}{12.6pt}" "\n"
-            r"\noindent\textbf{Abstract.}\enspace " f"{abstract}" r"\par" "\n"
-            r"\end{minipage}" "\n"
-            r"\vspace{0.85em}" "\n"
+            r"\vspace{0.5cm}" "\n"
+            r"\rmfamily\normalsize" "\n"
+            r"\setlength{\parindent}{0pt}\setlength{\parskip}{0pt}" "\n"
+            r"\noindent " f"{abstract}" r"\par" "\n"
+            r"\endgroup" "\n"
+            r"\vspace{1.0cm}" "\n"
             r"}]" "\n"
             "```\n\n")
     md = md[:m.start()] + head + md[m.end():]

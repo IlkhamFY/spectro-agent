@@ -278,8 +278,8 @@ Holm correction[@holm1979].
 
 Solvers are frontier LLM agents (Claude Opus), one sub-agent per batch, closed-book under
 a consumer subscription: no tools beyond an RDKit formula check, no ground truth, verified
-by grep-auditing transcripts. Formula-adherence rates by round are reported in the ESI
-([@sec:esi-scoring]).
+by grep-auditing transcripts. Formula-adherence rates by round are reported in the
+Electronic Supplementary Information.
 
 ## How well do LLMs elucidate real structures? {#sec:well-llms-elucidate-real}
 

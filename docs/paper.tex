@@ -588,17 +588,8 @@ correction\textsuperscript{\protect\hyperlink{ref-holm1979}{42}}.
 Solvers are frontier LLM agents (Claude Opus), one sub-agent per batch,
 closed-book under a consumer subscription: no tools beyond an RDKit
 formula check, no ground truth, verified by grep-auditing transcripts.
-
-Formula adherence is high but imperfect. Of the 126 candidates carried
-through forward-verification on the original arm (§5.2), 91.3\%
-(115/126) match the given formula exactly, and 76.6\% across the full
-top-3 pool. On top-1 answers adherence is 95.0\% (38/40) in v3 and
-90.0\% (18/20) in the v2-control --- the two pre-registered controlled
-rounds, 60 compounds between them --- against 77.6\% (104/134) in the
-headline main round. Wrong-composition answers score as misses
-(\textasciitilde one main-round compound in five), so this inflates
-nothing; the main-round arm is the weakest-constrained
-(\texttt{scripts/\hspace{0pt}analyze\_misses.py}).
+Formula-adherence rates by round are reported in the Electronic
+Supplementary Information.
 
 \hypertarget{how-well-do-llms-elucidate-real-structures}{%
 \section{4. How well do LLMs elucidate real
@@ -681,30 +672,22 @@ misses show \emph{wrong connectivity at the right composition}.
 \subsection{4.2 Reconciling with prior
 reports}\label{reconciling-with-prior-reports}}
 
-Our 28\% top-1 sits far below ≈100\% on curated NMR-only
-demos\textsuperscript{\protect\hyperlink{ref-kamber2026chemist}{2}}.
-Four choices inflate prior reports --- difficulty, lenient top-3
-scoring, starting-material hints, hand curation --- and we name them
-without apportioning the gap. Trained baselines on simulated or NIST
-gas-phase IR reach 48--94\%
-in-distribution\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{1},\protect\hyperlink{ref-ottomano2025nmiracle}{6},\protect\hyperlink{ref-alberts2025benchmarks}{18}};
-ours is 28.4\% on blind literature spectra. On ≤15-heavy-atom compounds
-our 60.5\% approaches Alberts' 63.8\% (IR-only, single instrument), but
-settings differ on every axis --- modality, spectrum realism, library
-homogeneity --- so neither number bounds the other. High in-distribution
-scores overstate real-world performance; the ≈40× MolPuzzle swing for
-one model (§1.1) bounds what unaudited near-100\% claims can bear.
+Our 28\% top-1 sits far below curated NMR-only
+demos\textsuperscript{\protect\hyperlink{ref-kamber2026chemist}{2}} and
+below in-distribution trained baselines
+(48--94\%)\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{1},\protect\hyperlink{ref-ottomano2025nmiracle}{6},\protect\hyperlink{ref-alberts2025benchmarks}{18}}:
+difficulty, scoring leniency, starting-material hints and hand curation
+inflate those reports, while settings differ on every axis from our
+blind literature spectra. The ≈40× MolPuzzle swing for one model (§1.1)
+bounds what unaudited near-100\% claims can bear.
 
 \hypertarget{methodology-dominates-a-within-compound-control}{%
 \subsection{4.3 Methodology dominates: a within-compound
 control}\label{methodology-dominates-a-within-compound-control}}
 
-The same 20 molecules were solved two ways: (a) one long context, no
-tools; (b) four agents, five compounds each, with RDKit
-formula-checking. Recovered rose 5\% → 15\% and top-1 0\% → 15\%
-(McNemar p=0.25 at n=20). Bounded, frequently-reset contexts with tool
-access may raise measured performance --- a directional demonstration,
-not a quantified contribution to the headline gap.
+On the same 20 molecules, recovered rose 5\% → 15\% (and top-1 0\% →
+15\%; McNemar p=0.25) when four bounded, tool-using agents replaced one
+long context --- directional only.
 
 \hypertarget{model-comparison-the-benchmark-orders-capability-but-separates-only-the-extremes}{%
 \subsection{4.4 Model comparison: the benchmark orders capability but
@@ -1336,9 +1319,12 @@ Supplementary Information (\texttt{docs/\hspace{0pt}paper\_esi.pdf}).
 
 \textbf{I.Y.:} conceptualization, methodology, software, formal
 analysis, investigation, data curation, visualization, writing ---
-original draft. \textbf{R.S.:} methodology, software, formal analysis,
-investigation, validation (trained-generator and learned-verifier
-probes, §5.4 and §5.6), writing --- review and editing.
+original draft.
+
+\textbf{R.S.:} methodology, software, formal analysis, investigation,
+validation (trained-generator and learned-verifier probes, §5.4 and
+§5.6), writing --- review and editing.
+
 \textbf{R.A.V.-H.:} conceptualization, methodology, supervision, writing
 --- review and editing.
 

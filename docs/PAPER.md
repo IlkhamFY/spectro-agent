@@ -278,16 +278,8 @@ Holm correction[@holm1979].
 
 Solvers are frontier LLM agents (Claude Opus), one sub-agent per batch, closed-book under
 a consumer subscription: no tools beyond an RDKit formula check, no ground truth, verified
-by grep-auditing transcripts.
-
-Formula adherence is high but imperfect. Of the 126 candidates carried through
-forward-verification on the original arm ([@sec:result]), 91.3% (115/126) match the given
-formula exactly, and 76.6% across the full top-3 pool. On top-1 answers adherence is
-95.0% (38/40) in v3 and 90.0% (18/20) in the v2-control — the two pre-registered
-controlled rounds, 60 compounds between them — against 77.6% (104/134) in the headline
-main round. Wrong-composition answers
-score as misses (~one main-round compound in five), so this inflates nothing; the
-main-round arm is the weakest-constrained (`scripts/analyze_misses.py`).
+by grep-auditing transcripts. Formula-adherence rates by round are reported in the ESI
+([@sec:esi-scoring]).
 
 ## How well do LLMs elucidate real structures? {#sec:well-llms-elucidate-real}
 
@@ -331,24 +323,17 @@ connectivity at the right composition*.
 
 ### Reconciling with prior reports {#sec:reconciling-prior-reports}
 
-Our 28% top-1 sits far below ≈100% on curated NMR-only demos[@kamber2026chemist]. Four
-choices inflate prior reports — difficulty, lenient top-3 scoring, starting-material hints,
-hand curation — and we name them without apportioning the gap. Trained baselines on
-simulated or NIST gas-phase IR reach 48–94% in-distribution[@chacko2024spectro;
-@ottomano2025nmiracle; @alberts2025benchmarks]; ours is 28.4% on blind literature spectra.
-On ≤15-heavy-atom compounds our 60.5% approaches Alberts' 63.8% (IR-only, single
-instrument), but settings differ on every axis — modality, spectrum realism, library
-homogeneity — so neither number bounds the other. High in-distribution scores overstate
-real-world performance; the ≈40× MolPuzzle swing for one model ([@sec:related-work]) bounds
+Our 28% top-1 sits far below curated NMR-only demos[@kamber2026chemist] and below
+in-distribution trained baselines (48–94%)[@chacko2024spectro; @ottomano2025nmiracle;
+@alberts2025benchmarks]: difficulty, scoring leniency, starting-material hints and hand
+curation inflate those reports, while settings differ on every axis from our blind
+literature spectra. The ≈40× MolPuzzle swing for one model ([@sec:related-work]) bounds
 what unaudited near-100% claims can bear.
 
 ### Methodology dominates: a within-compound control {#sec:methodology-dominates-within-compound}
 
-The same 20 molecules were solved two ways: (a) one long context, no tools; (b) four
-agents, five compounds each, with RDKit formula-checking. Recovered rose 5% → 15% and top-1
-0% → 15% (McNemar p=0.25 at n=20). Bounded, frequently-reset contexts with tool access may
-raise measured performance — a directional demonstration, not a quantified contribution to
-the headline gap.
+On the same 20 molecules, recovered rose 5% → 15% (and top-1 0% → 15%; McNemar p=0.25)
+when four bounded, tool-using agents replaced one long context — directional only.
 
 ### Model comparison: the benchmark orders capability but separates only the extremes {#sec:model-comparison-benchmark-ranks}
 
@@ -682,12 +667,14 @@ Information (`docs/paper_esi.pdf`).
 
 ## Author contributions
 
-**I.Y.:** conceptualization, methodology,
-software, formal analysis, investigation, data curation, visualization, writing —
-original draft. **R.S.:** methodology, software, formal analysis, investigation,
-validation (trained-generator and learned-verifier probes, [@sec:non-llm-verifiers-deterministic] and [@sec:recall-wall-task-intrinsic]), writing —
-review and editing. **R.A.V.-H.:** conceptualization, methodology, supervision,
-writing — review and editing.
+**I.Y.:** conceptualization, methodology, software, formal analysis, investigation,
+data curation, visualization, writing — original draft.
+
+**R.S.:** methodology, software, formal analysis, investigation, validation
+(trained-generator and learned-verifier probes, [@sec:non-llm-verifiers-deterministic]
+and [@sec:recall-wall-task-intrinsic]), writing — review and editing.
+
+**R.A.V.-H.:** conceptualization, methodology, supervision, writing — review and editing.
 
 ## Conflicts of interest
 

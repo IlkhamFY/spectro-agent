@@ -117,3 +117,18 @@ Plus: every hand-rolled statistic agrees with SciPy (McNemar, Fisher, Wilson,
 point-biserial, CMH); **zero answer leaks** across 3,604 prompt/answer pairs; and every
 number attributed to another paper checked against a primary source, with the results —
 including what could not be verified — tabulated at the end of `docs/MODELS.md`.
+
+## 6. Editorial cuts applied
+
+Agreed length cuts on `docs/PAPER.md` (main text only; ESI retained displaced detail):
+
+| # | cut | status |
+|---|---|---|
+| (1) | SI figure catalogue → one ESI pointer | applied |
+| (2) | artefacts table → ~10 headline rows | applied |
+| (3) | Discussion diagnosis-only (concurrent systems stay in Related work) | applied |
+| (4) | intro contribution bullets → one sentence | applied |
+| (5) | formula-adherence paragraph (benchmark design) → ESI | applied |
+| (6) | “Reconciling with prior reports” → 2–3 sentences | applied |
+| (7) | within-compound control (n=20, p=0.25) → one sentence | applied |
+| (8) | ECFP aside in Discussion | applied (with (3); Praski bib dropped) |

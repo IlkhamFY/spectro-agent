@@ -320,8 +320,12 @@ predictions did not parse), **76.6% are constitutional isomers** of the true str
 23.4% have the wrong formula outright, 22.6% share the true Murcko scaffold, and the median
 isomeric-miss Tanimoto is 0.39 (`scripts/analyze_misses.py`). Formula adherence is not
 part of the criterion at all — a wrong-composition answer is scored as a miss, not as a
-separate class of error — and its variation across rounds is reported in
-[@sec:benchmark-design-irspectra-bench].
+separate class of error. Of the 126 candidates carried through forward-verification on the
+original arm ([@sec:result]), 91.3% (115/126) match the given formula exactly, and 76.6%
+across the full top-3 pool. On top-1 answers adherence is 95.0% (38/40) in v3 and 90.0%
+(18/20) in the v2-control against 77.6% (104/134) in the headline main round; wrong-
+composition answers score as misses (~one main-round compound in five), so this inflates
+nothing (`scripts/analyze_misses.py`).
 
 ## Forward-verification detail {#sec:esi-forward}
 

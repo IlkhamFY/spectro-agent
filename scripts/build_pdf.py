@@ -553,11 +553,23 @@ def header():
              # break inside displayed maths, and neither document sets a display -- no
              # equation, align, gather or \[ in either .tex.)
              r"\clubpenalty=10000", r"\widowpenalty=10000",
-             # ... and a heading with one line under it at the foot of a page is the same
-             # defect one level up. Reserve enough for the heading plus a few lines.
-             r"\pretocmd{\section}{\needspace{4\baselineskip}}{}{}",
-             r"\pretocmd{\subsection}{\needspace{3.5\baselineskip}}{}{}",
-             r"\pretocmd{\subsubsection}{\needspace{3\baselineskip}}{}{}",
+             # placeins: targeted \FloatBarrier in postprocess (before back-matter
+             # sections) so a deferred table* cannot leave Data availability with a
+             # blank column while Table 11 floats overleaf. Not [section] — that dumps
+             # every pending float at every \section and creates float-only pages.
+             r"\usepackage{placeins}",
+             # A heading stranded with no body at a column foot (§2 on p2; §6 mid-page)
+             # is the same defect one level up from a widow line. Reserve heading + body.
+             # Section: reserve heading + body; keep club/widow absolute.
+             r"\pretocmd{\section}{\needspace{6\baselineskip}"
+             r"\clubpenalty=10000\widowpenalty=10000}{}{}",
+             # Subsection: light needspace + relaxed club/widow for the following
+             # paragraph. At clubpenalty=10000, §2.2 Construction refused to open in
+             # the ~85pt left under Motivation and jumped columns (p2 blank band).
+             r"\pretocmd{\subsection}{\needspace{2\baselineskip}"
+             r"\clubpenalty=2000\widowpenalty=2000}{}{}",
+             r"\pretocmd{\subsubsection}{\needspace{2\baselineskip}"
+             r"\clubpenalty=2000\widowpenalty=2000}{}{}",
              # Hyphenations TeX gets wrong in this vocabulary, each seen broken in the
              # built PDF: "regioi-somers", "McNe-mar", "IR-exp".
              #
@@ -766,6 +778,37 @@ def attach_table_captions(tex):
     return "".join(out)
 
 
+
+# Back-matter only: a global FloatBarrier on every \section piles deferred
+# table* onto float-only pages. Flush here so Table 11 cannot defer past
+# Data availability and leave a blank column band.
+_FLOAT_BARRIER_SECTIONS = (
+    "Supporting Information",
+    "Author contributions",
+    "Conflicts of interest",
+    "Data availability",
+    "Acknowledgements",
+    "References",
+)
+
+
+def barrier_backmatter_floats(tex):
+    """Flush deferred table*/figure* before back-matter section headings."""
+    for title in _FLOAT_BARRIER_SECTIONS:
+        # pandoc emits \hypertarget{...}{\section{Title}\label{...}}
+        esc = re.escape(title)
+        pat = (
+            r"(\\hypertarget\{[^}]*\}\{%\s*\\section\{"
+            + esc
+            + r")"
+        )
+        tex, n = re.subn(pat, r"\\FloatBarrier\n\1", tex, count=1)
+        if not n:
+            pat2 = r"(\\section\{" + esc + r")"
+            tex = re.sub(pat2, r"\\FloatBarrier\n\1", tex, count=1)
+    return tex
+
+
 def postprocess_tex(tex):
     """RSC-article two-column float conventions, no journal class required."""
     tex = tex.replace("{docs/figures/", "{figures/")
@@ -779,6 +822,7 @@ def postprocess_tex(tex):
     tex = convert_longtables(tex)
     tex = attach_table_captions(tex)
     tex = star_wide_figures(tex)
+    tex = barrier_backmatter_floats(tex)
     return tex
 
 ESI_OUT = "docs/paper_esi.pdf"

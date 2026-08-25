@@ -467,13 +467,17 @@ def title_block(md):
     affil_block = _format_affiliations(affils) if affils else ""
     am = ABS_RE.search(md)
     abstract = _inline(am.group("abstract").strip()) if am else ""
+    # Affil/email stay in the outer \begingroup\sffamily; only bump to 10/12.
+    # Do NOT use \fontspec[...]{...} here: any "]" inside \twocolumn[{...}]
+    # prematurely ends the optional argument and leaks the rest as body text
+    # (visible "Liberation Sans[Scale=1.0]" on page 1).
     affil_tex = (
-        r"{\fontspec{Liberation Sans}[Scale=1.0]\fontsize{10}{12}\selectfont"
+        r"{\fontsize{10}{12}\selectfont"
         r"\setlength{\parskip}{0.25em}" "\n"
         f"{affil_block}\n"
         r"}" "\n")
     email_tex = (
-        r"{\fontspec{Liberation Sans}[Scale=1.0]\fontsize{10}{12}\selectfont \dag\ "
+        r"{\fontsize{10}{12}\selectfont \dag\ "
         r"\textit{E-mail: }" + email.replace("_", r"\_") + r"\par}" "\n") if email else ""
     # \twocolumn[{...}] is how article.cls sets a full-width title on a two-column
     # paper. Do NOT also pass classoption=twocolumn -- that path errors on a second
@@ -492,7 +496,7 @@ def title_block(md):
             r"\vspace{0.3em}" "\n"
             f"{email_tex}"
             r"\vspace{0.5cm}" "\n"
-            r"\rmfamily\normalsize" "\n"
+            r"\rmfamily\normalsize\raggedright" "\n"
             r"\setlength{\parindent}{0pt}\setlength{\parskip}{0pt}" "\n"
             r"\noindent " f"{abstract}" r"\par" "\n"
             r"\endgroup" "\n"

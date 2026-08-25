@@ -165,7 +165,7 @@ two-column (`columnsep=0.65 cm`, `microtype`, `titlesec`, `caption`, `fancyhdr`)
 | Authors | Liberation Sans | ~12.5 | `\Large`, italic superscript markers |
 | Affiliations | Liberation Sans | 10 | explicit `\fontsize{10}{12}` — overrides `Scale=MatchLowercase` shrink |
 | Corresponding email | Liberation Sans Italic label | 10 | `\dag\ \textit{E-mail:}` |
-| Abstract | Liberation Serif | ~10 | `\rmfamily` switch; **no “Abstract.” label** |
+| Abstract | Liberation Serif | ~10 | `\rmfamily\raggedright`; **no “Abstract.” label** |
 | Body | Liberation Serif | ~10 | indented paragraphs, `\frenchspacing` |
 | § heading | Liberation Serif Bold | ~12 | `\large\bfseries\raggedright` |
 | §§ / §§§ | Liberation Serif Bold | ~10 | `\normalsize\bfseries\raggedright` |
@@ -194,3 +194,11 @@ unchanged from the typographic-perfection pass (`titlespacing`, `\textfloatsep` 
 to editorial cuts (1)–(8) or §2 orphan/layout fixes. Fixes applied in this audit:
 affiliation/email band set to true 10 pt sans; corresponding-author asterisk upgraded
 to dagger with matching author-mark.
+
+### Title-block fontspec leak (2026-08-25)
+
+Do not put `\fontspec[...]{...}` (or any `[...]` with a closing `]`) inside
+`\twocolumn[{...}]`: TeX ends the optional argument at the first `]`, which leaked
+`Liberation Sans[Scale=1.0]` as visible page-1 text. Affiliations/email use the
+outer `\sffamily` group plus `\fontsize{10}{12}\selectfont` only. Abstract body is
+`\raggedright` (scoped to the title-block group).

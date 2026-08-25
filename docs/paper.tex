@@ -135,9 +135,8 @@
 \makeatletter\renewcommand{\fps@figure}{htbp}\makeatother
 \clubpenalty=10000
 \widowpenalty=10000
-\pretocmd{\section}{\needspace{4\baselineskip}}{}{}
-\pretocmd{\subsection}{\needspace{3.5\baselineskip}}{}{}
-\pretocmd{\subsubsection}{\needspace{3\baselineskip}}{}{}
+\usepackage{placeins}
+\pretocmd{\section}{\needspace{6\baselineskip}}{}{}
 \hyphenation{regio-isomer regio-isomers McNemar InChI-Key IRexp nitro-phenyl HOSE Che-mo-tion}
 \ifcsdef{CSLRightInline}{\AtBeginEnvironment{CSLReferences}{\sloppy\hypersetup{linkcolor=black,urlcolor=black,citecolor=black}}\renewcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\raggedright #1}\break}}{}
 \newcommand{\relspaced}[1]{\leavevmode\unskip\,\ensuremath{#1}\hskip0.16667em\relax\ignorespaces}
@@ -1308,12 +1307,14 @@ answers, per-agent raw outputs, predictions and scorer outputs are
 released; the sampler, scorer and forward-verification harness are
 scripted end-to-end.
 
+\FloatBarrier
 \hypertarget{supporting-information}{%
 \section{Supporting Information}\label{supporting-information}}
 
 Supplementary figures and extended methods appear in the Electronic
 Supplementary Information (\texttt{docs/\hspace{0pt}paper\_esi.pdf}).
 
+\FloatBarrier
 \hypertarget{author-contributions}{%
 \section{Author contributions}\label{author-contributions}}
 
@@ -1328,11 +1329,13 @@ validation (trained-generator and learned-verifier probes, §5.4 and
 \textbf{R.A.V.-H.:} conceptualization, methodology, supervision, writing
 --- review and editing.
 
+\FloatBarrier
 \hypertarget{conflicts-of-interest}{%
 \section{Conflicts of interest}\label{conflicts-of-interest}}
 
 There are no conflicts to declare.
 
+\FloatBarrier
 \hypertarget{data-availability}{%
 \section{Data availability}\label{data-availability}}
 
@@ -1408,11 +1411,13 @@ before training against the benchmark; withhold
 \texttt{data/\hspace{0pt}modality/\hspace{0pt}key.json} from blinded
 reviewers.
 
+\FloatBarrier
 \hypertarget{acknowledgements}{%
 \section{Acknowledgements}\label{acknowledgements}}
 
 Funding and institutional support will be added at proof.
 
+\FloatBarrier
 \hypertarget{references}{%
 \section{References}\label{references}}
 

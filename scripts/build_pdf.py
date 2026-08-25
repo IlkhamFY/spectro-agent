@@ -667,6 +667,12 @@ def convert_longtables(tex):
         for tag in (r"\endfirsthead", r"\endhead", r"\endfoot", r"\endlastfoot",
                     r"\noalign{}"):
             body = body.replace(tag, "")
+        # pandoc puts \bottomrule in \endlastfoot, which sits *before* the data
+        # rows. After stripping the longtable head/foot markers that rule is left
+        # between \midrule and the first data row — header rules only, no closing
+        # rule under the data. Hoist every foot rule to a single closer at the end.
+        body = re.sub(r"\\bottomrule\s*", "", body)
+        body = body.rstrip() + "\n\\bottomrule\n"
         out.append("\\begin{table*}[htbp]\n\\centering\\small\n"
                    f"\\begin{{tabular}}{{{cols}}}{body}\\end{{tabular}}\n"
                    "\\end{table*}\n")
@@ -686,7 +692,19 @@ def star_wide_figures(tex):
 
 
 def attach_table_captions(tex):
-    """Hoist the markdown table title into \\caption* so it travels with table*."""
+    """Hoist the markdown table title into \\caption* so it travels with table*.
+
+    pandoc emits the title as an ordinary paragraph (\\textbf{Table N...} plus any
+    trailing sentence) immediately before the longtable. After convert_longtables
+    that becomes a free-standing paragraph next to a floating table* — the title
+    stays in the column while the body floats elsewhere, often unlabeled. Pull the
+    *full* caption (bold title + trailing prose) into \\caption* inside table*.
+
+    \\caption* rather than \\caption: the manuscript numbers tables in markdown
+    ("Table N.") and cross-refers them as plain text, so a real \\caption would
+    double-number. labelfont=bf still applies to figures; table titles keep their
+    \\textbf from the source.
+    """
     out, i = [], 0
     key = r"\textbf{Table "
     while True:
@@ -711,21 +729,39 @@ def attach_table_captions(tex):
                 if depth == 0:
                     break
             p += 1
-        cap = tex[b + 1:p]
+        cap = re.sub(r"\s+", " ", tex[b + 1:p]).strip()
         rest = tex[p + 1:]
-        m = re.match(r"\s*\\endgroup\s*\\begin\{table\*\}\[htbp\]\s*\\centering\\small\s*", rest)
+        # Trailing sentence(s) often sit between the bold title and \endgroup —
+        # Table 2's "Overall and by difficulty...", Table 10's multi-line note.
+        # The old matcher required \endgroup immediately after \textbf{...} and
+        # left those captions in the column stream.
+        m = re.match(
+            r"(.*?)\\endgroup\s*\\begin\{table\*\}\[htbp\]\s*\\centering\\small\s*",
+            rest,
+            flags=re.S,
+        )
         if not m:
             out.append(tex[i:j + len(key)])
             i = j + len(key)
             continue
+        trailing = m.group(1)
+        # Refuse to swallow another float / section if the sandwich is broken.
+        if re.search(r"\\begin\{|\\needspace|\\section|\\subsection", trailing):
+            out.append(tex[i:j + len(key)])
+            i = j + len(key)
+            continue
+        trailing = re.sub(r"\s+", " ", trailing).strip()
         ns = tex.rfind(r"\needspace", i, j)
         if ns < 0:
             out.append(tex[i:j + len(key)])
             i = j + len(key)
             continue
+        full = f"\\textbf{{{cap}}}"
+        if trailing:
+            full = f"{full} {trailing}"
         out.append(tex[i:ns])
         out.append("\\begin{table*}[htbp]\n\\centering\\small\n"
-                   f"\\caption*{{{cap}}}\n")
+                   f"\\caption*{{{full}}}\n")
         i = p + 1 + m.end()
     return "".join(out)
 

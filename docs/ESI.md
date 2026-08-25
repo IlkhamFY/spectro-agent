@@ -556,7 +556,8 @@ Flash and GPT-5.6 Sol rest on the shared instruction and the stereochemistry evi
 ## Modality ablation and contamination controls {#sec:esi-ablation}
 
 **The leave-one-modality-out ablation was specified and never run, and no leave-one-out
-result appears in the article.** The staged prompts `prompt_noIR.txt`, `prompt_noH.txt` and
+result appears in the article; it is abandoned for this manuscript
+([@sec:limitations]).** The staged prompts `prompt_noIR.txt`, `prompt_noH.txt` and
 `prompt_noC.txt` sit under `data/modality/` (2026-06-16) with no corresponding
 `out_*.json`. Two attempts were discarded, and why is instructive. The first used one
 solver agent per condition, so agent quality was a single draw that swamped the modality

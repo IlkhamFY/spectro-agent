@@ -79,7 +79,8 @@ TEXTWIDTH_IN = 6.30
 # RSC-article two-column page (A4). No journal class; no preprint chrome.
 # headheight=0: fancyhdr carries no running head, so do not reserve a dead band.
 # columnsep slightly above article.cls default so the gutter breathes.
-GEO_ARTICLE = ("a4paper,top=1.55cm,bottom=1.85cm,left=1.5cm,right=1.5cm,"
+# top/bottom: a touch more top margin so the title band is not jammed to the edge.
+GEO_ARTICLE = ("a4paper,top=1.65cm,bottom=1.85cm,left=1.5cm,right=1.5cm,"
                "columnsep=0.65cm,headheight=0pt,includehead=false")
 
 def fig_size(path):
@@ -429,23 +430,25 @@ def title_block(md):
     # \twocolumn[{...}] is how article.cls sets a full-width title on a two-column
     # paper. Do NOT also pass classoption=twocolumn -- that path errors on a second
     # \twocolumn call.
+    # Title-band vspaces are ~15–20% roomier than a tight preprint stack:
+    # especially email→abstract and abstract leading, without magazine air.
     head = ("```{=latex}\n"
             r"\twocolumn[{" "\n"
             r"\centering" "\n"
             r"{\LARGE\bfseries\setlength{\baselineskip}{1.15\baselineskip}" "\n"
             f"{title}\\par}}\n"
-            r"\vspace{0.85em}" "\n"
+            r"\vspace{1.0em}" "\n"
             r"{\large " f"{authors}" r"\par}" "\n"
-            r"\vspace{0.4em}" "\n"
+            r"\vspace{0.48em}" "\n"
             r"{\small " f"{affil}" r"\par}" "\n"
             f"{note}"
-            r"\vspace{0.85em}" "\n"
+            r"\vspace{1.05em}" "\n"
             r"\begin{minipage}{\textwidth}" "\n"
-            r"\setlength{\parindent}{0pt}\setlength{\parskip}{0.28em}" "\n"
-            r"\small\setlength{\baselineskip}{11.2pt}" "\n"
+            r"\setlength{\parindent}{0pt}\setlength{\parskip}{0.34em}" "\n"
+            r"\small\setlength{\baselineskip}{12.6pt}" "\n"
             r"\noindent\textbf{Abstract.}\enspace " f"{abstract}" r"\par" "\n"
             r"\end{minipage}" "\n"
-            r"\vspace{0.7em}" "\n"
+            r"\vspace{0.85em}" "\n"
             r"}]" "\n"
             "```\n\n")
     md = md[:m.start()] + head + md[m.end():]
@@ -484,23 +487,24 @@ def header():
              r"\titleformat{\section}{\large\bfseries\raggedright}{}{0em}{}",
              r"\titleformat{\subsection}{\normalsize\bfseries\raggedright}{}{0em}{}",
              r"\titleformat{\subsubsection}{\normalsize\bfseries\raggedright}{}{0em}{}",
-             r"\titlespacing*{\section}{0pt}{1.55ex plus 0.3ex}{0.75ex plus 0.15ex}",
-             r"\titlespacing*{\subsection}{0pt}{1.15ex plus 0.25ex}{0.45ex plus 0.1ex}",
-             r"\titlespacing*{\subsubsection}{0pt}{1.0ex plus 0.2ex}{0.4ex plus 0.1ex}",
-             # Compact contribution / bullet lists — not letter-spaced list gaps.
+             r"\titlespacing*{\section}{0pt}{1.8ex plus 0.35ex}{0.9ex plus 0.2ex}",
+             r"\titlespacing*{\subsection}{0pt}{1.35ex plus 0.3ex}{0.55ex plus 0.12ex}",
+             r"\titlespacing*{\subsubsection}{0pt}{1.15ex plus 0.25ex}{0.5ex plus 0.1ex}",
+             # Contribution / bullet lists: slightly less packed than nosep, still tight.
              r"\usepackage{enumitem}",
-             r"\setlist{nosep,leftmargin=1.35em,labelsep=0.45em}",
+             r"\setlist{topsep=0.2em,partopsep=0pt,parsep=0pt,itemsep=0.15em,"
+             r"leftmargin=1.35em,labelsep=0.45em}",
              # RSC / Digital Discovery article measure: Times, indented paragraphs,
              # no running headers -- page number only in the footer.
              r"\setlength{\parindent}{12pt}",
              r"\setlength{\parskip}{0pt plus 1pt}",
              r"\setlength{\footskip}{30pt}",
              # Float rhythm: one language for single- and double-column plates.
-             r"\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}",
-             r"\setlength{\floatsep}{10pt plus 2pt minus 2pt}",
-             r"\setlength{\intextsep}{10pt plus 2pt minus 2pt}",
-             r"\setlength{\dbltextfloatsep}{14pt plus 2pt minus 2pt}",
-             r"\setlength{\dblfloatsep}{12pt plus 2pt minus 2pt}",
+             r"\setlength{\textfloatsep}{14pt plus 2pt minus 2pt}",
+             r"\setlength{\floatsep}{12pt plus 2pt minus 2pt}",
+             r"\setlength{\intextsep}{12pt plus 2pt minus 2pt}",
+             r"\setlength{\dbltextfloatsep}{16pt plus 2pt minus 2pt}",
+             r"\setlength{\dblfloatsep}{14pt plus 2pt minus 2pt}",
              r"\usepackage{fancyhdr}",
              r"\usepackage{dblfloatfix}",
              r"\pagestyle{fancy}",
@@ -527,7 +531,7 @@ def header():
              # label match the table one. skip= matches the floatsep language above.
              r"\usepackage{caption}",
              r"\captionsetup{labelsep=period,labelfont=bf,font=small,"
-             r"skip=6pt,aboveskip=6pt,belowskip=2pt}",
+             r"skip=7.5pt,aboveskip=7.5pt,belowskip=3pt}",
              r"\renewcommand{\figurename}{Fig.}",
              # Single lines stranded across a page break. TeX's defaults tolerate them;
              # a journal page should not.
@@ -756,18 +760,18 @@ def build_esi(h_path, bib):
     md = ("```{=latex}\n"
           r"\begin{center}" "\n"
           r"{\Large\bfseries Electronic Supplementary Information\par}" "\n"
-          r"\vspace{0.7em}" "\n"
+          r"\vspace{0.85em}" "\n"
           r"{\large\bfseries\setlength{\baselineskip}{1.15\baselineskip}" "\n"
           "IRSpectra-Bench and IRexp: candidate recall, not verification,\\\\\n"
           "limits LLM elucidation from real experimental IR and NMR\\par}\n"
-          r"\vspace{0.7em}" "\n"
+          r"\vspace{0.85em}" "\n"
           "Ilkham Yabbarov, Rudra Sondhi, Rodrigo A. Vargas-Hern\u00e1ndez\\par\n"
-          r"\vspace{0.3em}" "\n"
+          r"\vspace{0.4em}" "\n"
           r"{\small\begin{minipage}{0.82\linewidth}\centering\itshape "
           "Department of Chemistry and Chemical Biology, McMaster University, Hamilton, "
           r"Ontario L8S 4L8, Canada.\end{minipage}\par}" "\n"
           r"\end{center}" "\n"
-          r"\vspace{0.8em}" "\n"
+          r"\vspace{0.95em}" "\n"
           "```\n\n"
           "Data, predictions, and the code that regenerates every figure and every number "
           "below are released with the manuscript; see *Data availability* in the main "

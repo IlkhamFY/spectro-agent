@@ -441,6 +441,7 @@ def title_block(md):
             r"{\large " f"{authors}" r"\par}" "\n"
             r"\vspace{0.48em}" "\n"
             r"{\small " f"{affil}" r"\par}" "\n"
+            r"\vspace{0.3em}" "\n"
             f"{note}"
             r"\vspace{1.05em}" "\n"
             r"\begin{minipage}{\textwidth}" "\n"
@@ -487,12 +488,13 @@ def header():
              r"\titleformat{\section}{\large\bfseries\raggedright}{}{0em}{}",
              r"\titleformat{\subsection}{\normalsize\bfseries\raggedright}{}{0em}{}",
              r"\titleformat{\subsubsection}{\normalsize\bfseries\raggedright}{}{0em}{}",
-             r"\titlespacing*{\section}{0pt}{1.8ex plus 0.35ex}{0.9ex plus 0.2ex}",
-             r"\titlespacing*{\subsection}{0pt}{1.35ex plus 0.3ex}{0.55ex plus 0.12ex}",
-             r"\titlespacing*{\subsubsection}{0pt}{1.15ex plus 0.25ex}{0.5ex plus 0.1ex}",
+             # Slightly roomier than the prior compact titlesec values (~+15–20%).
+             r"\titlespacing*{\section}{0pt}{1.9ex plus 0.4ex}{1.0ex plus 0.2ex}",
+             r"\titlespacing*{\subsection}{0pt}{1.4ex plus 0.3ex}{0.6ex plus 0.15ex}",
+             r"\titlespacing*{\subsubsection}{0pt}{1.2ex plus 0.25ex}{0.5ex plus 0.1ex}",
              # Contribution / bullet lists: slightly less packed than nosep, still tight.
              r"\usepackage{enumitem}",
-             r"\setlist{topsep=0.2em,partopsep=0pt,parsep=0pt,itemsep=0.15em,"
+             r"\setlist{topsep=0.25em,partopsep=0pt,parsep=0pt,itemsep=0.22em,"
              r"leftmargin=1.35em,labelsep=0.45em}",
              # RSC / Digital Discovery article measure: Times, indented paragraphs,
              # no running headers -- page number only in the footer.
@@ -531,7 +533,7 @@ def header():
              # label match the table one. skip= matches the floatsep language above.
              r"\usepackage{caption}",
              r"\captionsetup{labelsep=period,labelfont=bf,font=small,"
-             r"skip=7.5pt,aboveskip=7.5pt,belowskip=3pt}",
+             r"skip=8.5pt,aboveskip=8.5pt,belowskip=3.5pt}",
              r"\renewcommand{\figurename}{Fig.}",
              # Single lines stranded across a page break. TeX's defaults tolerate them;
              # a journal page should not.

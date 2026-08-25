@@ -40,7 +40,7 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\usepackage[a4paper,top=1.55cm,bottom=1.85cm,left=1.5cm,right=1.5cm,columnsep=0.65cm,headheight=0pt,includehead=false]{geometry}
+\usepackage[a4paper,top=1.65cm,bottom=1.85cm,left=1.5cm,right=1.5cm,columnsep=0.65cm,headheight=0pt,includehead=false]{geometry}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -104,19 +104,19 @@
 \titleformat{\section}{\large\bfseries\raggedright}{}{0em}{}
 \titleformat{\subsection}{\normalsize\bfseries\raggedright}{}{0em}{}
 \titleformat{\subsubsection}{\normalsize\bfseries\raggedright}{}{0em}{}
-\titlespacing*{\section}{0pt}{1.55ex plus 0.3ex}{0.75ex plus 0.15ex}
-\titlespacing*{\subsection}{0pt}{1.15ex plus 0.25ex}{0.45ex plus 0.1ex}
-\titlespacing*{\subsubsection}{0pt}{1.0ex plus 0.2ex}{0.4ex plus 0.1ex}
+\titlespacing*{\section}{0pt}{1.9ex plus 0.4ex}{1.0ex plus 0.2ex}
+\titlespacing*{\subsection}{0pt}{1.4ex plus 0.3ex}{0.6ex plus 0.15ex}
+\titlespacing*{\subsubsection}{0pt}{1.2ex plus 0.25ex}{0.5ex plus 0.1ex}
 \usepackage{enumitem}
-\setlist{nosep,leftmargin=1.35em,labelsep=0.45em}
+\setlist{topsep=0.25em,partopsep=0pt,parsep=0pt,itemsep=0.22em,leftmargin=1.35em,labelsep=0.45em}
 \setlength{\parindent}{12pt}
 \setlength{\parskip}{0pt plus 1pt}
 \setlength{\footskip}{30pt}
-\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}
-\setlength{\floatsep}{10pt plus 2pt minus 2pt}
-\setlength{\intextsep}{10pt plus 2pt minus 2pt}
-\setlength{\dbltextfloatsep}{14pt plus 2pt minus 2pt}
-\setlength{\dblfloatsep}{12pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{14pt plus 2pt minus 2pt}
+\setlength{\floatsep}{12pt plus 2pt minus 2pt}
+\setlength{\intextsep}{12pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{16pt plus 2pt minus 2pt}
+\setlength{\dblfloatsep}{14pt plus 2pt minus 2pt}
 \usepackage{fancyhdr}
 \usepackage{dblfloatfix}
 \pagestyle{fancy}
@@ -128,7 +128,7 @@
 \usepackage{fvextra}
 \DefineVerbatimEnvironment{verbatim}{Verbatim}{breaklines=true,breakanywhere=true,fontsize=\small,breaksymbolleft={},breakautoindent=false}
 \usepackage{caption}
-\captionsetup{labelsep=period,labelfont=bf,font=small,skip=6pt,aboveskip=6pt,belowskip=2pt}
+\captionsetup{labelsep=period,labelfont=bf,font=small,skip=8.5pt,aboveskip=8.5pt,belowskip=3.5pt}
 \renewcommand{\figurename}{Fig.}
 \tolerance=1500
 \hbadness=1500
@@ -206,15 +206,16 @@
 \centering
 {\LARGE\bfseries\setlength{\baselineskip}{1.15\baselineskip}
 IRSpectra-Bench and IRexp: candidate recall, not verification, limits LLM elucidation from real experimental IR and NMR\par}
-\vspace{0.85em}
+\vspace{1.0em}
 {\large \textbf{Ilkham Yabbarov}\textsuperscript{a}\textsuperscript{*}, \textbf{Rudra Sondhi}\textsuperscript{a}, \textbf{Rodrigo A. Vargas-Hernández}\textsuperscript{a}\par}
-\vspace{0.4em}
+\vspace{0.48em}
 {\small \textit{\textsuperscript{a} Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario L8S 4L8, Canada.}\par}
+\vspace{0.3em}
 {\small\textsuperscript{*}\textit{E-mail: }yabbaroi@mcmaster.ca\par}
-\vspace{0.85em}
+\vspace{1.05em}
 \begin{minipage}{\textwidth}
-\setlength{\parindent}{0pt}\setlength{\parskip}{0.28em}
-\small\setlength{\baselineskip}{11.2pt}
+\setlength{\parindent}{0pt}\setlength{\parskip}{0.34em}
+\small\setlength{\baselineskip}{12.6pt}
 \noindent\textbf{Abstract.}\enspace We release \textit{IRexp}, the largest openly redistributable collection of experimental
 infrared band lists (121,233 records; 43,060 structure-linked; 33,201 full IR + ¹H + ¹³C +
 structure quadruples), and \textit{IRSpectra-Bench}, a blind mechanically scored benchmark of 194
@@ -232,7 +233,7 @@ top-1 only 28\% → 30\%. Masking the spectra drops top-1 from 23\% to 5\%, and 
 3.7 Flash and GPT-5.6 Sol all verify better than they generate. All predictions and code
 are released.\par
 \end{minipage}
-\vspace{0.7em}
+\vspace{0.85em}
 }]
 
 \hypertarget{introduction}{%

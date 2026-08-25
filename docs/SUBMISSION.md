@@ -134,10 +134,63 @@ Agreed length cuts on `docs/PAPER.md` (main text only; ESI retained displaced de
 | (7) | within-compound control (n=20, p=0.25) → one sentence | applied |
 | (8) | ECFP aside in Discussion | applied (with (3); Praski bib dropped) |
 
-## 7. Front-matter typography (2026-08-25)
+## 7. Front-matter typography (2026-08-25 audit)
 
-`scripts/build_pdf.py` title band now matches the authors' earlier RSC-layout article:
-sans-serif title block, `\Large` author line with italic superscript affiliation markers,
-numbered affiliation list below authors (Rodrigo: 2,1,3), and abstract text with no
-"Abstract." label. ChemRxiv two-column measure, float barriers, and editorial cuts are
-unchanged.
+### Email and affiliation placement
+
+**Decision: (b) — numbered affiliations below the author line; corresponding-author
+email on the next line, before the abstract.** Not page-footnote affiliations (RSC
+Medicinal Chemistry template), not after the abstract, not in the running footer.
+
+| Option | Verdict |
+|---|---|
+| (a) Footnote with dagger at page bottom | RSC house style (see ParetoMol reference manuscript). Fine at journal transfer; footnotes fight ChemRxiv’s full-width title band and push contact detail off-screen on narrow previews. |
+| **(b) Inline affiliations + email before abstract** | **Chosen.** Matches ChemRxiv deposit layout, NeurIPS/arXiv cs.LG preprint convention, and Digital Discovery reading-copy practice: contact block stays with the title, abstract remains unlabelled. |
+| (c) After abstract | Splits the title block; email is harder to find in PDF thumbnails. |
+| (d) Page footer | Non-standard for chemistry/ML venues; conflicts with page-number footer. |
+
+Corresponding author: dagger (\\dag) on the author name **and** on the email line —
+same pairing as the authors’ RSC article (`$^{a,\\dag}$` + footnote). Rodrigo’s
+cross-affiliations render as italic superscripts **2,1,3** (Brockhouse, Chemistry,
+Computational Science).
+
+### Font stack (PDF pipeline)
+
+Built by `scripts/build_pdf.py` → pandoc → tectonic (XeTeX), 10 pt `article`, A4
+two-column (`columnsep=0.65 cm`, `microtype`, `titlesec`, `caption`, `fancyhdr`).
+
+| Element | Family | Size (pt) | Notes |
+|---|---|---|---|
+| Title | Liberation Sans Bold | ~15 | `\LARGE\bfseries`, sans title band |
+| Authors | Liberation Sans | ~12.5 | `\Large`, italic superscript markers |
+| Affiliations | Liberation Sans | 10 | explicit `\fontsize{10}{12}` — overrides `Scale=MatchLowercase` shrink |
+| Corresponding email | Liberation Sans Italic label | 10 | `\dag\ \textit{E-mail:}` |
+| Abstract | Liberation Serif | ~10 | `\rmfamily` switch; **no “Abstract.” label** |
+| Body | Liberation Serif | ~10 | indented paragraphs, `\frenchspacing` |
+| § heading | Liberation Serif Bold | ~12 | `\large\bfseries\raggedright` |
+| §§ / §§§ | Liberation Serif Bold | ~10 | `\normalsize\bfseries\raggedright` |
+| Figure caption | Liberation Serif Bold label + Serif text | ~9 | `caption` `font=small`, `Fig.` prefix |
+| Table caption | Liberation Serif Bold + Serif | ~9 | markdown `\textbf{Table N.}` in `\caption*` |
+| Table body | Liberation Serif | ~9 | `\small` inside `table*` |
+| Page number | Liberation Sans | ~8 | `\fancyfoot[C]{\small\thepage}` |
+| Verbatim / code | LM Mono 10 / 9 | ~10 / ~9 | `fvextra` breakable `verbatim` |
+| Math | Latin Modern Math | varies | unicode-math fallback for Greek, relations |
+
+Liberation Serif/Sans stand in for Times/Helvetica (metric-compatible open fonts).
+The old RSC ParetoMol manuscript used `mathptmx` + Charter (`bch`); this reading copy
+keeps the sans title band but uses Liberation for the body — appropriate for ChemRxiv
+and journal-agnostic submission.
+
+### Spacing rhythm (title block)
+
+`1 em` top pad → title → `0.5 cm` → authors → `0.35 em` → affiliations → `0.3 em`
+→ email → `0.5 cm` → abstract → `1.0 cm` → two-column body. Section/float spacing
+unchanged from the typographic-perfection pass (`titlespacing`, `\textfloatsep` 14 pt).
+
+### Audit outcome (2026-08-25)
+
+`check_manuscript.py` and `check_layout.py` pass on the rebuilt PDF. Visual scan: pages
+1–3 (front matter, §2), 8 (Discussion/Limitations), 10 (back matter) — no regressions
+to editorial cuts (1)–(8) or §2 orphan/layout fixes. Fixes applied in this audit:
+affiliation/email band set to true 10 pt sans; corresponding-author asterisk upgraded
+to dagger with matching author-mark.

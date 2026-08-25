@@ -427,9 +427,11 @@ def _format_authors(authors_raw):
     text = ((authors_raw[:corr.start()] + authors_raw[corr.end():]) if corr
             else authors_raw)
     parts = []
-    for m in AUTHOR_PART.finditer(text):
+    for i, m in enumerate(AUTHOR_PART.finditer(text)):
         name = m.group(1)
         markers = (m.group(2) or "").strip()
+        if i == 0 and email:
+            markers = f"{markers},\\dag" if markers else "\\dag"
         if markers:
             parts.append(f"{name}\\textit{{$^{{{markers}}}$}}")
         else:
@@ -463,10 +465,16 @@ def title_block(md):
     authors_tex, email = _format_authors(m.group("authors").strip())
     affils = _parse_affiliations(m.group("affils"))
     affil_block = _format_affiliations(affils) if affils else ""
-    note = (r"{\normalsize * \textit{E-mail: }"
-            + email.replace("_", r"\_") + r"\par}" "\n") if email else ""
     am = ABS_RE.search(md)
     abstract = _inline(am.group("abstract").strip()) if am else ""
+    affil_tex = (
+        r"{\fontspec{Liberation Sans}[Scale=1.0]\fontsize{10}{12}\selectfont"
+        r"\setlength{\parskip}{0.25em}" "\n"
+        f"{affil_block}\n"
+        r"}" "\n")
+    email_tex = (
+        r"{\fontspec{Liberation Sans}[Scale=1.0]\fontsize{10}{12}\selectfont \dag\ "
+        r"\textit{E-mail: }" + email.replace("_", r"\_") + r"\par}" "\n") if email else ""
     # \twocolumn[{...}] is how article.cls sets a full-width title on a two-column
     # paper. Do NOT also pass classoption=twocolumn -- that path errors on a second
     # \twocolumn call.
@@ -480,11 +488,9 @@ def title_block(md):
             r"\vspace{0.5cm}" "\n"
             r"{\Large " f"{authors_tex}" r"\par}" "\n"
             r"\vspace{0.35em}" "\n"
-            r"{\normalsize\setlength{\parskip}{0.25em}" "\n"
-            f"{affil_block}\n"
-            r"}" "\n"
+            f"{affil_tex}"
             r"\vspace{0.3em}" "\n"
-            f"{note}"
+            f"{email_tex}"
             r"\vspace{0.5cm}" "\n"
             r"\rmfamily\normalsize" "\n"
             r"\setlength{\parindent}{0pt}\setlength{\parskip}{0pt}" "\n"

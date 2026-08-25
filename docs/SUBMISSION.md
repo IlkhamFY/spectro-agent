@@ -136,15 +136,14 @@ Agreed length cuts on `docs/PAPER.md` (main text only; ESI retained displaced de
 
 ## 8. Combined figure plates (2026-08-25)
 
-Nature-style multi-panel figures to reduce float churn and tighten the narrative:
+Nature-style multi-panel figures where panels share one claim:
 
-| New plate | Replaces | Panels |
+| Plate | Status | Notes |
 |---|---|---|
-| `fig_robustness` | `fig_contamination` + `fig7_crossvendor` | (a) formula-only, (b) recency, (c) vendor recall, (d) recall–precision |
-| `fig_forward_verify` | `fig_mechanism` + `fig3_method` | (a–c) regioisomer mechanism, (d) inference ladder |
+| `fig_robustness` | kept | contamination + cross-vendor (a–d); panel-b stats in caption, dashed line labelled “pooled” |
+| `fig_forward_verify` | **reverted** | mechanism + ladder forced spectral panels into a squeezed column; restored separate `fig_mechanism` and `fig3_method` |
 
-Main-text figure count: **7 → 5** (plus graphical abstract). Generators:
-`scripts/make_fig_robustness.py`, `scripts/make_fig_forward_verify.py`.
+Main-text figures: wall, difficulty, models, robustness, mechanism, method ladder (+ graphical abstract).
 
 ## 7. Front-matter typography (2026-08-25 audit)
 

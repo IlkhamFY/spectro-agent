@@ -72,20 +72,18 @@ axB.errorbar(xs, pts, yerr=[lo, hi], fmt="o", ms=fs.MARKER, color=fs.BLUE,
 fs.ygrid(axB)
 pooled = 100 * sum(b["top1"] for b in bk) / sum(b["n"] for b in bk)
 fs.refline(axB, y=pooled)
-axB.text(
-    0.0, 1.06,
-    f"r = {rc['point_biserial_r']:+.3f}".replace("-", "\u2212")
-    + f"  \u00b7  pooled {pooled:.0f}%",
-    transform=axB.transAxes, ha="left", va="bottom",
-    fontsize=fs.FS_BODY, color=fs.NOTE, clip_on=False,
-)
+# Nature-style: label the reference line in-plot; r / pooled belong in caption + prose
+# (floating "r = … · pooled …" above the axes reads as a note, not a figure element).
+fs.reflabel(axB, pooled, "pooled", x=0.98, ha="right", va="bottom")
 
 def tick(lab):
     return lab.replace(">=", "\u2265").replace("<=", "\u2264").replace("-", "\u2013")
 
+# Compact year ticks — half-width 2×2 panels cannot host full "2015–2019\n(n=60)"
+# without colliding; short range + n on a second line stays readable.
 axB.set_xticks(xs)
-axB.set_xticklabels([f"{tick(b['label'])}\n(n={b['n']})" for b in bk])
-axB.set_xlim(-0.5, len(bk) - 0.5)
+axB.set_xticklabels([f"{tick(b['label'])}\nn={b['n']}" for b in bk])
+axB.set_xlim(-0.55, len(bk) - 0.45)
 axB.set_ylim(0, YMAX)
 axB.set_xlabel("source publication year", labelpad=2)
 axB.set_ylabel("exact top-1 (%)")

@@ -305,7 +305,7 @@ wrong composition. Three worked cases, all from released artifacts:
 - *A regioisomer the verifier separates.* Picolinamide and nicotinamide differ only in
   which ring position bears the carboxamide, so they have different connectivity layers and
   proposing one for the other scores zero; forward-predicted ¹³C separates them at a
-  chamfer of 0.42 ppm against 1.30 ppm (panels b–c of [@fig:fig-forward-verify]).
+  chamfer of 0.42 ppm against 1.30 ppm ([@fig:fig-mechanism]).
 - *A regioisomer it does not.* On the 2-(nitrophenyl)-2,3-dihydroquinazolin-4(1*H*)-one
   targets (C₁₄H₁₁N₃O₃) the predictor cannot resolve the *ortho*- and *meta*-nitrophenyl
   isomers: it ranks the 2-nitrophenyl isomer first at a chamfer of 1.35 ppm against

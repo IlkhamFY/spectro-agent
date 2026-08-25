@@ -434,7 +434,7 @@ different denominators, so the criterion is the inequality rather than a differe
 | Gemini 3.7 Flash | 30/60 = 50% [38–62] | 22/30 = 73% [56–86] | 22/30 = 73% |
 | GPT-5.6 Sol | 25/60 = 42% [30–54] | 17/25 = 68% [48–83] | 16/24 = 67% |
 
-![Robustness of the recall-bound diagnosis. (**a**) Formula-only vs full modality on 60 compounds. (**b**) Accuracy vs source-paper year (n=194). (**c**) Generation recall by model on the 60-compound arm. (**d**) Verification precision vs generation recall (numbered key; [@sec:diagnosis-hold-outside-one]).](docs/figures/fig_robustness.png){#fig:fig-robustness}
+![Robustness of the recall-bound diagnosis. (**a**) Formula-only vs full modality on 60 compounds. (**b**) Accuracy vs source-paper year (n=194; point-biserial r=−0.007; dashed line = pooled 28%). (**c**) Generation recall by model on the 60-compound arm (orange = Claude Opus headline; grey = below formula-adherence gate). (**d**) Verification precision vs generation recall (numbered key; [@sec:diagnosis-hold-outside-one]).](docs/figures/fig_robustness.png){#fig:fig-robustness}
 
 ## Forward-verification elucidation {#sec:forward-verification-elucidation}
 
@@ -451,9 +451,9 @@ training-free generator–verifier loop:
 The inverse solver's 373 deduplicated candidates across 194 targets are forward-predicted
 in shuffled, anonymised batches, blind to the observed spectrum and target identity.
 Predicted and observed ¹³C peak sets are compared by symmetric chamfer distance
-(panels a–c of [@fig:fig-forward-verify]).
+([@fig:fig-mechanism]).
 
-![Forward-verification elucidation. (**a**–**c**) Regioisomer pair from the benchmark: picolinamide and nicotinamide are indistinguishable to the inverse task, but forward-predicted ¹³C sticks separate the true isomer from the alternative ([@sec:method]). (**d**) Inference ladder on the 60-compound arm ([@sec:generate-wide-testing-recipe]); the hero bar is generate-wide top-1.](docs/figures/fig_forward_verify.png){#fig:fig-forward-verify}
+![Forward-verification on a benchmark regioisomer pair: picolinamide and nicotinamide are indistinguishable to the inverse task, but forward-predicted ¹³C sticks separate the true isomer from the alternative ([@sec:method]).](docs/figures/fig_mechanism.png){#fig:fig-mechanism}
 
 Regioisomers separate by a median 1.21 ppm in forward prediction, but 82% lie within the
 predictor's ≈2 ppm error — a thin margin confirmed against a derangement null at p=0.001
@@ -513,9 +513,11 @@ re-ranked.
 | verification precision (conditional on recall) | 84% | 72% |
 
 Wide generation lifts recall 32% → 42% and top-1 23% → 30% (McNemar p=0.34;
-panel d of [@fig:fig-forward-verify]). Recall plateaus at 42% on polycyclic targets; verification precision
+[@fig:fig3-method]). Recall plateaus at 42% on polycyclic targets; verification precision
 falls 84% → 72% — the training-free ceiling. Roughly a third of misses need only
 regiochemistry around a correct scaffold; two thirds need a scaffold never proposed.
+
+![Forward-verification inference ladder on the 60-compound arm ([@sec:generate-wide-testing-recipe]). Each stage adds a check on the same compounds; the hero bar is generate-wide top-1.](docs/figures/fig3_method.png){#fig:fig3-method}
 
 ### Non-LLM verifiers: a deterministic lookup and a learned model {#sec:non-llm-verifiers-deterministic}
 

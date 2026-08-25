@@ -906,9 +906,11 @@ GPT-5.6 Sol & 25/60 = 42\% {[}30--54{]} & 17/25 = 68\% {[}48--83{]} &
 \includegraphics[width=6.3in,height=6.55in]{figures/fig_robustness.pdf}
 \caption{Robustness of the recall-bound diagnosis. (\textbf{a})
 Formula-only vs full modality on 60 compounds. (\textbf{b}) Accuracy vs
-source-paper year (n=194). (\textbf{c}) Generation recall by model on
-the 60-compound arm. (\textbf{d}) Verification precision vs generation
-recall (numbered key; §4.7).}
+source-paper year (n=194; point-biserial r=−0.007; dashed line = pooled
+28\%). (\textbf{c}) Generation recall by model on the 60-compound arm
+(orange = Claude Opus headline; grey = below formula-adherence gate).
+(\textbf{d}) Verification precision vs generation recall (numbered key;
+§4.7).}
 \end{figure*}
 
 \hypertarget{forward-verification-elucidation}{%
@@ -933,17 +935,15 @@ each candidate's ¹³C spectrum, blind to the observed spectrum →
 The inverse solver's 373 deduplicated candidates across 194 targets are
 forward-predicted in shuffled, anonymised batches, blind to the observed
 spectrum and target identity. Predicted and observed ¹³C peak sets are
-compared by symmetric chamfer distance (panels a--c of Fig.~5).
+compared by symmetric chamfer distance (Fig.~5).
 
 \begin{figure*}
 \centering
-\includegraphics[width=6.3in,height=4.05in]{figures/fig_forward_verify.pdf}
-\caption{Forward-verification elucidation. (\textbf{a}--\textbf{c})
-Regioisomer pair from the benchmark: picolinamide and nicotinamide are
-indistinguishable to the inverse task, but forward-predicted ¹³C sticks
-separate the true isomer from the alternative (§5.1). (\textbf{d})
-Inference ladder on the 60-compound arm (§5.3); the hero bar is
-generate-wide top-1.}
+\includegraphics[width=6.3in,height=3.85in]{figures/fig_mechanism.pdf}
+\caption{Forward-verification on a benchmark regioisomer pair:
+picolinamide and nicotinamide are indistinguishable to the inverse task,
+but forward-predicted ¹³C sticks separate the true isomer from the
+alternative (§5.1).}
 \end{figure*}
 
 Regioisomers separate by a median 1.21 ppm in forward prediction, but
@@ -1049,10 +1049,18 @@ verification precision (conditional on recall) & 84\% & 72\% \\
 
 
 Wide generation lifts recall 32\% → 42\% and top-1 23\% → 30\% (McNemar
-p=0.34; panel d of Fig.~5). Recall plateaus at 42\% on polycyclic
-targets; verification precision falls 84\% → 72\% --- the training-free
-ceiling. Roughly a third of misses need only regiochemistry around a
-correct scaffold; two thirds need a scaffold never proposed.
+p=0.34; Fig.~6). Recall plateaus at 42\% on polycyclic targets;
+verification precision falls 84\% → 72\% --- the training-free ceiling.
+Roughly a third of misses need only regiochemistry around a correct
+scaffold; two thirds need a scaffold never proposed.
+
+\begin{figure}
+\centering
+\includegraphics[width=3.3in,height=2.7in]{figures/fig3_method.pdf}
+\caption{Forward-verification inference ladder on the 60-compound arm
+(§5.3). Each stage adds a check on the same compounds; the hero bar is
+generate-wide top-1.}
+\end{figure}
 
 \hypertarget{non-llm-verifiers-a-deterministic-lookup-and-a-learned-model}{%
 \subsection{5.4 Non-LLM verifiers: a deterministic lookup and a learned

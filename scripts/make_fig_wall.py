@@ -4,7 +4,7 @@
 Design rules for this plate (it is the paper's first visual):
   • The grey mass is the claim. Do not decorate around it.
   • Counts live once — inside the segments (white).
-  • Category names live once — three equal columns on one baseline below.
+  • Category names live once — centred under each segment on one baseline.
     Colours are learned from the bar; the key does not repeat swatches.
   • One bracket names the recalled pool. Nothing else floats.
   • n=194 and the 89% verification rate belong in the caption, not here.
@@ -60,8 +60,10 @@ ax.text((bx0 + bx1) / 2, by + 0.022, "65 recalled (34%)",
         ha="center", va="bottom", fontsize=fs.FS_BODY, color=fs.INK,
         zorder=3, clip_on=False)
 
-# ---- labels: three equal columns, one baseline ------------------------------
-fs.key_row(ax, labels, y=0.12, x0=0, x1=N, transform=ax.transData)
+# ---- labels: one under each segment (equal columns left "mis-ranked" under the wall)
+for (x0, w, _col, _num), lab in zip(segs, labels):
+    ax.text(x0 + w / 2, 0.12, lab, ha="center", va="center",
+            fontsize=fs.FS_BODY, color=fs.NOTE, clip_on=False)
 
 fs.save("docs/figures/fig_wall.png")
 print("wrote docs/figures/fig_wall.png")

@@ -454,7 +454,7 @@ Table~1 summarises contents and provenance.
 
 \begin{table*}[htbp]
 \centering\small
-\caption*{Table 1. IRexp dataset contents and provenance.}
+\caption*{\textbf{Table 1. IRexp dataset contents and provenance.}}
 \begin{tabular}{@{}
   >{\raggedright\arraybackslash}p{(\textwidth - 2\tabcolsep) * \real{0.8021}}
   >{\raggedleft\arraybackslash}p{(\textwidth - 2\tabcolsep) * \real{0.1979}}@{}}
@@ -466,8 +466,6 @@ value
 \end{minipage} \\
 \midrule
 
-\bottomrule
-
 experimental IR band-list records & \textbf{121,233} \\
 \ldots co-reporting ¹H and/or ¹³C NMR & 87,075 (72\%) \\
 \ldots with a resolved 2D structure & 43,060 (35.5\%) \\
@@ -478,6 +476,7 @@ experimental IR band-list records & \textbf{121,233} \\
 119,345 \\
 \emph{by provenance:} peak-picked from Chemotion ELN deposits (CC-BY-SA)
 & 1,888 \\
+\bottomrule
 \end{tabular}
 \end{table*}
 
@@ -615,16 +614,9 @@ The benchmark comprises all 194 compounds (134 spectrally-validated + 60
 controlled-round;
 \texttt{data/\hspace{0pt}benchmark\_main/\hspace{0pt}raw/}).
 
-\needspace{10\baselineskip}
-\begingroup\small
-
-\textbf{Table 2. Headline elucidation performance on IRSpectra-Bench
-(n=194).} Overall and by difficulty stratum, with bootstrap 95\% CIs.
-
-\endgroup
-
 \begin{table*}[htbp]
 \centering\small
+\caption*{\textbf{Table 2. Headline elucidation performance on IRSpectra-Bench (n=194).} Overall and by difficulty stratum, with bootstrap 95\% CIs.}
 \begin{tabular}{@{}
   >{\raggedright\arraybackslash}p{(\textwidth - 6\tabcolsep) * \real{0.3918}}
   >{\raggedleft\arraybackslash}p{(\textwidth - 6\tabcolsep) * \real{0.2165}}
@@ -642,14 +634,13 @@ complex (n=96)
 \end{minipage} \\
 \midrule
 
-\bottomrule
-
 top-1 exact constitution & \textbf{28.4\%} {[}22--35{]} & 48.0\%
 {[}39--57{]} & 8.3\% {[}3--15{]} \\
 recovered (top-3) & 33.5\% {[}27--40{]} & 54.1\% {[}44--63{]} & 12.5\%
 {[}6--20{]} \\
 scaffold-level (best Tanimoto ≥ 0.45) & 56\% & 73\% & 39\% \\
 mean best Tanimoto & 0.59 & 0.73 & 0.45 \\
+\bottomrule
 \end{tabular}
 \end{table*}
 
@@ -743,16 +734,9 @@ benchmark is capability-sensitive, but at n=24 it is underpowered to
 separate adjacent models (§4.4).}
 \end{figure}
 
-\needspace{10\baselineskip}
-\begingroup\small
-
-\textbf{Table 3. Four-model comparison on a fixed 24-compound subset.}
-All four models ran the identical blind protocol.
-
-\endgroup
-
 \begin{table*}[htbp]
 \centering\small
+\caption*{\textbf{Table 3. Four-model comparison on a fixed 24-compound subset.} All four models ran the identical blind protocol.}
 \begin{tabular}{@{}
   >{\raggedright\arraybackslash}p{(\textwidth - 6\tabcolsep) * \real{0.3229}}
   >{\raggedleft\arraybackslash}p{(\textwidth - 6\tabcolsep) * \real{0.1771}}
@@ -770,12 +754,11 @@ top-1 95\% CI
 \end{minipage} \\
 \midrule
 
-\bottomrule
-
 Claude Fable 5 & \textbf{46\%} & 54\% & {[}25--67{]} \\
 Claude Opus & 25\% & 29\% & {[}8--42{]} \\
 Claude Sonnet & 21\% & 25\% & {[}8--38{]} \\
 Claude Haiku & 0\% & 4\% & {[}0--14{]} \\
+\bottomrule
 \end{tabular}
 \end{table*}
 
@@ -800,8 +783,7 @@ p≈0.56); sp³-C--F reaches 50\%, sulfonyl and nitrile 12\%.
 
 \begin{table*}[htbp]
 \centering\small
-\caption*{Table 4. Per-class performance on IRSpectra-Bench-Electrolyte
-(n=46).}
+\caption*{\textbf{Table 4. Per-class performance on IRSpectra-Bench-Electrolyte (n=46).}}
 \begin{tabular}{@{}
   >{\raggedright\arraybackslash}p{(\textwidth - 10\tabcolsep) * \real{0.2604}}
   >{\raggedleft\arraybackslash}p{(\textwidth - 10\tabcolsep) * \real{0.1042}}
@@ -825,14 +807,13 @@ recovered (top-3)
 \end{minipage} \\
 \midrule
 
-\bottomrule
-
 sp³-C--F & 8 & \textbf{50\%} & {[}22--78{]} & 50\% & {[}22--78{]} \\
 carbonate & 7 & 29\% & {[}8--64{]} & 43\% & {[}16--75{]} \\
 phosphoryl & 8 & 25\% & {[}7--59{]} & 25\% & {[}7--59{]} \\
 glyme / oligoether & 7 & 29\% & {[}8--64{]} & 29\% & {[}8--64{]} \\
 sulfonyl / sulfonate & 8 & 12\% & {[}2--47{]} & 12\% & {[}2--47{]} \\
 nitrile & 8 & 12\% & {[}2--47{]} & 12\% & {[}2--47{]} \\
+\bottomrule
 \end{tabular}
 \end{table*}
 
@@ -854,16 +835,9 @@ We reran the blind protocol with spectra masked, leaving only the
 formula
 (\textsuperscript{\protect\hyperlink{ref-xu2024contamination}{43}}).
 
-\needspace{8\baselineskip}
-\begingroup\small
-
-\textbf{Table 5. Formula-only control.} Paired on the same 60 compounds
-as §5.
-
-\endgroup
-
 \begin{table*}[htbp]
 \centering\small
+\caption*{\textbf{Table 5. Formula-only control.} Paired on the same 60 compounds as §5.}
 \begin{tabular}{@{}
   >{\raggedright\arraybackslash}p{(\textwidth - 4\tabcolsep) * \real{0.4167}}
   >{\raggedleft\arraybackslash}p{(\textwidth - 4\tabcolsep) * \real{0.2396}}
@@ -878,10 +852,9 @@ recovered (top-3)
 \end{minipage} \\
 \midrule
 
-\bottomrule
-
 formula only & \textbf{3/60 (5\%)} & 3/60 (5\%) \\
 formula + IR + ¹H + ¹³C & 14/60 (23\%) & 19/60 (32\%) \\
+\bottomrule
 \end{tabular}
 \end{table*}
 
@@ -913,17 +886,9 @@ recall rankings are approximate. A clean-clone control for Grok (recall
 28/60 vs 32/60, McNemar p=0.39) bounds key leakage. Models ran through a
 coding-assistant harness with undisclosed reasoning tiers (§8).
 
-\needspace{10\baselineskip}
-\begingroup\small
-
-\textbf{Table 6. Cross-vendor decomposition on the 60-compound arm.}
-Recall and precision have different denominators, so the criterion is
-the inequality rather than a difference.
-
-\endgroup
-
 \begin{table*}[htbp]
 \centering\small
+\caption*{\textbf{Table 6. Cross-vendor decomposition on the 60-compound arm.} Recall and precision have different denominators, so the criterion is the inequality rather than a difference.}
 \begin{tabular}{@{}
   >{\raggedright\arraybackslash}p{(\textwidth - 6\tabcolsep) * \real{0.2292}}
   >{\raggedleft\arraybackslash}p{(\textwidth - 6\tabcolsep) * \real{0.2917}}
@@ -941,8 +906,6 @@ multi-candidate only
 \end{minipage} \\
 \midrule
 
-\bottomrule
-
 Claude Opus (Table~7) & 19/60 = 32\% {[}21--44{]} & 16/19 = 84\%
 {[}62--94{]} & 10/13 = 77\% \\
 Grok 4.6 & 32/60 = 53\% {[}41--65{]} & 20/32 = 62\% {[}45--77{]} & 20/32
@@ -951,6 +914,7 @@ Gemini 3.7 Flash & 30/60 = 50\% {[}38--62{]} & 22/30 = 73\% {[}56--86{]}
 & 22/30 = 73\% \\
 GPT-5.6 Sol & 25/60 = 42\% {[}30--54{]} & 17/25 = 68\% {[}48--83{]} &
 16/24 = 67\% \\
+\bottomrule
 \end{tabular}
 \end{table*}
 
@@ -1010,16 +974,9 @@ The first column below is the 60-compound arm (v3 + v2-control) on which
 were forward-predicted --- nothing here is a lower bound; the
 self-ranking row re-derives Table~2 from §4's output.
 
-\needspace{16\baselineskip}
-\begingroup\small
-
-\textbf{Table 7. Forward-verification decomposition.} Original arm and
-full benchmark.
-
-\endgroup
-
 \begin{table*}[htbp]
 \centering\small
+\caption*{\textbf{Table 7. Forward-verification decomposition.} Original arm and full benchmark.}
 \begin{tabular}{@{}
   >{\raggedright\arraybackslash}p{(\textwidth - 4\tabcolsep) * \real{0.5208}}
   >{\raggedleft\arraybackslash}p{(\textwidth - 4\tabcolsep) * \real{0.2500}}
@@ -1032,8 +989,6 @@ full benchmark.
 full benchmark (n=194)
 \end{minipage} \\
 \midrule
-
-\bottomrule
 
 generation recall & 19/60 (32\%) & 65/194 (34\%) \\
 top-1, solver self-ranking & 14/60 (23\%) & 55/194 (28\%) \\
@@ -1049,6 +1004,7 @@ top-1, forward-verified re-ranking & 16/60 (27\%) & 58/194 (30\%) \\
 (73\%) \\
 \emph{multi-candidate only} --- forward-verification & 10/13 (77\%) &
 30/37 (81\%) \\
+\bottomrule
 \end{tabular}
 \end{table*}
 
@@ -1080,17 +1036,9 @@ sampling\textsuperscript{\protect\hyperlink{ref-wang2023selfconsistency}{47}}.
 Ten solver agents proposed up to six regiochemistry-aware candidates per
 compound, pooled with the originals and re-ranked.
 
-\needspace{9\baselineskip}
-\begingroup\small
-
-\textbf{Table 8. Generate-wide vs original.} On the 60-compound arm
-only, since wide generation was run there; the ``original'' column is
-Table~7's first.
-
-\endgroup
-
 \begin{table*}[htbp]
 \centering\small
+\caption*{\textbf{Table 8. Generate-wide vs original.} On the 60-compound arm only, since wide generation was run there; the ``original'' column is Table~7's first.}
 \begin{tabular}{@{}
   >{\raggedright\arraybackslash}p{(\textwidth - 4\tabcolsep) * \real{0.5208}}
   >{\raggedleft\arraybackslash}p{(\textwidth - 4\tabcolsep) * \real{0.2292}}
@@ -1104,12 +1052,11 @@ generate-wide
 \end{minipage} \\
 \midrule
 
-\bottomrule
-
 generation recall (true structure among candidates) & 32\% &
 \textbf{42\%} \\
 forward-verified top-1 & 27\% & 30\% \\
 verification precision (conditional on recall) & 84\% & 72\% \\
+\bottomrule
 \end{tabular}
 \end{table*}
 
@@ -1145,7 +1092,7 @@ exist\textsuperscript{\protect\hyperlink{ref-williamson2024mpnn}{44},\protect\hy
 
 \begin{table*}[htbp]
 \centering\small
-\caption*{Table 9. Verifier comparison, conditional on recall.}
+\caption*{\textbf{Table 9. Verifier comparison, conditional on recall.}}
 \begin{tabular}{@{}
   >{\raggedright\arraybackslash}p{(\textwidth - 6\tabcolsep) * \real{0.3579}}
   >{\raggedleft\arraybackslash}p{(\textwidth - 6\tabcolsep) * \real{0.2421}}
@@ -1163,14 +1110,13 @@ held-out ¹³C MAE
 \end{minipage} \\
 \midrule
 
-\bottomrule
-
 solver self-ranking & 14/19 (74\%) & 55/65 (85\%) & --- \\
 deterministic HOSE \emph{lookup} & 14/19 (74\%) & 55/65 (85\%) & 3.23
 ppm \\
 learned GNN (same data) & 16/19 (84\%) & \textbf{59/65 (91\%)} & 1.70
 ppm \\
 LLM forward-verifier (§5.2) & 16/19 (84\%) & 58/65 (89\%) & --- \\
+\bottomrule
 \end{tabular}
 \end{table*}
 
@@ -1215,19 +1161,9 @@ precision ≤ \emph{a}/\emph{b}. Table~10 applies this to every system we
 could read in full
 (\texttt{scripts/\hspace{0pt}literature\_decomposition.py}).
 
-\needspace{25\baselineskip}
-\begingroup\small
-
-\textbf{Table 10. } Recall and ranking loss from published top-\emph{k}
-figures. Rows are comparable only within a correctness criterion;
-stereochemistry-strict and connectivity figures differ by 21 points on
-NMR-Solver's identical predictions. Candidate budgets are given because
-recall over three candidates is mechanically smaller than over ten.
-
-\endgroup
-
 \begin{table*}[htbp]
 \centering\small
+\caption*{\textbf{Table 10.} Recall and ranking loss from published top-\emph{k} figures. Rows are comparable only within a correctness criterion; stereochemistry-strict and connectivity figures differ by 21 points on NMR-Solver's identical predictions. Candidate budgets are given because recall over three candidates is mechanically smaller than over ten.}
 \begin{tabular}{@{}
   >{\raggedright\arraybackslash}p{(\textwidth - 10\tabcolsep) * \real{0.4479}}
   >{\raggedright\arraybackslash}p{(\textwidth - 10\tabcolsep) * \real{0.1771}}
@@ -1250,8 +1186,6 @@ recall
 prec.
 \end{minipage} \\
 \midrule
-
-\bottomrule
 
 \textbf{\emph{scored on connectivity}} & & & & & \\
 this work, solver alone & literature (194) & 28.4\% & 33.5\% (3) &
@@ -1293,6 +1227,7 @@ NIST IR (905) & 10.3\% & 21.6\% (10) & 21.6\% & 47.7\% \\
 \textbf{\emph{criterion not stated}} & & & & & \\
 Priessner\textsuperscript{\protect\hyperlink{ref-priessner2026reasoning}{16}}
 & experimental (34) & 20.6\% & --- & 26.5\% & 77.8\% \\
+\bottomrule
 \end{tabular}
 \end{table*}
 
@@ -1423,16 +1358,9 @@ mirror. IRexp is also mirrored at
 (use \texttt{data/\hspace{0pt}train\_no\_bench.jsonl.gz} for fine-tuning
 without benchmark leakage).
 
-\needspace{16\baselineskip}
-\begingroup\small
-
-\textbf{Table 11. Headline released artefacts.} Script-level inventory
-lives in the repository README.
-
-\endgroup
-
 \begin{table*}[htbp]
 \centering\small
+\caption*{\textbf{Table 11. Headline released artefacts.} Script-level inventory lives in the repository README.}
 \begin{tabular}{@{}
   >{\raggedright\arraybackslash}p{(\textwidth - 2\tabcolsep) * \real{0.2500}}
   >{\raggedright\arraybackslash}p{(\textwidth - 2\tabcolsep) * \real{0.7500}}@{}}
@@ -1443,8 +1371,6 @@ component
 data and code
 \end{minipage} \\
 \midrule
-
-\bottomrule
 
 IRexp / \texttt{irexp\_resolved} & \texttt{data/\hspace{0pt}irexp/},
 \texttt{data/\hspace{0pt}irexp\_\hspace{0pt}resolved/} \\
@@ -1479,6 +1405,7 @@ trained generator + GNN verifier &
 integrity gates &
 \texttt{scripts/\hspace{0pt}check\_\hspace{0pt}manuscript.py},
 \texttt{scripts/\hspace{0pt}check\_\hspace{0pt}layout.py} \\
+\bottomrule
 \end{tabular}
 \end{table*}
 

@@ -208,7 +208,7 @@
 \centering
 \vspace{1em}
 {\LARGE\bfseries\setlength{\baselineskip}{1.15\baselineskip}
-IRSpectra-Bench and IRexp: candidate recall, not verification, limits LLM elucidation from real experimental IR and NMR\par}
+IRexp and IRSpectra-Bench: redistributable experimental IR band lists, a blind peak-list benchmark, and a recall-bound diagnosis of LLM elucidation\par}
 \vspace{0.5cm}
 {\Large Ilkham Yabbarov\textit{$^{1,\dag}$}, Rudra Sondhi\textit{$^{1}$}, Rodrigo A. Vargas-Hernández\textit{$^{2,1,3}$}\par}
 \vspace{0.35em}
@@ -222,22 +222,24 @@ IRSpectra-Bench and IRexp: candidate recall, not verification, limits LLM elucid
 \vspace{0.5cm}
 \rmfamily\normalsize\raggedright
 \setlength{\parindent}{0pt}\setlength{\parskip}{0pt}
-\noindent We release \textit{IRexp}, the largest openly redistributable collection of experimental
-infrared band lists (121,233 records; 43,060 structure-linked; 33,201 full IR + ¹H + ¹³C +
-structure quadruples), and \textit{IRSpectra-Bench}, a blind mechanically scored benchmark of 194
-compounds drawn from it. On IRSpectra-Bench, given the molecular formula and peak lists
-exactly as reported in open-access papers, a frontier large language model recovers the
-correct constitution for 28\% (top-1; 95\% CI 22–35), or 15\% once reweighted to the corpus
-composition — far below the near-100\% implied by curated demonstrations. The bottleneck is
-candidate proposal, not verification: the true structure enters the pool for only 34\% of
-compounds, and where it does, training-free forward-verification selects it 89\% of the time
-(58/65; 81\% on the 37 compounds where a ranker had a choice). Recovered from published
-top-\textit{k} figures, the same split carries 68–83\% of the accuracy collapse when three systems
-move from curated or simulated data to real heterogeneous spectra. Generating wider lifts
-recall 32\% → 42\% and top-1 23\% → 30\% on 60 compounds; verification itself moves whole-benchmark
-top-1 only 28\% → 30\%. Masking the spectra drops top-1 from 23\% to 5\%, and Grok 4.6, Gemini
-3.7 Flash and GPT-5.6 Sol all verify better than they generate. All predictions and code
-are released.\par
+\noindent We release \textit{IRexp} and \textit{IRSpectra-Bench} as chemical-information resources: the largest
+openly redistributable collection of experimental infrared \textit{band lists} (121,233 records;
+43,060 structure-linked; 33,201 full IR + ¹H + ¹³C + structure quadruples), a blind
+mechanically scored peak-list benchmark of 194 compounds, a fixed RDKit InChIKey-connectivity
+scoring contract, and decomposable generation-recall / verification-precision metrics others
+can report. On IRSpectra-Bench, given the molecular formula and peak lists exactly as
+reported in open-access papers, a frontier large language model recovers the correct
+constitution for 28\% (top-1; 95\% CI 22–35), or 15\% once reweighted to the corpus composition
+— far below the near-100\% implied by curated demonstrations. The bottleneck is candidate
+proposal, not verification: the true structure enters the pool for only 34\% of compounds,
+and where it does, training-free forward-verification selects it 89\% of the time (58/65; 81\%
+on the 37 compounds where a ranker had a choice). Recovered from published top-\textit{k} figures,
+the same split carries 68–83\% of the accuracy collapse when three systems move from curated
+or simulated data to real heterogeneous spectra. Generating wider lifts recall 32\% → 42\% and
+top-1 23\% → 30\% on 60 compounds; verification itself moves whole-benchmark top-1 only
+28\% → 30\%. Masking the spectra drops top-1 from 23\% to 5\%, and Grok 4.6, Gemini 3.7 Flash
+and GPT-5.6 Sol all verify better than they generate. Frozen predictions, scorers and code
+are released for mechanical re-evaluation.\par
 \endgroup
 \vspace{1.0cm}
 }]
@@ -245,17 +247,22 @@ are released.\par
 \hypertarget{introduction}{%
 \section{1. Introduction}\label{introduction}}
 
-Determining structure from spectra is central to synthetic and
-analytical chemistry. Machine learning uses encoder--decoder models on
-paired corpora; \emph{Spectro}, for one, learns ¹H/¹³C/IR → SELFIES from
-6,833
-molecules\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{1}}.
+Open experimental infrared data usable for machine learning remain a
+chemical-information bottleneck. View-only archives such as AIST
+SDBS\textsuperscript{\protect\hyperlink{ref-sdbs}{1}} hold more
+structure-linked \emph{spectra} than any redistributable corpus, yet
+forbid bulk reuse; most public elucidation suites train or evaluate on
+simulated or single-instrument spectra. Determining structure from
+spectra is nonetheless central to synthetic and analytical chemistry.
+Machine learning uses encoder--decoder models on paired corpora;
+\emph{Spectro}, for one, learns ¹H/¹³C/IR → SELFIES from 6,833
+molecules\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{2}}.
 General-purpose LLMs are now reported off-the-shelf: a non-peer-reviewed
 2026 industrial white paper found Claude Opus matching or beating
 commercial NMR-prediction software forward (structure → spectrum, ±0.08
 ppm ¹H) and ``recovering all eight simpler structures on every attempt''
 in the
-inverse\textsuperscript{\protect\hyperlink{ref-kamber2026chemist}{2}}.
+inverse\textsuperscript{\protect\hyperlink{ref-kamber2026chemist}{3}}.
 We treat those numbers as a claim to test, not an established baseline.
 
 That evaluation is narrow: 15 inverse problems on curated single-ring or
@@ -264,29 +271,35 @@ two-fragment molecules, NMR only, seven given the
 leniently over three runs and three ranked candidates. The chemist's
 question --- \emph{take an arbitrary experimental spectrum from a paper
 and recover the structure} --- remains open. It needs open experimental
-data at scale, a blind benchmark others can report against, and honest
-accounting of which stage of elucidation binds.
+data at scale, a blind benchmark with a fixed molecular- representation
+scoring contract, and honest accounting of which stage of elucidation
+binds.
 
-We provide all three. \emph{IRexp} (§2) is, to our knowledge, the
-largest openly \emph{redistributable} collection of experimental IR
-\emph{band lists} (121,233 records; 43,060 structure-linked; 33,201 IR +
-¹H + ¹³C + structure); view-only libraries such as SDBS hold more
-structure-linked \emph{spectra} but cannot be redistributed (§2.1).
-\emph{IRSpectra-Bench} (§3) is the blind, mechanically scored benchmark
-built from it --- 194 compounds, complexity-stratified, multimodal IR +
-¹H + ¹³C. Concurrent 2026 suites bound related tasks (MolQuest scores
-530 post-2025 compounds by exact canonical
-SMILES\textsuperscript{\protect\hyperlink{ref-han2026molquest}{3}};
-SpecX\textsuperscript{\protect\hyperlink{ref-xiang2026specx}{4}};
-NMRGym\textsuperscript{\protect\hyperlink{ref-fang2026nmrgym}{5}}); ours
+We provide all three as reusable chemical-information objects.
+\emph{IRexp} (§2) is, to our knowledge, the largest openly
+\emph{redistributable} collection of experimental IR \emph{band lists}
+(121,233 records; 43,060 structure-linked; 33,201 IR + ¹H + ¹³C +
+structure); SDBS remains larger for view-only structure-linked spectra
+but cannot be redistributed (§2.1). \emph{IRSpectra-Bench} (§3) is the
+blind, mechanically scored peak-list benchmark built from it --- 194
+compounds, complexity-stratified, multimodal IR + ¹H + ¹³C --- with
+RDKit InChIKey-connectivity scoring and decomposable generation-recall /
+verification-precision metrics. Concurrent 2026 suites bound related
+tasks (MolQuest scores 530 post-2025 compounds by exact canonical
+SMILES\textsuperscript{\protect\hyperlink{ref-han2026molquest}{4}};
+SpecX\textsuperscript{\protect\hyperlink{ref-xiang2026specx}{5}};
+NMRGym\textsuperscript{\protect\hyperlink{ref-fang2026nmrgym}{6}}); ours
 is an openly redistributable suite on literature-reported peak lists
-with a recall/verification decomposition measured on Claude, replicated
-across three other model families (§4.7), with a within-compound
-solver-methodology control (§4). Ground truth is literature structures
-resolved deterministically (OPSIN/RDKit) and checked mechanically
-(560/560 bands on a seed-fixed sample, §2.3; expert-chemist review of
-elucidation outputs is formally deferred, §8); no LLM curates labels or
-scores predictions.
+with a stage decomposition measured on Claude, replicated across three
+other model families (§4.7), with a within-compound solver-methodology
+control (§4). Ground truth is literature structures resolved
+deterministically (OPSIN/RDKit) and checked mechanically (560/560 bands
+on a seed-fixed sample, §2.3; expert-chemist review of elucidation
+outputs is formally deferred, §8); no LLM curates labels or scores
+predictions. Priessner \emph{et
+al.}\textsuperscript{\protect\hyperlink{ref-priessner2026reasoning}{7}}
+already note that re-ranking cannot recover a missing candidate; we
+supply the missing measurement infrastructure at scale.
 
 Forward-verification elucidation (§5) turns the model's \emph{strong}
 direction (forward prediction) against its \emph{weak} one (inverse
@@ -299,12 +312,14 @@ so generation binds the result (Fig.~1). Gain is bounded (top-1 28\% →
 was also tested) and, by our own measurements, cannot exceed a
 recall/precision ceiling without sharper verification or 2D-NMR data.
 
-We contribute IRexp and IRSpectra-Bench --- open peak lists plus
-decomposable recall/verification metrics others can report --- measured
-on every compound (34\% proposed; 89\% selected once proposed), with a
-four-vendor replication of that split. The paper fills an accounting and
-infrastructure gap: it diagnoses where elucidation binds; it does not
-solve it.
+\textbf{Contribution.} We release IRexp and IRSpectra-Bench ---
+redistributable experimental band lists, a fixed blind peak-list
+protocol, and decomposable recall/verification metrics others can report
+on a shared InChIKey scorer --- measured on every compound (34\%
+proposed; 89\% selected once proposed), with a four-vendor replication
+of that split. The paper fills an infrastructure and accounting gap in
+cheminformatics: it diagnoses where elucidation binds; it does not claim
+a solved elucidator.
 
 \begin{figure*}
 \centering
@@ -326,58 +341,67 @@ every training-free number regenerates from them. The HOSE lookup, GNN
 \hypertarget{related-work}{%
 \subsection{1.1 Related work}\label{related-work}}
 
-\textbf{Trained spectra → structure models.} The dominant line trains
-sequence or graph decoders on paired corpora ---
-\emph{Spectro}\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{1}},
+Four camps surround this work; IRexp/IRSpectra-Bench occupy a distinct
+wedge --- \emph{redistributable experimental IR band lists}, a
+\emph{blind literature peak-list protocol}, and \emph{stage-decomposed
+metrics} --- rather than a claim to state-of-the-art agent accuracy.
+
+\textbf{Trained spectra → structure models.} Sequence and graph decoders
+on paired corpora ---
+\emph{Spectro}\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{2}},
 multitask 1D-NMR
-models\textsuperscript{\protect\hyperlink{ref-hu2024multitask}{6}},
-NMRTrans/NMRSpec\textsuperscript{\protect\hyperlink{ref-yang2026nmrtrans}{7}},
+models\textsuperscript{\protect\hyperlink{ref-hu2024multitask}{8}},
+NMRTrans/NMRSpec\textsuperscript{\protect\hyperlink{ref-yang2026nmrtrans}{9}},
 \emph{NMIRacle} (IR + ¹H +
-¹³C)\textsuperscript{\protect\hyperlink{ref-ottomano2025nmiracle}{8}}
---- accurate in-distribution but retrained per modality. IRexp (§2.3)
-complements NMRSpec with redistributable IR band lists; neither corpus
-alone is multimodal. Upstream IR work from our group
-(\emph{vIR-OLO}\textsuperscript{\protect\hyperlink{ref-garcilazocruz2026virolo}{9}},
-\emph{j-IR-vis}\textsuperscript{\protect\hyperlink{ref-sondhi2025jirvis}{10}})
+¹³C)\textsuperscript{\protect\hyperlink{ref-ottomano2025nmiracle}{10}},
+Alberts IR
+transformers\textsuperscript{\protect\hyperlink{ref-alberts2024ir}{11},\protect\hyperlink{ref-alberts2025benchmarks}{12}}
+--- are accurate in-distribution but retrained per modality and
+typically scored end-to-end. IRexp (§2.3) complements NMRSpec with
+redistributable IR band lists; neither corpus alone is multimodal.
+Upstream IR work from our group
+(\emph{vIR-OLO}\textsuperscript{\protect\hyperlink{ref-garcilazocruz2026virolo}{13}},
+\emph{j-IR-vis}\textsuperscript{\protect\hyperlink{ref-sondhi2025jirvis}{14}})
 identifies functional groups but does not generate candidate structures.
+We do not score Spectro, NMIRacle or CASE on IRSpectra-Bench (§8); the
+resource is designed so those baselines can be added under one scorer.
 
-\textbf{LLMs as elucidators.} LLM agents already plan syntheses
-(ChemCrow\textsuperscript{\protect\hyperlink{ref-mbran2024chemcrow}{11}},
-Coscientist\textsuperscript{\protect\hyperlink{ref-boiko2023coscientist}{12}})
-and call elucidation routines; we measure what one returns.
-Off-the-shelf and multimodal
-LLMs\textsuperscript{\protect\hyperlink{ref-kamber2026chemist}{2},\protect\hyperlink{ref-su2025spectrallm}{13}--\protect\hyperlink{ref-zhuang2025treesearch}{15}},
+\textbf{LLM agents and puzzle benches.} Off-the-shelf and multimodal
+LLMs\textsuperscript{\protect\hyperlink{ref-kamber2026chemist}{3},\protect\hyperlink{ref-su2025spectrallm}{15}--\protect\hyperlink{ref-zhuang2025treesearch}{17}},
 puzzle benchmarks
-(MolPuzzle\textsuperscript{\protect\hyperlink{ref-guo2024molpuzzle}{16}}),
+(MolPuzzle\textsuperscript{\protect\hyperlink{ref-guo2024molpuzzle}{18}}),
 and agentic IR interpreters
-(IR-Agent\textsuperscript{\protect\hyperlink{ref-noh2025iragent}{17}};
+(IR-Agent\textsuperscript{\protect\hyperlink{ref-noh2025iragent}{19}};
 Priessner \emph{et
-al.}\textsuperscript{\protect\hyperlink{ref-priessner2026reasoning}{18}})
-improve \emph{how} a model reads spectra or re-ranks a fixed pool; we
-ask which stage binds once it has read them.
-
-Most benchmarks use simulated or single-instrument
-spectra\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{1},\protect\hyperlink{ref-ottomano2025nmiracle}{8},\protect\hyperlink{ref-alberts2024ir}{19},\protect\hyperlink{ref-alberts2025benchmarks}{20}};
-IRSpectra-Bench uses literature-reported peak lists across thousands of
-laboratories. Cross-paper numbers swing with harness: GPT-4o scores
-1.4\% on
-MolPuzzle\textsuperscript{\protect\hyperlink{ref-guo2024molpuzzle}{16}},
+al.}\textsuperscript{\protect\hyperlink{ref-priessner2026reasoning}{7}})
+improve \emph{how} a model reads spectra or re-ranks a fixed pool.
+Cross-paper numbers swing with harness: GPT-4o scores 1.4\% on
+MolPuzzle\textsuperscript{\protect\hyperlink{ref-guo2024molpuzzle}{18}},
 27.8\% with chain-of-thought, 57.8\% with
-tree-search\textsuperscript{\protect\hyperlink{ref-zhuang2025treesearch}{15}}.
-We fix one pre-registered RDKit-InChIKey protocol with bootstrap CIs.
+tree-search\textsuperscript{\protect\hyperlink{ref-zhuang2025treesearch}{17}}.
+We fix one pre-registered RDKit-InChIKey protocol with bootstrap CIs and
+ask which stage binds once the spectra have been read.
 
-\textbf{Forward verification and CASE.} Matching predicted to observed
-shifts ---
+\textbf{Contamination-aware and heterogeneous-data benches.} Most prior
+suites use simulated or single-instrument
+spectra\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{2},\protect\hyperlink{ref-ottomano2025nmiracle}{10}--\protect\hyperlink{ref-alberts2025benchmarks}{12}}.
+IRSpectra-Bench uses literature-reported peak lists across thousands of
+laboratories and reports formula-only and recency controls (§4.6).
+Espejo Morales \emph{et al.} frame agentic search on raw instrument
+files: 80.9\% on education spectra, 20.6\% on 34 industrial
+samples\textsuperscript{\protect\hyperlink{ref-espejo2026agentic}{20}}
+--- they ask which architecture; we ask which stage binds on published
+reports (§8).
+
+\textbf{Forward verification, CASE and prior loops.} Matching predicted
+to observed shifts ---
 DP4\textsuperscript{\protect\hyperlink{ref-smith2010dp4}{21},\protect\hyperlink{ref-grimblat2015dp4plus}{22}},
 NMR
 crystallography\textsuperscript{\protect\hyperlink{ref-pickard2001gipaw}{23},\protect\hyperlink{ref-ashbrook2016nmrcryst}{24}},
 CASE\textsuperscript{\protect\hyperlink{ref-elyashberg2012case}{25},\protect\hyperlink{ref-elyashberg2015case}{26}}
---- is easier than inverse generation. We swap DFT for a forward LLM.
-CASE enumerators have exhaustive recall by construction; the LLM
-literature almost never reports whether the true structure was proposed
-at all (§6).
-
-\textbf{Prior loops and concurrent work.}
+--- is easier than inverse generation. CASE enumerators have exhaustive
+recall by construction; the LLM literature almost never reports whether
+the true structure was proposed at all (§6).
 \emph{NMR-Solver}\textsuperscript{\protect\hyperlink{ref-jin2025nmrsolver}{27}}
 runs the same generate-and-verify loop without an LLM (52.9\% top-1 on
 literature ¹H/¹³C, formula supplied; 31.6\% with stereochemistry). We
@@ -386,13 +410,9 @@ decompose error rather than beat that score.
 is a complementary best-effort system. Kliuev \emph{et al.} place the
 best of six LLMs at 24\% on 105 peak
 lists\textsuperscript{\protect\hyperlink{ref-kliuev2026canai}{29}}.
-Espejo Morales \emph{et al.} frame agentic search with processing tools
-and hard checks: 80.9\% on education spectra, 20.6\% on 34 industrial
-samples\textsuperscript{\protect\hyperlink{ref-espejo2026agentic}{30}}
---- they ask which architecture; we ask which stage binds. Their inputs
-are raw instrument files; ours are published reports (§8). Priessner
-\emph{et al.} already state that re-ranking cannot recover a missing
-candidate\textsuperscript{\protect\hyperlink{ref-priessner2026reasoning}{18}}.
+Priessner \emph{et al.} already state that re-ranking cannot recover a
+missing
+candidate\textsuperscript{\protect\hyperlink{ref-priessner2026reasoning}{7}}.
 We add measurement at scale: the split on 194 compounds across four
 model families and four verifiers, recovered from published top-\emph{k}
 figures (§6).
@@ -411,10 +431,10 @@ but a different object from a digitised spectrum, and the two should not
 be counted against one another.
 
 Among \emph{digitised spectra}, free downloads run to the NIST
-WebBook\textsuperscript{\protect\hyperlink{ref-nist_webbook}{31}} (≈16k)
+WebBook\textsuperscript{\protect\hyperlink{ref-nist_webbook}{30}} (≈16k)
 and the Chemotion ELN
-deposit\textsuperscript{\protect\hyperlink{ref-chemotion2024}{32}}
-(≈2k). AIST SDBS\textsuperscript{\protect\hyperlink{ref-sdbs}{33}} is
+deposit\textsuperscript{\protect\hyperlink{ref-chemotion2024}{31}}
+(≈2k). AIST SDBS\textsuperscript{\protect\hyperlink{ref-sdbs}{1}} is
 larger (≈54k FT-IR, all structure-linked) but \emph{view-only} (50
 spectra/day, no bulk export), so IRexp does not compete there: SDBS
 alone holds more structure-linked spectra than IRexp holds
@@ -427,7 +447,7 @@ is the largest \emph{openly redistributable} collection by record count
 
 Experimental sections report per-compound IR band lists with co-reported
 ¹H/¹³C NMR in a stable textual convention. Mining it is
-mature\textsuperscript{\protect\hyperlink{ref-swain2016chemdataextractor}{34}};
+mature\textsuperscript{\protect\hyperlink{ref-swain2016chemdataextractor}{32}};
 we add a pipeline specialised to the \emph{IR band list}, the modality
 those tools passed over.
 
@@ -436,7 +456,7 @@ those tools passed over.
 \item
   \textbf{Discovery.} Open-access literature is harvested in bulk from
   the PMC Open-Access
-  Subset\textsuperscript{\protect\hyperlink{ref-pmc_oa}{35}} and the
+  Subset\textsuperscript{\protect\hyperlink{ref-pmc_oa}{33}} and the
   Chemotion FT-IR deposit (RADAR4Chem).
 \item
   \textbf{Extraction.} A deterministic parser segments experimental text
@@ -444,12 +464,12 @@ those tools passed over.
   against scan-range artefacts and prose false-positives.
 \item
   \textbf{Resolution.} IUPAC names go to SMILES with
-  OPSIN\textsuperscript{\protect\hyperlink{ref-lowe2011opsin}{36}} and
-  RDKit\textsuperscript{\protect\hyperlink{ref-landrum_rdkit}{37}}
+  OPSIN\textsuperscript{\protect\hyperlink{ref-lowe2011opsin}{34}} and
+  RDKit\textsuperscript{\protect\hyperlink{ref-landrum_rdkit}{35}}
   canonicalisation (InChIKey,
-  SELFIES\textsuperscript{\protect\hyperlink{ref-krenn2020selfies}{38}}),
+  SELFIES\textsuperscript{\protect\hyperlink{ref-krenn2020selfies}{36}}),
   with a
-  PubChem\textsuperscript{\protect\hyperlink{ref-kim2023pubchem}{39}}
+  PubChem\textsuperscript{\protect\hyperlink{ref-kim2023pubchem}{37}}
   fallback for trivial names; handling open-access label conventions and
   narrative artefacts raised structure coverage from 24\% to 35\%.
 \end{itemize}
@@ -507,8 +527,19 @@ extraction-recall audit is formally deferred (§8).
 
 \texttt{irexp\_resolved} (43,060 records, 100\% structure-linked) is the
 benchmark-ready split, ≈6× the 6,833-molecule set used to train
-Spectro\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{1}}
+Spectro\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{2}}
 (Fig.~S2).
+
+\textbf{Reuse.} Each record carries \texttt{source\_doi}, licence stamp
+and resolved molecular representations (canonical SMILES, InChIKey,
+SELFIES). Fine-tuning against IRSpectra-Bench should use
+\texttt{data/\hspace{0pt}train\_no\_bench.jsonl.gz} (or rebuild with
+\texttt{contrib/\hspace{0pt}generator\_probe/\hspace{0pt}build\_exp\_manifest.py})
+so benchmark InChIKeys are withheld. Licence pools are separable
+(\texttt{scripts/\hspace{0pt}split\_license\_pools.py}); cite the Zenodo
+deposit once minted and attribute sources via each record's
+\texttt{source\_doi} (see Data availability; Hugging Face mirror
+\texttt{ilkhamfy/\hspace{0pt}IRexp}).
 
 \hypertarget{benchmark-design-irspectra-bench}{%
 \section{3. Benchmark design
@@ -561,24 +592,30 @@ simple / 82.5\% complex. Reweighted to that composition, top-1 falls
 → 71.5\% {[}50.2--92.5{]}). We report the benchmark figure as released
 and the reweighted figure as the better estimate on an arbitrary paper.
 
-\textbf{Scoring is mechanical.} A prediction is \emph{correct} if its
-RDKit InChIKey connectivity layer (first 14 characters) matches the
-reference: we score \emph{constitution}, so correct constitution with
-wrong stereochemistry counts as correct. The \emph{full},
-stereochemistry-sensitive InChIKey gives 21.1\% top-1 and 25.8\%
-recovered (41/194 and 50/194) against 28.4\% / 33.5\% --- 7.3 points
-lower on top-1 and 7.7 on recovered --- so the constitution figure is an
-upper bound on full-stereochemistry accuracy. Constitution is the
-headline because 1D ¹H/¹³C/IR rarely fixes absolute configuration: only
-10.3\% (20/194) of answers carry a \emph{defined} (assigned R/S)
-stereocentre, and a model is penalised there for information the prompt
-never contained (\texttt{scripts/score\_main.py\ -\/-stereo}).
+\textbf{Scoring is mechanical (the leaderboard contract).} A prediction
+is \emph{correct} if its RDKit InChIKey connectivity layer (first 14
+characters) matches the reference: we score \emph{constitution}, so
+correct constitution with wrong stereochemistry counts as correct. The
+\emph{full}, stereochemistry-sensitive InChIKey gives 21.1\% top-1 and
+25.8\% recovered (41/194 and 50/194) against 28.4\% / 33.5\% --- 7.3
+points lower on top-1 and 7.7 on recovered --- so the constitution
+figure is an upper bound on full-stereochemistry accuracy. Constitution
+is the headline because 1D ¹H/¹³C/IR rarely fixes absolute
+configuration: only 10.3\% (20/194) of answers carry a \emph{defined}
+(assigned R/S) stereocentre, and a model is penalised there for
+information the prompt never contained
+(\texttt{scripts/score\_main.py\ -\/-stereo}). External submissions
+follow the same contract via
+\texttt{scripts/\hspace{0pt}score\_submission.py} and the protocol in
+\texttt{docs/\hspace{0pt}LEADERBOARD.md}: up to three ranked SMILES per
+\texttt{qid}, no structure hints, document model version and tool
+access.
 
 \textbf{Metrics.} \emph{Top-1 (exact constitution)}: best-ranked
 candidate matches at the connectivity layer; \emph{recovered (top-3)}:
 reference among up to three returned candidates, the lenient
 ``recovery'' protocol of
-ref.\textsuperscript{\protect\hyperlink{ref-kamber2026chemist}{2}}.
+ref.\textsuperscript{\protect\hyperlink{ref-kamber2026chemist}{3}}.
 \emph{Generation recall}: reference in the candidate pool \emph{before}
 re-ranking, the ceiling any verifier can reach (coincides with recovered
 except in §5.3, where the pool is larger). \emph{Verification precision
@@ -586,11 +623,14 @@ except in §5.3, where the pool is larger). \emph{Verification precision
 verification from generation. The forward-verifier ranks by symmetric
 \emph{chamfer distance} between predicted and observed ¹³C peak sets
 (lower is better); Morgan(2, 2048)
-Tanimoto\textsuperscript{\protect\hyperlink{ref-rogers2010ecfp}{40}}
+Tanimoto\textsuperscript{\protect\hyperlink{ref-rogers2010ecfp}{38}}
 gives a graded scaffold-family signal. CIs are bootstrap 95\%;
 model-vs-model differences use McNemar's exact
-test\textsuperscript{\protect\hyperlink{ref-mcnemar1947}{41}} with Holm
-correction\textsuperscript{\protect\hyperlink{ref-holm1979}{42}}.
+test\textsuperscript{\protect\hyperlink{ref-mcnemar1947}{39}} with Holm
+correction\textsuperscript{\protect\hyperlink{ref-holm1979}{40}}.
+Reports on IRSpectra-Bench should quote all three primary numbers ---
+top-1, generation recall, and verification precision \textbar{} recall
+--- not top-1 alone.
 
 Solvers are frontier LLM agents (Claude Opus), one sub-agent per batch,
 closed-book under a consumer subscription: no tools beyond an RDKit
@@ -601,6 +641,11 @@ Supplementary Information.
 \hypertarget{how-well-do-llms-elucidate-real-structures}{%
 \section{4. How well do LLMs elucidate real
 structures?}\label{how-well-do-llms-elucidate-real-structures}}
+
+Having defined IRexp and IRSpectra-Bench as reusable data objects, we
+next report the decomposable metrics they enable --- top-1 constitution,
+generation recall, and verification precision --- rather than a single
+end-to-end accuracy claim.
 
 \hypertarget{headline-performance}{%
 \subsection{4.1 Headline performance}\label{headline-performance}}
@@ -680,9 +725,9 @@ misses show \emph{wrong connectivity at the right composition}.
 reports}\label{reconciling-with-prior-reports}}
 
 Our 28\% top-1 sits far below curated NMR-only
-demos\textsuperscript{\protect\hyperlink{ref-kamber2026chemist}{2}} and
+demos\textsuperscript{\protect\hyperlink{ref-kamber2026chemist}{3}} and
 below in-distribution trained baselines
-(48--94\%)\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{1},\protect\hyperlink{ref-ottomano2025nmiracle}{8},\protect\hyperlink{ref-alberts2025benchmarks}{20}}:
+(48--94\%)\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{2},\protect\hyperlink{ref-ottomano2025nmiracle}{10},\protect\hyperlink{ref-alberts2025benchmarks}{12}}:
 difficulty, scoring leniency, starting-material hints and hand curation
 inflate those reports, while settings differ on every axis from our
 blind literature spectra. The ≈40× MolPuzzle swing for one model (§1.1)
@@ -823,7 +868,7 @@ control}\label{is-the-model-reading-the-spectra-a-formula-only-control}}
 
 We reran the blind protocol with spectra masked, leaving only the
 formula
-(\textsuperscript{\protect\hyperlink{ref-xu2024contamination}{43}}).
+(\textsuperscript{\protect\hyperlink{ref-xu2024contamination}{41}}).
 
 \begin{table*}[htbp]
 \centering\small
@@ -923,7 +968,7 @@ elucidation}\label{forward-verification-elucidation}}
 
 The inverse direction is the model's hard, isomer-blind direction; the
 forward direction (structure → spectrum) is its easy, accurate
-one\textsuperscript{\protect\hyperlink{ref-kamber2026chemist}{2}}. We
+one\textsuperscript{\protect\hyperlink{ref-kamber2026chemist}{3}}. We
 close a training-free generator--verifier loop:
 
 \begin{quote}
@@ -951,7 +996,7 @@ Regioisomers separate by a median 1.21 ppm in forward prediction, but
 82\% lie within the predictor's ≈2 ppm error --- a thin margin confirmed
 against a derangement null at p=0.001 (§5.5). Sharper predictors (GNN,
 DFT-coupled
-models{[}\textsuperscript{\protect\hyperlink{ref-williamson2024mpnn}{44}};\textsuperscript{\protect\hyperlink{ref-han2024dftgnn}{45},\protect\hyperlink{ref-cohen2023delta50}{46}})
+models{[}\textsuperscript{\protect\hyperlink{ref-williamson2024mpnn}{42}};\textsuperscript{\protect\hyperlink{ref-han2024dftgnn}{43},\protect\hyperlink{ref-cohen2023delta50}{44}})
 would move the verification ceiling, not search.
 
 \hypertarget{result}{%
@@ -1020,7 +1065,7 @@ recipe}\label{generate-wide-testing-the-recipe}}
 
 The decomposition implies \emph{generate wide, verify by forward
 prediction} --- a chemistry analog of self-consistency
-sampling\textsuperscript{\protect\hyperlink{ref-wang2023selfconsistency}{47}}.
+sampling\textsuperscript{\protect\hyperlink{ref-wang2023selfconsistency}{45}}.
 Ten solver agents proposed up to six regiochemistry-aware candidates per
 compound, pooled with the originals and re-ranked.
 
@@ -1069,14 +1114,14 @@ model}\label{non-llm-verifiers-a-deterministic-lookup-and-a-learned-model}}
 
 §5.3 suggests replacing the verifier with a non-LLM ¹³C predictor. We
 tested a
-HOSE-code\textsuperscript{\protect\hyperlink{ref-bremser1978hose}{48}}-style
+HOSE-code\textsuperscript{\protect\hyperlink{ref-bremser1978hose}{46}}-style
 lookup and a small message-passing GNN, both trained on the same
 nmrshiftdb2
-dump\textsuperscript{\protect\hyperlink{ref-kuhn2015nmrshiftdb2}{49}}
+dump\textsuperscript{\protect\hyperlink{ref-kuhn2015nmrshiftdb2}{47}}
 and applied to the same §5.2 candidate sets so only the predictor
 changes. The GNN is deliberately modest; sharper purpose-built ¹³C
 models
-exist\textsuperscript{\protect\hyperlink{ref-williamson2024mpnn}{44},\protect\hyperlink{ref-han2024dftgnn}{45},\protect\hyperlink{ref-xu2025nmrbench}{50}}.
+exist\textsuperscript{\protect\hyperlink{ref-williamson2024mpnn}{42},\protect\hyperlink{ref-han2024dftgnn}{43},\protect\hyperlink{ref-xu2025nmrbench}{48}}.
 
 \begin{table*}[htbp]
 \centering\small
@@ -1112,7 +1157,7 @@ LLM forward-verifier (§5.2) & 16/19 (84\%) & 58/65 (89\%) & --- \\
 The HOSE lookup ties self-ranking; the GNN reaches 59/65 (91\%) vs the
 LLM's 58/65 (89\%), directionally (Table~9, Fig.~S6). Wagen's
 MagNET-in-the-loop
-study\textsuperscript{\protect\hyperlink{ref-wagen2026simtools}{51}--\protect\hyperlink{ref-novitskiy2022peculiar}{53}}
+study\textsuperscript{\protect\hyperlink{ref-wagen2026simtools}{49}--\protect\hyperlink{ref-novitskiy2022peculiar}{51}}
 moves connectivity 46.4\% → 55.4\% on eight problems --- same order as
 our ladder, underpowered at n=8.
 
@@ -1136,7 +1181,7 @@ Claude's candidates lifts recall 33.5\% → 54.1\% and top-1 28.4\% →
 recovers 0/248; with it, 25\%. NMR-Solver
 (52.9\%)\textsuperscript{\protect\hyperlink{ref-jin2025nmrsolver}{27}}
 and trained IR transformers
-(63.8\%)\textsuperscript{\protect\hyperlink{ref-alberts2025benchmarks}{20}}
+(63.8\%)\textsuperscript{\protect\hyperlink{ref-alberts2025benchmarks}{12}}
 confirm the task is not bound at 28--30\%.
 
 \needspace{8\baselineskip}
@@ -1194,28 +1239,28 @@ NMR-Solver\textsuperscript{\protect\hyperlink{ref-jin2025nmrsolver}{27}}
 NMR-Solver\textsuperscript{\protect\hyperlink{ref-jin2025nmrsolver}{27}}
 & literature (450) & 31.6\% & 53.8\% (10) & ≥ 53.8\% & ≤ 58.7\% \\
 Espejo
-Morales\textsuperscript{\protect\hyperlink{ref-espejo2026agentic}{30}} &
+Morales\textsuperscript{\protect\hyperlink{ref-espejo2026agentic}{20}} &
 education (236) & 80.9\% & 90.0\% (5) & ≥ 90.0\% & ≤ 89.9\% \\
 Espejo
-Morales\textsuperscript{\protect\hyperlink{ref-espejo2026agentic}{30}} &
+Morales\textsuperscript{\protect\hyperlink{ref-espejo2026agentic}{20}} &
 industrial (34) & 20.6\% & 29.1\% (5) & ≥ 29.1\% & ≤ 70.9\% \\
 \textbf{\emph{exact match, stereo handling not stated}} & & & & & \\
 Alberts, 6--13
-atoms\textsuperscript{\protect\hyperlink{ref-alberts2025benchmarks}{20}}
+atoms\textsuperscript{\protect\hyperlink{ref-alberts2025benchmarks}{12}}
 & NIST IR (3,455) & 63.8\% & 84.0\% (10) & 84.0\% & 75.9\% \\
 Alberts, 5--35
-atoms\textsuperscript{\protect\hyperlink{ref-alberts2025benchmarks}{20}}
+atoms\textsuperscript{\protect\hyperlink{ref-alberts2025benchmarks}{12}}
 & NIST IR (5,024) & 59.9\% & 78.5\% (10) & 78.5\% & 76.4\% \\
 SpecX, random
-split\textsuperscript{\protect\hyperlink{ref-xiang2026specx}{4}} &
+split\textsuperscript{\protect\hyperlink{ref-xiang2026specx}{5}} &
 simulated (99,439) & 59.0\% & 81.8\% (10) & 81.8\% & 72.2\% \\
 SpecX, scaffold
-split\textsuperscript{\protect\hyperlink{ref-xiang2026specx}{4}} &
+split\textsuperscript{\protect\hyperlink{ref-xiang2026specx}{5}} &
 simulated (99,439) & 29.7\% & 50.6\% (10) & 50.6\% & 58.7\% \\
-IR-Agent\textsuperscript{\protect\hyperlink{ref-noh2025iragent}{17}} &
+IR-Agent\textsuperscript{\protect\hyperlink{ref-noh2025iragent}{19}} &
 NIST IR (905) & 10.3\% & 21.6\% (10) & 21.6\% & 47.7\% \\
 \textbf{\emph{criterion not stated}} & & & & & \\
-Priessner\textsuperscript{\protect\hyperlink{ref-priessner2026reasoning}{18}}
+Priessner\textsuperscript{\protect\hyperlink{ref-priessner2026reasoning}{7}}
 & experimental (34) & 20.6\% & --- & 26.5\% & 77.8\% \\
 \bottomrule
 \end{tabular}
@@ -1228,25 +1273,43 @@ Priessner\textsuperscript{\protect\hyperlink{ref-priessner2026reasoning}{18}}
 mainly from candidate supply (NMRAgent
 ablation\textsuperscript{\protect\hyperlink{ref-fang2026nmragent}{28}},
 NMRGym formula
-ablation\textsuperscript{\protect\hyperlink{ref-fang2026nmrgym}{5}}).
+ablation\textsuperscript{\protect\hyperlink{ref-fang2026nmrgym}{6}}).
 Recall binds where spectra are real and heterogeneous (87--91\% of our
 loss); ranking dominates on simulated or single-library data (38--39\%).
 The field almost never reports whether the true structure was proposed
 at all
-(\textsuperscript{\protect\hyperlink{ref-priessner2026reasoning}{18}}
+(\textsuperscript{\protect\hyperlink{ref-priessner2026reasoning}{7}}
 excepted).
 
 \hypertarget{discussion}{%
 \section{7. Discussion}\label{discussion}}
 
 Frontier LLMs are good verifiers (89\% conditional precision) and weak
-proposers (34\% recall) on real literature spectra. The contribution is
-a diagnosis with a bounded, training-free improvement, not a solved
-elucidator (§8).
+proposers (34\% recall) on real literature spectra. The primary
+contribution is chemical-information infrastructure --- IRexp,
+IRSpectra-Bench, frozen predictions and a decomposable scorer --- with a
+diagnosis and a bounded, training-free improvement attached; not a
+solved elucidator (§8).
 
 That split held across four Claude models, a battery-electrolyte subset,
 four verifiers and four vendor families (§6); concurrent systems that
 move the same levers are surveyed in §1.1.
+
+\textbf{Reporting on IRSpectra-Bench.} External work should deposit
+ranked SMILES under the released protocol
+(\texttt{docs/\hspace{0pt}LEADERBOARD.md};
+\texttt{scripts/\hspace{0pt}score\_submission.py}) and report, at
+minimum: (i) top-1 constitution (InChIKey connectivity), (ii) generation
+recall (true structure in the candidate pool before re-ranking), and
+(iii) verification precision conditional on recall, with bootstrap CIs
+and candidate budget. Top-1 alone conflates the two stages this paper
+separates. Nonsignificant ladder gains (forward-verification vs
+self-ranking, McNemar p=0.55; generate-wide top-1, p=0.34) should be
+cited as diagnostic, not as accuracy advances. Corpus-reweighted top-1
+(15.2\%) is the better estimate for an arbitrary literature draw; the
+released 50/50 figure remains the comparable leaderboard number. IRexp
+re-users should keep PMC and Chemotion licence pools separable and
+de-leak benchmark InChIKeys before training (§2.3).
 
 Training is not foreclosed: IRexp fine-tuning lifts recall to 54\%
 (§5.6). What compounds is open experimental data, honest benchmarks, and
@@ -1273,9 +1336,9 @@ spectral strings from PMC in the prompt remain a retrieval confound.
 author-transcribed band and shift lists, not raw absorbance traces or
 FIDs --- a different object from digitised spectra and from Espejo
 \emph{et
-al.}\textsuperscript{\protect\hyperlink{ref-espejo2026agentic}{30}}. The
+al.}\textsuperscript{\protect\hyperlink{ref-espejo2026agentic}{20}}. The
 molecular formula is supplied (as from HRMS); systems such as
-NMIRacle\textsuperscript{\protect\hyperlink{ref-ottomano2025nmiracle}{8}}
+NMIRacle\textsuperscript{\protect\hyperlink{ref-ottomano2025nmiracle}{10}}
 that take no formula solve a harder prior, so absolute accuracies are
 not interchangeable. Headline metrics score constitution (InChIKey
 connectivity); with stereochemistry, top-1 is 21.1\%. \textbf{(iv)
@@ -1284,9 +1347,10 @@ Statistical honesty.} Forward-verification vs self-ranking is unresolved
 comparison at n=24 is underpowered for adjacent ranks and carries a
 disclosed protocol asymmetry (§4.4). The inference ladder diagnoses a
 bottleneck; it is not a demonstrated accuracy advance. \textbf{(v)
-Missing on-bench baselines.} Spectro, NMIRacle and CASE were not scored
-on IRSpectra-Bench, so the LLM recall wall is not cleanly separated from
-harness or modality choice --- left to future leaderboard work.
+Missing on-bench cheminformatics baselines.} Spectro, NMIRacle, Alberts
+IR transformers and CASE were not scored on IRSpectra-Bench, so the LLM
+recall wall is not cleanly separated from harness or modality choice ---
+left to future leaderboard work under the released InChIKey scorer.
 \textbf{(vi) Cross-vendor scope.} Headline n=194 is Claude Opus; the
 four-vendor replication is on 60 compounds. Candidate budgets differ
 across vendors (Claude mean 2.20 vs 3.00), so recall rankings are
@@ -1378,13 +1442,16 @@ There are no conflicts to declare.
 \hypertarget{data-availability}{%
 \section{Data availability}\label{data-availability}}
 
-Data, predictions, scoring scripts and figure regeneration are in the
-project repository; Table~11 lists each component. A frozen snapshot
-will be deposited on Zenodo (DOI at proof); GitHub is the development
-mirror. IRexp is also mirrored at
+Data, frozen predictions, scoring scripts and figure regeneration are in
+the project repository
+(\href{https://github.com/IlkhamFY/spectro-agent}{github.com/IlkhamFY/spectro-agent});
+Table~11 lists each component. A frozen archival snapshot will be
+deposited on Zenodo ({[}TODO: 10.5281/zenodo.XXXXXXX{]}; DOI at proof);
+GitHub remains the development mirror. IRexp is also mirrored at
 \href{https://huggingface.co/datasets/ilkhamfy/IRexp}{huggingface.co/datasets/ilkhamfy/IRexp}
 (use \texttt{data/\hspace{0pt}train\_no\_bench.jsonl.gz} for fine-tuning
-without benchmark leakage).
+without benchmark leakage). Leaderboard submissions follow
+\texttt{docs/\hspace{0pt}LEADERBOARD.md}.
 
 \begin{table*}[htbp]
 \centering\small
@@ -1462,101 +1529,113 @@ Funding and institutional support will be added at proof.
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{0}{0}
-\leavevmode\vadjust pre{\hypertarget{ref-chacko2024spectro}{}}%
+\leavevmode\vadjust pre{\hypertarget{ref-sdbs}{}}%
 \CSLLeftMargin{1 }%
+\CSLRightInline{National Institute of Advanced Industrial Science and
+Technology (AIST), Spectral Database for Organic Compounds (SDBS),
+\url{https://sdbs.db.aist.go.jp}, (accessed 1 January 2026).}
+
+\leavevmode\vadjust pre{\hypertarget{ref-chacko2024spectro}{}}%
+\CSLLeftMargin{2 }%
 \CSLRightInline{E. Chacko, R. Sondhi, A. Praveen, K. L. Luska and R. A.
 Vargas-Hernández, \emph{ChemRxiv}, 2024, preprint, DOI:
 \href{https://doi.org/10.26434/chemrxiv-2024-37v2j}{10.26434/chemrxiv-2024-37v2j}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-kamber2026chemist}{}}%
-\CSLLeftMargin{2 }%
+\CSLLeftMargin{3 }%
 \CSLRightInline{D. Kamber,
 \emph{\href{https://anthropic.com/research/making-claude-a-chemist}{Making
 Claude a chemist: How Claude performs on NMR prediction and structure
 elucidation}}, Anthropic, 2026.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-han2026molquest}{}}%
-\CSLLeftMargin{3 }%
+\CSLLeftMargin{4 }%
 \CSLRightInline{T. Han, S. Wu, J. Wang, Y. Zhou, R. Lv, B. Zhao and W.
 Hu, \emph{arXiv}, 2026, preprint, DOI:
 \href{https://doi.org/10.48550/arXiv.2603.25253}{10.48550/arXiv.2603.25253}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-xiang2026specx}{}}%
-\CSLLeftMargin{4 }%
+\CSLLeftMargin{5 }%
 \CSLRightInline{C. Xiang, T. Ma, Y. Chen, T. Wang, H. Chen and X. Zeng,
 \emph{arXiv}, 2026, preprint, DOI:
 \href{https://doi.org/10.48550/arXiv.2605.18791}{10.48550/arXiv.2605.18791}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-fang2026nmrgym}{}}%
-\CSLLeftMargin{5 }%
+\CSLLeftMargin{6 }%
 \CSLRightInline{Z. Fang, C. Yang, H. Yu, H. Luo, H. He, J. Xie, Z. Yang
 and J. Xia, \emph{arXiv}, 2026, preprint, DOI:
 \href{https://doi.org/10.48550/arXiv.2601.15763}{10.48550/arXiv.2601.15763}.}
 
+\leavevmode\vadjust pre{\hypertarget{ref-priessner2026reasoning}{}}%
+\CSLLeftMargin{7 }%
+\CSLRightInline{\href{https://doi.org/10.1039/D5DD00359H}{M. Priessner,
+R. J. Lewis, M. J. Johansson, J. M. Goodman, J. P. Janet and A. Tomberg,
+\emph{Digital Discovery}, 2026, \textbf{5}, 1237--1251}.}
+
 \leavevmode\vadjust pre{\hypertarget{ref-hu2024multitask}{}}%
-\CSLLeftMargin{6 }%
+\CSLLeftMargin{8 }%
 \CSLRightInline{\href{https://doi.org/10.1021/acscentsci.4c01132}{F. Hu,
 M. S. Chen, G. M. Rotskoff, M. W. Kanan and T. E. Markland, \emph{ACS
 Cent. Sci.}, 2024, \textbf{10}, 2162--2170}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-yang2026nmrtrans}{}}%
-\CSLLeftMargin{7 }%
+\CSLLeftMargin{9 }%
 \CSLRightInline{\href{https://doi.org/10.1145/3770855.3818935}{L. Yang,
 Z. Yang, J. Xie, Y. Wang, B. Gao, X. Wei, J. Sun, J. Wu, C. He, Y. Li
 and Q. Gu, in \emph{Proc. 32nd ACM SIGKDD Conf. Knowledge Discovery and
 Data Mining (KDD '26), Vol. 2}, 2026, pp. 12621--12632}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-ottomano2025nmiracle}{}}%
-\CSLLeftMargin{8 }%
+\CSLLeftMargin{10 }%
 \CSLRightInline{F. Ottomano, Y. Li and A. M. Ganose, \emph{arXiv}, 2025,
 preprint, DOI:
 \href{https://doi.org/10.48550/arXiv.2512.19733}{10.48550/arXiv.2512.19733}.}
 
+\leavevmode\vadjust pre{\hypertarget{ref-alberts2024ir}{}}%
+\CSLLeftMargin{11 }%
+\CSLRightInline{\href{https://doi.org/10.1038/s42004-024-01341-w}{M.
+Alberts, T. Laino and A. C. Vaucher, \emph{Commun. Chem.}, 2024,
+\textbf{7}, 268}.}
+
+\leavevmode\vadjust pre{\hypertarget{ref-alberts2025benchmarks}{}}%
+\CSLLeftMargin{12 }%
+\CSLRightInline{\href{https://doi.org/10.1039/d5dd00131e}{M. Alberts, F.
+Zipoli and T. Laino, \emph{Digital Discovery}, 2025, \textbf{4},
+1936--1943}.}
+
 \leavevmode\vadjust pre{\hypertarget{ref-garcilazocruz2026virolo}{}}%
-\CSLLeftMargin{9 }%
+\CSLLeftMargin{13 }%
 \CSLRightInline{U. Garcilazo-Cruz, Q. Nie, R. Sondhi and R. A.
 Vargas-Hernández, \emph{ChemRxiv}, 2026, preprint, DOI:
 \href{https://doi.org/10.26434/chemrxiv.15007479/v1}{10.26434/chemrxiv.15007479/v1}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-sondhi2025jirvis}{}}%
-\CSLLeftMargin{10 }%
+\CSLLeftMargin{14 }%
 \CSLRightInline{R. Sondhi, E. Chacko and R. A. Vargas-Hernández,
 \emph{ChemRxiv}, 2025, preprint, DOI:
 \href{https://doi.org/10.26434/chemrxiv-2025-d0j2v}{10.26434/chemrxiv-2025-d0j2v}.}
 
-\leavevmode\vadjust pre{\hypertarget{ref-mbran2024chemcrow}{}}%
-\CSLLeftMargin{11 }%
-\CSLRightInline{\href{https://doi.org/10.1038/s42256-024-00832-8}{A. M.
-Bran, S. Cox, O. Schilter, C. Baldassari, A. D. White and P. Schwaller,
-\emph{Nat. Mach. Intell.}, 2024, \textbf{6}, 525--535}.}
-
-\leavevmode\vadjust pre{\hypertarget{ref-boiko2023coscientist}{}}%
-\CSLLeftMargin{12 }%
-\CSLRightInline{\href{https://doi.org/10.1038/s41586-023-06792-0}{D. A.
-Boiko, R. MacKnight, B. Kline and G. Gomes, \emph{Nature}, 2023,
-\textbf{624}, 570--578}.}
-
 \leavevmode\vadjust pre{\hypertarget{ref-su2025spectrallm}{}}%
-\CSLLeftMargin{13 }%
+\CSLLeftMargin{15 }%
 \CSLRightInline{Y. Su, J. Chen, Z. Jiang, Z. Zhong, L. Wang, Q. Liu and
 Z. Zhang, in \emph{International Conference on Learning Representations
 (ICLR)}, 2026.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-shen2025specmol}{}}%
-\CSLLeftMargin{14 }%
+\CSLLeftMargin{16 }%
 \CSLRightInline{S. Shen, J. Xie, Z. Yang, A. Zhang, S. Sun, B. Gao, T.
 Fu, B. Qi and Y. Li, \emph{arXiv}, 2025, preprint, DOI:
 \href{https://doi.org/10.48550/arXiv.2509.21861}{10.48550/arXiv.2509.21861}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-zhuang2025treesearch}{}}%
-\CSLLeftMargin{15 }%
+\CSLLeftMargin{17 }%
 \CSLRightInline{\href{https://doi.org/10.18653/v1/2025.acl-long.1100}{X.
 Zhuang, B. Wu, J. Cui, K. Feng, X. Li, H. Xing, K. Ding, Q. Zhang and H.
 Chen, in \emph{Proc. 63rd Annu. Meet. Assoc. Comput. Linguist. (Vol. 1:
 Long Papers)}, 2025, pp. 22561--22576}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-guo2024molpuzzle}{}}%
-\CSLLeftMargin{16 }%
+\CSLLeftMargin{18 }%
 \CSLRightInline{\href{https://doi.org/10.52202/079017-4281}{K. Guo, B.
 Nan, Y. Zhou, T. Guo, Z. Guo, M. Surve, Z. Liang, N. V. Chawla, O. Wiest
 and X. Zhang, in \emph{Advances in Neural Information Processing Systems
@@ -1564,28 +1643,16 @@ and X. Zhang, in \emph{Advances in Neural Information Processing Systems
 134721--134746}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-noh2025iragent}{}}%
-\CSLLeftMargin{17 }%
+\CSLLeftMargin{19 }%
 \CSLRightInline{H. Noh, N. Lee, G. S. Na, K. Kim and C. Park,
 \emph{arXiv}, 2025, preprint, DOI:
 \href{https://doi.org/10.48550/arXiv.2508.16112}{10.48550/arXiv.2508.16112}.}
 
-\leavevmode\vadjust pre{\hypertarget{ref-priessner2026reasoning}{}}%
-\CSLLeftMargin{18 }%
-\CSLRightInline{\href{https://doi.org/10.1039/D5DD00359H}{M. Priessner,
-R. J. Lewis, M. J. Johansson, J. M. Goodman, J. P. Janet and A. Tomberg,
-\emph{Digital Discovery}, 2026, \textbf{5}, 1237--1251}.}
-
-\leavevmode\vadjust pre{\hypertarget{ref-alberts2024ir}{}}%
-\CSLLeftMargin{19 }%
-\CSLRightInline{\href{https://doi.org/10.1038/s42004-024-01341-w}{M.
-Alberts, T. Laino and A. C. Vaucher, \emph{Commun. Chem.}, 2024,
-\textbf{7}, 268}.}
-
-\leavevmode\vadjust pre{\hypertarget{ref-alberts2025benchmarks}{}}%
+\leavevmode\vadjust pre{\hypertarget{ref-espejo2026agentic}{}}%
 \CSLLeftMargin{20 }%
-\CSLRightInline{\href{https://doi.org/10.1039/d5dd00131e}{M. Alberts, F.
-Zipoli and T. Laino, \emph{Digital Discovery}, 2025, \textbf{4},
-1936--1943}.}
+\CSLRightInline{I. Espejo Morales, D. Hinz, M. Alberts, G. Krawezik, H.
+Jeong and S. Ho, \emph{arXiv}, 2026, preprint, DOI:
+\href{https://doi.org/10.48550/arXiv.2607.19406}{10.48550/arXiv.2607.19406}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-smith2010dp4}{}}%
 \CSLLeftMargin{21 }%
@@ -1641,138 +1708,126 @@ preprint, DOI:
 D. Chusov, \emph{ChemRxiv}, 2026, preprint, DOI:
 \href{https://doi.org/10.26434/chemrxiv.15006195/v1}{10.26434/chemrxiv.15006195/v1}.}
 
-\leavevmode\vadjust pre{\hypertarget{ref-espejo2026agentic}{}}%
-\CSLLeftMargin{30 }%
-\CSLRightInline{I. Espejo Morales, D. Hinz, M. Alberts, G. Krawezik, H.
-Jeong and S. Ho, \emph{arXiv}, 2026, preprint, DOI:
-\href{https://doi.org/10.48550/arXiv.2607.19406}{10.48550/arXiv.2607.19406}.}
-
 \leavevmode\vadjust pre{\hypertarget{ref-nist_webbook}{}}%
-\CSLLeftMargin{31 }%
+\CSLLeftMargin{30 }%
 \CSLRightInline{National Institute of Standards and Technology, NIST
 Chemistry WebBook, SRD 69, \url{https://webbook.nist.gov}, (accessed 1
 January 2026).}
 
 \leavevmode\vadjust pre{\hypertarget{ref-chemotion2024}{}}%
-\CSLLeftMargin{32 }%
+\CSLLeftMargin{31 }%
 \CSLRightInline{N. Jung, P. Tremouilhac, D. Punjabi and P.-C. Huang,
 \emph{\href{https://doi.org/10.22000/OGoEQGlsZGElrgst}{Chemotion
 Repository -- data collection: FT-IR spectroscopy data (Chemotion IR)}},
 Karlsruhe Institute of Technology, 2024.}
 
-\leavevmode\vadjust pre{\hypertarget{ref-sdbs}{}}%
-\CSLLeftMargin{33 }%
-\CSLRightInline{National Institute of Advanced Industrial Science and
-Technology (AIST), Spectral Database for Organic Compounds (SDBS),
-\url{https://sdbs.db.aist.go.jp}, (accessed 1 January 2026).}
-
 \leavevmode\vadjust pre{\hypertarget{ref-swain2016chemdataextractor}{}}%
-\CSLLeftMargin{34 }%
+\CSLLeftMargin{32 }%
 \CSLRightInline{\href{https://doi.org/10.1021/acs.jcim.6b00207}{M. C.
 Swain and J. M. Cole, \emph{J. Chem. Inf. Model.}, 2016, \textbf{56},
 1894--1904}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-pmc_oa}{}}%
-\CSLLeftMargin{35 }%
+\CSLLeftMargin{33 }%
 \CSLRightInline{National Library of Medicine, NCBI PMC Open Access
 Subset, \url{https://www.ncbi.nlm.nih.gov/pmc/tools/openftlist/},
 (accessed 1 January 2026).}
 
 \leavevmode\vadjust pre{\hypertarget{ref-lowe2011opsin}{}}%
-\CSLLeftMargin{36 }%
+\CSLLeftMargin{34 }%
 \CSLRightInline{\href{https://doi.org/10.1021/ci100384d}{D. M. Lowe, P.
 T. Corbett, P. Murray-Rust and R. C. Glen, \emph{J. Chem. Inf. Model.},
 2011, \textbf{51}, 739--753}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-landrum_rdkit}{}}%
-\CSLLeftMargin{37 }%
+\CSLLeftMargin{35 }%
 \CSLRightInline{G. Landrum and RDKit Contributors, RDKit,
 \url{https://www.rdkit.org}, (accessed 1 January 2026).}
 
 \leavevmode\vadjust pre{\hypertarget{ref-krenn2020selfies}{}}%
-\CSLLeftMargin{38 }%
+\CSLLeftMargin{36 }%
 \CSLRightInline{\href{https://doi.org/10.1088/2632-2153/aba947}{M.
 Krenn, F. Häse, A. Nigam, P. Friederich and A. Aspuru-Guzik, \emph{Mach.
 Learn.: Sci. Technol.}, 2020, \textbf{1}, 045024}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-kim2023pubchem}{}}%
-\CSLLeftMargin{39 }%
+\CSLLeftMargin{37 }%
 \CSLRightInline{\href{https://doi.org/10.1093/nar/gkac956}{S. Kim, J.
 Chen, T. Cheng, A. Gindulyte, J. He, S. He, Q. Li, B. A. Shoemaker, P.
 A. Thiessen, B. Yu, L. Zaslavsky, J. Zhang and E. E. Bolton,
 \emph{Nucleic Acids Res.}, 2023, \textbf{51}, D1373--D1380}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-rogers2010ecfp}{}}%
-\CSLLeftMargin{40 }%
+\CSLLeftMargin{38 }%
 \CSLRightInline{\href{https://doi.org/10.1021/ci100050t}{D. Rogers and
 M. Hahn, \emph{J. Chem. Inf. Model.}, 2010, \textbf{50}, 742--754}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-mcnemar1947}{}}%
-\CSLLeftMargin{41 }%
+\CSLLeftMargin{39 }%
 \CSLRightInline{\href{https://doi.org/10.1007/BF02295996}{Q. McNemar,
 \emph{Psychometrika}, 1947, \textbf{12}, 153--157}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-holm1979}{}}%
-\CSLLeftMargin{42 }%
+\CSLLeftMargin{40 }%
 \CSLRightInline{S. Holm, \emph{Scand. J. Stat.}, 1979, \textbf{6},
 65--70.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-xu2024contamination}{}}%
-\CSLLeftMargin{43 }%
+\CSLLeftMargin{41 }%
 \CSLRightInline{C. Xu, S. Guan, D. Greene and M.-T. Kechadi,
 \emph{arXiv}, 2024, preprint, DOI:
 \href{https://doi.org/10.48550/arXiv.2406.04244}{10.48550/arXiv.2406.04244}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-williamson2024mpnn}{}}%
-\CSLLeftMargin{44 }%
+\CSLLeftMargin{42 }%
 \CSLRightInline{\href{https://doi.org/10.1016/j.jmr.2024.107795}{D.
 Williamson, S. Ponte, I. Iglesias, N. Tonge, C. Cobas and E. K. Kemsley,
 \emph{J. Magn. Reson.}, 2024, \textbf{368}, 107795}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-han2024dftgnn}{}}%
-\CSLLeftMargin{45 }%
+\CSLLeftMargin{43 }%
 \CSLRightInline{\href{https://doi.org/10.1021/acs.jctc.4c00422}{C. Han,
 D. Zhang, S. Xia and Y. Zhang, \emph{J. Chem. Theory Comput.}, 2024,
 \textbf{20}, 5250--5258}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-cohen2023delta50}{}}%
-\CSLLeftMargin{46 }%
+\CSLLeftMargin{44 }%
 \CSLRightInline{\href{https://doi.org/10.3390/molecules28062449}{R. D.
 Cohen, J. S. Wood, Y.-H. Lam, A. V. Buevich, E. C. Sherer, M. Reibarkh,
 R. T. Williamson and G. E. Martin, \emph{Molecules}, 2023, \textbf{28},
 2449}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-wang2023selfconsistency}{}}%
-\CSLLeftMargin{47 }%
+\CSLLeftMargin{45 }%
 \CSLRightInline{X. Wang, J. Wei, D. Schuurmans, Q. Le, E. Chi, S.
 Narang, A. Chowdhery and D. Zhou, in \emph{International Conference on
 Learning Representations (ICLR)}, 2023.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-bremser1978hose}{}}%
-\CSLLeftMargin{48 }%
+\CSLLeftMargin{46 }%
 \CSLRightInline{\href{https://doi.org/10.1016/S0003-2670(01)83100-7}{W.
 Bremser, \emph{Anal. Chim. Acta}, 1978, \textbf{103}, 355--365}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-kuhn2015nmrshiftdb2}{}}%
-\CSLLeftMargin{49 }%
+\CSLLeftMargin{47 }%
 \CSLRightInline{\href{https://doi.org/10.1002/mrc.4263}{S. Kuhn and N.
 E. Schlörer, \emph{Magn. Reson. Chem.}, 2015, \textbf{53}, 582--589}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-xu2025nmrbench}{}}%
-\CSLLeftMargin{50 }%
+\CSLLeftMargin{48 }%
 \CSLRightInline{\href{https://doi.org/10.1038/s43588-025-00783-z}{F. Xu,
 W. Guo, F. Wang, L. Yao, H. Wang, F. Tang, Z. Gao, L. Zhang, W. E, Z.-Q.
 Tian and J. Cheng, \emph{Nat. Comput. Sci.}, 2025, \textbf{5},
 292--300}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-wagen2026simtools}{}}%
-\CSLLeftMargin{51 }%
+\CSLLeftMargin{49 }%
 \CSLRightInline{C. Wagen,
 \emph{\href{https://www.rowansci.com/blog/simulation-tools-improve-agent-problem-solving}{Simulation
 tools improve agent problem-solving}}, Rowan Scientific, 2026.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-adams2026magnet}{}}%
-\CSLLeftMargin{52 }%
+\CSLLeftMargin{50 }%
 \CSLRightInline{K. Adams, C. C. Wagen, J. Wolford, M. H. Sak, J. Saurí,
 Z. Feng, A. S. Bhadauria, M. A. Bailey, J. S. Downs, S. Z. Li, A. I.
 Liu, T. Smidt, R. S. Paton, R. Y. Liu, C. W. Coley and E. E. Kwan,
@@ -1780,7 +1835,7 @@ Liu, T. Smidt, R. S. Paton, R. Y. Liu, C. W. Coley and E. E. Kwan,
 \href{https://doi.org/10.26434/chemrxiv.15005989/v1}{10.26434/chemrxiv.15005989/v1}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-novitskiy2022peculiar}{}}%
-\CSLLeftMargin{53 }%
+\CSLLeftMargin{51 }%
 \CSLRightInline{\href{https://doi.org/10.1021/acs.joc.2c00749}{I. M.
 Novitskiy and A. G. Kutateladze, \emph{J. Org. Chem.}, 2022,
 \textbf{87}, 8589--8598}.}
@@ -1793,9 +1848,9 @@ Novitskiy and A. G. Kutateladze, \emph{J. Org. Chem.}, 2022,
 
 \includegraphics[width=3.15in,height=1.57in]{figures/graphical_abstract.pdf}
 
-IRSpectra-Bench and IRexp on real literature IR + ¹H + ¹³C: candidate
-recall, not verification, limits LLM elucidation --- the true structure
-is proposed for 34\% of 194 compounds and, once proposed, selected 89\%
-of the time, lifting top-1 from 28\% to 30\%.
+IRexp and IRSpectra-Bench: redistributable experimental IR band lists
+and a blind peak-list protocol --- candidate recall (34\%), not
+verification (89\% once proposed), binds LLM elucidation; top-1 28\% →
+30\% on 194 compounds.
 
 \end{document}

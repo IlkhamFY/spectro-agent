@@ -133,7 +133,9 @@ groups but does not generate candidate structures. We do not score Spectro, NMIR
 on IRSpectra-Bench ([@sec:limitations]); the resource is designed so those baselines can be
 added under one scorer.
 
-**LLM agents and puzzle benches.** Off-the-shelf and multimodal LLMs[@kamber2026chemist;
+**LLM agents and puzzle benches.** LLM agents already plan syntheses
+(ChemCrow[@mbran2024chemcrow], Coscientist[@boiko2023coscientist]) and call elucidation
+routines; we measure what one returns. Off-the-shelf and multimodal LLMs[@kamber2026chemist;
 @su2025spectrallm; @shen2025specmol; @zhuang2025treesearch], puzzle benchmarks
 (MolPuzzle[@guo2024molpuzzle]), and agentic IR interpreters (IR-Agent[@noh2025iragent];
 Priessner *et al.*[@priessner2026reasoning]) improve *how* a model reads spectra or re-ranks
@@ -238,8 +240,8 @@ representations (canonical SMILES, InChIKey, SELFIES). Fine-tuning against IRSpe
 should use `data/train_no_bench.jsonl.gz` (or rebuild with
 `contrib/generator_probe/build_exp_manifest.py`) so benchmark InChIKeys are withheld.
 Licence pools are separable (`scripts/split_license_pools.py`); cite the Zenodo deposit once
-minted and attribute sources via each record’s `source_doi` ([@sec:data-availability]
-below; Hugging Face mirror `ilkhamfy/IRexp`).
+minted and attribute sources via each record’s `source_doi` (see Data availability;
+Hugging Face mirror `ilkhamfy/IRexp`).
 
 ## Benchmark design (IRSpectra-Bench) {#sec:benchmark-design-irspectra-bench}
 
@@ -754,7 +756,7 @@ and [@sec:recall-wall-task-intrinsic]), writing — review and editing.
 
 There are no conflicts to declare.
 
-## Data availability {#sec:data-availability}
+## Data availability
 
 Data, frozen predictions, scoring scripts and figure regeneration are in the project
 repository ([github.com/IlkhamFY/spectro-agent](https://github.com/IlkhamFY/spectro-agent));

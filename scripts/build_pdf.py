@@ -553,30 +553,18 @@ def header():
              # break inside displayed maths, and neither document sets a display -- no
              # equation, align, gather or \[ in either .tex.)
              r"\clubpenalty=10000", r"\widowpenalty=10000",
-             # placeins: targeted \FloatBarrier in postprocess (before back-matter
-             # sections) so a deferred table* cannot leave Data availability with a
-             # blank column while Table 11 floats overleaf. Not [section] — that dumps
-             # every pending float at every \section and creates float-only pages.
+             # placeins: targeted \FloatBarrier in postprocess (before
+             # back-matter only). Not [section] — that dumps float-only pages.
              r"\usepackage{placeins}",
-             # A heading stranded with no body at a column foot (§2 on p2; §6 mid-page)
-             # is the same defect one level up from a widow line. Reserve heading + body.
-             # Section: reserve heading + body; keep club/widow absolute.
-             r"\pretocmd{\section}{\needspace{6\baselineskip}}{}{}",
-             # Subsection: light needspace + relaxed club/widow so §2.2 can open in the
-             # band left under Motivation (p2). At clubpenalty=10000 alone, Construction
-             # refused the ~45pt remainder and jumped columns.
+             # Heading + a few body lines. Keep at 4: 6\baselineskip pushed
+             # §2 entirely into the right column and left a ~320pt blank (p2).
+             r"\pretocmd{\section}{\needspace{4\baselineskip}}{}{}",
+             # Light needspace + relaxed club/widow so a subsection can open
+             # in a short leftover band (Construction under Motivation, p2).
              r"\pretocmd{\subsection}{\needspace{2\baselineskip}"
              r"\clubpenalty=2000\widowpenalty=2000}{}{}",
              r"\pretocmd{\subsubsection}{\needspace{2\baselineskip}"
              r"\clubpenalty=2000\widowpenalty=2000}{}{}",
-             # Hyphenations TeX gets wrong in this vocabulary, each seen broken in the
-             # built PDF: "regioi-somers", "McNe-mar", "IR-exp".
-             #
-             # "regioisomeric" and "randomisation" were listed here too and neither can
-             # ever be reached: the first appears in no document, and the second only
-             # ever appears as "Y-randomisation", where the explicit hyphen ends the word
-             # as far as TeX's pattern matching is concerned, so the exception is never
-             # consulted. The break that was actually seen is the one at that hyphen.
              r"\hyphenation{regio-isomer regio-isomers McNemar"
              r" InChI-Key IRexp nitro-phenyl HOSE Che-mo-tion}",
              # Long unbreakable DOIs in the reference list cannot hyphenate, so a

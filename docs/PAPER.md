@@ -554,6 +554,10 @@ and top-1 28.4% → 35.1% (McNemar p=0.015; [@sfig:generator-probe]). Zero-shot 
 fine-tuning recovers 0/248; with it, 25%. NMR-Solver (52.9%)[@jin2025nmrsolver] and trained
 IR transformers (63.8%)[@alberts2025benchmarks] confirm the task is not bound at 28–30%.
 
+```{=latex}
+\needspace{8\baselineskip}
+```
+
 ## The decomposition across the published literature {#sec:literature-decomposition}
 
 The split measured above applies to any system reporting top-1 = *a* and top-*k* = *b*:

@@ -136,7 +136,9 @@
 \clubpenalty=10000
 \widowpenalty=10000
 \usepackage{placeins}
-\pretocmd{\section}{\needspace{6\baselineskip}}{}{}
+\pretocmd{\section}{\needspace{4\baselineskip}}{}{}
+\pretocmd{\subsection}{\needspace{2\baselineskip}\clubpenalty=2000\widowpenalty=2000}{}{}
+\pretocmd{\subsubsection}{\needspace{2\baselineskip}\clubpenalty=2000\widowpenalty=2000}{}{}
 \hyphenation{regio-isomer regio-isomers McNemar InChI-Key IRexp nitro-phenyl HOSE Che-mo-tion}
 \ifcsdef{CSLRightInline}{\AtBeginEnvironment{CSLReferences}{\sloppy\hypersetup{linkcolor=black,urlcolor=black,citecolor=black}}\renewcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\raggedright #1}\break}}{}
 \newcommand{\relspaced}[1]{\leavevmode\unskip\,\ensuremath{#1}\hskip0.16667em\relax\ignorespaces}
@@ -1132,6 +1134,8 @@ recovers 0/248; with it, 25\%. NMR-Solver
 and trained IR transformers
 (63.8\%)\textsuperscript{\protect\hyperlink{ref-alberts2025benchmarks}{18}}
 confirm the task is not bound at 28--30\%.
+
+\needspace{8\baselineskip}
 
 \hypertarget{the-decomposition-across-the-published-literature}{%
 \section{6. The decomposition across the published

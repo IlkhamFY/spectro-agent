@@ -11,6 +11,7 @@ python scripts/check_manuscript.py     # gates A–M, then the pending list belo
 python scripts/verify_statistics.py    # every hand-rolled statistic vs SciPy
 python scripts/crossref.py docs/PAPER.md   # every figure/table/section reference resolves
 python scripts/build_pdf.py            # docs/paper.pdf, docs/paper.tex, docs/paper_esi.pdf
+python scripts/check_layout.py         # typographic layout gate (margins, orphans, table splits)
 python scripts/make_all_figures.sh     # regenerate every figure plate (PNG + PDF)
 ```
 

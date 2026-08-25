@@ -134,6 +134,18 @@ Agreed length cuts on `docs/PAPER.md` (main text only; ESI retained displaced de
 | (7) | within-compound control (n=20, p=0.25) → one sentence | applied |
 | (8) | ECFP aside in Discussion | applied (with (3); Praski bib dropped) |
 
+## 8. Combined figure plates (2026-08-25)
+
+Nature-style multi-panel figures to reduce float churn and tighten the narrative:
+
+| New plate | Replaces | Panels |
+|---|---|---|
+| `fig_robustness` | `fig_contamination` + `fig7_crossvendor` | (a) formula-only, (b) recency, (c) vendor recall, (d) recall–precision |
+| `fig_forward_verify` | `fig_mechanism` + `fig3_method` | (a–c) regioisomer mechanism, (d) inference ladder |
+
+Main-text figure count: **7 → 5** (plus graphical abstract). Generators:
+`scripts/make_fig_robustness.py`, `scripts/make_fig_forward_verify.py`.
+
 ## 7. Front-matter typography (2026-08-25 audit)
 
 ### Email and affiliation placement

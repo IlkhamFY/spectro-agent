@@ -1,0 +1,1216 @@
+{
+ "summary": {
+  "sampled": 200,
+  "fetched": 200,
+  "pool": 119345,
+  "seed": 0,
+  "records_scored": 200,
+  "bands_total": 2261,
+  "bands_confirmed": 2250,
+  "band_fidelity": 0.9951,
+  "records_fully_confirmed": 196,
+  "record_fidelity": 0.98
+ },
+ "records": [
+  {
+   "pmcid": "PMC6155749",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 4
+  },
+  {
+   "pmcid": "PMC6645537",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 4
+  },
+  {
+   "pmcid": "PMC10515382",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC9611534",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC3511039",
+   "status": "ok",
+   "bands": 12,
+   "confirmed": 12
+  },
+  {
+   "pmcid": "PMC5803144",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC5713685",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 1
+  },
+  {
+   "pmcid": "PMC12459522",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC12856985",
+   "status": "ok",
+   "bands": 31,
+   "confirmed": 31
+  },
+  {
+   "pmcid": "PMC9959676",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC9181980",
+   "status": "ok",
+   "bands": 33,
+   "confirmed": 33
+  },
+  {
+   "pmcid": "PMC8779062",
+   "status": "ok",
+   "bands": 36,
+   "confirmed": 36
+  },
+  {
+   "pmcid": "PMC9654144",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC11990103",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC3740709",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC10142801",
+   "status": "ok",
+   "bands": 12,
+   "confirmed": 12
+  },
+  {
+   "pmcid": "PMC7735735",
+   "status": "ok",
+   "bands": 9,
+   "confirmed": 9
+  },
+  {
+   "pmcid": "PMC6044920",
+   "status": "ok",
+   "bands": 10,
+   "confirmed": 10
+  },
+  {
+   "pmcid": "PMC9043339",
+   "status": "ok",
+   "bands": 41,
+   "confirmed": 41
+  },
+  {
+   "pmcid": "PMC5793057",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC9941895",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC7807778",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC10682633",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC6270232",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC8746855",
+   "status": "ok",
+   "bands": 18,
+   "confirmed": 18
+  },
+  {
+   "pmcid": "PMC8537530",
+   "status": "ok",
+   "bands": 33,
+   "confirmed": 33
+  },
+  {
+   "pmcid": "PMC4942450",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 4
+  },
+  {
+   "pmcid": "PMC6149949",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC4208674",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC5367011",
+   "status": "ok",
+   "bands": 16,
+   "confirmed": 16
+  },
+  {
+   "pmcid": "PMC7248765",
+   "status": "ok",
+   "bands": 16,
+   "confirmed": 16
+  },
+  {
+   "pmcid": "PMC12707369",
+   "status": "ok",
+   "bands": 13,
+   "confirmed": 13
+  },
+  {
+   "pmcid": "PMC6270196",
+   "status": "ok",
+   "bands": 14,
+   "confirmed": 14
+  },
+  {
+   "pmcid": "PMC6263350",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC9458958",
+   "status": "ok",
+   "bands": 25,
+   "confirmed": 25
+  },
+  {
+   "pmcid": "PMC8465707",
+   "status": "ok",
+   "bands": 35,
+   "confirmed": 35
+  },
+  {
+   "pmcid": "PMC9964123",
+   "status": "ok",
+   "bands": 9,
+   "confirmed": 9
+  },
+  {
+   "pmcid": "PMC9921744",
+   "status": "ok",
+   "bands": 10,
+   "confirmed": 10
+  },
+  {
+   "pmcid": "PMC6155752",
+   "status": "ok",
+   "bands": 19,
+   "confirmed": 19
+  },
+  {
+   "pmcid": "PMC6272598",
+   "status": "ok",
+   "bands": 12,
+   "confirmed": 12
+  },
+  {
+   "pmcid": "PMC9671780",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 4
+  },
+  {
+   "pmcid": "PMC11395534",
+   "status": "ok",
+   "bands": 11,
+   "confirmed": 11
+  },
+  {
+   "pmcid": "PMC6273257",
+   "status": "ok",
+   "bands": 11,
+   "confirmed": 11
+  },
+  {
+   "pmcid": "PMC4189708",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 3
+  },
+  {
+   "pmcid": "PMC3898830",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 4
+  },
+  {
+   "pmcid": "PMC11741150",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC7839787",
+   "status": "ok",
+   "bands": 20,
+   "confirmed": 20
+  },
+  {
+   "pmcid": "PMC3458763",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC10337035",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC9034371",
+   "status": "ok",
+   "bands": 13,
+   "confirmed": 13
+  },
+  {
+   "pmcid": "PMC3371053",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC8621334",
+   "status": "ok",
+   "bands": 9,
+   "confirmed": 9
+  },
+  {
+   "pmcid": "PMC9881646",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC5109010",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC6171417",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC6271760",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC9091763",
+   "status": "ok",
+   "bands": 23,
+   "confirmed": 23
+  },
+  {
+   "pmcid": "PMC12529405",
+   "status": "ok",
+   "bands": 26,
+   "confirmed": 26
+  },
+  {
+   "pmcid": "PMC9268013",
+   "status": "ok",
+   "bands": 12,
+   "confirmed": 12
+  },
+  {
+   "pmcid": "PMC11314088",
+   "status": "ok",
+   "bands": 23,
+   "confirmed": 23
+  },
+  {
+   "pmcid": "PMC5466188",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC6691772",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC9229117",
+   "status": "ok",
+   "bands": 10,
+   "confirmed": 10
+  },
+  {
+   "pmcid": "PMC7751403",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC8637602",
+   "status": "ok",
+   "bands": 29,
+   "confirmed": 29
+  },
+  {
+   "pmcid": "PMC9783606",
+   "status": "ok",
+   "bands": 10,
+   "confirmed": 10
+  },
+  {
+   "pmcid": "PMC10420644",
+   "status": "ok",
+   "bands": 23,
+   "confirmed": 23
+  },
+  {
+   "pmcid": "PMC9635472",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC12790318",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC6272846",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 4
+  },
+  {
+   "pmcid": "PMC10745683",
+   "status": "ok",
+   "bands": 22,
+   "confirmed": 22
+  },
+  {
+   "pmcid": "PMC12202350",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 3
+  },
+  {
+   "pmcid": "PMC3093256",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC12525534",
+   "status": "ok",
+   "bands": 16,
+   "confirmed": 16
+  },
+  {
+   "pmcid": "PMC8184976",
+   "status": "ok",
+   "bands": 14,
+   "confirmed": 14
+  },
+  {
+   "pmcid": "PMC5651464",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC9041119",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC10820836",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 4
+  },
+  {
+   "pmcid": "PMC8388771",
+   "status": "ok",
+   "bands": 20,
+   "confirmed": 20
+  },
+  {
+   "pmcid": "PMC11085150",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 4
+  },
+  {
+   "pmcid": "PMC10489029",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC11357535",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC6278647",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC6645350",
+   "status": "ok",
+   "bands": 25,
+   "confirmed": 25
+  },
+  {
+   "pmcid": "PMC6152388",
+   "status": "ok",
+   "bands": 16,
+   "confirmed": 16
+  },
+  {
+   "pmcid": "PMC10975639",
+   "status": "ok",
+   "bands": 12,
+   "confirmed": 12
+  },
+  {
+   "pmcid": "PMC9963659",
+   "status": "ok",
+   "bands": 9,
+   "confirmed": 9
+  },
+  {
+   "pmcid": "PMC11719499",
+   "status": "ok",
+   "bands": 9,
+   "confirmed": 9
+  },
+  {
+   "pmcid": "PMC8618202",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC11206297",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC7925306",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC8541513",
+   "status": "ok",
+   "bands": 18,
+   "confirmed": 18
+  },
+  {
+   "pmcid": "PMC6648081",
+   "status": "ok",
+   "bands": 15,
+   "confirmed": 15
+  },
+  {
+   "pmcid": "PMC11314410",
+   "status": "ok",
+   "bands": 9,
+   "confirmed": 9
+  },
+  {
+   "pmcid": "PMC8746855",
+   "status": "ok",
+   "bands": 14,
+   "confirmed": 14
+  },
+  {
+   "pmcid": "PMC10634270",
+   "status": "ok",
+   "bands": 12,
+   "confirmed": 12
+  },
+  {
+   "pmcid": "PMC9499324",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC10337035",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC4012452",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC10058827",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC6010129",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC6269906",
+   "status": "ok",
+   "bands": 11,
+   "confirmed": 11
+  },
+  {
+   "pmcid": "PMC6891773",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC10974089",
+   "status": "ok",
+   "bands": 11,
+   "confirmed": 11
+  },
+  {
+   "pmcid": "PMC12621546",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC9696832",
+   "status": "ok",
+   "bands": 10,
+   "confirmed": 10
+  },
+  {
+   "pmcid": "PMC5138603",
+   "status": "ok",
+   "bands": 10,
+   "confirmed": 10
+  },
+  {
+   "pmcid": "PMC6257395",
+   "status": "ok",
+   "bands": 18,
+   "confirmed": 18
+  },
+  {
+   "pmcid": "PMC6587447",
+   "status": "ok",
+   "bands": 9,
+   "confirmed": 9
+  },
+  {
+   "pmcid": "PMC10486202",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC11990475",
+   "status": "ok",
+   "bands": 12,
+   "confirmed": 12
+  },
+  {
+   "pmcid": "PMC10604617",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC8003325",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC12717256",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 4
+  },
+  {
+   "pmcid": "PMC8474116",
+   "status": "ok",
+   "bands": 13,
+   "confirmed": 13
+  },
+  {
+   "pmcid": "PMC9953367",
+   "status": "ok",
+   "bands": 10,
+   "confirmed": 10
+  },
+  {
+   "pmcid": "PMC9352262",
+   "status": "ok",
+   "bands": 16,
+   "confirmed": 16
+  },
+  {
+   "pmcid": "PMC9913425",
+   "status": "ok",
+   "bands": 12,
+   "confirmed": 12
+  },
+  {
+   "pmcid": "PMC9978247",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC5238575",
+   "status": "ok",
+   "bands": 15,
+   "confirmed": 15
+  },
+  {
+   "pmcid": "PMC6046414",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC10572347",
+   "status": "ok",
+   "bands": 13,
+   "confirmed": 13
+  },
+  {
+   "pmcid": "PMC11775649",
+   "status": "ok",
+   "bands": 14,
+   "confirmed": 14
+  },
+  {
+   "pmcid": "PMC6264743",
+   "status": "ok",
+   "bands": 9,
+   "confirmed": 9
+  },
+  {
+   "pmcid": "PMC8362065",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC6681191",
+   "status": "ok",
+   "bands": 11,
+   "confirmed": 11
+  },
+  {
+   "pmcid": "PMC6259152",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 2
+  },
+  {
+   "pmcid": "PMC10515382",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC10729023",
+   "status": "ok",
+   "bands": 14,
+   "confirmed": 14
+  },
+  {
+   "pmcid": "PMC4159792",
+   "status": "ok",
+   "bands": 13,
+   "confirmed": 13
+  },
+  {
+   "pmcid": "PMC6832483",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC9146154",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC9913425",
+   "status": "ok",
+   "bands": 11,
+   "confirmed": 11
+  },
+  {
+   "pmcid": "PMC6760471",
+   "status": "ok",
+   "bands": 15,
+   "confirmed": 15
+  },
+  {
+   "pmcid": "PMC6332033",
+   "status": "ok",
+   "bands": 24,
+   "confirmed": 24
+  },
+  {
+   "pmcid": "PMC9042709",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC5603865",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC7763829",
+   "status": "ok",
+   "bands": 12,
+   "confirmed": 12
+  },
+  {
+   "pmcid": "PMC11555253",
+   "status": "ok",
+   "bands": 17,
+   "confirmed": 17
+  },
+  {
+   "pmcid": "PMC9033420",
+   "status": "ok",
+   "bands": 15,
+   "confirmed": 15
+  },
+  {
+   "pmcid": "PMC6722650",
+   "status": "ok",
+   "bands": 9,
+   "confirmed": 9
+  },
+  {
+   "pmcid": "PMC5499274",
+   "status": "ok",
+   "bands": 11,
+   "confirmed": 11
+  },
+  {
+   "pmcid": "PMC8223417",
+   "status": "ok",
+   "bands": 9,
+   "confirmed": 9
+  },
+  {
+   "pmcid": "PMC8949049",
+   "status": "ok",
+   "bands": 17,
+   "confirmed": 17
+  },
+  {
+   "pmcid": "PMC9134430",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 4
+  },
+  {
+   "pmcid": "PMC3985953",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC6751728",
+   "status": "ok",
+   "bands": 11,
+   "confirmed": 11
+  },
+  {
+   "pmcid": "PMC12389534",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC6244963",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 4
+  },
+  {
+   "pmcid": "PMC6503471",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC9865898",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC6385102",
+   "status": "ok",
+   "bands": 16,
+   "confirmed": 16
+  },
+  {
+   "pmcid": "PMC4120972",
+   "status": "ok",
+   "bands": 24,
+   "confirmed": 24
+  },
+  {
+   "pmcid": "PMC9495654",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC10062711",
+   "status": "ok",
+   "bands": 9,
+   "confirmed": 9
+  },
+  {
+   "pmcid": "PMC4033657",
+   "status": "ok",
+   "bands": 9,
+   "confirmed": 9
+  },
+  {
+   "pmcid": "PMC5603865",
+   "status": "ok",
+   "bands": 11,
+   "confirmed": 11
+  },
+  {
+   "pmcid": "PMC6268433",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC6151568",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC9990070",
+   "status": "ok",
+   "bands": 16,
+   "confirmed": 16
+  },
+  {
+   "pmcid": "PMC10384011",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC9056317",
+   "status": "ok",
+   "bands": 13,
+   "confirmed": 13
+  },
+  {
+   "pmcid": "PMC11369887",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC3640392",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC7011726",
+   "status": "ok",
+   "bands": 33,
+   "confirmed": 33
+  },
+  {
+   "pmcid": "PMC8227400",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC4638191",
+   "status": "ok",
+   "bands": 12,
+   "confirmed": 12
+  },
+  {
+   "pmcid": "PMC9076191",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC8467237",
+   "status": "ok",
+   "bands": 11,
+   "confirmed": 11
+  },
+  {
+   "pmcid": "PMC11054274",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 4
+  },
+  {
+   "pmcid": "PMC9883075",
+   "status": "ok",
+   "bands": 35,
+   "confirmed": 35
+  },
+  {
+   "pmcid": "PMC6272747",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC7177888",
+   "status": "ok",
+   "bands": 15,
+   "confirmed": 15
+  },
+  {
+   "pmcid": "PMC9064565",
+   "status": "ok",
+   "bands": 11,
+   "confirmed": 11
+  },
+  {
+   "pmcid": "PMC12429123",
+   "status": "ok",
+   "bands": 11,
+   "confirmed": 11
+  },
+  {
+   "pmcid": "PMC9034371",
+   "status": "ok",
+   "bands": 28,
+   "confirmed": 28
+  },
+  {
+   "pmcid": "PMC5519776",
+   "status": "ok",
+   "bands": 24,
+   "confirmed": 24
+  },
+  {
+   "pmcid": "PMC6017942",
+   "status": "ok",
+   "bands": 10,
+   "confirmed": 10
+  },
+  {
+   "pmcid": "PMC7590975",
+   "status": "ok",
+   "bands": 15,
+   "confirmed": 15
+  },
+  {
+   "pmcid": "PMC6255316",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC13163398",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 4
+  },
+  {
+   "pmcid": "PMC6009898",
+   "status": "ok",
+   "bands": 13,
+   "confirmed": 13
+  },
+  {
+   "pmcid": "PMC9598367",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC6332272",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC5501818",
+   "status": "ok",
+   "bands": 9,
+   "confirmed": 9
+  },
+  {
+   "pmcid": "PMC9462177",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC6061035",
+   "status": "ok",
+   "bands": 81,
+   "confirmed": 81
+  },
+  {
+   "pmcid": "PMC10475880",
+   "status": "ok",
+   "bands": 13,
+   "confirmed": 13
+  },
+  {
+   "pmcid": "PMC6641225",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC12865774",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC6009887",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC11270555",
+   "status": "ok",
+   "bands": 12,
+   "confirmed": 12
+  },
+  {
+   "pmcid": "PMC8596671",
+   "status": "ok",
+   "bands": 13,
+   "confirmed": 13
+  },
+  {
+   "pmcid": "PMC10096987",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC11206844",
+   "status": "ok",
+   "bands": 8,
+   "confirmed": 8
+  },
+  {
+   "pmcid": "PMC9607420",
+   "status": "ok",
+   "bands": 5,
+   "confirmed": 5
+  },
+  {
+   "pmcid": "PMC7137441",
+   "status": "ok",
+   "bands": 7,
+   "confirmed": 7
+  },
+  {
+   "pmcid": "PMC12498222",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  },
+  {
+   "pmcid": "PMC10018501",
+   "status": "ok",
+   "bands": 4,
+   "confirmed": 4
+  },
+  {
+   "pmcid": "PMC6332050",
+   "status": "ok",
+   "bands": 6,
+   "confirmed": 6
+  }
+ ]
+}

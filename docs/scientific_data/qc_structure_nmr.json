@@ -1,16 +1,62 @@
 {
-  "description": "Structure–NMR consistency and IR range QC for IRexp Scientific Data Technical Validation",
+  "description": "IRexp Scientific Data Technical Validation QC package",
   "date": "2026-08-26",
-  "scripts_note": "One-off audit; regenerate with the same seeds for reproducibility",
   "transcription_fidelity": {
-    "source": "data/audit/extraction_audit.json",
-    "command": "python3 scripts/audit_extraction.py --n 60 --seed 0",
-    "sampled_records": 60,
-    "bands_confirmed": "560/560",
-    "records_fully_confirmed": "60/60",
-    "pool": "PMC only"
+    "n60": {
+      "source": "data/audit/extraction_audit.json",
+      "command": "python3 scripts/audit_extraction.py --n 60 --seed 0",
+      "sampled_records": 60,
+      "bands_confirmed": "560/560",
+      "records_fully_confirmed": "60/60",
+      "band_fidelity": 1.0,
+      "record_fidelity": 1.0,
+      "pool": "PMC only"
+    },
+    "n200": {
+      "source": "data/audit/extraction_audit_n200.json",
+      "command": "python3 scripts/audit_extraction.py --n 200 --seed 0",
+      "sampled_records": 200,
+      "bands_confirmed": "2250/2261",
+      "records_fully_confirmed": "196/200",
+      "band_fidelity": 0.9951,
+      "record_fidelity": 0.98,
+      "pool": "PMC only",
+      "note": "Enlarged sample; Europe PMC full-text re-fetch; \u00b11 cm\u207b\u00b9 integer match"
+    }
   },
-  "structure_nmr_consistency": {
+  "extraction_recall_proxy": {
+    "source": "data/audit/extraction_recall_proxy.json",
+    "command": "python3 scripts/audit_extraction_recall.py --n 40 --seed 0",
+    "method": "Automatic recall proxy on the harvest path: re-fetch PMC-OA S3 plain text (fallback Europe PMC XML); re-run extract_records; compare IR band-sets to released IRexp rows for the same PMCID (\u00b11 cm\u207b\u00b9). Not a human recall audit.",
+    "sampled_papers": 40,
+    "fetched": 40,
+    "pool_pmcs": 15416,
+    "seed": 0,
+    "n": 40,
+    "text_sources": {
+      "s3": 40
+    },
+    "released_bands_confirmed_in_reextract": {
+      "hit": 2640,
+      "total": 2640,
+      "rate": 1.0
+    },
+    "reextract_lists_matched_to_release": {
+      "matched": 244,
+      "total": 258,
+      "rate": 0.9457
+    },
+    "released_lists_unmatched_total": 0,
+    "released_lists_total": 248,
+    "papers_possible_under_extraction": 4,
+    "papers_all_released_lists_recovered": {
+      "count": 40,
+      "of": 40,
+      "rate": 1.0
+    },
+    "list_level_recall_proxy": 1.0
+  },
+  "structure_nmr_consistency_sample": {
     "corpus": "data/irexp_resolved/irexp_resolved.jsonl.gz",
     "seed": 0,
     "c13": {
@@ -26,7 +72,36 @@
       "rate": 0.034,
       "skipped_unparseable_integral": 3
     },
-    "method": "Comma/semicolon-split 13C δ tokens (leading float in [-10,235]); RDKit carbon/hydrogen counts; 1H integrals from (nH) patterns"
+    "method": "Comma/semicolon-split 13C \u03b4 tokens (leading float in [-10,235]); RDKit carbon/hydrogen counts; 1H integrals from (nH) patterns"
+  },
+  "structure_nmr_quarantine_full_resolved": {
+    "description": "Full-corpus structure\u2013NMR/IR consistency quarantine on irexp_resolved",
+    "date": "2026-08-26",
+    "corpus": "data/irexp_resolved/irexp_resolved.jsonl.gz",
+    "n_records": 43060,
+    "n_with_c_nmr": 34231,
+    "n_with_h_nmr": 39672,
+    "n_quarantined": 1882,
+    "quarantine_rate_of_resolved": 0.0437,
+    "c13_peaks_gt_carbons": {
+      "count": 1194,
+      "among_with_c_nmr": 34231,
+      "rate": 0.0349
+    },
+    "h1_integration_gt_formula_plus_2": {
+      "count": 1141,
+      "among_with_h_nmr": 39672,
+      "rate": 0.0288
+    },
+    "ir_band_out_of_range": 0,
+    "smiles_unparseable": 0,
+    "reason_counts": {
+      "h1_integration_gt_formula_plus_2": 1141,
+      "c13_peaks_gt_carbons": 1194
+    },
+    "quarantine_file": "data/audit/structure_nmr_quarantine.jsonl.gz",
+    "method": "parse_h_peaks/parse_c_peaks on author strings; RDKit C/H counts; fail if 13C peak count > carbons, or 1H integral sum > formula H+2, or any IR band outside [350,4000] cm-1, or SMILES unparseable",
+    "note": "Quarantine is diagnostic \u2014 release files are unchanged. Re-users should filter these IDs before supervised training."
   },
   "ir_physical_window": {
     "corpus": "data/irexp/irexp.jsonl.gz",
@@ -44,5 +119,12 @@
     "full_quadruples": 33201,
     "median_bands_pmc": 9,
     "median_bands_chemotion": 39
+  },
+  "harvest_provenance": {
+    "primary_s3_harvest_window": "2026-06-07 (UTC); incremental snapshots through evening of 2026-06-07",
+    "chemotion_ingest_date": "2026-06-07",
+    "discovery": "NCBI esearch with open access[filter] + IR characterisation query; not a walk of oa_comm/oa_noncomm package trees",
+    "fetch": "s3://pmc-oa-opendata flat keys PMC{id}.{v}/PMC{id}.{v}.txt via HTTPS",
+    "licence_alignment": "Post-hoc Europe PMC licence join (scripts/join_pmc_licences.py) segregates commercial vs NC vs empty/unknown; equivalent intent to oa_comm vs oa_noncomm but applied at article licence field, not S3 package directory"
   }
 }

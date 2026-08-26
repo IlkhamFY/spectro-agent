@@ -144,7 +144,7 @@ Median bands: **9** (PMC), **39** (Chemotion). All **1,360,866** released IR ban
 
 ### Access
 
-- **Hugging Face:** https://huggingface.co/datasets/ilkhamfy/IRexp (public mirror; re-issue after Track 1).
+- **Hugging Face:** https://huggingface.co/datasets/ilkhamfy/IRexp (public mirror; re-issue with stamped pools — see `LICENCE_REMEDIATION.md`).
 - **GitHub development mirror:** https://github.com/IlkhamFY/spectro-agent
 - **Zenodo archival snapshot:** `[TODO: 10.5281/zenodo.XXXXXXX]` (mint after honest multi-licence metadata).
 
@@ -170,7 +170,7 @@ Every band in the full 121,233-record release lies in **[350, 4000] cm⁻¹** (0
 
 | Check | Status |
 |---|---|
-| Per-PMCID licence join + pool counts | **Pending Track 1** |
+| Per-PMCID licence join + pool counts | **Done** — `LICENCE_REMEDIATION.md`; commercial 87,617 |
 | Extraction-recall human audit (papers, not bands) | Planned (n≥30–50 papers) |
 | Larger transcription sample (n≥200) | Planned |
 | Full-corpus `quality.py` quarantine pass | Planned |
@@ -180,7 +180,7 @@ Every band in the full 121,233-record release lies in **[350, 4000] cm⁻¹** (0
 
 - **Band lists ≠ spectra.** Do not evaluate models trained on IRexp as if they had seen full absorbance curves.
 - **Separate pools by density and licence.** PMC (sparse, author-transcribed) vs Chemotion (denser, deposit peak-picked). Keep Chemotion ShareAlike constraints in mind when combining pools; combined redistribution of Chemotion-derived rows must honour CC-BY-SA-4.0.
-- **Do not assume PMC = CC-BY-4.0.** Wait for Track 1 stamps or restrict use to research compatible with mixed upstream terms and per-article attribution via `source_doi`.
+- **Do not assume PMC = CC-BY-4.0.** Filter to `license_pool == "commercial"` (or use `irexp_commercial.jsonl.gz`) for commercial redistribution; attribute via `source_doi` / `pmcid`.
 - **Training without benchmark leakage.** If using the complementary IRSpectra-Bench problems, fine-tune from `train_no_bench.jsonl.gz` (or rebuild with `scripts/build_train_no_bench.py`) so benchmark InChIKeys are withheld.
 - **Structure coverage.** Prefer `irexp_resolved` for supervised structure tasks; 64.5% of records lack SMILES.
 - **Attribution.** Cite this Data Descriptor / Zenodo DOI and attribute originating articles through each record’s `source_doi`.
@@ -191,12 +191,12 @@ IRexp numeric extracts are available at:
 
 - Hugging Face Datasets: https://huggingface.co/datasets/ilkhamfy/IRexp  
 - GitHub: https://github.com/IlkhamFY/spectro-agent (`data/irexp/`, `data/irexp_resolved/`, `data/irexp_release/`)  
-- Zenodo: `[TODO: 10.5281/zenodo.XXXXXXX]` (archival DOI at proof, after Track 1 licence metadata)
+- Zenodo: `[TODO: 10.5281/zenodo.XXXXXXX]` (archival DOI at proof; primary artifact = commercial pool, `cc-by-4.0` metadata + SA companion)
 
 Licensing summary (honest):
 
 - **Chemotion (1,888):** CC-BY-SA-4.0[@chemotion2024].  
-- **PMC (119,345):** mixed Creative Commons / PMC OA package terms — **not** uniformly CC-BY; provisional join ≈87,617 commercial / 20,938 NC / 10,781 empty-unknown (reconfirm after Track 1).  
+- **PMC (119,345):** mixed Creative Commons — stamped per article; commercial redistributable **87,617** (CC-BY/CC0); NC* **20,938** held aside; empty/unknown **10,781** excluded from commercial Zenodo (`LICENCE_REMEDIATION.md`).  
 - Only extracted numeric fields and identifiers are redistributed; source full texts are not.
 
 ## Code Availability

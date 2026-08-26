@@ -499,8 +499,8 @@ experimental IR band-list records & \textbf{121,233} \\
 \ldots of these, with ¹H and/or ¹³C NMR & 40,702 \\
 \ldots of these, with both ¹H and ¹³C (full quadruples) & 33,201 \\
 & \\
-\emph{by provenance:} author-transcribed from PMC-OA text (CC-BY) &
-119,345 \\
+\emph{by provenance:} author-transcribed from PMC-OA text (mixed CC
+terms; see Licensing) & 119,345 \\
 \emph{by provenance:} peak-picked from Chemotion ELN deposits (CC-BY-SA)
 & 1,888 \\
 \bottomrule
@@ -512,7 +512,14 @@ The pools differ: PMC records are author-transcribed (median 9 bands),
 Chemotion records peak-picked from deposited spectra (median 39); users
 training on band density should treat them apart.
 \texttt{scripts/\hspace{0pt}split\_license\_pools.py} separates them on
-\texttt{source\_doi} and stamps each record's licence.
+\texttt{source\_doi}.
+\textbf{Licensing caveat.} The PMC Open Access Subset is \emph{not}
+uniformly CC-BY: it mixes commercial-use (CC BY / CC0 / \ldots),
+CC BY-NC*, and other terms. Chemotion records are CC-BY-SA-4.0 and are
+stamped; PMC rows currently carry \texttt{source\_doi} but are not yet
+joined to per-article licences --- a Europe PMC sample of 200 IRexp
+PMCIDs found ∼73\% \texttt{cc by} and ∼19\% NC or empty. Until that join
+ships, do not treat the PMC pool as a single CC-BY-4.0 redistribution.
 
 \textbf{Extraction fidelity is measured.} On a seed-fixed random sample
 of 60 PMC-sourced records
@@ -530,12 +537,15 @@ benchmark-ready split, ≈6× the 6,833-molecule set used to train
 Spectro\textsuperscript{\protect\hyperlink{ref-chacko2024spectro}{2}}
 (Fig.~S2).
 
-\textbf{Reuse.} Each record carries \texttt{source\_doi}, licence stamp
-and resolved molecular representations (canonical SMILES, InChIKey,
-SELFIES). Fine-tuning against IRSpectra-Bench should use
+\textbf{Reuse.} Each record carries \texttt{source\_doi} and, where
+resolved, molecular representations (canonical SMILES, InChIKey,
+SELFIES). Chemotion records also carry a CC-BY-SA licence stamp; PMC
+per-article licences are not yet stamped (see caveat above).
+Fine-tuning against IRSpectra-Bench should use
 \texttt{data/\hspace{0pt}train\_no\_bench.jsonl.gz} (or rebuild with
 \texttt{contrib/\hspace{0pt}generator\_probe/\hspace{0pt}build\_exp\_manifest.py})
-so benchmark InChIKeys are withheld. Licence pools are separable
+so benchmark InChIKeys are withheld. Source pools are separable on
+\texttt{source\_doi}
 (\texttt{scripts/\hspace{0pt}split\_license\_pools.py}); cite the Zenodo
 deposit once minted and attribute sources via each record's
 \texttt{source\_doi} (see Data availability; Hugging Face mirror
@@ -1506,8 +1516,10 @@ integrity gates &
 
 
 IRexp redistributes extracted numeric data only (band lists, shifts,
-structures, source DOIs) from PMC-OA (CC-BY-4.0) and Chemotion
-(CC-BY-SA-4.0); pools are separable by \texttt{source\_doi}
+structures, source DOIs) from the PMC Open Access Subset (mixed
+Creative Commons terms --- not uniformly CC-BY; per-article licence
+join pending) and Chemotion (CC-BY-SA-4.0); source pools are separable
+by \texttt{source\_doi}
 (\texttt{scripts/\hspace{0pt}split\_license\_pools.py}). Code is MIT.
 Cite the Zenodo deposit and attribute sources via each record's
 \texttt{source\_doi}. De-leak with

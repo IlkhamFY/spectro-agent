@@ -1,0 +1,48 @@
+{
+  "description": "Structure–NMR consistency and IR range QC for IRexp Scientific Data Technical Validation",
+  "date": "2026-08-26",
+  "scripts_note": "One-off audit; regenerate with the same seeds for reproducibility",
+  "transcription_fidelity": {
+    "source": "data/audit/extraction_audit.json",
+    "command": "python3 scripts/audit_extraction.py --n 60 --seed 0",
+    "sampled_records": 60,
+    "bands_confirmed": "560/560",
+    "records_fully_confirmed": "60/60",
+    "pool": "PMC only"
+  },
+  "structure_nmr_consistency": {
+    "corpus": "data/irexp_resolved/irexp_resolved.jsonl.gz",
+    "seed": 0,
+    "c13": {
+      "sample_size": 500,
+      "scored": 500,
+      "peaks_gt_carbon_count": 17,
+      "rate": 0.034
+    },
+    "h1": {
+      "sample_size": 500,
+      "scored": 497,
+      "integration_gt_formula_plus_2": 17,
+      "rate": 0.034,
+      "skipped_unparseable_integral": 3
+    },
+    "method": "Comma/semicolon-split 13C δ tokens (leading float in [-10,235]); RDKit carbon/hydrogen counts; 1H integrals from (nH) patterns"
+  },
+  "ir_physical_window": {
+    "corpus": "data/irexp/irexp.jsonl.gz",
+    "bands_total": 1360866,
+    "out_of_range_outside_350_4000": 0,
+    "records": 121233
+  },
+  "provenance_counts": {
+    "irexp_total": 121233,
+    "pmc": 119345,
+    "chemotion": 1888,
+    "unique_pmc_accessions": 15416,
+    "seen_papers_scanned": 188016,
+    "structure_linked": 43060,
+    "full_quadruples": 33201,
+    "median_bands_pmc": 9,
+    "median_bands_chemotion": 39
+  }
+}

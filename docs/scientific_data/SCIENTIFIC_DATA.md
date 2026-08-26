@@ -14,7 +14,7 @@
 
 ## Abstract
 
-IRexp is a redistributable collection of **experimental infrared band lists** (cm⁻¹ peak positions) mined from open chemistry literature, optionally with ¹H/¹³C shifts and resolved structures. The release holds **121,233** records (119,345 PMC OA; 1,888 Chemotion/RADAR4Chem), with **43,060** structure-linked and **33,201** full IR + ¹H + ¹³C + structure quadruples. IRexp stores **numeric band lists**, not absorbance traces. Records carry `source_doi`. Licensing is **mixed** (Chemotion CC-BY-SA-4.0). A provisional Europe PMC join (Track 1 snapshot, not yet on `main`) finds **87,617** commercial-use, **20,938** non-commercial, **10,781** empty/unknown, and **1,897** ShareAlike rows — reconfirm after Track 1 merges. Reuse: multimodal training and complementary elucidation benchmarks citing this Descriptor. Data: Hugging Face `ilkhamfy/IRexp`; Zenodo `[TODO: 10.5281/zenodo.XXXXXXX]`. Code is MIT-licensed.
+IRexp is a redistributable collection of **experimental infrared band lists** (cm⁻¹ peak positions) mined from open chemistry literature, optionally with ¹H/¹³C shifts and resolved structures. The release holds **121,233** records (119,345 PMC OA; 1,888 Chemotion/RADAR4Chem), with **43,060** structure-linked and **33,201** full IR + ¹H + ¹³C + structure quadruples. IRexp stores **numeric band lists**, not absorbance traces. Records carry `source_doi` and stamped `license` / `license_pool`. Licensing is **mixed**: Europe PMC join yields **87,617** commercial (CC-BY/CC0), **20,938** non-commercial (NC*), **10,781** empty/unknown (excluded from commercial Zenodo), and **1,897** ShareAlike (Chemotion + rare PMC SA) — see `docs/scientific_data/LICENCE_REMEDIATION.md`. Reuse: multimodal training and complementary elucidation benchmarks citing this Descriptor. Data: Hugging Face `ilkhamfy/IRexp`; Zenodo `[TODO: 10.5281/zenodo.XXXXXXX]`. Code is MIT-licensed.
 
 <!-- Abstract word count target ≤170. Count on edit before submission. -->
 
@@ -39,7 +39,7 @@ Among openly redistributable *text-derived IR band lists*, IRexp is large by rec
 
 **PMC Open Access Subset.** Primary harvest uses the NCBI PMC OA bulk distribution on Amazon S3 (`s3://pmc-oa-opendata`, HTTPS endpoint `https://pmc-oa-opendata.s3.amazonaws.com`)[@pmc_oa]. A harvest snapshot records **188,016** distinct PMC identifiers scanned (`data/irexp/seen_papers.txt.gz`). The released corpus retains records from **15,416** unique `PMC:*` accessions. Extraction operates on open-access plain text / JATS available through that OA path (and Europe PMC full-text XML for validation re-fetches). The **released** IRexp DOIs are exclusively `PMC:*` accessions or the Chemotion deposit DOI; no paywalled publisher DOI appears in the 121,233-record file.
 
-PMC OA is **not** a single licence. The subset is partitioned into commercial-use, non-commercial, and other packages[@pmc_oa]. A Europe PMC licence sample of 200 unique PMCIDs drawn from IRexp found approximately 73% `cc by`, approximately 19% NC or empty licence fields, and the remainder other/empty/no-result (`data/NOTICE`). **Per-article licence join and segregation of commercial vs non-commercial pools is Track 1 work and is not yet complete** — see Data Records placeholders.
+PMC OA is **not** a single licence. The subset is partitioned into commercial-use, non-commercial, and other packages[@pmc_oa]. Every unique PMCID in IRexp (15,416) was joined to Europe PMC `license` metadata (`scripts/join_pmc_licences.py`); each record carries `license` / `license_pool`. Empty/unknown licences are **excluded** from the commercial Zenodo pool (`data/NOTICE`; `docs/scientific_data/LICENCE_REMEDIATION.md`).
 
 **Chemotion / RADAR4Chem.** **1,888** records come from the Chemotion Repository FT-IR collection deposited at RADAR4Chem (DOI `10.22000/OGoEQGlsZGElrgst`)[@chemotion2024], licensed **CC-BY-SA-4.0**. These rows are **peak lists derived from deposited experimental FT-IR spectra** (not author-transcribed experimental-section prose). They carry a stamped `license=CC-BY-SA-4.0` and `source_doi` equal to the deposit DOI. Median band count is **39** versus **9** for PMC-transcribed lists; users modelling band density should treat the pools separately.
 
@@ -67,14 +67,16 @@ Gates reject scan-range artefacts and common prose false positives (for example 
 
 Where an IUPAC or systematic name is available, names are converted with OPSIN (py2opsin)[@lowe2011opsin], canonicalised with RDKit[@landrum_rdkit], and encoded as InChIKey and SELFIES[@krenn2020selfies]. An optional PubChem[@kim2023pubchem] name fallback (`USE_PUBCHEM`) handles trivial names. Structure coverage of the full release is **35.5%** (43,060 / 121,233). The structure-complete split is shipped as `irexp_resolved`.
 
-### Licence handling (current vs planned)
+### Licence handling
 
-| Pool | Records | Stamp today | Planned (Track 1) |
-|---|---:|---|---|
-| Chemotion | 1,888 | `CC-BY-SA-4.0` | unchanged |
-| PMC | 119,345 | `license` unset / null on disk | join each PMCID → Europe PMC / PMC OA package licence; segregate commercial / NC / other; stamp every row |
+| Pool | Records | Stamp |
+|---|---:|---|
+| commercial (CC-BY + CC0) | 87,617 | `license_pool=commercial` — Zenodo primary |
+| non_commercial (CC-BY-NC*) | 20,938 | held aside |
+| sharealike (Chemotion + rare PMC SA) | 1,897 | CC-BY-SA / CC-BY-SA-4.0 |
+| empty_unknown | 10,781 | excluded from commercial deposit |
 
-`scripts/split_license_pools.py` separates Chemotion vs PMC **by DOI prefix** for physical pool files. Until Track 1 lands, treat its PMC output as “PMC-sourced”, **not** as a verified CC-BY-4.0 commercial pool (`data/NOTICE`).
+`scripts/join_pmc_licences.py` stamps every row; `scripts/split_license_pools.py` reports provenance (`pool_of`) and real `license_pool` files under `data/irexp/licence_pools/`.
 
 ### Quality tooling
 
@@ -95,7 +97,7 @@ Each IRexp record is a JSON object. Required chemistry fields for an IR entry:
 | `h_nmr` / `c_nmr` | string or null | Author-reported shift lists |
 | `smiles` / `selfies` / `inchikey` | string or null | Resolved structure encodings |
 | `has_structure` | bool | Convenience flag |
-| `license` | string or null | Stamped for Chemotion; **PMC pending Track 1** |
+| `license` / `license_pool` | string | Per-article stamp (Europe PMC join or Chemotion) |
 
 **Not included:** absorbance traces, intensities, instrument metadata beyond what appears in source text, PDFs, figures, or full article bodies.
 
@@ -126,17 +128,17 @@ Paths relative to the project repository / Hugging Face mirror.
 | Chemotion provenance | 1,888 |
 | Unique PMC accessions | 15,416 |
 
-**Licence-pool counts (provisional Track 1 join, 2026-08-26).** Europe PMC lookup over **15,416** unique PMCIDs; stamped pool files under `data/irexp/licence_pools/` (not yet merged to `main` — **reconfirm when Track 1 lands**). Sum of pools = 121,233.
+**Licence-pool counts (Europe PMC join, 2026-08-26).** Lookup over **15,416** unique PMCIDs; stamped pool files under `data/irexp/licence_pools/` (see `LICENCE_REMEDIATION.md`). Sum of pools = 121,233.
 
 | Pool file | Count | Notes |
 |---|---:|---|
-| `irexp_commercial.jsonl.gz` | **87,617** | CC BY / CC0 / commercial-use OA |
-| `irexp_non_commercial.jsonl.gz` | **20,938** | CC BY-NC* |
-| `irexp_empty_unknown.jsonl.gz` | **10,781** | empty / unresolved Europe PMC licence |
-| `irexp_other.jsonl.gz` | **0** | reserved |
+| `irexp_commercial.jsonl.gz` | **87,617** | CC-BY / CC0 — **Zenodo primary** |
+| `irexp_non_commercial.jsonl.gz` | **20,938** | CC-BY-NC* held aside |
+| `irexp_empty_unknown.jsonl.gz` | **10,781** | empty / unresolved — **excluded** from commercial deposit |
+| `irexp_other.jsonl.gz` | **0** | reserved (e.g. CC-BY-ND) |
 | `irexp_sharealike.jsonl.gz` | **1,897** | Chemotion CC-BY-SA-4.0 (1,888) + rare PMC SA |
 
-Until Track 1 merges stamps onto the public HF mirror, treat the live `irexp.jsonl.gz` PMC `license` field as unset and do not redistribute the commercial pool as a verified CC-BY product without the join.
+The full `irexp.jsonl.gz` remains multi-licence on disk; commercial redistribution must use the commercial pool (or `license_pool == "commercial"`). Hugging Face should be re-issued with these files (`scripts/publish_hf.py`).
 
 Median bands: **9** (PMC), **39** (Chemotion). All **1,360,866** released IR band values fall inside 350–4000 cm⁻¹ (full-corpus range check; Technical Validation).
 

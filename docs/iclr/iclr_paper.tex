@@ -1,0 +1,541 @@
+% IRSpectra-Bench — ICLR conference manuscript (Overleaf / tectonic / XeLaTeX)
+% Style: official ICLR 2026 conference macros (vendored as iclr2026_conference.sty).
+% Working notes: ICLR_PAPER.md  |  Do NOT edit docs/paper.tex / docs/PAPER.md
+%
+% Overleaf: set main document to docs/iclr/iclr_paper.tex
+% Compile with pdfLaTeX or XeLaTeX + BibTeX (references.bib + iclr2026_conference.bst).
+% Uncomment \iclrfinalcopy for camera-ready (keeps authors visible).
+\documentclass{article}
+\usepackage{iclr2026_conference,times}
+
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=1.35em}
+
+\graphicspath{{figures/}{../figures/}{./}}
+
+\title{Generation Recall, Not Verification, Binds LLM Structure Elucidation from Literature Spectra}
+
+% Anonymous for double-blind review. Uncomment \iclrfinalcopy and replace with real
+% authors for camera-ready.
+\author{
+Anonymous authors\\
+Paper under double-blind review
+}
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+% \iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Frontier large language models are often presented as near-solved structure elucidators on
+curated spectra. We ask a harder, more operational question: given the molecular formula and
+\textbf{literature-reported} IR / $^1$H / $^{13}$C \textbf{peak lists} --- not digitised traces ---
+can an off-the-shelf LLM recover the correct constitution, and \textbf{which stage fails} when
+it does not?
+
+We introduce \textbf{IRSpectra-Bench}, a blind, mechanically scored peak-list benchmark of 194
+compounds drawn from redistributable experimental band lists (\textbf{IRexp}; companion Data
+Descriptor)~\citep{yabbarov2026irexp}, with a fixed RDKit InChIKey-connectivity scoring contract
+and decomposable \textbf{generation recall} / \textbf{verification precision} metrics.
+On IRSpectra-Bench, a frontier LLM recovers the correct constitution for \textbf{28\%} top-1
+(95\% CI 22--35), or \textbf{15\%} once reweighted to corpus composition.
+The bottleneck is \textbf{candidate proposal, not verification}: the true structure enters the
+pool for only \textbf{34\%} of compounds, and where it does, training-free forward-verification
+selects it \textbf{89\%} of the time (58/65).
+The same recall $\ll$ precision asymmetry replicates across \textbf{four vendor families}.
+A formula-only control drops top-1 from 23\% $\to$ 5\%; accuracy is flat in source-paper year.
+Generating wider lifts recall 32\% $\to$ 42\% and top-1 23\% $\to$ 30\% on 60 compounds, while
+verification alone moves whole-benchmark top-1 only 28\% $\to$ 30\%.
+Recovered from published top-$k$ figures, recall carries \textbf{68--83\%} of the accuracy
+collapse when systems move from curated or simulated data to real heterogeneous spectra.
+Frozen predictions, scorers and code are released for mechanical re-evaluation.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+
+Structure elucidation from spectra sits at the centre of synthetic and analytical chemistry,
+and machine learning increasingly treats it as a sequence or agent task.
+Encoder--decoder models train on paired corpora~\citep{chacko2024spectro,ottomano2025nmiracle,alberts2024ir};
+LLM agents and puzzle benches report high recovery on curated or education
+spectra~\citep{kamber2026chemist,guo2024molpuzzle,zhuang2025treesearch,espejo2026agentic}.
+Cross-paper numbers swing wildly with harness (e.g.\ GPT-4o from 1.4\% to 57.8\% on MolPuzzle
+under different prompting~\citep{guo2024molpuzzle,zhuang2025treesearch}).
+What remains under-measured is the chemist's operational setting: \textbf{take peak lists as
+printed in open-access papers and recover constitution}, with a fixed molecular-representation
+scoring contract and an honest account of \textbf{which stage of elucidation binds}.
+
+We argue that end-to-end top-1 alone is the wrong reporting primitive.
+Any system that returns a ranked candidate list factorises as
+\begin{equation}
+\text{top-1} \;=\; \underbrace{P(\text{true} \in \text{pool})}_{\text{generation recall}}
+\times
+\underbrace{P(\text{rank}=1 \mid \text{true} \in \text{pool})}_{\text{verification precision}}.
+\end{equation}
+These rates have different denominators and must not be differenced.
+Prior work already notes that re-ranking cannot recover a missing
+candidate~\citep{priessner2026reasoning}; we supply the missing \textbf{measurement
+infrastructure at scale}.
+
+\paragraph{Contributions.}
+\begin{enumerate}
+  \item \textbf{IRSpectra-Bench} --- a blind, complexity-stratified peak-list benchmark ($n{=}194$)
+        with a pre-registered InChIKey-connectivity scorer and community reporting contract
+        (top-1, generation recall, verification precision $|$ recall).
+  \item \textbf{A recall-bound diagnosis} on a frontier LLM: 34\% proposed; 89\% selected once
+        proposed; top-1 moves only 28\% $\to$ 30\% under training-free forward-verification.
+  \item \textbf{Contamination and cross-vendor controls} --- formula-only and recency bounds;
+        four-vendor replication of recall $\ll$ precision.
+  \item \textbf{A literature decomposition} that recovers the same split from published top-$k$
+        figures, showing recall carries most of the collapse on real heterogeneous data.
+\end{enumerate}
+
+\paragraph{Dataset pointer (not this paper's primary object).}
+Experimental band lists come from \textbf{IRexp} (121,233 records; 43,060 structure-linked;
+33,201 full IR+$^1$H+$^{13}$C+structure quadruples), released on Hugging Face
+(\texttt{ilkhamfy/IRexp}).
+Construction, licensing, and technical validation of the corpus are the subject of a companion
+\textit{Scientific Data} manuscript (in preparation)~\citep{yabbarov2026irexp}.
+This ICLR paper \textbf{cites} that resource and does not re-present a Data Descriptor.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{fig_wall.png}
+  \caption{Diagnosis on IRSpectra-Bench ($n{=}194$): generation recall, not verification, is
+  the bottleneck. Where the true structure is never proposed, no ranker can recover it; where
+  it is proposed, verification usually selects it.}
+  \label{fig:fig-wall}
+\end{figure}
+
+\section{Related work}
+\label{sec:related-work}
+
+\paragraph{Trained spectra $\to$ structure models.}
+Sequence and graph decoders on paired
+corpora~\citep{chacko2024spectro,hu2024multitask,yang2026nmrtrans,ottomano2025nmiracle,alberts2024ir,alberts2025benchmarks}
+are accurate in-distribution but typically scored end-to-end.
+We do not claim to beat them on IRSpectra-Bench; Spectro, NMIRacle, Alberts IR transformers
+and CASE are \textbf{not yet scored} on our bench (Section~\ref{sec:limitations}) --- a gap we
+state honestly and leave to the released scorer.
+
+\paragraph{LLM agents and puzzle benches.}
+ChemCrow~\citep{mbran2024chemcrow}, Coscientist~\citep{boiko2023coscientist},
+SpectralLM~\citep{su2025spectrallm}, SpecMol~\citep{shen2025specmol}, tree-search
+elucidation~\citep{zhuang2025treesearch}, IR-Agent~\citep{noh2025iragent} and Priessner
+\textit{et al.}~\citep{priessner2026reasoning} improve \emph{how} a model reads spectra or
+re-ranks a fixed pool.
+We fix one protocol and ask \textbf{which stage binds} once the spectra have been read.
+
+\paragraph{Contamination-aware and heterogeneous-data benches.}
+Most prior suites use simulated or single-instrument spectra.
+IRSpectra-Bench uses literature-reported peak lists across thousands of laboratories and
+reports formula-only and recency controls (Section~\ref{sec:contamination}).
+Espejo Morales \textit{et al.}~\citep{espejo2026agentic} compare education vs industrial
+\emph{instrument files} (80.9\% $\to$ 20.6\%); they ask which architecture, we ask which stage
+binds on \textbf{published reports}.
+
+\paragraph{Forward verification and CASE.}
+Matching predicted to observed shifts --- DP4~\citep{smith2010dp4},
+CASE~\citep{elyashberg2012case}, NMR-Solver~\citep{jin2025nmrsolver},
+NMRAgent~\citep{fang2026nmragent} --- is easier than inverse generation.
+CASE enumerators have exhaustive recall by construction; the LLM literature almost never
+reports whether the true structure was proposed at all.
+We decompose error rather than chase a single top-1.
+
+\paragraph{Positioning.}
+Concurrent 2026 suites (MolQuest~\citep{han2026molquest}, SpecX~\citep{xiang2026specx},
+NMRGym~\citep{fang2026nmrgym}) bound related tasks.
+Ours is an openly redistributable suite on literature peak lists with a \textbf{stage
+decomposition} measured on Claude and replicated across three other model families.
+
+\section{IRSpectra-Bench}
+\label{sec:benchmark}
+
+\subsection{Task and inputs}
+
+Each of 194 problems supplies the \textbf{molecular formula} (as from HRMS), the \textbf{IR
+band list} (cm$^{-1}$), and \textbf{$^1$H / $^{13}$C shift lists} --- exactly the textual form
+reported in open-access papers.
+No name, SMILES or scaffold hint.
+Inputs are author-transcribed \textbf{band and shift lists}, not absorbance traces or FIDs:
+a different object from digitised-spectrum benchmarks~\citep{espejo2026agentic}, and one that
+matches how language models consume literature.
+
+Problems are drawn from the structure-complete split of IRexp (\texttt{irexp\_resolved}; see
+companion Data Descriptor / HF card)~\citep{yabbarov2026irexp}.
+In 10/194, author peak assignments name a ring system; those are solved 1/10 vs 54/184 for
+the rest, so annotation does not carry the headline.
+
+\subsection{Difficulty, balance, and scoring contract}
+
+\textbf{Difficulty} is declared \emph{a priori} by RDKit ring analysis: \emph{simple} iff
+$\leq$2 rings, no fused/spiro/bridgehead system, $\leq$22 heavy atoms; else \emph{complex}
+(98/96).
+The released benchmark is \textbf{50/50 by design}; the eligible corpus is 17.5\% simple /
+82.5\% complex.
+Reweighted to corpus composition, top-1 falls 28.4\% $\to$ \textbf{15.2\%} and recall 33.5\%
+$\to$ \textbf{19.8\%}.
+We report both; the reweighted figure is the better estimate for an arbitrary paper, the
+50/50 figure the comparable leaderboard number.
+
+\textbf{Scoring.} A prediction is correct if RDKit InChIKey \textbf{connectivity} (first 14
+characters) matches --- we score \emph{constitution}.
+Full stereo-sensitive InChIKey gives 21.1\% top-1 vs 28.4\% constitution.
+External submissions: up to three ranked SMILES per \texttt{qid}, no structure hints
+(\texttt{docs/LEADERBOARD.md}; \texttt{scripts/score\_submission.py}).
+
+\paragraph{Primary metrics (report all three).}
+\begin{center}
+\begin{tabular}{@{}lp{7.2cm}@{}}
+\toprule
+metric & definition \\
+\midrule
+\textbf{Top-1} & best-ranked candidate matches at connectivity layer \\
+\textbf{Generation recall} & reference in the candidate pool \emph{before} re-ranking \\
+\textbf{Verification precision $|$ recall} & correct top-1 among recall-positive compounds \\
+\bottomrule
+\end{tabular}
+\end{center}
+CIs are bootstrap 95\%; paired model differences use McNemar with Holm correction.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{fig1_difficulty.png}
+  \caption{Top-1 and recovered accuracy by difficulty ($n{=}194$), with bootstrap 95\% CIs.}
+  \label{fig:fig1-difficulty}
+\end{figure}
+
+\section{Experimental setup}
+\label{sec:setup}
+
+\paragraph{Solver.}
+Frontier LLM agent (Claude Opus via consumer subscription), closed-book, one sub-agent per
+batch, up to three ranked candidates, RDKit formula check only.
+No fine-tuning, no paid API for the core protocol.
+Inference is \textbf{not} exactly reproducible (no pinned snapshot, temperature or seed ---
+Section~\ref{sec:limitations}); \textbf{scoring is}: frozen predictions, ground truth and
+scorers regenerate every training-free number.
+
+\paragraph{Forward-verification loop}
+(Section~\ref{sec:forward-verify}).
+Generate candidates $\to$ forward-predict each candidate's $^{13}$C (blind to observed spectrum)
+$\to$ re-rank by symmetric chamfer distance between predicted and observed $^{13}$C peak sets.
+
+\paragraph{Controls and probes.}
+Formula-only / recency (Section~\ref{sec:contamination}); four-vendor replication on a
+60-compound arm (Section~\ref{sec:cross-vendor}); generate-wide sampling; HOSE lookup and GNN
+$^{13}$C verifiers; small IRexp-fine-tuned generator probe (fenced from headline claims).
+
+\section{Results}
+\label{sec:results}
+
+\subsection{Headline performance}
+\label{sec:headline}
+
+\begin{table}[t]
+\caption{Headline elucidation on IRSpectra-Bench ($n{=}194$).}
+\label{tab:headline}
+\centering
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+metric & overall ($n{=}194$) & simple ($n{=}98$) & complex ($n{=}96$) \\
+\midrule
+top-1 exact constitution & \textbf{28.4\%} [22--35] & 48.0\% [39--57] & 8.3\% [3--15] \\
+recovered (top-3) & 33.5\% [27--40] & 54.1\% [44--63] & 12.5\% [6--20] \\
+scaffold-level (best Tanimoto $\geq 0.45$) & 56\% & 73\% & 39\% \\
+mean best Tanimoto & 0.59 & 0.73 & 0.45 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Accuracy falls with size: 60.5\% top-1 at $\leq$15 heavy atoms, 28.3\% at 16--25, 7.0\% above 25.
+Of 137 analysable top-1 misses, \textbf{76.6\%} are constitutional isomers of the true
+structure; only \textbf{22.6\%} share the true Murcko scaffold --- wrong connectivity at the
+right composition, not mostly fine regiochemistry.
+
+A 24-compound four-model Claude comparison is capability-sensitive (strict nesting Haiku
+$\subset$ Sonnet $\subset$ Opus $\subset$ Fable) but underpowered for adjacent ranks and carries
+a disclosed protocol asymmetry (Section~\ref{sec:limitations}).
+A battery-electrolyte subset ($n{=}46$) matches the headline regime (26\% top-1; recall-bound).
+
+\subsection{Is the model reading the spectra?}
+\label{sec:contamination}
+
+\begin{table}[t]
+\caption{Formula-only control (paired, $n{=}60$).}
+\label{tab:formula-only}
+\centering
+\begin{tabular}{@{}lrr@{}}
+\toprule
+condition & top-1 & recovered (top-3) \\
+\midrule
+formula only & \textbf{3/60 (5\%)} & 3/60 (5\%) \\
+formula + IR + $^1$H + $^{13}$C & 14/60 (23\%) & 19/60 (32\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Outcomes are perfectly nested (McNemar $p{=}0.001$).
+Accuracy is flat in source-paper year across all 194 ($r{=}{-}0.007$), bounding pretraining
+recall of specific papers.
+We claim a \textbf{strong bound, not exclusion} of contamination
+(Section~\ref{sec:limitations}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{fig_robustness.png}
+  \caption{Robustness of the recall-bound diagnosis: formula-only vs full modality; accuracy
+  vs year; cross-vendor recall and precision.}
+  \label{fig:fig-robustness}
+\end{figure}
+
+\subsection{Cross-vendor replication}
+\label{sec:cross-vendor}
+
+Grok 4.6, Gemini 3.7 Flash and GPT-5.6 Sol solved the same 60-compound arm under the
+identical protocol.
+\textbf{Verification precision exceeds generation recall in every arm}; bootstrapping
+separates the paired gap for Claude (+52.5 points), GPT-5.6 Sol (+26.3) and Gemini (+23.3);
+Grok's gap (+9.2) is directional.
+
+\begin{table}[t]
+\caption{Cross-vendor decomposition ($n{=}60$). Recall and precision have different
+denominators --- the claim is the inequality, not a difference.}
+\label{tab:cross-vendor}
+\centering
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+model & generation recall & verification precision $|$ recall & multi-candidate only \\
+\midrule
+Claude Opus & 19/60 = 32\% & 16/19 = 84\% & 10/13 = 77\% \\
+Grok 4.6 & 32/60 = 53\% & 20/32 = 62\% & 20/32 = 62\% \\
+Gemini 3.7 Flash & 30/60 = 50\% & 22/30 = 73\% & 22/30 = 73\% \\
+GPT-5.6 Sol & 25/60 = 42\% & 17/25 = 68\% & 16/24 = 67\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Candidate budgets differ (Claude mean 2.20 vs others 3.00), so recall rankings are
+approximate.
+A clean-clone control for Grok bounds key leakage (McNemar $p{=}0.39$).
+
+\subsection{Forward-verification decomposition}
+\label{sec:forward-verify}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.92\linewidth]{fig_mechanism.png}
+  \caption{Forward-verification on a regioisomer pair: inverse task is ambiguous;
+  forward-predicted $^{13}$C separates isomers.}
+  \label{fig:fig-mechanism}
+\end{figure}
+
+\begin{table}[t]
+\caption{Forward-verification decomposition.}
+\label{tab:fverify}
+\centering
+\begin{tabular}{@{}lrr@{}}
+\toprule
+ & 60-compound arm & full benchmark ($n{=}194$) \\
+\midrule
+generation recall & 19/60 (32\%) & 65/194 (34\%) \\
+top-1, solver self-ranking & 14/60 (23\%) & 55/194 (28\%) \\
+top-1, forward-verified re-ranking & 16/60 (27\%) & 58/194 (30\%) \\
+precision $|$ recall --- forward-verification & 16/19 (84\%) & 58/65 (\textbf{89\%}) \\
+multi-candidate only --- forward-verification & 10/13 (77\%) & 30/37 (81\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+When the true structure is among the candidates, forward-verification selects it in 58/65
+cases (89\%).
+Where a choice existed ($n{=}37$), it gets 30/37 (81\%) against a 54.0\% derangement floor
+(+27.1 points).
+The margin over self-ranking is \textbf{small and unresolved} (seven gained, four lost;
+McNemar $p{=}0.55$) --- we do \textbf{not} claim an accuracy advance.
+Precision is high while recall binds: no re-ranking repairs the 129/194 compounds where the
+true structure was never proposed (Figure~\ref{fig:fig-wall}).
+
+\paragraph{Generate-wide.}
+Ten solver agents, up to six candidates each, pooled and re-ranked on the 60-compound arm:
+recall 32\% $\to$ \textbf{42\%}, top-1 23\% $\to$ \textbf{30\%} (McNemar $p{=}0.34$);
+verification precision falls 84\% $\to$ 72\%.
+The training-free ceiling remains recall-limited.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{fig3_method.png}
+  \caption{Forward-verification inference ladder on the 60-compound arm.}
+  \label{fig:fig3-method}
+\end{figure}
+
+\paragraph{Non-LLM verifiers.}
+On the same candidate sets, a HOSE-style lookup ties self-ranking; a modest GNN reaches
+59/65 (91\%) vs the LLM verifier's 58/65 (89\%) --- directional.
+Deranging observed $^{13}$C pairings collapses precision ($p{=}0.001$).
+A small IRexp-fine-tuned generator pooled with Claude lifts recall 33.5\% $\to$ 54.1\% and
+top-1 28.4\% $\to$ 35.1\% (McNemar $p{=}0.015$), showing the wall is a property of
+\textbf{training-free elicitation}, not of the task.
+
+\subsection{Decomposition across published literature}
+\label{sec:literature}
+
+Any system reporting top-1 $= a$ and top-$k = b$ implies recall $\geq b$ and conditional
+precision $\leq a/b$.
+Applying this to published figures (\texttt{scripts/literature\_decomposition.py}):
+
+\begin{table}[t]
+\caption{Selected literature decomposition rows (connectivity-scored or as published).}
+\label{tab:lit-decomp}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{2.6cm}p{2.4cm}rrrr@{}}
+\toprule
+system & data ($n$) & top-1 & top-$k$ ($k$) & recall & prec. \\
+\midrule
+this work, solver alone & literature (194) & 28.4\% & 33.5\% (3) & 33.5\% & 84.6\% \\
+this work + forward-verify & literature (194) & 29.9\% & 33.5\% (3) & 33.5\% & \textbf{89.2\%} \\
+NMR-Solver~\citep{jin2025nmrsolver} & literature (450) & 52.9\% & 67.3\% (10) & $\geq$67.3\% & $\leq$78.6\% \\
+NMRAgent~\citep{fang2026nmragent} & literature (450) & 61.6\% & 70.0\% (10) & $\geq$70.0\% & $\leq$88.0\% \\
+Espejo Morales~\citep{espejo2026agentic} & education (236) & 80.9\% & 90.0\% (5) & $\geq$90.0\% & $\leq$89.9\% \\
+Espejo Morales~\citep{espejo2026agentic} & industrial (34) & 20.6\% & 29.1\% (5) & $\geq$29.1\% & $\leq$70.9\% \\
+Alberts, 6--13 atoms~\citep{alberts2025benchmarks} & NIST IR (3,455) & 63.8\% & 84.0\% (10) & 84.0\% & 75.9\% \\
+SpecX, scaffold split~\citep{xiang2026specx} & simulated (99,439) & 29.7\% & 50.6\% (10) & 50.6\% & 58.7\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Three groups changed only the data}, and recall carried \textbf{68\%} (NMR-Solver
+simulated $\to$ real), \textbf{70\%} (SpecX random $\to$ scaffold) and \textbf{83\%}
+(Espejo education $\to$ industrial) of each collapse.
+Recall binds where spectra are real and heterogeneous; ranking dominates on simulated or
+single-library data.
+The field almost never reports whether the true structure was proposed at all.
+
+\section{Discussion}
+\label{sec:discussion}
+
+Frontier LLMs are \textbf{good verifiers} ($\approx$89\% conditional precision) and
+\textbf{weak proposers} ($\approx$34\% recall) on real literature peak lists.
+The primary research contribution of this paper is the \textbf{benchmark + stage
+decomposition + contamination/cross-vendor diagnosis}, not a solved elucidator and not a
+Data Descriptor for IRexp.
+
+\paragraph{Reporting contract.}
+External work on IRSpectra-Bench should deposit ranked SMILES under the released protocol and
+report, at minimum: (i) top-1 constitution, (ii) generation recall, (iii) verification
+precision $|$ recall, with bootstrap CIs and candidate budget.
+Top-1 alone conflates the two stages.
+Nonsignificant ladder gains (forward-verification vs self-ranking, $p{=}0.55$; generate-wide
+top-1, $p{=}0.34$) should be cited as \textbf{diagnostic}, not as accuracy advances.
+Corpus-reweighted top-1 (\textbf{15.2\%}) is the better estimate for an arbitrary literature
+draw.
+
+Training is not foreclosed: IRexp fine-tuning lifts recall to 54\%.
+What compounds is open experimental data, honest benchmarks, and inference scaffolding that
+rides each new model.
+
+\section{Limitations}
+\label{sec:limitations}
+
+Scoring is mechanical; solver runs were transcript-audited for zero ground-truth access.
+\textbf{(i) Consumer harness.} No model snapshot, temperature, seed or thinking tier; exact
+inference is not reproducible. Scoring is. Instruction text wrapping Claude batches was not
+captured --- only per-compound payloads are released.
+\textbf{(ii) Pretraining contamination} is bounded by formula-only (23\% $\to$ 5\%) and flat
+recency but \textbf{not excluded}; verbatim spectral strings from PMC in the prompt remain a
+retrieval confound.
+\textbf{(iii) Object type, formula and scoring.} Band/shift lists, not raw traces; formula
+supplied (as from HRMS) --- absolute accuracies are not interchangeable with no-formula
+systems. Headline metrics score constitution; with stereochemistry, top-1 is 21.1\%.
+\textbf{(iv) Statistical honesty.} Forward-verification vs self-ranking unresolved ($p{=}0.55$);
+generate-wide top-1 likewise ($p{=}0.34$). Four-model comparison at $n{=}24$ underpowered for
+adjacent ranks with disclosed protocol asymmetry. The inference ladder \textbf{diagnoses a
+bottleneck}; it is not a demonstrated accuracy advance.
+\textbf{(v) Missing on-bench cheminformatics baselines.} Spectro, NMIRacle, Alberts IR
+transformers and CASE were \textbf{not scored} on IRSpectra-Bench --- the LLM recall wall is
+not cleanly separated from harness or modality choice.
+\textbf{(vi) Cross-vendor scope.} Headline $n{=}194$ is Claude Opus; four-vendor replication is
+on 60 compounds; candidate budgets differ.
+\textbf{(vii) Deferred arms.} Expert-chemist audit of elucidation outputs formally deferred
+(not run). Leave-one-modality-out ablation abandoned for this manuscript. Extraction-recall
+human audit of the mining parser is deferred to the \textit{Scientific Data} companion.
+\textbf{(viii) Scope.} Battery subset uses literature electrolyte chemistry, not operando
+spectra; single-sample scoring per compound; organic literature bias of PMC-OA sources.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+IRSpectra-Bench makes LLM structure elucidation from literature peak lists \textbf{measurable
+and decomposable}.
+On that protocol, generation recall --- not verification --- binds end-to-end accuracy; the
+diagnosis replicates across vendors and recovers from published top-$k$ figures.
+We release frozen predictions and a mechanical scorer so others can report the same three
+numbers.
+The redistributable experimental band-list corpus behind the bench is documented separately
+as a \textit{Scientific Data} Data Descriptor (in prep.)~\citep{yabbarov2026irexp} and mirrored
+at \texttt{ilkhamfy/IRexp}.
+
+\section*{Reproducibility statement}
+Every training-free number regenerates from released questions, answers, frozen predictions
+and scripts in the project repository.
+The sampler, InChIKey scorer and forward-verification harness are scripted end-to-end.
+Consumer-harness inference cannot be bit-exact replayed (Section~\ref{sec:limitations});
+distributional agreement is the intended claim.
+Fine-tuning against the bench should use \texttt{data/train\_no\_bench.jsonl.gz} so benchmark
+InChIKeys are withheld.
+
+\section*{Ethics statement}
+This work evaluates publicly available open-access literature peak lists and commercial LLM
+APIs under consumer terms.
+No human-subject data.
+We do not claim clinical or regulatory readiness for automated elucidation.
+Licensing of redistributed numeric extractions is documented in the companion Data Descriptor
+and dataset notices (PMC-OA terms are mixed --- not uniformly CC-BY; Chemotion is CC-BY-SA).
+
+\section*{Acknowledgements}
+Deferred to camera-ready.
+
+\bibliography{references}
+\bibliographystyle{iclr2026_conference}
+
+\appendix
+
+\section{Dataset pointer (IRexp)}
+
+IRexp is \textbf{not} re-described here as a Data Descriptor.
+For counts, provenance, licensing caveats, transcription audit (560/560 bands on $n{=}60$),
+and file schema, see:
+\begin{itemize}
+  \item Hugging Face: \url{https://huggingface.co/datasets/ilkhamfy/IRexp}
+  \item Companion manuscript: \textit{Scientific Data} Data Descriptor (in
+        preparation)~\citep{yabbarov2026irexp}
+  \item Combined archive (pre-split JCIM-shaped paper): \texttt{docs/archive/combined\_PAPER.md}
+  \item Feasibility audit: \texttt{docs/irexp\_scientific\_data\_audit.md}
+\end{itemize}
+
+Benchmark construction details beyond Section~\ref{sec:benchmark} (spectral validation
+filters, prompt-leakage audit, electrolyte SMARTS) live in \texttt{docs/BENCHMARK.md} and the
+Electronic Supplementary Information of the combined archive.
+
+\section{Extended tables and figures}
+
+Supplementary figures currently shared with the combined manuscript under
+\texttt{docs/figures/}: \texttt{fig0\_overview}, \texttt{fig2\_size}, \texttt{fig4\_dataset},
+\texttt{fig5\_models}, \texttt{fig6\_electrolyte}, \texttt{fig7\_crossvendor},
+\texttt{fig\_contamination}, \texttt{fig\_generator\_probe}, \texttt{fig\_verifier}.
+Full artefact inventory: repository README / \texttt{docs/archive/combined\_PAPER.md} Data
+availability.
+
+\end{document}

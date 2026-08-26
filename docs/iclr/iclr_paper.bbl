@@ -1,0 +1,213 @@
+\begin{thebibliography}{24}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Alberts et~al.(2024)Alberts, Laino, and Vaucher]{alberts2024ir}
+Marvin Alberts, Teodoro Laino, and Alain~C. Vaucher.
+\newblock Leveraging infrared spectroscopy for automated structure elucidation.
+\newblock \emph{Commun. Chem.}, 7:\penalty0 268, 2024.
+\newblock \doi{10.1038/s42004-024-01341-w}.
+
+\bibitem[Alberts et~al.(2025)Alberts, Zipoli, and Laino]{alberts2025benchmarks}
+Marvin Alberts, Federico Zipoli, and Teodoro Laino.
+\newblock Setting new benchmarks in {AI}-driven infrared structure elucidation.
+\newblock \emph{Digital Discovery}, 4:\penalty0 1936--1943, 2025.
+\newblock \doi{10.1039/d5dd00131e}.
+
+\bibitem[Boiko et~al.(2023)Boiko, MacKnight, Kline, and
+  Gomes]{boiko2023coscientist}
+Daniil~A. Boiko, Robert MacKnight, Ben Kline, and Gabe Gomes.
+\newblock Autonomous chemical research with large language models.
+\newblock \emph{Nature}, 624:\penalty0 570--578, 2023.
+\newblock \doi{10.1038/s41586-023-06792-0}.
+
+\bibitem[Chacko et~al.(2024)Chacko, Sondhi, Praveen, Luska, and
+  Vargas-Hern{\'a}ndez]{chacko2024spectro}
+Edwin Chacko, Rudra Sondhi, Arnav Praveen, Kylie~L. Luska, and
+  Rodrigo~Alejandro Vargas-Hern{\'a}ndez.
+\newblock Spectro: a multi-modal approach for molecule elucidation using {IR}
+  and {NMR} data.
+\newblock \emph{ChemRxiv}, 2024.
+\newblock \doi{10.26434/chemrxiv-2024-37v2j}.
+
+\bibitem[Elyashberg et~al.(2012)Elyashberg, Blinov, Molodtsov, and
+  Williams]{elyashberg2012case}
+Mikhail Elyashberg, Kirill Blinov, Sergey Molodtsov, and Antony Williams.
+\newblock Elucidating `undecipherable' chemical structures using
+  computer-assisted structure elucidation approaches.
+\newblock \emph{Magn. Reson. Chem.}, 50:\penalty0 22--27, 2012.
+\newblock \doi{10.1002/mrc.2849}.
+
+\bibitem[{Espejo Morales} et~al.(2026){Espejo Morales}, Hinz, Alberts,
+  Krawezik, Jeong, and Ho]{espejo2026agentic}
+Irina {Espejo Morales}, Damon Hinz, Marvin Alberts, Geraud Krawezik, Haewon
+  Jeong, and Shirley Ho.
+\newblock {NMR} elucidation as an agentic search problem, not a modeling
+  problem.
+\newblock \emph{arXiv}, 2026.
+\newblock \doi{10.48550/arXiv.2607.19406}.
+
+\bibitem[Fang et~al.(2026{\natexlab{a}})Fang, Yang, Tan, Zhao, Xu, Xiang, Sun,
+  Gao, Wang, Du, Li, and Xia]{fang2026nmragent}
+Zheng Fang, Chen Yang, Yusen Tan, Yunpeng Zhao, Fanjie Xu, Hongxin Xiang, Hanyu
+  Sun, Hanyu Gao, Xiaojian Wang, Wenjie Du, Yuqiang Li, and Jun Xia.
+\newblock Towards generalizable and evidential nuclear magnetic resonance-based
+  molecular structure elucidation via large language model agent.
+\newblock \emph{arXiv}, 2026{\natexlab{a}}.
+\newblock \doi{10.48550/arXiv.2606.29776}.
+
+\bibitem[Fang et~al.(2026{\natexlab{b}})Fang, Yang, Yu, Luo, He, Xie, Yang, and
+  Xia]{fang2026nmrgym}
+Zheng Fang, Chen Yang, Hai-tao Yu, Haoming Luo, Haitao He, Jiaqing Xie, Zhuo
+  Yang, and Jun Xia.
+\newblock {NMRGym}: a comprehensive benchmark for nuclear magnetic resonance
+  based molecular structure elucidation.
+\newblock \emph{arXiv}, 2026{\natexlab{b}}.
+\newblock \doi{10.48550/arXiv.2601.15763}.
+
+\bibitem[Guo et~al.(2024)Guo, Nan, Zhou, Guo, Guo, Surve, Liang, Chawla, Wiest,
+  and Zhang]{guo2024molpuzzle}
+Kehan Guo, Bozhao Nan, Yujun Zhou, Taicheng Guo, Zhichun Guo, Mihir Surve,
+  Zhenwen Liang, Nitesh~V. Chawla, Olaf Wiest, and Xiangliang Zhang.
+\newblock Can {LLMs} solve molecule puzzles? {A} multimodal benchmark for
+  molecular structure elucidation.
+\newblock In \emph{{Advances in Neural Information Processing Systems 37
+  (NeurIPS 2024), Datasets and Benchmarks Track}}, pp.\  134721--134746, 2024.
+\newblock \doi{10.52202/079017-4281}.
+\newblock the benchmark is named MolPuzzle; OpenReview t1mAXb4Cop.
+
+\bibitem[Han et~al.(2026)Han, Wu, Wang, Zhou, Lv, Zhao, and
+  Hu]{han2026molquest}
+Taolin Han, Shuang Wu, Jinghang Wang, Yuhao Zhou, Renquan Lv, Bing Zhao, and
+  Wei Hu.
+\newblock {MolQuest}: a benchmark for agentic evaluation of abductive reasoning
+  in chemical structure elucidation.
+\newblock \emph{arXiv}, 2026.
+\newblock \doi{10.48550/arXiv.2603.25253}.
+
+\bibitem[Hu et~al.(2024)Hu, Chen, Rotskoff, Kanan, and
+  Markland]{hu2024multitask}
+Frank Hu, Michael~S. Chen, Grant~M. Rotskoff, Matthew~W. Kanan, and Thomas~E.
+  Markland.
+\newblock Accurate and efficient structure elucidation from routine
+  one-dimensional {NMR} spectra using multitask machine learning.
+\newblock \emph{ACS Cent. Sci.}, 10\penalty0 (11):\penalty0 2162--2170, 2024.
+\newblock \doi{10.1021/acscentsci.4c01132}.
+
+\bibitem[Jin et~al.(2026)Jin, Wang, Xu, Ji, Gao, Zhang, Ke, Zhu, and
+  E]{jin2025nmrsolver}
+Yongqi Jin, Jun-Jie Wang, Fanjie Xu, Xiaohong Ji, Zhifeng Gao, Linfeng Zhang,
+  Guolin Ke, Rong Zhu, and Weinan E.
+\newblock {NMR-Solver}: automated structure elucidation via large-scale
+  spectral matching and physics-guided fragment optimization.
+\newblock \emph{Nat. Commun.}, 17:\penalty0 4740, 2026.
+\newblock \doi{10.1038/s41467-026-71315-0}.
+
+\bibitem[Kamber(2026)]{kamber2026chemist}
+David Kamber.
+\newblock Making {Claude} a chemist: how {Claude} performs on {NMR} prediction
+  and structure elucidation.
+\newblock Non-peer-reviewed company white paper, Anthropic, 6 2026.
+\newblock URL \url{https://anthropic.com/research/making-claude-a-chemist}.
+
+\bibitem[M.~Bran et~al.(2024)M.~Bran, Cox, Schilter, Baldassari, White, and
+  Schwaller]{mbran2024chemcrow}
+Andres M.~Bran, Sam Cox, Oliver Schilter, Carlo Baldassari, Andrew~D. White,
+  and Philippe Schwaller.
+\newblock Augmenting large language models with chemistry tools.
+\newblock \emph{Nat. Mach. Intell.}, 6:\penalty0 525--535, 2024.
+\newblock \doi{10.1038/s42256-024-00832-8}.
+
+\bibitem[Noh et~al.(2025)Noh, Lee, Na, Kim, and Park]{noh2025iragent}
+Heewoong Noh, Namkyeong Lee, Gyoung~S. Na, Kibum Kim, and Chanyoung Park.
+\newblock {IR-Agent}: expert-inspired {LLM} agents for structure elucidation
+  from infrared spectra.
+\newblock \emph{arXiv}, 2025.
+\newblock \doi{10.48550/arXiv.2508.16112}.
+
+\bibitem[Ottomano et~al.(2025)Ottomano, Li, and Ganose]{ottomano2025nmiracle}
+Federico Ottomano, Yingzhen Li, and Alex~M. Ganose.
+\newblock {NMIRacle}: multi-modal generative molecular elucidation from {IR}
+  and {NMR} spectra.
+\newblock \emph{arXiv}, 2025.
+\newblock \doi{10.48550/arXiv.2512.19733}.
+
+\bibitem[Priessner et~al.(2026)Priessner, Lewis, Johansson, Goodman, Janet, and
+  Tomberg]{priessner2026reasoning}
+Martin Priessner, Richard~J. Lewis, Magnus~J. Johansson, Jonathan~M. Goodman,
+  Jon~Paul Janet, and Anna Tomberg.
+\newblock Enhancing molecular structure elucidation with reasoning-capable
+  {LLMs}.
+\newblock \emph{Digital Discovery}, 5:\penalty0 1237--1251, 2026.
+\newblock \doi{10.1039/D5DD00359H}.
+
+\bibitem[Shen et~al.(2025)Shen, Xie, Yang, Zhang, Sun, Gao, Fu, Qi, and
+  Li]{shen2025specmol}
+Shuaike Shen, Jiaqing Xie, Zhuo Yang, Antong Zhang, Shuzhou Sun, Ben Gao,
+  Tianfan Fu, Biqing Qi, and Yuqiang Li.
+\newblock {SpecMol}: a spectroscopy-grounded foundation model for multi-task
+  molecular learning.
+\newblock \emph{arXiv}, 2025.
+\newblock \doi{10.48550/arXiv.2509.21861}.
+\newblock circulated in v1 as {MolSpectLLM}.
+
+\bibitem[Smith \& Goodman(2010)Smith and Goodman]{smith2010dp4}
+Steven~G. Smith and Jonathan~M. Goodman.
+\newblock Assigning stereochemistry to single diastereoisomers by {GIAO} {NMR}
+  calculation: the {DP4} probability.
+\newblock \emph{J. Am. Chem. Soc.}, 132:\penalty0 12946--12959, 2010.
+\newblock \doi{10.1021/ja105035r}.
+
+\bibitem[Su et~al.(2026)Su, Chen, Jiang, Zhong, Wang, Liu, and
+  Zhang]{su2025spectrallm}
+Yunyue Su, Jiahui Chen, Zao Jiang, Zhenyi Zhong, Liang Wang, Qiang Liu, and
+  Zhaoxiang Zhang.
+\newblock {SpectraLLM}: uncovering the ability of {LLMs} for molecular
+  structure elucidation from multi-spectral data.
+\newblock In \emph{{International Conference on Learning Representations
+  (ICLR)}}, 2026.
+\newblock arXiv:2508.08441.
+
+\bibitem[Xiang et~al.(2026)Xiang, Ma, Chen, Wang, Chen, and
+  Zeng]{xiang2026specx}
+Chengrui Xiang, Tengfei Ma, Yujie Chen, Tong Wang, Haowen Chen, and Xiangxiang
+  Zeng.
+\newblock {SpecX}: a large-scale benchmark for multi-modal spectroscopy and
+  cross-paradigm evaluation.
+\newblock \emph{arXiv}, 2026.
+\newblock \doi{10.48550/arXiv.2605.18791}.
+
+\bibitem[Yabbarov et~al.(2026)Yabbarov, Sondhi, and
+  Vargas-Hern{\'a}ndez]{yabbarov2026irexp}
+Ilkham Yabbarov, Rudra Sondhi, and Rodrigo~A. Vargas-Hern{\'a}ndez.
+\newblock {IRexp} experimental infrared band lists from the {PMC} open access
+  subset and {Chemotion}.
+\newblock \emph{Sci. Data}, 2026.
+\newblock Data Descriptor, in preparation.
+
+\bibitem[Yang et~al.(2026)Yang, Yang, Xie, Wang, Gao, Wei, Sun, Wu, He, Li, and
+  Gu]{yang2026nmrtrans}
+Liujia Yang, Zhuo Yang, Jiaqing Xie, Yubin Wang, Ben Gao, Xingjian Wei, Jiaxing
+  Sun, Jiang Wu, Conghui He, Yuqiang Li, and Qinying Gu.
+\newblock {NMRTrans}: structure elucidation from experimental {NMR} spectra via
+  set transformers.
+\newblock In \emph{{Proc. 32nd ACM SIGKDD Conf. Knowledge Discovery and Data
+  Mining (KDD '26), Vol. 2}}, pp.\  12621--12632, 2026.
+\newblock \doi{10.1145/3770855.3818935}.
+\newblock arXiv:2602.10158.
+
+\bibitem[Zhuang et~al.(2025)Zhuang, Wu, Cui, Feng, Li, Xing, Ding, Zhang, and
+  Chen]{zhuang2025treesearch}
+Xiang Zhuang, Bin Wu, Jiyu Cui, Kehua Feng, Xiaotong Li, Huabin Xing, Keyan
+  Ding, Qiang Zhang, and Huajun Chen.
+\newblock Boosting {LLM}'s molecular structure elucidation with
+  knowledge-enhanced tree-search reasoning.
+\newblock In \emph{{Proc. 63rd Annu. Meet. Assoc. Comput. Linguist. (Vol. 1:
+  Long Papers)}}, pp.\  22561--22576, 2025.
+\newblock \doi{10.18653/v1/2025.acl-long.1100}.
+\newblock URL \url{https://aclanthology.org/2025.acl-long.1100/}.
+
+\end{thebibliography}

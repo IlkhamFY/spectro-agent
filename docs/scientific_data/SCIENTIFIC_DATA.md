@@ -14,7 +14,7 @@
 
 ## Abstract
 
-IRexp is a redistributable collection of **experimental infrared band lists** — author-reported peak positions in cm⁻¹ — mined from open chemistry literature, optionally paired with ¹H/¹³C shift lists and resolved structures. The release holds **121,233** records (119,345 from the PubMed Central Open Access Subset; 1,888 from Chemotion/RADAR4Chem), of which **43,060** are structure-linked and **33,201** are full IR + ¹H + ¹³C + structure quadruples. IRexp stores **numeric band lists**, not absorbance traces or JCAMP-DX. Records carry `source_doi` for attribution. Licensing is **mixed**: Chemotion rows are CC-BY-SA-4.0; PMC Open Access uses diverse Creative Commons terms, with per-article commercial/non-commercial segregation pending ([PENDING: commercial count after licence join]). Intended reuse includes multimodal spectral model training, literature-scale cheminformatics, and complementary elucidation benchmarks that cite this Descriptor. Data are on Hugging Face (`ilkhamfy/IRexp`); a Zenodo DOI will follow licence remediation ([TODO: 10.5281/zenodo.XXXXXXX]). Harvest, extraction, and validation code is MIT-licensed.
+IRexp is a redistributable collection of **experimental infrared band lists** (cm⁻¹ peak positions) mined from open chemistry literature, optionally with ¹H/¹³C shifts and resolved structures. The release holds **121,233** records (119,345 PMC OA; 1,888 Chemotion/RADAR4Chem), with **43,060** structure-linked and **33,201** full IR + ¹H + ¹³C + structure quadruples. IRexp stores **numeric band lists**, not absorbance traces. Records carry `source_doi`. Licensing is **mixed** (Chemotion CC-BY-SA-4.0). A provisional Europe PMC join (Track 1 snapshot, not yet on `main`) finds **87,617** commercial-use, **20,938** non-commercial, **10,781** empty/unknown, and **1,897** ShareAlike rows — reconfirm after Track 1 merges. Reuse: multimodal training and complementary elucidation benchmarks citing this Descriptor. Data: Hugging Face `ilkhamfy/IRexp`; Zenodo `[TODO: 10.5281/zenodo.XXXXXXX]`. Code is MIT-licensed.
 
 <!-- Abstract word count target ≤170. Count on edit before submission. -->
 
@@ -126,14 +126,17 @@ Paths relative to the project repository / Hugging Face mirror.
 | Chemotion provenance | 1,888 |
 | Unique PMC accessions | 15,416 |
 
-**Licence-pool counts after Track 1** (do not invent):
+**Licence-pool counts (provisional Track 1 join, 2026-08-26).** Europe PMC lookup over **15,416** unique PMCIDs; stamped pool files under `data/irexp/licence_pools/` (not yet merged to `main` — **reconfirm when Track 1 lands**). Sum of pools = 121,233.
 
-| Pool | Count |
-|---|---:|
-| PMC commercial-use (CC BY / CC0 / …) | `[PENDING: commercial count after licence join]` |
-| PMC non-commercial (CC BY-NC*) | `[PENDING: NC count after licence join]` |
-| PMC other / empty / unresolved | `[PENDING: other count after licence join]` |
-| Chemotion CC-BY-SA-4.0 | 1,888 |
+| Pool file | Count | Notes |
+|---|---:|---|
+| `irexp_commercial.jsonl.gz` | **87,617** | CC BY / CC0 / commercial-use OA |
+| `irexp_non_commercial.jsonl.gz` | **20,938** | CC BY-NC* |
+| `irexp_empty_unknown.jsonl.gz` | **10,781** | empty / unresolved Europe PMC licence |
+| `irexp_other.jsonl.gz` | **0** | reserved |
+| `irexp_sharealike.jsonl.gz` | **1,897** | Chemotion CC-BY-SA-4.0 (1,888) + rare PMC SA |
+
+Until Track 1 merges stamps onto the public HF mirror, treat the live `irexp.jsonl.gz` PMC `license` field as unset and do not redistribute the commercial pool as a verified CC-BY product without the join.
 
 Median bands: **9** (PMC), **39** (Chemotion). All **1,360,866** released IR band values fall inside 350–4000 cm⁻¹ (full-corpus range check; Technical Validation).
 
@@ -191,7 +194,7 @@ IRexp numeric extracts are available at:
 Licensing summary (honest):
 
 - **Chemotion (1,888):** CC-BY-SA-4.0[@chemotion2024].  
-- **PMC (119,345):** mixed Creative Commons / PMC OA package terms — **not** uniformly CC-BY; `[PENDING: commercial count after licence join]`.  
+- **PMC (119,345):** mixed Creative Commons / PMC OA package terms — **not** uniformly CC-BY; provisional join ≈87,617 commercial / 20,938 NC / 10,781 empty-unknown (reconfirm after Track 1).  
 - Only extracted numeric fields and identifiers are redistributed; source full texts are not.
 
 ## Code Availability

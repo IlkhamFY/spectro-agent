@@ -10,6 +10,7 @@ See `docs/SPLIT_ORCHESTRATION.md` and `docs/irexp_scientific_data_audit.md`.
 | Path | Role |
 |---|---|
 | `SCIENTIFIC_DATA.md` | Nature *Scientific Data* Data Descriptor (authoring source) |
+| `LICENCE_REMEDIATION.md` | Track 1 Europe PMC join, counts, HF/Zenodo policy |
 | `references.bib` | Bibliography for this Descriptor |
 | `qc_structure_nmr.json` | Frozen Technical Validation numbers (structure–NMR + IR window) |
 | `scientific_data.pdf` | Optional local render |
@@ -20,18 +21,18 @@ See `docs/SPLIT_ORCHESTRATION.md` and `docs/irexp_scientific_data_audit.md`.
 1. Title (≤110 chars; no colon spam; no “AI-ready”)
 2. Abstract (≤170 words; data + reuse only)
 3. Background & Summary
-4. Methods (PMC-OA S3 + Chemotion; band lists; OPSIN; provenance; licence honesty)
-5. Data Records (schema, files, counts; T1 placeholders / provisional join)
+4. Methods (PMC-OA S3 + Chemotion; band lists; OPSIN; provenance; licence stamps)
+5. Data Records (schema, files, counts; licence pools)
 6. Technical Validation (transcription 560/560 n=60; structure–NMR sample; IR window)
 7. Usage Notes
 8. Data Availability (HF + Zenodo TODO)
 9. Code Availability
 
-## Pending on Track 1 (licence remediation)
+## Track 1 licence remediation — landed
 
-- Per-PMCID licence join stamped into the public release
-- Segregation of commercial / NC / other pools on `main` + HF/Zenodo
-- Reconfirm provisional Data Records counts (87,617 / 20,938 / 10,781 / 1,897) after T1 merge
+- Per-PMCID Europe PMC join stamped into `data/irexp/irexp.jsonl.gz`
+- Segregated pools under `data/irexp/licence_pools/` (commercial 87,617 / NC 20,938 / empty 10,781 / SA 1,897)
+- Details: `LICENCE_REMEDIATION.md`
 
 ## Build PDF (optional)
 

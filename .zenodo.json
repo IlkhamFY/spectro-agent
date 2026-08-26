@@ -1,7 +1,7 @@
 {
   "title": "IRexp and IRSpectra-Bench: redistributable experimental IR band lists, a blind peak-list benchmark, and a recall-bound diagnosis of LLM elucidation \u2014 dataset, benchmark, and forward-verification code",
   "upload_type": "dataset",
-  "description": "Open data and code for the manuscript \"IRexp and IRSpectra-Bench: redistributable experimental IR band lists, a blind peak-list benchmark, and a recall-bound diagnosis of LLM elucidation.\" Includes IRexp (121,233 experimental-IR records; 43,060 structure-linked; 33,201 full IR + 1H + 13C + structure quadruples), the blind IRSpectra-Bench benchmark (194 compounds) and its battery-electrolyte subset, model predictions, the forward-verification and HOSE-code verifier code, and all figure/scoring/mining scripts. Numeric extracts are redistributed under their source licences (PMC Open-Access Subset: mixed Creative Commons terms \u2014 not uniformly CC-BY; Chemotion/RADAR4Chem: CC-BY-SA-4.0), kept as separable source pools; each record carries its source DOI/accession for attribution. Code is released under the MIT License (see LICENSE). NOTE: the held-out expert-audit and modality answer keys are intentionally excluded; the 152 MB nmrshiftdb2.sd snapshot and the built hose_c13.json.gz HOSE table are uploaded as separate files because they are not tracked in the GitHub repository.",
+  "description": "Open data and code for the manuscript \"IRexp and IRSpectra-Bench: redistributable experimental IR band lists, a blind peak-list benchmark, and a recall-bound diagnosis of LLM elucidation.\" Includes IRexp (121,233 experimental-IR records with per-record licence stamps; 43,060 structure-linked; 33,201 full IR + 1H + 13C + structure quadruples), licence-segregated pools (commercial CC-BY/CC0 primary: 87,617 records; non-commercial CC-BY-NC* held aside: 20,938; ShareAlike Chemotion+PMC: 1,897; empty/unknown excluded from commercial deposit: 10,781), the blind IRSpectra-Bench benchmark (194 compounds) and its battery-electrolyte subset, model predictions, the forward-verification and HOSE-code verifier code, and all figure/scoring/mining scripts. MULTI-LICENCE: the primary Zenodo redistributable artifact is the commercial-use pool (CC-BY / CC0 extracts from PMC OA); Chemotion/RADAR4Chem and rare PMC CC-BY-SA rows are a companion ShareAlike file (CC-BY-SA-4.0); NC* and empty/unknown rows are not part of the commercial artifact (see data/NOTICE and docs/scientific_data/LICENCE_REMEDIATION.md). Each record carries source_doi/pmcid and license/license_pool for attribution. Code is released under the MIT License (see LICENSE). NOTE: the held-out expert-audit and modality answer keys are intentionally excluded; the 152 MB nmrshiftdb2.sd snapshot and the built hose_c13.json.gz HOSE table are uploaded as separate files because they are not tracked in the GitHub repository.",
   "creators": [
     {
       "name": "Yabbarov, Ilkham",
@@ -24,14 +24,22 @@
     "benchmark",
     "cheminformatics",
     "forward verification",
-    "machine learning for chemistry"
+    "machine learning for chemistry",
+    "creative commons",
+    "open access licensing"
   ],
   "license": "cc-by-4.0",
   "access_right": "open",
+  "notes": "Zenodo metadata license=cc-by-4.0 applies to the PRIMARY commercial redistributable pool (CC-BY/CC0). Companion ShareAlike file is CC-BY-SA-4.0. NC* and empty/unknown pools are held aside / excluded — see LICENCE_REMEDIATION.md.",
   "related_identifiers": [
     {
       "identifier": "https://github.com/IlkhamFY/spectro-agent",
       "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://huggingface.co/datasets/ilkhamfy/IRexp",
+      "relation": "isAlternateIdentifier",
       "scheme": "url"
     }
   ]

@@ -15,6 +15,8 @@ size_categories:
   - 100K<n<1M
 pretty_name: IRexp
 configs:
+  - config_name: commercial
+    data_files: data/irexp_commercial.jsonl.gz
   - config_name: resolved
     data_files: data/irexp_resolved.jsonl.gz
   - config_name: train_no_bench
@@ -25,6 +27,10 @@ configs:
     data_files: data/pretrain_ir.jsonl.gz
   - config_name: all
     data_files: data/irexp.jsonl.gz
+  - config_name: non_commercial
+    data_files: data/irexp_non_commercial.jsonl.gz
+  - config_name: sharealike
+    data_files: data/irexp_sharealike.jsonl.gz
 ---
 
 # IRexp — experimental IR band lists from open-access literature
@@ -39,13 +45,17 @@ IRexp is the largest **openly redistributable** collection of **experimental inf
 
 | Split / file | Records | Description |
 |---|---:|---|
-| `irexp.jsonl.gz` | 121,233 | All IR band-list records |
-| `irexp_resolved.jsonl.gz` | 43,060 | Structure-linked (100%) |
+| `irexp_commercial.jsonl.gz` | **87,617** | **Primary redistributable** — CC-BY + CC0 (`license_pool=commercial`) |
+| `irexp.jsonl.gz` | 121,233 | Full corpus (multi-licence; every row stamped) |
+| `irexp_non_commercial.jsonl.gz` | 20,938 | CC-BY-NC* held aside |
+| `irexp_sharealike.jsonl.gz` | 1,897 | Chemotion CC-BY-SA-4.0 + rare PMC SA |
+| `irexp_empty_unknown.jsonl.gz` | 10,781 | Empty/unknown — excluded from commercial Zenodo |
+| `irexp_resolved.jsonl.gz` | 43,060 | Structure-linked (100%; multi-licence — filter by `license_pool`) |
 | … full IR + ¹H + ¹³C + structure | 33,201 | Multimodal quadruples |
 | `train_no_bench.jsonl.gz` | 42,808 | **Recommended for training** — `irexp_resolved` minus all IRSpectra-Bench InChIKey-14 |
 | `train_no_bench_nmr.jsonl.gz` | 32,949 | Same, requiring both ¹H and ¹³C |
 
-**Provenance:** 119,345 records from the PMC Open Access Subset (**mixed** CC terms — not uniformly CC-BY; ~73% `cc by` / ~19% NC or empty in a 200-PMCID Europe PMC sample; per-article licence join pending); 1,888 from Chemotion/RADAR4Chem (CC-BY-SA-4.0). Use `scripts/split_license_pools.py` to separate *source* pools; do not treat its PMC stamp as a verified CC-BY licence until the join ships. See `NOTICE`.
+**Provenance & licensing:** 119,345 PMC-sourced + 1,888 Chemotion/RADAR4Chem. Per-article Europe PMC join stamps `license` / `license_pool` on every row (`scripts/join_pmc_licences.py`). **Commercial training / Zenodo primary = `commercial` config (87,617).** Do not treat the full `all` split as uniformly CC-BY. See `NOTICE` and `LICENCE_REMEDIATION.md`.
 
 **Companion benchmark:** [IRSpectra-Bench](https://github.com/IlkhamFY/spectro-agent/blob/main/docs/LEADERBOARD.md) — 194 blind elucidation problems built from IRexp; score submissions with `scripts/score_submission.py`.
 
@@ -54,8 +64,11 @@ IRexp is the largest **openly redistributable** collection of **experimental inf
 ```python
 from datasets import load_dataset
 
-# Structure-linked corpus (43,060 records)
+# Structure-linked corpus (43,060 records; filter license_pool for commercial use)
 ds = load_dataset("ilkhamfy/IRexp", "resolved", split="train")
+
+# Preferred redistributable commercial pool
+comm = load_dataset("ilkhamfy/IRexp", "commercial", split="train")
 
 row = ds[0]
 print(row["ir_bands_cm-1"][:5], row["smiles"][:40])
@@ -87,7 +100,11 @@ Each JSONL row:
   "h_nmr": "9.79 (s, 1H, NH-amide), ...",
   "c_nmr": "164.87, 161.57, ...",
   "ir_source": "experimental",
-  "source_doi": "10.1038/..."
+  "source_doi": "PMC:13234927",
+  "pmcid": "PMC13234927",
+  "license": "CC-BY",
+  "license_pool": "commercial",
+  "license_source": "europepmc"
 }
 ```
 
@@ -132,6 +149,6 @@ python scripts/build_train_no_bench.py --require-nmr  # 32,949 rows (H+C require
 - **Code & benchmark:** https://github.com/IlkhamFY/spectro-agent
 - **Leaderboard:** https://github.com/IlkhamFY/spectro-agent/blob/main/docs/LEADERBOARD.md
 - **Zenodo:** DOI minted at publication
-- **Licence details:** `NOTICE` in this repository (and `data/NOTICE` in the GitHub mirror)
+- **Licence details:** `NOTICE` / `LICENCE_REMEDIATION.md` in this repository (and `data/NOTICE`, `docs/scientific_data/LICENCE_REMEDIATION.md` in the GitHub mirror)
 
 When uploading to Hugging Face, this file is the repository `README.md`.

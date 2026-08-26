@@ -1,6 +1,14 @@
 """
 Resilient fetch layer built on Scrapling (https://github.com/D4Vinci/Scrapling).
 
+**IRexp release fence.** The published IRexp corpus (121,233 records) was built
+from **PMC-OA S3 plain text** (`scripts/s3_ir_harvest.py`) and the **Chemotion
+RADAR4Chem deposit** (`scripts/chemotion_to_irexp.py`) only. No released
+``source_doi`` is a paywalled publisher DOI. This Scrapling / StealthyFetcher
+stack is retained for **development / non-release** adapters (ChemRxiv,
+Beilstein, generic publisher pages). Do not cite it as the IRexp construction
+path in Scientific Data Methods.
+
 Why Scrapling instead of Selenium (which the Spectro authors used to scrape
 their NMR data)?
 
@@ -18,7 +26,8 @@ their NMR data)?
 
 This module wraps those engines with exponential-backoff retries, a tiny
 on-disk cache (so re-runs never re-hit servers), and polite per-host rate
-limiting.
+limiting. Scrapling is an **optional** dependency so QC scripts that only need
+``extract`` / ``quality`` can import without installing the scraper stack.
 """
 
 from __future__ import annotations
@@ -29,7 +38,12 @@ import time
 from pathlib import Path
 from urllib.parse import urlparse
 
-from scrapling.fetchers import Fetcher
+try:
+    from scrapling.fetchers import Fetcher
+    _HAVE_SCRAPLING = True
+except Exception:  # pragma: no cover
+    Fetcher = None  # type: ignore
+    _HAVE_SCRAPLING = False
 
 try:
     from scrapling.fetchers import StealthyFetcher
@@ -83,6 +97,12 @@ class ResilientFetcher:
     def __init__(self, cache_dir="data/cache", min_interval=1.0,
                  max_retries=4, impersonate="chrome", allow_stealth=True,
                  host_concurrency=None):
+        if not _HAVE_SCRAPLING:
+            raise ImportError(
+                "Scrapling is not installed. It is optional for IRexp QC / "
+                "extract-only scripts; install scrapling only for development "
+                "publisher adapters (not used to build the released IRexp DOIs)."
+            )
         self.cache = Path(cache_dir)
         self.cache.mkdir(parents=True, exist_ok=True)
         self.min_interval = min_interval

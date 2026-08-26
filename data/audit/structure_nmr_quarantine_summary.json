@@ -1,0 +1,29 @@
+{
+  "description": "Full-corpus structure\u2013NMR/IR consistency quarantine on irexp_resolved",
+  "date": "2026-08-26",
+  "corpus": "data/irexp_resolved/irexp_resolved.jsonl.gz",
+  "n_records": 43060,
+  "n_with_c_nmr": 34231,
+  "n_with_h_nmr": 39672,
+  "n_quarantined": 1882,
+  "quarantine_rate_of_resolved": 0.0437,
+  "c13_peaks_gt_carbons": {
+    "count": 1194,
+    "among_with_c_nmr": 34231,
+    "rate": 0.0349
+  },
+  "h1_integration_gt_formula_plus_2": {
+    "count": 1141,
+    "among_with_h_nmr": 39672,
+    "rate": 0.0288
+  },
+  "ir_band_out_of_range": 0,
+  "smiles_unparseable": 0,
+  "reason_counts": {
+    "h1_integration_gt_formula_plus_2": 1141,
+    "c13_peaks_gt_carbons": 1194
+  },
+  "quarantine_file": "data/audit/structure_nmr_quarantine.jsonl.gz",
+  "method": "parse_h_peaks/parse_c_peaks on author strings; RDKit C/H counts; fail if 13C peak count > carbons, or 1H integral sum > formula H+2, or any IR band outside [350,4000] cm-1, or SMILES unparseable",
+  "note": "Quarantine is diagnostic \u2014 release files are unchanged. Re-users should filter these IDs before supervised training."
+}

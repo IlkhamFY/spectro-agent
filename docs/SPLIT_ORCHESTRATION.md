@@ -170,7 +170,7 @@ Agents leave `[TODO: …]` markers; do not fabricate DOIs, ORCIDs, or grant numb
 
 ## 7. Success criteria checklist
 
-**Status (2026-08-26):** **T0–T3 done** on `main`. Remaining work is remirror / mint / human blockers / polish — not split-track scaffolding.
+**Status (2026-08-26):** **T0–T3 done** on `main`. Audit closeout (`cursor/scidata-audit-closeout-9a67`): HF remirror + TV pack + Methods exactness done. Remaining: Zenodo mint / ORCID / funding (human) + polish.
 
 ### Track 0 — done
 
@@ -205,9 +205,11 @@ Agents leave `[TODO: …]` markers; do not fabricate DOIs, ORCIDs, or grant numb
 
 ### Remaining (post-split)
 
-- [ ] Hugging Face remirror of stamped pools / card (`HF_TOKEN` + `scripts/publish_hf.py`)
-- [ ] Zenodo DOI mint (multi-licence deposit; commercial primary)
+- [x] Hugging Face remirror of stamped pools / card (`scripts/publish_hf.py`, 2026-08-26 on `cursor/scidata-audit-closeout-9a67`)
+- [ ] Zenodo DOI mint (multi-licence deposit; commercial primary) — **human**
 - [ ] Human: ORCID confirmation + funding / acknowledgements
+- [x] Technical Validation pack: transcription n=200; recall proxy n=40; full-resolved quarantine
+- [x] Methods exactness: S3 harvest date 2026-06-07; flat keys (not oa_comm walk); Chemotion author-curated ingest; Scrapling fence
 - [ ] Polish both manuscripts before submission
 - [ ] Titles and abstracts clearly disjoint (spot-check at camera-ready)
 - [ ] PI aligned on Sci Data → ICLR order (or simultaneous complementary disclosure)

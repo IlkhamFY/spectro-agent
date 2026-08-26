@@ -37,22 +37,22 @@ Among openly redistributable *text-derived IR band lists*, IRexp is large by rec
 
 ### Source corpora
 
-**PMC Open Access Subset.** Primary harvest uses the NCBI PMC OA bulk distribution on Amazon S3 (`s3://pmc-oa-opendata`, HTTPS endpoint `https://pmc-oa-opendata.s3.amazonaws.com`)[@pmc_oa]. A harvest snapshot records **188,016** distinct PMC identifiers scanned (`data/irexp/seen_papers.txt.gz`). The released corpus retains records from **15,416** unique `PMC:*` accessions. Extraction operates on open-access plain text / JATS available through that OA path (and Europe PMC full-text XML for validation re-fetches). The **released** IRexp DOIs are exclusively `PMC:*` accessions or the Chemotion deposit DOI; no paywalled publisher DOI appears in the 121,233-record file.
+**PMC Open Access Subset.** Primary harvest uses the NCBI PMC OA bulk distribution on Amazon S3 (`s3://pmc-oa-opendata`, HTTPS endpoint `https://pmc-oa-opendata.s3.amazonaws.com`)[@pmc_oa]. **Harvest window (recoverable from git snapshots):** the bulk S3 IR crawl and `seen_papers` / `ir_harvest_snapshot` artefacts were produced on **2026-06-07 (UTC)** (`scripts/s3_ir_harvest.py`; incremental auto-snapshots that day through ~134,893 raw IR rows). Chemotion was ingested the same day. A harvest snapshot records **188,016** distinct PMC identifiers scanned (`data/irexp/seen_papers.txt.gz`). The released corpus retains records from **15,416** unique `PMC:*` accessions. Extraction operates on open-access **plain text** objects at flat S3 keys `PMC{id}.{v}/PMC{id}.{v}.txt` (not a directory walk of the commercial / non-commercial / other package trees). Europe PMC full-text XML is used for some validation re-fetches. The **released** IRexp DOIs are exclusively `PMC:*` accessions or the Chemotion deposit DOI; no paywalled publisher DOI appears in the 121,233-record file.
 
-PMC OA is **not** a single licence. The subset is partitioned into commercial-use, non-commercial, and other packages[@pmc_oa]. Every unique PMCID in IRexp (15,416) was joined to Europe PMC `license` metadata (`scripts/join_pmc_licences.py`); each record carries `license` / `license_pool`. Empty/unknown licences are **excluded** from the commercial Zenodo pool (`data/NOTICE`; `docs/scientific_data/LICENCE_REMEDIATION.md`).
+**Discovery vs `oa_comm` / `oa_noncomm` packages.** Identifier discovery used NCBI E-utilities `esearch` over PMC with an IR-characterisation query **and** `open access[filter]` (`scripts/s3_ir_harvest.py`), then fetched matching IDs from the flat S3 text layout. The harvest therefore did **not** pre-filter by walking the PMC OA Subset’s `oa_comm` vs `oa_noncomm` vs other package directories. PMC OA is still **not** a single licence[@pmc_oa]. Licence truth for redistribution is applied **post-hoc**: every unique PMCID in IRexp (15,416) was joined to Europe PMC `license` metadata (`scripts/join_pmc_licences.py`); each record carries `license` / `license_pool`. Commercial-use (CC-BY/CC0) rows form the Zenodo / Sci Data primary pool; NC* are held aside; empty/unknown are **excluded** from the commercial deposit — aligning redistributable intent with the OA commercial/non-commercial distinction via article-level licences rather than S3 package paths (`data/NOTICE`; `docs/scientific_data/LICENCE_REMEDIATION.md`).
 
-**Chemotion / RADAR4Chem.** **1,888** records come from the Chemotion Repository FT-IR collection deposited at RADAR4Chem (DOI `10.22000/OGoEQGlsZGElrgst`)[@chemotion2024], licensed **CC-BY-SA-4.0**. These rows are **peak lists derived from deposited experimental FT-IR spectra** (not author-transcribed experimental-section prose). They carry a stamped `license=CC-BY-SA-4.0` and `source_doi` equal to the deposit DOI. Median band count is **39** versus **9** for PMC-transcribed lists; users modelling band density should treat the pools separately.
+**Chemotion / RADAR4Chem.** **1,888** records come from the Chemotion Repository FT-IR collection deposited at RADAR4Chem (DOI `10.22000/OGoEQGlsZGElrgst`)[@chemotion2024], licensed **CC-BY-SA-4.0**. Ingest (`scripts/chemotion_to_irexp.py`, 2026-06-07): download the MD5-verified deposit; for each of **2,116** ATR-IR analyses, flatten the Quill-delta `content` field to plain text; parse an **author-curated** IR band list with the **same** regex extractor and quality gates as the PMC path (`_IR_RE`, band-list density gate, instrument-range rejection); resolve the deposit’s canonical SMILES with RDKit → InChIKey + SELFIES; keep the richest band list per InChIKey; drop the **8** molecules already present in the PMC pool → **+1,888** new structure-resolved rows. These are **not** algorithmic peak-picks from absorbance curves (no `find_peaks` / JCAMP digitisation); they are author-entered experimental band lists from the ELN deposit, denser than typical paper prose (median **39** bands vs **9** for PMC). Rows carry `license=CC-BY-SA-4.0` and `source_doi` equal to the deposit DOI.
 
 **Excluded.** AIST SDBS (view-only; no bulk export)[@sdbs]; NIST WebBook join code exists in the repository but contributes **0** records to the released IRexp (`ir_source` is always `experimental` for released rows).
 
 ### Discovery and fetch (released corpus)
 
-1. Enumerate PMC OA identifiers / packages from the S3 OA mirror.
-2. Fetch OA full text for experimental-section mining.
-3. Ingest Chemotion deposit peak lists with structure metadata from the RADAR4Chem release.
+1. Discover IR-reporting OA PMCIDs via NCBI `esearch` (`open access[filter]` + characterisation-format IR query; year/month sliced).
+2. Fetch OA full text from PMC-OA S3 plain-text objects (`PMC{id}.{v}.txt`).
+3. Ingest Chemotion deposit author-curated band lists + structures (`scripts/chemotion_to_irexp.py`).
 4. Persist harvest provenance in `seen_papers.txt.gz` and optional rawer rows in `ir_harvest_snapshot.jsonl.gz` (134,893 rows including intermediate prose fields used to diagnose materials-text false positives; the curated release is `irexp.jsonl.gz`).
 
-Development adapters for additional publishers exist in the codebase for exploration; they are **outside the construction path of the released dataset**. Methods for IRexp as published here are restricted to **PMC-OA S3 + Chemotion**.
+**Non-OA / Scrapling fence.** Development adapters for ChemRxiv, Beilstein, and generic publisher pages (`spectro_scraper/fetch.py` Scrapling / StealthyFetcher TLS-impersonation stack; `spectro_scraper/sources/*`) exist for exploration. They are **outside the construction path of the released dataset** and are an optional dependency. **No released `source_doi` is a paywalled publisher DOI.** Methods for IRexp as published here cite only **PMC-OA S3 + Chemotion**.
 
 ### Extraction (band lists, not spectra)
 
@@ -80,7 +80,7 @@ Where an IUPAC or systematic name is available, names are converted with OPSIN (
 
 ### Quality tooling
 
-Optional physics gates live in `spectro_scraper/quality.py` (¹³C peak count ≤ carbon count; ¹H integration vs formula; IR wavenumber windows). They were **not** applied as a hard filter to every released row at harvest; Technical Validation reports post-hoc checks below. Transcription fidelity uses `scripts/audit_extraction.py`.
+Optional physics gates live in `spectro_scraper/quality.py` (¹³C peak count ≤ carbon count; ¹H integration vs formula; IR wavenumber windows). They were **not** applied as a hard filter at harvest; Technical Validation reports a full-corpus post-hoc quarantine on `irexp_resolved` (`scripts/quarantine_structure_nmr.py` → `data/audit/structure_nmr_quarantine.jsonl.gz`). Transcription and recall-proxy scripts: `scripts/audit_extraction.py`, `scripts/audit_extraction_recall.py`.
 
 ## Data Records
 
@@ -142,49 +142,54 @@ Paths relative to the project repository / Hugging Face mirror.
 | `irexp_other.jsonl.gz` | **0** | reserved (e.g. CC-BY-ND) |
 | `irexp_sharealike.jsonl.gz` | **1,897** | Chemotion CC-BY-SA-4.0 (1,888) + rare PMC SA |
 
-The full `irexp.jsonl.gz` remains multi-licence on disk; commercial redistribution must use the commercial pool (or `license_pool == "commercial"`). Hugging Face should be re-issued with these files (`scripts/publish_hf.py`).
+The full `irexp.jsonl.gz` remains multi-licence on disk; commercial redistribution must use the commercial pool (or `license_pool == "commercial"`). Hugging Face was re-issued with stamped pools and honest card text (`scripts/publish_hf.py`, 2026-08-26).
 
 Median bands: **9** (PMC), **39** (Chemotion). All **1,360,866** released IR band values fall inside 350–4000 cm⁻¹ (full-corpus range check; Technical Validation).
 
 ### Access
 
-- **Hugging Face:** https://huggingface.co/datasets/ilkhamfy/IRexp (public mirror; re-issue with stamped pools — see `LICENCE_REMEDIATION.md`).
+- **Hugging Face:** https://huggingface.co/datasets/ilkhamfy/IRexp (public mirror with commercial / NC / SA / empty_unknown configs — see `LICENCE_REMEDIATION.md`).
 - **GitHub development mirror:** https://github.com/IlkhamFY/spectro-agent
 - **Zenodo archival snapshot:** `[TODO: 10.5281/zenodo.XXXXXXX]` (mint after honest multi-licence metadata).
 
 ## Technical Validation
 
+Machine-readable package: `docs/scientific_data/qc_structure_nmr.json` (and artefacts under `data/audit/`).
+
 ### Transcription fidelity (PMC)
 
-On a seed-fixed random sample of **60** PMC-sourced records (`scripts/audit_extraction.py --n 60 --seed 0`), each article was re-fetched from Europe PMC and every recorded wavenumber was checked against the source text (±1 cm⁻¹ integer match). Result: **560/560 bands** and **60/60 records** confirmed (Wilson 95% CI ≈ 99.3–100% for bands; ≈ 94–100% for records). Frozen machine-readable summary: `data/audit/extraction_audit.json`.
+On a seed-fixed random sample of **60** PMC-sourced records (`scripts/audit_extraction.py --n 60 --seed 0`), each article was re-fetched from Europe PMC and every recorded wavenumber was checked against the source text (±1 cm⁻¹ integer match). Result: **560/560 bands** and **60/60 records** confirmed. Enlarged sample **n=200** (same script/seed family, `data/audit/extraction_audit_n200.json`): **2,250/2,261 bands (99.51%)** and **196/200 records (98.0%)** fully confirmed. This bounds **transcription** error (hallucinated, mis-parsed, or unit-mangled values).
 
-This bounds **transcription** error (hallucinated, mis-parsed, or unit-mangled values). It does **not** measure extraction **recall** (whether every IR string in every paper was found) — that requires human reading of full experimental sections and remains planned (see below).
+### Extraction-recall proxy (PMC, harvest path)
 
-### Structure–NMR consistency (resolved sample)
+A human mark-up of every IR string in every paper remains the gold standard. As an automatic **proxy** on the actual harvest path (`scripts/audit_extraction_recall.py --n 40 --seed 0`): re-fetch PMC-OA S3 plain text for **40** distinct source PMCIDs; re-run `extract_records`; compare band-sets to released rows (±1 cm⁻¹). Result: **2,640/2,640** released bands confirmed in re-extract; **248/248** released IR lists recovered (list-level recall proxy **1.0**; 40/40 papers); **4/40** papers yielded *extra* re-extracted lists relative to the curated release (parser over-fire vs post-harvest dedup/curation, not missed released compounds). Summary: `data/audit/extraction_recall_proxy.json`. This is **not** a substitute for expert human recall.
 
-On a random sample of **500** `irexp_resolved` records with ¹³C text (seed 0), comma-separated ¹³C peaks were counted against RDKit carbon counts: **17/500 (3.4%)** listed more peaks than carbons (physically impossible → name/structure assignment or parse error). On **500** records with ¹H text, summed reported integrals exceeded formula hydrogens by more than 2 in **17/497** scored rows (**3.4%**; 3 lacked parseable integrals). Reproducible summary: `docs/scientific_data/qc_structure_nmr.json`.
+### Structure–NMR consistency and quarantine (resolved)
 
-These rates are reported as integrity diagnostics for re-users (quarantine or filter before supervised training). They are **not** claimed as a full expert structure audit; NMRexp-scale manual skeleton checks (n≈300) remain future work.
+**Sample (prior).** On **500** `irexp_resolved` records with ¹³C text (seed 0): **17/500 (3.4%)** listed more peaks than carbons. On **500** with ¹H text: integrals > formula H+2 in **17/497 (3.4%)**.
+
+**Full resolved corpus.** `scripts/quarantine_structure_nmr.py` applied the same physics gates (via `parse_h_peaks` / `parse_c_peaks` + RDKit counts; IR window) to all **43,060** structure-linked rows. **1,882 (4.37%)** fail ≥1 hard check and are listed in `data/audit/structure_nmr_quarantine.jsonl.gz` (diagnostic only — release files unchanged). Among rows with the relevant modality: ¹³C peaks > carbons **1,194/34,231 (3.49%)**; ¹H integral > formula+2 **1,141/39,672 (2.88%)**; IR out-of-range **0**; unparseable SMILES **0**. Re-users should filter quarantined IDs before supervised training. These rates are integrity diagnostics, **not** an expert skeleton audit (NMRexp-scale n≈300 manual checks remain optional future work).
 
 ### IR physical window
 
 Every band in the full 121,233-record release lies in **[350, 4000] cm⁻¹** (0 / 1,360,866 out of range).
 
-### Planned / deferred QC
+### QC status
 
 | Check | Status |
 |---|---|
-| Per-PMCID licence join + pool counts | **Done** — `LICENCE_REMEDIATION.md`; commercial 87,617 |
-| Extraction-recall human audit (papers, not bands) | Planned (n≥30–50 papers) |
-| Larger transcription sample (n≥200) | Planned |
-| Full-corpus `quality.py` quarantine pass | Planned |
+| Per-PMCID licence join + pool counts | **Done** — commercial 87,617 |
+| Transcription fidelity n=60 and n=200 | **Done** |
+| Extraction-recall automatic proxy (n=40 papers, S3 path) | **Done** (human recall still optional) |
+| Full-corpus structure–NMR quarantine | **Done** — 1,882 / 43,060 flagged |
 | Expert structure spot-check (n≥100) | Optional / deferred |
 
 ## Usage Notes
 
 - **Band lists ≠ spectra.** Do not evaluate models trained on IRexp as if they had seen full absorbance curves.
-- **Separate pools by density and licence.** PMC (sparse, author-transcribed) vs Chemotion (denser, deposit peak-picked). Keep Chemotion ShareAlike constraints in mind when combining pools; combined redistribution of Chemotion-derived rows must honour CC-BY-SA-4.0.
+- **Separate pools by density and licence.** PMC (sparse, author-transcribed) vs Chemotion (denser, author-curated ELN band lists). Keep Chemotion ShareAlike constraints in mind when combining pools; combined redistribution of Chemotion-derived rows must honour CC-BY-SA-4.0.
 - **Do not assume PMC = CC-BY-4.0.** Filter to `license_pool == "commercial"` (or use `irexp_commercial.jsonl.gz`) for commercial redistribution; attribute via `source_doi` / `pmcid`.
+- **Structure–NMR quarantine.** Before supervised training on `irexp_resolved`, optionally drop IDs in `data/audit/structure_nmr_quarantine.jsonl.gz` (~4.4% of resolved rows).
 - **Training without benchmark leakage.** If using the complementary IRSpectra-Bench problems, fine-tune from `train_no_bench.jsonl.gz` (or rebuild with `scripts/build_train_no_bench.py`) so benchmark InChIKeys are withheld.
 - **Structure coverage.** Prefer `irexp_resolved` for supervised structure tasks; 64.5% of records lack SMILES.
 - **Attribution.** Cite this Data Descriptor / Zenodo DOI and attribute originating articles through each record’s `source_doi`.
@@ -205,7 +210,7 @@ Licensing summary (honest):
 
 ## Code Availability
 
-Harvesting, extraction, structure resolution, licence pool splitting, and validation scripts are in https://github.com/IlkhamFY/spectro-agent under the **MIT License** (`LICENSE`). Principal modules: `spectro_scraper/` (`extract.py`, `normalize.py`, `pipeline.py`, `quality.py`); validation `scripts/audit_extraction.py`; pool split `scripts/split_license_pools.py`. The version corresponding to this Descriptor will be tagged at Zenodo deposit time.
+Harvesting, extraction, structure resolution, licence pool splitting, and validation scripts are in https://github.com/IlkhamFY/spectro-agent under the **MIT License** (`LICENSE`). Principal modules: `spectro_scraper/` (`extract.py`, `normalize.py`, `pipeline.py`, `quality.py`); release harvest `scripts/s3_ir_harvest.py`, `scripts/chemotion_to_irexp.py`; validation `scripts/audit_extraction.py`, `scripts/audit_extraction_recall.py`, `scripts/quarantine_structure_nmr.py`; pool split `scripts/split_license_pools.py`. The version corresponding to this Descriptor will be tagged at Zenodo deposit time.
 
 ## Author contributions
 

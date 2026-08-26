@@ -170,41 +170,46 @@ Agents leave `[TODO: …]` markers; do not fabricate DOIs, ORCIDs, or grant numb
 
 ## 7. Success criteria checklist
 
-### Track 0
+**Status (2026-08-26):** **T0–T3 done** on `main`. Remaining work is remirror / mint / human blockers / polish — not split-track scaffolding.
+
+### Track 0 — done
 
 - [x] Archive copies exist and match freeze-time `PAPER.md` / `paper.tex`
 - [x] Orchestration doc committed; layout dirs present
 - [x] Live combined pipeline left intact (`build_pdf.py` → `PAPER.md`)
 
-### Track 1
+### Track 1 — done
 
-- [ ] Per-PMCID licence join complete for release accessions
-- [ ] NC / other segregated; commercial pool redistributable under stated licence(s)
-- [ ] Every release record stamped with `license`
-- [ ] `data/NOTICE`, HF card, `.zenodo.json` corrected (no blanket PMC CC-BY)
-- [ ] Counts exportable for T2 Data Records
+- [x] Per-PMCID licence join complete for release accessions
+- [x] NC / other segregated; commercial pool redistributable under stated licence(s)
+- [x] Every release record stamped with `license`
+- [x] `data/NOTICE`, HF card, `.zenodo.json` corrected (no blanket PMC CC-BY)
+- [x] Counts exportable for T2 Data Records — commercial **87,617**; NC 20,938; SA 1,897; empty/unknown 10,781; total 121,233 (`LICENCE_REMEDIATION.md`, `data/irexp/licence_pools/`)
 
-### Track 2
+### Track 2 — done (manuscript draft)
 
-- [ ] `docs/scientific_data/SCIENTIFIC_DATA.md` exists with full Data Descriptor sections
-- [ ] No diagnosis / LLM result tables in abstract or body
-- [ ] Final counts consistent with T1 pools
-- [ ] Technical Validation reports integrity checks (transcription + structure consistency and/or recall sample as agreed)
-- [ ] Cross-cite ICLR; Data Availability ready for Zenodo DOI when minted
-- [ ] Did **not** modify `docs/archive/**`, `docs/PAPER.md`, or `docs/paper.tex`
+- [x] `docs/scientific_data/SCIENTIFIC_DATA.md` exists with full Data Descriptor sections
+- [x] No diagnosis / LLM result tables in abstract or body
+- [x] Final counts consistent with T1 pools
+- [x] Technical Validation reports integrity checks (transcription + structure consistency and/or recall sample as agreed)
+- [x] Cross-cite ICLR; Data Availability ready for Zenodo DOI when minted
+- [x] Did **not** modify `docs/archive/**`, `docs/PAPER.md`, or `docs/paper.tex`
 
-### Track 3
+### Track 3 — done (manuscript draft)
 
-- [ ] `docs/iclr/ICLR_PAPER.md` exists with bench + diagnosis focus
-- [ ] Dataset described by citation to Sci Data / Zenodo / HF, not a second Data Descriptor
-- [ ] Metrics, scorers, and frozen predictions still mechanically checkable where claimed
-- [ ] Cross-cite Sci Data; no substantial text overlap with T2
-- [ ] Did **not** modify `docs/archive/**`, `docs/PAPER.md`, or `docs/paper.tex`
+- [x] `docs/iclr/ICLR_PAPER.md` exists with bench + diagnosis focus
+- [x] Dataset described by citation to Sci Data / Zenodo / HF, not a second Data Descriptor
+- [x] Metrics, scorers, and frozen predictions still mechanically checkable where claimed
+- [x] Cross-cite Sci Data; no substantial text overlap with T2
+- [x] Did **not** modify `docs/archive/**`, `docs/PAPER.md`, or `docs/paper.tex`
 
-### Dual-pub / human
+### Remaining (post-split)
 
-- [ ] Titles and abstracts clearly disjoint
-- [ ] ORCID / Zenodo / funding filled by humans before submission
+- [ ] Hugging Face remirror of stamped pools / card (`HF_TOKEN` + `scripts/publish_hf.py`)
+- [ ] Zenodo DOI mint (multi-licence deposit; commercial primary)
+- [ ] Human: ORCID confirmation + funding / acknowledgements
+- [ ] Polish both manuscripts before submission
+- [ ] Titles and abstracts clearly disjoint (spot-check at camera-ready)
 - [ ] PI aligned on Sci Data → ICLR order (or simultaneous complementary disclosure)
 
 ---

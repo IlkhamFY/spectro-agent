@@ -71,12 +71,12 @@ Where an IUPAC or systematic name is available, names are converted with OPSIN (
 
 | Pool | Records | Stamp |
 |---|---:|---|
-| commercial (CC-BY + CC0) | 87,617 | `license_pool=commercial` — Zenodo primary |
+| commercial (CC-BY + CC0) | **87,617** | `license_pool=commercial` — Zenodo / Sci Data primary |
 | non_commercial (CC-BY-NC*) | 20,938 | held aside |
 | sharealike (Chemotion + rare PMC SA) | 1,897 | CC-BY-SA / CC-BY-SA-4.0 |
 | empty_unknown | 10,781 | excluded from commercial deposit |
 
-`scripts/join_pmc_licences.py` stamps every row; `scripts/split_license_pools.py` reports provenance (`pool_of`) and real `license_pool` files under `data/irexp/licence_pools/`.
+`scripts/join_pmc_licences.py` stamps every row; `scripts/split_license_pools.py` reports provenance (`pool_of`) and materialises pool files under `data/irexp/licence_pools/`. Narrative and policy: `docs/scientific_data/LICENCE_REMEDIATION.md`.
 
 ### Quality tooling
 
@@ -114,6 +114,10 @@ Paths relative to the project repository / Hugging Face mirror.
 | `data/irexp_release/pretrain_ir.jsonl.gz` | 119,345 | PMC-only IR pretrain pool |
 | `data/irexp/seen_papers.txt.gz` | 188,016 lines | PMC IDs scanned at harvest |
 | `data/irexp/ir_harvest_snapshot.jsonl.gz` | 134,893 | Intermediate harvest snapshot |
+| `data/irexp/licence_pools/irexp_commercial.jsonl.gz` | 87,617 | CC-BY + CC0 (Zenodo/Sci Data primary) |
+| `data/irexp/licence_pools/irexp_non_commercial.jsonl.gz` | 20,938 | NC* held aside |
+| `data/irexp/licence_pools/irexp_sharealike.jsonl.gz` | 1,897 | Chemotion + rare PMC SA |
+| `data/irexp/licence_pools/irexp_empty_unknown.jsonl.gz` | 10,781 | Excluded from commercial |
 
 **Composition of `irexp.jsonl.gz`:**
 
@@ -128,7 +132,7 @@ Paths relative to the project repository / Hugging Face mirror.
 | Chemotion provenance | 1,888 |
 | Unique PMC accessions | 15,416 |
 
-**Licence-pool counts (Europe PMC join, 2026-08-26).** Lookup over **15,416** unique PMCIDs; stamped pool files under `data/irexp/licence_pools/` (see `LICENCE_REMEDIATION.md`). Sum of pools = 121,233.
+**Licence-pool counts (confirmed Track 1 join, 2026-08-26).** Lookup over **15,416** unique PMCIDs; stamped pool files under `data/irexp/licence_pools/` (see `docs/scientific_data/LICENCE_REMEDIATION.md`, `data/irexp/pmc_licence_summary.json`). Sum of pools = **121,233** (unchanged).
 
 | Pool file | Count | Notes |
 |---|---:|---|

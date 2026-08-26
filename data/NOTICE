@@ -5,43 +5,59 @@ This dataset redistributes ONLY extracted numeric data (IR band lists, 1H/13C sh
 lists, and resolved structures as SMILES/SELFIES/InChIKey) together with each record's
 source DOI/accession. No source full text, figures, or PDFs are redistributed.
 
-Two source pools (Chemotion OK; PMC is a licence MIX — do not treat as all CC-BY)
----------------------------------------------------------------------------------
-1. PMC Open-Access Subset  — 119,345 records — **MIXED Creative Commons terms**
-   https://www.ncbi.nlm.nih.gov/pmc/tools/openftlist/
-   PMC OA is partitioned into commercial-use (CC0 / CC BY / CC BY-SA / CC BY-ND),
-   non-commercial (CC BY-NC*), and Other. A 2026-08-26 Europe PMC sample of 200
-   IRexp PMCIDs found ~73% `cc by`, ~19% NC or empty, remainder other. **It is
-   therefore incorrect to label the whole PMC pool CC-BY-4.0.** Per-article licence
-   join and segregation (drop or NC-tag non-commercial) is required before any
-   commercial-redistribution claim. Chemotion aside, released PMC rows currently
-   carry `source_doi` only (no per-article licence stamp yet).
-2. Chemotion RADAR4Chem FT-IR deposit — 1,888 records — CC-BY-SA-4.0
-   DOI 10.22000/OGoEQGlsZGElrgst (resolves; landing page CC BY-SA 4.0)
+Every record carries stamped licence fields
+-------------------------------------------
+After `scripts/join_pmc_licences.py` (Europe PMC join, 2026-08-26):
 
-The Chemotion vs PMC *source* pools are separable on `source_doi` (Chemotion uses
-RADAR4Chem prefix 10.22000; PMC uses `PMC:` accessions):
+| Field | Meaning |
+|---|---|
+| `license` | Normalised label (CC-BY, CC-BY-NC*, CC0, CC-BY-SA-4.0, EMPTY, UNKNOWN, …) |
+| `license_raw` | Europe PMC `license` string (PMC rows) or Chemotion landing-page term |
+| `license_pool` | `commercial` \| `non_commercial` \| `sharealike` \| `empty_unknown` \| `other` |
+| `license_source` | `europepmc` \| `chemotion` |
+| `pmcid` | Normalised PMCID when source is PMC |
 
-    python scripts/split_license_pools.py --write OUT/
+Full corpus: `data/irexp/irexp.jsonl.gz` (121,233 records) — **kept on disk with
+per-record licence**; filter at release time.
 
-That script still stamps every non-Chemotion record as CC-BY-4.0 — **legacy
-behaviour that overclaims**. Treat its PMC output as “PMC-sourced”, not as a
-verified CC-BY pool, until article-level licences are joined. Any combined or
-Chemotion-derived redistribution must honour CC-BY-SA-4.0 ShareAlike.
+Licence pools (record counts)
+-----------------------------
+| Pool | Records | Redistribution policy |
+|---|---:|---|
+| **commercial** (CC0 + CC-BY) | **87,617** | Primary Sci Data / Zenodo redistributable artifact |
+| non_commercial (CC-BY-NC*) | 20,938 | Held aside — `licence_pools/irexp_non_commercial.jsonl.gz` |
+| sharealike (Chemotion CC-BY-SA-4.0 + rare PMC CC-BY-SA) | 1,897 | Separate SA file — honour ShareAlike |
+| empty_unknown (EMPTY / no EPMC hit) | 10,781 | **Excluded** from commercial Zenodo pool |
+| other (e.g. CC-BY-ND) | 0 | Held aside if present |
+
+Provenance (unchanged totals): PMC-sourced 119,345; Chemotion 1,888.
+Unique PMCIDs joined: 15,416. See `docs/scientific_data/LICENCE_REMEDIATION.md`.
+
+Materialise pools
+-----------------
+```
+python scripts/join_pmc_licences.py          # (re)join + stamp + write licence_pools/
+python scripts/split_license_pools.py        # report
+python scripts/split_license_pools.py --write OUT/           # by license_pool
+python scripts/split_license_pools.py --write-sources OUT/   # pmc vs chemotion only
+```
+
+Pre-built files live under `data/irexp/licence_pools/`.
 
 Attribution
 -----------
 Re-users must (a) cite the dataset via its archival Zenodo DOI (see PAPER.md
-"Data and code availability"), and (b) attribute the originating publications via each
-record's `source_doi` field, under each article's actual licence terms.
+"Data and code availability"), (b) attribute originating publications via each
+record's `source_doi` / `pmcid`, and (c) honour each record's `license` /
+`license_pool`. Commercial ML redistribution should use the **commercial** pool
+only. Chemotion-derived or mixed-SA redistributions must remain CC-BY-SA-4.0.
 
 Code
 ----
 The code in this repository is released under the MIT License (see top-level LICENSE).
 
-TODO before Scientific Data / archival release
-----------------------------------------------
-- Join every PMC: accession to its machine-readable licence; ship commercial /
-  non-commercial / other as separate files (or stamp a licence on every row).
-- Stop advertising the PMC pool as uniformly CC-BY-4.0 in PAPER, README, HF, Zenodo.
-- Re-issue the Hugging Face mirror after remediation.
+Hugging Face
+------------
+The public mirror `ilkhamfy/IRexp` previously overclaimed blanket CC-BY for PMC rows.
+Re-issue after remediation — see `docs/scientific_data/LICENCE_REMEDIATION.md` § HF
+re-upload. No credentials are committed here.

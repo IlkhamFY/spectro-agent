@@ -29,6 +29,13 @@ FILES = [
     (ROOT / "data/irexp_release/pretrain_ir.jsonl.gz", "data/pretrain_ir.jsonl.gz"),
     (ROOT / "data/irexp_release/train_no_bench_stats.json", "data/train_no_bench_stats.json"),
     (ROOT / "data/irexp_release/train_no_bench_stats_nmr.json", "data/train_no_bench_stats_nmr.json"),
+    # Licence-remediated pools (commercial = primary redistributable)
+    (ROOT / "data/irexp/licence_pools/irexp_commercial.jsonl.gz", "data/irexp_commercial.jsonl.gz"),
+    (ROOT / "data/irexp/licence_pools/irexp_non_commercial.jsonl.gz", "data/irexp_non_commercial.jsonl.gz"),
+    (ROOT / "data/irexp/licence_pools/irexp_sharealike.jsonl.gz", "data/irexp_sharealike.jsonl.gz"),
+    (ROOT / "data/irexp/licence_pools/irexp_empty_unknown.jsonl.gz", "data/irexp_empty_unknown.jsonl.gz"),
+    (ROOT / "data/irexp/pmc_licence_summary.json", "data/pmc_licence_summary.json"),
+    (ROOT / "docs/scientific_data/LICENCE_REMEDIATION.md", "LICENCE_REMEDIATION.md"),
     (ROOT / "docs/LEADERBOARD.md", "LEADERBOARD.md"),
 ]
 

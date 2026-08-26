@@ -220,13 +220,13 @@ pipeline specialised to the *IR band list*, the modality those tools passed over
 
 The pools differ: PMC records are author-transcribed (median 9 bands), Chemotion records
 peak-picked from deposited spectra (median 39); users training on band density should
-treat them apart. `scripts/split_license_pools.py` separates them on `source_doi`.
-**Licensing caveat.** The PMC Open Access Subset is *not* uniformly CC-BY: it mixes
-commercial-use (CC BY / CC0 / …), CC BY-NC*, and other terms. Chemotion records are
-CC-BY-SA-4.0 and are stamped; PMC rows currently carry `source_doi` but are not yet
-joined to per-article licences — a Europe PMC sample of 200 IRexp PMCIDs found ~73%
-`cc by` and ~19% NC or empty. Until that join ships, do not treat the PMC pool as a
-single CC-BY-4.0 redistribution.
+treat them apart. `scripts/split_license_pools.py` reports provenance (`source_doi`) and
+stamped `license_pool` splits. **Licensing.** A Europe PMC join over all 15,416 unique
+IRexp PMCIDs stamps every record (`scripts/join_pmc_licences.py`): **87,617** commercial
+(CC-BY/CC0), **20,938** CC-BY-NC*, **1,897** ShareAlike (Chemotion + rare PMC SA), and
+**10,781** empty/unknown (excluded from the commercial Zenodo pool). Chemotion records
+are CC-BY-SA-4.0. Do not treat the undivided PMC provenance slice as a single CC-BY-4.0
+redistribution — use `license_pool == "commercial"` (or `data/irexp/licence_pools/`).
 
 **Extraction fidelity is measured.** On a seed-fixed random sample of 60
 PMC-sourced records (`scripts/audit_extraction.py --n 60 --seed 0`) we re-fetched each
@@ -240,14 +240,13 @@ requiring human reading; that extraction-recall audit is formally deferred
 `irexp_resolved` (43,060 records, 100% structure-linked) is the benchmark-ready split,
 ≈6× the 6,833-molecule set used to train Spectro[@chacko2024spectro] ([@sfig:dataset]).
 
-**Reuse.** Each record carries `source_doi` and, where resolved, molecular representations
-(canonical SMILES, InChIKey, SELFIES). Chemotion records also carry a CC-BY-SA licence
-stamp; PMC per-article licences are not yet stamped (see caveat above). Fine-tuning against
-IRSpectra-Bench should use `data/train_no_bench.jsonl.gz` (or rebuild with
-`contrib/generator_probe/build_exp_manifest.py`) so benchmark InChIKeys are withheld.
-Source pools are separable on `source_doi` (`scripts/split_license_pools.py`); cite the
-Zenodo deposit once minted and attribute sources via each record’s `source_doi` (see Data
-availability; Hugging Face mirror `ilkhamfy/IRexp`).
+**Reuse.** Each record carries `source_doi`, stamped `license` / `license_pool`, and,
+where resolved, molecular representations (canonical SMILES, InChIKey, SELFIES).
+Fine-tuning against IRSpectra-Bench should use `data/train_no_bench.jsonl.gz` (or rebuild
+with `contrib/generator_probe/build_exp_manifest.py`) so benchmark InChIKeys are withheld.
+Commercial redistribution should use the commercial pool; Chemotion/SA rows remain
+CC-BY-SA-4.0. Cite the Zenodo deposit once minted and attribute sources via each record’s
+`source_doi` (see Data availability; Hugging Face mirror `ilkhamfy/IRexp`).
 
 ## Benchmark design (IRSpectra-Bench) {#sec:benchmark-design-irspectra-bench}
 
@@ -794,10 +793,11 @@ repository README.
 | integrity gates | `scripts/check_manuscript.py`, `scripts/check_layout.py` |
 
 IRexp redistributes extracted numeric data only (band lists, shifts, structures, source
-DOIs) from the PMC Open Access Subset (mixed Creative Commons terms — not uniformly
-CC-BY; per-article licence join pending) and Chemotion (CC-BY-SA-4.0); source pools are
-separable by `source_doi` (`scripts/split_license_pools.py`). Code is MIT. Cite the Zenodo
-deposit and attribute sources via each record’s `source_doi`. De-leak with
+DOIs) from the PMC Open Access Subset and Chemotion, with per-record `license` /
+`license_pool` stamps (commercial CC-BY/CC0 primary pool 87,617; NC* held aside;
+Chemotion CC-BY-SA-4.0; empty/unknown excluded from commercial Zenodo —
+`scripts/join_pmc_licences.py`, `scripts/split_license_pools.py`). Code is MIT. Cite the
+Zenodo deposit and attribute sources via each record’s `source_doi`. De-leak with
 `contrib/generator_probe/build_exp_manifest.py` before training against the benchmark;
 withhold `data/audit/key.jsonl` and `data/modality/key.json` from blinded reviewers.
 

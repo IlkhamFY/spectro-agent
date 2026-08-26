@@ -68,8 +68,16 @@ python scripts/verifier_leakage.py --all # candidate/training overlap check
 ## Licensing
 
 IRexp redistributes extracted numeric band lists / shifts / structures with source
-DOIs. Chemotion/RADAR4Chem records (1,888) are CC-BY-SA-4.0. The PMC Open Access
-Subset pool (119,345) is a **mix** of CC BY, CC BY-NC*, and other terms — **not**
-uniformly CC-BY-4.0; per-article licence join is pending before any commercial
-CC-BY redistribution claim. See `data/NOTICE` and the audit
+DOIs. Every record is stamped with `license` / `license_pool` after a Europe PMC
+join (`scripts/join_pmc_licences.py`).
+
+| Pool | Records | Use |
+|---|---:|---|
+| **commercial** (CC-BY + CC0) | **87,617** | Primary Sci Data / Zenodo redistributable |
+| non_commercial (CC-BY-NC*) | 20,938 | Held aside |
+| sharealike (Chemotion + rare PMC SA) | 1,897 | CC-BY-SA — separate file |
+| empty_unknown | 10,781 | Excluded from commercial deposit |
+
+Provenance totals: 119,345 PMC-sourced + 1,888 Chemotion. See `data/NOTICE`,
+`docs/scientific_data/LICENCE_REMEDIATION.md`, and
 `docs/irexp_scientific_data_audit.md`. Code is MIT.

@@ -20,20 +20,29 @@ for a referee PDF when a journal asks for continuous line numbers at peer review
 they are not part of the printed article and should not be on the author PDF you
 iterate against.
 
-**Venue.** ChemRxiv first (deposit venue only — the PDF is a clean two-column article
-with no ChemRxiv or journal chrome), then ***Journal of Chemical Information and Modeling*
-(JCIM) as the primary journal target** (cheminformatics resource + benchmark + diagnostic
-metrics), decided with the PI (R. A. Vargas-Hernández). The abstract is a single paragraph
-(~230 words). Keywords (for the ChemRxiv deposit form, not printed in the PDF): structure
-elucidation; infrared spectroscopy; NMR spectroscopy; chemical information; benchmark;
-molecular representation; large language models. Graphical abstract:
-`docs/figures/graphical_abstract.png`.
+**Venue (2026-08-26 split).** Primary plan is a **two-paper split**: *Nature Scientific
+Data* for the **IRexp** Data Descriptor, and **ICLR** for **IRSpectra-Bench +
+recall/verification diagnosis** (`docs/iclr/ICLR_PAPER.md`; boundary checklist in
+`docs/iclr/README.md`). Prefer Sci Data first (or simultaneous), then ICLR citing the
+dataset DOI / HF mirror. The pre-split combined manuscript remains archived at
+`docs/PAPER.md` and `docs/archive/combined_PAPER.md` — **do not delete** either; they are
+the source snapshot, not the submission targets once the split ships.
 
-**Editorial positioning (2026-08-25 JCIM strengthen).** Manuscript reframed as a JCIM
-chemical-information paper: IRexp/IRSpectra-Bench as first-class data objects, InChIKey
-scorer contract, community reporting instructions (recall, verification precision, top-1),
-baselines positioned as neighbours not SOTA claims. Title updated to foreground resource +
-benchmark + diagnosis. Limitations honesty retained (including missing on-bench baselines).
+**Legacy JCIM framing (superseded as primary target).** ChemRxiv deposit of a clean
+two-column PDF remains useful as a preprint vehicle. A single JCIM “resource + benchmark +
+diagnosis” paper with an early dataset DOI can burn Sci Data novelty (audit §F.4) — do not
+treat JCIM as the primary path without revisiting the complementary-content plan with the
+PI (R. A. Vargas-Hernández). Keywords (ChemRxiv form): structure elucidation; infrared
+spectroscopy; NMR spectroscopy; chemical information; benchmark; molecular representation;
+large language models. Graphical abstract: `docs/figures/graphical_abstract.png`.
+
+**Editorial positioning (2026-08-25 JCIM strengthen; retained in archive).** Combined
+manuscript reframed as a chemical-information paper: IRexp/IRSpectra-Bench as first-class
+data objects, InChIKey scorer contract, community reporting instructions (recall,
+verification precision, top-1), baselines positioned as neighbours not SOTA claims.
+Limitations honesty retained (including missing on-bench baselines). ICLR draft inherits
+the diagnosis/benchmark half; Sci Data owns corpus Methods / Data Records / Technical
+Validation.
 
 ---
 
@@ -48,7 +57,7 @@ it does not.
 | 1 | **ORCID iDs**, all three authors | `docs/PAPER.md`, author block (visible `[TODO: 0000-…]` placeholders) | corresponding author's ORCID is typically required at submission |
 | 2 | **Zenodo DOI** for the data/code deposit | `docs/PAPER.md`, Data and code availability (`[TODO: 10.5281/zenodo.XXXXXXX]`) | mint at submission; the Licensing section points re-users at it for attribution |
 | 3 | **Funding sources and acknowledgements** | `docs/PAPER.md`, Acknowledgements (marked `— AUTHORS`) | currently the only empty section |
-| 4 | **Target journal** | cover letter + submission metadata | **JCIM primary** after ChemRxiv deposit; confirm house style with PI |
+| 4 | **Target venues** | cover letter + submission metadata | **Sci Data + ICLR** split (see §9); JCIM no longer primary — confirm with PI |
 
 ### Not on this list any more: model snapshot identifiers
 
@@ -248,14 +257,23 @@ Do not put `\fontspec[...]{...}` (or any `[...]` with a closing `]`) inside
 outer `\sffamily` group plus `\fontsize{10}{12}\selectfont` only. Abstract body is
 `\raggedright` (scoped to the title-block group).
 
-## 9. Scientific Data feasibility audit (2026-08-26)
+## 9. Scientific Data + ICLR split (2026-08-26)
 
-PI discussion raised a two-paper split (Scientific Data for IRexp + ICLR for
-IRSpectra-Bench/diagnosis). Full audit: `docs/irexp_scientific_data_audit.md`
-(also `/opt/cursor/artifacts/irexp_scientific_data_audit.md`).
+PI discussion adopted a two-paper split (Scientific Data for IRexp + ICLR for
+IRSpectra-Bench/diagnosis). Full audit: `docs/irexp_scientific_data_audit.md`.
 
-**Blocker found:** the blanket claim that all PMC-OA records are CC-BY-4.0 is
+| track | path | owns |
+|---|---|---|
+| Sci Data | `docs/scientific_data/` (T2) | IRexp construction, Data Records, Technical Validation, licences |
+| ICLR | `docs/iclr/ICLR_PAPER.md` | Benchmark, decomposition, contamination/cross-vendor, forward-verify diagnosis |
+| Combined archive | `docs/PAPER.md`, `docs/archive/combined_PAPER.md` | Pre-split JCIM-shaped source — keep |
+
+**Blocker (Sci Data):** the blanket claim that all PMC-OA records are CC-BY-4.0 is
 false (~19% NC/empty in a 200-PMCID Europe PMC sample). Corrected in
 `data/NOTICE`, Licensing prose in `docs/PAPER.md`, `README.md`, HF card, and
 `.zenodo.json` on branch `cursor/irexp-scidata-audit-9a67`. Per-article licence
 join and Data Descriptor rewrite are still required before Sci Data submission.
+
+**ICLR dual-submission note:** Sci Data (data-only) + ICLR (diagnosis/benchmark) is fine
+if abstracts/contributions differ and neither pastes the other’s primary content — see
+`docs/iclr/README.md` boundary checklist.

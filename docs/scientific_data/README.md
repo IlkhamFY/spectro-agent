@@ -1,62 +1,56 @@
 # Scientific Data manuscript (Track 2)
 
-**Owned by T2.** Primary source: `SCIENTIFIC_DATA.md`.
+**Overleaf source of truth:** [`scientific_data.tex`](scientific_data.tex)  
+Markdown [`SCIENTIFIC_DATA.md`](SCIENTIFIC_DATA.md) remains working notes only.
 
 Do **not** edit `docs/archive/`, `docs/PAPER.md`, `docs/paper.tex`, or `scripts/build_pdf.py`.  
-See `docs/SPLIT_ORCHESTRATION.md` and `docs/irexp_scientific_data_audit.md`.
+See `docs/SPLIT_ORCHESTRATION.md`, `docs/OVERLEAF.md`, and `docs/irexp_scientific_data_audit.md`.
+
+## Overleaf
+
+1. Open / sync the repo (or upload `docs/scientific_data/` plus `docs/figures/`).
+2. Set the **main document** to `docs/scientific_data/scientific_data.tex`.
+3. Compiler: **XeLaTeX** (or pdfLaTeX) + **BibTeX**. Bibliography: `references.bib`.
+4. Figures resolve via `\graphicspath{{figures/}{../figures/}}` (symlink or copy `docs/figures`).
+
+**Class choice:** clean single-column `article` approximating a Nature *Scientific Data*
+Data Descriptor section order. The official Springer Nature `sn-article` class is **not**
+vendored in this repo; swap the preamble if submitting with the publisher template.
 
 ## Files
 
 | Path | Role |
 |---|---|
-| `SCIENTIFIC_DATA.md` | Nature *Scientific Data* Data Descriptor (authoring source) |
-| `LICENCE_REMEDIATION.md` | Track 1 Europe PMC join narrative, policy, confirmed pool counts |
-| `references.bib` | Bibliography for this Descriptor |
-| `qc_structure_nmr.json` | Frozen Technical Validation numbers (structure–NMR + IR window) |
-| `scientific_data.pdf` | Optional local render |
+| `scientific_data.tex` | **Overleaf / PDF source of truth** |
+| `SCIENTIFIC_DATA.md` | Working notes (same content; not for Overleaf) |
+| `references.bib` | Bibliography (`\bibliography{references}`) |
+| `LICENCE_REMEDIATION.md` | Track 1 Europe PMC join narrative + pool counts |
+| `qc_structure_nmr.json` | Frozen Technical Validation numbers |
+| `scientific_data.pdf` | Local render (`scripts/build_scientific_data_pdf.py`) |
 | `README.md` | This file |
 
-Licence pool artefacts (repo data, not under this dir): `data/irexp/licence_pools/`, `data/irexp/pmc_licence_summary.json`.
+Licence pool artefacts: `data/irexp/licence_pools/`, `data/irexp/pmc_licence_summary.json`.
 
-## Outline
+## Outline (Data Descriptor)
 
-1. Title (≤110 chars; no colon spam; no “AI-ready”)
-2. Abstract (≤170 words; data + reuse only)
+1. Title / authors (daggers for corresponding emails — match combined `paper.tex`)
+2. Abstract (data + reuse only; no LLM bench)
 3. Background & Summary
-4. Methods (PMC-OA S3 + Chemotion; band lists; OPSIN; provenance; confirmed licence pools)
-5. Data Records (schema, files, counts; commercial **87,617** primary)
-6. Technical Validation (transcription 560/560 n=60; structure–NMR sample; IR window)
+4. Methods
+5. Data Records (commercial **87,617** primary)
+6. Technical Validation
 7. Usage Notes
-8. Data Availability (HF + Zenodo TODO)
-9. Code Availability
+8. Data / Code Availability
+9. Author contributions, Competing interests, Acknowledgements, References
 
-## Track 1 status (done on `main`)
-
-Confirmed pool counts (total 121,233 unchanged):
-
-| Pool | Records | Role |
-|---|---:|---|
-| commercial (CC-BY + CC0) | **87,617** | Zenodo / Sci Data primary |
-| non_commercial (NC*) | 20,938 | held aside |
-| sharealike | 1,897 | Chemotion + rare PMC SA |
-| empty_unknown | 10,781 | excluded from commercial |
-
-Detail: `LICENCE_REMEDIATION.md` · pools: `data/irexp/licence_pools/`.
-
-## Remaining (not T2 manuscript blockers)
-
-- Hugging Face remirror (`HF_TOKEN` + `scripts/publish_hf.py`)
-- Zenodo DOI mint (human)
-- ORCID / funding (human)
-- Light polish before submission
-
-## Build PDF (optional)
+## Build PDF
 
 ```bash
 python3 scripts/build_scientific_data_pdf.py
 ```
 
-Does **not** touch `docs/paper.pdf` or `scripts/build_pdf.py`.
+Compiles **`.tex` → PDF** with tectonic (or xelatex+bibtex). Does **not** touch
+`docs/paper.pdf` or `scripts/build_pdf.py`.
 
 ## Cross-track rules
 

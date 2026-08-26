@@ -1,0 +1,618 @@
+% IRexp / IRSpectra-Bench manuscript bibliography.
+% Cited from docs/PAPER.md with pandoc-citeproc syntax, e.g. [(at)alberts2024ir].
+% Rendered by scripts/build_pdf.py (pandoc --citeproc --bibliography=docs/references.bib
+% --csl=docs/rsc.csl). Numbering is generated, never hand-maintained.
+
+@article{chacko2024spectro,
+  author  = {Chacko, Edwin and Sondhi, Rudra and Praveen, Arnav and
+             Luska, Kylie L. and Vargas-Hern{\'a}ndez, Rodrigo Alejandro},
+  title   = {Spectro: a multi-modal approach for molecule elucidation using
+             {IR} and {NMR} data},
+  journal = {ChemRxiv},
+  year    = {2024},
+  doi     = {10.26434/chemrxiv-2024-37v2j}
+}
+
+% This group's own earlier IR + machine-learning work, to be cited in Related work as
+% prior work by the same authors rather than as independent corroboration.
+@article{garcilazocruz2026virolo,
+  author  = {Garcilazo-Cruz, Uriel and Nie, Qichen and Sondhi, Rudra and
+             Vargas-Hern{\'a}ndez, Rodrigo A.},
+  title   = {{vIR-OLO}: an open-source {YOLO}-based interface for functional
+             group detection and localization in infrared spectra},
+  journal = {ChemRxiv},
+  year    = {2026},
+  doi     = {10.26434/chemrxiv.15007479/v1}
+}
+
+@article{sondhi2025jirvis,
+  author  = {Sondhi, Rudra and Chacko, Edwin and
+             Vargas-Hern{\'a}ndez, Rodrigo A.},
+  title   = {{j-IR-vis}: vision model for infrared spectroscopy embeddings},
+  journal = {ChemRxiv},
+  year    = {2025},
+  doi     = {10.26434/chemrxiv-2025-d0j2v}
+}
+
+@techreport{kamber2026chemist,
+  author      = {Kamber, David},
+  title       = {Making {Claude} a Chemist: how {Claude} performs on {NMR}
+                 prediction and structure elucidation},
+  institution = {Anthropic},
+  type        = {Non-peer-reviewed company white paper},
+  year        = {2026},
+  month       = {6},
+  url         = {https://anthropic.com/research/making-claude-a-chemist},
+  urldate     = {2026-06-05}
+}
+
+@article{lowe2011opsin,
+  author  = {Lowe, Daniel M. and Corbett, Peter T. and Murray-Rust, Peter and
+             Glen, Robert C.},
+  title   = {Chemical name to structure: {OPSIN}, an open source solution},
+  journal = {J. Chem. Inf. Model.},
+  year    = {2011},
+  volume  = {51},
+  pages   = {739--753},
+  doi     = {10.1021/ci100384d}
+}
+
+% (at)online, not (at)software: the RSC style's software branch joins the URL with a space and
+% drops the access date, so this printed as "RDKit https://www.rdkit.org." Typed as an
+% online resource it matches its three sibling web entries below.
+@online{landrum_rdkit,
+  author  = {Landrum, Greg and {RDKit Contributors}},
+  title   = {{RDKit}: open-source cheminformatics},
+  url     = {https://www.rdkit.org},
+  urldate = {2026-01-01}
+}
+
+@article{krenn2020selfies,
+  author  = {Krenn, Mario and H{\"a}se, Florian and Nigam, AkshatKumar and
+             Friederich, Pascal and Aspuru-Guzik, Al{\'a}n},
+  title   = {Self-referencing embedded strings ({SELFIES}): a 100\% robust
+             molecular string representation},
+  journal = {Mach. Learn.: Sci. Technol.},
+  year    = {2020},
+  volume  = {1},
+  pages   = {045024},
+  doi     = {10.1088/2632-2153/aba947}
+}
+
+@online{pmc_oa,
+  author  = {{National Library of Medicine}},
+  title   = {{NCBI PMC Open Access Subset}},
+  url     = {https://www.ncbi.nlm.nih.gov/pmc/tools/openftlist/},
+  urldate = {2026-01-01}
+}
+
+% Title and creators as deposited: RADAR4Chem is the hosting service (the DOI resolves to
+% radar4chem.radar-service.eu), not part of the dataset's name.
+@techreport{chemotion2024,
+  author      = {Jung, Nicole and Tremouilhac, Pierre and Punjabi, Dev and
+                 Huang, Pei-Chi},
+  title       = {{Chemotion Repository} -- data collection: {FT-IR}
+                 spectroscopy data ({Chemotion IR})},
+  institution = {Karlsruhe Institute of Technology},
+  year        = {2024},
+  doi         = {10.22000/OGoEQGlsZGElrgst}
+}
+
+@online{nist_webbook,
+  author  = {{National Institute of Standards and Technology}},
+  title   = {{NIST Chemistry WebBook}, {SRD} 69},
+  url     = {https://webbook.nist.gov},
+  doi     = {10.18434/T4D303},
+  urldate = {2026-01-01}
+}
+
+@article{rogers2010ecfp,
+  author  = {Rogers, David and Hahn, Mathew},
+  title   = {Extended-connectivity fingerprints},
+  journal = {J. Chem. Inf. Model.},
+  year    = {2010},
+  volume  = {50},
+  pages   = {742--754},
+  doi     = {10.1021/ci100050t}
+}
+
+@inproceedings{wang2023selfconsistency,
+  author    = {Wang, Xuezhi and Wei, Jason and Schuurmans, Dale and Le, Quoc and
+               Chi, Ed and Narang, Sharan and Chowdhery, Aakanksha and Zhou, Denny},
+  title     = {Self-consistency improves chain-of-thought reasoning in language models},
+  booktitle = {{International Conference on Learning Representations (ICLR)}},
+  year      = {2023},
+  note      = {arXiv:2203.11171}
+}
+
+@article{hu2024multitask,
+  author  = {Hu, Frank and Chen, Michael S. and Rotskoff, Grant M. and
+             Kanan, Matthew W. and Markland, Thomas E.},
+  title   = {Accurate and efficient structure elucidation from routine
+             one-dimensional {NMR} spectra using multitask machine learning},
+  journal = {ACS Cent. Sci.},
+  year    = {2024},
+  volume  = {10},
+  number  = {11},
+  pages   = {2162--2170},
+  doi     = {10.1021/acscentsci.4c01132}
+}
+
+% Published since the preprint. NB: the version of record carries eleven authors --
+% both CrossRef (ACM's own deposit) and OpenAlex omit Tianfan Fu, who is on arXiv v1.
+% The author list below is the published one; worth one glance at the ACM PDF.
+@inproceedings{yang2026nmrtrans,
+  author    = {Yang, Liujia and Yang, Zhuo and Xie, Jiaqing and
+               Wang, Yubin and Gao, Ben and Wei, Xingjian and
+               Sun, Jiaxing and Wu, Jiang and He, Conghui and
+               Li, Yuqiang and Gu, Qinying},
+  title     = {{NMRTrans}: structure elucidation from experimental {NMR} spectra
+               via set transformers},
+  booktitle = {{Proc. 32nd ACM SIGKDD Conf. Knowledge Discovery and Data Mining
+               (KDD '26), Vol. 2}},
+  year      = {2026},
+  pages     = {12621--12632},
+  doi       = {10.1145/3770855.3818935},
+  note      = {arXiv:2602.10158}
+}
+
+@article{ottomano2025nmiracle,
+  author  = {Ottomano, Federico and Li, Yingzhen and Ganose, Alex M.},
+  title   = {{NMIRacle}: multi-modal generative molecular elucidation from
+             {IR} and {NMR} spectra},
+  journal = {arXiv},
+  year    = {2025},
+  eprint  = {2512.19733},
+  doi     = {10.48550/arXiv.2512.19733}
+}
+
+% Published since the preprint: ICLR 2026 poster (OpenReview J5XUzUW8o3, camera-ready).
+@inproceedings{su2025spectrallm,
+  author    = {Su, Yunyue and Chen, Jiahui and Jiang, Zao and
+               Zhong, Zhenyi and Wang, Liang and Liu, Qiang and
+               Zhang, Zhaoxiang},
+  title     = {{SpectraLLM}: uncovering the ability of {LLMs} for molecular structure
+               elucidation from multi-spectral data},
+  booktitle = {{International Conference on Learning Representations (ICLR)}},
+  year      = {2026},
+  note      = {arXiv:2508.08441}
+}
+
+@article{shen2025specmol,
+  author  = {Shen, Shuaike and Xie, Jiaqing and Yang, Zhuo and Zhang, Antong and
+             Sun, Shuzhou and Gao, Ben and Fu, Tianfan and Qi, Biqing and Li, Yuqiang},
+  title   = {{SpecMol}: a spectroscopy-grounded foundation model for multi-task
+             molecular learning},
+  journal = {arXiv},
+  year    = {2025},
+  eprint  = {2509.21861},
+  doi     = {10.48550/arXiv.2509.21861},
+  note    = {circulated in v1 as {MolSpectLLM}}
+}
+
+% ACL 2025 long paper, not a journal article: typed (at)article the proceedings title landed
+% in `journal`, so the RSC style took its article-journal branch and printed the venue and
+% page range bare, without the "in ..., pp. ..." its sibling proceedings entries carry.
+% Venue, pages and DOI verified against the ACL Anthology (2025.acl-long.1100).
+@inproceedings{zhuang2025treesearch,
+  author    = {Zhuang, Xiang and Wu, Bin and Cui, Jiyu and Feng, Kehua and
+               Li, Xiaotong and Xing, Huabin and Ding, Keyan and
+               Zhang, Qiang and Chen, Huajun},
+  title     = {Boosting {LLM}'s molecular structure elucidation with
+               knowledge-enhanced tree-search reasoning},
+  booktitle = {{Proc. 63rd Annu. Meet. Assoc. Comput. Linguist.
+                (Vol. 1: Long Papers)}},
+  year      = {2025},
+  pages     = {22561--22576},
+  doi       = {10.18653/v1/2025.acl-long.1100},
+  url       = {https://aclanthology.org/2025.acl-long.1100/}
+}
+
+@article{smith2010dp4,
+  author  = {Smith, Steven G. and Goodman, Jonathan M.},
+  title   = {Assigning stereochemistry to single diastereoisomers by {GIAO}
+             {NMR} calculation: the {DP4} probability},
+  journal = {J. Am. Chem. Soc.},
+  year    = {2010},
+  volume  = {132},
+  pages   = {12946--12959},
+  doi     = {10.1021/ja105035r}
+}
+
+@article{grimblat2015dp4plus,
+  author  = {Grimblat, Nicol{\'a}s and Zanardi, Mar{\'i}a M. and Sarotti, Ariel M.},
+  title   = {Beyond {DP4}: an improved probability for the stereochemical
+             assignment of isomeric compounds using quantum chemical
+             calculations of {NMR} shifts},
+  journal = {J. Org. Chem.},
+  year    = {2015},
+  volume  = {80},
+  pages   = {12526--12534},
+  doi     = {10.1021/acs.joc.5b02396}
+}
+
+@article{pickard2001gipaw,
+  author  = {Pickard, Chris J. and Mauri, Francesco},
+  title   = {All-electron magnetic response with pseudopotentials: {NMR}
+             chemical shifts},
+  journal = {Phys. Rev. B},
+  year    = {2001},
+  volume  = {63},
+  pages   = {245101},
+  doi     = {10.1103/PhysRevB.63.245101}
+}
+
+@article{ashbrook2016nmrcryst,
+  author  = {Ashbrook, Sharon E. and McKay, David},
+  title   = {Combining solid-state {NMR} spectroscopy with first-principles
+             calculations -- a guide to {NMR} crystallography},
+  journal = {Chem. Commun.},
+  year    = {2016},
+  volume  = {52},
+  pages   = {7186--7204},
+  doi     = {10.1039/c6cc02542k}
+}
+
+@inproceedings{guo2024molpuzzle,
+  author    = {Guo, Kehan and Nan, Bozhao and Zhou, Yujun and Guo, Taicheng and
+               Guo, Zhichun and Surve, Mihir and Liang, Zhenwen and
+               Chawla, Nitesh V. and Wiest, Olaf and Zhang, Xiangliang},
+  title     = {Can {LLMs} solve molecule puzzles? {A} multimodal benchmark for
+               molecular structure elucidation},
+  booktitle = {{Advances in Neural Information Processing Systems 37 (NeurIPS 2024),
+               Datasets and Benchmarks Track}},
+  year      = {2024},
+  pages     = {134721--134746},
+  doi       = {10.52202/079017-4281},
+  note      = {the benchmark is named MolPuzzle; OpenReview t1mAXb4Cop}
+}
+
+@online{sdbs,
+  author  = {{National Institute of Advanced Industrial Science and Technology (AIST)}},
+  title   = {{Spectral Database for Organic Compounds} ({SDBS})},
+  url     = {https://sdbs.db.aist.go.jp},
+  urldate = {2026-01-01},
+  note    = {view-only; not bulk-redistributable}
+}
+
+@article{alberts2024ir,
+  author  = {Alberts, Marvin and Laino, Teodoro and Vaucher, Alain C.},
+  title   = {Leveraging infrared spectroscopy for automated structure elucidation},
+  journal = {Commun. Chem.},
+  year    = {2024},
+  volume  = {7},
+  pages   = {268},
+  doi     = {10.1038/s42004-024-01341-w}
+}
+
+@article{kuhn2015nmrshiftdb2,
+  author  = {Kuhn, Stefan and Schl{\"o}rer, Nils E.},
+  title   = {Facilitating quality control for spectra assignments of small
+             organic molecules: nmrshiftdb2 --- a free in-house {NMR} database
+             with integrated {LIMS} for academic service laboratories},
+  journal = {Magn. Reson. Chem.},
+  year    = {2015},
+  volume  = {53},
+  pages   = {582--589},
+  doi     = {10.1002/mrc.4263}
+}
+
+@article{bremser1978hose,
+  author  = {Bremser, Wolfgang},
+  title   = {{HOSE} --- a novel substructure code},
+  journal = {Anal. Chim. Acta},
+  year    = {1978},
+  volume  = {103},
+  pages   = {355--365},
+  doi     = {10.1016/S0003-2670(01)83100-7}
+}
+
+@article{kim2023pubchem,
+  author  = {Kim, Sunghwan and Chen, Jie and Cheng, Tiejun and
+             Gindulyte, Asta and He, Jia and He, Siqian and Li, Qingliang and
+             Shoemaker, Benjamin A. and Thiessen, Paul A. and Yu, Bo and
+             Zaslavsky, Leonid and Zhang, Jian and Bolton, Evan E.},
+  title   = {{PubChem} 2023 update},
+  journal = {Nucleic Acids Res.},
+  year    = {2023},
+  volume  = {51},
+  pages   = {D1373--D1380},
+  doi     = {10.1093/nar/gkac956}
+}
+
+@article{noh2025iragent,
+  author  = {Noh, Heewoong and Lee, Namkyeong and Na, Gyoung S. and Kim, Kibum and
+             Park, Chanyoung},
+  title   = {{IR-Agent}: expert-inspired {LLM} agents for structure elucidation from
+             infrared spectra},
+  journal = {arXiv},
+  year    = {2025},
+  eprint  = {2508.16112},
+  doi     = {10.48550/arXiv.2508.16112}
+}
+
+@article{jin2025nmrsolver,
+  author  = {Jin, Yongqi and Wang, Jun-Jie and Xu, Fanjie and Ji, Xiaohong and
+             Gao, Zhifeng and Zhang, Linfeng and Ke, Guolin and Zhu, Rong and
+             E, Weinan},
+  title   = {{NMR-Solver}: automated structure elucidation via large-scale spectral
+             matching and physics-guided fragment optimization},
+  journal = {Nat. Commun.},
+  year    = {2026},
+  volume  = {17},
+  pages   = {4740},
+  doi     = {10.1038/s41467-026-71315-0}
+}
+
+@article{fang2026nmragent,
+  author  = {Fang, Zheng and Yang, Chen and Tan, Yusen and Zhao, Yunpeng and
+             Xu, Fanjie and Xiang, Hongxin and Sun, Hanyu and Gao, Hanyu and
+             Wang, Xiaojian and Du, Wenjie and Li, Yuqiang and Xia, Jun},
+  title   = {Towards generalizable and evidential nuclear magnetic resonance-based
+             molecular structure elucidation via large language model agent},
+  journal = {arXiv},
+  year    = {2026},
+  eprint  = {2606.29776},
+  doi     = {10.48550/arXiv.2606.29776}
+}
+
+@article{alberts2025benchmarks,
+  author  = {Alberts, Marvin and Zipoli, Federico and Laino, Teodoro},
+  title   = {Setting new benchmarks in {AI}-driven infrared structure elucidation},
+  journal = {Digital Discovery},
+  year    = {2025},
+  volume  = {4},
+  pages   = {1936--1943},
+  doi     = {10.1039/d5dd00131e}
+}
+
+% ---- 13C shift predictors sharper than ours (§5.1, §5.4) --------------------
+@article{xu2025nmrbench,
+  author  = {Xu, Fanjie and Guo, Wentao and Wang, Feng and Yao, Lin and
+             Wang, Hongshuai and Tang, Fujie and Gao, Zhifeng and
+             Zhang, Linfeng and E, Weinan and Tian, Zhong-Qun and Cheng, Jun},
+  title   = {Toward a unified benchmark and framework for deep learning-based
+             prediction of nuclear magnetic resonance chemical shifts},
+  journal = {Nat. Comput. Sci.},
+  year    = {2025},
+  volume  = {5},
+  pages   = {292--300},
+  doi     = {10.1038/s43588-025-00783-z}
+}
+
+@article{han2024dftgnn,
+  author  = {Han, Chao and Zhang, Dongdong and Xia, Song and Zhang, Yingkai},
+  title   = {Accurate prediction of {NMR} chemical shifts: integrating {DFT}
+             calculations with three-dimensional graph neural networks},
+  journal = {J. Chem. Theory Comput.},
+  year    = {2024},
+  volume  = {20},
+  pages   = {5250--5258},
+  doi     = {10.1021/acs.jctc.4c00422}
+}
+
+@article{williamson2024mpnn,
+  author  = {Williamson, D. and Ponte, S. and Iglesias, I. and Tonge, N. and
+             Cobas, C. and Kemsley, E. K.},
+  title   = {Chemical shift prediction in {$^{13}$C} {NMR} spectroscopy using
+             ensembles of message passing neural networks ({MPNNs})},
+  journal = {J. Magn. Reson.},
+  year    = {2024},
+  volume  = {368},
+  pages   = {107795},
+  doi     = {10.1016/j.jmr.2024.107795}
+}
+
+@article{cohen2023delta50,
+  author  = {Cohen, Ryan D. and Wood, Jared S. and Lam, Yu-Hong and
+             Buevich, Alexei V. and Sherer, Edward C. and Reibarkh, Mikhail and
+             Williamson, R. Thomas and Martin, Gary E.},
+  title   = {{DELTA50}: a highly accurate database of experimental {$^1$H} and
+             {$^{13}$C} {NMR} chemical shifts applied to {DFT} benchmarking},
+  journal = {Molecules},
+  year    = {2023},
+  volume  = {28},
+  pages   = {2449},
+  doi     = {10.3390/molecules28062449}
+}
+
+% ---- LLM agents in chemistry (§1.1) ----------------------------------------
+@article{mbran2024chemcrow,
+  author  = {M. Bran, Andres and Cox, Sam and Schilter, Oliver and
+             Baldassari, Carlo and White, Andrew D. and Schwaller, Philippe},
+  title   = {Augmenting large language models with chemistry tools},
+  journal = {Nat. Mach. Intell.},
+  year    = {2024},
+  volume  = {6},
+  pages   = {525--535},
+  doi     = {10.1038/s42256-024-00832-8}
+}
+
+@article{boiko2023coscientist,
+  author  = {Boiko, Daniil A. and MacKnight, Robert and Kline, Ben and Gomes, Gabe},
+  title   = {Autonomous chemical research with large language models},
+  journal = {Nature},
+  year    = {2023},
+  volume  = {624},
+  pages   = {570--578},
+  doi     = {10.1038/s41586-023-06792-0}
+}
+
+% ---- benchmark contamination (§4.6) ----------------------------------------
+@article{xu2024contamination,
+  author  = {Xu, Cheng and Guan, Shuhao and Greene, Derek and Kechadi, M-Tahar},
+  title   = {Benchmark data contamination of large language models: a survey},
+  journal = {arXiv},
+  year    = {2024},
+  eprint  = {2406.04244},
+  doi     = {10.48550/arXiv.2406.04244}
+}
+
+% ---- computer-assisted structure elucidation: the pre-LLM prior art -------
+@article{elyashberg2012case,
+  author  = {Elyashberg, Mikhail and Blinov, Kirill and Molodtsov, Sergey and
+             Williams, Antony},
+  title   = {Elucidating `undecipherable' chemical structures using
+             computer-assisted structure elucidation approaches},
+  journal = {Magn. Reson. Chem.},
+  year    = {2012},
+  volume  = {50},
+  pages   = {22--27},
+  doi     = {10.1002/mrc.2849}
+}
+
+@book{elyashberg2015case,
+  author    = {Elyashberg, Mikhail E. and Williams, Antony J.},
+  title     = {Computer-based structure elucidation from spectral data},
+  series    = {Lecture Notes in Chemistry},
+  publisher = {Springer Berlin Heidelberg},
+  year      = {2015},
+  doi       = {10.1007/978-3-662-46402-1}
+}
+
+% ---- literature mining of chemical data (§2.2) ----------------------------
+@article{swain2016chemdataextractor,
+  author  = {Swain, Matthew C. and Cole, Jacqueline M.},
+  title   = {{ChemDataExtractor}: a toolkit for automated extraction of chemical
+             information from the scientific literature},
+  journal = {J. Chem. Inf. Model.},
+  year    = {2016},
+  volume  = {56},
+  pages   = {1894--1904},
+  doi     = {10.1021/acs.jcim.6b00207}
+}
+
+@article{mcnemar1947,
+  author  = {McNemar, Quinn},
+  title   = {Note on the sampling error of the difference between correlated
+             proportions or percentages},
+  journal = {Psychometrika},
+  year    = {1947},
+  volume  = {12},
+  number  = {2},
+  pages   = {153--157},
+  doi     = {10.1007/BF02295996}
+}
+
+@article{holm1979,
+  author  = {Holm, Sture},
+  title   = {A simple sequentially rejective multiple test procedure},
+  journal = {Scand. J. Stat.},
+  year    = {1979},
+  volume  = {6},
+  number  = {2},
+  pages   = {65--70}
+}
+
+% ---- concurrent and recent work, 2025-2026 (Related work; Discussion) -------
+% Venue: the arXiv abs page carries no comments or journal-ref field, and the HTML
+% body only says "Keywords: Machine Learning, ICML". No venue asserted here.
+@article{espejo2026agentic,
+  author  = {{Espejo Morales}, Irina and Hinz, Damon and Alberts, Marvin and
+             Krawezik, Geraud and Jeong, Haewon and Ho, Shirley},
+  title   = {{NMR} elucidation as an agentic search problem, not a modeling problem},
+  journal = {arXiv},
+  year    = {2026},
+  eprint  = {2607.19406},
+  doi     = {10.48550/arXiv.2607.19406}
+}
+
+@article{kliuev2026canai,
+  author  = {Kliuev, Fedor and Smirnov, Ivan and Losev, Mikhail A. and
+             Afanasyev, Oleg I. and Chusov, Denis},
+  title   = {Can {AI} help chemists to solve {NMR}?},
+  journal = {ChemRxiv},
+  year    = {2026},
+  doi     = {10.26434/chemrxiv.15006195/v1}
+}
+
+% Company blog post, single author, n=8 problems, no preprint and no code or data
+% release; the author reports it as underpowered and preliminary. Typed as a technical
+% report to match kamber2026chemist, the bibliography's other non-peer-reviewed
+% company output.
+@techreport{wagen2026simtools,
+  author      = {Wagen, Corin},
+  title       = {Simulation tools improve agent problem-solving},
+  institution = {Rowan Scientific},
+  type        = {Non-peer-reviewed company blog post},
+  year        = {2026},
+  month       = {7},
+  url         = {https://www.rowansci.com/blog/simulation-tools-improve-agent-problem-solving},
+  urldate     = {2026-08-23}
+}
+
+@article{adams2026magnet,
+  author  = {Adams, Keir and Wagen, Corin C. and Wolford, John and Sak, Marcus H. and
+             Saur{\'i}, Josep and Feng, Zhitao and Bhadauria, Abhijeet S. and
+             Bailey, Michael A. and Downs, Jonah S. and Li, Sophia Z. and
+             Liu, Amelia I. and Smidt, Tess and Paton, Robert S. and
+             Liu, Richard Y. and Coley, Connor W. and Kwan, Eugene E.},
+  title   = {Chemical shift prediction beyond the electronic structure limit},
+  journal = {ChemRxiv},
+  year    = {2026},
+  doi     = {10.26434/chemrxiv.15005989/v1}
+}
+
+% The eight benchmark problems in wagen2026simtools are drawn from this work.
+@article{novitskiy2022peculiar,
+  author  = {Novitskiy, Ivan M. and Kutateladze, Andrei G.},
+  title   = {Peculiar reaction products and mechanisms revisited with machine
+             learning-augmented computational {NMR}},
+  journal = {J. Org. Chem.},
+  year    = {2022},
+  volume  = {87},
+  pages   = {8589--8598},
+  doi     = {10.1021/acs.joc.2c00749}
+}
+
+@article{priessner2026reasoning,
+  author  = {Priessner, Martin and Lewis, Richard J. and Johansson, Magnus J. and
+             Goodman, Jonathan M. and Janet, Jon Paul and Tomberg, Anna},
+  title   = {Enhancing molecular structure elucidation with reasoning-capable {LLMs}},
+  journal = {Digital Discovery},
+  year    = {2026},
+  volume  = {5},
+  pages   = {1237--1251},
+  doi     = {10.1039/D5DD00359H}
+}
+
+@article{fang2026nmrgym,
+  author  = {Fang, Zheng and Yang, Chen and Yu, Hai-tao and Luo, Haoming and
+             He, Haitao and Xie, Jiaqing and Yang, Zhuo and Xia, Jun},
+  title   = {{NMRGym}: a comprehensive benchmark for nuclear magnetic resonance
+             based molecular structure elucidation},
+  journal = {arXiv},
+  year    = {2026},
+  eprint  = {2601.15763},
+  doi     = {10.48550/arXiv.2601.15763}
+}
+
+@article{han2026molquest,
+  author  = {Han, Taolin and Wu, Shuang and Wang, Jinghang and Zhou, Yuhao and
+             Lv, Renquan and Zhao, Bing and Hu, Wei},
+  title   = {{MolQuest}: a benchmark for agentic evaluation of abductive reasoning
+             in chemical structure elucidation},
+  journal = {arXiv},
+  year    = {2026},
+  eprint  = {2603.25253},
+  doi     = {10.48550/arXiv.2603.25253}
+}
+
+@article{xiang2026specx,
+  author  = {Xiang, Chengrui and Ma, Tengfei and Chen, Yujie and Wang, Tong and
+             Chen, Haowen and Zeng, Xiangxiang},
+  title   = {{SpecX}: a large-scale benchmark for multi-modal spectroscopy and
+             cross-paradigm evaluation},
+  journal = {arXiv},
+  year    = {2026},
+  eprint  = {2605.18791},
+  doi     = {10.48550/arXiv.2605.18791}
+}
+
+@article{yabbarov2026irexp,
+  author  = {Yabbarov, Ilkham and Sondhi, Rudra and Vargas-Hern{\'a}ndez, Rodrigo A.},
+  title   = {{IRexp} experimental infrared band lists from the {PMC} Open Access Subset and {Chemotion}},
+  journal = {Sci. Data},
+  year    = {2026},
+  note    = {Data Descriptor, in preparation}
+}

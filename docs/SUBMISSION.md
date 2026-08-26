@@ -247,3 +247,15 @@ Do not put `\fontspec[...]{...}` (or any `[...]` with a closing `]`) inside
 `Liberation Sans[Scale=1.0]` as visible page-1 text. Affiliations/email use the
 outer `\sffamily` group plus `\fontsize{10}{12}\selectfont` only. Abstract body is
 `\raggedright` (scoped to the title-block group).
+
+## 9. Scientific Data feasibility audit (2026-08-26)
+
+PI discussion raised a two-paper split (Scientific Data for IRexp + ICLR for
+IRSpectra-Bench/diagnosis). Full audit: `docs/irexp_scientific_data_audit.md`
+(also `/opt/cursor/artifacts/irexp_scientific_data_audit.md`).
+
+**Blocker found:** the blanket claim that all PMC-OA records are CC-BY-4.0 is
+false (~19% NC/empty in a 200-PMCID Europe PMC sample). Corrected in
+`data/NOTICE`, Licensing prose in `docs/PAPER.md`, `README.md`, HF card, and
+`.zenodo.json` on branch `cursor/irexp-scidata-audit-9a67`. Per-article licence
+join and Data Descriptor rewrite are still required before Sci Data submission.

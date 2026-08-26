@@ -3,13 +3,16 @@
 Split IRexp into its two licence pools.
 
 IRexp redistributes two source pools under different terms: PMC Open-Access Subset
-records are CC-BY-4.0, Chemotion RADAR4Chem records are CC-BY-SA-4.0. A downstream user
-who wants the CC-BY pool alone -- i.e. who does not want the ShareAlike obligation --
-needs to separate them, and must be able to do so from the released file itself.
+records are **not** uniformly CC-BY-4.0 (mixed CC BY / CC BY-NC* / other — see
+data/NOTICE); Chemotion RADAR4Chem records are CC-BY-SA-4.0. This script separates
+*source* pools on `source_doi` only. Its PMC stamp of CC-BY-4.0 is a **legacy
+overclaim** until per-article licences are joined — treat PMC output as
+"PMC-sourced", not as a verified commercial CC-BY pool.
 
 The discriminator is each record's `source_doi`, which is lossless and always present:
 Chemotion records carry the RADAR4Chem DOI prefix 10.22000, PMC records carry a PMC:
-accession. There is no separate `license` column; this script is the labelling.
+accession. Most PMC rows do not yet carry a stamped licence; this script is the
+(source) labelling.
 
   python scripts/split_license_pools.py               # report the split
   python scripts/split_license_pools.py --write OUT/  # write the two pools out
@@ -21,12 +24,13 @@ CHEMOTION_DOI_PREFIX = "10.22000"
 
 
 def pool_of(rec):
-    """-> 'chemotion' (CC-BY-SA-4.0) or 'pmc' (CC-BY-4.0)."""
+    """-> 'chemotion' (CC-BY-SA-4.0) or 'pmc' (PMC-sourced; licence mix — see NOTICE)."""
     doi = (rec.get("source_doi") or "")
     return "chemotion" if doi.startswith(CHEMOTION_DOI_PREFIX) else "pmc"
 
 
-LICENCE = {"pmc": "CC-BY-4.0", "chemotion": "CC-BY-SA-4.0"}
+# Legacy labels written into --write output. PMC is NOT verified CC-BY.
+LICENCE = {"pmc": "PMC-OA-MIXED-UNVERIFIED", "chemotion": "CC-BY-SA-4.0"}
 
 
 def main():
@@ -54,9 +58,9 @@ def main():
         print(f"\nwrote {out}/irexp_pmc.jsonl.gz and {out}/irexp_chemotion.jsonl.gz "
               f"(each record stamped with its `license`)")
     else:
-        print("\nRe-run with --write OUT/ to materialise the two pools, each record "
-              "stamped\nwith its licence. Taking irexp_pmc alone avoids the ShareAlike "
-              "obligation.")
+        print("\nRe-run with --write OUT/ to materialise the two source pools.\n"
+              "WARNING: PMC rows are NOT verified CC-BY — see data/NOTICE. "
+              "Taking Chemotion alone is CC-BY-SA-4.0.")
 
 
 if __name__ == "__main__":

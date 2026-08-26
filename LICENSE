@@ -14,7 +14,8 @@ copies or substantial portions of the Software.
 
 Note: this MIT License covers the CODE in this repository only. The datasets
 under data/ are redistributed under their source licences (PMC Open-Access
-Subset, CC-BY-4.0; Chemotion/RADAR4Chem, CC-BY-SA-4.0); see data/NOTICE.
+Subset: mixed CC terms, not uniformly CC-BY; Chemotion/RADAR4Chem: CC-BY-SA-4.0);
+see data/NOTICE.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,

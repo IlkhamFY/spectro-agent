@@ -45,7 +45,7 @@ IRexp is the largest **openly redistributable** collection of **experimental inf
 | `train_no_bench.jsonl.gz` | 42,808 | **Recommended for training** — `irexp_resolved` minus all IRSpectra-Bench InChIKey-14 |
 | `train_no_bench_nmr.jsonl.gz` | 32,949 | Same, requiring both ¹H and ¹³C |
 
-**Provenance:** 119,345 records from PMC Open-Access (CC-BY-4.0); 1,888 from Chemotion/RADAR4Chem (CC-BY-SA-4.0). Use `scripts/split_license_pools.py` to separate pools.
+**Provenance:** 119,345 records from the PMC Open Access Subset (**mixed** CC terms — not uniformly CC-BY; ~73% `cc by` / ~19% NC or empty in a 200-PMCID Europe PMC sample; per-article licence join pending); 1,888 from Chemotion/RADAR4Chem (CC-BY-SA-4.0). Use `scripts/split_license_pools.py` to separate *source* pools; do not treat its PMC stamp as a verified CC-BY licence until the join ships. See `NOTICE`.
 
 **Companion benchmark:** [IRSpectra-Bench](https://github.com/IlkhamFY/spectro-agent/blob/main/docs/LEADERBOARD.md) — 194 blind elucidation problems built from IRexp; score submissions with `scripts/score_submission.py`.
 

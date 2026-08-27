@@ -374,6 +374,19 @@ File & Records & Description \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{fig_irexp_overview.pdf}
+\caption{IRexp release overview from frozen counts.
+\textbf{(a)}~Provenance (PMC Open Access Subset vs Chemotion/RADAR4Chem).
+\textbf{(b)}~Licence pools after Europe PMC joins and Crossref empty-licence
+recovery (commercial pool is the Sci Data / Zenodo primary artifact).
+\textbf{(c)}~Composition cascade from all band-list records to full
+IR~$+$~$^{1}$H~$+$~$^{13}$C~$+$~structure quadruples.
+Numeric values match Tables~\ref{tab:licence}--\ref{tab:pools}.}
+\label{fig:overview}
+\end{figure}
+
 \paragraph{Composition of \texttt{irexp.jsonl.gz}.}
 
 \begin{table}[ht]
@@ -417,9 +430,8 @@ Pool file & Count & Notes \\
 The full \texttt{irexp.jsonl.gz} remains multi-licence on disk; commercial
 redistribution must use the commercial pool (or
 \texttt{license\_pool == "commercial"}).
-Hugging Face was re-issued with stamped pools and honest card text
-(\texttt{scripts/publish\_hf.py}, 2026-08-26); remirror after Crossref recovery
-before Sci Data archival deposit.
+Hugging Face was remirrored with Crossref-recovered pools and honest card text
+(\texttt{scripts/publish\_hf.py}, 2026-08-27; commercial 88,545).
 
 Median bands: 9 (PMC), 39 (Chemotion).
 All 1,360,866 released IR band values fall inside 350--4000\,cm$^{-1}$

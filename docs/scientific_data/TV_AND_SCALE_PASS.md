@@ -77,21 +77,22 @@ Scripts: `scripts/apply_crossref_licence_recovery.py` (probe JSON already under 
 
 ## Part C — Accept strengthening extras
 
+- Overview figure shipped (`fig_irexp_overview`; provenance / pools / composition).
+- Counts synced across TeX / MD / NOTICE / HF README / `pmc_licence_summary.json` / `qc_structure_nmr.json`.
 - Dual-publication fence clarified in Limitations (Descriptor ≠ companion ICLR results).
 - Usage Notes: FAIR reuse example (commercial filter + quarantine drop + attribution).
 - Keywords already scrubbed (band lists / FAIR / licence pools).
-- Counts synced across TeX / MD / NOTICE / HF README / `pmc_licence_summary.json` / `qc_structure_nmr.json`.
-- Overview figure deferred (tables carry composition; peer-review Accepted risk).
 
 ---
 
 ## Remaining human blockers
 
-1. Zenodo **data-only** DOI mint (commercial primary + SA companion).  
-2. ORCID (esp. Yabbarov).  
+1. Zenodo **data-only** DOI mint (commercial primary + SA companion) — see `ZENODO_DATA_ONLY_CHECKLIST.md`.  
+2. ORCID (esp. Yabbarov) — see `HUMAN_SUBMISSION_CHECKLIST.md`.  
 3. Funding / Acknowledgements text.  
-4. Optional: true human skeleton audit n≥100; human recall mark-up.  
-5. HF remirror after Crossref stamp (local pools updated).
+4. Optional: true human skeleton audit n≥100; human recall mark-up.
+
+**Closed this finish pass:** HF remirror (commercial 88,545 on Hub); overview figure; stale 87,617 note in `irexp_stats.json`; NOTICE other=5.
 
 ---
 

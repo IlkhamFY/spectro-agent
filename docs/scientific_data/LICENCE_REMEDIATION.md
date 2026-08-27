@@ -98,11 +98,7 @@ python scripts/split_license_pools.py        # report
 
 Public dataset: https://huggingface.co/datasets/ilkhamfy/IRexp  
 
-Previous card/tags overclaimed PMC as CC-BY. After this branch merges:
-
-1. Ensure `HF_TOKEN` with write access to `ilkhamfy/IRexp` (or a staging fork).
-2. Update local card: `data/irexp_release/README_HF.md` (already multi-licence).
-3. Upload stamped files + commercial primary, e.g.:
+**Status (2026-08-27):** remirrored after Crossref recovery — Hub card + pools show commercial **88,545** / NC **21,823** / empty **8,963** / SA **1,897**. Re-run only if local stamps drift again:
 
 ```bash
 # Preferred: repo helper (requires HF_TOKEN)
@@ -118,10 +114,7 @@ huggingface-cli upload ilkhamfy/IRexp \
   data/irexp_release/README_HF.md README.md
 ```
 
-4. Set dataset card `license` list to reflect **cc-by-4.0** (commercial primary) **and** **cc-by-sa-4.0** (Chemotion/SA pool); document NC/empty as non-redistributed or separate configs.
-5. Add a card warning: full `irexp.jsonl.gz` is multi-licence; commercial training should use `license_pool == "commercial"` or the commercial file only.
-
-If `HF_TOKEN` is unavailable in this environment, ship the files above and run the upload from a machine with Hub credentials.
+Set dataset card `license` list to reflect **cc-by-4.0** (commercial primary) **and** **cc-by-sa-4.0** (Chemotion/SA pool); document NC/empty as non-redistributed or separate configs. Card warning: full `irexp.jsonl.gz` is multi-licence; commercial training should use `license_pool == "commercial"` or the commercial file only.
 
 ## Zenodo
 

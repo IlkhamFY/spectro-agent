@@ -40,7 +40,7 @@ Status column after remediation pass: **Fixed** / **Deferred (human)** / **Accep
 | E6 | Minor | Abstract (~139 words) is data-centric; mentions companion manuscript without results — good. Could explicitly name **limitations of TV vs full absorbance libraries**. | TeX abstract L49–67 | One clause on band-list / TV scope. | Fixed |
 | E7 | Minor | Keywords include “experimental spectra”, which invites absorbance-spectrum misreading. | TeX L69–70 | Prefer “band lists”, “peak lists”, “FAIR”, “licence pools”. | Fixed |
 | E8 | Major | README outline still says “equal contribution” though TeX correctly dropped that footnote. | `README.md` L44 | Align with TeX (both corresponding; no equal-contrib). | Fixed |
-| E9 | Minor | No manuscript figures (composition / pipeline). Sci Data peers usually ship ≥1 overview figure. Not a hard desk reject if tables carry the load, but weakens first impression. | TeX (no `\includegraphics`) | Optional composition figure from frozen counts; or accept table-only with Usage Notes clarity. | Accepted risk (tables carry composition; Limitations strengthened) |
+| E9 | Minor | No manuscript figures (composition / pipeline). Sci Data peers usually ship ≥1 overview figure. Not a hard desk reject if tables carry the load, but weakens first impression. | TeX (no `\includegraphics`) | Optional composition figure from frozen counts; or accept table-only with Usage Notes clarity. | Fixed (`fig_irexp_overview`) |
 | E10 | Major | `.zenodo.json` at repo root still describes combined IRexp **+** IRSpectra-Bench diagnosis deposit and lists three creators including Sondhi. If used as the Sci Data archival record, that conflates tracks. | `.zenodo.json` | Sci Data deposit must be **data-only** metadata; document human mint path; do not fabricate DOI. | Fixed (docs) / Deferred (human mint) |
 
 **Desk verdict:** Send out after confirming licence honesty (already remediated in body) and with explicit note that Zenodo/ORCID/funding are author actions at submission.
@@ -67,7 +67,7 @@ Status column after remediation pass: **Fixed** / **Deferred (human)** / **Accep
 
 | ID | Severity | Finding | Location | Recommended fix | Status |
 |---|---|---|---|---|---|
-| R2-1 | — | Licence remediation narrative is now honest: commercial 87,617 / NC 20,938 / SA 1,897 / empty 10,781; pools sum to 121,233. Matches `pmc_licence_summary.json`. | Tables L243–256, L349–367; LICENCE_REMEDIATION.md | Keep; do not re-blanket CC-BY. | OK |
+| R2-1 | — | Licence remediation narrative is now honest: commercial 88,545 / NC 21,823 / SA 1,897 / empty 8,963 / other 5; pools sum to 121,233. Matches `pmc_licence_summary.json` (Crossref recovery). | Tables; LICENCE_REMEDIATION.md | Keep; do not re-blanket CC-BY. | OK |
 | R2-2 | Blocker | No minted dataset DOI. Findability (F in FAIR) incomplete for journal archival. | Data Availability | Human Zenodo mint with multi-licence description. | Deferred (human) |
 | R2-3 | Major | Data Records field table omits `pmcid`, `license_raw`, `license_source`, `source` (Chemotion), which exist on disk and matter for provenance joins. | TeX table `tab:fields` | Extend schema table. | Fixed |
 | R2-4 | Major | Harvest reproducibility: date 2026-06-07 and S3 flat keys documented; good. Still missing explicit **esearch query string** (or pointer to frozen query file) so a third party can re-discover the PMCID set. | Methods Discovery L157–172, L196–209 | Cite script + note that `seen_papers.txt.gz` is the frozen discovery set (re-running esearch will drift). | Fixed |

@@ -1,41 +1,47 @@
 # IRexp split completion status — honest audit
 
 **Repo:** IlkhamFY/spectro-agent  
-**Verified against:** branch `cursor/scidata-accept-ready-9a67` (TV + scale pass 2026-08-27)  
+**Verified against:** branch `cursor/scidata-accept-ready-9a67` (finish-remaining pass 2026-08-27)  
 **Audit source:** `docs/irexp_scientific_data_audit.md`  
 **Peer review:** `docs/scientific_data/PEER_REVIEW_SIMULATION.md`  
 **TV/scale methods:** `docs/scientific_data/TV_AND_SCALE_PASS.md`  
+**Closeout log:** `docs/scientific_data/REMAINING_CLOSED.md`  
+**Human path:** `docs/scientific_data/HUMAN_SUBMISSION_CHECKLIST.md`  
 **Date of this status:** 2026-08-27  
-**Mode:** TV gap close + Crossref commercial-pool recovery; human-only leftovers unchanged
+**Mode:** Closed agent leftovers (HF remirror, count stubs, overview figure); human-only leftovers unchanged
 
 ---
 
-## Blunt answers
+## DONE (agent)
 
-| # | Ask | Verdict | One-line why |
-|---|---|---|---|
-| **(1)** Per-article licence join + NC segregation + Crossref empty recovery | **DONE** | Commercial **88,545** (+928); empty 8,963; pools sum 121,233 |
-| **(2)** Technical Validation pack | **DONE** (agent scope) | n=200 transcription; recall n=120 + Wilson CIs; chemist-proxy n=280; full quarantine. Human expert audits still deferred |
-| **(3)** Sci Data manuscript | **DONE** (near submit) / **not fully submission-ready** | TeX+MD synced; Zenodo DOI, ORCID, funding remain human |
-| **(4)** ICLR-facing cut + cross-cite | **DONE** (draft) | Dual-publication fence restated in Limitations |
-
-**Has everything actionable been addressed?** Agent-addressable TV/scale/peer-review items: **yes**. Human-only: Zenodo mint (data-only), ORCID, funding/acks. Optional: expert structure n≥100; human recall mark-up; HF remirror.
+| Item | Status |
+|---|---|
+| Per-article licence join + NC segregation + Crossref empty recovery | **DONE** — commercial **88,545** (+928) |
+| Technical Validation pack (automated) | **DONE** — n=200 transcription; recall n=120 + Wilson; chemist-proxy n=280; full quarantine |
+| Sci Data manuscript TeX+MD sync (counts, Limitations, fence) | **DONE** (near submit) |
+| ICLR dual-publication fence | **DONE** |
+| HF remirror after Crossref | **DONE** (2026-08-27) |
+| Overview composition figure | **DONE** (`fig_irexp_overview`) |
+| Stale 87,617 notes in agent-owned manifests | **DONE** |
+| Zenodo / ORCID / funding **stubs + checklists** | **DONE** (not minted / not invented) |
+| PDF rebuild; no symlinks under `docs/scientific_data/` | **DONE** |
 
 ---
 
-## Remaining blockers (honest)
+## REMAINING (human only)
 
-### Critical — human only
+| # | Item | Why agent cannot close |
+|---|---|---|
+| 1 | Zenodo **data-only** DOI mint | Must be minted by depositor; see `ZENODO_DATA_ONLY_CHECKLIST.md` |
+| 2 | ORCID — especially Yabbarov | Personal identifier; Vargas candidate known but must confirm |
+| 3 | Acknowledgements / funding text | Author-supplied grant language |
 
-1. **Zenodo DOI mint** for a **data-only** IRexp deposit (commercial primary + SA companion).
-2. **ORCID** — especially corresponding author I. Yabbarov (Vargas-Hernández ORCID known: `0000-0002-5559-6521`).
-3. **Acknowledgements / funding** text confirmation.
+### Optional (human polish)
 
-### Optional polish
-
-4. Expert human structure spot-check n≥100; true human extraction-recall mark-up.  
-5. HF remirror after Crossref licence stamp (local release/pools updated 2026-08-27).  
-6. Dedicated overview figure (tables currently carry composition).
+| # | Item |
+|---|---|
+| 4 | Expert structure spot-check n≥100 |
+| 5 | True human extraction-recall mark-up |
 
 ---
 
@@ -51,12 +57,14 @@
 
 ---
 
-## Scale delta
+## Scale
 
-Total / structure-linked / quadruples **unchanged**. Commercial pool **87,617 → 88,545** via Crossref/EPMC empty-licence recovery.
+Total / structure-linked / quadruples **unchanged** (121,233 / 43,060 / 33,201).  
+Commercial pool **87,617 → 88,545** via Crossref/EPMC empty-licence recovery (HF remirrored).
 
 ---
 
 ## Bottom line
 
-Agent-addressable Sci Data TV + commercial-pool strengthening is **complete** on this branch. Submit-blocking leftovers remain **Zenodo (data-only) + ORCID + funding**.
+**All agent-addressable Sci Data leftovers on this branch are closed.**  
+Submit-blocking leftovers remain **Zenodo (data-only) + ORCID + funding**.

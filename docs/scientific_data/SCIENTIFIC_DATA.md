@@ -155,7 +155,7 @@ Paths relative to the project repository / Hugging Face mirror.
 | `irexp_other.jsonl.gz` | **5** | CC-BY-ND (Crossref recovery) |
 | `irexp_sharealike.jsonl.gz` | **1,897** | Chemotion CC-BY-SA-4.0 (1,888) + rare PMC SA |
 
-The full `irexp.jsonl.gz` remains multi-licence on disk; commercial redistribution must use the commercial pool (or `license_pool == "commercial"`). Hugging Face was re-issued with stamped pools and honest card text (`scripts/publish_hf.py`, 2026-08-26). Chemotion rows were schema-backfilled with `inchikey` / `has_structure` (2026-08-27).
+The full `irexp.jsonl.gz` remains multi-licence on disk; commercial redistribution must use the commercial pool (or `license_pool == "commercial"`). Hugging Face was remirrored with Crossref-recovered pools (`scripts/publish_hf.py`, 2026-08-27; commercial **88,545**). Chemotion rows were schema-backfilled with `inchikey` / `has_structure` (2026-08-27). Overview figure: `docs/scientific_data/figures/fig_irexp_overview.pdf` (provenance / licence pools / composition).
 
 Median bands: **9** (PMC), **39** (Chemotion). All **1,360,866** released IR band values fall inside 350–4000 cm⁻¹ (full-corpus range check; Technical Validation).
 

@@ -14,6 +14,8 @@ Overleaf does not usefully treat Markdown. **Submit / compile `.tex` → PDF.**
 2. Menu → **Main document** → the `.tex` path in the table above.
 3. **Scientific Data:** XeLaTeX + BibTeX; class is clean `article` (Springer `sn-article` not vendored — see that folder’s README).
 4. **ICLR:** pdfLaTeX/XeLaTeX + BibTeX; uses vendored `iclr2026_conference.sty`.
-5. Figures live in `docs/figures/`; both manuscripts set `\graphicspath{{figures/}{../figures/}}`.
+5. Figures live in `docs/figures/` only (no symlinks — Overleaf rejects them). Both
+   manuscripts set `\graphicspath{{../figures/}{figures/}}` so compiles work from
+   `docs/scientific_data/` or `docs/iclr/` when the full repo is synced.
 
 Do **not** overwrite the combined archive (`docs/paper.tex` / `docs/PAPER.md`) when editing the split tracks.

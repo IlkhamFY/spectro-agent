@@ -2,11 +2,11 @@
 
 Overleaf does not usefully treat Markdown. **Submit / compile `.tex` → PDF.**
 
-| Track | Main TeX (open this in Overleaf) | PDF build | Working notes |
+| Track | Main TeX (open this in Overleaf) | Template | PDF build |
 |---|---|---|---|
-| Scientific Data (IRexp Data Descriptor) | [`docs/scientific_data/scientific_data.tex`](scientific_data/scientific_data.tex) | `python3 scripts/build_scientific_data_pdf.py` | `SCIENTIFIC_DATA.md` |
-| ICLR (IRSpectra-Bench + diagnosis) | [`docs/iclr/iclr_paper.tex`](iclr/iclr_paper.tex) | `python3 scripts/build_iclr_pdf.py` | `ICLR_PAPER.md` |
-| Combined archive (do not gut) | [`docs/paper.tex`](paper.tex) | `python3 scripts/build_pdf.py` | `PAPER.md` |
+| Scientific Data | [`docs/scientific_data/scientific_data.tex`](scientific_data/scientific_data.tex) | Clean `article` (section order only). **Not** official Springer `sn-article` — swap at submission. | `python3 scripts/build_scientific_data_pdf.py` |
+| ICLR | [`docs/iclr/iclr_paper.tex`](iclr/iclr_paper.tex) | Official **ICLR 2026** (`iclr2026_conference.sty` + `.bst`, vendored) | `python3 scripts/build_iclr_pdf.py` |
+| Combined archive | [`docs/paper.tex`](paper.tex) | Custom two-column ChemRxiv-style (`scripts/build_pdf.py`) | `python3 scripts/build_pdf.py` |
 
 ## Quick Overleaf setup
 

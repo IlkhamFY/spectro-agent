@@ -1,14 +1,16 @@
 # IRexp experimental infrared band lists from the PMC Open Access Subset and Chemotion
 
-**Ilkham Yabbarov**^1^ *(corresponding author: yabbaroi@mcmaster.ca)*, **Rudra Sondhi**^1^, **Rodrigo A. Vargas-Hernández**^2,1,3^
+**Ilkham Yabbarov**^1,†^, **Rodrigo A. Vargas-Hernández**^1,2,3,†^
 
 ^1^ Department of Chemistry and Chemical Biology, McMaster University, Hamilton, Ontario L8S 4L8, Canada.  
 ^2^ Brockhouse Institute for Materials Research, McMaster University, Hamilton, Ontario L8S 4L8, Canada.  
 ^3^ School of Computational Science and Engineering, McMaster University, Hamilton, Ontario L8S 4L8, Canada.
 
+† E-mail: yabbaroi@mcmaster.ca, vargashr@mcmaster.ca
+
 <!-- ORCID / funding — human blockers; do not invent values.
+       Sci Data authors: I.Y. + R.A.V.-H. only (R. Sondhi → IRSpectra-Bench companion).
        I. Yabbarov            ORCID: [TODO: confirm]
-       R. Sondhi              ORCID: 0009-0003-3034-7347
        R. A. Vargas-Hernández ORCID: 0000-0002-5559-6521
 -->
 
@@ -215,8 +217,9 @@ Harvesting, extraction, structure resolution, licence pool splitting, and valida
 ## Author contributions
 
 **I.Y.:** conceptualization, methodology, software, data curation, validation, writing — original draft.  
-**R.S.:** methodology, software, validation, writing — review and editing.  
 **R.A.V.-H.:** conceptualization, supervision, writing — review and editing.
+
+R. Sondhi contributed to the companion IRSpectra-Bench / elucidation diagnosis manuscript and is not an author on this Data Descriptor.
 
 ## Competing interests
 

@@ -69,9 +69,8 @@ Jun-Jie Wang, Yongqi Jin, Chen-Yu Zhi, Yu-Jie Liu, Xu-Hao Huang, Fanjie Xu,
 \newblock \emph{Sci. Data}, 12:\penalty0 1956, 2025.
 \newblock \doi{10.1038/s41597-025-06245-5}.
 
-\bibitem[Yabbarov et~al.(2026)Yabbarov, Sondhi, and
-  Vargas-Hern{\'a}ndez]{yabbarov2026irspectra}
-Ilkham Yabbarov, Rudra Sondhi, and Rodrigo~A. Vargas-Hern{\'a}ndez.
+\bibitem[Yabbarov and Vargas-Hern{\'a}ndez(2026)]{yabbarov2026irspectra}
+Ilkham Yabbarov and Rodrigo~A. Vargas-Hern{\'a}ndez.
 \newblock Generation recall, not verification, binds {LLM} structure
   elucidation from literature spectra.
 \newblock \emph{ICLR}, 2026.

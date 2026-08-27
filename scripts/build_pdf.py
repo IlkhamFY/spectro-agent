@@ -421,21 +421,36 @@ def _parse_affiliations(block):
 
 
 def _format_authors(authors_raw):
-    """Author names with italic superscript affiliation markers (RSC article style)."""
-    corr = re.search(r"\s*\*\(corresponding author:\s*([^)]*)\)\*,?", authors_raw)
-    email = corr.group(1).strip() if corr else ""
-    text = ((authors_raw[:corr.start()] + authors_raw[corr.end():]) if corr
-            else authors_raw)
+    """Author names with italic superscripts; † on each corresponding author.
+
+    PAPER.md may mark several authors with ``*(corresponding author: email)*``.
+    All such emails are collected for the dagger E-mail line (comma-separated).
+    """
+    emails = []
+    text = authors_raw
+    for m in re.finditer(r"\s*\*\(corresponding author:\s*([^)]*)\)\*,?", text):
+        emails.append(m.group(1).strip())
+    text = re.sub(r"\s*\*\(corresponding author:\s*[^)]*\)\*,?", "", text)
+    # Map which author indices were corresponding: walk parts and track which
+    # names sat immediately before a corresponding-author note by re-parsing
+    # the original string positions.
+    corr_names = set()
+    for m in re.finditer(
+            r"\*\*([^*]+)\*\*[^*]*?\*\(corresponding author:", authors_raw):
+        corr_names.add(m.group(1).strip())
     parts = []
-    for i, m in enumerate(AUTHOR_PART.finditer(text)):
+    for m in AUTHOR_PART.finditer(text):
         name = m.group(1)
         markers = (m.group(2) or "").strip()
-        if i == 0 and email:
+        # Drop any markdown dagger leftovers; we inject \dag in TeX.
+        markers = markers.replace("†", "").replace(",,", ",").strip(" ,")
+        if name.strip() in corr_names:
             markers = f"{markers},\\dag" if markers else "\\dag"
         if markers:
             parts.append(f"{name}\\textit{{$^{{{markers}}}$}}")
         else:
             parts.append(name)
+    email = ", ".join(emails)
     return ", ".join(parts), email
 
 

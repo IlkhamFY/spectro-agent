@@ -1,4 +1,4 @@
-# IRexp experimental infrared band lists from the PMC Open Access Subset and Chemotion
+# IRexp: A database of experimental infrared band lists from open literature
 
 **Ilkham Yabbarov**^1,†^, **Rodrigo A. Vargas-Hernández**^1,2,3,†^
 

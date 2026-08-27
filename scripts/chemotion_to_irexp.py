@@ -88,6 +88,8 @@ def main(argv=None) -> int:
         parsed += 1
         row = {
             "id": inchikey,
+            "inchikey": inchikey,
+            "has_structure": True,
             "smiles": canon or str(smi),
             "selfies": selfies,
             "ir_bands_cm-1": bands,

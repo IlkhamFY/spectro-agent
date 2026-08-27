@@ -49,7 +49,7 @@ IRexp: A database of experimental infrared band lists from open literature}
 \abstract{%
 IRexp is a redistributable collection of experimental infrared band lists
 (cm$^{-1}$ peak positions) mined from open chemistry literature, optionally with
-$^{1}$H/$^{13}$C NMR shifts and resolved structures.
+author-reported $^{1}$H/$^{13}$C NMR strings and resolved structures.
 The release holds 121,233 records (119,345 PMC Open Access Subset; 1,888
 Chemotion/RADAR4Chem), including 43,060 structure-linked entries and 33,201 full
 IR~$+$~$^{1}$H~$+$~$^{13}$C~$+$~structure quadruples.
@@ -62,12 +62,14 @@ The resource is intended for multimodal training, retrieval, and tool-input in
 spectroscopic agents and autonomous chemistry workflows that need structured,
 attributable experimental peak lists rather than paywalled PDFs or view-only
 archives.
+Technical validation covers automated transcription and consistency checks;
+it does not match expert-scale manual audits of larger NMR list peers.
 Complementary elucidation benchmarks are described in a companion research
 manuscript and are not analysed here.
 }
 
-\keywords{infrared spectroscopy, band lists, PMC Open Access, Chemotion,
-experimental spectra, data descriptor}
+\keywords{infrared spectroscopy, band lists, peak lists, PMC Open Access,
+Chemotion, FAIR data, licence pools, data descriptor}
 
 \maketitle
 
@@ -88,6 +90,20 @@ Concurrent literature corpora that include IR among other modalities
 (for example NMRSpec/NMRTrans~\citep{yang2026nmrtrans}) further motivate an
 IR-focused, redistributable band-list resource rather than another closed
 spectrum archive.
+
+\paragraph{Relation to NMRexp and other peers.}
+NMRexp is the natural comparator: $\sim$3.3~million experimental NMR records mined
+from supporting-information PDFs, with expert-scale manual checks and replicate
+consistency metrics~\citep{wang2025nmrexp}.
+IRexp is \emph{not} an NMR database, does not claim size superiority, and is
+orders of magnitude smaller.
+Its contribution is complementary: redistributable \emph{IR band lists}
+(cm$^{-1}$ positions only) from PMC Open Access full text plus a Chemotion ELN
+deposit, with per-record licence pools suitable for commercial vs non-commercial
+reuse.
+Absorbance-curve libraries (NIST, SDBS) remain the right choice when full
+digitised spectra are required; computational IR--NMR sets remain the right
+choice when simulated multimodal coverage is required~\citep{zipoli2025uspto}.
 
 In 2025--26, spectroscopic AI agents and autonomous chemistry workflows
 increasingly consume \emph{structured} experimental peak lists as tool inputs
@@ -121,6 +137,9 @@ Among openly redistributable \emph{text-derived IR band lists}, IRexp is large b
 record count (121,233).
 It does not claim to replace SDBS or NIST absorbance libraries; SDBS alone holds
 more structure-linked \emph{spectra} than IRexp holds structure-linked band lists.
+The scientific contribution of this Descriptor is the curated dataset, harvest
+provenance, licence segregation, and validation artefacts --- not elucidation
+accuracy claims.
 The intended reuse is multimodal pretraining, supervised IR$\to$structure modelling
 on \texttt{irexp\_resolved}, and as the literature substrate for complementary
 elucidation benchmarks described elsewhere (forthcoming ICLR manuscript on
@@ -157,7 +176,8 @@ deposit DOI; no paywalled publisher DOI appears in the 121,233-record file.
 \paragraph{Discovery vs \texttt{oa\_comm} / \texttt{oa\_noncomm} packages.}
 Identifier discovery used NCBI E-utilities \texttt{esearch} over PMC with an
 IR-characterisation query and \texttt{open access[filter]}, then fetched matching
-IDs from the flat S3 text layout.
+IDs from the flat S3 text layout
+(\texttt{scripts/s3\_ir\_harvest.py}).
 The harvest therefore did not pre-filter by walking the PMC OA Subset's
 \texttt{oa\_comm} vs \texttt{oa\_noncomm} vs other package directories.
 PMC OA is still not a single licence~\citep{pmc_oa}.
@@ -170,6 +190,13 @@ held aside; empty/unknown are excluded from the commercial deposit --- aligning
 redistributable intent with the OA commercial/non-commercial distinction via
 article-level licences rather than S3 package paths (\texttt{data/NOTICE};
 \texttt{docs/scientific\_data/LICENCE\_REMEDIATION.md}).
+\paragraph{Reproducibility of discovery.}
+Re-running live \texttt{esearch} will drift as PMC grows.
+The frozen discovery set for this release is
+\texttt{data/irexp/seen\_papers.txt.gz} (188,016 PMC identifiers);
+the curated release retains 15,416 of those accessions.
+Third parties should treat \texttt{seen\_papers} + the released JSONL as the
+reproducible snapshot, not a fresh API crawl.
 
 \paragraph{Chemotion / RADAR4Chem.}
 1,888 records come from the Chemotion Repository FT-IR collection deposited at
@@ -182,11 +209,13 @@ the same regex extractor and quality gates as the PMC path; resolve the deposit'
 canonical SMILES with RDKit $\to$ InChIKey + SELFIES; keep the richest band list
 per InChIKey; drop the 8 molecules already present in the PMC pool
 $\to$ $+1{,}888$ new structure-resolved rows.
+All 1,888 Chemotion rows are structure-linked (\texttt{has\_structure=true};
+\texttt{inchikey} equals the record \texttt{id}).
 These are not algorithmic peak-picks from absorbance curves; they are
 author-entered experimental band lists from the ELN deposit, denser than typical
 paper prose (median 39 bands vs 9 for PMC).
-Rows carry \texttt{license=CC-BY-SA-4.0} and \texttt{source\_doi} equal to the
-deposit DOI.
+Rows carry \texttt{license=CC-BY-SA-4.0}, \texttt{source=Chemotion}, and
+\texttt{source\_doi} equal to the deposit DOI.
 
 \paragraph{Excluded.}
 AIST SDBS (view-only; no bulk export)~\citep{sdbs}; NIST WebBook join code exists
@@ -235,6 +264,9 @@ OPSIN~\citep{lowe2011opsin}, canonicalised with RDKit~\citep{landrum_rdkit}, and
 encoded as InChIKey and SELFIES~\citep{krenn2020selfies}.
 An optional PubChem~\citep{kim2023pubchem} name fallback (\texttt{USE\_PUBCHEM})
 handles trivial names.
+Name$\to$structure failures are expected for trade names, mixtures, and
+non-IUPAC prose; unresolved rows keep \texttt{has\_structure=false} and null
+structure fields.
 Structure coverage of the full release is 35.5\% (43,060 / 121,233).
 The structure-complete split is shipped as \texttt{irexp\_resolved}.
 
@@ -281,22 +313,28 @@ Required chemistry fields for an IR entry:
 
 \begin{table}[ht]
 \caption{Core fields of an IRexp JSON record.}\label{tab:fields}
-\begin{tabular}{@{}llp{6.8cm}@{}}
+\scriptsize
+\begin{tabular}{@{}>{\ttfamily}l>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}p{7.2cm}@{}}
 \toprule
-Field & Type & Description \\
+\multicolumn{1}{l}{Field} & Type & Description \\
 \midrule
-\texttt{id} & string & Stable record id (InChIKey when resolved, else internal) \\
-\texttt{ir\_bands\_cm-1} & float list & Experimental IR peak positions (cm$^{-1}$) \\
-\texttt{ir\_source} & string & \texttt{experimental} for all released rows \\
-\texttt{source\_doi} & string & \texttt{PMC:<pmcid>} or Chemotion deposit DOI \\
-\texttt{h\_nmr} / \texttt{c\_nmr} & string or null & Author-reported shift lists \\
-\texttt{smiles} / \texttt{selfies} / \texttt{inchikey} & string or null & Resolved structure encodings \\
-\texttt{has\_structure} & bool & Convenience flag \\
-\texttt{license} / \texttt{license\_pool} & string & Per-article stamp (Europe PMC join or Chemotion) \\
+id & string & Stable record id (InChIKey when resolved, else internal) \\
+ir\_bands\_cm-1 & float list & Experimental IR peak positions (cm$^{-1}$) \\
+ir\_source & string & \texttt{experimental} for all released rows \\
+source\_doi & string & \texttt{PMC:<pmcid>} or Chemotion deposit DOI \\
+pmcid & string/null & PMC accession when PMC-sourced \\
+h\_nmr / c\_nmr & string/null & Author-reported NMR shift strings (not parsed peak tables) \\
+smiles / selfies / inchikey & string/null & Resolved structure encodings \\
+has\_structure & bool & True when SMILES present \\
+license / license\_pool & string & Per-article stamp (Europe PMC join or Chemotion) \\
+license\_raw / license\_source & string & Upstream licence token + join provenance \\
+source & string & Chemotion rows only (\texttt{Chemotion}) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
+Frozen field definitions and validation counts:
+\texttt{docs/scientific\_data/qc\_structure\_nmr.json}.
 Not included: absorbance traces, intensities, instrument metadata beyond what
 appears in source text, PDFs, figures, or full article bodies.
 
@@ -381,13 +419,17 @@ All 1,360,866 released IR band values fall inside 350--4000\,cm$^{-1}$
 \begin{itemize}
   \item Hugging Face: \url{https://huggingface.co/datasets/ilkhamfy/IRexp}
   \item GitHub development mirror: \url{https://github.com/IlkhamFY/spectro-agent}
-  \item Zenodo archival snapshot: DOI pending mint after honest multi-licence metadata.
+  \item Zenodo archival snapshot: DOI pending mint after honest multi-licence
+        metadata (data-only deposit; commercial pool primary --- not the
+        combined IRSpectra-Bench research archive).
 \end{itemize}
 
 \section{Technical Validation}\label{sec:techval}
 
 Machine-readable package: \texttt{docs/scientific\_data/qc\_structure\_nmr.json}
 (and artefacts under \texttt{data/audit/}).
+Numbers below are descriptive fidelity / consistency checks (fixed seeds);
+we do not report confidence intervals or claim NMRexp-parity expert audits.
 
 \subsection{Transcription fidelity (PMC)}
 
@@ -399,8 +441,11 @@ Result: 560/560 bands and 60/60 records confirmed.
 Enlarged sample $n=200$ (same script/seed family,
 \texttt{data/audit/extraction\_audit\_n200.json}): 2,250/2,261 bands (99.51\%) and
 196/200 records (98.0\%) fully confirmed.
-This bounds transcription error (hallucinated, mis-parsed, or unit-mangled
-values).
+The four incomplete records (PMCIDs 5713685, 4189708, 12202350, 6259152) missed
+11 bands total on re-fetch match --- consistent with plain-text / formatting
+drift between harvest and Europe PMC re-fetch, not wholesale hallucination.
+This bounds automated transcription error (mis-parsed or unit-mangled values);
+it is not a human PDF mark-up of the kind reported for NMRexp~\citep{wang2025nmrexp}.
 
 \subsection{Extraction-recall proxy (PMC, harvest path)}
 
@@ -410,7 +455,8 @@ As an automatic proxy on the actual harvest path
 plain text for 40 distinct source PMCIDs; re-run \texttt{extract\_records}; compare
 band-sets to released rows ($\pm$1\,cm$^{-1}$).
 Result: 2,640/2,640 released bands confirmed in re-extract; 248/248 released
-IR lists recovered (list-level recall proxy 1.0; 40/40 papers); 4/40 papers
+IR lists recovered (list-level recall proxy 1.0; 40/40 papers).
+Of 258 re-extracted IR lists, 244 matched a released list (0.9457); 4/40 papers
 yielded \emph{extra} re-extracted lists relative to the curated release
 (parser over-fire vs post-harvest dedup/curation, not missed released compounds).
 Summary: \texttt{data/audit/extraction\_recall\_proxy.json}.
@@ -432,13 +478,21 @@ files unchanged).
 Among rows with the relevant modality: $^{13}$C peaks $>$ carbons
 1,194/34,231 (3.49\%); $^{1}$H integral $>$ formula+2
 1,141/39,672 (2.88\%); IR out-of-range 0; unparseable SMILES 0.
-Re-users should filter quarantined IDs before supervised training.
-These rates are integrity diagnostics, not an expert skeleton audit.
+Sample rates and full-corpus rates agree closely, supporting stability of the
+gates.
+Re-users should filter quarantined IDs before supervised training
+(default recommendation: drop the quarantine list unless a noisier corpus is
+intentionally desired).
+These rates are integrity diagnostics, not an expert skeleton audit
+(NMRexp reported $\sim$98\% skeleton correctness on a manual $n\approx 300$
+sample~\citep{wang2025nmrexp}; that check is optional future work for IRexp).
 
 \subsection{IR physical window}
 
 Every band in the full 121,233-record release lies in $[350, 4000]$\,cm$^{-1}$
 (0 / 1,360,866 out of range).
+This is a necessary range gate only: IRexp does not store intensities, solvents,
+or ATR vs transmission metadata.
 
 \subsection{QC status}
 
@@ -450,10 +504,11 @@ Every band in the full 121,233-record release lies in $[350, 4000]$\,cm$^{-1}$
 Check & Status \\
 \midrule
 Per-PMCID licence join + pool counts & Done --- commercial 87,617 \\
-Transcription fidelity n=60 and n=200 & Done \\
+Transcription fidelity n=60 and n=200 & Done (automated re-fetch) \\
 Extraction-recall automatic proxy (n=40 papers, S3 path) & Done (human recall still optional) \\
 Full-corpus structure--NMR quarantine & Done --- 1,882 / 43,060 flagged \\
 Expert structure spot-check ($n\geq 100$) & Optional / deferred \\
+NMRexp-style replicate MAE for IR lists & Not applicable / not claimed \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -466,19 +521,21 @@ Expert structure spot-check ($n\geq 100$) & Optional / deferred \\
   \item \textbf{AI agents / LLM tool-use.} Prefer the JSON band-list fields and
         \texttt{source\_doi} as tool returns or retrieval hits; do not scrape paywalled
         PDFs or view-only SDBS pages when a redistributable pool already exists.
-        Productized agents should filter by \texttt{license\_pool} (commercial vs NC*
+        Productized agents must filter by \texttt{license\_pool} (commercial vs NC*
         vs ShareAlike) rather than treating the full dump as a single licence.
   \item \textbf{Separate pools by density and licence.} PMC (sparse, author-transcribed)
         vs Chemotion (denser, author-curated ELN band lists).
-        Keep Chemotion ShareAlike constraints in mind when combining pools; combined
-        redistribution of Chemotion-derived rows must honour CC-BY-SA-4.0.
+        Higher median band count does not imply more complete vibrational
+        assignment --- Chemotion lists are author-entered, not peak-picked curves.
+        Combined redistribution of Chemotion-derived rows must honour CC-BY-SA-4.0
+        (ShareAlike); do not relicence SA rows as CC-BY.
   \item \textbf{Do not assume PMC = CC-BY-4.0.} Filter to
         \texttt{license\_pool == "commercial"} (or use \texttt{irexp\_commercial.jsonl.gz})
         for commercial redistribution; attribute via \texttt{source\_doi} / \texttt{pmcid}.
   \item \textbf{Structure--NMR quarantine.} Before supervised training on
-        \texttt{irexp\_resolved}, optionally drop IDs in
-        \texttt{data/audit/structure\_nmr\_quarantine.jsonl.gz} ($\sim$4.4\% of resolved
-        rows).
+        \texttt{irexp\_resolved}, drop IDs in
+        \texttt{data/audit/structure\_nmr\_quarantine.jsonl.gz} by default
+        ($\sim$4.4\% of resolved rows) unless a noisier training set is intentional.
   \item \textbf{Training without benchmark leakage.} If using the complementary
         IRSpectra-Bench problems (companion research paper), fine-tune from
         \texttt{train\_no\_bench.jsonl.gz} (or rebuild with
@@ -486,8 +543,28 @@ Expert structure spot-check ($n\geq 100$) & Optional / deferred \\
         Protocol and model results live only in that companion manuscript.
   \item \textbf{Structure coverage.} Prefer \texttt{irexp\_resolved} for supervised
         structure tasks; 64.5\% of records lack SMILES.
-  \item \textbf{Attribution.} Cite this Data Descriptor / Zenodo DOI and attribute
-        originating articles through each record's \texttt{source\_doi}.
+  \item \textbf{Attribution.} Cite this Data Descriptor / Zenodo DOI (when minted)
+        and attribute originating articles through each record's \texttt{source\_doi}.
+\end{itemize}
+
+\subsection{Limitations}\label{sec:limitations}
+
+\begin{itemize}
+  \item \textbf{Object.} IRexp is a band-list corpus, not an absorbance-spectrum
+        library and not an NMR resource comparable to NMRexp in scale or annotation
+        richness.
+  \item \textbf{Technical Validation depth.} Automated transcription ($n=200$) and
+        harvest-path recall proxies ($n=40$ papers) are weaker evidence than
+        NMRexp's manual $n\approx 300$ PDF checks and replicate MAE analyses.
+        No expert molecular-skeleton audit has been completed for IRexp.
+  \item \textbf{Metadata sparsity.} Intensities, solvents, and instrument modes are
+        generally absent; the IR window check is necessary but narrow.
+  \item \textbf{Structure coverage and name resolution.} Only 35.5\% of records are
+        structure-linked; OPSIN/PubChem failures leave many IR lists without SMILES.
+  \item \textbf{Licence mix.} The full \texttt{irexp.jsonl.gz} is multi-licence;
+        commercial Zenodo/Sci Data redistribution is the commercial pool only.
+  \item \textbf{Scope of this paper.} Elucidation benchmarks and model results are
+        out of scope; cite the companion research manuscript for those claims.
 \end{itemize}
 
 \section{Data Availability}\label{sec:dataavail}
@@ -497,8 +574,10 @@ IRexp numeric extracts are available at:
   \item Hugging Face Datasets: \url{https://huggingface.co/datasets/ilkhamfy/IRexp}
   \item GitHub: \url{https://github.com/IlkhamFY/spectro-agent}
         (\texttt{data/irexp/}, \texttt{data/irexp\_resolved/}, \texttt{data/irexp\_release/})
-  \item Zenodo: archival DOI at proof; primary artifact = commercial pool,
-        \texttt{cc-by-4.0} metadata + SA companion
+  \item Zenodo: archival DOI at proof for a \emph{data-only} deposit (primary
+        artifact = commercial pool, \texttt{cc-by-4.0} metadata + SA companion).
+        Do not reuse the combined IRSpectra-Bench research \texttt{.zenodo.json}
+        as the Sci Data archival record.
 \end{itemize}
 
 Licensing summary (honest):
@@ -520,7 +599,8 @@ MIT License (\texttt{LICENSE}).
 Principal modules: \texttt{spectro\_scraper/} (\texttt{extract.py},
 \texttt{normalize.py}, \texttt{pipeline.py}, \texttt{quality.py}); release harvest
 \texttt{scripts/s3\_ir\_harvest.py}, \texttt{scripts/chemotion\_to\_irexp.py};
-validation \texttt{scripts/audit\_extraction.py},
+licence join \texttt{scripts/join\_pmc\_licences.py}; validation
+\texttt{scripts/audit\_extraction.py},
 \texttt{scripts/audit\_extraction\_recall.py},
 \texttt{scripts/quarantine\_structure\_nmr.py}; pool split
 \texttt{scripts/split\_license\_pools.py}.
@@ -540,7 +620,8 @@ The authors declare no competing interests.
 
 \section*{Acknowledgements}
 
-Funding and institutional support will be added at proof.
+Funding and institutional support will be confirmed by the authors at submission /
+proof (human blocker --- not invented here).
 
 \bibliography{references}
 

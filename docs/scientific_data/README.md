@@ -13,9 +13,12 @@ See `docs/SPLIT_ORCHESTRATION.md`, `docs/OVERLEAF.md`, and `docs/irexp_scientifi
 3. Compiler: **XeLaTeX** (or pdfLaTeX) + **BibTeX**. Bibliography: `references.bib`.
 4. Figures resolve via `\graphicspath{{figures/}{../figures/}}` (symlink or copy `docs/figures`).
 
-**Class choice:** clean single-column `article` approximating a Nature *Scientific Data*
-Data Descriptor section order. The official Springer Nature `sn-article` class is **not**
-vendored in this repo; swap the preamble if submitting with the publisher template.
+**Class choice:** clean single-column `article` (11pt, A4, 1-inch margins)
+approximating a Nature *Scientific Data* Data Descriptor section order.
+The official Springer Nature **`sn-article`** / *Scientific Data* LaTeX template is
+**not** vendored here — download from Springer Nature when preparing the final
+submission package and re-wrap this content. Until then this file is for Overleaf
+reading copies and internal review.
 
 ## Files
 

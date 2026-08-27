@@ -170,8 +170,21 @@ def main() -> int:
             flush=True,
         )
 
+    def wilson_ci(successes: int, n: int, z: float = 1.96):
+        if n <= 0:
+            return None
+        p = successes / n
+        denom = 1 + z * z / n
+        centre = p + z * z / (2 * n)
+        margin = z * ((p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5)
+        return [
+            round((centre - margin) / denom, 4),
+            round((centre + margin) / denom, 4),
+        ]
+
     ok = [r for r in rows if r.get("status") == "ok"]
     full = sum(1 for r in ok if r.get("released_lists_unmatched", 0) == 0)
+    list_recall = 1 - unmatched_released / max(released_lists_total, 1)
     summary = {
         "method": (
             "Automatic recall proxy on the harvest path: re-fetch PMC-OA S3 plain "
@@ -191,6 +204,9 @@ def main() -> int:
             "rate": round(released_bands_hit / released_bands_total, 4)
             if released_bands_total
             else None,
+            "wilson95": wilson_ci(released_bands_hit, released_bands_total)
+            if released_bands_total
+            else None,
         },
         "reextract_lists_matched_to_release": {
             "matched": matched_lists,
@@ -198,16 +214,23 @@ def main() -> int:
             "rate": round(matched_lists / reextract_lists, 4)
             if reextract_lists
             else None,
+            "wilson95": wilson_ci(matched_lists, reextract_lists)
+            if reextract_lists
+            else None,
         },
-        "list_level_recall_proxy": round(
-            1 - unmatched_released / max(released_lists_total, 1), 4
-        ),
+        "list_level_recall_proxy": round(list_recall, 4),
+        "list_level_recall_proxy_wilson95": wilson_ci(
+            released_lists_total - unmatched_released, released_lists_total
+        )
+        if released_lists_total
+        else None,
         "released_lists_unmatched_total": unmatched_released,
         "released_lists_total": released_lists_total,
         "papers_all_released_lists_recovered": {
             "count": full,
             "of": len(ok),
             "rate": round(full / len(ok), 4) if ok else None,
+            "wilson95": wilson_ci(full, len(ok)) if ok else None,
         },
         "papers_with_extra_reextract_lists": extra_list_papers,
     }

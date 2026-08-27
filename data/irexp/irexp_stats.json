@@ -5,10 +5,10 @@
   "with_structure": 43060,
   "provenance_pmc": 119345,
   "provenance_chemotion": 1888,
-  "licence_pool_commercial": 87617,
-  "licence_pool_non_commercial": 20938,
+  "licence_pool_commercial": 88545,
+  "licence_pool_non_commercial": 21823,
   "licence_pool_sharealike": 1897,
-  "licence_pool_empty_unknown": 10781,
-  "licence_pool_other": 0,
-  "note": "IRexp experimental IR (PMC-OA mixed CC terms + Chemotion CC-BY-SA-4.0). Per-record license/license_pool via scripts/join_pmc_licences.py (Europe PMC). Commercial Zenodo primary = 87617. Structure resolved from in-text names via OPSIN + PubChem fallback. See docs/scientific_data/LICENCE_REMEDIATION.md."
+  "licence_pool_empty_unknown": 8963,
+  "licence_pool_other": 5,
+  "note": "IRexp experimental IR (PMC-OA mixed CC terms + Chemotion CC-BY-SA-4.0). Per-record license/license_pool via scripts/join_pmc_licences.py (Europe PMC). Commercial Zenodo primary = 87617. Structure resolved from in-text names via OPSIN + PubChem fallback. See docs/scientific_data/LICENCE_REMEDIATION.md. Crossref/EPMC empty-licence recovery applied 2026-08-27."
 }

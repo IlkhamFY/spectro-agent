@@ -73,10 +73,10 @@ join (`scripts/join_pmc_licences.py`).
 
 | Pool | Records | Use |
 |---|---:|---|
-| **commercial** (CC-BY + CC0) | **87,617** | Primary Sci Data / Zenodo redistributable |
-| non_commercial (CC-BY-NC*) | 20,938 | Held aside |
+| **commercial** (CC-BY + CC0) | **88,545** | Primary Sci Data / Zenodo redistributable |
+| non_commercial (CC-BY-NC*) | 21,823 | Held aside |
 | sharealike (Chemotion + rare PMC SA) | 1,897 | CC-BY-SA — separate file |
-| empty_unknown | 10,781 | Excluded from commercial deposit |
+| empty_unknown | 8,963 | Excluded from commercial deposit |
 
 Provenance totals: 119,345 PMC-sourced + 1,888 Chemotion. See `data/NOTICE`,
 `docs/scientific_data/LICENCE_REMEDIATION.md`, and

@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-08-27T03:22:10.537961+00:00",
+  "policy": "Only promote when Crossref exposes Creative Commons or ACS authorchoice CC URLs; ignore Elsevier/Springer TDM-only links.",
+  "probe": "data/audit/empty_licence_crossref_probe.json",
+  "pmcids_promoted": 146,
+  "records_before_pools": {
+    "commercial": 87617,
+    "non_commercial": 20938,
+    "empty_unknown": 10781,
+    "sharealike": 1897
+  },
+  "records_after_pools": {
+    "commercial": 88545,
+    "non_commercial": 21823,
+    "empty_unknown": 8963,
+    "other": 5,
+    "sharealike": 1897
+  },
+  "records_moved": {
+    "empty_unknown->commercial": 928,
+    "empty_unknown->other": 5,
+    "empty_unknown->non_commercial": 885
+  },
+  "delta_commercial": 928,
+  "delta_empty_unknown": -1818,
+  "total_records": 121233,
+  "dry_run": false
+}

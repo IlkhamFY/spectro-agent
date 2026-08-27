@@ -30,17 +30,17 @@ PMC Open Access is **not** uniformly CC-BY. A prior blanket CC-BY claim (~19% NC
 
 **Recommendation (implemented):** ship Sci Data / Zenodo **commercial-use pool** as the primary artifact; keep NC in a clearly labelled file; exclude empty/unknown from the commercial deposit; keep Chemotion (+ rare PMC SA) as a separate ShareAlike file.
 
-## Counts (Europe PMC join, 2026-08-26)
+## Counts (Europe PMC join + Crossref recovery, 2026-08-27)
 
 ### Records (n = 121,233)
 
 | Pool | Records | % of corpus |
 |---|---:|---:|
-| **commercial** (CC-BY + CC0) | **87,617** | 72.3% |
-| non_commercial (NC*) | 20,938 | 17.3% |
+| **commercial** (CC-BY + CC0) | **88,545** | 73.0% |
+| non_commercial (NC*) | 21,823 | 18.0% |
 | sharealike (Chemotion 1,888 + PMC SA 9) | 1,897 | 1.6% |
-| empty_unknown | 10,781 | 8.9% |
-| other | 0 | 0.0% |
+| empty_unknown | 8,963 | 7.4% |
+| other (CC-BY-ND) | 5 | <0.1% |
 | **Total** | **121,233** | 100% |
 
 ### By `license` label (records)
@@ -81,7 +81,7 @@ Provenance totals unchanged: **119,345** PMC-sourced + **1,888** Chemotion.
 | `data/irexp/irexp.jsonl.gz` | Full corpus **with** `license*` fields |
 | `data/irexp/pmc_licence_lookup.jsonl.gz` | Per-PMCID cache |
 | `data/irexp/pmc_licence_summary.json` | Machine-readable counts |
-| `data/irexp/licence_pools/irexp_commercial.jsonl.gz` | Zenodo primary (87,617) |
+| `data/irexp/licence_pools/irexp_commercial.jsonl.gz` | Zenodo primary (88,545) |
 | `data/irexp/licence_pools/irexp_non_commercial.jsonl.gz` | NC held aside |
 | `data/irexp/licence_pools/irexp_sharealike.jsonl.gz` | Chemotion + PMC SA |
 | `data/irexp/licence_pools/irexp_empty_unknown.jsonl.gz` | Excluded from commercial |

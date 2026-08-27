@@ -1,31 +1,41 @@
 {
-  "generated_at": "2026-08-26T18:28:32.086335+00:00",
+  "generated_at": "2026-08-27T03:22:20.111557+00:00",
   "license_counts": {
-    "CC-BY": 87588,
+    "CC-BY": 88516,
     "CC-BY-NC": 10546,
-    "CC-BY-NC-ND": 9663,
+    "UNKNOWN": 109,
+    "CC-BY-NC-ND": 10548,
     "CC-BY-NC-SA": 729,
-    "CC-BY-SA": 9,
-    "CC-BY-SA-4.0": 1888,
+    "CC-BY-ND": 5,
+    "EMPTY": 8854,
     "CC0": 29,
-    "EMPTY": 10664,
-    "UNKNOWN": 117
+    "CC-BY-SA": 9,
+    "CC-BY-SA-4.0": 1888
   },
-  "pmcid_license_counts": {
-    "CC-BY": 11967,
-    "CC-BY-NC": 1235,
-    "CC-BY-NC-ND": 1190,
-    "CC-BY-NC-SA": 134,
-    "CC-BY-SA": 1,
-    "CC0": 4,
-    "EMPTY": 864,
-    "UNKNOWN": 21
+  "pool_record_counts": {
+    "commercial": 88545,
+    "non_commercial": 21823,
+    "empty_unknown": 8963,
+    "other": 5,
+    "sharealike": 1897
   },
-  "pmcid_pool_counts": {
-    "commercial": 11971,
-    "empty_unknown": 885,
-    "non_commercial": 2559,
-    "sharealike": 1
+  "source_counts": {
+    "pmc": 119345,
+    "chemotion": 1888
+  },
+  "total_records": 121233,
+  "unique_pmcids": 15416,
+  "rebuilt_from_stamped_corpus": true,
+  "source": "data/irexp/irexp.jsonl.gz",
+  "crossref_recovery_applied": true,
+  "crossref_recovery": {
+    "pmcids_promoted": 146,
+    "records_moved": {
+      "empty_unknown->commercial": 928,
+      "empty_unknown->other": 5,
+      "empty_unknown->non_commercial": 885
+    },
+    "delta_commercial": 928
   },
   "policy": {
     "commercial_includes": [
@@ -39,7 +49,8 @@
     "sharealike_includes": [
       "CC-BY-SA",
       "CC-BY-SA-4.0 (Chemotion)"
-    ]
+    ],
+    "crossref_recovery": "empty/unknown promoted only on explicit CC / ACS AuthorChoice Crossref URLs or late Europe PMC licence strings; TDM-only ignored"
   },
   "pool_files": {
     "commercial": "data/irexp/licence_pools/irexp_commercial.jsonl.gz",
@@ -47,19 +58,5 @@
     "non_commercial": "data/irexp/licence_pools/irexp_non_commercial.jsonl.gz",
     "other": "data/irexp/licence_pools/irexp_other.jsonl.gz",
     "sharealike": "data/irexp/licence_pools/irexp_sharealike.jsonl.gz"
-  },
-  "pool_record_counts": {
-    "commercial": 87617,
-    "empty_unknown": 10781,
-    "non_commercial": 20938,
-    "sharealike": 1897
-  },
-  "rebuilt_from_stamped_corpus": true,
-  "source": "data/irexp/irexp.jsonl.gz",
-  "source_counts": {
-    "chemotion": 1888,
-    "pmc": 119345
-  },
-  "total_records": 121233,
-  "unique_pmcids": 15416
+  }
 }

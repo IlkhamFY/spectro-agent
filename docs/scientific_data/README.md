@@ -35,21 +35,24 @@ Overleaf review PDFs that match Springer Nature authoring guidance.
 | `LICENCE_REMEDIATION.md` | Track 1 Europe PMC join narrative + pool counts |
 | `qc_structure_nmr.json` | Frozen Technical Validation numbers |
 | `scientific_data.pdf` | Local render (`scripts/build_scientific_data_pdf.py`) |
+| `PEER_REVIEW_SIMULATION.md` | Simulated Sci Data peer review + remediation checklist |
 | `README.md` | This file |
 
 Licence pool artefacts: `data/irexp/licence_pools/`, `data/irexp/pmc_licence_summary.json`.
 
 ## Outline (Data Descriptor)
 
-1. Title / authors (equal contribution; corresponding emails)
+1. Title / authors (both corresponding; no equal-contribution footnote)
 2. Abstract (data + reuse only; no LLM bench; ≤~170 words)
-3. Background & Summary
+3. Background & Summary (NMRexp complementary positioning; agentic reuse)
 4. Methods
 5. Data Records (commercial **87,617** primary)
-6. Technical Validation
+6. Technical Validation (+ honest Limitations)
 7. Usage Notes
 8. Data / Code Availability
 9. Author contributions, Competing interests, Acknowledgements, References
+
+Peer-review simulation: [`PEER_REVIEW_SIMULATION.md`](PEER_REVIEW_SIMULATION.md).
 
 ## Build PDF
 

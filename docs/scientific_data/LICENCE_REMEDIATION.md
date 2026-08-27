@@ -125,7 +125,14 @@ If `HF_TOKEN` is unavailable in this environment, ship the files above and run t
 
 ## Zenodo
 
-`.zenodo.json` describes a **multi-licence** deposit: primary file = commercial CC-BY pool; Chemotion/SA as a second file under CC-BY-SA-4.0; NC and empty/unknown not in the commercial artifact (may be uploaded as restricted/supplementary with clear labels). Zenodo’s single `license` metadata field is set to `cc-by-4.0` for the **primary** commercial artifact; description text states the SA companion and exclusions.
+`.zenodo.json` at the repo root currently describes a **combined** research deposit
+(IRexp + IRSpectra-Bench). For the **Scientific Data** archival record, mint a
+**separate data-only** Zenodo deposit: primary file = commercial CC-BY pool;
+Chemotion/SA as a second file under CC-BY-SA-4.0; NC and empty/unknown not in the
+commercial artifact (may be uploaded as restricted/supplementary with clear labels).
+Zenodo’s single `license` metadata field should be `cc-by-4.0` for the **primary**
+commercial artifact; description text must state the SA companion and exclusions.
+Do not invent a DOI in the manuscript until the data-only deposit is minted.
 
 ## Manuscript / gates
 

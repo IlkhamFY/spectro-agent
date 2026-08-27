@@ -1,51 +1,70 @@
 # IRexp split completion status — honest audit
 
 **Repo:** IlkhamFY/spectro-agent  
-**Verified against:** branch `cursor/scidata-accept-ready-9a67` (peer-review remediation 2026-08-27)  
+**Verified against:** branch `cursor/scidata-accept-ready-9a67` (finish-remaining pass 2026-08-27)  
 **Audit source:** `docs/irexp_scientific_data_audit.md`  
 **Peer review:** `docs/scientific_data/PEER_REVIEW_SIMULATION.md`  
+**TV/scale methods:** `docs/scientific_data/TV_AND_SCALE_PASS.md`  
+**Closeout log:** `docs/scientific_data/REMAINING_CLOSED.md`  
+**Human path:** `docs/scientific_data/HUMAN_SUBMISSION_CHECKLIST.md`  
 **Date of this status:** 2026-08-27  
-**Mode:** accept-ready pass — agent-addressable peer-review findings fixed; human-only leftovers called out
+**Mode:** Closed agent leftovers (HF remirror, count stubs, overview figure); human-only leftovers unchanged
 
 ---
 
-## Blunt answers
+## DONE (agent)
 
-| # | Ask | Verdict | One-line why |
-|---|---|---|---|
-| **(1)** Per-article licence join + NC segregation + HF/NOTICE correction | **DONE** | Disk stamps/pools/NOTICE/HF remirror honest; commercial 87,617 primary |
-| **(2)** Technical Validation pack | **DONE** (agent scope) | n=200 transcription; recall proxy; full quarantine; Limitations vs NMRexp explicit. Expert human audits still optional |
-| **(3)** Sci Data manuscript | **DONE** (near submit) / **not fully submission-ready** | Peer-review remediation applied in TeX+MD. Zenodo DOI, ORCID, funding remain human |
-| **(4)** ICLR-facing cut + cross-cite | **DONE** (draft) | No bench results in Descriptor; companion cite only |
-
-**Has everything actionable been addressed?** Agent-addressable peer-review Majors/Minors: **yes** (see `PEER_REVIEW_SIMULATION.md` post-remediation). Human-only: Zenodo mint (data-only deposit), ORCID (esp. Yabbarov), funding/acks. Optional: expert structure n≥100; human recall mark-up.
-
----
-
-## Remaining blockers (honest)
-
-### Critical — human only
-
-1. **Zenodo DOI mint** for a **data-only** IRexp deposit (commercial primary + SA companion). Do **not** reuse the combined IRSpectra-Bench `.zenodo.json` as the Sci Data archival record.
-2. **ORCID** — especially corresponding author I. Yabbarov (Vargas-Hernández ORCID known in MD notes: `0000-0002-5559-6521`).
-3. **Acknowledgements / funding** text confirmation.
-
-### Optional polish (not submit-blocking if Limitations stay honest)
-
-4. Expert structure spot-check n≥100; true human extraction-recall mark-up.  
-5. Dedicated overview figure (tables currently carry composition).  
-6. Remirror HF after Chemotion `inchikey`/`has_structure` schema backfill (local release files updated 2026-08-27).
+| Item | Status |
+|---|---|
+| Per-article licence join + NC segregation + Crossref empty recovery | **DONE** — commercial **88,545** (+928) |
+| Technical Validation pack (automated) | **DONE** — n=200 transcription; recall n=120 + Wilson; chemist-proxy n=280; full quarantine |
+| Sci Data manuscript TeX+MD sync (counts, Limitations, fence) | **DONE** (near submit) |
+| ICLR dual-publication fence | **DONE** |
+| HF remirror after Crossref | **DONE** (2026-08-27) |
+| Overview composition figure | **DONE** (`fig_irexp_overview`) |
+| Stale 87,617 notes in agent-owned manifests | **DONE** |
+| Zenodo / ORCID / funding **stubs + checklists** | **DONE** (not minted / not invented) |
+| PDF rebuild; no symlinks under `docs/scientific_data/` | **DONE** |
 
 ---
 
-## Peer-review remediation summary (2026-08-27)
+## REMAINING (human only)
 
-Fixed in-tree: Limitations section; NMRexp complementary positioning; schema fields; Chemotion `inchikey`/`has_structure` backfill; recall-proxy wording vs QC JSON; keywords scrub; README equal-contrib leftover; Usage Notes (quarantine default, SA remix); discovery freeze note; Code Availability join script; data-only Zenodo guidance.
+| # | Item | Why agent cannot close |
+|---|---|---|
+| 1 | Zenodo **data-only** DOI mint | Must be minted by depositor; see `ZENODO_DATA_ONLY_CHECKLIST.md` |
+| 2 | ORCID — especially Yabbarov | Personal identifier; Vargas candidate known but must confirm |
+| 3 | Acknowledgements / funding text | Author-supplied grant language |
 
-**Still deferred:** Zenodo DOI, ORCID, funding; optional expert audits.
+### Optional (human polish)
+
+| # | Item |
+|---|---|
+| 4 | Expert structure spot-check n≥100 |
+| 5 | True human extraction-recall mark-up |
+
+---
+
+## TV headline numbers (automated)
+
+| Metric | n | Rate |
+|---|---:|---|
+| Transcription (n=200) | 2,261 bands | 99.51% |
+| Recall proxy list-level | 858 lists / 120 papers | 0.9848 (Wilson [0.9743, 0.9911]) |
+| Chemist-proxy joint pass | 280 | 0.9679 (Wilson [0.9401, 0.9830]) |
+| Structure-physics pass (within proxy) | 182 | 0.9725 |
+| Quarantine (full resolved) | 43,060 | 4.37% flagged |
+
+---
+
+## Scale
+
+Total / structure-linked / quadruples **unchanged** (121,233 / 43,060 / 33,201).  
+Commercial pool **87,617 → 88,545** via Crossref/EPMC empty-licence recovery (HF remirrored).
 
 ---
 
 ## Bottom line
 
-Agent-addressable Sci Data accept-ready remediation is **complete** on this branch. Submit-blocking leftovers are **Zenodo (data-only) + ORCID + funding** (humans at submission).
+**All agent-addressable Sci Data leftovers on this branch are closed.**  
+Submit-blocking leftovers remain **Zenodo (data-only) + ORCID + funding**.

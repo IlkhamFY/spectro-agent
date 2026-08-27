@@ -46,7 +46,7 @@ Licence pool artefacts: `data/irexp/licence_pools/`, `data/irexp/pmc_licence_sum
 2. Abstract (data + reuse only; no LLM bench; ≤~170 words)
 3. Background & Summary (NMRexp complementary positioning; agentic reuse)
 4. Methods
-5. Data Records (commercial **87,617** primary)
+5. Data Records (commercial **88,545** primary)
 6. Technical Validation (+ honest Limitations)
 7. Usage Notes
 8. Data / Code Availability

@@ -7,7 +7,7 @@ source DOI/accession. No source full text, figures, or PDFs are redistributed.
 
 Every record carries stamped licence fields
 -------------------------------------------
-After `scripts/join_pmc_licences.py` (Europe PMC join, 2026-08-26):
+After `scripts/join_pmc_licences.py` (Europe PMC join) plus Crossref empty-licence recovery (2026-08-27):
 
 | Field | Meaning |
 |---|---|
@@ -24,11 +24,11 @@ Licence pools (record counts)
 -----------------------------
 | Pool | Records | Redistribution policy |
 |---|---:|---|
-| **commercial** (CC0 + CC-BY) | **87,617** | Primary Sci Data / Zenodo redistributable artifact |
-| non_commercial (CC-BY-NC*) | 20,938 | Held aside — `licence_pools/irexp_non_commercial.jsonl.gz` |
+| **commercial** (CC0 + CC-BY) | **88,545** | Primary Sci Data / Zenodo redistributable artifact |
+| non_commercial (CC-BY-NC*) | 21,823 | Held aside — `licence_pools/irexp_non_commercial.jsonl.gz` |
 | sharealike (Chemotion CC-BY-SA-4.0 + rare PMC CC-BY-SA) | 1,897 | Separate SA file — honour ShareAlike |
-| empty_unknown (EMPTY / no EPMC hit) | 10,781 | **Excluded** from commercial Zenodo pool |
-| other (e.g. CC-BY-ND) | 0 | Held aside if present |
+| empty_unknown (EMPTY / no EPMC hit) | 8,963 | **Excluded** from commercial Zenodo pool |
+| other (CC-BY-ND via Crossref recovery) | 5 | Held aside — `licence_pools/irexp_other.jsonl.gz` |
 
 Provenance (unchanged totals): PMC-sourced 119,345; Chemotion 1,888.
 Unique PMCIDs joined: 15,416. See `docs/scientific_data/LICENCE_REMEDIATION.md`.

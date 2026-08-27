@@ -45,17 +45,17 @@ IRexp is the largest **openly redistributable** collection of **experimental inf
 
 | Split / file | Records | Description |
 |---|---:|---|
-| `irexp_commercial.jsonl.gz` | **87,617** | **Primary redistributable** — CC-BY + CC0 (`license_pool=commercial`) |
+| `irexp_commercial.jsonl.gz` | **88,545** | **Primary redistributable** — CC-BY + CC0 (`license_pool=commercial`) |
 | `irexp.jsonl.gz` | 121,233 | Full corpus (multi-licence; every row stamped) |
-| `irexp_non_commercial.jsonl.gz` | 20,938 | CC-BY-NC* held aside |
+| `irexp_non_commercial.jsonl.gz` | 21,823 | CC-BY-NC* held aside |
 | `irexp_sharealike.jsonl.gz` | 1,897 | Chemotion CC-BY-SA-4.0 + rare PMC SA |
-| `irexp_empty_unknown.jsonl.gz` | 10,781 | Empty/unknown — excluded from commercial Zenodo |
+| `irexp_empty_unknown.jsonl.gz` | 8,963 | Empty/unknown — excluded from commercial Zenodo |
 | `irexp_resolved.jsonl.gz` | 43,060 | Structure-linked (100%; multi-licence — filter by `license_pool`) |
 | … full IR + ¹H + ¹³C + structure | 33,201 | Multimodal quadruples |
 | `train_no_bench.jsonl.gz` | 42,808 | **Recommended for training** — `irexp_resolved` minus all IRSpectra-Bench InChIKey-14 |
 | `train_no_bench_nmr.jsonl.gz` | 32,949 | Same, requiring both ¹H and ¹³C |
 
-**Provenance & licensing:** 119,345 PMC-sourced + 1,888 Chemotion/RADAR4Chem. Per-article Europe PMC join stamps `license` / `license_pool` on every row (`scripts/join_pmc_licences.py`). **Commercial training / Zenodo primary = `commercial` config (87,617).** Do not treat the full `all` split as uniformly CC-BY. See `NOTICE` and `LICENCE_REMEDIATION.md`.
+**Provenance & licensing:** 119,345 PMC-sourced + 1,888 Chemotion/RADAR4Chem. Per-article Europe PMC join stamps `license` / `license_pool` on every row (`scripts/join_pmc_licences.py`). **Commercial training / Zenodo primary = `commercial` config (88,545).** Do not treat the full `all` split as uniformly CC-BY. See `NOTICE` and `LICENCE_REMEDIATION.md`.
 
 **Companion benchmark:** [IRSpectra-Bench](https://github.com/IlkhamFY/spectro-agent/blob/main/docs/LEADERBOARD.md) — 194 blind elucidation problems built from IRexp; score submissions with `scripts/score_submission.py`.
 

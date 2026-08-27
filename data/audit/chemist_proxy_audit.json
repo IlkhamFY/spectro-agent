@@ -1,0 +1,5018 @@
+{
+  "summary": {
+    "label": "automated_chemist_proxy",
+    "human_expert_audit": false,
+    "method": "Stratified multi-check automated chemist-proxy: IR window, band-list sanity, RDKit formula vs 13C/1H physics (structure-linked), PMC re-fetch transcription (\u00b11 cm\u207b\u00b9). Explicitly NOT a human molecular-skeleton audit.",
+    "seed": 0,
+    "n_requested": 280,
+    "n_scored": 280,
+    "strata": {
+      "pool_sizes": {
+        "pmc_ir_only": 78173,
+        "pmc_struct_commercial": 29263,
+        "pmc_struct_other_licence": 11909,
+        "chemotion": 1888
+      },
+      "quotas": {
+        "pmc_struct_commercial": 98,
+        "pmc_struct_other_licence": 42,
+        "pmc_ir_only": 98,
+        "chemotion": 42
+      }
+    },
+    "pass_rate": 0.9679,
+    "pass_count": 271,
+    "wilson95_pass": [
+      0.9401,
+      0.983
+    ],
+    "by_stratum": {
+      "chemotion": {
+        "n": 42,
+        "pass": 42,
+        "pass_rate": 1.0,
+        "wilson95": [
+          0.9162,
+          1.0
+        ]
+      },
+      "pmc_ir_only": {
+        "n": 98,
+        "pass": 97,
+        "pass_rate": 0.9898,
+        "wilson95": [
+          0.9444,
+          0.9982
+        ]
+      },
+      "pmc_struct_commercial": {
+        "n": 98,
+        "pass": 92,
+        "pass_rate": 0.9388,
+        "wilson95": [
+          0.8728,
+          0.9716
+        ]
+      },
+      "pmc_struct_other_licence": {
+        "n": 42,
+        "pass": 40,
+        "pass_rate": 0.9524,
+        "wilson95": [
+          0.8421,
+          0.9868
+        ]
+      }
+    },
+    "transcription_refetch": {
+      "records_fetched": 238,
+      "bands_confirmed": "2500/2508",
+      "band_fidelity": 0.9968,
+      "records_fully_confirmed": "236/238",
+      "record_fidelity": 0.9916
+    },
+    "structure_linked_in_sample": 182,
+    "structure_physics_fail_in_sample": 5,
+    "structure_physics_pass_rate": 0.9725,
+    "fail_reason_counts": {
+      "h1_integration_gt_formula_plus_2": 4,
+      "transcription_miss": 2,
+      "c13_peaks_gt_carbons": 1,
+      "duplicate_integer_bands": 2
+    }
+  },
+  "records": [
+    {
+      "id": "9cd74e40e116e3aa0138",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6882105",
+      "pmcid": "PMC6882105",
+      "license_pool": "empty_unknown",
+      "has_structure": false,
+      "n_bands": 13,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 13,
+        "confirmed": 13,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "ROUMDNPPUPSBDL-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 42,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "WGMOCILRUYTMIW-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 51,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "6ef650fdce00c9cccce3",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:8929666",
+      "pmcid": "PMC8929666",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "b49e08bc0b562ccdc72a",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:10143918",
+      "pmcid": "PMC10143918",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "OHYCXJAQYQTGOR-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:10343498",
+      "pmcid": "PMC10343498",
+      "license_pool": "empty_unknown",
+      "has_structure": true,
+      "n_bands": 43,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 43,
+        "confirmed": 43,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "MSSLFRIINIQAFI-JXMROGBWSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:7783654",
+      "pmcid": "PMC7783654",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "7e771201d909822cd41b",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:10180116",
+      "pmcid": "PMC10180116",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 10,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 10,
+        "confirmed": 10,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "25913935057befbee1c0",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:7111485",
+      "pmcid": "PMC7111485",
+      "license_pool": "empty_unknown",
+      "has_structure": false,
+      "n_bands": 15,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 15,
+        "confirmed": 15,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "PNJCQSRZVFLATK-ISIQWTGCSA-M",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 16,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "YAHJRDFUJVQHBA-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6273304",
+      "pmcid": "PMC6273304",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "LIBPEYFVVHSXPZ-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:6648542",
+      "pmcid": "PMC6648542",
+      "license_pool": "empty_unknown",
+      "has_structure": true,
+      "n_bands": 13,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 13,
+        "confirmed": 13,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "33122bea57121960c9fb",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:8227400",
+      "pmcid": "PMC8227400",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "d27d0c6c15a92999cbf5",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:3719175",
+      "pmcid": "PMC3719175",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "CTZVEKYVQDCREH-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 50,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "RCZUOZBAQDBPCG-VAWYXSNFSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 44,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "0534098616171ad01a26",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:12736544",
+      "pmcid": "PMC12736544",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "PJSXBWDVIGHOEZ-JLXBFWJWSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 39,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "287cc49503ee3b12770e",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:10377586",
+      "pmcid": "PMC10377586",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "WLVVTHQNJILCQV-BMRADRMJSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9076196",
+      "pmcid": "PMC9076196",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 11,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 11,
+        "confirmed": 11,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "e6d502d74cca55b80248",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6640972",
+      "pmcid": "PMC6640972",
+      "license_pool": "empty_unknown",
+      "has_structure": false,
+      "n_bands": 22,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 22,
+        "confirmed": 22,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "fb5698d64e00cc00e2be",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:11767715",
+      "pmcid": "PMC11767715",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 17,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 17,
+        "confirmed": 17,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "1a303e73aa5b3fa3f7cd",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:10476199",
+      "pmcid": "PMC10476199",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "3670817d5b49bbf5c573",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:4518935",
+      "pmcid": "PMC4518935",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "3b0c561b87b2ac8f53aa",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9024515",
+      "pmcid": "PMC9024515",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "LBDROKKDHALWFK-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 46,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "328827d7980049ee31b4",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:8515593",
+      "pmcid": "PMC8515593",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 18,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 18,
+        "confirmed": 18,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "f2f7b2f19d43083013d3",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:10574086",
+      "pmcid": "PMC10574086",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "995e9d4a94c48a010c48",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:13071873",
+      "pmcid": "PMC13071873",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 17,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "s3",
+        "bands": 17,
+        "confirmed": 17,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "KCWQJIXWSRVVEU-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6155749",
+      "pmcid": "PMC6155749",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "d4de28e7838586f79f3f",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:4156979",
+      "pmcid": "PMC4156979",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "dc00100f7f91f4a3accf",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9227189",
+      "pmcid": "PMC9227189",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 14,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 14,
+        "confirmed": 14,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "024a585f83634df6e10a",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6155345",
+      "pmcid": "PMC6155345",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "GKOYDDRKNXLMDH-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6271574",
+      "pmcid": "PMC6271574",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "54d0f50028091097cd24",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:9049946",
+      "pmcid": "PMC9049946",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "JSPPPVKNPLZXKF-TXXRRDSISA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:10536652",
+      "pmcid": "PMC10536652",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 13,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 13,
+        "confirmed": 13,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "GYSOUIQKZVDEPO-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9572991",
+      "pmcid": "PMC9572991",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "f22ebe8e7134909fba47",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:13103808",
+      "pmcid": "PMC13103808",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 11,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 11,
+        "confirmed": 11,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "SJFPEIROUCVVRW-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:6647008",
+      "pmcid": "PMC6647008",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "7d58ec7fa95857e90a40",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:7956476",
+      "pmcid": "PMC7956476",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "a66a8818d684bbcea1e6",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6934599",
+      "pmcid": "PMC6934599",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 17,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 17,
+        "confirmed": 17,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "QLMNHWHBYMSIKD-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:10305184",
+      "pmcid": "PMC10305184",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 18,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 18,
+        "confirmed": 18,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "338357f73e6e5883a053",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:12153137",
+      "pmcid": "PMC12153137",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "VAWZRHKUYPKWOG-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6891773",
+      "pmcid": "PMC6891773",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "LENHJXSCYCVXRT-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:10682742",
+      "pmcid": "PMC10682742",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "b90a7dc8b730f30323b1",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:2900938",
+      "pmcid": "PMC2900938",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 11,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 11,
+        "confirmed": 11,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "SWTVTYVYUGWQIU-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6274422",
+      "pmcid": "PMC6274422",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "e07b297be1d82d4d9739",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9959676",
+      "pmcid": "PMC9959676",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "KKDIGPAMNWUDKX-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:3431135",
+      "pmcid": "PMC3431135",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "ZRAGRYMYSSZRAH-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:11085086",
+      "pmcid": "PMC11085086",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "QWRUJBAJYWMIGB-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:7555178",
+      "pmcid": "PMC7555178",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 33,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 33,
+        "confirmed": 33,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "9d27a17471557a2614bc",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:10507667",
+      "pmcid": "PMC10507667",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 12,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 12,
+        "confirmed": 12,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "16d0332c36dc88bbe0fe",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:12250923",
+      "pmcid": "PMC12250923",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 18,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 18,
+        "confirmed": 18,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "0dae388319235e0853c2",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9036565",
+      "pmcid": "PMC9036565",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "HTDJDZOPDBAGQF-UHFFFAOYSA-M",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 20,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "71df05e7017186f993c1",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6173372",
+      "pmcid": "PMC6173372",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 14,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 14,
+        "confirmed": 14,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "2cf99169d42293247989",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:8279491",
+      "pmcid": "PMC8279491",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "88fd0c08fd51f650698b",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:10162371",
+      "pmcid": "PMC10162371",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "c1ef79dfb7fae73f7e74",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:13074763",
+      "pmcid": "PMC13074763",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 11,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 11,
+        "confirmed": 11,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "38be1e85ff1b58800dc9",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:10674445",
+      "pmcid": "PMC10674445",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 18,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 18,
+        "confirmed": 18,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "NVASXJKSZVLMPJ-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:7331213",
+      "pmcid": "PMC7331213",
+      "license_pool": "empty_unknown",
+      "has_structure": true,
+      "n_bands": 22,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 22,
+        "confirmed": 22,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "XDSXSDUJRPOUTH-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:5603884",
+      "pmcid": "PMC5603884",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [
+        "h1_integration_gt_formula_plus_2:34>31+2"
+      ],
+      "pass": false,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "DPBLXKKOBLCELK-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 67,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "SCPZGRPEDXRLPR-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:5466188",
+      "pmcid": "PMC5466188",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "QJBVKUQJTBFFDY-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:12794163",
+      "pmcid": "PMC12794163",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 12,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 12,
+        "confirmed": 12,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "KPWQQWDWVILYLB-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 23,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "CPARHIBNDSEJGR-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 47,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "ZHVZJLYHHNJMJB-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:4428392",
+      "pmcid": "PMC4428392",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "175e9441afbd1edaa7b9",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:7901663",
+      "pmcid": "PMC7901663",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 10,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 10,
+        "confirmed": 10,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "UFDVXWJXSVKRIY-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:8765700",
+      "pmcid": "PMC8765700",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 11,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 11,
+        "confirmed": 11,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "6dbdcc985c726cf69995",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:4301091",
+      "pmcid": "PMC4301091",
+      "license_pool": "empty_unknown",
+      "has_structure": false,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "862703fd3ef1244ea3cf",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:10386161",
+      "pmcid": "PMC10386161",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 11,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 11,
+        "confirmed": 11,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "3dcbae49cbbfcdf2c657",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:12121771",
+      "pmcid": "PMC12121771",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "400ed2cc100ca20a4b3d",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:5776954",
+      "pmcid": "PMC5776954",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "b3c8901388fee8887b57",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:5655362",
+      "pmcid": "PMC5655362",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "191cb737c8562798e972",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:12817124",
+      "pmcid": "PMC12817124",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "7a91be5f3bba39209ba6",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:5989918",
+      "pmcid": "PMC5989918",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 15,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 15,
+        "confirmed": 15,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "1bcf95d1a06c8a3e1e79",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:8296562",
+      "pmcid": "PMC8296562",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "UMGXYYDAYYCHMM-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6270209",
+      "pmcid": "PMC6270209",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 16,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 16,
+        "confirmed": 16,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "TZSGNFXZTWRYSR-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:8868272",
+      "pmcid": "PMC8868272",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "7f43164e46c8b7a5d161",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6269926",
+      "pmcid": "PMC6269926",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "9eedad48585e49318d76",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:12899815",
+      "pmcid": "PMC12899815",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 18,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 18,
+        "confirmed": 18,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "AMHGSVJUFKGLPS-INIZCTEOSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:8270337",
+      "pmcid": "PMC8270337",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "090593513dabcb429130",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:11643609",
+      "pmcid": "PMC11643609",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "HDSVPZQNUZOGIK-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 43,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "HHFROICTXUORHS-RVDMUPIBSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9076196",
+      "pmcid": "PMC9076196",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 13,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 13,
+        "confirmed": 13,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "f06c0b5df23ecc1b86ba",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:12473042",
+      "pmcid": "PMC12473042",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 17,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 17,
+        "confirmed": 17,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "71af8c2c22338813b308",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9694296",
+      "pmcid": "PMC9694296",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "BKRXNLXTVKSIIL-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 27,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "GIJSVMOPNUOZBC-CCEZHUSRSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 31,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "BATDGQFHRYGQEQ-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:9520212",
+      "pmcid": "PMC9520212",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "56c1ee14c1ffa7ecdc83",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6855212",
+      "pmcid": "PMC6855212",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [
+        "transcription_miss:4"
+      ],
+      "pass": false,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 2,
+        "all_confirmed": false
+      }
+    },
+    {
+      "id": "e61b4c28f757fe47c605",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:4066912",
+      "pmcid": "PMC4066912",
+      "license_pool": "empty_unknown",
+      "has_structure": false,
+      "n_bands": 10,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 10,
+        "confirmed": 10,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "6de2b8a4e48cc6696e54",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9104055",
+      "pmcid": "PMC9104055",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "CQJDGQODCKARGV-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 46,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "GTCKJLDHFPTGAX-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:7224224",
+      "pmcid": "PMC7224224",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "6cd7274dc77568e24b28",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:10337035",
+      "pmcid": "PMC10337035",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "10922c8ebb8f5a4adfd2",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:8537140",
+      "pmcid": "PMC8537140",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 12,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 12,
+        "confirmed": 12,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "MOXUHZJDTQRJKI-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:4260665",
+      "pmcid": "PMC4260665",
+      "license_pool": "empty_unknown",
+      "has_structure": true,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "XWZYBRYPUUJUPH-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9738565",
+      "pmcid": "PMC9738565",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "bac639a5496696122759",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:8840376",
+      "pmcid": "PMC8840376",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "OCKAYCULAYOMMV-RAIISBKQSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9044170",
+      "pmcid": "PMC9044170",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "JUFOOLCYAHKLCC-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:8697271",
+      "pmcid": "PMC8697271",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 12,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 12,
+        "confirmed": 12,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "99333e8e6aa8fdf1baed",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6272283",
+      "pmcid": "PMC6272283",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "b9b709022a23595e31ff",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:11314410",
+      "pmcid": "PMC11314410",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "RUGRBMAZKDWIKO-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:5569448",
+      "pmcid": "PMC5569448",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "IXBDFABGWISFNB-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9611145",
+      "pmcid": "PMC9611145",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "WDLIHINPCOOLNN-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 32,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "OWJGFCXTEBEUEN-CZIZESTLSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 61,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "2ea1c2d42984cb6238ce",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:11097166",
+      "pmcid": "PMC11097166",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "NIQVJDCFQXEZFB-UHFFFAOYSA-M",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 40,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "73e9bb0c1e5017ddc62e",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:12538396",
+      "pmcid": "PMC12538396",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 16,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 16,
+        "confirmed": 16,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "JFDRLDCIZJRMON-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 38,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "6dac6d8ff7443109497a",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:4131560",
+      "pmcid": "PMC4131560",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "DXSVLVBPWUSPDR-VMPITWQZSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6269040",
+      "pmcid": "PMC6269040",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "4546034dab042b6ec84d",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:10093915",
+      "pmcid": "PMC10093915",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 12,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 12,
+        "confirmed": 12,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "440c6457f940710df40e",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:10634270",
+      "pmcid": "PMC10634270",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 14,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 14,
+        "confirmed": 14,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "46a1d095a44a97d34c63",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6100493",
+      "pmcid": "PMC6100493",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 30,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 30,
+        "confirmed": 30,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "e88b035cae7826ee50e9",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:3998307",
+      "pmcid": "PMC3998307",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "LMQZYEPTBZGIFV-JGADYYLWSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 36,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "639a3fc18a1342e31e04",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9921711",
+      "pmcid": "PMC9921711",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 13,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 13,
+        "confirmed": 13,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "JOZFLXJVLLYKTQ-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:9366785",
+      "pmcid": "PMC9366785",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "VKZZQKKATOSTHJ-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:9042245",
+      "pmcid": "PMC9042245",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "0975a80bfb2fe17ca0eb",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:4322309",
+      "pmcid": "PMC4322309",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "f35ba56f3b9962670f21",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9860879",
+      "pmcid": "PMC9860879",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "QMJGYHDHSCJWFP-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6515286",
+      "pmcid": "PMC6515286",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "ecef20340a407e85247f",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:11059478",
+      "pmcid": "PMC11059478",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "89ac6d11e416b5d0718d",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6100013",
+      "pmcid": "PMC6100013",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "XTTJXHUCWRSURW-MJEQTWJJSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6278656",
+      "pmcid": "PMC6278656",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 15,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 15,
+        "confirmed": 15,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "2b62c712da0d4f931c7f",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:8655906",
+      "pmcid": "PMC8655906",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 10,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 10,
+        "confirmed": 10,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "5ab802a78ef43557a9bf",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9414418",
+      "pmcid": "PMC9414418",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "2b90801a7c2c3fa4a4c6",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6272391",
+      "pmcid": "PMC6272391",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "19e0c6bc7fa548880a6d",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:7458434",
+      "pmcid": "PMC7458434",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 40,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 40,
+        "confirmed": 40,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "a9b02650fdc0b6af3c38",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6332147",
+      "pmcid": "PMC6332147",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "d2d6d4c3f8ceb7b0e83a",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:8347741",
+      "pmcid": "PMC8347741",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 11,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 11,
+        "confirmed": 11,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "ADRCREMWPUFGDU-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 49,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "0359d25946b1e18bb516",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9034021",
+      "pmcid": "PMC9034021",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 11,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 11,
+        "confirmed": 11,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "KFKFGFHTFDMEQQ-DIBXZPPDSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:13210031",
+      "pmcid": "PMC13210031",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 17,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 17,
+        "confirmed": 17,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "f2e8bdcdc82804323abc",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:11643614",
+      "pmcid": "PMC11643614",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "be3d19d6ea360cfd91a8",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9724092",
+      "pmcid": "PMC9724092",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "ZMNPGHKQZSHUGC-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:10005332",
+      "pmcid": "PMC10005332",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "RQHWWSLDOALVNO-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:3700070",
+      "pmcid": "PMC3700070",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "2dd18b6a505488c8e183",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6211257",
+      "pmcid": "PMC6211257",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "0a5c61442360eae9dd09",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6269013",
+      "pmcid": "PMC6269013",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "LRPLBHMNPSKBIQ-UHFFFAOYSA-M",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 38,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "JLVZZEDKMKYZEE-VXLYETTFSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:8861050",
+      "pmcid": "PMC8861050",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 7,
+      "fail_reasons": [
+        "c13_peaks_gt_carbons:31>17"
+      ],
+      "pass": false,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "5cc7deb14ca9ab1a68d9",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9735938",
+      "pmcid": "PMC9735938",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "JUJUWEBLNYJZJO-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 20,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "OHYLNJPMTGEEOV-VMPITWQZSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:12282580",
+      "pmcid": "PMC12282580",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "GCAADVNJIMUJHZ-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6272846",
+      "pmcid": "PMC6272846",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "PNCQCKVEMVQXBG-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9518264",
+      "pmcid": "PMC9518264",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "85e67ac1af39800f86f5",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:4656251",
+      "pmcid": "PMC4656251",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "IWKNNNHECVVJTH-JRXKHZKBSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 61,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "848274dd719f7095f9f2",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:7161055",
+      "pmcid": "PMC7161055",
+      "license_pool": "empty_unknown",
+      "has_structure": true,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "KZLFTIYJXWJKTL-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:9352230",
+      "pmcid": "PMC9352230",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 11,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 11,
+        "confirmed": 11,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "0af1e9b97e1d443d1936",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:10388112",
+      "pmcid": "PMC10388112",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 16,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 16,
+        "confirmed": 16,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "29e64e65d1e32effe8ab",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:4666649",
+      "pmcid": "PMC4666649",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "RALGLGADNDFWDK-UHFFFAOYSA-L",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:8377147",
+      "pmcid": "PMC8377147",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "QGSSUVFLTYTCLK-CVACRVRRSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9032987",
+      "pmcid": "PMC9032987",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "HZARWVQDVDLWQM-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 43,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "832335b9ffc3ff67b19d",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:11375723",
+      "pmcid": "PMC11375723",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "WLXSINDGKAYWLY-XCBPPCIMSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9102694",
+      "pmcid": "PMC9102694",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "2d79eea77e34473f3316",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:4222434",
+      "pmcid": "PMC4222434",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 12,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 12,
+        "confirmed": 12,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "KCJYKGDVMDFIES-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:12362606",
+      "pmcid": "PMC12362606",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "b2b38764127ebe527d64",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:3096000",
+      "pmcid": "PMC3096000",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "5cd0aa182bd3edc6f35c",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:9054727",
+      "pmcid": "PMC9054727",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 11,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 11,
+        "confirmed": 11,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "XUISBANAIIOZSN-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:8481481",
+      "pmcid": "PMC8481481",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 12,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 12,
+        "confirmed": 12,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "187bc0a85468c6b48cbb",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:11929919",
+      "pmcid": "PMC11929919",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "XTGFEBOHSVVMNP-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 44,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "2dca4240e84b940de5b8",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:7823724",
+      "pmcid": "PMC7823724",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 12,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 12,
+        "confirmed": 12,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "MVVGSPCXHRFDDR-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 41,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "eb747d542372f11a0fef",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6268532",
+      "pmcid": "PMC6268532",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 14,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 14,
+        "confirmed": 14,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "DTQPUADPLLBDTI-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:10467532",
+      "pmcid": "PMC10467532",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 19,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 19,
+        "confirmed": 19,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "AHSWENVYXHLEHF-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 40,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "XQQIOPIFKLYXMT-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 36,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "5b672ac467d720076bc8",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6600454",
+      "pmcid": "PMC6600454",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 12,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 12,
+        "confirmed": 12,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "a545fa0d08243afe7c37",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:8070916",
+      "pmcid": "PMC8070916",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 13,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 13,
+        "confirmed": 13,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "4da9287a6e9105f5cd19",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:5933782",
+      "pmcid": "PMC5933782",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "LPDIQBLSPIIKMO-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:5090868",
+      "pmcid": "PMC5090868",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "NAEZOKFGDCNGPU-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:7249113",
+      "pmcid": "PMC7249113",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 17,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 17,
+        "confirmed": 17,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "IGZPOWGLZNAPMM-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6271705",
+      "pmcid": "PMC6271705",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "480af0ef608512c78ff0",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:11369887",
+      "pmcid": "PMC11369887",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "MJMHBKWRZIYIIC-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:10621016",
+      "pmcid": "PMC10621016",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "959f8435393429eb7b3f",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:8164198",
+      "pmcid": "PMC8164198",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "2471e9eb45ccda629eb7",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:9032200",
+      "pmcid": "PMC9032200",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "HWWJBOIZWKRHQJ-FQEVSTJZSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:12302950",
+      "pmcid": "PMC12302950",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 12,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 12,
+        "confirmed": 12,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "c385a71e1ee3dbb60890",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6392825",
+      "pmcid": "PMC6392825",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 11,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 11,
+        "confirmed": 11,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "XYTWIGZBIMXQOD-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:10743895",
+      "pmcid": "PMC10743895",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 21,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 21,
+        "confirmed": 21,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "f0c0a00a2bbaabc844d8",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:11264232",
+      "pmcid": "PMC11264232",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 11,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 11,
+        "confirmed": 11,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "OULIAEOFRIMHAE-OZDSWYPASA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:9044190",
+      "pmcid": "PMC9044190",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "COBWACPMXFSUCI-XCYRUZEPSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 36,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "0b3fe62da3637fbedb0a",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9055625",
+      "pmcid": "PMC9055625",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 14,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 14,
+        "confirmed": 14,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "85a34e215f6f31c0170b",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6772900",
+      "pmcid": "PMC6772900",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 13,
+      "fail_reasons": [
+        "duplicate_integer_bands"
+      ],
+      "pass": false,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 13,
+        "confirmed": 13,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "e4e8a7c4c48d94caa9fa",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6682138",
+      "pmcid": "PMC6682138",
+      "license_pool": "empty_unknown",
+      "has_structure": false,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "9f34fb391f289d3348ed",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:7821958",
+      "pmcid": "PMC7821958",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "FOURLJNIFQPOFD-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 35,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "JRNODLCIGOCBKO-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:4727777",
+      "pmcid": "PMC4727777",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 10,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 10,
+        "confirmed": 10,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "NNIGIYIGLJNOIN-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:8346030",
+      "pmcid": "PMC8346030",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [
+        "h1_integration_gt_formula_plus_2:40>24+2"
+      ],
+      "pass": false,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "SFMPOZRVPAQLCA-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9580004",
+      "pmcid": "PMC9580004",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 26,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 26,
+        "confirmed": 26,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "SEMBDVVSTSYZQF-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6268816",
+      "pmcid": "PMC6268816",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 27,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 27,
+        "confirmed": 27,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "UBRQZLDZRBZEFU-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:5764481",
+      "pmcid": "PMC5764481",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 20,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 20,
+        "confirmed": 20,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "e1fa118131369663172e",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:12261325",
+      "pmcid": "PMC12261325",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "LFTSVUWBIYMYIK-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9735934",
+      "pmcid": "PMC9735934",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 27,
+      "fail_reasons": [
+        "duplicate_integer_bands"
+      ],
+      "pass": false,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 27,
+        "confirmed": 27,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "a6e5f1104eca5609b10a",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6828332",
+      "pmcid": "PMC6828332",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 22,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 22,
+        "confirmed": 22,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "82221cd9a0589c79faaa",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:10839551",
+      "pmcid": "PMC10839551",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "VWFQZAUFGDUFFV-KGWXUPNOSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 23,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "c8b2e3cd2171dde372e2",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:4320803",
+      "pmcid": "PMC4320803",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 27,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 27,
+        "confirmed": 27,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "fdf61e49b10255dd91ff",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:10107225",
+      "pmcid": "PMC10107225",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 29,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 29,
+        "confirmed": 29,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "37efc76b23c4c5b130ac",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9907349",
+      "pmcid": "PMC9907349",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "02a0a8b1881675513598",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:7582642",
+      "pmcid": "PMC7582642",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 18,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 18,
+        "confirmed": 18,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "14d01a920276a7c5cd02",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6151715",
+      "pmcid": "PMC6151715",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "d10af7d21d6666ccbe7a",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:11544174",
+      "pmcid": "PMC11544174",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 13,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 13,
+        "confirmed": 13,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "NVKPDRWKIHUOJD-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:6648449",
+      "pmcid": "PMC6648449",
+      "license_pool": "empty_unknown",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "06eb63a2cb54283edcba",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:8951126",
+      "pmcid": "PMC8951126",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 23,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 23,
+        "confirmed": 23,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "SVKXDVNPYLOJJD-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:10856246",
+      "pmcid": "PMC10856246",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "HRLCNDXKJZTNSO-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6271709",
+      "pmcid": "PMC6271709",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 12,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 12,
+        "confirmed": 12,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "FACYDDWLSGTKQN-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 92,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "254a8f8868ced834e8a5",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9735934",
+      "pmcid": "PMC9735934",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "21bddf8eb339673df5db",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:5698898",
+      "pmcid": "PMC5698898",
+      "license_pool": "empty_unknown",
+      "has_structure": true,
+      "n_bands": 5,
+      "fail_reasons": [
+        "transcription_miss:4"
+      ],
+      "pass": false,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 1,
+        "all_confirmed": false
+      }
+    },
+    {
+      "id": "IUYCDWOEVDABFA-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6300282",
+      "pmcid": "PMC6300282",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 11,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 11,
+        "confirmed": 11,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "CIZDEMMLYCBCDQ-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 17,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "fe2b0b039bd25694674a",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:8279491",
+      "pmcid": "PMC8279491",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "VARNRCZBPVRYRQ-VMPITWQZSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:5224347",
+      "pmcid": "PMC5224347",
+      "license_pool": "empty_unknown",
+      "has_structure": true,
+      "n_bands": 18,
+      "fail_reasons": [
+        "h1_integration_gt_formula_plus_2:116>18+2"
+      ],
+      "pass": false,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 18,
+        "confirmed": 18,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "1a46cfff13a34c2efa2f",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:8587151",
+      "pmcid": "PMC8587151",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "2fc51745653c327f8794",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6154592",
+      "pmcid": "PMC6154592",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "YFUQRWVIKBOAJZ-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:10648078",
+      "pmcid": "PMC10648078",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 16,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 16,
+        "confirmed": 16,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "TZBXDZKIGZSTDC-HRAATJIYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 40,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "IZRWEJWMJXPGTD-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:12409542",
+      "pmcid": "PMC12409542",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [
+        "h1_integration_gt_formula_plus_2:21>18+2"
+      ],
+      "pass": false,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "63e301b4675d382d309e",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:11591448",
+      "pmcid": "PMC11591448",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "KOWYBYDSUFDMGG-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 28,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "KACDQMFZKYLKGD-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:3447335",
+      "pmcid": "PMC3447335",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "GWFICUYSQPXMDA-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:11767715",
+      "pmcid": "PMC11767715",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 17,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 17,
+        "confirmed": 17,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "WWBBSKVQLPFKDZ-FOWTUZBSSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 28,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "DNHATJDTTWULOP-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6154534",
+      "pmcid": "PMC6154534",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "6351a2589ca6b411015e",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:12299192",
+      "pmcid": "PMC12299192",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "RIIHJPZVLFBVPJ-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:13177266",
+      "pmcid": "PMC13177266",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "UKAYZIHTMATKMT-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6153747",
+      "pmcid": "PMC6153747",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 17,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 17,
+        "confirmed": 17,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "DGGUYQOZJOKJMF-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6274076",
+      "pmcid": "PMC6274076",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "FLJPDKBVKGRHQC-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:5764481",
+      "pmcid": "PMC5764481",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 15,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 15,
+        "confirmed": 15,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "d1518747aac989b8affa",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6245430",
+      "pmcid": "PMC6245430",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "HLAWRRUFCGGHOP-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 40,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "6b4b7612e84cde086daa",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9573088",
+      "pmcid": "PMC9573088",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 25,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 25,
+        "confirmed": 25,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "WMRGNXUJWMKBKK-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:12135072",
+      "pmcid": "PMC12135072",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "d0f2732eea0d25dc29c2",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6044785",
+      "pmcid": "PMC6044785",
+      "license_pool": "empty_unknown",
+      "has_structure": false,
+      "n_bands": 12,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 12,
+        "confirmed": 12,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "f0b5a647fd5496bf4278",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:10249106",
+      "pmcid": "PMC10249106",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "70c93f9fc978b837b705",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:12376879",
+      "pmcid": "PMC12376879",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "LIWJPFVLVWSEOZ-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:7866225",
+      "pmcid": "PMC7866225",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "5a0e38b6ba1eab3dd640",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:3975443",
+      "pmcid": "PMC3975443",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "YGFUMICCXJXAHB-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6274422",
+      "pmcid": "PMC6274422",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "MKVRMMAMAYKBBK-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:5099944",
+      "pmcid": "PMC5099944",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "5f7c1188353bc8fa25af",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:12706374",
+      "pmcid": "PMC12706374",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "HCBWJUGTQUNMOW-BYYHNAKLSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 48,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "CVEBZBGJGNRESV-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:12716258",
+      "pmcid": "PMC12716258",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 20,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 20,
+        "confirmed": 20,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "12847f6cbc00fd4ccbc1",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:11075138",
+      "pmcid": "PMC11075138",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 12,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 12,
+        "confirmed": 12,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "e272188f1dcd12d3cd46",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:4702351",
+      "pmcid": "PMC4702351",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 23,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 23,
+        "confirmed": 23,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "HQKZRJJQHIMFLC-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 32,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "KZJDFXKTVKNSOF-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9319503",
+      "pmcid": "PMC9319503",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 5,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 5,
+        "confirmed": 5,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "74cc89aa9664618f0802",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:8028005",
+      "pmcid": "PMC8028005",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 23,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 23,
+        "confirmed": 23,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "LHBYYJGAVVZYLB-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:6641980",
+      "pmcid": "PMC6641980",
+      "license_pool": "empty_unknown",
+      "has_structure": true,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "KLIQNCDHTJOQOW-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9692461",
+      "pmcid": "PMC9692461",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "1400b7e20cfaff0efafa",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:12029195",
+      "pmcid": "PMC12029195",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 19,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 19,
+        "confirmed": 19,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "42261d49a005f5f4fa97",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9572311",
+      "pmcid": "PMC9572311",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "LPSQNOHWVNOIMJ-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:6645088",
+      "pmcid": "PMC6645088",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 12,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 12,
+        "confirmed": 12,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "b708aa47ba050c59ba85",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9079123",
+      "pmcid": "PMC9079123",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 28,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 28,
+        "confirmed": 28,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "4914dc3f873ed613165d",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:12597216",
+      "pmcid": "PMC12597216",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "OSOQTKXWWRDZLX-LELCQQSUSA-N",
+      "stratum": "pmc_struct_other_licence",
+      "source_doi": "PMC:8867804",
+      "pmcid": "PMC8867804",
+      "license_pool": "non_commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "ee10c98a3b95fb1f2264",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:8444212",
+      "pmcid": "PMC8444212",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "ZQVUSQHKVLBSEU-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6271009",
+      "pmcid": "PMC6271009",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 17,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 17,
+        "confirmed": 17,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "4e22b9624ea82cce4eac",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:12606715",
+      "pmcid": "PMC12606715",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 36,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 36,
+        "confirmed": 36,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "6b9ad050a7bdff8c24df",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:10795791",
+      "pmcid": "PMC10795791",
+      "license_pool": "non_commercial",
+      "has_structure": false,
+      "n_bands": 6,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 6,
+        "confirmed": 6,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "DHPDKGVKAVTFHZ-DZGCQCFKSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9830629",
+      "pmcid": "PMC9830629",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "CFVRAOLOOBLIJX-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:6155902",
+      "pmcid": "PMC6155902",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "8bf7d0e3fb3b9ce4834a",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:6263335",
+      "pmcid": "PMC6263335",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 13,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 13,
+        "confirmed": 13,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "DLZWRSLOUCFLGC-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:11983575",
+      "pmcid": "PMC11983575",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 9,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 9,
+        "confirmed": 9,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "DPZSCGWVZZQBRF-UHFFFAOYSA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:7321108",
+      "pmcid": "PMC7321108",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 4,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 4,
+        "confirmed": 4,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "JXECHVFHNDZNSM-UHFFFAOYSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 54,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "DEEDSUVJFGIIKG-VULFUBBASA-N",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:9437094",
+      "pmcid": "PMC9437094",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 7,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 7,
+        "confirmed": 7,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "2b6d80193a26320850d4",
+      "stratum": "pmc_ir_only",
+      "source_doi": "PMC:9610413",
+      "pmcid": "PMC9610413",
+      "license_pool": "commercial",
+      "has_structure": false,
+      "n_bands": 27,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 27,
+        "confirmed": 27,
+        "all_confirmed": true
+      }
+    },
+    {
+      "id": "GSWCLGSPFBAJHR-FBMGVBCBSA-N",
+      "stratum": "chemotion",
+      "source_doi": "10.22000/OGoEQGlsZGElrgst",
+      "pmcid": null,
+      "license_pool": "sharealike",
+      "has_structure": true,
+      "n_bands": 42,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "skipped_chemotion",
+        "note": "Chemotion is ELN author-curated; no PMC re-fetch"
+      }
+    },
+    {
+      "id": "a37e290594012d42319e",
+      "stratum": "pmc_struct_commercial",
+      "source_doi": "PMC:11292660",
+      "pmcid": "PMC11292660",
+      "license_pool": "commercial",
+      "has_structure": true,
+      "n_bands": 8,
+      "fail_reasons": [],
+      "pass": true,
+      "transcription": {
+        "status": "ok",
+        "text_source": "epmc+s3",
+        "bands": 8,
+        "confirmed": 8,
+        "all_confirmed": true
+      }
+    }
+  ]
+}

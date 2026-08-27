@@ -1,97 +1,102 @@
-\begin{thebibliography}{12}
-\providecommand{\natexlab}[1]{#1}
-\providecommand{\url}[1]{\texttt{#1}}
-\expandafter\ifx\csname urlstyle\endcsname\relax
-  \providecommand{\doi}[1]{doi: #1}\else
-  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+\begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\burl{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\providecommand{\bibinfo}[2]{#2}
+\providecommand{\eprint}[2][]{\url{#2}}
+\providecommand{\doi}[1]{\url{https://doi.org/#1}}
+\bibcommenthead
 
-\bibitem[Jung et~al.(2024)Jung, Tremouilhac, Punjabi, and Huang]{chemotion2024}
-Nicole Jung, Pierre Tremouilhac, Dev Punjabi, and Pei-Chi Huang.
-\newblock {Chemotion Repository} -- data collection: {FT-IR} spectroscopy data
-  ({Chemotion IR}).
-\newblock Technical report, Karlsruhe Institute of Technology, 2024.
+\bibitem{nist_webbook}
+\bibinfo{author}{{National Institute of Standards and Technology}}.
+\newblock \bibinfo{title}{{NIST Chemistry WebBook}, {SRD} 69}.
+\newblock \bibinfo{howpublished}{\url{https://webbook.nist.gov}}
+  (\bibinfo{year}{2026}).
+\newblock \bibinfo{note}{Doi:10.18434/T4D303; accessed 2026-01-01}.
 
-\bibitem[Kim et~al.(2023)Kim, Chen, Cheng, Gindulyte, He, He, Li, Shoemaker,
-  Thiessen, Yu, Zaslavsky, Zhang, and Bolton]{kim2023pubchem}
-Sunghwan Kim, Jie Chen, Tiejun Cheng, Asta Gindulyte, Jia He, Siqian He,
-  Qingliang Li, Benjamin~A. Shoemaker, Paul~A. Thiessen, Bo~Yu, Leonid
-  Zaslavsky, Jian Zhang, and Evan~E. Bolton.
-\newblock {PubChem} 2023 update.
-\newblock \emph{Nucleic Acids Res.}, 51:\penalty0 D1373--D1380, 2023.
-\newblock \doi{10.1093/nar/gkac956}.
+\bibitem{sdbs}
+\bibinfo{author}{{National Institute of Advanced Industrial Science and
+  Technology}}.
+\newblock \bibinfo{title}{{Spectral Database for Organic Compounds} ({SDBS})}.
+\newblock \bibinfo{howpublished}{\url{https://sdbs.db.aist.go.jp}}
+  (\bibinfo{year}{2026}).
+\newblock \bibinfo{note}{Accessed 2026-01-01}.
 
-\bibitem[Krenn et~al.(2020)Krenn, H{\"a}se, Nigam, Friederich, and
-  Aspuru-Guzik]{krenn2020selfies}
-Mario Krenn, Florian H{\"a}se, AkshatKumar Nigam, Pascal Friederich, and Alan
-  Aspuru-Guzik.
-\newblock Self-referencing embedded strings ({SELFIES}): a 100\% robust
-  molecular string representation.
-\newblock \emph{Mach. Learn.: Sci. Technol.}, 1:\penalty0 045024, 2020.
-\newblock \doi{10.1088/2632-2153/aba947}.
+\bibitem{zipoli2025uspto}
+\bibinfo{author}{Zipoli, F.}, \bibinfo{author}{Alberts, M.} \&
+  \bibinfo{author}{Laino, T.}
+\newblock \bibinfo{title}{{IR}-{NMR} multimodal computational spectra dataset
+  for 177{K} patent-extracted organic molecules}.
+\newblock \emph{\bibinfo{journal}{Sci. Data}} \textbf{\bibinfo{volume}{12}},
+  \bibinfo{pages}{1380} (\bibinfo{year}{2025}).
 
-\bibitem[Landrum(2026)]{landrum_rdkit}
-Greg Landrum.
-\newblock {RDKit}: Open-source cheminformatics.
-\newblock \url{https://www.rdkit.org}, 2026.
-\newblock Accessed 2026-01-01.
+\bibitem{wang2025nmrexp}
+\bibinfo{author}{Wang, J.-J.} \emph{et~al.}
+\newblock \bibinfo{title}{{NMRexp}: a database of 3.3 million experimental
+  {NMR} spectra}.
+\newblock \emph{\bibinfo{journal}{Sci. Data}} \textbf{\bibinfo{volume}{12}},
+  \bibinfo{pages}{1956} (\bibinfo{year}{2025}).
 
-\bibitem[Lowe et~al.(2011)Lowe, Corbett, Murray-Rust, and Glen]{lowe2011opsin}
-Daniel~M. Lowe, Peter~T. Corbett, Peter Murray-Rust, and Robert~C. Glen.
-\newblock Chemical name to structure: {OPSIN}, an open source solution.
-\newblock \emph{J. Chem. Inf. Model.}, 51:\penalty0 739--753, 2011.
-\newblock \doi{10.1021/ci100384d}.
+\bibitem{yang2026nmrtrans}
+\bibinfo{author}{Yang, L.} \emph{et~al.}
+\newblock \emph{\bibinfo{title}{{NMRTrans}: structure elucidation from
+  experimental {NMR} spectra via set transformers}},
+  \bibinfo{pages}{12621--12632} (\bibinfo{year}{2026}).
+\newblock \bibinfo{note}{ArXiv:2602.10158; NMRSpec corpus context}.
 
-\bibitem[{National Institute of Advanced Industrial Science and
-  Technology}(2026)]{sdbs}
-{National Institute of Advanced Industrial Science and Technology}.
-\newblock {Spectral Database for Organic Compounds} ({SDBS}).
-\newblock \url{https://sdbs.db.aist.go.jp}, 2026.
-\newblock Accessed 2026-01-01.
+\bibitem{lowe2011opsin}
+\bibinfo{author}{Lowe, D.~M.}, \bibinfo{author}{Corbett, P.~T.},
+  \bibinfo{author}{Murray-Rust, P.} \& \bibinfo{author}{Glen, R.~C.}
+\newblock \bibinfo{title}{Chemical name to structure: {OPSIN}, an open source
+  solution}.
+\newblock \emph{\bibinfo{journal}{J. Chem. Inf. Model.}}
+  \textbf{\bibinfo{volume}{51}}, \bibinfo{pages}{739--753}
+  (\bibinfo{year}{2011}).
 
-\bibitem[{National Institute of Standards and Technology}(2026)]{nist_webbook}
-{National Institute of Standards and Technology}.
-\newblock {NIST Chemistry WebBook}, {SRD} 69.
-\newblock \url{https://webbook.nist.gov}, 2026.
-\newblock doi:10.18434/T4D303; accessed 2026-01-01.
+\bibitem{landrum_rdkit}
+\bibinfo{author}{Landrum, G.}
+\newblock \bibinfo{title}{{RDKit}: Open-source cheminformatics}.
+\newblock \bibinfo{howpublished}{\url{https://www.rdkit.org}}
+  (\bibinfo{year}{2026}).
+\newblock \bibinfo{note}{Accessed 2026-01-01}.
 
-\bibitem[{National Library of Medicine}(2026)]{pmc_oa}
-{National Library of Medicine}.
-\newblock {NCBI PMC Open Access Subset}.
-\newblock \url{https://www.ncbi.nlm.nih.gov/pmc/tools/openftlist/}, 2026.
-\newblock Accessed 2026-01-01.
+\bibitem{krenn2020selfies}
+\bibinfo{author}{Krenn, M.}, \bibinfo{author}{H{\"a}se, F.},
+  \bibinfo{author}{Nigam, A.}, \bibinfo{author}{Friederich, P.} \&
+  \bibinfo{author}{Aspuru-Guzik, A.}
+\newblock \bibinfo{title}{Self-referencing embedded strings ({SELFIES}): a
+  100\% robust molecular string representation}.
+\newblock \emph{\bibinfo{journal}{Mach. Learn.: Sci. Technol.}}
+  \textbf{\bibinfo{volume}{1}}, \bibinfo{pages}{045024} (\bibinfo{year}{2020}).
 
-\bibitem[Wang et~al.(2025)Wang, Jin, Zhi, Liu, Huang, Xu, Ji, Fang, Tao, E,
-  Zhang, Ke, and Zhu]{wang2025nmrexp}
-Jun-Jie Wang, Yongqi Jin, Chen-Yu Zhi, Yu-Jie Liu, Xu-Hao Huang, Fanjie Xu,
-  Xiaohong Ji, Xi~Fang, Haoyi Tao, Weinan E, Linfeng Zhang, Guolin Ke, and Rong
-  Zhu.
-\newblock {NMRexp}: a database of 3.3 million experimental {NMR} spectra.
-\newblock \emph{Sci. Data}, 12:\penalty0 1956, 2025.
-\newblock \doi{10.1038/s41597-025-06245-5}.
+\bibitem{yabbarov2026irspectra}
+\bibinfo{author}{Yabbarov, I.} \& \bibinfo{author}{Vargas-Hern{\'a}ndez, R.~A.}
+\newblock \bibinfo{title}{Generation recall, not verification, binds {LLM}
+  structure elucidation from literature spectra}.
+\newblock \emph{\bibinfo{journal}{ICLR}}  (\bibinfo{year}{2026}).
+\newblock \bibinfo{note}{Conference manuscript, in preparation}.
 
-\bibitem[Yabbarov and Vargas-Hern{\'a}ndez(2026)]{yabbarov2026irspectra}
-Ilkham Yabbarov and Rodrigo~A. Vargas-Hern{\'a}ndez.
-\newblock Generation recall, not verification, binds {LLM} structure
-  elucidation from literature spectra.
-\newblock \emph{ICLR}, 2026.
-\newblock Conference manuscript, in preparation.
+\bibitem{pmc_oa}
+\bibinfo{author}{{National Library of Medicine}}.
+\newblock \bibinfo{title}{{NCBI PMC Open Access Subset}}.
+\newblock
+  \bibinfo{howpublished}{\url{https://www.ncbi.nlm.nih.gov/pmc/tools/openftlist/}}
+  (\bibinfo{year}{2026}).
+\newblock \bibinfo{note}{Accessed 2026-01-01}.
 
-\bibitem[Yang et~al.(2026)Yang, Yang, Xie, Wang, Gao, Wei, Sun, Wu, He, Li, and
-  Gu]{yang2026nmrtrans}
-Liujia Yang, Zhuo Yang, Jiaqing Xie, Yubin Wang, Ben Gao, Xingjian Wei, Jiaxing
-  Sun, Jiang Wu, Conghui He, Yuqiang Li, and Qinying Gu.
-\newblock {NMRTrans}: structure elucidation from experimental {NMR} spectra via
-  set transformers.
-\newblock In \emph{{Proc. 32nd ACM SIGKDD Conf. Knowledge Discovery and Data
-  Mining (KDD '26), Vol. 2}}, pages 12621--12632, 2026.
-\newblock \doi{10.1145/3770855.3818935}.
-\newblock arXiv:2602.10158; NMRSpec corpus context.
+\bibitem{chemotion2024}
+\bibinfo{author}{Jung, N.}, \bibinfo{author}{Tremouilhac, P.},
+  \bibinfo{author}{Punjabi, D.} \& \bibinfo{author}{Huang, P.-C.}
+\newblock \bibinfo{title}{{Chemotion Repository} -- data collection: {FT-IR}
+  spectroscopy data ({Chemotion IR})}.
+\newblock \bibinfo{type}{Tech. Rep.}, \bibinfo{institution}{Karlsruhe Institute
+  of Technology} (\bibinfo{year}{2024}).
 
-\bibitem[Zipoli et~al.(2025)Zipoli, Alberts, and Laino]{zipoli2025uspto}
-Federico Zipoli, Marvin Alberts, and Teodoro Laino.
-\newblock {IR}-{NMR} multimodal computational spectra dataset for 177{K}
-  patent-extracted organic molecules.
-\newblock \emph{Sci. Data}, 12:\penalty0 1380, 2025.
-\newblock \doi{10.1038/s41597-025-05729-8}.
+\bibitem{kim2023pubchem}
+\bibinfo{author}{Kim, S.} \emph{et~al.}
+\newblock \bibinfo{title}{{PubChem} 2023 update}.
+\newblock \emph{\bibinfo{journal}{Nucleic Acids Res.}}
+  \textbf{\bibinfo{volume}{51}}, \bibinfo{pages}{D1373--D1380}
+  (\bibinfo{year}{2023}).
 
 \end{thebibliography}

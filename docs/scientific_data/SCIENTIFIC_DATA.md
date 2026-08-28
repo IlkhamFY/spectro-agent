@@ -10,7 +10,7 @@
 (No equal-contribution footnote — distinct roles; both corresponding.)
 
 <!-- ORCID / funding — human blockers; do not invent values.
-       Sci Data authors: I.Y. + R.A.V.-H. only (R. Sondhi → IRSpectra-Bench companion).
+       Sci Data authors: I.Y. + R.A.V.-H. only.
        I. Yabbarov            ORCID: [TODO: confirm]
        R. A. Vargas-Hernández ORCID: 0000-0002-5559-6521
 -->
@@ -243,10 +243,8 @@ Harvesting, extraction, structure resolution, licence pool splitting, and valida
 
 ## Author contributions
 
-**I.Y.:** conceptualization, methodology, software, data curation, validation, writing — original draft.  
-**R.A.V.-H.:** conceptualization, supervision, writing — review and editing.
-
-R. Sondhi contributed to the companion IRSpectra-Bench / elucidation diagnosis manuscript and is not an author on this Data Descriptor.
+**I.Y.:** conceptualization, methodology, software, data curation, validation, writing (original draft).  
+**R.A.V.-H.:** conceptualization, supervision, writing (review and editing).
 
 ## Competing interests
 

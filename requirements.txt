@@ -7,6 +7,8 @@ PyYAML>=6.0                  # seed lists / config
 # Figures / manuscript build
 matplotlib>=3.7
 SciencePlots>=2.1            # Nature/Science journal base style (scripts/figstyle.py)
+svgwrite>=1.4                # IRexp pipeline schematic (scripts/figures/pipeline_svg.py)
+cairosvg>=2.7                # SVG→PNG/PDF fallback when Inkscape unavailable
 pypandoc>=1.11               # PAPER.md -> PDF (needs pandoc + tectonic on PATH)
 
 # Optional chemistry stack (graceful degradation if absent) -- enables

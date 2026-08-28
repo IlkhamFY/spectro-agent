@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
-# Regenerate all IRexp Scientific Data figures (premium toolchain).
+# Regenerate all IRexp Scientific Data figures (NMRexp-quality toolchain).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-echo "=== IRexp Scientific Data figures ==="
+echo "=== IRexp Scientific Data figures (NMRexp rebuild) ==="
 python3 scripts/make_fig_irexp_positioning.py
 python3 scripts/make_fig_irexp_pipeline.py
-python3 scripts/make_fig_irexp_overview.py
-python3 scripts/make_fig_irexp_validation.py
+python3 scripts/make_fig_irexp_distribution.py
 
 echo ""
 echo "Output:"

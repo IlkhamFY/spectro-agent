@@ -110,15 +110,18 @@ choice when simulated multimodal coverage is required~\citep{zipoli2025uspto}.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{fig_irexp_positioning.pdf}
-\caption{Positioning of IRexp among open spectral data resources (log scale).
-\textbf{IRexp} holds 121,233 experimental \emph{band lists} (cm$^{-1}$ peak
-positions) with bulk redistribution and per-record licence pools; the commercial
-pool (88,545 CC-BY/CC0 rows) is the Zenodo / Sci Data primary artifact.
+\caption{Summary of major IR and spectral-list resources.
+\textbf{IRexp} (this work) holds 121,233 experimental \emph{band lists}
+(cm$^{-1}$ peak positions) with bulk redistribution and per-record licence
+pools; stacked bars show structure-linked (43,060) and commercial CC-BY/CC0
+(88,545) subsets.
 \textbf{NMRexp}~\citep{wang2025nmrexp} is the modality peer for literature-mined
-peak lists ($\sim$3.37 million NMR records; different object).
-\textbf{SDBS} FT-IR holds $\sim$54,000 digitised absorbance spectra (AIST
-introduction, 2015) but is view-only with no bulk export.
-IRexp does not claim absorbance-spectrum coverage or NMRexp-scale size.}
+NMR peak lists (3,372,987 records; different object).
+\textbf{SDBS} FT-IR ($\sim$54,000 digitised absorbance spectra; AIST 2015) and
+\textbf{NIST} WebBook ($\sim$17,000 gas-phase IR; approximate) are view-only with
+no bulk export.
+Sidebar: IRexp scale, redistributable commercial pool, and DOI traceability.
+Band lists $\neq$ absorbance spectra.}
 \label{fig:positioning}
 \end{figure}
 
@@ -262,17 +265,14 @@ in the repository but contributes 0 records to the released IRexp
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{fig_irexp_pipeline.pdf}
-\caption{IRexp construction pipeline for the released corpus.
-\textbf{PMC path:} IR-reporting open-access PMCIDs are discovered via NCBI
-\texttt{esearch}, full text is fetched from the PMC Open Access Subset S3 plain-text
-mirror, and band lists (plus co-reported NMR strings) are extracted with a
-deterministic regex pipeline.
-\textbf{Chemotion path:} author-curated ELN band lists and structures from the
-RADAR4Chem deposit are ingested with the same extractor.
-Structures are resolved with OPSIN/RDKit where possible; every row is stamped with
-Europe PMC licence metadata (plus conservative Crossref recovery of empty licences)
-and split into redistribution pools.
-Only extracted numeric fields and identifiers are released.}
+\caption{Workflow of data extraction and examples of cleaning.
+\textbf{(A)}~Construction pipeline: 188,016 PMC Open Access identifiers scanned;
+deterministic regex extraction of IR band lists and co-reported NMR strings;
+OPSIN/RDKit structure resolution; Europe PMC licence join with Crossref recovery;
+segregation into redistribution pools (Hugging Face / Zenodo).
+Cleaning rules (inset) gate band count, duplicates, and structure--NMR physics.
+Final release: 121,233 band lists / 43,060 structure-linked.
+\textbf{(B)}~Representative QC rejections (red highlight = failure reason).}
 \label{fig:pipeline}
 \end{figure}
 
@@ -408,15 +408,20 @@ File & Records & Description \\
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{fig_irexp_overview.pdf}
-\caption{IRexp release overview from frozen counts.
+\includegraphics[width=\textwidth]{fig_irexp_distribution.pdf}
+\caption{Data distribution analysis and technical validation of IRexp.
 \textbf{(a)}~Provenance (PMC Open Access Subset vs Chemotion/RADAR4Chem).
 \textbf{(b)}~Licence pools after Europe PMC joins and Crossref empty-licence
-recovery (commercial pool is the Sci Data / Zenodo primary artifact).
-\textbf{(c)}~Composition cascade from all band-list records to full
-IR~$+$~$^{1}$H~$+$~$^{13}$C~$+$~structure quadruples.
-Numeric values match Tables~\ref{tab:licence}--\ref{tab:pools}.}
-\label{fig:overview}
+recovery.
+\textbf{(c)}~Modality linkage cascade to full IR~$+$~$^{1}$H~$+$~$^{13}$C~$+$~structure
+quadruples (33,201).
+\textbf{(d)}~IR band-count distribution (median 9 bands for PMC rows).
+\textbf{(e)}~Elemental distribution in the structure-linked subset (43,060 records).
+\textbf{(f)}~Audit-derived validation histograms: transcription error per record
+($n=200$), per-paper band recall and list match ($n=120$), and chemist-proxy
+fail counts ($n=280$); dashed elbows mark medians and pool-level rates.
+All panel~(f) checks are automated --- not NMRexp-parity human expert audits.}
+\label{fig:distribution}
 \end{figure}
 
 \paragraph{Composition of \texttt{irexp.jsonl.gz}.}
@@ -489,22 +494,8 @@ reported for the expanded recall proxy and chemist-proxy pass rates.
 \textbf{All checks below are automated} unless marked otherwise --- they do
 \textbf{not} claim NMRexp-parity human expert audits.
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{fig_irexp_validation.pdf}
-\caption{Technical validation summary (automated checks only).
-\textbf{(a)}~PMC transcription fidelity on Europe PMC re-fetch ($n=60$ and
-$n=200$; $\pm$1\,cm$^{-1}$ integer match).
-\textbf{(b)}~Harvest-path extraction-recall proxy on 120 PMC papers (band
-confirmation, list-level recall, paper-level recovery; Wilson 95\% CI).
-\textbf{(c)}~Stratified automated chemist-proxy ($n=280$; joint multi-check
-pass rate by stratum).
-\textbf{(d)}~Full-corpus structure--NMR quarantine on \texttt{irexp\_resolved}
-(43,060 rows; diagnostic flags only).
-These metrics bound automated fidelity and consistency; they are not human
-molecular-skeleton audits of the kind reported for NMRexp.}
-\label{fig:validation}
-\end{figure}
+Figure~\ref{fig:distribution} summarises the automated validation package;
+details below expand each check.
 
 \subsection{Transcription fidelity (PMC)}
 

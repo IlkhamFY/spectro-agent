@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-"""Nature Portfolio design system — locked palette, typography, export for IRexp Sci Data.
+"""Nature / NMRexp design system — locked palette, typography, export for IRexp Sci Data.
 
-Single source of truth for figure dimensions, colours, panel labels, and save settings.
-Import after matplotlib Agg backend selection.
+Reference: Wang et al., NMRexp, Sci Data 12:1954 (2025).
 """
 from __future__ import annotations
 
@@ -14,7 +13,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import patheffects
 from matplotlib.font_manager import FontProperties
-from matplotlib.patches import FancyBboxPatch
+from matplotlib.patches import FancyBboxPatch, Polygon
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -22,41 +21,45 @@ import figstyle as fs  # noqa: E402
 
 # ---- Nature dimensions (inches) -----------------------------------------------
 MM_PER_IN = 25.4
-COL_SINGLE = 89 / MM_PER_IN      # 3.504 in — single column
-COL_FULL = 183 / MM_PER_IN       # 7.205 in — double column
+COL_SINGLE = 89 / MM_PER_IN
+COL_FULL = 183 / MM_PER_IN
 MAX_HEIGHT = 247 / MM_PER_IN
 
-# ---- Locked Nature-muted palette (Paul Tol Muted + desk accents) --------------
+# ---- NMRexp-matched palette (Fig 1–4 reference) ------------------------------
 INK = "#1a1a1a"
 MUTED = "#7a7f85"
 NOTE = "#5c636a"
 FAINT = "#e8eaec"
 GHOST = "#c5c9cd"
 
-# Primary series (Tol Muted — colourblind-safe, Nature-desk restrained)
-BLUE = "#4477AA"       # hero / IRexp / commercial
-TEAL = "#66CCEE"        # secondary / PMC / co-modality
-SAND = "#CCBB44"        # highlight / non-commercial
-ROSE = "#AA3377"        # accent / quarantine
-GREEN = "#228833"       # positive / pass
-GREY = "#BBBBBB"        # view-only / baseline
-ORANGE = "#EE7733"      # sparing hero accent (Tol vibrant orange)
+# NMRexp bar blues (Fig 1 & 3)
+NMREXP_BLUE = "#4A7EBB"       # primary horizontal bars / histograms
+NMREXP_BLUE_DARK = "#2E5F8F"  # 3D total bar / header navy
+NMREXP_BLUE_LIGHT = "#A8C8E8" # stack: structure-linked / ¹H analogue
+NMREXP_PEACH = "#E8B48C"      # stack: commercial / ¹³C analogue
+NMREXP_NAVY = "#1B3D5C"       # ¹⁹F / accent dark
+NMREXP_PINK = "#D4A0B8"       # ³¹P analogue
+NMREXP_MAROON = "#8B3A3A"     # ¹¹B analogue
+NMREXP_RED = "#C44E52"        # ²⁹Si / emphasis
 
-# Semantic aliases
-HERO = BLUE
-SECONDARY = TEAL
-OPEN = GREEN
+HERO = NMREXP_BLUE
+SECONDARY = NMREXP_BLUE_LIGHT
+TEAL = "#66A8C8"
+SAND = "#CCBB44"
+ROSE = "#AA3377"
+GREEN = "#3D8B5E"
+GREY = "#BBBBBB"
+ORANGE = "#D97B32"
 VIEW_ONLY = GREY
-FAIL = ROSE
+FAIL = NMREXP_RED
 PASS = GREEN
 
-# Panel background tints
 TINT_BLUE = "#EEF3F8"
 TINT_GREEN = "#EAF4EE"
 TINT_GREY = "#F3F4F5"
 TINT_SAND = "#FAF6E8"
 
-# ---- Typography (pt at final print size) ------------------------------------
+# ---- Typography --------------------------------------------------------------
 FONT = "Liberation Sans"
 FS_MIN = 5
 FS_BODY = 7
@@ -66,21 +69,17 @@ FS_PANEL = 8
 FS_TITLE = 8
 FS_EMPH = 8
 
-# ---- Geometry tokens ---------------------------------------------------------
 LINE_AXIS = 0.50
 LINE_GRID = 0.40
 LINE_DATA = 1.00
-LINE_SCHEMATIC = 1.20
 PAD_INCHES = 0.04
 DPI_PNG = 600
 
-# Re-export figstyle column widths for compat
 COL1 = fs.COL1
 COL2 = fs.COL2
 
 
 def apply() -> None:
-    """Install Nature Portfolio matplotlib rcParams."""
     mpl.rcParams.update({
         "figure.dpi": 150,
         "savefig.dpi": DPI_PNG,
@@ -100,7 +99,7 @@ def apply() -> None:
         "xtick.labelsize": FS_LABEL,
         "ytick.labelsize": FS_LABEL,
         "legend.fontsize": FS_BODY,
-        "axes.prop_cycle": mpl.cycler(color=[BLUE, TEAL, SAND, GREEN, ROSE, ORANGE]),
+        "axes.prop_cycle": mpl.cycler(color=[HERO, TEAL, SAND, GREEN, ROSE, ORANGE]),
         "axes.edgecolor": "#4a4f54",
         "axes.linewidth": LINE_AXIS,
         "axes.spines.top": False,
@@ -132,7 +131,6 @@ def apply() -> None:
 
 
 def panel(ax, letter: str, x: float = -0.14, y: float = 1.08) -> None:
-    """8 pt bold uppercase panel label, top-left, white halo."""
     fp = FontProperties(family=FONT, weight="bold", size=FS_PANEL)
     ax.text(
         x, y, letter.upper(), transform=ax.transAxes, fontproperties=fp,
@@ -169,7 +167,6 @@ def finish(fig=None, *, pad=0.42, left=0.14, top=0.92, w_pad=None, h_pad=None) -
 
 
 def save(path: str | Path, fig=None) -> Path:
-    """Save PNG (600 dpi) + PDF vector twin."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig = fig or plt.gcf()
@@ -181,46 +178,92 @@ def save(path: str | Path, fig=None) -> Path:
     return png
 
 
-def callout_box(ax, x, y, text: str, *, width=0.36, height=0.10, facecolor="#FFF8E8",
-                edgecolor=ORANGE, fontsize=FS_BODY - 0.5, transform=None):
-    """Rounded annotation callout in axes fraction coords."""
-    transform = transform or ax.transAxes
-    box = FancyBboxPatch(
-        (x, y), width, height,
-        boxstyle="round,pad=0.012,rounding_size=0.015",
-        transform=transform,
-        facecolor=facecolor, edgecolor=edgecolor, linewidth=0.8,
-        clip_on=False, zorder=25,
-    )
-    ax.add_patch(box)
-    ax.text(
-        x + width / 2, y + height / 2, text,
-        transform=transform, ha="center", va="center",
-        fontsize=fontsize, color=INK, linespacing=1.25, zorder=26,
-    )
+def hbar_panel(ax, labels, values, *, title: str = "", xlabel: str = "",
+               color=HERO, label_fmt: str = "{:,}", invert: bool = True) -> None:
+    """NMRexp Fig 3 style horizontal bar chart — counts at bar ends, faint y-grid."""
+    y = np.arange(len(labels))
+    bars = ax.barh(y, values, color=color, height=0.62, edgecolor="white",
+                   linewidth=0.6, zorder=3)
+    ax.set_yticks(y)
+    ax.set_yticklabels(labels, fontsize=FS_BODY)
+    if invert:
+        ax.invert_yaxis()
+    ygrid(ax)
+    ax.spines["left"].set_visible(True)
+    ax.spines["left"].set_color(INK)
+    ax.spines["left"].set_linewidth(0.6)
+    ax.spines["bottom"].set_visible(False)
+    ax.tick_params(axis="y", length=0, pad=3)
+    ax.tick_params(axis="x", length=0, labelbottom=False)
+    ax.set_xlim(0, max(values) * 1.18)
+    for b, v in zip(bars, values):
+        ax.text(b.get_width() + max(values) * 0.012,
+                b.get_y() + b.get_height() / 2,
+                label_fmt.format(v), ha="left", va="center",
+                fontsize=FS_BODY - 0.5, color=INK)
+    if title:
+        ax.set_title(title, loc="center", pad=6, fontsize=FS_TITLE, fontweight="bold")
+    if xlabel:
+        ax.set_xlabel(xlabel, fontsize=FS_AXIS)
 
 
-def donut(ax, sizes, labels, colors, *, center_text: str = "", startangle=90):
-    """Publication donut with external percent labels."""
-    wedges, _ = ax.pie(
-        sizes, labels=None, colors=colors,
-        startangle=startangle, counterclock=False,
-        wedgeprops=dict(width=0.42, edgecolor="white", linewidth=1.5),
-    )
-    total = sum(sizes)
-    for w, lab, val in zip(wedges, labels, sizes):
-        ang = np.deg2rad((w.theta2 + w.theta1) / 2)
-        r = 0.78
-        ax.text(r * np.cos(ang), r * np.sin(ang), f"{lab}\n{val:,}",
-                ha="center", va="center", fontsize=FS_BODY - 0.5, color=INK)
-    if center_text:
-        ax.text(0, 0, center_text, ha="center", va="center",
-                fontsize=FS_BODY, fontweight="bold", color=INK)
-    return wedges
+def _shade(hex_color: str, factor: float) -> str:
+    r = int(hex_color[1:3], 16)
+    g = int(hex_color[3:5], 16)
+    b = int(hex_color[5:7], 16)
+    r = int(r * factor)
+    g = int(g * factor)
+    b = int(b * factor)
+    return f"#{r:02x}{g:02x}{b:02x}"
 
 
-def forest_row(ax, y, rate, lo, hi, *, color=BLUE, marker="o", label="", n_text=""):
-    """Single forest-plot row with Wilson CI."""
+def draw_iso_bar(ax, cx: float, base_y: float, w: float, d: float, h: float,
+                 color: str, zorder: int = 2, alpha: float = 1.0) -> None:
+    """Fake-isometric 3D bar (NMRexp Fig 1 style) in 2D axes coords."""
+    hw, hd = w / 2, d / 2
+    # floor diamond corners
+    bl = (cx - hw, base_y)
+    br = (cx + hw, base_y)
+    fr = (cx + hw + hd, base_y + hd * 0.55)
+    fl = (cx - hw + hd, base_y + hd * 0.55)
+    top_off = h  # h already in axis data coordinates
+
+    def lift(pt, dz):
+        return (pt[0], pt[1] + dz)
+
+    bl_t, br_t, fr_t, fl_t = [lift(p, top_off) for p in (bl, br, fr, fl)]
+
+    # right face (darker)
+    ax.add_patch(Polygon([br, fr, lift(fr, top_off), lift(br, top_off)],
+                         closed=True, facecolor=_shade(color, 0.72),
+                         edgecolor=_shade(color, 0.55), linewidth=0.4,
+                         zorder=zorder, alpha=alpha))
+    # left face (medium)
+    ax.add_patch(Polygon([bl, fl, fl_t, bl_t],
+                         closed=True, facecolor=_shade(color, 0.85),
+                         edgecolor=_shade(color, 0.65), linewidth=0.4,
+                         zorder=zorder + 1, alpha=alpha))
+    # top face (lightest)
+    ax.add_patch(Polygon([bl_t, br_t, fr_t, fl_t],
+                         closed=True, facecolor=color,
+                         edgecolor=_shade(color, 0.75), linewidth=0.5,
+                         zorder=zorder + 2, alpha=alpha))
+
+
+def annotation_elbow(ax, x_val: float, y_frac: float, label: str, *,
+                     xlim: tuple, color: str = NOTE, fontsize: float | None = None):
+    """NMRexp Fig 4 dashed elbow annotation to x-axis value."""
+    fontsize = fontsize or FS_BODY - 0.5
+    x0, x1 = xlim
+    x_norm = (x_val - x0) / (x1 - x0)
+    ax.plot([x_val, x_val], [0, y_frac * ax.get_ylim()[1]], color=color,
+            lw=0.6, ls=(0, (3, 2)), zorder=4, clip_on=False)
+    ax.text(x_val, y_frac * ax.get_ylim()[1] * 1.02, label,
+            ha="left", va="bottom", fontsize=fontsize, fontweight="bold",
+            color=INK, zorder=5)
+
+
+def forest_row(ax, y, rate, lo, hi, *, color=HERO, marker="o", label="", n_text=""):
     ax.plot([lo, hi], [y, y], color=INK, lw=1.0, zorder=2)
     ax.plot(rate, y, marker=marker, color=color, markersize=5.5, zorder=3,
             markeredgecolor="white", markeredgewidth=0.6)
@@ -239,3 +282,38 @@ def watermark(fig, text: str = "Automated checks only — not human expert audit
 def suptitle(fig, text: str, y: float = 0.98) -> None:
     fig.suptitle(text, x=0.01, y=y, ha="left", fontsize=FS_EMPH,
                  fontweight="bold", color=INK)
+
+
+def sidebar_callout(ax, x: float, y: float, w: float, h: float, *,
+                    header: str, bullets: list[str], header_color=NMREXP_BLUE_DARK):
+    """NMRexp Fig 1 sidebar highlight box."""
+    shadow = FancyBboxPatch(
+        (x + 0.008, y - 0.012), w, h,
+        boxstyle="round,pad=0.01,rounding_size=0.02",
+        transform=ax.transAxes, facecolor="#D0D5DA", edgecolor="none",
+        linewidth=0, zorder=8, clip_on=False,
+    )
+    ax.add_patch(shadow)
+    box = FancyBboxPatch(
+        (x, y), w, h,
+        boxstyle="round,pad=0.01,rounding_size=0.02",
+        transform=ax.transAxes, facecolor="white", edgecolor=GHOST,
+        linewidth=0.8, zorder=9, clip_on=False,
+    )
+    ax.add_patch(box)
+    hdr_h = 0.055
+    ax.add_patch(FancyBboxPatch(
+        (x, y + h - hdr_h), w, hdr_h,
+        boxstyle="square,pad=0", transform=ax.transAxes,
+        facecolor=header_color, edgecolor="none", zorder=10, clip_on=False,
+    ))
+    ax.text(x + w / 2, y + h - hdr_h / 2, header, transform=ax.transAxes,
+            ha="center", va="center", fontsize=FS_BODY, fontweight="bold",
+            color="white", zorder=11)
+    for i, bullet in enumerate(bullets):
+        ax.text(x + 0.02, y + h - hdr_h - 0.04 - i * 0.065, "+",
+                transform=ax.transAxes, ha="left", va="top",
+                fontsize=FS_BODY, fontweight="bold", color=header_color, zorder=11)
+        ax.text(x + 0.04, y + h - hdr_h - 0.04 - i * 0.065, bullet,
+                transform=ax.transAxes, ha="left", va="top",
+                fontsize=FS_BODY - 0.5, color=INK, linespacing=1.3, zorder=11)

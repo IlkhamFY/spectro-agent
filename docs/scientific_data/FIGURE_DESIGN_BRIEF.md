@@ -3,7 +3,8 @@
 **Reference:** Wang et al., *NMRexp: A database of 3.3 million experimental NMR spectra*, Scientific Data 12, 1954 (2025). DOI [10.1038/s41597-025-06245-5](https://doi.org/10.1038/s41597-025-06245-5).
 
 **Manuscript:** `docs/scientific_data/scientific_data.tex`  
-**Build:** `scripts/make_fig_*.py` → `docs/scientific_data/figures/` (real files, no symlinks)
+**Build:** `bash scripts/build_all_scidata_figures.sh` → `docs/scientific_data/figures/` (real files, no symlinks)  
+**Toolchain research:** `docs/scientific_data/FIGURE_TOOL_RESEARCH.md`
 
 ---
 
@@ -87,10 +88,21 @@
 ## 5. Design system
 
 - **Palette:** `scripts/figstyle.py` (Paul Tol Vibrant; colourblind-safe).
-- **Typography:** Liberation Sans; panel letters 12 pt bold; body 8 pt.
-- **Output:** 600 dpi PNG + vector PDF per figure; `fs.save()` for consistent padding.
+- **Theme:** `scripts/figures/scidata_theme.py` — Scientific Data refinements (panel halos, category bands, donut charts).
+- **Export:** `scripts/figures/scidata_export.py` — 600 dpi PNG + vector PDF; Inkscape CLI for SVG schematics.
+- **Pipeline schematic:** `scripts/figures/pipeline_svg.py` — programmatic SVG (not matplotlib boxes).
+- **Typography:** Liberation Sans (Helvetica-compatible); panel letters 12 pt bold uppercase; body 8 pt.
+- **Output:** Vector PDF primary + 600 dpi PNG fallback; pipeline also ships editable `.svg`.
 - **Width:** `COL2` (6.30 in) full text width for multi-panel figures.
 - **Honesty rules:** never label band lists as spectra; never imply human expert audits; cite external comparator sources in captions.
+
+### Build command
+
+```bash
+bash scripts/build_all_scidata_figures.sh
+```
+
+Optional human polish: open `fig_irexp_pipeline.svg` in Inkscape desktop for final micro-adjustments.
 
 ---
 
@@ -120,11 +132,14 @@
 
 ## 8. Before / after assessment
 
-| Aspect | Before | After |
-|--------|--------|-------|
-| Figure count | 1 (overview only; figures dir empty in repo) | 4 publication-quality figures |
-| Background positioning | Text-only vs NMRexp/SDBS | Visual scale + redistribution chart |
-| Methods provenance | Text enumeration only | Pipeline schematic |
-| Technical Validation | Tables only | Four-panel automated TV summary |
-| Reviewer risk (PEER_REVIEW_SIMULATION) | “Figures weak” | Addressed with NMRexp-pattern figure set |
-| Reproducibility | `make_fig_irexp_overview.py` | Four `make_fig_*.py` scripts reading frozen JSON |
+| Aspect | Before (default matplotlib) | After (premium toolchain) |
+|--------|----------------------------|---------------------------|
+| Figure count | 4 basic matplotlib scripts | 4 publication-quality figures |
+| Pipeline schematic | matplotlib FancyBboxPatch boxes | **svgwrite SVG** → Inkscape PDF (designed layout) |
+| Data charts | Default bar styling | Category bands, bold value labels, waterfall cascade |
+| Validation | Basic pie chart | Donut with centre annotation; Wilson CI error bars |
+| Typography | Liberation Sans, minimal polish | Panel halos, uppercase letters, restrained grid |
+| Export | matplotlib savefig only | PDF + 600 dpi PNG; SVG source for pipeline |
+| Headless CI | matplotlib Agg only | Inkscape CLI + cairosvg fallback |
+| Reviewer risk | Figures weak / default matplotlib | NMRexp-pattern editorial quality |
+| Reproducibility | Four loose scripts | `build_all_scidata_figures.sh` + `scripts/figures/` module |

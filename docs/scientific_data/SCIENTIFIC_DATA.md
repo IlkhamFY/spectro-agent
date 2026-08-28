@@ -47,7 +47,7 @@ Among openly redistributable *text-derived IR band lists*, IRexp is large by rec
 | Release overview | `figures/fig_irexp_overview.pdf` | Data Records |
 | Technical validation | `figures/fig_irexp_validation.pdf` | Technical Validation |
 
-Regenerate: `python3 scripts/make_fig_irexp_{positioning,pipeline,overview,validation}.py`.
+Regenerate: `bash scripts/build_all_scidata_figures.sh` (or individual `scripts/make_fig_irexp_*.py`).
 
 **What this Data Descriptor does not contain.** No hypothesis tests, no large-language-model accuracy tables, and no stage-decomposition of elucidation performance. Those belong in the complementary research paper.
 

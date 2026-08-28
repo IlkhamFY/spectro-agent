@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""IRexp Sci Data overview: provenance + licence pools (frozen counts).
+"""IRexp Sci Data overview: provenance + licence pools + composition cascade.
 
+Reads frozen counts from data/irexp/irexp_stats.json.
 Output (real files, no symlinks — Overleaf-safe):
   docs/scientific_data/figures/fig_irexp_overview.{png,pdf}
 """
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -24,21 +26,28 @@ fs.apply()
 OUT_DIR = ROOT / "docs/scientific_data/figures"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# Frozen post-Crossref counts (LICENCE_REMEDIATION.md / pmc_licence_summary.json)
-PROVENANCE = [("PMC OA", 119_345), ("Chemotion", 1_888)]
+STATS = json.loads((ROOT / "data/irexp/irexp_stats.json").read_text())
+# Composition quadruple from manuscript tables (not all keys in stats JSON)
+FULL_QUAD = 33_201
+
+PROVENANCE = [
+    ("PMC OA", STATS["provenance_pmc"]),
+    ("Chemotion", STATS["provenance_chemotion"]),
+]
 POOLS = [
-    ("commercial\n(CC-BY/CC0)", 88_545, fs.BLUE),
-    ("non-commercial\n(NC*)", 21_823, fs.ORANGE),
-    ("empty /\nunknown", 8_963, fs.MUTED),
-    ("ShareAlike", 1_897, fs.GREEN),
-    ("other\n(ND)", 5, fs.NOTE),
+    ("commercial\n(CC-BY/CC0)", STATS["licence_pool_commercial"], fs.BLUE),
+    ("non-commercial\n(NC*)", STATS["licence_pool_non_commercial"], fs.ORANGE),
+    ("empty /\nunknown", STATS["licence_pool_empty_unknown"], fs.MUTED),
+    ("ShareAlike", STATS["licence_pool_sharealike"], fs.GREEN),
+    ("other\n(ND)", STATS["licence_pool_other"], fs.NOTE),
 ]
 COMPOSITION = [
-    ("all records", 121_233),
-    ("+ NMR string", 87_075),
-    ("structure-linked", 43_060),
-    ("IR+¹H+¹³C+structure", 33_201),
+    ("all records", STATS["records"]),
+    ("+ NMR string", STATS["with_co_reported_NMR"]),
+    ("structure-linked", STATS["with_structure"]),
+    ("IR+¹H+¹³C+structure", FULL_QUAD),
 ]
+TOTAL = STATS["records"]
 
 
 def _fmt(n: int) -> str:
@@ -122,7 +131,7 @@ for b, v in zip(bars, cvals):
 ax.set_title("Composition", loc="left", pad=2)
 
 fig.suptitle(
-    "IRexp release overview (n = 121,233)",
+    f"IRexp release overview (n = {TOTAL:,})",
     x=0.01,
     y=0.98,
     ha="left",
@@ -130,11 +139,7 @@ fig.suptitle(
     fontweight="bold",
     color=fs.INK,
 )
-fig.tight_layout(rect=[0, 0, 1, 0.93])
-
-stem = OUT_DIR / "fig_irexp_overview"
-fig.savefig(stem.with_suffix(".png"), dpi=fs.DPI_SAVE)
-fig.savefig(stem.with_suffix(".pdf"))
+fs.finish(fig, pad=0.35, left=0.08, top=0.93)
+fs.save(str(OUT_DIR / "fig_irexp_overview.png"), fig)
 plt.close(fig)
-print(f"wrote {stem.with_suffix('.png')}")
-print(f"wrote {stem.with_suffix('.pdf')}")
+print(f"wrote {OUT_DIR / 'fig_irexp_overview.png'}")

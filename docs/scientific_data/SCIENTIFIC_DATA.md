@@ -38,6 +38,17 @@ IRexp fills a specific wedge. Experimental sections of chemistry papers conventi
 
 Among openly redistributable *text-derived IR band lists*, IRexp is large by record count (121,233). It does not claim to replace SDBS or NIST absorbance libraries; SDBS alone holds more structure-linked *spectra* than IRexp holds structure-linked band lists. The scientific contribution of this Descriptor is the curated dataset, harvest provenance, licence segregation, and validation artefacts — **not** elucidation accuracy claims. The intended reuse is multimodal pretraining, supervised IR→structure modelling on `irexp_resolved`, and as the literature substrate for complementary elucidation benchmarks described elsewhere (forthcoming ICLR manuscript on IRSpectra-Bench; cite that work for protocol and model results — **not** reproduced here).
 
+**Figures (see `FIGURE_DESIGN_BRIEF.md`).**
+
+| Figure | File | Section |
+|--------|------|---------|
+| Positioning vs peers | `figures/fig_irexp_positioning.pdf` | Background |
+| Construction pipeline | `figures/fig_irexp_pipeline.pdf` | Methods |
+| Release overview | `figures/fig_irexp_overview.pdf` | Data Records |
+| Technical validation | `figures/fig_irexp_validation.pdf` | Technical Validation |
+
+Regenerate: `python3 scripts/make_fig_irexp_{positioning,pipeline,overview,validation}.py`.
+
 **What this Data Descriptor does not contain.** No hypothesis tests, no large-language-model accuracy tables, and no stage-decomposition of elucidation performance. Those belong in the complementary research paper.
 
 ## Methods
@@ -155,7 +166,9 @@ Paths relative to the project repository / Hugging Face mirror.
 | `irexp_other.jsonl.gz` | **5** | CC-BY-ND (Crossref recovery) |
 | `irexp_sharealike.jsonl.gz` | **1,897** | Chemotion CC-BY-SA-4.0 (1,888) + rare PMC SA |
 
-The full `irexp.jsonl.gz` remains multi-licence on disk; commercial redistribution must use the commercial pool (or `license_pool == "commercial"`). Hugging Face was remirrored with Crossref-recovered pools (`scripts/publish_hf.py`, 2026-08-27; commercial **88,545**). Chemotion rows were schema-backfilled with `inchikey` / `has_structure` (2026-08-27). Overview figure: `docs/scientific_data/figures/fig_irexp_overview.pdf` (provenance / licence pools / composition).
+The full `irexp.jsonl.gz` remains multi-licence on disk; commercial redistribution must use the commercial pool (or `license_pool == "commercial"`). Hugging Face was remirrored with Crossref-recovered pools (`scripts/publish_hf.py`, 2026-08-27; commercial **88,545**). Chemotion rows were schema-backfilled with `inchikey` / `has_structure` (2026-08-27).
+
+**Overview figure:** `docs/scientific_data/figures/fig_irexp_overview.pdf` (provenance / licence pools / composition cascade). See also positioning (`fig_irexp_positioning`), pipeline (`fig_irexp_pipeline`), and validation (`fig_irexp_validation`) figures — `FIGURE_DESIGN_BRIEF.md`.
 
 Median bands: **9** (PMC), **39** (Chemotion). All **1,360,866** released IR band values fall inside 350–4000 cm⁻¹ (full-corpus range check; Technical Validation).
 
@@ -167,7 +180,7 @@ Median bands: **9** (PMC), **39** (Chemotion). All **1,360,866** released IR ban
 
 ## Technical Validation
 
-Machine-readable package: `docs/scientific_data/qc_structure_nmr.json` (and artefacts under `data/audit/`). Numbers below are descriptive fidelity / consistency checks (fixed seeds); we do not report confidence intervals or claim NMRexp-parity expert audits.
+Machine-readable package: `docs/scientific_data/qc_structure_nmr.json` (and artefacts under `data/audit/`). **Validation summary figure:** `figures/fig_irexp_validation.pdf` (transcription, recall proxy, chemist-proxy, quarantine). Numbers below are descriptive fidelity / consistency checks (fixed seeds); Wilson 95% intervals reported for recall proxy and chemist-proxy.
 
 ### Transcription fidelity (PMC)
 

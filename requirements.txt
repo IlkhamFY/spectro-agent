@@ -9,6 +9,12 @@ matplotlib>=3.7
 SciencePlots>=2.1            # Nature/Science journal base style (scripts/figstyle.py)
 svgwrite>=1.4                # IRexp pipeline schematic (scripts/figures/pipeline_svg.py)
 cairosvg>=2.7                # SVG→PNG/PDF fallback when Inkscape unavailable
+tol-colors>=2.2              # Paul Tol colourblind-safe palettes (nature_design.py)
+plotnine>=0.13               # optional ggplot2-style charts
+adjustText>=1.0              # label repulsion for crowded panels
+colour>=0.1                  # colour space utilities
+palettable>=3.3              # additional palette access
+kaleido>=0.2                 # Plotly static export (optional)
 pypandoc>=1.11               # PAPER.md -> PDF (needs pandoc + tectonic on PATH)
 
 # Optional chemistry stack (graceful degradation if absent) -- enables

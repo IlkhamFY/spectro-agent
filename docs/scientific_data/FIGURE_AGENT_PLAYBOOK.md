@@ -147,44 +147,49 @@ Sources: [Nature final submission](https://www.nature.com/nature/for-authors/fin
 
 ---
 
-## 4. What makes NMRexp figures work (Fig 1–3 analysis)
+## 4. What makes NMRexp figures work (Fig 1–4 analysis)
 
-Re-fetched PDF: https://www.nature.com/articles/s41597-025-06245-5.pdf (Nov 2025).
+Re-fetched PDF + user reference PNGs (2026-08-28).
 
-### Fig 1 — Database positioning
+### Fig 1 — Database positioning (3D isometric + sidebar)
 
-- **Layout:** Horizontal grouped bars on log scale; immediate scale story
-- **Whitespace:** ~30% margin; no chartjunk; faint grid on value axis only
-- **Colour discipline:** 3–4 hues max; NMRexp hero bar in saturated blue; comparators muted
-- **Annotations:** "Open-access" / "Commercial" tags inline; star callout on hero
-- **Side panel:** Branded summary box (Large / Accurate / Detailed) — editorial not data
-- **Typography:** ~7 pt axis; bold value labels at bar ends
+- **Layout:** 3D perspective grouped bars on linear scale; back-wall grid; floor perspective lines
+- **Stacks:** Colour-coded sub-series per database (Total / modality / subset); legend top-left with mini 3D swatches
+- **Access tags:** "Open-access" (blue) / "Commercial" or "View-only" (black) above each cluster
+- **Hero callout:** Dark-blue star + bold "This Work" above hero database
+- **Sidebar box:** Drop-shadow white card; navy header bar; checkmark bullets (Large / Accurate / Detailed)
+- **Honest scale:** Y-axis in millions; hero bar dominates but comparators visible
 
-**IRexp adaptation:** Group by object type (band list vs spectrum); hatch view-only; callout "band lists ≠ absorbance spectra".
+**IRexp adaptation:** `draw_iso_bar()` in `nature_design.py`; stacks = Total / structure-linked / CC-BY pool; sidebar = Large / Redistributable / Traceable; footnote "band lists ≠ spectra".
 
 ### Fig 2A — Pipeline schematic
 
-- **Layout:** Left-to-right flow with numbered stages in rounded cards
-- **Style:** Flat modern; subtle card shadows; dark blue header bars on process boxes
-- **Connectors:** Straight arrows with consistent arrowhead; branch for side inputs
-- **Icons:** Database cylinders for volume milestones
-- **No fake metrics** on schematic itself
+- **Layout:** Left-to-right flow inside dashed rounded boundary; downward branch for cleaning
+- **Style:** Stage cards with navy header bars; PDF/DB icons; monospace extracted strings in red
+- **Connectors:** Labelled arrows ("Layout Detection", "OCSR", "GPT RE" analogues)
+- **Cleaning table:** 2×3 inset with navy header, light-blue cells, "+ N more rules" footer
+- **Final box:** Large counts + DB icon + JSON snippet + "Well-structured" tag
 
-**IRexp adaptation:** PMC S3 + Chemotion branches → extract → resolve → licence join → pools; hero SVG.
+**IRexp adaptation:** `pipeline_svg.py` — Panel A workflow + Panel B QC rows with red highlight boxes and ✕ marks.
 
-### Fig 3 — Multi-panel composition
+### Fig 3 — Multi-panel distribution
 
-- **Layout:** 2×2 or 1×3 grid; each panel one question
-- **Panels:** Distribution histograms / bar charts with shared visual language
-- **Panel labels:** Bold A–E outside plot area
-- **Table 2:** Accuracy numbers as table, not chart — honest separation of chart vs table
+- **Layout:** 3+2 grid; bold A–E panel letters top-left outside plot
+- **Bars:** Horizontal, solid `#4A7EBB`; counts at bar ends; NO x-axis ticks; faint horizontal grid only
+- **Y-axis:** Category labels right-aligned to vertical spine line
+- **Panel D:** Overlaid area/histogram with labelled x-axis (MW analogue)
+- **Panel E:** Two-column element bars sharing spine aesthetic
 
-**IRexp adaptation:** (a) provenance donut, (b) licence pools, (c) modality waterfall; unified colour key.
+**IRexp adaptation:** `hbar_panel()` helper; panels A–E provenance / licence / modality / band-count / elements.
 
-### Fig 4 — Error analysis (NMR-specific)
+### Fig 4 — Error / validation histograms
 
-- MAE histograms — **not applicable** to IRexp (no replicate density)
-- IRexp uses automated TV forest plot instead
+- **Layout:** 2×3 grid of histograms; bold panel letters
+- **Bars:** Same `#4A7EBB` blue; no y-axis labels; clean x-axis with units
+- **Annotations:** Median + aggregate rate via dashed grey elbow lines to x-axis
+- **No gridlines** inside histogram panels
+
+**IRexp adaptation:** Merged into Fig 3 panel F (2×2); real audit-derived per-record/per-paper distributions — NOT synthetic beta draws.
 
 ---
 

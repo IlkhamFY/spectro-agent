@@ -63,3 +63,15 @@ The round is complete when every drawn compound has a solver response. Compounds
 ground truth fails `scripts/validate_benchmark.py` are reported and excluded from the
 headline cohort exactly as the six main-round exclusions were — flagged before scoring, not
 after seeing whether they were solved.
+
+---
+
+## Deviations log
+
+*Appended after the draw. Everything above this line is the pre-registration as committed
+in 3e35a3a and is not edited; deviations are recorded here instead of being written back
+into the plan.*
+
+| # | date | deviation | why it does not change the design |
+|---|---|---|---|
+| 1 | 2026-08-31 | The protocol section names `scripts/manual_collect.py export` as the export step. The round was exported with a purpose-built `scripts/export_round.py` instead. | The binding requirement — prompts leave the repository, and the key is withheld, before any solver runs — is what was carried out, and more strictly than planned: `export_round.py` moves the key to a separate vault rather than leaving it in the round directory, so a solver told to read one batch cannot reach the key by listing the directory it sits in. `manual_collect.py` exports the *main* round's prompts and has no notion of an arbitrary round directory. No draw, eligibility, exclusion, scoring or stopping parameter is affected. |

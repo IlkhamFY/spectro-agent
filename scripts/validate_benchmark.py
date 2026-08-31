@@ -64,7 +64,16 @@ refused = 0
 # benchmark_main is included: its clean_qids.json defines 134 of the 194 headline
 # compounds, so the cohort that produces the headline number must be regenerable from the
 # released audit rather than shipped as an unexplained artifact.
-for d in ["data/benchmark_main", "data/benchmark_v3", "data/benchmark_v2_ctrl"]:
+ROUNDS = ["data/benchmark_main", "data/benchmark_v3", "data/benchmark_v2_ctrl"]
+# Expansion rounds are audited on the same terms as the headline cohort, but only once
+# their answer key is back in the tree: while a round is out for blind solving the key is
+# withheld (scripts/export_round.py), and a missing answers2.jsonl means "not scored yet",
+# not "failed".
+for _extra in sorted(glob.glob("data/benchmark_expand*")):
+    if os.path.exists(f"{_extra}/answers2.jsonl") and _extra not in ROUNDS:
+        ROUNDS.append(_extra)
+
+for d in ROUNDS:
     q={json.loads(l)["qid"]:json.loads(l) for l in open(f"{d}/questions2.jsonl")}
     a={json.loads(l)["qid"]:json.loads(l) for l in open(f"{d}/answers2.jsonl")}
     clean=set(); flags={}; h_over=[]

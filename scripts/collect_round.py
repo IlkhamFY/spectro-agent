@@ -49,6 +49,10 @@ def main():
     ap.add_argument("round", help="round directory, e.g. data/benchmark_expand")
     ap.add_argument("replies", help="directory of per-batch JSON replies")
     ap.add_argument("--limit", type=int, default=3, help="candidates kept per compound")
+    ap.add_argument("--partial", action="store_true",
+                    help="deposit an unfinished round instead of failing on it. For "
+                         "banking replies mid-run; a round scored while partial would "
+                         "count the unanswered compounds as misses.")
     a = ap.parse_args()
 
     qfile = os.path.join(a.round, "questions2.jsonl")
@@ -86,15 +90,22 @@ def main():
                 bad_formula.append((qid, smi, rdMolDescriptors.CalcMolFormula(m),
                                     qs[qid]["formula"]))
 
+    # predictions2.jsonl is the scoreable artefact, so it is only written for a complete
+    # round: a partial one left lying around scores every unanswered compound as a miss,
+    # which looks like a result rather than an unfinished run. The per-batch deposit under
+    # raw/ is written either way, and is what banks replies mid-run.
     out = os.path.join(a.round, "predictions2.jsonl")
-    with open(out, "w") as fh:
-        for qid in sorted(preds):
-            fh.write(json.dumps({"qid": qid, "candidates": preds[qid]},
-                                ensure_ascii=False) + "\n")
-
     ncand = sum(len(c) for c in preds.values())
-    print(f"{len(files)} batch file(s) -> {len(preds)}/{len(qs)} compounds, "
-          f"{ncand} candidates -> {out}")
+    if missing:
+        print(f"{len(files)} batch file(s) -> {len(preds)}/{len(qs)} compounds, "
+              f"{ncand} candidates -> {raw}/ (no predictions2.jsonl yet)")
+    else:
+        with open(out, "w") as fh:
+            for qid in sorted(preds):
+                fh.write(json.dumps({"qid": qid, "candidates": preds[qid]},
+                                    ensure_ascii=False) + "\n")
+        print(f"{len(files)} batch file(s) -> {len(preds)}/{len(qs)} compounds, "
+              f"{ncand} candidates -> {out}")
     if empty:
         print(f"  {len(empty)} compound(s) with no candidate: {', '.join(empty)}")
     if bad_parse:
@@ -107,8 +118,13 @@ def main():
         for qid, smi, got, want in bad_formula[:6]:
             print(f"    {qid}: {got} != {want}  {smi[:48]}")
     if missing:
-        sys.exit(f"\nMISSING {len(missing)} compound(s), round is incomplete: "
-                 + ", ".join(missing))
+        msg = (f"{len(missing)} compound(s) not yet answered: "
+               + ", ".join(missing[:12]) + (" ..." if len(missing) > 12 else ""))
+        if not a.partial:
+            sys.exit(f"\nINCOMPLETE -- {msg}\n"
+                     f"Re-run with --partial to bank what has come back so far; the "
+                     f"round is not scoreable until every compound has a response.")
+        print(f"  PARTIAL -- {msg}")
 
 
 if __name__ == "__main__":

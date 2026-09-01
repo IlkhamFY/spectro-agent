@@ -75,3 +75,33 @@ into the plan.*
 | # | date | deviation | why it does not change the design |
 |---|---|---|---|
 | 1 | 2026-08-31 | The protocol section names `scripts/manual_collect.py export` as the export step. The round was exported with a purpose-built `scripts/export_round.py` instead. | The binding requirement — prompts leave the repository, and the key is withheld, before any solver runs — is what was carried out, and more strictly than planned: `export_round.py` moves the key to a separate vault rather than leaving it in the round directory, so a solver told to read one batch cannot reach the key by listing the directory it sits in. `manual_collect.py` exports the *main* round's prompts and has no notion of an arbitrary round directory. No draw, eligibility, exclusion, scoring or stopping parameter is affected. |
+
+---
+
+## Addendum — cross-model arm on the same draw
+
+*Written and committed before any Fable solver was invoked. This is an additional arm, not
+a change to the expansion round above, which stays on the main-round solver so that its
+compounds can be pooled with the 194.*
+
+| parameter | value |
+|---|---|
+| compounds | the same 106 drawn above, all of them |
+| solver | Claude Fable 5.1 (`claude-fable-5-1`), one batch of 6 per fresh context |
+| prompt | verbatim the prompt used for the expansion round's solvers |
+| tools | RDKit formula and parse check only; no repository access; no web |
+| key | withheld throughout, exactly as for the expansion round |
+| deposit | `data/benchmark_expand/raw_fable/`, `predictions2_fable.jsonl` — kept apart from `raw/` so nothing from this arm can be pooled with the Opus cohort by accident |
+| scoring | unchanged: InChIKey-14 connectivity; top-1 is the first candidate, recall is anywhere in the list |
+| reported as | a cross-model replication on post-registration compounds, in the cross-vendor section. **Never** as part of the headline cohort. |
+
+**Why this arm exists.** The manuscript's diagnosis — recall, not verification, is the wall —
+is argued to be model-general, and its cross-vendor section rests on compounds drawn before
+some of those vendors' training cutoffs. This arm gives one frontier model a draw it
+provably could not have seen at benchmark construction time, since the draw postdates
+the pre-registration commit. No hypothesis about the result is registered; whatever the
+recall/precision decomposition looks like on this model is reported as found.
+
+**What would be a violation.** Pooling any Fable answer into the expansion cohort; re-running
+a Fable batch after seeing its score; restoring the key before both arms' predictions are
+committed.

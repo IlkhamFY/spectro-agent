@@ -49,6 +49,10 @@ def main():
     ap.add_argument("round", help="round directory, e.g. data/benchmark_expand")
     ap.add_argument("replies", help="directory of per-batch JSON replies")
     ap.add_argument("--limit", type=int, default=3, help="candidates kept per compound")
+    ap.add_argument("--arm", default=None,
+                    help="name of a separately deposited arm (e.g. a second solver on the "
+                         "same draw). Writes raw_<arm>/ and predictions2_<arm>.jsonl so the "
+                         "arm cannot be pooled with the round's own solver by accident.")
     ap.add_argument("--partial", action="store_true",
                     help="deposit an unfinished round instead of failing on it. For "
                          "banking replies mid-run; a round scored while partial would "
@@ -62,7 +66,8 @@ def main():
     files = sorted(glob.glob(os.path.join(a.replies, "*.json")))
     if not files:
         sys.exit(f"no *.json replies under {a.replies}")
-    raw = os.path.join(a.round, "raw")
+    suffix = f"_{a.arm}" if a.arm else ""
+    raw = os.path.join(a.round, "raw" + suffix)
     os.makedirs(raw, exist_ok=True)
     for f in files:
         batch = normalise(json.load(open(f)), f)
@@ -94,7 +99,7 @@ def main():
     # round: a partial one left lying around scores every unanswered compound as a miss,
     # which looks like a result rather than an unfinished run. The per-batch deposit under
     # raw/ is written either way, and is what banks replies mid-run.
-    out = os.path.join(a.round, "predictions2.jsonl")
+    out = os.path.join(a.round, f"predictions2{suffix}.jsonl")
     ncand = sum(len(c) for c in preds.values())
     if missing:
         print(f"{len(files)} batch file(s) -> {len(preds)}/{len(qs)} compounds, "

@@ -8,6 +8,7 @@ before producing anything, so no deposited batch below was served by a substitut
 
 | arm | deposit | batch | compounds | model that produced every assistant turn |
 |---|---|---|---|---|
+| expansion round | `raw/` | 02 | R07–R12 | `claude-opus-5` |
 | expansion round | `raw/` | 06 | R31–R36 | `claude-opus-5` |
 | expansion round | `raw/` | 15 | R85–R90 | `claude-opus-5` |
 | expansion round | `raw/` | 18 | R103–R106 | `claude-opus-5` |

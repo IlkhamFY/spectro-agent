@@ -10,7 +10,7 @@ central claim rests on, at n=194 rather than n=60.
 
   python scripts/forward_verify_all.py
 """
-import json, glob, re, sys
+import json, glob, os, re, sys
 from math import comb
 from rdkit import Chem
 from rdkit import RDLogger; RDLogger.DisableLog("rdApp.*")
@@ -24,6 +24,17 @@ ARMS = [("data/fverify/candidates.jsonl",      "data/fverify/anon_map.json",
         ("data/fverify_main/candidates.jsonl", "data/fverify_main/anon_map.json",
          "data/fverify_main/raw/*.json", "134-compound (main round)",
          [("data/benchmark_main", "data/benchmark_main/clean_qids.json")])]
+
+# Pre-registered expansion rounds join the pool on the same terms, once their
+# forward-verification bundle exists. Absent, the arm is simply not there and every
+# number below is the committed n=194 one.
+for _d in sorted(glob.glob("data/fverify_expand*")):
+    _r = os.path.join("data", "benchmark" + os.path.basename(_d)[len("fverify"):])
+    if os.path.exists(f"{_d}/candidates.jsonl") and os.path.isdir(_r):
+        ARMS.append((f"{_d}/candidates.jsonl", f"{_d}/anon_map.json",
+                     f"{_d}/raw/*.json", f"expansion round ({os.path.basename(_r)})",
+                     [(_r, f"{_r}/clean_qids.json"
+                       if os.path.exists(f"{_r}/clean_qids.json") else None)]))
 
 
 def roster(dirs):
@@ -75,7 +86,15 @@ def heterogeneity(allrec):
     """Are the two arms consistent enough to pool? Compare them on the quantities
     the pooled column reports."""
     arms = sorted({r["arm"] for r in allrec})
-    if len(arms) != 2: return
+    if len(arms) < 2: return
+    if len(arms) > 2:
+        # Every pair is compared rather than the first two, so adding an arm cannot make
+        # this check quietly stop testing the arms it was meant to test.
+        for i in range(len(arms)):
+            for j in range(i + 1, len(arms)):
+                heterogeneity([r for r in allrec
+                               if r["arm"] in (arms[i], arms[j])])
+        return
     A = [r for r in allrec if r["arm"] == arms[0]]
     B = [r for r in allrec if r["arm"] == arms[1]]
     print("\n=== ARM HOMOGENEITY (does pooling the two arms distort anything?) ===")
@@ -179,6 +198,37 @@ def block(name, rec):
     print(f"  top-1 self vs verify, all {n}: b={b} c={c} p={mcnemar_exact(b, c):.3f}")
 
 
+SIDECAR = "data/diagnosis.json"
+
+
+def sidecar(allrec, path=SIDECAR):
+    """Write the diagnosis counts the leading figure draws.
+
+    The figure used to restate n=194 and its three segments as literals, so a change of
+    cohort would have left it silently disagreeing with the numbers underneath it. It now
+    reads them from here, and here is generated.
+    """
+    n = len(allrec)
+    recalled = sum(r["recall"] for r in allrec)
+    verified = sum(r["verify"] for r in allrec)
+    out = {
+        "n": n,
+        "verified": verified,                 # true structure recalled AND ranked first
+        "misranked": recalled - verified,     # recalled, but a distractor ranked first
+        "wall": n - recalled,                 # never proposed at all
+        "recalled": recalled,
+        "self_ranked": sum(r["self"] for r in allrec),
+        "conditional_verify": [verified, recalled],
+        "arms": {a: sum(1 for r in allrec if r["arm"] == a)
+                 for a in sorted({r["arm"] for r in allrec})},
+    }
+    assert out["verified"] + out["misranked"] + out["wall"] == n
+    json.dump(out, open(path, "w"), indent=1)
+    print(f"\nwrote {path}: n={n}, {out['verified']}/{out['misranked']}/{out['wall']} "
+          f"(verified / mis-ranked / never proposed)")
+    return out
+
+
 def main():
     allrec = []
     for cp, ap, rg, lab, dirs in ARMS:
@@ -195,6 +245,8 @@ def main():
         block(f"POOLED — {d}", [r for r in allrec if r["difficulty"] == d])
 
     # calibration of the verified pick against its forward-match distance
+    sidecar(allrec)
+
     cal = sorted((r["dist"], r["verify"]) for r in allrec if r["predicted"])
     print("\ncalibration (verified pick correct vs forward-match chamfer):")
     for lo, hi in [(0, 2), (2, 4), (4, 8), (8, 999)]:

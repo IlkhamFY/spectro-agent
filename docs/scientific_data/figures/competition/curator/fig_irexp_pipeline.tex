@@ -1,0 +1,114 @@
+\documentclass[border=2pt,tikz]{standalone}
+\usepackage[T1]{fontenc}
+\input{../../tikz/nature_style.tex}
+\input{../../tikz/plot_data.tex}
+
+\begin{document}
+\NatureFont
+\begin{tikzpicture}[x=1mm,y=1mm,
+  card/.style={
+    draw=#1, line width=0.65pt, rounded corners=2.2pt, fill=white,
+    minimum width=28mm, minimum height=18mm, align=center, font=\FigBody, inner sep=2pt
+  },
+  hdr/.style={
+    fill=#1, text=white, font=\FigBody\bfseries, rounded corners=2pt,
+    minimum width=28mm, minimum height=5.2mm, inner sep=1.5pt, align=center
+  }]
+
+  \node[font=\fontsize{9}{11}\selectfont\bfseries,ink,anchor=north west] at (0,118) {\PanelLabel{A}};
+
+  % Outer dashed frame for panel A
+  \draw[ghost,line width=0.45pt,dashed,rounded corners=3pt] (-2,52) rectangle (185,116);
+
+  % Stage positions
+  \def\Y{98}
+  % PMC
+  \node[hdr=nmrBlueDark] (h1) at (16,\Y) {PMC OA text};
+  \node[card=nmrBlueDark, below=0pt of h1, yshift=2.2mm] (c1) {%
+    188{,}016 PMCIDs\\[0.6mm]
+    {\FigSmall\color{note}S3 plain-text}\\[-0.2mm]
+    {\FigSmall\color{note}scanned}};
+  % Extract
+  \node[hdr=nmrBlue] (h2) at (50,\Y) {IR extract};
+  \node[card=nmrBlue, below=0pt of h2, yshift=2.2mm] (c2) {%
+    Regex band lists\\[0.4mm]
+    {\FigSmall\color{note}+ co-reported NMR}};
+  % Structure
+  \node[hdr=nmrBlue] (h3) at (84,\Y) {Structure resolve};
+  \node[card=nmrBlue, below=0pt of h3, yshift=2.2mm] (c3) {%
+    OPSIN $\to$ RDKit\\[0.4mm]
+    {\FigSmall\color{note}SMILES / InChIKey}};
+  % Licence
+  \node[hdr=nmrOrange] (h4) at (118,\Y) {Licence join};
+  \node[card=nmrOrange, below=0pt of h4, yshift=2.2mm] (c4) {%
+    Europe PMC stamp\\[0.4mm]
+    {\FigSmall\color{note}+ Crossref recovery}};
+  % Release
+  \node[hdr=nmrBlueDark] (h5) at (152,\Y) {Release pools};
+  \node[card=nmrBlueDark, below=0pt of h5, yshift=2.2mm] (c5) {%
+    HF + Zenodo\\[0.4mm]
+    {\FigSmall\color{note}JSONL per pool}};
+
+  \foreach \a/\b in {c1/c2,c2/c3,c3/c4,c4/c5}
+    \draw[nature arrow] (\a.east) -- (\b.west);
+
+  % Chemotion merge
+  \node[draw=nmrGreen, line width=0.6pt, rounded corners=2pt, fill=tintGreen,
+        font=\FigBody, align=center, inner sep=2.5pt] (chem) at (50,70) {%
+    {\bfseries\color{nmrGreen}Chemotion ELN}\\[-0.2mm]
+    {\FigSmall 1{,}888 CC-BY-SA rows}};
+  \draw[nature arrow,nmrGreen] (chem.north) -- (c2.south);
+
+  % Cleaning rules box
+  \node[draw=nmrOrange, line width=0.65pt, rounded corners=2pt, fill=white,
+        align=left, font=\FigBody, inner sep=3pt, text width=52mm] (clean) at (100,68) {%
+    {\bfseries\color{nmrOrange}Cleaning rules}\\[1mm]
+    {\FigSmall\textbf{Band count:} $\ge 3$ peaks in 350--4000\,cm$^{-1}$}\\[0.6mm]
+    {\FigSmall\textbf{Duplicate bands:} reject identical integers}\\[0.6mm]
+    {\FigSmall\textbf{Structure physics:} peaks $\le$ C; H int.\ $\le$ H+2}\\[0.8mm]
+    {\FigSmall\color{note}+ 7 more rules}};
+  \draw[nature arrow,nmrOrange] (c3.south) |- (clean.west);
+
+  % Final database
+  \node[draw=nmrBlueDark, line width=0.85pt, rounded corners=2.5pt, fill=nmrBlueDark!8,
+        align=left, font=\FigBody, inner sep=3.5pt, text width=70mm] (final) at (155,68) {%
+    {\bfseries\color{nmrBlueDark}Final IRexp}\\[1mm]
+    {\fontsize{8}{9.5}\selectfont\bfseries 121{,}233} band lists\\[-0.2mm]
+    {\fontsize{8}{9.5}\selectfont\bfseries 43{,}060} structure-linked\\[1.5mm]
+    {\ttfamily\FigSmall\{"ir\_bands\_cm-1": [2923, 2854, \ldots],}\\[-0.3mm]
+    {\ttfamily\FigSmall\ "license\_pool": "commercial"\}}\\[1.2mm]
+    {\color{nmrGreen}\FigSmall\bfseries Well-structured; ready for ML training}};
+  \draw[nature arrow] (c5.south) -- ++(0,-3) -| (final.north);
+  \draw[nature arrow,nmrOrange] (clean.east) -- (final.west);
+
+  % ===================== Panel B =====================
+  \node[font=\fontsize{9}{11}\selectfont\bfseries,ink,anchor=north west] at (0,48) {\PanelLabel{B}};
+  \node[font=\FigBody\bfseries,ink,anchor=west] at (8,45.5) {Examples of cleaning (QC rejections)};
+
+  % Helper for rejection rows
+  \foreach \i/\title/\body in {%
+    0/{Band count too low ($<$3 peaks after gate), filtered}/{%
+      IR (neat): 3280, 2950, {\color{nmrRed}\fbox{\strut 1680}}, {\color{nmrRed}\fbox{\strut 4180}}, 1520\,cm$^{-1}$\\[0.8mm]
+      $^{13}$C NMR: $\delta$ 171.2, 133.5, 128.1, 115.4},%
+    1/{IR band outside 350--4000\,cm$^{-1}$, filtered}/{%
+      IR (film): 3050, 2928, 1650, 1450\,cm$^{-1}$\\[0.8mm]
+      $^{1}$H NMR: $\delta$ 8.10 {\color{nmrRed}\fbox{\strut(5H)}}, 7.45 {\color{nmrRed}\fbox{\strut(5H)}}, 6.20 {\color{nmrRed}\fbox{\strut(10H)}} --- integral sum = {\color{nmrRed}\fbox{\strut 20H}}\\[0.8mm]
+      Formula C$_9$H$_8$NO$_2$ {\color{nmrRed}\fbox{\strut(7H)}} --- $^{1}$H integration $>$ formula H+2, quarantined},%
+    2/{Duplicate / malformed band list, filtered}/{%
+      IR (KBr): {\color{nmrRed}\fbox{\strut 3421, 2923, 2854, 1735, 1458, 1375\,cm$^{-1}$}}\\[0.8mm]
+      $^{1}$H NMR (400\,MHz, CDCl$_3$): $\delta$ 7.25 (2H, d), 6.80 (2H, d)}%
+  } {
+    \pgfmathsetmacro{\yy}{36 - \i*14}
+    \begin{scope}[shift={(4,\yy)}]
+      \fill[faint!60,rounded corners=1.8pt] (0,0) rectangle (176,12);
+      \draw[ghost,line width=0.4pt,rounded corners=1.8pt] (0,0) rectangle (176,12);
+      % ban icon
+      \draw[nmrRed,line width=0.9pt] (6,6) circle (2.6mm);
+      \draw[nmrRed,line width=0.9pt] (4.2,4.2) -- (7.8,7.8);
+      \node[anchor=west,font=\FigSmall\bfseries,nmrRed] at (11,9.2) {\title};
+      \node[anchor=north west,font=\FigSmall,ink,align=left,text width=155mm] at (11,8.2) {\body};
+      \node[font=\fontsize{11}{11}\selectfont\bfseries,nmrRed] at (170,6) {\textsf{X}};
+    \end{scope}
+  }
+\end{tikzpicture}
+\end{document}

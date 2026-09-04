@@ -1,0 +1,95 @@
+\documentclass[border=2pt,tikz]{standalone}
+\usepackage[T1]{fontenc}
+\input{../../tikz/nature_style.tex}
+\input{../../tikz/plot_data.tex}
+
+\begin{document}
+\NatureFont
+\begin{tikzpicture}[x=1mm,y=1mm]
+  \def\W{183}\def\H{92}
+  \def\L{18}\def\R{118}\def\B{22}\def\T{80}
+  \pgfmathsetmacro{\CW}{\R-\L}
+  \pgfmathsetmacro{\CH}{\T-\B}
+  \def\logmin{3.5}
+  \def\logmax{6.6}
+  \pgfmathsetmacro{\logspan}{\logmax-\logmin}
+
+  \fill[faint!35] (\L,\B) rectangle (\R,\T);
+  \foreach \lv/\lab in {4/10k, 4.69897/50k, 5/100k, 5.69897/500k, 6/1M, 6.52724/3.4M} {
+    \pgfmathsetmacro{\yy}{\B + ((\lv-\logmin)/\logspan)*\CH}
+    \draw[faint,line width=0.35pt] (\L,\yy) -- (\R,\yy);
+    \node[anchor=east,font=\FigSmall,note] at (\L-1.2,\yy) {\lab};
+  }
+  \node[rotate=90,font=\FigAxis\bfseries,ink] at (\L-11,{(\B+\T)/2}) {Number of records (log$_{10}$)};
+
+  % SDBS
+  \pgfmathsetmacro{\cx}{\L + 0.5*(\CW/4)}
+  \pgfmathsetmacro{\hh}{((4.7332-\logmin)/\logspan)*\CH}
+  \fill[nmrBlue,opacity=0.72,rounded corners=0.5pt] ({\cx-4},\B) rectangle ({\cx+4},{\B+\hh});
+  \node[font=\FigSmall,note,anchor=south] at (\cx,{\B+\hh+0.6}) {54.1k};
+  \node[font=\FigSmall,ink,align=center,anchor=north] at (\cx,{\B-2.2}) {SDBS};
+  \node[font=\FigSmall,ink!80,anchor=south] at (\cx,{\T+1.2}) {View-only};
+
+  % NIST
+  \pgfmathsetmacro{\cx}{\L + 1.5*(\CW/4)}
+  \pgfmathsetmacro{\hh}{((4.2304-\logmin)/\logspan)*\CH}
+  \fill[nmrBlue,opacity=0.72,rounded corners=0.5pt] ({\cx-4},\B) rectangle ({\cx+4},{\B+\hh});
+  \node[font=\FigSmall,note,anchor=south] at (\cx,{\B+\hh+0.6}) {17k};
+  \node[font=\FigSmall,ink,align=center,anchor=north] at (\cx,{\B-2.2}) {NIST\\[-0.5mm]WebBook};
+  \node[font=\FigSmall,ink!80,anchor=south] at (\cx,{\T+1.2}) {View-only};
+
+  % NMRexp
+  \pgfmathsetmacro{\cx}{\L + 2.5*(\CW/4)}
+  \pgfmathsetmacro{\hh}{((6.5272-\logmin)/\logspan)*\CH}
+  \fill[nmrBlue,rounded corners=0.5pt] ({\cx-4},\B) rectangle ({\cx+4},{\B+\hh});
+  \node[font=\FigSmall,note,anchor=south] at (\cx,{\B+\hh+0.6}) {3.37M};
+  \node[font=\FigSmall,ink,align=center,anchor=north] at (\cx,{\B-2.2}) {NMRexp};
+  \node[font=\FigSmall\bfseries,nmrBlue,anchor=south] at (\cx,{\T+1.2}) {Open-access};
+
+  % IRexp stacks
+  \pgfmathsetmacro{\cx}{\L + 3.5*(\CW/4)}
+  \foreach \j/\lg/\col/\lab in {%
+    0/5.0836/nmrBlue/121k,%
+    1/4.6337/nmrPeach/43k,%
+    2/4.9469/nmrNavy/89k%
+  } {
+    \pgfmathsetmacro{\bx}{\cx + (\j-1)*4.5}
+    \pgfmathsetmacro{\hh}{((\lg-\logmin)/\logspan)*\CH}
+    \fill[\col,rounded corners=0.4pt] ({\bx-1.7},\B) rectangle ({\bx+1.7},{\B+\hh});
+    \node[font=\fontsize{4.8}{5.5}\selectfont,note,anchor=south] at (\bx,{\B+\hh+0.4}) {\lab};
+  }
+  \node[font=\FigSmall\bfseries,ink,align=center,anchor=north] at (\cx,{\B-2.2}) {IRexp};
+  \node[font=\FigSmall\bfseries,nmrBlueDark,anchor=south] at (\cx,{\T+1.2}) {This Work};
+  \node[font=\fontsize{12}{12}\selectfont\bfseries,nmrBlueDark] at (\cx,{\T+6.5}) {$\star$};
+
+  % Legend
+  \begin{scope}[shift={(\L+2,\T-9)}]
+    \fill[nmrBlue] (0,0) rectangle (2.8,2);
+    \node[anchor=west,font=\FigSmall] at (3.5,1) {Total};
+    \fill[nmrPeach] (16,0) rectangle (18.8,2);
+    \node[anchor=west,font=\FigSmall] at (19.5,1) {Structure-linked};
+    \fill[nmrNavy] (44,0) rectangle (46.8,2);
+    \node[anchor=west,font=\FigSmall] at (47.5,1) {CC-BY/CC0 pool};
+  \end{scope}
+
+  \node[font=\FigAxis\bfseries,ink,anchor=north] at ({(\L+\R)/2},{\B-11}) {Spectral resource};
+  \node[font=\FigSmall\itshape,note,anchor=north west,text width=100mm]
+    at (\L,{\B-15}) {SDBS $\approx$54k FT-IR spectra (AIST 2015); NIST $\approx$17k gas-phase IR (approx.); band lists $\neq$ absorbance traces};
+
+  % Sidebar
+  \begin{scope}[shift={(128,26)}]
+    \fill[black!10,rounded corners=2pt] (1.0,-1.0) rectangle (50,50);
+    \fill[white,rounded corners=2pt] (0,0) rectangle (49,51);
+    \draw[ghost,line width=0.55pt,rounded corners=2pt] (0,0) rectangle (49,51);
+    \fill[nmrBlueDark] (0,43.5) rectangle (49,51);
+    \node[font=\FigBody\bfseries,white,align=center,text width=46mm]
+      at (24.5,47.2) {IRexp (IR: an experimental database)};
+    \node[anchor=north west,font=\FigBody,ink,align=left,text width=43mm]
+      at (2.8,41.5) {%
+        {\color{nmrBlueDark}\bfseries+} Large: {\bfseries 121{,}233} band lists\\[2.4mm]
+        {\color{nmrBlueDark}\bfseries+} Redistributable: {\bfseries 88{,}545} CC-BY/CC0\\[2.4mm]
+        {\color{nmrBlueDark}\bfseries+} Traceable: DOI + licence pools per record%
+      };
+  \end{scope}
+\end{tikzpicture}
+\end{document}

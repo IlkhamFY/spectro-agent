@@ -1,0 +1,166 @@
+\documentclass[border=2pt,tikz]{standalone}
+\usepackage[T1]{fontenc}
+\input{../../tikz/nature_style.tex}
+\input{../../tikz/plot_data.tex}
+
+\begin{document}
+\NatureFont
+\begin{tikzpicture}[x=1mm,y=1mm]
+
+\newcommand{\plabel}[2]{\node[font=\fontsize{8}{9.6}\selectfont\bfseries,ink,anchor=south east] at (#1) {#2};}
+\newcommand{\hbarrow}[5]{% y, label, width_mm, value_text, label_x
+  \node[anchor=east,font=\FigSmall] at (#5,#1) {#2};
+  \fill[nmrBlue] (0,#1-1.25) rectangle (#3,#1+1.25);
+  \node[anchor=west,font=\FigSmall] at (#3+0.7,#1) {#4};
+}
+
+% ---- a Source ----
+\begin{scope}[shift={(12,122)}]
+  \plabel{-3,18}{a}
+  \node[font=\FigBody\bfseries] at (22,16) {Source};
+  \hbarrow{10}{PMC OA}{36}{119{,}345}{-1}
+  \hbarrow{4}{Chemotion}{0.6}{1{,}888}{-1}
+  \draw[ink,line width=0.55pt] (0,1) -- (0,12.5);
+\end{scope}
+
+% ---- b Licence ----
+\begin{scope}[shift={(72,116)}]
+  \plabel{-3,26}{b}
+  \node[font=\FigBody\bfseries] at (26,24) {Licence pool};
+  \hbarrow{18}{commercial}{34}{88{,}545}{-1}
+  \hbarrow{13.5}{non-commercial}{8.4}{21{,}823}{-1}
+  \hbarrow{9}{empty / unknown}{3.4}{8{,}963}{-1}
+  \hbarrow{4.5}{ShareAlike}{0.7}{1{,}897}{-1}
+  \hbarrow{0}{other (ND)}{0.35}{5}{-1}
+  \draw[ink,line width=0.55pt] (0,-2.5) -- (0,20.5);
+\end{scope}
+
+% ---- c Modality ----
+\begin{scope}[shift={(132,118)}]
+  \plabel{-3,24}{c}
+  \node[font=\FigBody\bfseries] at (26,22) {Modality linkage};
+  \hbarrow{15}{all records}{32}{121{,}233}{-1}
+  \hbarrow{10}{+ NMR string}{23.0}{87{,}075}{-1}
+  \hbarrow{5}{structure-linked}{11.4}{43{,}060}{-1}
+  \hbarrow{0}{IR+$^{1}$H+$^{13}$C+str.}{8.8}{33{,}201}{-1}
+  \draw[ink,line width=0.55pt] (0,-2.5) -- (0,17.5);
+\end{scope}
+
+% ---- d Band hist ----
+\begin{scope}[shift={(8,52)}]
+  \plabel{-2,48}{d}
+  \node[font=\FigBody\bfseries] at (28,46) {Band-count distribution};
+  \begin{axis}[
+    nature axis,
+    at={(0mm,0mm)}, anchor=south west,
+    width=52mm, height=40mm,
+    ymin=0, ymax=27000, xmin=0, xmax=42,
+    xlabel={IR bands per record},
+    xlabel style={font=\FigAxis\bfseries},
+    ytick={0,5000,10000,15000,20000,25000},
+    yticklabels={0,5k,10k,15k,20k,25k},
+    ymajorgrids=true,
+    tick label style={font=\FigSmall},
+  ]
+  \addplot+[ybar, bar width=1.7pt, fill=nmrBlue, draw=white, line width=0.15pt, forget plot]
+    coordinates {\BandHistCoords};
+  \draw[note, line width=0.55pt, densely dashed]
+    (axis cs:\BandMedian,0) -- (axis cs:\BandMedian,24500);
+  \node[font=\FigSmall,note,anchor=west] at (axis cs:10.2,23000) {PMC median 9};
+  \end{axis}
+\end{scope}
+
+% ---- e Elements ----
+\begin{scope}[shift={(70,55)}]
+  \plabel{-2,44}{e}
+  \node[font=\FigBody\bfseries] at (34,42) {Elemental distribution (structure-linked)};
+  \foreach \i/\sym/\ww/\txt in {%
+    0/C/26.0/43{,}047,%
+    1/O/23.5/38{,}870,%
+    2/N/22.0/36{,}292,%
+    3/S/7.4/12{,}258,%
+    4/F/3.6/5{,}939,%
+    5/Cl/4.6/7{,}675,%
+    6/Br/2.4/3{,}923,%
+    7/Si/0.6/959,%
+    8/P/0.5/859%
+  } {
+    \pgfmathsetmacro{\yy}{34-\i*3.7}
+    \node[anchor=east,font=\FigSmall] at (-1,\yy) {\sym};
+    \fill[nmrBlue] (0,{\yy-1.15}) rectangle (\ww,{\yy+1.15});
+    \node[anchor=west,font=\fontsize{4.8}{5.5}\selectfont] at ({\ww+0.5},\yy) {\txt};
+  }
+  \draw[ink,line width=0.55pt] (0,2) -- (0,36);
+  \foreach \i/\sym/\ww/\txt in {%
+    0/I/11.0/904,%
+    1/B/3.3/270,%
+    2/Se/4.7/384,%
+    3/Fe/1.4/119,%
+    4/Te/0.9/73,%
+    5/Sn/0.8/64,%
+    6/Ge/0.35/1,%
+    7/Na/0.35/16,%
+    8/K/0.4/24%
+  } {
+    \pgfmathsetmacro{\yy}{34-\i*3.7}
+    \node[anchor=east,font=\FigSmall] at (40,\yy) {\sym};
+    \fill[nmrBlue] (41,{\yy-1.15}) rectangle ({41+\ww},{\yy+1.15});
+    \node[anchor=west,font=\fontsize{4.8}{5.5}\selectfont] at ({41+\ww+0.4},\yy) {\txt};
+  }
+  \draw[ink,line width=0.55pt] (41,2) -- (41,36);
+\end{scope}
+
+% ---- f validation ----
+\begin{scope}[shift={(130,8)}]
+  \plabel{-2,92}{f}
+  \begin{scope}[shift={(0,52)}]
+    \node[font=\FigSmall\bfseries,anchor=west] at (0,36) {Transcription error ($n$=200)};
+    \begin{axis}[nature axis,width=28mm,height=26mm,at={(0mm,0mm)},anchor=south west,
+      xmin=0,xmax=1.05,ymin=0,xlabel={per-record error rate},
+      xlabel style={font=\FigSmall\bfseries},ytick=\empty,
+      tick label style={font=\FigSmall}]
+      \addplot+[ybar,bar width=0.85pt,fill=nmrBlue,draw=none,forget plot] coordinates {\TxErrCoords};
+      \node[font=\FigSmall\bfseries,anchor=west] at (axis cs:0.12,155) {Median 0.000};
+      \node[font=\FigSmall\bfseries,anchor=west] at (axis cs:0.12,130) {MAE proxy \TxMAE};
+    \end{axis}
+  \end{scope}
+  \begin{scope}[shift={(32,52)}]
+    \node[font=\FigSmall\bfseries,anchor=west] at (0,36) {Band recall ($n$=120)};
+    \begin{axis}[nature axis,width=28mm,height=26mm,at={(0mm,0mm)},anchor=south west,
+      xmin=0,xmax=1.05,ymin=0,xlabel={per-paper band rate},
+      xlabel style={font=\FigSmall\bfseries},ytick=\empty,
+      tick label style={font=\FigSmall}]
+      \addplot+[ybar,bar width=0.85pt,fill=nmrBlue,draw=none,forget plot] coordinates {\PaperRecallCoords};
+      \node[font=\FigSmall\bfseries,anchor=east] at (axis cs:0.98,85) {Median 1.0};
+      \node[font=\FigSmall\bfseries,anchor=east] at (axis cs:0.98,65) {Pool \BandRecallPool};
+    \end{axis}
+  \end{scope}
+  \begin{scope}[shift={(0,2)}]
+    \node[font=\FigSmall\bfseries,anchor=west] at (0,36) {List match ($n$=120)};
+    \begin{axis}[nature axis,width=28mm,height=26mm,at={(0mm,0mm)},anchor=south west,
+      xmin=0,xmax=1.05,ymin=0,xlabel={per-paper list rate},
+      xlabel style={font=\FigSmall\bfseries},ytick=\empty,
+      tick label style={font=\FigSmall}]
+      \addplot+[ybar,bar width=0.85pt,fill=nmrBlue,draw=none,forget plot] coordinates {\ListMatchCoords};
+      \node[font=\FigSmall\bfseries,anchor=east] at (axis cs:0.98,85) {Median 1.0};
+      \node[font=\FigSmall\bfseries,anchor=east] at (axis cs:0.98,65) {Pool \ListMatchPool};
+    \end{axis}
+  \end{scope}
+  \begin{scope}[shift={(32,2)}]
+    \node[font=\FigSmall\bfseries,anchor=west] at (0,36) {Chemist-proxy fails};
+    \begin{axis}[nature axis,width=28mm,height=26mm,at={(0mm,0mm)},anchor=south west,
+      xmin=0,xmax=2.5,ymin=0,xlabel={fail-reason count},
+      xlabel style={font=\FigSmall\bfseries},ytick=\empty,
+      tick label style={font=\FigSmall}]
+      \addplot+[ybar,bar width=1.3pt,fill=nmrBlue,draw=none,forget plot] coordinates {\FailCtCoords};
+      \node[font=\FigSmall\bfseries,anchor=west] at (axis cs:0.45,200) {Median 0.000};
+      \node[font=\FigSmall\bfseries,anchor=west] at (axis cs:0.45,170) {Fail rate \FailRate};
+    \end{axis}
+  \end{scope}
+\end{scope}
+
+\node[font=\FigSmall\itshape,note,anchor=west] at (8,1)
+  {Panel f: audit-derived per-record / per-paper distributions --- automated checks only};
+
+\end{tikzpicture}
+\end{document}

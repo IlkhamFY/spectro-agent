@@ -1,4 +1,4 @@
-% Fig 2 — Pipeline (generous gaps, no overlapping connectors)
+% Fig 2 — Pipeline (Methods-aligned stages + QC examples)
 \documentclass[border=0pt,tikz]{standalone}
 \makeatletter\@namedef{ver@sansmathfonts.sty}{2023/01/01}\makeatother
 \input{../nature_style.tex}
@@ -10,23 +10,22 @@
   arr/.style={-{Latex[length=1.8mm,width=1.4mm]}, line width=0.55pt, ink},
   card/.style={
     draw=#1, line width=0.6pt, rounded corners=1.8pt, fill=white,
-    minimum width=29mm, minimum height=18mm, align=center,
-    font=\FigSmall, inner xsep=2.5pt, inner ysep=2.2pt
+    minimum width=30mm, minimum height=17mm, align=center,
+    font=\FigSmall, inner xsep=2.4pt, inner ysep=2.0pt
   },
   hdr/.style={
     fill=#1, text=white, font=\FigBody\bfseries, rounded corners=1.8pt,
-    minimum width=29mm, minimum height=6.2mm, align=center, inner sep=1.2pt
+    minimum width=30mm, minimum height=6.0mm, align=center, inner sep=1.1pt
   }]
 
-\useasboundingbox (0,0) rectangle (183,142);
+\useasboundingbox (0,0) rectangle (183,144);
 
 % ===== Panel A =====
-\node[anchor=north west] at (2,140) {\PanelLabel{A}};
-\node[anchor=west] at (10,137.5) {\FigTitle Extraction and quality-control workflow};
-\draw[ghost,line width=0.4pt,dashed,rounded corners=2.2pt] (2,60) rectangle (181,132);
+\node[anchor=north west] at (2,142) {\PanelLabel{A}};
+\node[anchor=west] at (10,139.5) {\FigTitle Extraction and quality-control workflow};
+\draw[ghost,line width=0.4pt,dashed,rounded corners=2.2pt] (2,62) rectangle (181,134);
 
-% Stage row — y of header centers
-\def\yH{116}
+\def\yH{118}
 \foreach \i/\x/\title/\col/\linea/\lineb in {%
   1/19/PMC OA text/nmrBlueDark/{188{,}016 PMCIDs}/{S3 plain text},%
   2/52/IR extract/nmrBlue/{Regex band lists}/{+ co-reported NMR},%
@@ -35,66 +34,65 @@
   5/151/Release pools/nmrBlueDark/{HF + Zenodo}/{JSONL per pool}%
 } {
   \node[circle, fill=\col, text=white, font=\FigTiny\bfseries,
-        inner sep=0pt, minimum size=4.6mm] at (\x,{\yH+12.5}) {\i};
+        inner sep=0pt, minimum size=4.8mm] at (\x,{\yH+12.0}) {\i};
   \node[hdr=\col] (h\i) at (\x,\yH) {\title};
-  \node[card=\col, below=0pt of h\i, yshift=2.2mm] (c\i)
-    {{\FigTiny\color{note}\linea}\\[0.45ex]{\FigTiny\color{note}\lineb}};
+  \node[card=\col, below=0pt of h\i, yshift=2.0mm] (c\i)
+    {{\FigTiny\color{note}\linea}\\[0.4ex]{\FigTiny\color{note}\lineb}};
 }
 
-% Connector labels ABOVE the arrows, white halo, never on the line
 \foreach \a/\b/\lab in {1/2/regex,2/3/OPSIN,3/4/licence,4/5/pools} {
   \draw[arr] (c\a.east) -- (c\b.west);
-  \node[font=\FigTiny,nmrBlueDark,fill=white,inner sep=1.0pt]
-    at ($ (c\a.east)!0.5!(c\b.west) + (0,3.2) $) {\lab};
+  \node[font=\FigTiny,nmrBlueDark,fill=white,inner sep=0.9pt]
+    at ($ (c\a.east)!0.5!(c\b.west) + (0,3.0) $) {\lab};
 }
 
-% Chemotion — left of cleaning rules, clear vertical gap from stage row
+% Chemotion merge (Methods: ELN deposit)
 \node[draw=nmrGreen, line width=0.55pt, rounded corners=1.6pt, fill=tintGreen,
-      align=center, font=\FigTiny, inner sep=2.5pt] (chem) at (52,76)
-  {{\FigSmall\bfseries\color{nmrGreen}Chemotion ELN}\\[0.4ex]1{,}888 CC-BY-SA rows};
-\draw[arr,nmrGreen] (chem.north) -- ++(0,2) -- (c2.south);
-\node[font=\FigTiny,nmrGreen,fill=white,inner sep=0.6pt,anchor=west]
-  at (54,90) {merge};
+      align=center, font=\FigTiny, inner sep=2.4pt] (chem) at (52,78)
+  {{\FigSmall\bfseries\color{nmrGreen}Chemotion ELN}\\[0.35ex]1{,}888 CC-BY-SA rows};
+\draw[arr,nmrGreen] (chem.north) -- (c2.south);
+\node[font=\FigTiny,nmrGreen,fill=white,inner sep=0.5pt,anchor=west]
+  at (54,88) {merge};
 
-% Cleaning rules — center-bottom of panel A
+% Cleaning rules — gate (caption: inset)
 \node[draw=nmrOrange, line width=0.55pt, rounded corners=1.6pt, fill=white,
-      align=left, font=\FigTiny, inner sep=2.8pt, text width=56mm] (clean) at (100,74)
-  {{\FigSmall\bfseries\color{nmrOrange}Cleaning rules (automated)}\\[1.0ex]
-   \textbf{Band count:} $\ge$3 peaks in 350--4000\,cm$^{-1}$\\[0.5ex]
-   \textbf{Duplicates:} reject identical integers\\[0.5ex]
-   \textbf{Structure physics:} $^{1}$H sum $\le$ formula H+2\\[0.5ex]
+      align=left, font=\FigTiny, inner sep=2.6pt, text width=54mm] (clean) at (100,76)
+  {{\FigSmall\bfseries\color{nmrOrange}Cleaning rules (automated)}\\[0.9ex]
+   \textbf{Band count:} $\ge$3 peaks in 350--4000\,cm$^{-1}$\\[0.45ex]
+   \textbf{Duplicates:} reject identical integers\\[0.45ex]
+   \textbf{Structure physics:} $^{1}$H sum $\le$ formula H+2\\[0.45ex]
    {\color{note}+ 7 more rules}};
-\draw[arr,nmrOrange] (c3.south) -- ++(0,-4) -| (clean.north);
+\draw[arr,nmrOrange] (c3.south) -- ++(0,-3.5) -| (clean.north);
 
-% Final box — right, not colliding with stage 5 card
+% Final release card
 \node[draw=nmrNavy, line width=0.75pt, rounded corners=2pt, fill=tintBlue,
-      align=left, font=\FigTiny, inner sep=3.2pt, text width=34mm] (fin) at (158,74)
-  {{\FigSmall\bfseries\color{nmrNavy}Final IRexp}\\[1.1ex]
-   {\fontsize{9.5}{11.5}\selectfont\bfseries 121{,}233}\\[-0.15ex]
-   {\FigTiny band lists}\\[0.9ex]
-   {\fontsize{8.5}{10}\selectfont\bfseries\color{nmrOrange}43{,}060}\\[-0.15ex]
-   {\FigTiny structure-linked}\\[1.3ex]
-   {\ttfamily\FigTiny\{"ir\_bands\_cm-1":[\ldots],}\\[-0.15ex]
-   {\ttfamily\FigTiny\ "license\_pool":"commercial"\}}\\[0.9ex]
+      align=left, font=\FigTiny, inner sep=3.0pt, text width=34mm] (fin) at (158,76)
+  {{\FigSmall\bfseries\color{nmrNavy}Final IRexp}\\[1.0ex]
+   {\fontsize{9.5}{11.5}\selectfont\bfseries 121{,}233}\\[-0.1ex]
+   {\FigTiny band lists}\\[0.8ex]
+   {\fontsize{8.5}{10}\selectfont\bfseries\color{nmrOrange}43{,}060}\\[-0.1ex]
+   {\FigTiny structure-linked}\\[1.1ex]
+   {\ttfamily\FigTiny\{"ir\_bands\_cm-1":[\ldots],}\\[-0.1ex]
+   {\ttfamily\FigTiny\ "license\_pool":"commercial"\}}\\[0.8ex]
    {\color{nmrGreen}\FigTiny\bfseries ready for reuse}};
-\draw[arr] (c5.south) -- ++(0,-3) -| (fin.north);
+\draw[arr] (c5.south) -- ++(0,-2.5) -| (fin.north);
 \draw[arr,nmrOrange] (clean.east) -- (fin.west);
 
 % ===== Panel B =====
-\node[anchor=north west] at (2,56) {\PanelLabel{B}};
-\node[anchor=west] at (10,53.5) {\FigTitle Illustrative automated QC rejections};
-\draw[ghost,line width=0.4pt,dashed,rounded corners=2.2pt] (2,4) rectangle (181,50);
+\node[anchor=north west] at (2,58) {\PanelLabel{B}};
+\node[anchor=west] at (10,55.5) {\FigTitle Illustrative automated QC rejections};
+\draw[ghost,line width=0.4pt,dashed,rounded corners=2.2pt] (2,4) rectangle (181,52);
 
-\newcommand{\rej}[3]{% y, title, body
+\newcommand{\rej}[3]{%
   \begin{scope}[shift={(5,#1)}]
-    \fill[faint!65] (0,0) rectangle (170,12.8);
-    \draw[ghost,line width=0.4pt,rounded corners=1.4pt] (0,0) rectangle (170,12.8);
-    \draw[nmrRed,line width=0.9pt] (5.2,6.4) circle (2.4mm);
-    \draw[nmrRed,line width=0.9pt] (3.6,4.8) -- (6.8,8.0);
-    \node[anchor=west,font=\FigSmall\bfseries,nmrRed] at (10.5,10.2) {#2};
+    \fill[faint!60] (0,0) rectangle (170,13.0);
+    \draw[ghost,line width=0.4pt,rounded corners=1.4pt] (0,0) rectangle (170,13.0);
+    \draw[nmrRed,line width=0.9pt] (5.2,6.5) circle (2.4mm);
+    \draw[nmrRed,line width=0.9pt] (3.6,4.9) -- (6.8,8.1);
+    \node[anchor=west,font=\FigSmall\bfseries,nmrRed] at (10.5,10.4) {#2};
     \node[anchor=north west,align=left,text width=148mm,font=\FigTiny,ink]
-      at (10.5,8.8) {#3};
-    \node[font=\FigBody\bfseries,nmrRed] at (164,6.4) {X};
+      at (10.5,9.0) {#3};
+    \node[font=\FigBody\bfseries,nmrRed] at (164,6.5) {X};
   \end{scope}
 }
 

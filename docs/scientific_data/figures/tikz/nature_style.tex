@@ -6,7 +6,7 @@
 \IfFileExists{sansmathfonts.sty}{\RequirePackage{sansmathfonts}}{}
 \renewcommand{\familydefault}{\sfdefault}
 \pgfplotsset{compat=1.18}
-\usetikzlibrary{arrows.meta,calc,positioning,fit,shapes.geometric,shapes.misc}
+\usetikzlibrary{arrows.meta,calc,positioning,fit,shapes.geometric,shapes.misc,patterns,patterns.meta}
 
 \definecolor{nmrBlue}{HTML}{4A7EBB}
 \definecolor{nmrBlueDark}{HTML}{2E5F8F}
@@ -24,22 +24,19 @@
 \definecolor{tintBlue}{HTML}{EEF3F8}
 \definecolor{tintGreen}{HTML}{EAF4EE}
 \definecolor{viewGrey}{HTML}{B8BDC3}
+\definecolor{rule}{HTML}{D0D4D8}
 
-% Print floors at 183 mm: body 8, small 7, panel 9.5, tiny 6.5
+% Print floors at 183 mm
 \newcommand{\NatureFont}{\fontfamily{phv}\selectfont}
-\newcommand{\PanelLabel}[1]{{\NatureFont\bfseries\fontsize{9.5}{11.5}\selectfont #1}}
-\newcommand{\FigTitle}{\NatureFont\bfseries\fontsize{8.5}{10.5}\selectfont}
+\newcommand{\PanelLabel}[1]{{\NatureFont\bfseries\fontsize{10}{12}\selectfont #1}}
+\newcommand{\FigTitle}{\NatureFont\bfseries\fontsize{9}{11}\selectfont}
 \newcommand{\FigBody}{\NatureFont\fontsize{8}{9.5}\selectfont}
-\newcommand{\FigSmall}{\NatureFont\fontsize{7}{8.5}\selectfont}
+\newcommand{\FigSmall}{\NatureFont\fontsize{7.2}{8.8}\selectfont}
 \newcommand{\FigTiny}{\NatureFont\fontsize{6.5}{7.8}\selectfont}
 \newcommand{\FigAxis}{\NatureFont\fontsize{8}{9.5}\selectfont}
 
 \tikzset{
   nature arrow/.style={-{Latex[length=1.8mm,width=1.4mm]}, line width=0.6pt, ink},
-  stage card/.style={
-    draw=#1, line width=0.65pt, rounded corners=1.8pt, fill=white,
-    align=center, font=\FigBody, inner xsep=2.5pt, inner ysep=2.2pt
-  },
 }
 
 \pgfplotsset{
@@ -54,6 +51,7 @@
     axis y line=left,
     enlarge x limits=false,
     clip=false,
+    scaled ticks=false,
     xlabel near ticks,
     ylabel near ticks,
   },

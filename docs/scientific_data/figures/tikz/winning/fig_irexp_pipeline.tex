@@ -1,4 +1,4 @@
-% Fig 2 — Pipeline (Methods-aligned stages + QC examples)
+% Fig 2 — Pipeline (generous lanes, Methods-aligned)
 \documentclass[border=0pt,tikz]{standalone}
 \makeatletter\@namedef{ver@sansmathfonts.sty}{2023/01/01}\makeatother
 \input{../nature_style.tex}
@@ -7,25 +7,26 @@
 
 \begin{document}\NatureFont
 \begin{tikzpicture}[x=1mm,y=1mm,
-  arr/.style={-{Latex[length=1.8mm,width=1.4mm]}, line width=0.55pt, ink},
+  arr/.style={-{Latex[length=2.0mm,width=1.5mm]}, line width=0.6pt, ink},
   card/.style={
-    draw=#1, line width=0.6pt, rounded corners=1.8pt, fill=white,
-    minimum width=30mm, minimum height=17mm, align=center,
-    font=\FigSmall, inner xsep=2.4pt, inner ysep=2.0pt
+    draw=#1, line width=0.65pt, rounded corners=2pt, fill=white,
+    minimum width=31mm, minimum height=18mm, align=center,
+    font=\FigSmall, inner xsep=2.6pt, inner ysep=2.2pt
   },
   hdr/.style={
-    fill=#1, text=white, font=\FigBody\bfseries, rounded corners=1.8pt,
-    minimum width=30mm, minimum height=6.0mm, align=center, inner sep=1.1pt
+    fill=#1, text=white, font=\FigBody\bfseries, rounded corners=2pt,
+    minimum width=31mm, minimum height=6.4mm, align=center, inner sep=1.2pt
   }]
 
-\useasboundingbox (0,0) rectangle (183,144);
+\useasboundingbox (0,0) rectangle (183,152);
 
 % ===== Panel A =====
-\node[anchor=north west] at (2,142) {\PanelLabel{A}};
-\node[anchor=west] at (10,139.5) {\FigTitle Extraction and quality-control workflow};
-\draw[ghost,line width=0.4pt,dashed,rounded corners=2.2pt] (2,62) rectangle (181,134);
+\node[anchor=north west] at (2,150) {\PanelLabel{A}};
+\node[anchor=west] at (11,147.5) {\FigTitle Extraction and quality-control workflow};
+\draw[ghost,line width=0.4pt,dashed,rounded corners=2.4pt] (2,66) rectangle (181,142);
 
-\def\yH{118}
+% Stage row — high, with clear air below to lower lane
+\def\yH{124}
 \foreach \i/\x/\title/\col/\linea/\lineb in {%
   1/19/PMC OA text/nmrBlueDark/{188{,}016 PMCIDs}/{S3 plain text},%
   2/52/IR extract/nmrBlue/{Regex band lists}/{+ co-reported NMR},%
@@ -34,72 +35,72 @@
   5/151/Release pools/nmrBlueDark/{HF + Zenodo}/{JSONL per pool}%
 } {
   \node[circle, fill=\col, text=white, font=\FigTiny\bfseries,
-        inner sep=0pt, minimum size=4.8mm] at (\x,{\yH+12.0}) {\i};
+        inner sep=0pt, minimum size=5.0mm] at (\x,{\yH+13.0}) {\i};
   \node[hdr=\col] (h\i) at (\x,\yH) {\title};
-  \node[card=\col, below=0pt of h\i, yshift=2.0mm] (c\i)
-    {{\FigTiny\color{note}\linea}\\[0.4ex]{\FigTiny\color{note}\lineb}};
+  \node[card=\col, below=0pt of h\i, yshift=2.2mm] (c\i)
+    {{\FigTiny\color{note}\linea}\\[0.45ex]{\FigTiny\color{note}\lineb}};
 }
 
 \foreach \a/\b/\lab in {1/2/regex,2/3/OPSIN,3/4/licence,4/5/pools} {
   \draw[arr] (c\a.east) -- (c\b.west);
-  \node[font=\FigTiny,nmrBlueDark,fill=white,inner sep=0.9pt]
-    at ($ (c\a.east)!0.5!(c\b.west) + (0,3.0) $) {\lab};
+  \node[font=\FigTiny,nmrBlueDark,fill=white,inner sep=1.0pt]
+    at ($ (c\a.east)!0.5!(c\b.west) + (0,3.4) $) {\lab};
 }
 
-% Chemotion merge (Methods: ELN deposit)
-\node[draw=nmrGreen, line width=0.55pt, rounded corners=1.6pt, fill=tintGreen,
-      align=center, font=\FigTiny, inner sep=2.4pt] (chem) at (52,78)
-  {{\FigSmall\bfseries\color{nmrGreen}Chemotion ELN}\\[0.35ex]1{,}888 CC-BY-SA rows};
-\draw[arr,nmrGreen] (chem.north) -- (c2.south);
-\node[font=\FigTiny,nmrGreen,fill=white,inner sep=0.5pt,anchor=west]
-  at (54,88) {merge};
+% Lower lane — Chemotion | Cleaning | Final  (y ~ 78–92)
+\node[draw=nmrGreen, line width=0.6pt, rounded corners=1.8pt, fill=tintGreen,
+      align=center, font=\FigTiny, inner sep=2.8pt, text width=28mm] (chem) at (40,82)
+  {{\FigSmall\bfseries\color{nmrGreen}Chemotion ELN}\\[0.5ex]
+   1{,}888 CC-BY-SA rows\\[0.3ex]
+   {\color{note}author-curated bands}};
+\draw[arr,nmrGreen] (chem.north) -- ++(0,4) -| (c2.south);
+\node[font=\FigTiny,nmrGreen,fill=white,inner sep=0.6pt]
+  at (40,96) {merge};
 
-% Cleaning rules — gate (caption: inset)
-\node[draw=nmrOrange, line width=0.55pt, rounded corners=1.6pt, fill=white,
-      align=left, font=\FigTiny, inner sep=2.6pt, text width=54mm] (clean) at (100,76)
-  {{\FigSmall\bfseries\color{nmrOrange}Cleaning rules (automated)}\\[0.9ex]
-   \textbf{Band count:} $\ge$3 peaks in 350--4000\,cm$^{-1}$\\[0.45ex]
-   \textbf{Duplicates:} reject identical integers\\[0.45ex]
-   \textbf{Structure physics:} $^{1}$H sum $\le$ formula H+2\\[0.45ex]
-   {\color{note}+ 7 more rules}};
-\draw[arr,nmrOrange] (c3.south) -- ++(0,-3.5) -| (clean.north);
+\node[draw=nmrOrange, line width=0.6pt, rounded corners=1.8pt, fill=white,
+      align=left, font=\FigTiny, inner sep=3.0pt, text width=58mm] (clean) at (98,80)
+  {{\FigSmall\bfseries\color{nmrOrange}Cleaning rules (automated)}\\[1.0ex]
+   \textbf{Band count:} $\ge$3 peaks in 350--4000\,cm$^{-1}$\\[0.5ex]
+   \textbf{Duplicates:} reject identical integers\\[0.5ex]
+   \textbf{Structure physics:} $^{1}$H sum $\le$ formula H+2\\[0.5ex]
+   {\color{note}+ 7 more rules (see Methods)}};
+\draw[arr,nmrOrange] (c3.south) -- ++(0,-4) -| (clean.north);
 
-% Final release card
-\node[draw=nmrNavy, line width=0.75pt, rounded corners=2pt, fill=tintBlue,
-      align=left, font=\FigTiny, inner sep=3.0pt, text width=34mm] (fin) at (158,76)
-  {{\FigSmall\bfseries\color{nmrNavy}Final IRexp}\\[1.0ex]
-   {\fontsize{9.5}{11.5}\selectfont\bfseries 121{,}233}\\[-0.1ex]
-   {\FigTiny band lists}\\[0.8ex]
-   {\fontsize{8.5}{10}\selectfont\bfseries\color{nmrOrange}43{,}060}\\[-0.1ex]
-   {\FigTiny structure-linked}\\[1.1ex]
+\node[draw=nmrNavy, line width=0.85pt, rounded corners=2.2pt, fill=tintBlue,
+      align=left, font=\FigTiny, inner sep=3.4pt, text width=36mm] (fin) at (160,80)
+  {{\FigSmall\bfseries\color{nmrNavy}Final IRexp}\\[1.2ex]
+   {\fontsize{10}{12}\selectfont\bfseries 121{,}233}\\[-0.1ex]
+   {\FigTiny band lists}\\[1.0ex]
+   {\fontsize{9}{11}\selectfont\bfseries\color{nmrOrange}43{,}060}\\[-0.1ex]
+   {\FigTiny structure-linked}\\[1.2ex]
    {\ttfamily\FigTiny\{"ir\_bands\_cm-1":[\ldots],}\\[-0.1ex]
-   {\ttfamily\FigTiny\ "license\_pool":"commercial"\}}\\[0.8ex]
-   {\color{nmrGreen}\FigTiny\bfseries ready for reuse}};
-\draw[arr] (c5.south) -- ++(0,-2.5) -| (fin.north);
+   {\ttfamily\FigTiny\ "license\_pool":"commercial"\}}\\[1.0ex]
+   {\color{nmrGreen}\FigSmall\bfseries ready for reuse}};
+\draw[arr] (c5.south) -- ++(0,-3) -| (fin.north);
 \draw[arr,nmrOrange] (clean.east) -- (fin.west);
 
 % ===== Panel B =====
-\node[anchor=north west] at (2,58) {\PanelLabel{B}};
-\node[anchor=west] at (10,55.5) {\FigTitle Illustrative automated QC rejections};
-\draw[ghost,line width=0.4pt,dashed,rounded corners=2.2pt] (2,4) rectangle (181,52);
+\node[anchor=north west] at (2,62) {\PanelLabel{B}};
+\node[anchor=west] at (11,59.5) {\FigTitle Illustrative automated QC rejections};
+\draw[ghost,line width=0.4pt,dashed,rounded corners=2.4pt] (2,4) rectangle (181,55);
 
 \newcommand{\rej}[3]{%
   \begin{scope}[shift={(5,#1)}]
-    \fill[faint!60] (0,0) rectangle (170,13.0);
-    \draw[ghost,line width=0.4pt,rounded corners=1.4pt] (0,0) rectangle (170,13.0);
-    \draw[nmrRed,line width=0.9pt] (5.2,6.5) circle (2.4mm);
-    \draw[nmrRed,line width=0.9pt] (3.6,4.9) -- (6.8,8.1);
-    \node[anchor=west,font=\FigSmall\bfseries,nmrRed] at (10.5,10.4) {#2};
-    \node[anchor=north west,align=left,text width=148mm,font=\FigTiny,ink]
-      at (10.5,9.0) {#3};
-    \node[font=\FigBody\bfseries,nmrRed] at (164,6.5) {X};
+    \fill[faint!55] (0,0) rectangle (170,13.8);
+    \draw[ghost,line width=0.4pt,rounded corners=1.5pt] (0,0) rectangle (170,13.8);
+    \draw[nmrRed,line width=0.95pt] (5.4,6.9) circle (2.5mm);
+    \draw[nmrRed,line width=0.95pt] (3.7,5.2) -- (7.1,8.6);
+    \node[anchor=west,font=\FigSmall\bfseries,nmrRed] at (11,11.0) {#2};
+    \node[anchor=north west,align=left,text width=146mm,font=\FigTiny,ink]
+      at (11,9.5) {#3};
+    \node[font=\FigBody\bfseries,nmrRed] at (164,6.9) {X};
   \end{scope}
 }
 
-\rej{36.5}{Band count too low}{%
+\rej{38.5}{Band count too low}{%
   IR (KBr): {\color{nmrRed}\fbox{\strut 3021, 2923, 2854}}\,cm$^{-1}$
   --- rejected after de-duplication ($<$3 unique peaks).}
-\rej{21.5}{IR band outside window}{%
+\rej{22.5}{IR band outside window}{%
   IR (neat): 3200, 2958, {\color{nmrRed}\fbox{\strut 4180}}, 1520\,cm$^{-1}$
   --- 4180 outside 350--4000\,cm$^{-1}$.}
 \rej{6.5}{$^{1}$H integral vs formula}{%

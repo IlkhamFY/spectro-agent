@@ -64,16 +64,16 @@
 % ---------------------------------------------------------------------------
 \begin{scope}[shift={(\XO,0)}]
   \def\legY{95.5}
-  \node[circle,draw=muted,fill=white,minimum size=2.6mm,inner sep=0] at (2,\legY) {};
-  \node[font=\FigSmall,anchor=west] at (4,\legY) {view-only};
-  \node[circle,draw=nmrBlueDark,fill=nmrBlueLight,minimum size=2.6mm,inner sep=0] at (30,\legY) {};
-  \node[font=\FigSmall,anchor=west] at (32,\legY) {open-access (comparator)};
-  \node[circle,draw=nmrNavy,fill=nmrNavy,minimum size=2.6mm,inner sep=0] at (72,\legY) {};
-  \node[font=\FigSmall,anchor=west] at (74,\legY) {IRexp total};
-  \node[circle,draw=nmrOrange,fill=nmrPeach,minimum size=2.6mm,inner sep=0] at (99,\legY) {};
-  \node[font=\FigSmall,anchor=west] at (101,\legY) {structure-linked};
-  \node[circle,draw=nmrBlueDark,fill=nmrBlue,minimum size=2.6mm,inner sep=0] at (136,\legY) {};
-  \node[font=\FigSmall,anchor=west] at (138,\legY) {CC-BY / CC0 pool};
+  \node[circle,draw=muted,fill=white,minimum size=2.6mm,inner sep=0] at (0,\legY) {};
+  \node[font=\FigSmall,anchor=west] at (2,\legY) {view-only};
+  \node[circle,draw=nmrBlueDark,fill=nmrBlueLight,minimum size=2.6mm,inner sep=0] at (21,\legY) {};
+  \node[font=\FigSmall,anchor=west] at (23,\legY) {open-access};
+  \node[circle,draw=nmrNavy,fill=nmrNavy,minimum size=2.6mm,inner sep=0] at (46,\legY) {};
+  \node[font=\FigSmall,anchor=west] at (48,\legY) {IRexp total};
+  \node[circle,draw=nmrOrange,fill=nmrPeach,minimum size=2.6mm,inner sep=0] at (73,\legY) {};
+  \node[font=\FigSmall,anchor=west] at (75,\legY) {structure-linked};
+  \node[circle,draw=nmrBlueDark,fill=nmrBlue,minimum size=2.6mm,inner sep=0] at (108,\legY) {};
+  \node[font=\FigSmall,anchor=west] at (110,\legY) {CC-BY/CC0 pool};
 \end{scope}
 \draw[ghost,line width=0.4pt] (\XO,93.5) -- (\XO+\PW,93.5);
 
@@ -94,7 +94,7 @@
   % value labels
   \node[font=\FigBody,anchor=west] at (\xSDBS+3.4,\ySDBS) {\bfseries 54,100};
   \node[font=\FigBody,anchor=west] at (\xNIST+3.0,\yNIST) {\bfseries 17,000};
-  \node[font=\FigBody,anchor=west] at (nmrDot.east) {\bfseries\;3,370,987};
+  \node[font=\FigBody,anchor=south] at (nmrDot.north) {\bfseries 3,370,987};
 
   % row category labels (left of axis)
   \node[font=\FigBody,anchor=east] at (-2.6,\ySDBS) {SDBS};
@@ -137,11 +137,11 @@
 % ---------------------------------------------------------------------------
 % Sidebar callout card
 % ---------------------------------------------------------------------------
-\def\SBx{147.0}
+\def\SBx{150.0}
 \def\SBy{\YO}
-\def\SBw{34.5}
+\def\SBw{31.5}
 \def\SBh{53.0}
-\def\SBtxw{26mm}
+\def\SBtxw{23mm}
 
 % soft offset shadow
 \fill[ghost,opacity=0.55]
@@ -173,8 +173,8 @@
 \Check{\SBx+2.0}{\SBy+21.5}{\bfseries Redistributable\\[1.5pt]{\FigSmall 88,545 CC-BY / CC0}}
 \Check{\SBx+2.0}{\SBy+9.0}{\bfseries Traceable\\[1.5pt]{\FigSmall Source DOI + licence pool}}
 
-\draw[ghost,line width=0.4pt] (\SBx+2.0,\SBy+30.0) -- (\SBx+\SBw-2.0,\SBy+30.0);
-\draw[ghost,line width=0.4pt] (\SBx+2.0,\SBy+17.5) -- (\SBx+\SBw-2.0,\SBy+17.5);
+\draw[ghost,line width=0.4pt] (\SBx+2.0,\SBy+27.75) -- (\SBx+\SBw-2.0,\SBy+27.75);
+\draw[ghost,line width=0.4pt] (\SBx+2.0,\SBy+15.25) -- (\SBx+\SBw-2.0,\SBy+15.25);
 
 % ---------------------------------------------------------------------------
 % Footnote (bottom, honesty rule)

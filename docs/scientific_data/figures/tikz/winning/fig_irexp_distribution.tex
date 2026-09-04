@@ -1,4 +1,4 @@
-% Fig 3 — Distribution (editorial 2x3; panel f = 2x2 hist with elbows)
+% Fig 3 — Distribution (data only; caption carries interpretation)
 \documentclass[border=0pt,tikz]{standalone}
 \makeatletter\@namedef{ver@sansmathfonts.sty}{2023/01/01}\makeatother
 \input{../nature_style.tex}
@@ -6,18 +6,17 @@
 \usepackage[helvet]{sfmath}
 \renewcommand{\familydefault}{\sfdefault}
 
-% Mini validation hist — title + stats ABOVE plot; elbow only inside
-% ox oy title coords xmax ymax elbowx elbowlab
+% title | orange stat | hist + elbow
 \newcommand{\vmini}[8]{%
   \begin{scope}[shift={(#1,#2)}]
     \node[anchor=north west,font=\FigTiny\bfseries,align=left,text width=29mm]
-      at (0,38) {#3};
+      at (0,36) {#3};
     \node[anchor=north west,font=\FigTiny,nmrOrange,align=left,text width=29mm]
-      at (0,30.5) {#8};
+      at (0,29) {#8};
     \begin{axis}[
       nature axis,
-      at={(0mm,3mm)}, anchor=south west,
-      width=29mm, height=22mm,
+      at={(0mm,2.5mm)}, anchor=south west,
+      width=29mm, height=21mm,
       xmin=0, xmax=#5, ymin=0, ymax=#6,
       xtick={0,#5},
       ytick=\empty,
@@ -35,72 +34,64 @@
 
 \begin{document}\NatureFont
 \begin{tikzpicture}[x=1mm,y=1mm]
-\useasboundingbox (0,0) rectangle (183,215);
+\useasboundingbox (0,0) rectangle (183,200);
 
 % ========== TOP ROW ==========
-% Column gutters: a 0–58 | b 62–118 | c 122–180
-\begin{scope}[shift={(2,128)}]
-  \node[anchor=north west] at (0,84) {\PanelLabel{a}};
-  \node[anchor=west,font=\FigTitle] at (9,81) {Source};
-  \node[anchor=west,font=\FigTiny,note] at (9,75.5) {PMC OA vs Chemotion};
-  \node[anchor=east,font=\FigBody] at (17,56) {PMC OA};
-  \fill[faint] (18.5,52.5) rectangle (46,59.5);
-  \fill[nmrBlue] (18.5,52.5) rectangle (46,59.5);
-  \node[anchor=west,font=\FigSmall\bfseries] at (47.5,56) {119{,}345};
-  \node[anchor=east,font=\FigBody] at (17,38) {Chemotion};
-  \fill[faint] (18.5,34.5) rectangle (46,41.5);
-  \fill[nmrGreen] (18.5,34.5) rectangle (19.8,41.5);
-  \node[anchor=west,font=\FigSmall\bfseries] at (21.2,38) {1{,}888};
-  \draw[ink,line width=0.55pt] (18.5,28) -- (18.5,64);
-  \node[anchor=west,font=\FigTiny\itshape,note] at (18.5,22) {Linear scale};
+\begin{scope}[shift={(2,118)}]
+  \node[anchor=north west] at (0,80) {\PanelLabel{a}};
+  \node[anchor=west,font=\FigTitle] at (9,77) {Source};
+  \node[anchor=east,font=\FigBody] at (17,54) {PMC OA};
+  \fill[faint] (18.5,50.5) rectangle (46,57.5);
+  \fill[nmrBlue] (18.5,50.5) rectangle (46,57.5);
+  \node[anchor=west,font=\FigSmall\bfseries] at (47.5,54) {119{,}345};
+  \node[anchor=east,font=\FigBody] at (17,36) {Chemotion};
+  \fill[faint] (18.5,32.5) rectangle (46,39.5);
+  \fill[nmrGreen] (18.5,32.5) rectangle (19.8,39.5);
+  \node[anchor=west,font=\FigSmall\bfseries] at (21.2,36) {1{,}888};
+  \draw[ink,line width=0.55pt] (18.5,26) -- (18.5,62);
 \end{scope}
 
-\begin{scope}[shift={(62,128)}]
-  \node[anchor=north west] at (0,84) {\PanelLabel{b}};
-  \node[anchor=west,font=\FigTitle] at (9,81) {Licence pool};
-  \node[anchor=west,font=\FigTiny,note] at (9,75.5) {Per-record release class};
-  % log10 bars so ShareAlike / ND stay readable
-  \newcommand{\lic}[5]{% y lab logw count color  (logw already mapped)
+\begin{scope}[shift={(62,118)}]
+  \node[anchor=north west] at (0,80) {\PanelLabel{b}};
+  \node[anchor=west,font=\FigTitle] at (9,77) {Licence pool};
+  \node[anchor=west,font=\FigTiny\itshape,note] at (9,71.5) {log$_{10}$ lengths};
+  \newcommand{\lic}[5]{%
     \node[anchor=east,font=\FigTiny] at (18,#1) {#2};
-    \fill[faint] (19,{#1-2.1}) rectangle (48,{#1+2.1});
-    \fill[#5] (19,{#1-2.1}) rectangle ({19+#3},{#1+2.1});
+    \fill[#5] (19,{#1-2.0}) rectangle ({19+#3},{#1+2.0});
     \node[anchor=west,font=\FigTiny] at ({19+#3+0.8},#1) {#4};
   }
-  % log10 mapping: commercial~4.95→29, nc~4.34→24, empty~3.95→21, SA~3.28→16, ND~0.7→4
-  \lic{58}{commercial}{29}{88{,}545}{nmrBlue}
-  \lic{47}{non-commercial}{24}{21{,}823}{nmrBlueLight}
-  \lic{36}{empty / unknown}{21}{8{,}963}{viewGrey}
-  \lic{25}{ShareAlike}{16}{1{,}897}{nmrGreen}
-  \lic{14}{other (ND)}{4}{5}{nmrOrange}
-  \draw[ink,line width=0.55pt] (19,8) -- (19,64);
-  \node[anchor=west,font=\FigTiny\itshape,note] at (19,3) {log$_{10}$ bar lengths};
+  \lic{56}{commercial}{29}{88{,}545}{nmrBlue}
+  \lic{45}{non-commercial}{24}{21{,}823}{nmrBlueLight}
+  \lic{34}{empty / unknown}{21}{8{,}963}{viewGrey}
+  \lic{23}{ShareAlike}{16}{1{,}897}{nmrGreen}
+  \lic{12}{other (ND)}{4}{5}{nmrOrange}
+  \draw[ink,line width=0.55pt] (19,6) -- (19,62);
 \end{scope}
 
-\begin{scope}[shift={(122,128)}]
-  \node[anchor=north west] at (0,84) {\PanelLabel{c}};
-  \node[anchor=west,font=\FigTitle] at (9,81) {Modality linkage};
-  \node[anchor=west,font=\FigTiny,note] at (9,75.5) {Nested availability};
+\begin{scope}[shift={(122,118)}]
+  \node[anchor=north west] at (0,80) {\PanelLabel{c}};
+  \node[anchor=west,font=\FigTitle] at (9,77) {Modality linkage};
   \newcommand{\modr}[5]{%
     \node[anchor=east,font=\FigTiny] at (22,#1) {#2};
-    \fill[faint] (23,{#1-2.2}) rectangle (50,{#1+2.2});
-    \fill[#5] (23,{#1-2.2}) rectangle ({23+#3},{#1+2.2});
+    \fill[faint] (23,{#1-2.1}) rectangle (50,{#1+2.1});
+    \fill[#5] (23,{#1-2.1}) rectangle ({23+#3},{#1+2.1});
     \node[anchor=west,font=\FigTiny] at ({23+#3+0.8},#1) {#4};
   }
-  \modr{56}{all records}{27}{121{,}233}{nmrNavy}
-  \modr{44}{+ NMR string}{19.4}{87{,}075}{nmrBlue}
-  \modr{32}{structure-linked}{9.6}{43{,}060}{nmrBlueLight}
-  \modr{20}{IR+$^{1}$H+$^{13}$C+str.}{7.4}{33{,}201}{nmrOrange}
-  \draw[ink,line width=0.55pt] (23,10) -- (23,64);
+  \modr{54}{all records}{27}{121{,}233}{nmrNavy}
+  \modr{42}{+ NMR string}{19.4}{87{,}075}{nmrBlue}
+  \modr{30}{structure-linked}{9.6}{43{,}060}{nmrBlueLight}
+  \modr{18}{full quadruplet}{7.4}{33{,}201}{nmrOrange}
+  \draw[ink,line width=0.55pt] (23,8) -- (23,62);
 \end{scope}
 
 % ========== BOTTOM ROW ==========
-\begin{scope}[shift={(2,4)}]
-  \node[anchor=north west] at (0,116) {\PanelLabel{d}};
-  \node[anchor=west,font=\FigTitle] at (9,113) {Band-count distribution};
+\begin{scope}[shift={(2,2)}]
+  \node[anchor=north west] at (0,108) {\PanelLabel{d}};
+  \node[anchor=west,font=\FigTitle] at (9,105) {Band-count distribution};
   \begin{axis}[
     nature axis,
-    at={(11mm,16mm)}, anchor=south west,
-    width=44mm, height=76mm,
+    at={(11mm,14mm)}, anchor=south west,
+    width=44mm, height=72mm,
     ymin=0, ymax=28000, xmin=0, xmax=44,
     xlabel={IR bands per record},
     ylabel={Records ($\times 10^{3}$)},
@@ -116,54 +107,46 @@
     coordinates {\BandHistCoords};
   \draw[nmrOrange, line width=0.75pt, densely dashed]
     (axis cs:\BandMedian,0) -- (axis cs:\BandMedian,25500);
-  \node[font=\FigTiny\bfseries,nmrOrange,anchor=west,fill=white,inner sep=1.3pt]
-    at (axis cs:11.5,24800) {PMC median 9};
+  \node[font=\FigTiny\bfseries,nmrOrange,anchor=west,fill=white,inner sep=1.2pt]
+    at (axis cs:11.5,24800) {median 9};
   \end{axis}
 \end{scope}
 
-\begin{scope}[shift={(58,4)}]
-  \node[anchor=north west] at (0,116) {\PanelLabel{e}};
-  \node[anchor=west,font=\FigTitle] at (9,113) {Elemental distribution};
-  \node[anchor=west,font=\FigTiny,note] at (9,107) {Structure-linked ($n$=43{,}060)};
-  \node[anchor=west,font=\FigTiny\bfseries,note] at (1,100) {Major};
+\begin{scope}[shift={(58,2)}]
+  \node[anchor=north west] at (0,108) {\PanelLabel{e}};
+  \node[anchor=west,font=\FigTitle] at (9,105) {Elemental distribution};
+  \node[anchor=west,font=\FigTiny\bfseries,note] at (1,96) {Major};
   \foreach \i/\sym/\ww/\txt in {
     0/C/11.0/43{,}047,1/O/9.9/38{,}870,2/N/9.3/36{,}292,
     3/S/3.1/12{,}258,4/Cl/2.0/7{,}675,5/F/1.5/5{,}939,
     6/Br/1.0/3{,}923,7/Si/0.4/959,8/P/0.35/859
   } {
-    \pgfmathsetmacro{\yy}{92-\i*8.5}
+    \pgfmathsetmacro{\yy}{88-\i*8.2}
     \node[anchor=east,font=\FigTiny] at (5.0,\yy) {\sym};
-    \fill[nmrBlue] (6.2,{\yy-1.7}) rectangle ({6.2+\ww},{\yy+1.7});
+    \fill[nmrBlue] (6.2,{\yy-1.65}) rectangle ({6.2+\ww},{\yy+1.65});
     \node[anchor=west,font=\FigTiny] at ({6.2+\ww+0.65},\yy) {\txt};
   }
-  \draw[ink,line width=0.5pt] (6.2,20) -- (6.2,96);
-  \node[anchor=west,font=\FigTiny\bfseries,note] at (32,100) {Trace};
+  \draw[ink,line width=0.5pt] (6.2,18) -- (6.2,92);
+  \node[anchor=west,font=\FigTiny\bfseries,note] at (32,96) {Trace};
   \foreach \i/\sym/\ww/\txt in {
     0/I/8.5/904,1/Se/3.6/384,2/B/2.5/270,3/Fe/1.1/119,
     4/Te/0.7/73,5/Sn/0.6/64,6/K/0.35/24,7/Na/0.3/16,8/Ge/0.3/1
   } {
-    \pgfmathsetmacro{\yy}{92-\i*8.5}
+    \pgfmathsetmacro{\yy}{88-\i*8.2}
     \node[anchor=east,font=\FigTiny] at (35.5,\yy) {\sym};
-    \fill[nmrBlue] (36.8,{\yy-1.7}) rectangle ({36.8+\ww},{\yy+1.7});
+    \fill[nmrBlue] (36.8,{\yy-1.65}) rectangle ({36.8+\ww},{\yy+1.65});
     \node[anchor=west,font=\FigTiny] at ({36.8+\ww+0.65},\yy) {\txt};
   }
-  \draw[ink,line width=0.5pt] (36.8,20) -- (36.8,96);
+  \draw[ink,line width=0.5pt] (36.8,18) -- (36.8,92);
 \end{scope}
 
-% f — 2x2 with HARD vertical gutter (top origin 68, bottom 8 → 28 mm air)
-\begin{scope}[shift={(118,4)}]
-  \node[anchor=north west] at (0,116) {\PanelLabel{f}};
-  \node[anchor=west,font=\FigTitle] at (9,113) {Automated validation};
-  \node[anchor=west,font=\FigTiny,note] at (9,107) {Audit-derived; not human audit};
-  % Top row below panel subtitle (y=107); title at oy+38
-  \vmini{0}{62}{Transcription error\\{\normalfont\color{note}$n$=200}}{\TxErrCoords}{1}{210}{0.0049}{med 0 · MAE 0.0049}
-  \vmini{33}{62}{Band recall\\{\normalfont\color{note}$n$=120}}{\PaperRecallCoords}{1}{130}{0.9903}{med 1 · pool 0.9903}
-  % Bottom row
-  \vmini{0}{4}{List match\\{\normalfont\color{note}$n$=120}}{\ListMatchCoords}{1}{125}{0.9848}{med 1 · pool 0.9848}
-  \vmini{33}{4}{Chemist-proxy fails\\{\normalfont\color{note}$n$=280}}{\FailCtCoords}{2.5}{300}{0.0321}{med 0 · rate 0.0321}
+\begin{scope}[shift={(118,2)}]
+  \node[anchor=north west] at (0,108) {\PanelLabel{f}};
+  \node[anchor=west,font=\FigTitle] at (9,105) {Automated validation};
+  \vmini{0}{58}{Transcription error ($n$=200)}{\TxErrCoords}{1}{210}{0.0049}{MAE 0.0049}
+  \vmini{33}{58}{Band recall ($n$=120)}{\PaperRecallCoords}{1}{130}{0.9903}{pool 0.9903}
+  \vmini{0}{4}{List match ($n$=120)}{\ListMatchCoords}{1}{125}{0.9848}{pool 0.9848}
+  \vmini{33}{4}{Chemist-proxy fails ($n$=280)}{\FailCtCoords}{2.5}{300}{0.0321}{rate 0.0321}
 \end{scope}
-
-\node[anchor=west,font=\FigTiny\itshape,note] at (2,1.0)
-  {Panel f: dashed orange = median / pool rate. Automated checks only. Band lists $\neq$ absorbance traces.};
 \end{tikzpicture}
 \end{document}

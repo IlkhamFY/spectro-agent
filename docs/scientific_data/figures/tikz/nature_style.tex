@@ -1,4 +1,4 @@
-% Nature Portfolio shared style — print-first type scale
+% Nature Portfolio shared style — print-first type scale (183 mm)
 \RequirePackage{tikz}
 \RequirePackage{pgfplots}
 \RequirePackage{xcolor}
@@ -25,14 +25,14 @@
 \definecolor{tintGreen}{HTML}{EAF4EE}
 \definecolor{viewGrey}{HTML}{B8BDC3}
 
-% Print floors at 183 mm: body 7.5, small 6.5, panel 9
+% Print floors at 183 mm: body 8, small 7, panel 9.5, tiny 6.5
 \newcommand{\NatureFont}{\fontfamily{phv}\selectfont}
-\newcommand{\PanelLabel}[1]{{\NatureFont\bfseries\fontsize{9}{11}\selectfont #1}}
-\newcommand{\FigTitle}{\NatureFont\bfseries\fontsize{8}{10}\selectfont}
-\newcommand{\FigBody}{\NatureFont\fontsize{7.5}{9}\selectfont}
-\newcommand{\FigSmall}{\NatureFont\fontsize{6.5}{8}\selectfont}
-\newcommand{\FigTiny}{\NatureFont\fontsize{6}{7.2}\selectfont}
-\newcommand{\FigAxis}{\NatureFont\fontsize{7.5}{9}\selectfont}
+\newcommand{\PanelLabel}[1]{{\NatureFont\bfseries\fontsize{9.5}{11.5}\selectfont #1}}
+\newcommand{\FigTitle}{\NatureFont\bfseries\fontsize{8.5}{10.5}\selectfont}
+\newcommand{\FigBody}{\NatureFont\fontsize{8}{9.5}\selectfont}
+\newcommand{\FigSmall}{\NatureFont\fontsize{7}{8.5}\selectfont}
+\newcommand{\FigTiny}{\NatureFont\fontsize{6.5}{7.8}\selectfont}
+\newcommand{\FigAxis}{\NatureFont\fontsize{8}{9.5}\selectfont}
 
 \tikzset{
   nature arrow/.style={-{Latex[length=1.8mm,width=1.4mm]}, line width=0.6pt, ink},

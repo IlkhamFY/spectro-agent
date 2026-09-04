@@ -1,4 +1,4 @@
-% Fig 1 — IR resource positioning (flat bars, legend outside plot)
+% Fig 1 — IR resource positioning (reserved bands, no collisions)
 \documentclass[border=0pt,tikz]{standalone}
 \makeatletter\@namedef{ver@sansmathfonts.sty}{2023/01/01}\makeatother
 \input{../nature_style.tex}
@@ -7,106 +7,107 @@
 
 \begin{document}\NatureFont
 \begin{tikzpicture}[x=1mm,y=1mm]
-\useasboundingbox (0,0) rectangle (183,112);
+% Canvas tall enough for: title band | plot | category | legend | footnote
+\useasboundingbox (0,0) rectangle (183,124);
 
-% ---- Layout ----
-% Chart: x=14..118, y=28..92   Sidebar: x=124..179, y=28..100
-% Legend strip under chart: y=14..24   Footnote: y=2..11
+% ---- Reserved vertical bands (mm from bottom) ----
+% footnote 0–10 | legend 12–24 | categories 26–40 | plot 42–100 | title 102–122
 
-\node[anchor=north west] at (2,110) {\PanelLabel{A}};
-\node[anchor=west] at (10,108.5) {\FigTitle Number of IR records};
+\node[anchor=north west] at (2,122) {\PanelLabel{A}};
+\node[anchor=west] at (10,120) {\FigTitle Number of IR records};
 
-% Plot frame
-\def\Lx{18}\def\Rx{116}\def\By{30}\def\Ty{92}
+% Plot frame — ymax 200k so Zipoli (177k) has headroom for labels
+\def\Lx{20}\def\Rx{114}\def\By{42}\def\Ty{100}
 \pgfmathsetmacro{\Ph}{\Ty-\By}
-\def\ymax{190} % thousands
+\def\ymax{200}
 
-% Grid + axes
+% Grid + axes (labels left of axis with 2.5 mm gap)
 \foreach \v in {0,50,100,150} {
   \pgfmathsetmacro{\yy}{\By + (\v/\ymax)*\Ph}
   \draw[faint,line width=0.35pt] (\Lx,\yy) -- (\Rx,\yy);
-  \node[anchor=east,font=\FigSmall,note] at ({\Lx-1.5},\yy) {\v k};
+  \node[anchor=east,font=\FigSmall,note] at ({\Lx-2.2},\yy) {\v k};
 }
 \draw[ink,line width=0.55pt] (\Lx,\By) -- (\Lx,\Ty);
 \draw[ink,line width=0.55pt] (\Lx,\By) -- (\Rx,\By);
 
-% Cluster centers and bar helper
-% SDBS, NIST, Zipoli, IRexp(triple)
 \newcommand{\flatbar}[4]{% x, height_k, width, color
   \pgfmathsetmacro{\hh}{(#2/\ymax)*\Ph}
   \fill[#4] ({#1-#3/2},\By) rectangle ({#1+#3/2},{\By+\hh});
-  \pgfmathsetmacro{\laby}{\By+\hh+1.2}
 }
 
-% Bars
-\flatbar{30}{54.1}{11}{viewGrey}
-\node[anchor=south,font=\FigSmall,ink] at (30,{\By+(54.1/\ymax)*\Ph+1.0}) {54{,}100};
-\node[anchor=south,font=\FigTiny,note] at (30,{\Ty+1.5}) {View-only};
+% Peer bars
+\flatbar{32}{54.1}{12}{viewGrey}
+\node[anchor=south,font=\FigSmall,ink,fill=white,inner sep=0.8pt]
+  at (32,{\By+(54.1/\ymax)*\Ph+0.6}) {54{,}100};
+\node[anchor=south,font=\FigTiny,note] at (32,{\Ty+2.0}) {View-only};
 
-\flatbar{50}{17.0}{11}{viewGrey}
-\node[anchor=south,font=\FigSmall,ink] at (50,{\By+(17.0/\ymax)*\Ph+1.0}) {17{,}000};
-\node[anchor=south,font=\FigTiny,note] at (50,{\Ty+1.5}) {View-only};
+\flatbar{52}{17.0}{12}{viewGrey}
+\node[anchor=south,font=\FigSmall,ink,fill=white,inner sep=0.8pt]
+  at (52,{\By+(17.0/\ymax)*\Ph+0.6}) {17{,}000};
+\node[anchor=south,font=\FigTiny,note] at (52,{\Ty+2.0}) {View-only};
 
-\flatbar{72}{177.461}{11}{nmrBlueLight}
-\node[anchor=south,font=\FigSmall\bfseries,nmrBlueDark] at (72,{\By+(177.461/\ymax)*\Ph+1.0}) {177{,}461};
-\node[anchor=south,font=\FigTiny,nmrBlueDark] at (72,{\Ty+1.5}) {Computational};
+\flatbar{74}{177.461}{12}{nmrBlueLight}
+\node[anchor=south,font=\FigSmall\bfseries,nmrBlueDark,fill=white,inner sep=0.8pt]
+  at (74,{\By+(177.461/\ymax)*\Ph+0.6}) {177{,}461};
+\node[anchor=south,font=\FigTiny,nmrBlueDark] at (74,{\Ty+2.0}) {Computational};
 
-% IRexp triple
-\flatbar{92}{121.233}{5.2}{nmrNavy}
-\flatbar{98.5}{43.060}{5.2}{nmrPeach}
-\flatbar{105}{88.545}{5.2}{nmrBlue}
-\node[anchor=south,font=\FigSmall\bfseries,nmrNavy] at (98.5,{\By+(121.233/\ymax)*\Ph+1.0}) {121{,}233};
-\node[anchor=south,font=\FigTiny\bfseries,nmrNavy] at (98.5,{\Ty+1.5}) {This work};
-\node[star,star points=5,star point ratio=2.2,fill=nmrNavy,inner sep=0pt,minimum size=2.8mm]
-  at (98.5,{\Ty+5.2}) {};
+% IRexp triple — clustered, clear of Zipoli
+\flatbar{93}{121.233}{5.4}{nmrNavy}
+\flatbar{99.5}{43.060}{5.4}{nmrPeach}
+\flatbar{106}{88.545}{5.4}{nmrBlue}
+% Value sits in clear band above bar, below annotation row (ymax headroom)
+\node[anchor=south,font=\FigSmall\bfseries,nmrNavy,fill=white,inner sep=0.8pt]
+  at (99.5,{\By+(121.233/\ymax)*\Ph+0.6}) {121{,}233};
+\node[anchor=south,font=\FigTiny\bfseries,nmrNavy] at (99.5,{\Ty+2.0}) {This work};
+\node[star,star points=5,star point ratio=2.2,fill=nmrNavy,inner sep=0pt,minimum size=2.6mm]
+  at (99.5,{\Ty+5.8}) {};
 
-% Category labels (below axis, reserved band)
-\node[anchor=north,align=center,font=\FigBody,ink] at (30,{\By-2.2})
-  {SDBS\\[0.4ex]{\FigTiny\color{note}FT-IR absorbance}};
-\node[anchor=north,align=center,font=\FigBody,ink] at (50,{\By-2.2})
-  {NIST\\[0.4ex]{\FigTiny\color{note}gas-phase IR}};
-\node[anchor=north,align=center,font=\FigBody,ink] at (72,{\By-2.2})
-  {Zipoli et al.\\[0.4ex]{\FigTiny\color{note}computed spectra}};
-\node[anchor=north,align=center,font=\FigBody\bfseries,nmrNavy] at (98.5,{\By-2.2})
-  {IRexp\\[0.4ex]{\FigTiny\color{note}band lists}};
+% Category labels — dedicated band below axis
+\node[anchor=north,align=center,font=\FigBody,ink] at (32,{\By-2.5})
+  {SDBS\\[0.55ex]{\FigTiny\color{note}FT-IR absorbance}};
+\node[anchor=north,align=center,font=\FigBody,ink] at (52,{\By-2.5})
+  {NIST\\[0.55ex]{\FigTiny\color{note}gas-phase IR}};
+\node[anchor=north,align=center,font=\FigBody,ink] at (74,{\By-2.5})
+  {Zipoli et al.\\[0.55ex]{\FigTiny\color{note}computed spectra}};
+\node[anchor=north,align=center,font=\FigBody\bfseries,nmrNavy] at (99.5,{\By-2.5})
+  {IRexp\\[0.55ex]{\FigTiny\color{note}band lists}};
 
-% Legend OUTSIDE plot — below category labels
-\begin{scope}[shift={(18,8)}]
-  \node[anchor=west,font=\FigTiny,note] at (0,6.5) {IRexp series};
-  \fill[nmrNavy] (16,5.6) rectangle (19,7.4);
-  \node[anchor=west,font=\FigTiny,ink] at (20,6.5) {All};
-  \fill[nmrPeach] (30,5.6) rectangle (33,7.4);
-  \node[anchor=west,font=\FigTiny,ink] at (34,6.5) {Structure-linked};
-  \fill[nmrBlue] (58,5.6) rectangle (61,7.4);
-  \node[anchor=west,font=\FigTiny,ink] at (62,6.5) {CC-BY/CC0};
+% Legend — reserved strip, clear of categories and footnote
+\begin{scope}[shift={(18,13)}]
+  \node[anchor=west,font=\FigTiny,note] at (0,8.2) {IRexp series};
+  \fill[nmrNavy] (18,7.3) rectangle (21.2,9.1);
+  \node[anchor=west,font=\FigTiny,ink] at (22.2,8.2) {All};
+  \fill[nmrPeach] (32,7.3) rectangle (35.2,9.1);
+  \node[anchor=west,font=\FigTiny,ink] at (36.2,8.2) {Structure-linked};
+  \fill[nmrBlue] (62,7.3) rectangle (65.2,9.1);
+  \node[anchor=west,font=\FigTiny,ink] at (66.2,8.2) {CC-BY/CC0};
 
-  \node[anchor=west,font=\FigTiny,note] at (0,2.2) {Object};
-  \fill[viewGrey] (16,1.3) rectangle (19,3.1);
-  \node[anchor=west,font=\FigTiny,ink] at (20,2.2) {absorbance / computed spectrum};
-  \fill[nmrNavy] (64,1.3) rectangle (67,3.1);
-  \node[anchor=west,font=\FigTiny,ink] at (68,2.2) {experimental band list};
+  \node[anchor=west,font=\FigTiny,note] at (0,2.8) {Object};
+  \fill[viewGrey] (18,1.9) rectangle (21.2,3.7);
+  \node[anchor=west,font=\FigTiny,ink] at (22.2,2.8) {absorbance / computed spectrum};
+  \fill[nmrNavy] (68,1.9) rectangle (71.2,3.7);
+  \node[anchor=west,font=\FigTiny,ink] at (72.2,2.8) {experimental band list};
 \end{scope}
 
-% Sidebar B
-\node[anchor=north west] at (122,110) {\PanelLabel{B}};
-\fill[white] (124,28) rectangle (180,104);
-\draw[ghost,line width=0.55pt,rounded corners=1.6pt] (124,28) rectangle (180,104);
-\fill[nmrNavy,rounded corners=1.6pt] (124,92.5) rectangle (180,104);
-\fill[nmrNavy] (124,92.5) rectangle (180,95);
-\node[font=\FigTitle,white] at (152,100.2) {IRexp --- what this work adds};
+% Sidebar B — aligned top with plot title band
+\node[anchor=north west] at (120,122) {\PanelLabel{B}};
+\draw[ghost,line width=0.55pt,rounded corners=1.8pt] (122,28) rectangle (180,112);
+\fill[nmrNavy,rounded corners=1.8pt] (122,100) rectangle (180,112);
+\fill[nmrNavy] (122,100) rectangle (180,103);
+\node[font=\FigTitle,white] at (151,107.5) {IRexp --- what this work adds};
 
 \newcommand{\side}[3]{%
-  \node[anchor=north west,font=\FigBody\bfseries,nmrBlueDark] at (128,#1) {+};
-  \node[anchor=north west,align=left,text width=46mm,font=\FigBody,ink] at (132,#1)
-    {\textbf{#2}\\[0.6ex]{\FigSmall\color{note}#3}};
+  \node[anchor=north west,font=\FigBody\bfseries,nmrBlueDark] at (126,#1) {+};
+  \node[anchor=north west,align=left,text width=48mm,font=\FigBody,ink] at (131,#1)
+    {\textbf{#2}\\[0.7ex]{\FigSmall\color{note}#3}};
 }
-\side{88}{Large}{121{,}233 experimental IR band lists}
-\side{72}{Redistributable}{88{,}545 CC-BY / CC0; bulk download}
-\side{56}{Traceable}{source DOI + per-record licence pool}
+\side{94}{Large}{121{,}233 experimental IR band lists}
+\side{76}{Redistributable}{88{,}545 CC-BY / CC0; bulk download}
+\side{58}{Traceable}{source DOI + per-record licence pool}
 \side{40}{Experimental}{peak positions only --- not simulated spectra}
 
-% Footnote with real margin
-\node[anchor=north west,align=left,text width=178mm,font=\FigTiny,note] at (2,5.5)
+% Footnote — own band with clear top margin from legend
+\node[anchor=north west,align=left,text width=178mm,font=\FigTiny,note] at (2,9.5)
   {IR peers only. SDBS $\approx$54k FT-IR absorbance (AIST 2015; view-only).
    NIST $\approx$17k gas-phase IR (approx.; view-only).
    Zipoli et al.\ 177{,}461 \emph{computed} IR spectra (Sci.\ Data 2025).

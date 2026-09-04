@@ -1,4 +1,4 @@
-% Fig 3 — Distribution (strict grid, no overlaps)
+% Fig 3 — Distribution (e: compressed major scale; f: one-line sparklines)
 \documentclass[border=0pt,tikz]{standalone}
 \makeatletter\@namedef{ver@sansmathfonts.sty}{2023/01/01}\makeatother
 \input{../nature_style.tex}
@@ -6,92 +6,97 @@
 \usepackage[helvet]{sfmath}
 \renewcommand{\familydefault}{\sfdefault}
 
-% Validation mini-plot (defined outside tikzpicture)
-\newcommand{\vplot}[7]{% ox oy title coords xmax xlabel medstat
-  \begin{scope}[shift={(#1,#2)}]
-    \node[anchor=north west,font=\FigTiny\bfseries,align=left,text width=28mm] at (0,38) {#3};
-    \node[anchor=north west,font=\FigTiny,nmrOrange] at (0,30.5) {#7};
+% Sparkline row without pgfplots axis chrome (manual baseline only)
+\newcommand{\vrow}[5]{% oy title coords xmax medstat
+  \begin{scope}[shift={(0,#1)}]
+    \node[anchor=north west,font=\FigTiny\bfseries,align=left,text width=24mm]
+      at (0,16) {#2};
+    % plot frame
+    \def\ax{26}\def\aw{22}\def\ay{5}\def\ah{8}
+    \draw[ink,line width=0.45pt, -{Latex[length=1.2mm,width=0.9mm]}]
+      (\ax,\ay) -- ({\ax+\aw},\ay);
+    \node[font=\FigTiny,note,anchor=north] at (\ax,{\ay-0.4}) {0};
+    \node[font=\FigTiny,note,anchor=north] at ({\ax+\aw},{\ay-0.4}) {#4};
     \begin{axis}[
-      nature axis,
-      at={(0mm,2mm)}, anchor=south west,
-      width=27mm, height=22mm,
-      xmin=0, xmax=#5, ymin=0,
-      xlabel={#6},
-      xlabel style={font=\FigTiny},
-      ytick=\empty,
-      tick label style={font=\FigTiny},
+      at={(\ax mm,\ay mm)}, anchor=south west,
+      width=\aw mm, height=\ah mm,
+      scale only axis,
+      xmin=0, xmax=#4, ymin=0,
+      axis lines=none,
+      ticks=none,
+      clip=true,
     ]
-    \addplot+[ybar, bar width=1.1pt, fill=nmrBlue, draw=none, forget plot]
-      coordinates {#4};
+    \addplot[ybar, bar width=0.9pt, fill=nmrBlue, draw=nmrBlue, forget plot]
+      coordinates {#3};
     \end{axis}
+    \node[anchor=north west,font=\FigTiny,nmrOrange,align=left,text width=15mm]
+      at (50,16) {#5};
   \end{scope}%
 }
 
 \begin{document}\NatureFont
 \begin{tikzpicture}[x=1mm,y=1mm]
-\useasboundingbox (0,0) rectangle (183,175);
+\useasboundingbox (0,0) rectangle (183,200);
 
-% a Source
-\begin{scope}[shift={(3,105)}]
-  \node[anchor=north west] at (0,68) {\PanelLabel{a}};
-  \node[anchor=west,font=\FigTitle] at (7,66) {Source};
-  \node[anchor=west,font=\FigTiny,note] at (7,61.5) {Record provenance};
-  \node[anchor=east,font=\FigBody] at (15,48) {PMC OA};
-  \fill[faint] (16.5,45.5) rectangle (42,50.5);
-  \fill[nmrBlue] (16.5,45.5) rectangle (42,50.5);
-  \node[anchor=west,font=\FigSmall\bfseries] at (43.2,48) {119,345};
-  \node[anchor=east,font=\FigBody] at (15,34) {Chemotion};
-  \fill[faint] (16.5,31.5) rectangle (42,36.5);
-  \fill[nmrGreen] (16.5,31.5) rectangle (17.6,36.5);
-  \node[anchor=west,font=\FigSmall\bfseries] at (18.8,34) {1,888};
-  \draw[ink,line width=0.55pt] (16.5,28) -- (16.5,54);
-  \node[anchor=west,font=\FigTiny\itshape,note] at (16.5,24) {Linear scale};
+% ========== TOP ROW ==========
+\begin{scope}[shift={(2,120)}]
+  \node[anchor=north west] at (0,78) {\PanelLabel{a}};
+  \node[anchor=west,font=\FigTitle] at (8,75.5) {Source};
+  \node[anchor=west,font=\FigTiny,note] at (8,70.5) {Record provenance};
+  \node[anchor=east,font=\FigBody] at (16,54) {PMC OA};
+  \fill[faint] (17.5,51) rectangle (44,57);
+  \fill[nmrBlue] (17.5,51) rectangle (44,57);
+  \node[anchor=west,font=\FigSmall\bfseries] at (45.5,54) {119{,}345};
+  \node[anchor=east,font=\FigBody] at (16,38) {Chemotion};
+  \fill[faint] (17.5,35) rectangle (44,41);
+  \fill[nmrGreen] (17.5,35) rectangle (18.7,41);
+  \node[anchor=west,font=\FigSmall\bfseries] at (20,38) {1{,}888};
+  \draw[ink,line width=0.55pt] (17.5,30) -- (17.5,60);
+  \node[anchor=west,font=\FigTiny\itshape,note] at (17.5,25) {Linear scale};
 \end{scope}
 
-% b Licence
-\begin{scope}[shift={(62,105)}]
-  \node[anchor=north west] at (0,68) {\PanelLabel{b}};
-  \node[anchor=west,font=\FigTitle] at (7,66) {Licence pool};
-  \node[anchor=west,font=\FigTiny,note] at (7,61.5) {Per-record release class};
+\begin{scope}[shift={(62,120)}]
+  \node[anchor=north west] at (0,78) {\PanelLabel{b}};
+  \node[anchor=west,font=\FigTitle] at (8,75.5) {Licence pool};
+  \node[anchor=west,font=\FigTiny,note] at (8,70.5) {Per-record release class};
   \newcommand{\lic}[5]{%
-    \node[anchor=east,font=\FigTiny] at (18,#1) {#2};
-    \fill[#5] (19,{#1-1.7}) rectangle ({19+#3},{#1+1.7});
-    \node[anchor=west,font=\FigTiny] at ({19+#3+0.7},#1) {#4};
+    \node[anchor=east,font=\FigTiny] at (19,#1) {#2};
+    \fill[#5] (20,{#1-2.0}) rectangle ({20+#3},{#1+2.0});
+    \node[anchor=west,font=\FigTiny] at ({20+#3+0.9},#1) {#4};
   }
-  \lic{50}{commercial}{28}{88,545}{nmrBlue}
-  \lic{42}{non-commercial}{12.5}{21,823}{nmrBlueLight}
-  \lic{34}{empty / unknown}{7.2}{8,963}{viewGrey}
-  \lic{26}{ShareAlike}{2.8}{1,897}{nmrGreen}
-  \lic{18}{other (ND)}{0.5}{5}{nmrOrange}
-  \draw[ink,line width=0.55pt] (19,14) -- (19,54);
+  \lic{56}{commercial}{28}{88{,}545}{nmrBlue}
+  \lic{46}{non-commercial}{12.5}{21{,}823}{nmrBlueLight}
+  \lic{36}{empty / unknown}{7.2}{8{,}963}{viewGrey}
+  \lic{26}{ShareAlike}{2.8}{1{,}897}{nmrGreen}
+  \lic{16}{other (ND)}{0.6}{5}{nmrOrange}
+  \draw[ink,line width=0.55pt] (20,10) -- (20,60);
 \end{scope}
 
-% c Modality
-\begin{scope}[shift={(122,105)}]
-  \node[anchor=north west] at (0,68) {\PanelLabel{c}};
-  \node[anchor=west,font=\FigTitle] at (7,66) {Modality linkage};
-  \node[anchor=west,font=\FigTiny,note] at (7,61.5) {Nested availability};
+\begin{scope}[shift={(122,120)}]
+  \node[anchor=north west] at (0,78) {\PanelLabel{c}};
+  \node[anchor=west,font=\FigTitle] at (8,75.5) {Modality linkage};
+  \node[anchor=west,font=\FigTiny,note] at (8,70.5) {Nested availability};
   \newcommand{\modr}[5]{%
-    \node[anchor=east,font=\FigTiny] at (20,#1) {#2};
-    \fill[faint] (21,{#1-1.8}) rectangle (48,{#1+1.8});
-    \fill[#5] (21,{#1-1.8}) rectangle ({21+#3},{#1+1.8});
-    \node[anchor=west,font=\FigTiny] at ({21+#3+0.7},#1) {#4};
+    \node[anchor=east,font=\FigTiny] at (21,#1) {#2};
+    \fill[faint] (22,{#1-2.1}) rectangle (50,{#1+2.1});
+    \fill[#5] (22,{#1-2.1}) rectangle ({22+#3},{#1+2.1});
+    \node[anchor=west,font=\FigTiny] at ({22+#3+0.9},#1) {#4};
   }
-  \modr{48}{all records}{27}{121,233}{nmrNavy}
-  \modr{39}{+ NMR string}{19.4}{87,075}{nmrBlue}
-  \modr{30}{structure-linked}{9.6}{43,060}{nmrBlueLight}
-  \modr{21}{full quadruplet}{7.4}{33,201}{nmrOrange}
-  \draw[ink,line width=0.55pt] (21,14) -- (21,52);
+  \modr{54}{all records}{28}{121{,}233}{nmrNavy}
+  \modr{43}{+ NMR string}{20.1}{87{,}075}{nmrBlue}
+  \modr{32}{structure-linked}{9.9}{43{,}060}{nmrBlueLight}
+  \modr{21}{full quadruplet}{7.7}{33{,}201}{nmrOrange}
+  \draw[ink,line width=0.55pt] (22,12) -- (22,60);
 \end{scope}
 
-% d Band hist
-\begin{scope}[shift={(3,5)}]
-  \node[anchor=north west] at (0,92) {\PanelLabel{d}};
-  \node[anchor=west,font=\FigTitle] at (7,90) {Band-count distribution};
+% ========== BOTTOM ROW ==========
+\begin{scope}[shift={(2,4)}]
+  \node[anchor=north west] at (0,108) {\PanelLabel{d}};
+  \node[anchor=west,font=\FigTitle] at (8,105.5) {Band-count distribution};
   \begin{axis}[
     nature axis,
-    at={(6mm,12mm)}, anchor=south west,
-    width=50mm, height=58mm,
+    at={(10mm,14mm)}, anchor=south west,
+    width=45mm, height=72mm,
     ymin=0, ymax=28000, xmin=0, xmax=44,
     xlabel={IR bands per record},
     ylabel={Records},
@@ -107,55 +112,56 @@
     coordinates {\BandHistCoords};
   \draw[nmrOrange, line width=0.7pt, densely dashed]
     (axis cs:\BandMedian,0) -- (axis cs:\BandMedian,25500);
-  \node[font=\FigTiny\bfseries,nmrOrange,anchor=west,fill=white,inner sep=1pt]
+  \node[font=\FigTiny\bfseries,nmrOrange,anchor=west,fill=white,inner sep=1.2pt]
     at (axis cs:11.5,24800) {PMC median 9};
   \end{axis}
 \end{scope}
 
-% e Elements
-\begin{scope}[shift={(62,5)}]
-  \node[anchor=north west] at (0,92) {\PanelLabel{e}};
-  \node[anchor=west,font=\FigTitle] at (7,90) {Elemental distribution};
-  \node[anchor=west,font=\FigTiny,note] at (7,85.5) {Structure-linked subset};
-  \node[anchor=west,font=\FigTiny\bfseries,note] at (1,80) {Major};
+% e — Major bars capped so values never invade Trace labels
+% Major axis at x=6; max bar 10 mm; value ends ≤22; Trace symbols at 28
+\begin{scope}[shift={(60,4)}]
+  \node[anchor=north west] at (0,108) {\PanelLabel{e}};
+  \node[anchor=west,font=\FigTitle] at (8,105.5) {Elemental distribution};
+  \node[anchor=west,font=\FigTiny,note] at (8,100) {Structure-linked subset};
+  \node[anchor=west,font=\FigTiny\bfseries,note] at (1,94) {Major};
   \foreach \i/\sym/\ww/\txt in {
-    0/C/18/43047,1/O/16.3/38870,2/N/15.2/36292,
-    3/S/5.1/12258,4/Cl/3.2/7675,5/F/2.5/5939,
-    6/Br/1.6/3923,7/Si/0.45/959,8/P/0.4/859
+    0/C/10.0/43{,}047,1/O/9.0/38{,}870,2/N/8.4/36{,}292,
+    3/S/2.8/12{,}258,4/Cl/1.8/7{,}675,5/F/1.4/5{,}939,
+    6/Br/0.9/3{,}923,7/Si/0.35/959,8/P/0.3/859
   } {
-    \pgfmathsetmacro{\yy}{74-\i*6.8}
-    \node[anchor=east,font=\FigTiny] at (5,\yy) {\sym};
-    \fill[nmrBlue] (6,{\yy-1.5}) rectangle ({6+\ww},{\yy+1.5});
-    \node[anchor=west,font=\FigTiny] at ({6+\ww+0.5},\yy)
-      {\pgfmathprintnumber[fixed,1000 sep={,}]{\txt}};
+    \pgfmathsetmacro{\yy}{86-\i*8.0}
+    \node[anchor=east,font=\FigTiny] at (4.5,\yy) {\sym};
+    \fill[nmrBlue] (6,{\yy-1.6}) rectangle ({6+\ww},{\yy+1.6});
+    \node[anchor=west,font=\FigTiny] at ({6+\ww+0.6},\yy) {\txt};
   }
-  \draw[ink,line width=0.5pt] (6,16) -- (6,78);
-  \node[anchor=west,font=\FigTiny\bfseries,note] at (34,80) {Trace};
+  \draw[ink,line width=0.5pt] (6,18) -- (6,90);
+  % Trace column — clear 5+ mm gutter after major values (~22)
+  \node[anchor=west,font=\FigTiny\bfseries,note] at (30,94) {Trace};
   \foreach \i/\sym/\ww/\txt in {
-    0/I/8/904,1/Se/3.4/384,2/B/2.4/270,3/Fe/1.1/119,
+    0/I/8.0/904,1/Se/3.4/384,2/B/2.4/270,3/Fe/1.1/119,
     4/Te/0.65/73,5/Sn/0.55/64,6/K/0.35/24,7/Na/0.3/16,8/Ge/0.3/1
   } {
-    \pgfmathsetmacro{\yy}{74-\i*6.8}
-    \node[anchor=east,font=\FigTiny] at (37,\yy) {\sym};
-    \fill[nmrBlue] (38,{\yy-1.5}) rectangle ({38+\ww},{\yy+1.5});
-    \node[anchor=west,font=\FigTiny] at ({38+\ww+0.5},\yy)
-      {\pgfmathprintnumber[fixed,1000 sep={,}]{\txt}};
+    \pgfmathsetmacro{\yy}{86-\i*8.0}
+    \node[anchor=east,font=\FigTiny] at (33.5,\yy) {\sym};
+    \fill[nmrBlue] (35,{\yy-1.6}) rectangle ({35+\ww},{\yy+1.6});
+    \node[anchor=west,font=\FigTiny] at ({35+\ww+0.6},\yy) {\txt};
   }
-  \draw[ink,line width=0.5pt] (38,16) -- (38,78);
+  \draw[ink,line width=0.5pt] (35,18) -- (35,90);
 \end{scope}
 
-% f Validation
-\begin{scope}[shift={(122,5)}]
-  \node[anchor=north west] at (0,92) {\PanelLabel{f}};
-  \node[anchor=west,font=\FigTitle] at (7,90) {Automated validation};
-  \node[anchor=west,font=\FigTiny,note] at (7,85.5) {Audit-derived; not human audit};
-  \vplot{0}{42}{Transcription error ($n$=200)}{\TxErrCoords}{1.05}{error rate}{med 0 / MAE 0.0049}
-  \vplot{30}{42}{Band recall ($n$=120)}{\PaperRecallCoords}{1.05}{band rate}{med 1 / pool 0.9903}
-  \vplot{0}{0}{List match ($n$=120)}{\ListMatchCoords}{1.05}{list rate}{med 1 / pool 0.9848}
-  \vplot{30}{0}{Chemist-proxy fails ($n$=280)}{\FailCtCoords}{2.5}{fail count}{med 0 / rate 0.0321}
+% f — one-line rows, 20 mm pitch → ~8 mm gutter between plot bottoms and next titles
+\begin{scope}[shift={(118,4)}]
+  \node[anchor=north west] at (0,108) {\PanelLabel{f}};
+  \node[anchor=west,font=\FigTitle] at (8,105.5) {Automated validation};
+  \node[anchor=west,font=\FigTiny,note] at (8,100) {Audit-derived; not human audit};
+  % title top at oy+16; keep below subtitle (100) → oy≤80; pitch 24
+  \vrow{76}{Transcription\\error\\{\normalfont\FigTiny\color{note}$n$=200}}{\TxErrCoords}{1}{med 0\\MAE 0.0049}
+  \vrow{52}{Band recall\\{\normalfont\FigTiny\color{note}$n$=120}}{\PaperRecallCoords}{1}{med 1\\pool 0.9903}
+  \vrow{28}{List match\\{\normalfont\FigTiny\color{note}$n$=120}}{\ListMatchCoords}{1}{med 1\\pool 0.9848}
+  \vrow{4}{Chemist-proxy\\fails\\{\normalfont\FigTiny\color{note}$n$=280}}{\FailCtCoords}{2.5}{med 0\\rate 0.0321}
 \end{scope}
 
-\node[anchor=west,font=\FigTiny\itshape,note] at (3,1.2)
+\node[anchor=west,font=\FigTiny\itshape,note] at (2,1.0)
   {Panel f: automated checks only. Band lists $\neq$ absorbance traces.};
 \end{tikzpicture}
 \end{document}

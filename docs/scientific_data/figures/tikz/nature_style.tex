@@ -1,0 +1,94 @@
+% Nature Portfolio / Scientific Data shared TikZ style for IRexp figures.
+% Width: 183 mm double-column. Typography: Helvetica-class (phv).
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+\RequirePackage{xcolor}
+\RequirePackage{helvet}
+\IfFileExists{sansmathfonts.sty}{\RequirePackage{sansmathfonts}}{}
+\renewcommand{\familydefault}{\sfdefault}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{
+  arrows.meta,calc,positioning,fit,shapes.geometric,shapes.misc,
+  backgrounds,shadows.blur,patterns,decorations.pathreplacing
+}
+
+% ---- Paul Tol / NMRexp-matched palette ----
+\definecolor{nmrBlue}{HTML}{4A7EBB}
+\definecolor{nmrBlueDark}{HTML}{2E5F8F}
+\definecolor{nmrBlueLight}{HTML}{A8C8E8}
+\definecolor{nmrPeach}{HTML}{E8B48C}
+\definecolor{nmrNavy}{HTML}{1B3D5C}
+\definecolor{nmrRed}{HTML}{C44E52}
+\definecolor{nmrGreen}{HTML}{3D8B5E}
+\definecolor{nmrOrange}{HTML}{D97B32}
+\definecolor{ink}{HTML}{1A1A1A}
+\definecolor{muted}{HTML}{7A7F85}
+\definecolor{note}{HTML}{5C636A}
+\definecolor{faint}{HTML}{E8EAEC}
+\definecolor{ghost}{HTML}{C5C9CD}
+\definecolor{tintBlue}{HTML}{EEF3F8}
+\definecolor{tintGreen}{HTML}{EAF4EE}
+
+\newcommand{\NatureFont}{\fontfamily{phv}\selectfont}
+\newcommand{\PanelLabel}[1]{%
+  {\NatureFont\bfseries\fontsize{8}{9.6}\selectfont #1}%
+}
+\newcommand{\FigBody}{\NatureFont\fontsize{7}{8.4}\selectfont}
+\newcommand{\FigSmall}{\NatureFont\fontsize{5.5}{6.6}\selectfont}
+\newcommand{\FigAxis}{\NatureFont\fontsize{7}{8.4}\selectfont}
+
+\tikzset{
+  nature arrow/.style={
+    -{Latex[length=1.6mm,width=1.3mm]},
+    line width=0.55pt, ink
+  },
+  nature arrow grey/.style={
+    -{Latex[length=1.6mm,width=1.3mm]},
+    line width=0.5pt, note
+  },
+  stage card/.style={
+    draw=nmrBlueDark, line width=0.7pt, rounded corners=2.2pt,
+    fill=white, inner sep=3pt, align=center, font=\FigBody
+  },
+  stage header/.style={
+    fill=nmrBlueDark, text=white, font=\FigBody\bfseries,
+    rounded corners=2.2pt, inner sep=2.5pt, align=center
+  },
+  soft card/.style={
+    draw=ghost, line width=0.55pt, rounded corners=2.2pt,
+    fill=white, inner sep=3.5pt, align=left, font=\FigBody
+  },
+}
+
+\pgfplotsset{
+  nature axis/.style={
+    tick label style={font=\FigSmall, /pgf/number format/assume math mode},
+    label style={font=\FigAxis\bfseries},
+    title style={font=\FigBody\bfseries, color=ink},
+    axis line style={ink, line width=0.5pt},
+    tick style={ink, line width=0.45pt},
+    major grid style={faint, line width=0.35pt},
+    axis x line=bottom,
+    axis y line=left,
+    enlarge x limits=false,
+    clip=false,
+  },
+  nature hbar/.style={
+    nature axis,
+    xbar,
+    bar width=7pt,
+    y=data,
+    nodes near coords,
+    every node near coord/.append style={
+      font=\FigSmall, ink, anchor=west, /pgf/number format/fixed,
+      /pgf/number format/1000 sep={,}
+    },
+    xtick=\empty,
+    axis x line=none,
+    y axis line style={ink, line width=0.55pt},
+    ytick style={draw=none},
+    y tick label style={font=\FigBody, ink, anchor=east},
+    grid=major x,
+    xmin=0,
+  },
+}

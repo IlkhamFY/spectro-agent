@@ -1,0 +1,160 @@
+\documentclass[border=0pt,tikz]{standalone}
+\input{../nature_style.tex}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+
+\begin{document}
+\NatureFont
+\begin{tikzpicture}[x=1mm,y=1mm]
+  \path[use as bounding box] (0,0) rectangle (183,138);
+  \fill[white] (0,0) rectangle (183,138);
+
+  % --------------------------------------------------------------------------
+  % Panel A: workflow
+  \node[anchor=west] at (4,134) {\PanelLabel{A}};
+  \node[anchor=west,font=\FigBody\bfseries,text=ink]
+    at (10,134) {From open literature to a licence-aware, structure-linked release};
+  \draw[ghost,dashed,line width=.55pt,rounded corners=2.2pt]
+    (4,54) rectangle (179,130);
+
+  % Workflow cards
+  \node[stage card,minimum width=23mm,minimum height=26mm,inner sep=2pt] (s1) at (18.5,105) {};
+  \fill[nmrBlueDark,rounded corners=1.7pt] (7,111.6) rectangle (30,118);
+  \fill[nmrBlueDark] (7,111.6) rectangle (30,114);
+  \node[font=\FigSmall\bfseries,text=white] at (18.5,115) {PMC OA};
+  \node[align=center,font=\FigSmall,text=note] at (18.5,106.5) {full text\\provenance};
+  \node[align=center,font=\fontsize{5}{6}\selectfont\bfseries,text=nmrBlueDark]
+    at (18.5,98.5) {119,345 released};
+
+  \node[stage card,minimum width=23mm,minimum height=26mm,inner sep=2pt] (s2) at (46.5,105) {};
+  \fill[nmrBlue,rounded corners=1.7pt] (35,111.6) rectangle (58,118);
+  \fill[nmrBlue] (35,111.6) rectangle (58,114);
+  \node[font=\FigSmall\bfseries,text=white] at (46.5,115) {IR extract};
+  \node[align=center,font=\FigSmall,text=note] at (46.5,106.5) {band-list\\parsing};
+  \node[align=center,font=\fontsize{5}{6}\selectfont\bfseries,text=nmrBlueDark]
+    at (46.5,98.5) {121,233 lists};
+
+  \node[stage card,minimum width=23mm,minimum height=26mm,inner sep=2pt] (s3) at (74.5,105) {};
+  \fill[nmrBlue,rounded corners=1.7pt] (63,111.6) rectangle (86,118);
+  \fill[nmrBlue] (63,111.6) rectangle (86,114);
+  \node[font=\FigSmall\bfseries,text=white] at (74.5,115) {Structure};
+  \node[align=center,font=\FigSmall,text=note] at (74.5,106.5) {name resolve\\+ identifiers};
+  \node[align=center,font=\fontsize{5}{6}\selectfont\bfseries,text=nmrBlueDark]
+    at (74.5,98.5) {43,060 linked};
+
+  \node[stage card,draw=nmrOrange,minimum width=23mm,minimum height=26mm,inner sep=2pt] (s4) at (102.5,105) {};
+  \fill[nmrOrange,rounded corners=1.7pt] (91,111.6) rectangle (114,118);
+  \fill[nmrOrange] (91,111.6) rectangle (114,114);
+  \node[font=\FigSmall\bfseries,text=white] at (102.5,115) {Licence join};
+  \node[align=center,font=\FigSmall,text=note] at (102.5,106.5) {source terms\\normalized};
+  \node[align=center,font=\fontsize{5}{6}\selectfont\bfseries,text=nmrOrange]
+    at (102.5,98.5) {per-record};
+
+  \node[stage card,minimum width=23mm,minimum height=26mm,inner sep=2pt] (s5) at (130.5,105) {};
+  \fill[nmrBlueDark,rounded corners=1.7pt] (119,111.6) rectangle (142,118);
+  \fill[nmrBlueDark] (119,111.6) rectangle (142,114);
+  \node[font=\FigSmall\bfseries,text=white] at (130.5,115) {Release pools};
+  \node[align=center,font=\FigSmall,text=note] at (130.5,106.5) {terms kept\\separate};
+  \node[align=center,font=\fontsize{5}{6}\selectfont\bfseries,text=nmrBlueDark]
+    at (130.5,98.5) {88,545 commercial};
+
+  % Hero final card
+  \fill[ghost,opacity=.22,rounded corners=2.2pt] (149.2,87.8) rectangle (178.2,121.8);
+  \fill[tintBlue,draw=nmrNavy,line width=.8pt,rounded corners=2.2pt] (148,89) rectangle (177,123);
+  \fill[nmrNavy,rounded corners=2.2pt] (148,115.5) rectangle (177,123);
+  \fill[nmrNavy] (148,115.5) rectangle (177,118.2);
+  \node[font=\FigBody\bfseries,text=white] at (162.5,119.2) {Final IRexp};
+  \node[font=\fontsize{6.2}{7.4}\selectfont\bfseries,text=nmrNavy] at (162.5,111.8) {121,233};
+  \node[font=\fontsize{5}{6}\selectfont,text=note] at (162.5,108.4) {IR band lists};
+  \node[font=\fontsize{5.5}{6.6}\selectfont\bfseries,text=nmrBlueDark] at (162.5,103.4) {43,060 structure-linked};
+  \fill[white,draw=ghost,line width=.4pt,rounded corners=.8pt] (151,92) rectangle (174,100.3);
+  \node[anchor=west,font=\fontsize{5}{6}\selectfont\ttfamily,text=note] at (152,97.3)
+    {\{``bands'': [\ldots],};
+  \node[anchor=west,font=\fontsize{5}{6}\selectfont\ttfamily,text=note] at (152,94.1)
+    { ``pool'': ``\ldots''\}};
+
+  % Arrows and numbered step badges
+  \foreach \a/\b in {s1/s2,s2/s3,s3/s4,s4/s5}{
+    \draw[nature arrow] (\a.east) -- (\b.west);
+  }
+  \draw[nature arrow] (s5.east) -- (148,105);
+  \foreach \xx/\nn/\cc in {7/1/nmrBlueDark,35/2/nmrBlue,63/3/nmrBlue,91/4/nmrOrange,119/5/nmrBlueDark,148/6/nmrNavy}{
+    \fill[fill=\cc,draw=none] (\xx+2.7,121.2) circle (2.55);
+    \node[font=\fontsize{5.2}{6}\selectfont\bfseries,text=white] at (\xx+2.7,121.2) {\nn};
+  }
+
+  % Chemotion branch
+  \fill[tintGreen,draw=nmrGreen,line width=.6pt,rounded corners=1.7pt]
+    (7,66.2) rectangle (48,78.2);
+  \fill[nmrGreen] (7,66.2) rectangle (9.1,78.2);
+  \node[anchor=west,font=\FigSmall\bfseries,text=nmrGreen] at (11.5,74.5) {Chemotion ELN};
+  \node[anchor=west,font=\fontsize{5}{6}\selectfont,text=note] at (11.5,69.9)
+    {1,888 records \textbullet\ same parser};
+  \draw[nature arrow,draw=nmrGreen] (48,72.2) -| (55,91.8) -- (50.2,91.8);
+  \node[fill=white,inner sep=1pt,font=\fontsize{4.8}{5.8}\selectfont\bfseries,text=nmrGreen]
+    at (55,82.8) {merge};
+
+  % Cleaning inset
+  \fill[white,draw=ghost,line width=.55pt,rounded corners=1.7pt]
+    (63,59.2) rectangle (142,80.5);
+  \fill[nmrNavy,rounded corners=1.7pt] (63,75.1) rectangle (142,80.5);
+  \fill[nmrNavy] (63,75.1) rectangle (142,77);
+  \node[font=\FigSmall\bfseries,text=white] at (102.5,77.8) {Deterministic cleaning};
+  \foreach \xx/\head/\body in {
+    65/{Range gate}/{physical domain},
+    91/{Duplicate gate}/{repeated bands},
+    117/{Consistency}/{formula checks}
+  }{
+    \fill[tintBlue,rounded corners=.8pt] (\xx,62) rectangle (\xx+23,72.8);
+    \node[font=\fontsize{5}{6}\selectfont\bfseries,text=nmrBlueDark] at (\xx+11.5,69.4) {\head};
+    \node[font=\fontsize{4.7}{5.6}\selectfont,text=note] at (\xx+11.5,65.2) {\body};
+  }
+  \draw[nature arrow grey] (102.5,91.8) -- (102.5,81);
+
+  % --------------------------------------------------------------------------
+  % Panel B: rejection examples
+  \node[anchor=west] at (4,48.5) {\PanelLabel{B}};
+  \node[anchor=west,font=\FigBody\bfseries,text=ink]
+    at (10,48.5) {Machine-checkable rejection patterns};
+  \node[anchor=east,font=\FigSmall\itshape,text=note] at (178,48.5)
+    {examples are schematic, not record excerpts};
+
+  \foreach \x in {4,63,122}{
+    \fill[ghost,opacity=.16,rounded corners=2pt] (\x+1.1,7.8) rectangle (\x+56.1,41.3);
+    \fill[white,draw=ghost,line width=.55pt,rounded corners=2pt] (\x,9) rectangle (\x+55,42.5);
+  }
+
+  % Rejection 1
+  \fill[nmrRed] (4,36.3) rectangle (59,42.5);
+  \node[anchor=west,font=\FigSmall\bfseries,text=white] at (7,39.4) {INSUFFICIENT RETAINED BANDS};
+  \node[anchor=west,font=\fontsize{5}{6}\selectfont\ttfamily,text=ink] at (8,29.2)
+    {IR: [\(\nu_a\), \(\nu_b\), \ldots]};
+  \draw[nmrRed,line width=.9pt,rounded corners=.6pt] (7,25.2) rectangle (33,32.2);
+  \node[anchor=west,font=\FigSmall,text=note] at (8,19.7) {Too few values survive cleaning};
+  \fill[nmrRed] (51.8,14.4) circle (3);
+  \draw[white,line width=.8pt] (50.5,13.1)--(53.1,15.7) (50.5,15.7)--(53.1,13.1);
+
+  % Rejection 2
+  \fill[nmrRed] (63,36.3) rectangle (118,42.5);
+  \node[anchor=west,font=\FigSmall\bfseries,text=white] at (66,39.4) {OUT-OF-RANGE BAND};
+  \node[anchor=west,font=\fontsize{5}{6}\selectfont\ttfamily,text=ink] at (67,29.2)
+    {IR: [\(\nu_a\), \(\nu_{\mathrm{out}}\), \(\nu_b\)]};
+  \draw[nmrRed,line width=.9pt,rounded corners=.6pt] (82,25.2) rectangle (102.5,32.2);
+  \node[anchor=west,font=\FigSmall,text=note] at (67,19.7) {Physical-domain gate fails};
+  \fill[nmrRed] (110.8,14.4) circle (3);
+  \draw[white,line width=.8pt] (109.5,13.1)--(112.1,15.7) (109.5,15.7)--(112.1,13.1);
+
+  % Rejection 3
+  \fill[nmrRed] (122,36.3) rectangle (177,42.5);
+  \node[anchor=west,font=\FigSmall\bfseries,text=white] at (125,39.4) {FORMULA MISMATCH};
+  \node[anchor=west,font=\fontsize{5}{6}\selectfont\ttfamily,text=ink] at (126,29.2)
+    {\(\sum\)H integral \(>\) formula bound};
+  \draw[nmrRed,line width=.9pt,rounded corners=.6pt] (125,25.2) rectangle (167,32.2);
+  \node[anchor=west,font=\FigSmall,text=note] at (126,19.7) {Consistency check quarantines row};
+  \fill[nmrRed] (169.8,14.4) circle (3);
+  \draw[white,line width=.8pt] (168.5,13.1)--(171.1,15.7) (168.5,15.7)--(171.1,13.1);
+
+  \node[anchor=west,font=\fontsize{5}{6}\selectfont\itshape,text=note]
+    at (4,3.7) {Automated rules flag records for exclusion; no human expert audit is implied.};
+\end{tikzpicture}
+\end{document}

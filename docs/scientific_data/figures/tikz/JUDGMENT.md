@@ -16,7 +16,7 @@ Four entries competed (Opus, GPT, Sonnet, Curator) on Nature Portfolio TikZ/PGFP
 
 | Figure | Opus | GPT | Sonnet | Curator | **Winner** |
 |--------|------|-----|--------|---------|------------|
-| Positioning (Fig 1) | **9.2** | 8.6 | 7.0 | 8.4 | **Opus** — 3D overview + linear zoom inset solves NMRexp-scale honesty |
+| Positioning (Fig 1) | **9.2→9.4** (post IR-peer fix) | 8.6 | 7.0 | 8.4 | **Opus + IR-peer revise** — NMRexp removed as bar; Zipoli computed IR added |
 | Pipeline (Fig 2) | — | **9.1** | — | 7.8 | **GPT** — numbered stages, Chemotion merge, clean QC cards |
 | Distribution (Fig 3) | — | **9.0** | — | 7.5 | **GPT** — colour-encoded panels, log licence bars, watermark |
 

@@ -1,160 +1,116 @@
-% =====================================================================
-%  IRexp / Scientific Data -- Figure 1: IR resource positioning
-%  Pure TikZ. Canvas 183 mm (Nature double column).
-%  IR-only peers (SDBS, NIST, Zipoli computational IR, IRexp).
-%  NMRexp is modality peer — footnote only, not a bar competitor.
-% =====================================================================
+% Fig 1 — IR resource positioning (flat bars, legend outside plot)
 \documentclass[border=0pt,tikz]{standalone}
-
 \makeatletter\@namedef{ver@sansmathfonts.sty}{2023/01/01}\makeatother
 \input{../nature_style.tex}
-\renewcommand{\familydefault}{\sfdefault}
 \usepackage[helvet]{sfmath}
-
-% Counts in thousands for pgfmath safety
-\def\Ksdbs{54.100}     \def\Lsdbs{54,100}
-\def\Knist{17.000}     \def\Lnist{17,000}
-\def\Kzip{177.461}     \def\Lzip{177,461}
-\def\Kirexp{121.233}   \def\Lirexp{121,233}
-\def\Kstruct{43.060}   \def\Lstruct{43,060}
-\def\Kcomm{88.545}     \def\Lcomm{88,545}
-
-\def\Ax{16}\def\Ay{18}\def\Aw{100}\def\Ah{62}\def\Amax{190}\def\Adep{1.5}
-\pgfmathsetmacro{\Ascale}{\Ah/\Amax}
-
-\def\Csdbs{28}\def\Cnist{48}\def\Czip{72}\def\Cirexp{96}
-\pgfmathsetmacro{\CirexpL}{\Cirexp-7}
-\pgfmathsetmacro{\CirexpR}{\Cirexp+7}
-
-\newcommand{\IsoBar}[6]{%
-  \begin{scope}[shift={(#1,#2)},line join=round]
-    \pgfmathsetmacro{\bhw}{#4/2}%
-    \fill[#6!70!nmrNavy] (\bhw,0) -- ({\bhw+#5},#5) -- ({\bhw+#5},{#3+#5}) -- (\bhw,#3) -- cycle;
-    \fill[#6!45!white]  (-\bhw,#3) -- (\bhw,#3) -- ({\bhw+#5},{#3+#5}) -- ({-\bhw+#5},{#3+#5}) -- cycle;
-    \fill[#6] (-\bhw,0) rectangle (\bhw,#3);
-    \draw[#6!45!ink,line width=0.3pt]
-      (-\bhw,0) -- (\bhw,0) -- ({\bhw+#5},#5) -- ({\bhw+#5},{#3+#5})
-      -- ({-\bhw+#5},{#3+#5}) -- (-\bhw,#3) -- cycle;
-    \draw[#6!45!ink,line width=0.3pt] (\bhw,0) -- (\bhw,#3) -- ({\bhw+#5},{#3+#5});
-    \draw[#6!45!ink,line width=0.3pt] (-\bhw,#3) -- (\bhw,#3);
-  \end{scope}%
-}
-\newcommand{\IsoKey}[2]{%
-  \begin{scope}[shift={(#1)},line join=round]
-    \fill[#2!70!nmrNavy] (1.5,0) -- (2.4,0.9) -- (2.4,2.4) -- (1.5,1.5) -- cycle;
-    \fill[#2!45!white] (0,1.5) -- (1.5,1.5) -- (2.4,2.4) -- (0.9,2.4) -- cycle;
-    \fill[#2] (0,0) rectangle (1.5,1.5);
-  \end{scope}%
-}
+\renewcommand{\familydefault}{\sfdefault}
 
 \begin{document}\NatureFont
-\begin{tikzpicture}[x=1mm,y=1mm,line cap=butt]
-\useasboundingbox (0,0) rectangle (183,98);
+\begin{tikzpicture}[x=1mm,y=1mm]
+\useasboundingbox (0,0) rectangle (183,112);
 
-\node[anchor=north west,inner sep=0pt] at (2,96) {\PanelLabel{A}};
+% ---- Layout ----
+% Chart: x=14..118, y=28..92   Sidebar: x=124..179, y=28..100
+% Legend strip under chart: y=14..24   Footnote: y=2..11
 
-% Floor + grid
-\fill[faint!55!white]
-  (\Ax,\Ay) -- ({\Ax+\Aw},\Ay) -- ({\Ax+\Aw+\Adep},{\Ay+\Adep}) -- ({\Ax+\Adep},{\Ay+\Adep}) -- cycle;
-\foreach \v in {0,50,100,150}{%
-  \pgfmathsetmacro{\gy}{\Ay+\v*\Ascale}
-  \ifnum\v>0
-    \draw[faint,line width=0.35pt] (\Ax,\gy) -- ({\Ax+\Adep},{\gy+\Adep}) -- ({\Ax+\Aw+\Adep},{\gy+\Adep});
-  \fi
-  \draw[ink,line width=0.4pt] ({\Ax-0.9},\gy) -- (\Ax,\gy);
-  \node[anchor=east,inner sep=0pt,text=ink] at ({\Ax-1.6},\gy) {\FigSmall\v k};
+\node[anchor=north west] at (2,110) {\PanelLabel{A}};
+\node[anchor=west] at (10,108.5) {\FigTitle Number of IR records};
+
+% Plot frame
+\def\Lx{18}\def\Rx{116}\def\By{30}\def\Ty{92}
+\pgfmathsetmacro{\Ph}{\Ty-\By}
+\def\ymax{190} % thousands
+
+% Grid + axes
+\foreach \v in {0,50,100,150} {
+  \pgfmathsetmacro{\yy}{\By + (\v/\ymax)*\Ph}
+  \draw[faint,line width=0.35pt] (\Lx,\yy) -- (\Rx,\yy);
+  \node[anchor=east,font=\FigSmall,note] at ({\Lx-1.5},\yy) {\v k};
 }
-\draw[ink,line width=0.5pt] (\Ax,\Ay) -- (\Ax,{\Ay+\Ah});
-\draw[ink,line width=0.5pt] (\Ax,\Ay) -- ({\Ax+\Aw},\Ay);
-\node[rotate=90,anchor=south,inner sep=0pt,text=ink] at (4.8,{\Ay+\Ah/2})
-  {\FigAxis\bfseries Number of IR records};
+\draw[ink,line width=0.55pt] (\Lx,\By) -- (\Lx,\Ty);
+\draw[ink,line width=0.55pt] (\Lx,\By) -- (\Rx,\By);
 
-% Heights
-\pgfmathsetmacro{\hSDBS}{\Ksdbs*\Ascale}
-\pgfmathsetmacro{\hNIST}{\Knist*\Ascale}
-\pgfmathsetmacro{\hZIP}{\Kzip*\Ascale}
-\pgfmathsetmacro{\hIR}{\Kirexp*\Ascale}
-\pgfmathsetmacro{\hSTR}{\Kstruct*\Ascale}
-\pgfmathsetmacro{\hCOM}{\Kcomm*\Ascale}
+% Cluster centers and bar helper
+% SDBS, NIST, Zipoli, IRexp(triple)
+\newcommand{\flatbar}[4]{% x, height_k, width, color
+  \pgfmathsetmacro{\hh}{(#2/\ymax)*\Ph}
+  \fill[#4] ({#1-#3/2},\By) rectangle ({#1+#3/2},{\By+\hh});
+  \pgfmathsetmacro{\laby}{\By+\hh+1.2}
+}
 
-\IsoBar{\Csdbs}{\Ay}{\hSDBS}{11}{\Adep}{ghost}
-\IsoBar{\Cnist}{\Ay}{\hNIST}{11}{\Adep}{ghost}
-\IsoBar{\Czip}{\Ay}{\hZIP}{11}{\Adep}{nmrBlueLight}
-\IsoBar{\CirexpL}{\Ay}{\hIR}{5.2}{\Adep}{nmrNavy}
-\IsoBar{\Cirexp}{\Ay}{\hSTR}{5.2}{\Adep}{nmrPeach}
-\IsoBar{\CirexpR}{\Ay}{\hCOM}{5.2}{\Adep}{nmrBlue}
+% Bars
+\flatbar{30}{54.1}{11}{viewGrey}
+\node[anchor=south,font=\FigSmall,ink] at (30,{\By+(54.1/\ymax)*\Ph+1.0}) {54{,}100};
+\node[anchor=south,font=\FigTiny,note] at (30,{\Ty+1.5}) {View-only};
 
-% Value labels
-\node[anchor=south,inner sep=0pt,text=ink] at ({\Csdbs+\Adep/2},{\Ay+\hSDBS+\Adep+0.8}) {\FigSmall\Lsdbs};
-\node[anchor=south,inner sep=0pt,text=ink] at ({\Cnist+\Adep/2},{\Ay+\hNIST+\Adep+0.8}) {\FigSmall\Lnist};
-\node[anchor=south,inner sep=0pt,text=nmrBlueDark] at ({\Czip+\Adep/2},{\Ay+\hZIP+\Adep+0.8}) {\FigSmall\bfseries\Lzip};
-\node[anchor=south,inner sep=0pt,text=nmrNavy] at ({\Cirexp+\Adep/2},{\Ay+\hIR+\Adep+0.8}) {\FigSmall\bfseries\Lirexp};
+\flatbar{50}{17.0}{11}{viewGrey}
+\node[anchor=south,font=\FigSmall,ink] at (50,{\By+(17.0/\ymax)*\Ph+1.0}) {17{,}000};
+\node[anchor=south,font=\FigTiny,note] at (50,{\Ty+1.5}) {View-only};
 
-% Access tags
-\node[anchor=south,inner sep=0pt,text=note] at (\Csdbs,84) {\FigBody View-only};
-\node[anchor=south,inner sep=0pt,text=note] at (\Cnist,84) {\FigBody View-only};
-\node[anchor=south,inner sep=0pt,text=nmrBlueDark] at (\Czip,84) {\FigBody Computational};
-\node[anchor=south,inner sep=0pt,text=nmrNavy] at (\Cirexp,84) {\FigBody\bfseries This work};
-\node[star,star points=5,star point ratio=2.15,fill=nmrNavy,draw=none,
-      inner sep=0pt,minimum size=3.2mm] at (\Cirexp,89.5) {};
-\draw[ghost,line width=0.35pt] (\Ax,83) -- ({\Ax+\Aw},83);
+\flatbar{72}{177.461}{11}{nmrBlueLight}
+\node[anchor=south,font=\FigSmall\bfseries,nmrBlueDark] at (72,{\By+(177.461/\ymax)*\Ph+1.0}) {177{,}461};
+\node[anchor=south,font=\FigTiny,nmrBlueDark] at (72,{\Ty+1.5}) {Computational};
 
-% Category labels
-\node[anchor=north,align=center,inner sep=0pt,text=ink] at (\Csdbs,{\Ay-1.4})
-  {\FigBody SDBS\\[0.2ex]\FigSmall\textcolor{note}{FT-IR absorbance}};
-\node[anchor=north,align=center,inner sep=0pt,text=ink] at (\Cnist,{\Ay-1.4})
-  {\FigBody NIST WebBook\\[0.2ex]\FigSmall\textcolor{note}{gas-phase IR}};
-\node[anchor=north,align=center,inner sep=0pt,text=ink] at (\Czip,{\Ay-1.4})
-  {\FigBody Zipoli et al.\\[0.2ex]\FigSmall\textcolor{note}{computed IR spectra}};
-\node[anchor=north,align=center,inner sep=0pt,text=nmrNavy] at (\Cirexp,{\Ay-1.4})
-  {\FigBody\bfseries IRexp\\[0.2ex]\FigSmall\textcolor{note}{IR band lists}};
+% IRexp triple
+\flatbar{92}{121.233}{5.2}{nmrNavy}
+\flatbar{98.5}{43.060}{5.2}{nmrPeach}
+\flatbar{105}{88.545}{5.2}{nmrBlue}
+\node[anchor=south,font=\FigSmall\bfseries,nmrNavy] at (98.5,{\By+(121.233/\ymax)*\Ph+1.0}) {121{,}233};
+\node[anchor=south,font=\FigTiny\bfseries,nmrNavy] at (98.5,{\Ty+1.5}) {This work};
+\node[star,star points=5,star point ratio=2.2,fill=nmrNavy,inner sep=0pt,minimum size=2.8mm]
+  at (98.5,{\Ty+5.2}) {};
 
-% Legend
-\node[anchor=west,inner sep=0pt,text=note] at (\Ax,{\Ay+\Ah-3.5}) {\FigSmall IRexp series:};
-\IsoKey{{\Ax+14},{\Ay+\Ah-4.6}}{nmrNavy}
-\node[anchor=west,inner sep=0pt,text=ink] at ({\Ax+17.5},{\Ay+\Ah-3.5}) {\FigSmall All records};
-\IsoKey{{\Ax+36},{\Ay+\Ah-4.6}}{nmrPeach}
-\node[anchor=west,inner sep=0pt,text=ink] at ({\Ax+39.5},{\Ay+\Ah-3.5}) {\FigSmall Structure-linked};
-\IsoKey{{\Ax+62},{\Ay+\Ah-4.6}}{nmrBlue}
-\node[anchor=west,inner sep=0pt,text=ink] at ({\Ax+65.5},{\Ay+\Ah-3.5}) {\FigSmall CC-BY / CC0 pool};
+% Category labels (below axis, reserved band)
+\node[anchor=north,align=center,font=\FigBody,ink] at (30,{\By-2.2})
+  {SDBS\\[0.4ex]{\FigTiny\color{note}FT-IR absorbance}};
+\node[anchor=north,align=center,font=\FigBody,ink] at (50,{\By-2.2})
+  {NIST\\[0.4ex]{\FigTiny\color{note}gas-phase IR}};
+\node[anchor=north,align=center,font=\FigBody,ink] at (72,{\By-2.2})
+  {Zipoli et al.\\[0.4ex]{\FigTiny\color{note}computed spectra}};
+\node[anchor=north,align=center,font=\FigBody\bfseries,nmrNavy] at (98.5,{\By-2.2})
+  {IRexp\\[0.4ex]{\FigTiny\color{note}band lists}};
 
-% Object-type key
-\node[anchor=west,inner sep=0pt,text=note] at (\Ax,{\Ay+\Ah-9.0}) {\FigSmall Object:};
-\fill[ghost] ({\Ax+12},{\Ay+\Ah-9.7}) rectangle ({\Ax+14.2},{\Ay+\Ah-8.3});
-\node[anchor=west,inner sep=0pt,text=ink] at ({\Ax+15},{\Ay+\Ah-9.0}) {\FigSmall absorbance / computed spectrum};
-\fill[nmrNavy] ({\Ax+52},{\Ay+\Ah-9.7}) rectangle ({\Ax+54.2},{\Ay+\Ah-8.3});
-\node[anchor=west,inner sep=0pt,text=ink] at ({\Ax+55},{\Ay+\Ah-9.0}) {\FigSmall experimental band list};
+% Legend OUTSIDE plot — below category labels
+\begin{scope}[shift={(18,8)}]
+  \node[anchor=west,font=\FigTiny,note] at (0,6.5) {IRexp series};
+  \fill[nmrNavy] (16,5.6) rectangle (19,7.4);
+  \node[anchor=west,font=\FigTiny,ink] at (20,6.5) {All};
+  \fill[nmrPeach] (30,5.6) rectangle (33,7.4);
+  \node[anchor=west,font=\FigTiny,ink] at (34,6.5) {Structure-linked};
+  \fill[nmrBlue] (58,5.6) rectangle (61,7.4);
+  \node[anchor=west,font=\FigTiny,ink] at (62,6.5) {CC-BY/CC0};
 
-% Sidebar callout
-\node[anchor=north west,inner sep=0pt] at (124,96) {\PanelLabel{B}};
-\begin{scope}
-  \fill[ghost!45!white,rounded corners=1.8pt] (126.6,40.4) rectangle (180.6,90.4);
-  \fill[white,rounded corners=1.8pt] (126,41) rectangle (180,91);
-  \draw[ghost,line width=0.45pt,rounded corners=1.8pt] (126,41) rectangle (180,91);
-  \fill[nmrNavy,rounded corners=1.8pt] (126,84) rectangle (180,91);
-  \fill[nmrNavy] (126,84) rectangle (180,87);
-  \node[anchor=west,inner sep=0pt,text=white] at (128.5,87.5)
-    {\FigBody\bfseries IRexp --- what this work adds};
+  \node[anchor=west,font=\FigTiny,note] at (0,2.2) {Object};
+  \fill[viewGrey] (16,1.3) rectangle (19,3.1);
+  \node[anchor=west,font=\FigTiny,ink] at (20,2.2) {absorbance / computed spectrum};
+  \fill[nmrNavy] (64,1.3) rectangle (67,3.1);
+  \node[anchor=west,font=\FigTiny,ink] at (68,2.2) {experimental band list};
 \end{scope}
-\newcommand{\SideItem}[3]{%
-  \node[anchor=north west,inner sep=0pt,text=nmrBlueDark] at (128.5,#1) {\FigBody\bfseries$+$};
-  \node[anchor=north west,inner sep=0pt,text=ink,align=left,text width=46mm] at (132.2,#1)
-    {\FigBody\textbf{#2}\;\textcolor{note}{#3}};
-}
-\SideItem{81}{Large}{121,233 experimental IR band lists from open literature}
-\SideItem{69}{Redistributable}{88,545 CC-BY\,/\,CC0; bulk download}
-\SideItem{57}{Traceable}{source DOI + per-record licence pool}
-\SideItem{47}{Experimental}{not simulated spectra; peak positions only}
 
-% Footnote — NMRexp as modality peer only
-\draw[faint,line width=0.4pt] (2,8.0) -- (181,8.0);
-\node[anchor=north west,inner sep=0pt,align=left,text=note,text width=178mm] at (2,7.0)
-  {\FigSmall IR peers only.
-   SDBS $\approx$54k digitised FT-IR absorbance (AIST 2015; view-only).
-   NIST WebBook $\approx$17k gas-phase IR (approx.; view-only).
-   Zipoli et al.\ 177,461 \emph{computed} IR spectra (Sci.\ Data 2025; open, different object).
-   \textbf{IRexp} = experimental cm$^{-1}$ band lists with redistribution pools.
-   NMRexp (3.37M NMR peak lists) is the literature-mining \emph{method} peer --- not plotted (NMR, not IR).
+% Sidebar B
+\node[anchor=north west] at (122,110) {\PanelLabel{B}};
+\fill[white] (124,28) rectangle (180,104);
+\draw[ghost,line width=0.55pt,rounded corners=1.6pt] (124,28) rectangle (180,104);
+\fill[nmrNavy,rounded corners=1.6pt] (124,92.5) rectangle (180,104);
+\fill[nmrNavy] (124,92.5) rectangle (180,95);
+\node[font=\FigTitle,white] at (152,100.2) {IRexp --- what this work adds};
+
+\newcommand{\side}[3]{%
+  \node[anchor=north west,font=\FigBody\bfseries,nmrBlueDark] at (128,#1) {+};
+  \node[anchor=north west,align=left,text width=46mm,font=\FigBody,ink] at (132,#1)
+    {\textbf{#2}\\[0.6ex]{\FigSmall\color{note}#3}};
+}
+\side{88}{Large}{121{,}233 experimental IR band lists}
+\side{72}{Redistributable}{88{,}545 CC-BY / CC0; bulk download}
+\side{56}{Traceable}{source DOI + per-record licence pool}
+\side{40}{Experimental}{peak positions only --- not simulated spectra}
+
+% Footnote with real margin
+\node[anchor=north west,align=left,text width=178mm,font=\FigTiny,note] at (2,5.5)
+  {IR peers only. SDBS $\approx$54k FT-IR absorbance (AIST 2015; view-only).
+   NIST $\approx$17k gas-phase IR (approx.; view-only).
+   Zipoli et al.\ 177{,}461 \emph{computed} IR spectra (Sci.\ Data 2025).
+   NMRexp (3.37M NMR lists) is the literature-mining method peer --- not plotted.
    Band lists $\neq$ absorbance traces.};
 \end{tikzpicture}
 \end{document}

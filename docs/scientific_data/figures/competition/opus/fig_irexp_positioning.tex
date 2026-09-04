@@ -143,7 +143,10 @@
 
 \IsoBar{\Csdbs}{\Ay}{\hSDBS}{10}{\Adep}{ghost}
 \IsoBar{\Cnist}{\Ay}{\hNIST}{10}{\Adep}{ghost}
-\IsoBar{\Cnmrexp}{\Ay}{\hNMR}{10}{\Adep}{nmrBlue}
+% Pale blue, not the saturated nmrBlue used for the IRexp CC-BY/CC0 pool:
+% that colour is claimed by the legend, and the manuscript is explicit that
+% NMRexp is a different-modality reference point rather than an IR rival.
+\IsoBar{\Cnmrexp}{\Ay}{\hNMR}{10}{\Adep}{nmrBlueLight}
 \IsoBar{\CirexpL}{\Ay}{\hIR}{5}{\Adep}{nmrNavy}
 \IsoBar{\Cirexp}{\Ay}{\hSTR}{5}{\Adep}{nmrPeach}
 \IsoBar{\CirexpR}{\Ay}{\hCOM}{5}{\Adep}{nmrBlue}
@@ -153,8 +156,10 @@
   at ({\Csdbs+\Adep/2},{\Ay+\hSDBS+\Adep+0.8}) {\Lsdbs};
 \node[anchor=south,inner sep=0pt,text=ink,font=\FigSmall]
   at ({\Cnist+\Adep/2},{\Ay+\hNIST+\Adep+0.8}) {\Lnist};
-\node[anchor=south,inner sep=0pt,text=nmrBlueDark,font=\FigBody]
-  at ({\Cnmrexp+\Adep/2},{\Ay+\hNMR+\Adep+0.9}) {\bfseries\Lnmrexp};
+% Same weight as the other reference resources; only IRexp is set bold, so
+% the eye is not pulled to the tallest bar in the field.
+\node[anchor=south,inner sep=0pt,text=ink,font=\FigSmall]
+  at ({\Cnmrexp+\Adep/2},{\Ay+\hNMR+\Adep+0.8}) {\Lnmrexp};
 \node[anchor=south,inner sep=0pt,text=nmrNavy,font=\FigSmall]
   at ({\CirexpL+\Adep/2},{\Ay+\hIR+\Adep+0.8}) {\bfseries\Lirexp};
 

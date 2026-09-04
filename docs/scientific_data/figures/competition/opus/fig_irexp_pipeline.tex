@@ -12,6 +12,8 @@
 % =====================================================================
 \documentclass[border=0pt,tikz]{standalone}
 
+\usepackage[T1]{fontenc}      % proper dashes, quotes and \textbullet from the text font
+\usepackage{textcomp}         % \texttimes etc. from TS1 Nimbus Sans, not Computer Modern
 \makeatletter\@namedef{ver@sansmathfonts.sty}{2023/01/01}\makeatother
 \input{../../tikz/nature_style.tex}
 \renewcommand{\familydefault}{\sfdefault}
@@ -118,7 +120,7 @@
 \CardLine{78}{0}{OPSIN on in-text names,}
 \CardLine{78}{1}{PubChem fallback}
 \CardLine{78}{2}{RDKit canonical SMILES}
-\CardLine{78}{3}{$\to$ InChIKey + SELFIES}
+\CardLine{78}{3}{then InChIKey + SELFIES}
 
 \StageCard{115.5}{Licence join}
 \StepBadge{129.25}{4}
@@ -151,27 +153,28 @@
 \FlowArrow{105.5}{licence}{lookup}
 \FlowArrow{143}{pool}{split}
 
-% --- Chemotion branch ------------------------------------------------
+% --- Chemotion branch, set to the same band as the gate inset --------
 \begin{scope}
-  \fill[white,rounded corners=1.6pt] (4,76) rectangle (38,94);
-  \begin{scope}\clip[rounded corners=1.6pt] (4,76) rectangle (38,94);
-    \fill[nmrGreen] (4,88.5) rectangle (38,94);
+  \fill[white,rounded corners=1.6pt] (4,66.5) rectangle (38,92);
+  \begin{scope}\clip[rounded corners=1.6pt] (4,66.5) rectangle (38,92);
+    \fill[nmrGreen] (4,86.5) rectangle (38,92);
   \end{scope}
-  \draw[nmrGreen,line width=0.6pt,rounded corners=1.6pt] (4,76) rectangle (38,94);
-  \node[anchor=center,inner sep=0pt,text=white,font=\FigBody] at (21,91.25)
+  \draw[nmrGreen,line width=0.6pt,rounded corners=1.6pt] (4,66.5) rectangle (38,92);
+  \node[anchor=center,inner sep=0pt,text=white,font=\FigBody] at (21,89.25)
     {\bfseries Chemotion ELN deposit};
 \end{scope}
-\node[anchor=north west,inner sep=0pt,text=ink,font=\FigSmall] at (5.8,86.4)
-  {1,888 author-curated rows};
-\node[anchor=north west,inner sep=0pt,text=ink,font=\FigSmall] at (5.8,83.95)
-  {(CC-BY-SA-4.0, RADAR4Chem)};
-\node[anchor=north west,inner sep=0pt,text=ink,font=\FigSmall] at (5.8,81.0)
-  {Same extractor and gates;};
-\node[anchor=north west,inner sep=0pt,text=ink,font=\FigSmall] at (5.8,78.55)
-  {every row structure-linked};
-\draw[nature arrow] (38,88) to[out=0,in=255]
-  node[pos=0.62,anchor=west,inner sep=0.7pt,text=note,font=\FigTiny]{merge}
-  (46.5,102.4);
+\foreach \i/\t in {%
+    0/{1,888 author-curated rows},
+    1/{CC-BY-SA-4.0, RADAR4Chem},
+    2/{Same extractor and gates},
+    3/{Every row structure-linked},
+    4/{Feeds the ShareAlike pool}}{%
+  \node[anchor=north west,inner sep=0pt,text=ink,font=\FigSmall]
+    at (5.8,{83.05-\i*2.8}) {\t};}
+\draw[nature arrow] (38,84) to[out=15,in=258] (46.5,102.4);
+% Set against the near-vertical head of the Bezier, not midway between it
+% and the downward gate arrow, so the label cannot be read as either.
+\node[anchor=east,inner sep=0pt,text=note,font=\FigTiny] at (45.6,99.8) {merge};
 
 % --- quality-gate inset ---------------------------------------------
 \draw[nature arrow] (54.25,102.4) -- (54.25,92.6);
@@ -196,7 +199,7 @@
 }
 \RuleCol{45}{Band count}{at least 3 peaks}{inside 350--4000 cm\textsuperscript{-1}}
 \RuleCol{66.75}{Duplicate bands}{reject repeated}{integer positions}
-\RuleCol{88.5}{Physics gates}{\textsuperscript{13}C peaks $\leq$ C count;}{\textsuperscript{1}H integral $\leq$ H\,$+$\,2}
+\RuleCol{88.5}{Physics gates}{\textsuperscript{13}C peaks: max C count}{\textsuperscript{1}H integral: max H\,+\,2}
 \node[anchor=north,inner sep=0pt,text=note,font=\FigTiny] at (77,70.8)
   {\itshape Further range and prose-artefact gates in \texttt{spectro\_scraper/quality.py}};
 
@@ -240,10 +243,10 @@
 
 \node[anchor=base west,inner sep=0pt,text=note,font=\FigSmall] at (12,46.2)
   {\bfseries Extracted text as harvested};
-\node[anchor=base west,inner sep=0pt,text=note,font=\FigSmall] at (93,46.2)
+\node[anchor=base west,inner sep=0pt,text=note,font=\FigSmall] at (86,46.2)
   {\bfseries Gate that fired};
 \draw[faint,line width=0.35pt] (5,45.2) -- (178,45.2);
-\draw[faint,line width=0.35pt] (90.5,8) -- (90.5,44);
+\draw[faint,line width=0.35pt] (83,8) -- (83,44);
 
 % reject glyph: {x}{y}
 \newcommand{\Reject}[2]{%
@@ -262,15 +265,15 @@
 }
 % reason block: {top y}{rule}{line 1}{line 2}
 \newcommand{\Reason}[4]{%
-  \node[anchor=north west,inner sep=0pt,text=nmrRed,font=\FigBody] at (93,#1) {\bfseries #2};
+  \node[anchor=north west,inner sep=0pt,text=nmrRed,font=\FigBody] at (86,#1) {\bfseries #2};
   \node[anchor=north west,inner sep=0pt,text=ink,font=\FigSmall,align=left,inner ysep=0pt]
-    at (93,{#1-3.1}) {#3\\[0.3ex]#4};%
+    at (86,{#1-3.1}) {#3\\[0.3ex]#4};%
 }
 
 % --- row 1: band-count gate -----------------------------------------
 \Reject{7}{40.5}
 \begin{pgfonlayer}{background}
-  \draw[ghost,line width=0.45pt,rounded corners=1.2pt,fill=white] (12,36) rectangle (86,45);
+  \draw[ghost,line width=0.45pt,rounded corners=1.2pt,fill=white] (12,36) rectangle (78,45);
 \end{pgfonlayer}
 \node[mono] (a1) at (14,42) {IR~(KBr):~};
 \node[mono] (a2) at (a1.base east) {1735,~1602};
@@ -284,7 +287,7 @@
 % --- row 2: window gate ---------------------------------------------
 \Reject{7}{27.5}
 \begin{pgfonlayer}{background}
-  \draw[ghost,line width=0.45pt,rounded corners=1.2pt,fill=white] (12,23) rectangle (86,32);
+  \draw[ghost,line width=0.45pt,rounded corners=1.2pt,fill=white] (12,23) rectangle (78,32);
 \end{pgfonlayer}
 \node[mono] (b1) at (14,29) {IR~(neat):~3200,~2950,~};
 \node[mono] (b2) at (b1.base east) {4100};
@@ -298,7 +301,7 @@
 % --- row 3: structure-physics gate ----------------------------------
 \Reject{7}{14.5}
 \begin{pgfonlayer}{background}
-  \draw[ghost,line width=0.45pt,rounded corners=1.2pt,fill=white] (12,8.5) rectangle (86,20.5);
+  \draw[ghost,line width=0.45pt,rounded corners=1.2pt,fill=white] (12,8.5) rectangle (78,20.5);
 \end{pgfonlayer}
 \node[mono] (c1) at (14,17.5) {IR~(film):~3050,~2920,~1650,~1450~cm-1};
 \node[mono] (c2) at (14,14.1) {1H~NMR:~};
@@ -307,7 +310,7 @@
 \node[mono] (c5) at (c4.base east) {(5~H)};
 \Hilite{c3}\Hilite{c5}
 \Reason{19.5}{Structure physics}%
-  {Integrals sum to 20\,H, above the formula limit of H\,$+$\,2 for C\textsubscript{6}H\textsubscript{5}NO\textsubscript{2} (5\,H).}%
+  {Integrals sum to 20\,H, above the formula limit of H\,+\,2 for C\textsubscript{6}H\textsubscript{5}NO\textsubscript{2} (5\,H).}%
   {Listed in the diagnostic quarantine file; release files unchanged.}
 \end{tikzpicture}
 \end{document}

@@ -13,6 +13,8 @@
 % sansmathfonts is absent from this TeX Live tree; declare it loaded so the
 % shared style sheet's \RequirePackage becomes a no-op, then fall back to
 % helvet + sfmath so digits inside math mode stay Helvetica.
+\usepackage[T1]{fontenc}      % proper dashes, quotes and \textbullet from the text font
+\usepackage{textcomp}         % \texttimes etc. from TS1 Nimbus Sans, not Computer Modern
 \makeatletter\@namedef{ver@sansmathfonts.sty}{2023/01/01}\makeatother
 \input{../../tikz/nature_style.tex}
 \renewcommand{\familydefault}{\sfdefault}
@@ -129,7 +131,7 @@
 \draw[ghost,line width=0.35pt] (\Aright,\Ay) -- (\Aedge,{\Ay+\Adep})
   -- ({\Ax+\Adep},{\Ay+\Adep});
 \node[rotate=90,anchor=south,inner sep=0pt,text=ink,font=\FigAxis] at (4.6,{\Ay+\Ah/2})
-  {\bfseries Number of records ($\times$\,10\textsuperscript{6})};
+  {\bfseries Number of records (\texttimes\,10\textsuperscript{6})};
 
 % bars ---------------------------------------------------------------
 \pgfmathsetmacro{\hSDBS}{\Nsdbs*\Ascale}
@@ -248,11 +250,13 @@
 \node[anchor=west,inner sep=0pt,text=white,font=\FigBody] at (118.5,80.8)
   {\bfseries IRexp --- what this work adds};
 
-\SideItem{75.6}{Large}%
+% Raised 0.35 mm so the optical padding above the first item matches the
+% padding under the last one.
+\SideItem{75.95}{Large}%
   {121,233 experimental IR band lists mined from the}{open literature, released as one bulk corpus}
-\SideItem{67.0}{Redistributable}%
+\SideItem{67.35}{Redistributable}%
   {88,545 records sit in the CC-BY\,/\,CC0 pool ---}{commercial reuse without further clearance}
-\SideItem{58.4}{Traceable}%
+\SideItem{58.75}{Traceable}%
   {source DOI and a per-record licence pool are}{stamped on every single row}
 
 % =====================================================================

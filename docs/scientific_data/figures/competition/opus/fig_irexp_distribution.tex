@@ -12,6 +12,8 @@
 % =====================================================================
 \documentclass[border=0pt,tikz]{standalone}
 
+\usepackage[T1]{fontenc}      % proper dashes, quotes and \textbullet from the text font
+\usepackage{textcomp}         % \texttimes etc. from TS1 Nimbus Sans, not Computer Modern
 \makeatletter\@namedef{ver@sansmathfonts.sty}{2023/01/01}\makeatother
 \input{../../tikz/nature_style.tex}
 \renewcommand{\familydefault}{\sfdefault}
@@ -61,12 +63,29 @@
     axis line style={ink,line width=0.5pt,-},
     scaled y ticks=false,
     yticklabel style={/pgf/number format/fixed,/pgf/number format/1000 sep={,}},
+    % With `axis x line=bottom` pgfplots offsets the axis labels from the
+    % axis LINE, not from the tick labels, so a centred xlabel lands on top
+    % of the middle tick.  `near ticks` measures from the tick label box
+    % instead -- but it *replaces* the label style, so the two `label style`
+    % keys below have to come after it or the font reverts to 10 pt.
+    xlabel near ticks,
+    ylabel near ticks,
+    xlabel shift=2.6pt,          % `near ticks` leaves zero clearance
+    ylabel shift=1.6pt,
     x label style={font=\FigSmall,color=ink},
     y label style={font=\FigSmall,color=ink},
     tick align=outside,
   },
+  % Panel d: 20 adjacent bins, so a hairline outline acts as a bin divider.
   irexp bars/.style={
-    ybar interval, fill=nmrBlue, draw=nmrBlueDark, line width=0.15pt,
+    ybar interval, fill=nmrBlue, draw=nmrBlueDark, line width=0.25pt,
+  },
+  % Panel f: the distributions are spiky and most bins are empty.  An
+  % outline would draw a stray rule along the axis through every empty
+  % bin, so these bars are fill-only; single-record bins still resolve
+  % because each sub-panel is 22 mm tall.
+  irexp bars flat/.style={
+    ybar interval, fill=nmrBlue, draw=none,
   },
 }
 
@@ -83,7 +102,7 @@
 
 \begin{document}\NatureFont
 \begin{tikzpicture}[x=1mm,y=1mm,line cap=butt]
-\useasboundingbox (0,1) rectangle (183,199);
+\useasboundingbox (0,5.5) rectangle (183,199);
 
 % =====================================================================
 %  ROW 1 -- panels a, b, c : composition, one shared 0-121,233 field
@@ -92,28 +111,30 @@
 % --- a  Provenance ---------------------------------------------------
 \PanelHead{a}{2}{Provenance}{share of all 121,233 records}
 \def\Sx{23}\def\Sw{21}\def\Sm{121.233}
-\draw[ink,line width=0.55pt] (\Sx,158) -- (\Sx,188);
-\HRow{179}{119.345}{8.0}{nmrBlue}{PMC OA}{119,345\ \textcolor{muted}{98.4\%}}
-\HRow{165}{1.888}{8.0}{nmrGreen}{Chemotion}{1,888\ \textcolor{muted}{1.6\%}}
+% Two rows only, so the spine hugs them and the whole group is optically
+% centred on the taller spines of b and c rather than dangling below them.
+\draw[ink,line width=0.55pt] (\Sx,163.5) -- (\Sx,181.5);
+\HRow{178.0}{119.345}{6.0}{nmrBlue}{PMC OA}{119,345\ \textcolor{muted}{98.4\%}}
+\HRow{167.0}{1.888}{6.0}{nmrGreen}{Chemotion}{1,888\ \textcolor{muted}{1.6\%}}
 
 % --- b  Licence pool -------------------------------------------------
 \PanelHead{b}{63}{Licence pool}{after Europe PMC join and Crossref recovery}
 \def\Sx{85}\def\Sw{21}\def\Sm{121.233}
-\draw[ink,line width=0.55pt] (\Sx,158) -- (\Sx,188);
-\HRow{183.2}{88.545}{3.6}{nmrNavy}{commercial}{88,545\ \textcolor{muted}{73.0\%}}
-\HRow{177.6}{21.823}{3.6}{nmrBlue}{non-commercial}{21,823\ \textcolor{muted}{18.0\%}}
-\HRow{172.0}{8.963}{3.6}{nmrBlue}{empty / unknown}{8,963\ \textcolor{muted}{7.4\%}}
-\HRow{166.4}{1.897}{3.6}{nmrBlue}{ShareAlike}{1,897\ \textcolor{muted}{1.6\%}}
-\HRow{160.8}{0.005}{3.6}{nmrBlue}{other (ND)}{5\ \textcolor{muted}{$<$0.1\%}}
+\draw[ink,line width=0.55pt] (\Sx,158.5) -- (\Sx,186.5);
+\HRow{183.7}{88.545}{3.6}{nmrNavy}{commercial}{88,545\ \textcolor{muted}{73.0\%}}
+\HRow{178.1}{21.823}{3.6}{nmrBlue}{non-commercial}{21,823\ \textcolor{muted}{18.0\%}}
+\HRow{172.5}{8.963}{3.6}{nmrBlue}{empty / unknown}{8,963\ \textcolor{muted}{7.4\%}}
+\HRow{166.9}{1.897}{3.6}{nmrBlue}{ShareAlike}{1,897\ \textcolor{muted}{1.6\%}}
+\HRow{161.3}{0.005}{3.6}{nmrBlue}{other (ND)}{5\ \textcolor{muted}{0.004\%}}
 
 % --- c  Modality linkage ---------------------------------------------
 \PanelHead{c}{124}{Modality linkage}{quadruple $=$ IR $+$ \textsuperscript{1}H $+$ \textsuperscript{13}C $+$ structure}
 \def\Sx{146}\def\Sw{21}\def\Sm{121.233}
-\draw[ink,line width=0.55pt] (\Sx,158) -- (\Sx,188);
-\HRow{182.5}{121.233}{4.6}{nmrNavy}{all IR band lists}{121,233\ \textcolor{muted}{100\%}}
-\HRow{175.5}{87.075}{4.6}{nmrBlue}{with co-reported NMR}{87,075\ \textcolor{muted}{71.8\%}}
-\HRow{168.5}{43.060}{4.6}{nmrBlue}{with structure}{43,060\ \textcolor{muted}{35.5\%}}
-\HRow{161.5}{33.201}{4.6}{nmrBlue}{full quadruple}{33,201\ \textcolor{muted}{27.4\%}}
+\draw[ink,line width=0.55pt] (\Sx,158.5) -- (\Sx,186.5);
+\HRow{183.0}{121.233}{4.6}{nmrNavy}{all IR band lists}{121,233\ \textcolor{muted}{100\%}}
+\HRow{176.0}{87.075}{4.6}{nmrBlue}{with co-reported NMR}{87,075\ \textcolor{muted}{71.8\%}}
+\HRow{169.0}{43.060}{4.6}{nmrBlue}{with structure}{43,060\ \textcolor{muted}{35.5\%}}
+\HRow{162.0}{33.201}{4.6}{nmrBlue}{full quadruple}{33,201\ \textcolor{muted}{27.4\%}}
 
 \node[anchor=north west,inner sep=0pt,text=muted,font=\FigTiny] at (2,155)
   {Panels a--c share one field width, so bar lengths are directly comparable across the three panels.};
@@ -200,25 +221,25 @@
 % =====================================================================
 %  ROW 3 -- panel f : automated validation distributions
 % =====================================================================
-\node[anchor=north west,inner sep=0pt] at (2,85) {\PanelLabel{f}};
-\node[anchor=base west,inner sep=0pt,text=ink,font=\FigBody] at (7.2,82)
+\node[anchor=north west,inner sep=0pt] at (2,89) {\PanelLabel{f}};
+\node[anchor=base west,inner sep=0pt,text=ink,font=\FigBody] at (7.2,86)
   {\bfseries Audit-derived validation distributions};
 \draw[ghost,line width=0.4pt,rounded corners=1.4pt,fill=faint!60!white]
-  (118,80.9) rectangle (181,85.1);
-\node[anchor=center,inner sep=0pt,text=note,font=\FigSmall] at (149.5,82.6)
+  (118,84.9) rectangle (181,89.1);
+\node[anchor=center,inner sep=0pt,text=note,font=\FigSmall] at (149.5,86.6)
   {\bfseries Automated checks only --- not a human expert audit};
 
 % --- f1 transcription error ------------------------------------------
-\node[anchor=base west,inner sep=0pt,text=ink,font=\FigSmall] at (15,77.5)
+\node[anchor=base west,inner sep=0pt,text=ink,font=\FigSmall] at (15,81.5)
   {\bfseries Transcription error per record};
-\PlotBox{15}{53}{%
+\PlotBox{15}{57}{%
 \begin{axis}[
   irexp hist, name=ax, width=63mm, height=22mm,
   xmin=0, xmax=1.05, ymax=235,
   xtick={0,0.25,0.5,0.75,1}, ytick={0,100,200},
   xlabel={per-record band error rate}, ylabel={Records},
 ]
-  \addplot[irexp bars] coordinates {
+  \addplot[irexp bars flat] coordinates {
     (0,196) (0.05,0) (0.1,0) (0.15,0) (0.2,0) (0.25,0) (0.3,0)
     (0.35,0) (0.4,1) (0.45,0) (0.5,1) (0.55,1) (0.6,0) (0.65,0)
     (0.7,0) (0.75,1) (0.8,0) (0.85,0) (0.9,0) (0.95,0) (1,0)
@@ -234,16 +255,16 @@
 \end{axis}}
 
 % --- f2 band recall per paper ----------------------------------------
-\node[anchor=base west,inner sep=0pt,text=ink,font=\FigSmall] at (105,77.5)
+\node[anchor=base west,inner sep=0pt,text=ink,font=\FigSmall] at (105,81.5)
   {\bfseries Band recall per paper};
-\PlotBox{105}{53}{%
+\PlotBox{105}{57}{%
 \begin{axis}[
   irexp hist, name=ax, width=63mm, height=22mm,
   xmin=0, xmax=1.05, ymax=140,
   xtick={0,0.25,0.5,0.75,1}, ytick={0,50,100},
   xlabel={per-paper band recall}, ylabel={Papers},
 ]
-  \addplot[irexp bars] coordinates {
+  \addplot[irexp bars flat] coordinates {
     (0,3) (0.05,0) (0.1,0) (0.15,0) (0.2,0) (0.25,0) (0.3,0)
     (0.35,0) (0.4,1) (0.45,0) (0.5,0) (0.55,0) (0.6,0) (0.65,0)
     (0.7,0) (0.75,0) (0.8,0) (0.85,1) (0.9,0) (0.95,0) (1,115)
@@ -259,16 +280,16 @@
 \end{axis}}
 
 % --- f3 list match per paper -----------------------------------------
-\node[anchor=base west,inner sep=0pt,text=ink,font=\FigSmall] at (15,43)
+\node[anchor=base west,inner sep=0pt,text=ink,font=\FigSmall] at (15,47)
   {\bfseries Band-list match per paper};
-\PlotBox{15}{18}{%
+\PlotBox{15}{22}{%
 \begin{axis}[
   irexp hist, name=ax, width=63mm, height=22mm,
   xmin=0, xmax=1.05, ymax=140,
   xtick={0,0.25,0.5,0.75,1}, ytick={0,50,100},
   xlabel={per-paper list match}, ylabel={Papers},
 ]
-  \addplot[irexp bars] coordinates {
+  \addplot[irexp bars flat] coordinates {
     (0,4) (0.05,0) (0.1,0) (0.15,0) (0.2,0) (0.25,0) (0.3,0)
     (0.35,0) (0.4,0) (0.45,0) (0.5,1) (0.55,0) (0.6,2) (0.65,1)
     (0.7,1) (0.75,0) (0.8,1) (0.85,0) (0.9,0) (0.95,0) (1,109)
@@ -284,16 +305,16 @@
 \end{axis}}
 
 % --- f4 chemist-proxy fail reasons -----------------------------------
-\node[anchor=base west,inner sep=0pt,text=ink,font=\FigSmall] at (105,43)
+\node[anchor=base west,inner sep=0pt,text=ink,font=\FigSmall] at (105,47)
   {\bfseries Chemist-proxy fail reasons per record};
-\PlotBox{105}{18}{%
+\PlotBox{105}{22}{%
 \begin{axis}[
   irexp hist, name=ax, width=63mm, height=22mm,
   xmin=0, xmax=2.5, ymax=325,
   xtick={0,0.5,1,1.5,2,2.5}, ytick={0,100,200,300},
   xlabel={fail reasons per record}, ylabel={Records},
 ]
-  \addplot[irexp bars] coordinates {
+  \addplot[irexp bars flat] coordinates {
     (0,271) (0.25,0) (0.5,0) (0.75,0) (1,9) (1.25,0) (1.5,0)
     (1.75,0) (2,0) (2.25,0) (2.5,0)
   };
@@ -309,9 +330,9 @@
 % =====================================================================
 %  Footnote
 % =====================================================================
-\draw[faint,line width=0.4pt] (2,9.0) -- (181,9.0);
+\draw[faint,line width=0.4pt] (2,13.0) -- (181,13.0);
 \node[anchor=north west,inner sep=0pt,text=note,font=\FigSmall,align=left,inner ysep=0pt]
-  at (2,8.2)
+  at (2,12.2)
   {Panel f: dashed elbows mark the median of each distribution; pooled aggregate rates are printed inside each sub-panel.\\[0.4ex]
    All panel-f checks are automated --- no human expert audit was performed. Records are IR \emph{band lists} (cm\textsuperscript{-1} peak positions), not absorbance traces.};
 \end{tikzpicture}

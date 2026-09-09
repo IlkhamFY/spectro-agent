@@ -24,3 +24,4 @@ Every deposited reply equals the agent's final message exactly. Agents used only
 tool on their own batch file and Bash for RDKit formula checks; no transcript mentions the
 key vault, an answers file, or any path under the repository.
 | expansion round | `raw/` | 04a | R19–R21 | `claude-opus-5` |
+| expansion round | `raw/` | 03a | R13–R15 | `claude-opus-5` |

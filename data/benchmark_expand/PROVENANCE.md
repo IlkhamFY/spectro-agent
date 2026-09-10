@@ -35,3 +35,4 @@ key vault, an answers file, or any path under the repository.
 | expansion round | `raw/` | 09b | R52–R54 | `claude-opus-5` |
 | expansion round | `raw/` | 08a | R43–R45 | `claude-opus-5` |
 | expansion round | `raw/` | 11b | R64–R66 | `claude-opus-5` |
+| expansion round | `raw/` | 07a1 | R37 | `claude-opus-5` |

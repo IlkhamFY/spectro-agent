@@ -1,0 +1,16 @@
+{
+ "n": 194,
+ "verified": 58,
+ "misranked": 7,
+ "wall": 129,
+ "recalled": 65,
+ "self_ranked": 55,
+ "conditional_verify": [
+  58,
+  65
+ ],
+ "arms": {
+  "134-compound (main round)": 134,
+  "60-compound (v3 + v2-ctrl)": 60
+ }
+}

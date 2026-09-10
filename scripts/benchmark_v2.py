@@ -220,6 +220,13 @@ if __name__ == "__main__":
     s = sub.add_parser("sample2"); s.add_argument("--n", type=int, default=20); s.add_argument("--seed", type=int, default=23)
     s.add_argument("--outdir", default="data/benchmark_v2")
     sc = sub.add_parser("score2"); sc.add_argument("--outdir", default="data/benchmark_v2")
+    sc.add_argument("--pred", default="predictions2.jsonl",
+                    help="prediction file inside --outdir; a separately deposited arm "
+                         "(e.g. predictions2_fable.jsonl) is scored by naming it here")
     a = ap.parse_args()
     _paths(a.outdir)
-    sample2(a.n, a.seed) if a.cmd == "sample2" else score2()
+    if a.cmd == "sample2":
+        sample2(a.n, a.seed)
+    else:
+        P = BDIR / a.pred
+        score2()

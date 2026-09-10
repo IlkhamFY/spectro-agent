@@ -786,7 +786,7 @@ repository README.
 | headline scoring ([@tab:headline-elucidation-performance-irspectra]) | `scripts/score_main.py` |
 | forward-verification (+ full-bench extension) | `data/fverify/`, `data/fverify_main/` — `scripts/forward_verify.py`, `scripts/forward_verify_main.py` |
 | generate-wide ([@sec:generate-wide-testing-recipe]) | `data/gw/`, `data/fverify2/`, `data/fverify_gw/` — `scripts/score_generate_wide.py` |
-| cross-vendor ([@sec:diagnosis-hold-outside-one]) | `data/cross_vendor/` — `scripts/cross_vendor_budget.py`, `scripts/cross_vendor_gap.py` |
+| cross-vendor ([@sec:diagnosis-hold-outside-one]) | `sweep_out/` (raw replies) — rebuild with `scripts/manual_collect.py` `collect` and `collect-verify`, then `scripts/cross_vendor_budget.py`, `scripts/cross_vendor_gap.py` |
 | contamination / recency ([@sec:model-reading-spectra-formula]) | `data/modality/`, `data/audit/recency_control.json` — `scripts/modality_ablation.py`, `scripts/contamination_recency.py` |
 | figures | `docs/figures/` — `scripts/make_all_figures.sh` |
 | trained generator + GNN verifier | `contrib/generator_probe/`, `data/fverify_gen/` — `scripts/gnn_predict.py`, `data/nmrshiftdb/gnn_c13.pt` |

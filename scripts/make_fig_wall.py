@@ -7,8 +7,13 @@ Design rules for this plate (it is the paper's first visual):
   • Category names live once — centred under each segment on one baseline.
     Colours are learned from the bar; the key does not repeat swatches.
   • One bracket names the recalled pool. Nothing else floats.
-  • n=194 and the 89% verification rate belong in the caption, not here.
+  • n and the 89% verification rate belong in the caption, not here.
+
+Counts come from data/diagnosis.json, written by scripts/forward_verify_all.py. They
+were literals here until the cohort could grow, which would have left the paper's first
+visual quietly disagreeing with the numbers underneath it.
 """
+import json
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -17,18 +22,20 @@ import figstyle as fs
 
 fs.apply()
 
-N = 194
-VERIFIED, MISRANKED, WALL = 58, 7, 129
+D = json.load(open("data/diagnosis.json"))
+N = D["n"]
+VERIFIED, MISRANKED, WALL = D["verified"], D["misranked"], D["wall"]
 RECALLED = VERIFIED + MISRANKED
+assert VERIFIED + MISRANKED + WALL == N, f"segments do not sum to n={N}"
 
 # Wall fill is darker than MUTED chart baselines: it must carry white type and read
 # as the dominant mass, not as a de-emphasised series.
 WALL_FILL = "#5f6670"
 GAP = 0.6
 segs = [
-    (0,        VERIFIED,  fs.GREEN,  "58"),
-    (VERIFIED, MISRANKED, fs.VERMIL, "7"),
-    (RECALLED, WALL,      WALL_FILL, "129"),
+    (0,        VERIFIED,  fs.GREEN,  str(VERIFIED)),
+    (VERIFIED, MISRANKED, fs.VERMIL, str(MISRANKED)),
+    (RECALLED, WALL,      WALL_FILL, str(WALL)),
 ]
 labels = ["verified", "mis-ranked", "never proposed"]
 
@@ -56,7 +63,7 @@ tick = 0.032
 ax.plot([bx0, bx0, bx1, bx1], [by - tick, by, by, by - tick],
         color=fs.INK, lw=0.9, solid_capstyle="butt", solid_joinstyle="miter",
         zorder=3, clip_on=False)
-ax.text((bx0 + bx1) / 2, by + 0.022, "65 recalled (34%)",
+ax.text((bx0 + bx1) / 2, by + 0.022, f"{RECALLED} recalled ({100*RECALLED/N:.0f}%)",
         ha="center", va="bottom", fontsize=fs.FS_BODY, color=fs.INK,
         zorder=3, clip_on=False)
 

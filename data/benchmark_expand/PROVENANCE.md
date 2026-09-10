@@ -68,3 +68,4 @@ key vault, an answers file, or any path under the repository.
 | cross-model arm | `raw_fable/` | single_R70 | R70 | `claude-fable-5-1` |
 | cross-model arm | `raw_fable/` | single_R66 | R66 | `claude-fable-5-1` |
 | cross-model arm | `raw_fable/` | single_R72 | R72 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R18 | R18 | `claude-fable-5-1` |

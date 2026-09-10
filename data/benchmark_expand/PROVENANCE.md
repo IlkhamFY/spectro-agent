@@ -48,3 +48,4 @@ key vault, an answers file, or any path under the repository.
 | cross-model arm | `raw_fable/` | single_R26 | R26 | `claude-fable-5-1` |
 | expansion round | `raw/` | single_R38 | R38 | `claude-opus-5` |
 | cross-model arm | `raw_fable/` | single_R15 | R15 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R28 | R28 | `claude-fable-5-1` |

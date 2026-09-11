@@ -386,9 +386,27 @@ _MP_RE = re.compile(r"\b[mM]\.?\s?p\.?\s*[:=]?\s*([\d]{1,3}\s*-?\s*[\d]{0,3}\s*[
 
 
 def _parse_ir_bands(ir_str: str) -> list[float]:
-    """Pull wavenumbers (cm^-1) from an IR band string."""
+    """Pull wavenumbers (cm^-1) from an IR band string.
+
+    US-style thousands separators ("2,976", "3,060") are collapsed before
+    matching so bands >=1000 are not truncated to their last three digits.
+    List separators with a space after the comma ("1715, 1602") are left alone.
+    Decimal dots ("1715.5") are preserved. European decimal commas
+    ("1715,5") are not treated as thousands (need fewer than 3 digits after
+    the comma) and are left for a possible later pass.
+    """
+    # "2,976" -> "2976"; do not touch "1715, 1602" (space after comma).
+    s = re.sub(r"(?<=\d),(?=\d{3}(?:\D|$))", "", ir_str)
+    # Conservative European thousands: "2.976" / "3.060" (1-2 digits, then
+    # exactly three) -> join when the result is in the IR window. Avoids
+    # turning true decimals like "128.456" into huge integers outside range.
+    def _eu_thousands(m: re.Match) -> str:
+        joined = m.group(1) + m.group(2)
+        val = float(joined)
+        return joined if 400 <= val <= 4000 else m.group(0)
+    s = re.sub(r"\b(\d{1,2})\.(\d{3})\b", _eu_thousands, s)
     # numbers in the plausible IR window 400-4000, ignore intensities like (s)/(w)
-    nums = re.findall(r"\b(\d{3,4})(?:\.\d+)?\b", ir_str)
+    nums = re.findall(r"\b(\d{3,4}(?:\.\d+)?)\b", s)
     bands = [float(n) for n in nums if 400 <= float(n) <= 4000]
     return bands
 

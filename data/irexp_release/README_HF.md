@@ -3,7 +3,6 @@ language:
   - en
 license:
   - cc-by-4.0
-  - cc-by-sa-4.0
 tags:
   - chemistry
   - spectroscopy
@@ -12,124 +11,96 @@ tags:
   - structure-elucidation
   - cheminformatics
 size_categories:
-  - 100K<n<1M
+  - 10K<n<100K
 pretty_name: IRexp
 configs:
   - config_name: commercial
     data_files: data/irexp_commercial.jsonl.gz
-  - config_name: resolved
-    data_files: data/irexp_resolved.jsonl.gz
-  - config_name: train_no_bench
-    data_files: data/train_no_bench.jsonl.gz
-  - config_name: train_no_bench_nmr
-    data_files: data/train_no_bench_nmr.jsonl.gz
-  - config_name: pretrain_ir
-    data_files: data/pretrain_ir.jsonl.gz
-  - config_name: all
-    data_files: data/irexp.jsonl.gz
-  - config_name: non_commercial
-    data_files: data/irexp_non_commercial.jsonl.gz
-  - config_name: sharealike
-    data_files: data/irexp_sharealike.jsonl.gz
+  - config_name: resolved_commercial
+    data_files: data/irexp_resolved_commercial.jsonl.gz
+  - config_name: train_no_bench_commercial
+    data_files: data/train_no_bench_commercial.jsonl.gz
 ---
 
 # IRexp — experimental IR band lists from open-access literature
 
 **Paper:** [IRexp and IRSpectra-Bench: redistributable experimental IR band lists, a blind peak-list benchmark, and a recall-bound diagnosis of LLM elucidation](https://github.com/IlkhamFY/spectro-agent) (manuscript in preparation, 2026)
 
-IRexp is the largest **openly redistributable** collection of **experimental infrared band lists** mined from open-access chemistry papers, often with co-reported ¹H/¹³C shift lists and resolved structures.
+IRexp is an **openly redistributable** collection of **experimental infrared band lists** mined from open-access chemistry papers, often with co-reported ¹H/¹³C shift lists and resolved structures.
 
 > **Important:** IRexp contains **band lists** (peak positions in cm⁻¹), not digitised absorbance traces. This is the form reported in publication text — the regime IRSpectra-Bench evaluates — and is not directly comparable to SDBS or NIST full spectra.
 
-## Dataset summary
+## Dataset of record (this Hub revision)
 
-| Split / file | Records | Description |
+**Primary redistributable artifact** = commercial CC-BY / CC0 pool (`license_pool=commercial`) after the **F1 thousands-separator rebuild** and targeted PMC refetch merge (2026-09-10).
+
+| Config / file | Records | Description |
 |---|---:|---|
-| `irexp_commercial.jsonl.gz` | **88,545** | **Primary redistributable** — CC-BY + CC0 (`license_pool=commercial`) |
-| `irexp.jsonl.gz` | 121,233 | Full corpus (multi-licence; every row stamped) |
-| `irexp_non_commercial.jsonl.gz` | 21,823 | CC-BY-NC* held aside |
-| `irexp_sharealike.jsonl.gz` | 1,897 | Chemotion CC-BY-SA-4.0 + rare PMC SA |
-| `irexp_empty_unknown.jsonl.gz` | 8,963 | Empty/unknown — excluded from commercial Zenodo |
-| `irexp_resolved.jsonl.gz` | 43,060 | Structure-linked (100%; multi-licence — filter by `license_pool`) |
-| … full IR + ¹H + ¹³C + structure | 33,201 | Multimodal quadruples |
-| `train_no_bench.jsonl.gz` | 42,808 | **Recommended for training** — `irexp_resolved` minus all IRSpectra-Bench InChIKey-14 |
-| `train_no_bench_nmr.jsonl.gz` | 32,949 | Same, requiring both ¹H and ¹³C |
+| `commercial` / `irexp_commercial.jsonl.gz` | **88,545** | **Dataset of record** — CC-BY + CC0; F1 bands; F2/F3 flags attached |
+| `resolved_commercial` / `irexp_resolved_commercial.jsonl.gz` | 28,899 | Structure-linked commercial subset |
+| `train_no_bench_commercial` / `train_no_bench_commercial.jsonl.gz` | 29,111 | Commercial `irexp_resolved` minus IRSpectra-Bench InChIKey-14 holdouts |
 
-**Provenance & licensing:** 119,345 PMC-sourced + 1,888 Chemotion/RADAR4Chem. Per-article Europe PMC join stamps `license` / `license_pool` on every row (`scripts/join_pmc_licences.py`). **Commercial training / Zenodo primary = `commercial` config (88,545).** Do not treat the full `all` split as uniformly CC-BY. See `NOTICE` and `LICENCE_REMEDIATION.md`.
+**Not in this Hub primary upload:** non-commercial (CC-BY-NC*), empty/unknown, and multi-licence full dumps. Those remain on disk for research; they are intentionally omitted from `ilkhamfy/IRexp` this round.
 
-**Companion benchmark:** [IRSpectra-Bench](https://github.com/IlkhamFY/spectro-agent/blob/main/docs/LEADERBOARD.md) — 194 blind elucidation problems built from IRexp; score submissions with `scripts/score_submission.py`.
+**Licence fields on every row:** `license`, `license_pool`, `license_raw`, `license_source` (plus `source_doi` / `pmcid` where available). Hub YAML license for the commercial DoR: **cc-by-4.0**.
+
+**F1:** band lists re-parsed to fix thousands-separator / OCR digit artifacts (e.g. referee example PMC6268696). Pool size unchanged vs pre-F1 commercial stamp.
+
+**F2 / F3 quality flags (kept as fields; rows NOT dropped):**
+- `ir_shared_in_paper` (F2) — same IR band list shared across multiple records in one paper (pairing risk). Commercial: 18,651 true.
+- `ir_table_flatten_suspect` (F3) — suspected table-flatten / column-misread band list. Commercial: 3,154 true.
+- Policy: **flag-only** (Chem Partner / Ilkham). Headline commercial **n = 88,545** includes flagged rows. Filter locally if needed.
+
+**Zenodo DOI:** pending (not minted in this revision). Do not invent a DOI.
+
+**Companion benchmark:** [IRSpectra-Bench](https://github.com/IlkhamFY/spectro-agent/blob/main/docs/LEADERBOARD.md) — score with `scripts/score_submission.py`.
 
 ## Load in three lines
 
 ```python
 from datasets import load_dataset
 
-# Structure-linked corpus (43,060 records; filter license_pool for commercial use)
-ds = load_dataset("ilkhamfy/IRexp", "resolved", split="train")
+# Dataset of record (88,545 commercial rows)
+ds = load_dataset("ilkhamfy/IRexp", "commercial", split="train")
+print(len(ds), ds[0]["ir_bands_cm-1"][:5], ds[0]["license_pool"])
 
-# Preferred redistributable commercial pool
-comm = load_dataset("ilkhamfy/IRexp", "commercial", split="train")
+# Structure-linked commercial
+res = load_dataset("ilkhamfy/IRexp", "resolved_commercial", split="train")
 
-row = ds[0]
-print(row["ir_bands_cm-1"][:5], row["smiles"][:40])
-```
-
-For **fine-tuning without benchmark leakage**, use the `train_no_bench` config:
-
-```python
-ds = load_dataset("ilkhamfy/IRexp", "train_no_bench", split="train")
-```
-
-Or load a file path directly:
-
-```python
-ds = load_dataset("ilkhamfy/IRexp", data_files="data/train_no_bench.jsonl.gz", split="train")
+# Training without benchmark InChIKey-14 leakage (commercial)
+train = load_dataset("ilkhamfy/IRexp", "train_no_bench_commercial", split="train")
 ```
 
 ## Record schema
 
-Each JSONL row:
+Each JSONL row includes (among other fields):
 
 ```json
 {
-  "id": "AJCQUIFRMABSOZ-UHFFFAOYSA-N",
-  "inchikey": "AJCQUIFRMABSOZ-UHFFFAOYSA-N",
-  "smiles": "Cc1ccccc1NC(=O)Cn1cc...",
-  "selfies": "[C][C][=C]...",
-  "ir_bands_cm-1": [3318.0, 3146.0, 1704.0],
-  "h_nmr": "9.79 (s, 1H, NH-amide), ...",
-  "c_nmr": "164.87, 161.57, ...",
+  "id": "73c2e8a41a6601afa622",
+  "inchikey": null,
+  "smiles": "CCOc1cccc2cc(C(C)=O)c(=O)oc12",
+  "ir_bands_cm-1": [3060.0, 2976.0, 2874.0, 1730.0, 1678.0],
+  "h_nmr": "...",
+  "c_nmr": "...",
   "ir_source": "experimental",
-  "source_doi": "PMC:13234927",
-  "pmcid": "PMC13234927",
+  "source_doi": "PMC:6268696",
+  "pmcid": "PMC6268696",
   "license": "CC-BY",
   "license_pool": "commercial",
-  "license_source": "europepmc"
+  "license_raw": "cc by",
+  "license_source": "europepmc",
+  "ir_shared_in_paper": false,
+  "ir_table_flatten_suspect": false
 }
-```
-
-## Training vs benchmarking
-
-| Use case | File | Benchmark overlap |
-|---|---|---|
-| Pretrain IR encoder | `pretrain_ir.jsonl.gz` or all `ir_bands_cm-1` | N/A (mostly unlabeled) |
-| Supervised IR→structure | `train_no_bench.jsonl.gz` | **None** (248 IK-14 held out) |
-| Evaluate elucidation | [IRSpectra-Bench](https://github.com/IlkhamFY/spectro-agent/blob/main/docs/LEADERBOARD.md) | — |
-| ⚠️ Legacy split | `irexp_release/train.jsonl.gz` | **117/200 IK-14 overlap** — do not use for benchmark evaluation |
-
-Rebuild the held-out training pool:
-
-```bash
-python scripts/build_train_no_bench.py              # 42,808 rows
-python scripts/build_train_no_bench.py --require-nmr  # 32,949 rows (H+C required)
 ```
 
 ## Limitations (read before citing)
 
-- **Band lists, not spectra** — median 9 bands (PMC) vs 39 (Chemotion peak-picked).
+- **Band lists, not spectra** — median ~9 bands (PMC) vs denser Chemotion peak-picked lists.
 - **Literature-transcribed** — heterogeneous labs/instruments; not raw `.jdx` files.
-- **Structure resolution 35%** of all records; use `irexp_resolved` for supervised tasks.
-- **Extraction recall** of IR strings per paper not yet human-audited (transcription fidelity audited: 560/560 bands on n=60).
+- **F2/F3 flags** are heuristic; human audit of strata is in progress — do not treat flags as ground truth exclusions unless you choose to filter.
+- Manuscript totals beyond commercial **88,545** are not claimed here unless independently verified from staged rebuild files.
 
 ## Citation
 
@@ -139,7 +110,7 @@ python scripts/build_train_no_bench.py --require-nmr  # 32,949 rows (H+C require
              a blind peak-list benchmark, and a recall-bound diagnosis of {LLM} elucidation},
   author  = {Yabbarov, Ilkham and Sondhi, Rudra and Vargas-Hern{\'a}ndez, Rodrigo A.},
   year    = {2026},
-  note    = {Manuscript in preparation; target J. Chem. Inf. Model.}
+  note    = {Manuscript in preparation; Hugging Face commercial DoR n=88545 (F1 rebuild 2026-09-10)}
 }
 ```
 
@@ -148,7 +119,7 @@ python scripts/build_train_no_bench.py --require-nmr  # 32,949 rows (H+C require
 - **Dataset (Hugging Face):** https://huggingface.co/datasets/ilkhamfy/IRexp
 - **Code & benchmark:** https://github.com/IlkhamFY/spectro-agent
 - **Leaderboard:** https://github.com/IlkhamFY/spectro-agent/blob/main/docs/LEADERBOARD.md
-- **Zenodo:** DOI minted at publication
-- **Licence details:** `NOTICE` / `LICENCE_REMEDIATION.md` in this repository (and `data/NOTICE`, `docs/scientific_data/LICENCE_REMEDIATION.md` in the GitHub mirror)
+- **Zenodo:** DOI pending (not minted)
+- **Licence details:** `NOTICE` / `LICENCE_REMEDIATION.md` in this repository
 
 When uploading to Hugging Face, this file is the repository `README.md`.

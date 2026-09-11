@@ -215,3 +215,25 @@ if __name__ == "__main__":
             traceback.print_exc()
     print(f"\n{passed}/{len(fns)} tests passed")
     sys.exit(0 if passed == len(fns) else 1)
+
+
+def test_ir_upsilon_colon_header():
+    """PMC-style 'IR: ῡ = ..., cm-1' must be recognized as characterization IR."""
+    text = (
+        "2-(Diphenylmethylene)-1,3,3-triphenyl-2,3-dihydrocyclopenta[b]indole (3a). "
+        "Yellow solid. "
+        "1H NMR (400 MHz, CDCl3) δ 7.85 (d, J = 8.0 Hz, 2H), 2.13 (s, 3H). "
+        "13C NMR (101 MHz, CDCl3) δ 208.1, 141.2, 45.3. "
+        "IR: ῡ = 2921, 2853, 1640, 1400, 1190, 1134, 1077, 756, 686, 626, 467 cm-1. "
+        "HRMS (ESI) calcd for C10H12 148.0888."
+    )
+    recs = extract_records(text)
+    assert len(recs) == 1
+    assert 2921.0 in recs[0].ir_bands
+    assert 1640.0 in recs[0].ir_bands
+
+
+def test_ir_spaced_thousands():
+    """Spaced thousands '1 697' must join like US commas."""
+    assert 1697.0 in _parse_ir_bands('1 697, 1 488, 970')
+    assert 3060.0 in _parse_ir_bands('3 060, 2 976, 1 730')

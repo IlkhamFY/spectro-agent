@@ -289,9 +289,14 @@ _NMR_RE = re.compile(
 _IR_RE = re.compile(
     r"\b(?:ATR-?FT-?IR|FT-?IR|IR)\b\s*"
     r"(?:"
-    r"\((?:[^)]{0,45})\)\s*(?:ν̃|ν|vmax|v\s?max)?\s*(?:max)?\s*(?:/?\s?cm\s?-?\s?1)?"
-    r"|(?:ν̃|ν|vmax|v\s?max)\s*(?:max)?\s*(?:/?\s?cm\s?-?\s?1)?"
-    r"|/?\s?cm\s?-?\s?1"
+    # method tag: IR (KBr) / FT-IR (neat) ...
+    r"\((?:[^)]{0,45})\)\s*(?:ν̃|ν|ῡ|vmax|v\s?max)?\s*(?:max)?\s*(?:/?\s?cm\s?[-\u2212]?\s?1)?"
+    # bare upsilon: IR νmax / IR ῡ =
+    r"|(?:ν̃|ν|ῡ|vmax|v\s?max)\s*(?:max)?\s*[:=]?\s*(?:/?\s?cm\s?[-\u2212]?\s?1)?"
+    # explicit unit after IR: IR /cm-1 / IR cm-1
+    r"|/?\s?cm\s?[-\u2212]?\s?1"
+    # colon/equals then optional upsilon: "IR: ῡ = 2921, ... cm-1"
+    r"|[:=]\s*(?:ν̃|ν|ῡ|vmax|v\s?max)?\s*[:=]?\s*"
     r")\s*[:=]?\s*",
     re.IGNORECASE,
 )
@@ -397,6 +402,9 @@ def _parse_ir_bands(ir_str: str) -> list[float]:
     """
     # "2,976" -> "2976"; do not touch "1715, 1602" (space after comma).
     s = re.sub(r"(?<=\d),(?=\d{3}(?:\D|$))", "", ir_str)
+    # Spaced thousands seen in some PMC OA dumps: "1 697" / "3 060".
+    s = re.sub(r"\b(\d{1,2})\s(\d{3})\b", lambda m: m.group(1)+m.group(2)
+               if 400 <= float(m.group(1)+m.group(2)) <= 4000 else m.group(0), s)
     # Conservative European thousands: "2.976" / "3.060" (1-2 digits, then
     # exactly three) -> join when the result is in the IR window. Avoids
     # turning true decimals like "128.456" into huge integers outside range.

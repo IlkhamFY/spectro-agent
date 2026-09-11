@@ -124,12 +124,82 @@ Sidecars live next to rebuild outputs (`*_ir_quality_flags.jsonl.gz` + `*_stats.
 - `*_ir_quality_flags.jsonl.gz` (+ stats)
 - `rebuild_stats.json`
 
-## H) Blockers / follow-ups
+## H) Unmatched inventory (regenerated)
 
-1. **Unmatched curated rows** (no harvest join key): keep old bands — 3045 on full irexp,
-   2333 on resolved. Residual `max&lt;1000` after rebuild is largely these + true
-   fingerprint-only spectra. Optional next step: targeted PMC OA re-fetch for residual
-   `max&lt;1000` rows (no local PMC txt cache tonight).
-2. **Do not overwrite HF / Zenodo** until Ilkham reviews staged rebuild + F2/F3 drop policy.
-3. F2/F3 are **flags only** — user decides which rows to drop for the next curated release.
-4. No AI coauthor; git author unchanged (`Ilkham Yabbarov <ilkhamfy@gmail.com>`).
+Join key: \(source_doi, old_bands)\ then \(source_doi, h_nmr, c_nmr)\ against harvest.
+Artifacts:
+
+| Path | N / notes |
+|------|-----------|
+| \data/irexp_rebuild_20260910/unmatched_irexp_ids.jsonl\ | 3045 rows (id, pmcid, bands, flags) |
+| \data/irexp_rebuild_20260910/unmatched_irexp_ids.txt\ | TSV id/pmcid/max_lt/structure/pool |
+| \data/irexp_rebuild_20260910/unmatched_priority_pmcids.txt\ | 128 unique PMCIDs (priority-sorted) |
+| \data/irexp_rebuild_20260910/unmatched_summary.json\ | counts |
+
+Breakdown of **3045** unmatched curated rows:
+
+| Bucket | Rows | Notes |
+|--------|-----:|-------|
+| Chemotion / no PMC (\source_doi=10.22000/OGoEQGlsZGElrgst\, CC-BY-SA) | 1888 | Not in PMC OA harvest; PMC re-fetch cannot help |
+| PMC-linked unmatched | 1157 | Across **128** unique PMCIDs |
+| … of which \max(band)<1000\ | 6 | Priority (a) |
+| … of which structure-linked | 445 | Priority (b) |
+| … of which \license_pool=commercial\ | 920 | Priority (c) |
+
+Residual \max<1000\ on \irexp_reparsed\ (**78**) is **mostly not** these unmatched rows (only 7 overlap). Most residuals are fingerprint-only / far-IR lists or materials FTIR prose already present in harvest with \max<1000\ after the thousands fix.
+
+## I) Targeted PMC OA re-fetch (this session)
+
+Script: \scripts/refetch_unmatched_pmc_ir.py\ (S3 \pmc-oa-opendata\ primary, Europe PMC XML fallback; checkpointed).
+
+Extractor follow-ups landed with the re-fetch (tests green, **14 passed**):
+
+- Recognize \IR: ῡ = … cm-1\ characterization headers (U+1FE1).
+- Join spaced thousands \1 697\ → \1697\ in \_parse_ir_bands\.
+
+Commands:
+
+\\\powershell
+C:\Users\zolot\miniforge3\python.exe scripts\refetch_unmatched_pmc_ir.py --workers 8 --sleep 0.05 --merge
+C:\Users\zolot\miniforge3\python.exe -m pytest tests/test_extract.py -q
+\\\
+
+### Results (all 128 priority PMCs)
+
+| Metric | Value |
+|--------|------:|
+| PMCs requested / fetched | 128 / 128 (all via S3) |
+| IR records extracted | 1069 (was 790 before header/thousands follow-ups) |
+| Zero-IR PMCs remaining | 30 (materials FTIR / non-list formats / no characterization IR) |
+| Curated rows **updated** (bands changed) | 52 |
+| Curated rows **confirmed identical** | 784 |
+| PMC-unmatched rows resolved (update∨confirm) | 836 / 1157 |
+| PMC-unmatched still unresolved | 321 (274 on zero-IR PMCs) |
+| \irexp\ \max<1000\ before → after merge | 78 → 77 |
+| release \pretrain_ir\ \max<1000\ | 77 → 76 |
+
+Priority done vs remaining (PMC-linked unmatched only):
+
+| Priority | Target rows | Resolved | Still |
+|----------|------------:|---------:|------:|
+| (a) \max<1000\ | 6 | 1 | 5 |
+| (b) structure-linked | 445 | 326 | 119 |
+| (c) commercial pool | 920 | 678 | 242 |
+
+Staging outputs (still **not** published to HF):
+
+- \data/irexp_rebuild_20260910/irexp_reparsed_refetch.jsonl.gz\
+- \data/irexp_rebuild_20260910/irexp_resolved_reparsed_refetch.jsonl.gz\
+- \data/irexp_rebuild_20260910/release_{train,pretrain_ir}_reparsed_refetch.jsonl.gz\
+- \data/irexp_rebuild_20260910/refetch/\ (checkpoint, records, summaries)
+
+Overnight full-3045 PMC crawl **not needed**: only 128 PMCs; Chemotion 1888 have no PMC.
+
+## J) Blockers / follow-ups
+
+1. **Chemotion 1888**: need Chemotion/RADAR source re-parse (local \data/chemotion/\ was absent tonight), not PMC OA.
+2. **30 zero-IR PMCs / 321 rows**: further extractor patterns or accept as non-list IR; several \max<1000\ residuals on PMC10857387 look like materials FTIR peak-tracking, not compound characterization.
+3. **Do not overwrite HF / Zenodo** until Ilkham reviews staged rebuild + F2/F3 drop policy + refetch merge.
+4. F2/F3 remain **flags only**.
+5. Human audit scaffold: \docs/HUMAN_AUDIT_PROTOCOL_2026-09-10.md\ (no audits completed yet).
+6. No AI coauthor; git author \Ilkham Yabbarov <ilkhamfy@gmail.com>\.

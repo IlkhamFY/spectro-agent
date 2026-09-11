@@ -13,6 +13,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from spectro_scraper.extract import (  # noqa: E402
     extract_records, parse_h_peaks, parse_c_peaks, normalize_text,
+    _parse_ir_bands,
 )
 from spectro_scraper.normalize import to_spectro_h, to_spectro_c  # noqa: E402
 
@@ -167,6 +168,37 @@ def test_clean_name_strips_narrative_lead_in():
     # locant spaces + fluoro typo repaired for OPSIN
     assert _clean_name("1, 3, 5-triazine") == "1,3,5-triazine"
     assert "fluoro" in _clean_name("4-flourophenol")
+
+
+
+
+def test_ir_bands_thousands_separators():
+    """F1: US thousands commas must not truncate bands >= 1000.
+
+    Referee example (PMC6268696 compound 3): paper reports
+    3,060 / 2,976 / 2,874 / 1,730 / 1,678 but the pre-fix parser stored
+    only the last three digits: [976, 874, 730, 678].
+    """
+    raw = "IR (KBr) νmax: 3,060, 2,976, 2,874, 1,730, 1,678 cm-1"
+    bands = _parse_ir_bands(raw)
+    assert bands == [3060.0, 2976.0, 2874.0, 1730.0, 1678.0], bands
+    # spaced list separators must still work; decimal dots preserved
+    assert 1715.5 in _parse_ir_bands("IR (neat) ν 3024, 1715.5, 1602 cm-1")
+    assert 3024.0 in _parse_ir_bands("IR (neat) ν 3024, 1715, 1602 cm-1")
+    # slash-separated form from some SI sections
+    assert _parse_ir_bands("3,060 / 2,976 / 2,874 / 1,730 / 1,678") == [
+        3060.0, 2976.0, 2874.0, 1730.0, 1678.0
+    ]
+    # end-to-end through extract_records
+    text = (
+        "4-phenylbutan-2-one (3). Colorless oil. "
+        "IR (KBr) νmax 3,060, 2,976, 2,874, 1,730, 1,678 cm-1. "
+        "1H NMR (400 MHz, CDCl3) δ 7.85 (d, J = 8.0 Hz, 2H). "
+        "13C NMR (101 MHz, CDCl3) δ 208.1, 141.2."
+    )
+    recs = extract_records(text)
+    assert len(recs) == 1
+    assert recs[0].ir_bands == [3060.0, 2976.0, 2874.0, 1730.0, 1678.0]
 
 
 if __name__ == "__main__":

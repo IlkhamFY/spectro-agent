@@ -1,0 +1,58 @@
+% Nature Portfolio shared style — print-first type scale (183 mm)
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+\RequirePackage{xcolor}
+\RequirePackage{helvet}
+\IfFileExists{sansmathfonts.sty}{\RequirePackage{sansmathfonts}}{}
+\renewcommand{\familydefault}{\sfdefault}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,calc,positioning,fit,shapes.geometric,shapes.misc,patterns,patterns.meta}
+
+\definecolor{nmrBlue}{HTML}{4A7EBB}
+\definecolor{nmrBlueDark}{HTML}{2E5F8F}
+\definecolor{nmrBlueLight}{HTML}{A8C8E8}
+\definecolor{nmrPeach}{HTML}{E8B48C}
+\definecolor{nmrNavy}{HTML}{1B3D5C}
+\definecolor{nmrRed}{HTML}{C44E52}
+\definecolor{nmrGreen}{HTML}{3D8B5E}
+\definecolor{nmrOrange}{HTML}{D97B32}
+\definecolor{ink}{HTML}{1A1A1A}
+\definecolor{muted}{HTML}{7A7F85}
+\definecolor{note}{HTML}{5C636A}
+\definecolor{faint}{HTML}{E8EAEC}
+\definecolor{ghost}{HTML}{C5C9CD}
+\definecolor{tintBlue}{HTML}{EEF3F8}
+\definecolor{tintGreen}{HTML}{EAF4EE}
+\definecolor{viewGrey}{HTML}{B8BDC3}
+\definecolor{rule}{HTML}{D0D4D8}
+
+% Print floors at 183 mm
+\newcommand{\NatureFont}{\fontfamily{phv}\selectfont}
+\newcommand{\PanelLabel}[1]{{\NatureFont\bfseries\fontsize{10}{12}\selectfont #1}}
+\newcommand{\FigTitle}{\NatureFont\bfseries\fontsize{9}{11}\selectfont}
+\newcommand{\FigBody}{\NatureFont\fontsize{8}{9.5}\selectfont}
+\newcommand{\FigSmall}{\NatureFont\fontsize{7.2}{8.8}\selectfont}
+\newcommand{\FigTiny}{\NatureFont\fontsize{6.5}{7.8}\selectfont}
+\newcommand{\FigAxis}{\NatureFont\fontsize{8}{9.5}\selectfont}
+
+\tikzset{
+  nature arrow/.style={-{Latex[length=1.8mm,width=1.4mm]}, line width=0.6pt, ink},
+}
+
+\pgfplotsset{
+  nature axis/.style={
+    tick label style={font=\FigSmall},
+    label style={font=\FigAxis\bfseries},
+    title style={font=\FigTitle, color=ink},
+    axis line style={ink, line width=0.5pt},
+    tick style={ink, line width=0.4pt},
+    major grid style={faint, line width=0.35pt},
+    axis x line=bottom,
+    axis y line=left,
+    enlarge x limits=false,
+    clip=false,
+    scaled ticks=false,
+    xlabel near ticks,
+    ylabel near ticks,
+  },
+}

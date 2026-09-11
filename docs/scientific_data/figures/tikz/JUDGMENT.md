@@ -1,0 +1,36 @@
+# IRexp Sci Data — TeX figure competition judgment
+
+Four entries competed (Opus, GPT, Sonnet, Curator) on Nature Portfolio TikZ/PGFPlots figures.
+
+## Rubric (each /10)
+
+| Criterion | Weight |
+|-----------|--------|
+| Nature art-desk first impression | 25% |
+| Editorial clarity of the single job | 20% |
+| Data fidelity (frozen JSON) | 25% |
+| Print readability @ 183 mm / 89 mm | 15% |
+| TeX craft / reproducibility | 15% |
+
+## Scores
+
+| Figure | Opus | GPT | Sonnet | Curator | **Winner** |
+|--------|------|-----|--------|---------|------------|
+| Positioning (Fig 1) | **9.2→9.4** (post IR-peer fix) | 8.6 | 7.0 | 8.4 | **Opus + IR-peer revise** — NMRexp removed as bar; Zipoli computed IR added |
+| Pipeline (Fig 2) | late full set | 9.1 | **9.4** | 7.8 | **Sonnet** — iconography + concrete QC rejection rows matching manuscript |
+| Distribution (Fig 3) | late full set | **9.0** | 9.2 | 7.5 | **GPT** — colour-encoded panels; Sonnet close runner-up |
+
+Sonnet positioning was conceptually strong (log lollipops) but sidebar typography collided.
+Curator was solid data-faithful baseline; lost on pipeline packing and hist rendering.
+Opus/Sonnet had not finished Figs 2–3 at judgment time.
+
+## Production promotion
+
+| Output | Source |
+|--------|--------|
+| `figures/fig_irexp_positioning.{pdf,png}` | IR-peer revise of Opus concept |
+| `figures/fig_irexp_pipeline.{pdf,png}` | `competition/sonnet/` |
+| `figures/fig_irexp_distribution.{pdf,png}` | `competition/gpt/` |
+
+TeX sources archived under `figures/tikz/winning/`.
+Rebuild: `bash scripts/build_tikz_scidata_figures.sh`

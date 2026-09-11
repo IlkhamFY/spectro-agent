@@ -1,0 +1,280 @@
+% =====================================================================
+%  IRexp / Scientific Data -- Figure 1: resource positioning
+%  Pure TikZ (no pgfplots axis: the 2.5D bars need per-face control).
+%  Canvas 183 mm (Nature double column) x 85.2 mm.
+%  Agent OPUS. Every count comes from ../../tikz/frozen_plot_data.json.
+%
+%  Note on typography: node fonts are always set with the TikZ `font=` key.
+%  An inline \FigBody inside a multi-line node body would apply to the
+%  first line only, because align=left puts each line in its own cell.
+% =====================================================================
+\documentclass[border=0pt,tikz]{standalone}
+
+% sansmathfonts is absent from this TeX Live tree; declare it loaded so the
+% shared style sheet's \RequirePackage becomes a no-op, then fall back to
+% helvet + sfmath so digits inside math mode stay Helvetica.
+\usepackage[T1]{fontenc}      % proper dashes, quotes and \textbullet from the text font
+\usepackage{textcomp}         % \texttimes etc. from TS1 Nimbus Sans, not Computer Modern
+\makeatletter\@namedef{ver@sansmathfonts.sty}{2023/01/01}\makeatother
+\input{../../tikz/nature_style.tex}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[helvet]{sfmath}
+
+% ---------------------------------------------------------------------
+%  Frozen data.  Magnitudes are carried in millions (\N*) and thousands
+%  (\K*) because pgfmath saturates just above 16384.
+% ---------------------------------------------------------------------
+\def\Nsdbs{0.054100}   \def\Ksdbs{54.100}    \def\Lsdbs{54,100}
+\def\Nnist{0.017000}   \def\Knist{17.000}    \def\Lnist{17,000}
+\def\Nnmrexp{3.370987}                       \def\Lnmrexp{3,370,987}
+\def\Nirexp{0.121233}  \def\Kirexp{121.233}  \def\Lirexp{121,233}
+\def\Nstruct{0.043060} \def\Kstruct{43.060}  \def\Lstruct{43,060}
+\def\Ncomm{0.088545}   \def\Kcomm{88.545}    \def\Lcomm{88,545}
+
+% ---------------------------------------------------------------------
+%  Panel A geometry (mm; canvas origin bottom-left)
+% ---------------------------------------------------------------------
+\def\Ax{16}      \def\Ay{19}      % plot left / baseline
+\def\Aw{88}      \def\Ah{52}      % plot width / height
+\def\Amax{3.5}                    % millions of records at full height
+\def\Adep{1.6}                    % isometric depth
+\pgfmathsetmacro{\Astep}{\Ah/7}   % one 0.5e6 tick
+\pgfmathsetmacro{\Ascale}{\Ah/\Amax}
+\pgfmathsetmacro{\Atop}{\Ay+\Ah}
+\pgfmathsetmacro{\Aright}{\Ax+\Aw}
+\pgfmathsetmacro{\Aedge}{\Ax+\Aw+\Adep}
+
+\def\Csdbs{30}\def\Cnist{48}\def\Cnmrexp{66}\def\Cirexp{90}
+\pgfmathsetmacro{\CirexpL}{\Cirexp-7}
+\pgfmathsetmacro{\CirexpR}{\Cirexp+7}
+
+% Panel B geometry: spine x, bar-field width, field maximum (thousands)
+\def\Dx{145}\def\Dw{23}\def\Dmax{130}
+
+% ---------------------------------------------------------------------
+%  2.5D bar: {centre x}{baseline y}{height}{full width}{depth}{fill}
+% ---------------------------------------------------------------------
+\newcommand{\IsoBar}[6]{%
+  \begin{scope}[shift={(#1,#2)},line join=round]
+    \pgfmathsetmacro{\bhw}{#4/2}%
+    \fill[#6!70!nmrNavy] (\bhw,0) -- ({\bhw+#5},#5) -- ({\bhw+#5},{#3+#5}) -- (\bhw,#3) -- cycle;
+    \fill[#6!45!white]  (-\bhw,#3) -- (\bhw,#3) -- ({\bhw+#5},{#3+#5}) -- ({-\bhw+#5},{#3+#5}) -- cycle;
+    \fill[#6] (-\bhw,0) rectangle (\bhw,#3);
+    \draw[#6!45!ink,line width=0.3pt]
+      (-\bhw,0) -- (\bhw,0) -- ({\bhw+#5},#5) -- ({\bhw+#5},{#3+#5})
+      -- ({-\bhw+#5},{#3+#5}) -- (-\bhw,#3) -- cycle;
+    \draw[#6!45!ink,line width=0.3pt] (\bhw,0) -- (\bhw,#3) -- ({\bhw+#5},{#3+#5});
+    \draw[#6!45!ink,line width=0.3pt] (-\bhw,#3) -- (\bhw,#3);
+  \end{scope}%
+}
+
+% Miniature 2.5D legend swatch at {x,y} in colour {c}
+\newcommand{\IsoKey}[2]{%
+  \begin{scope}[shift={(#1)},line join=round]
+    \fill[#2!70!nmrNavy] (1.3,0) -- (2.1,0.8) -- (2.1,2.1) -- (1.3,1.3) -- cycle;
+    \fill[#2!45!white] (0,1.3) -- (1.3,1.3) -- (2.1,2.1) -- (0.8,2.1) -- cycle;
+    \fill[#2] (0,0) rectangle (1.3,1.3);
+    \draw[#2!45!ink,line width=0.25pt]
+      (0,0) -- (1.3,0) -- (2.1,0.8) -- (2.1,2.1) -- (0.8,2.1) -- (0,1.3) -- cycle;
+    \draw[#2!45!ink,line width=0.25pt] (1.3,0) -- (1.3,1.3) -- (2.1,2.1);
+    \draw[#2!45!ink,line width=0.25pt] (0,1.3) -- (1.3,1.3);
+  \end{scope}%
+}
+
+% Panel B horizontal bar: {row y}{value/1000}{bar height}{fill}
+\newcommand{\DetailBar}[4]{%
+  \pgfmathsetmacro{\dlen}{#2*\Dw/\Dmax}%
+  \fill[#4] (\Dx,{#1-#3/2}) rectangle ({\Dx+\dlen},{#1+#3/2});%
+}
+% Panel B value label: {row y}{value/1000}{label}{colour}{weight}
+\newcommand{\DetailVal}[5]{%
+  \pgfmathsetmacro{\dend}{\Dx+#2*\Dw/\Dmax}%
+  \node[anchor=west,inner sep=0pt,text=#4,font=\FigSmall] at ({\dend+0.9},#1) {#5#3};%
+}
+% Sidebar bullet: {top y}{lead word}{line 1}{line 2}
+\newcommand{\SideItem}[4]{%
+  \node[anchor=north west,inner sep=0pt,text=nmrBlueDark,font=\FigBody] at (118.5,#1)
+    {\textbf{$+$}};%
+  \node[anchor=north west,inner sep=0pt,text=ink,font=\FigBody] at (122.4,#1)
+    {\textbf{#2}};%
+  \node[anchor=north west,inner sep=0pt,text=note,font=\FigSmall,align=left,
+        inner ysep=0pt] at (122.4,{#1-2.8}) {#3\\[0.25ex]#4};%
+}
+
+\begin{document}\NatureFont
+\begin{tikzpicture}[x=1mm,y=1mm,line cap=butt]
+\useasboundingbox (0,2.4) rectangle (183,87.6);
+
+% =====================================================================
+%  PANEL A  --  honest linear scale, 2.5D bars
+% =====================================================================
+\node[anchor=north west,inner sep=0pt] at (2,87) {\PanelLabel{A}};
+
+% floor plane
+\fill[faint!55!white]
+  (\Ax,\Ay) -- (\Aright,\Ay) -- (\Aedge,{\Ay+\Adep}) -- ({\Ax+\Adep},{\Ay+\Adep}) -- cycle;
+
+% whisper grid on the back wall; ticks and labels at the front
+\foreach \i in {0,1,2,3,4,5,6,7}{%
+  \pgfmathsetmacro{\gy}{\Ay+\i*\Astep}
+  \ifnum\i>0
+    \draw[faint,line width=0.35pt] (\Ax,\gy) -- ({\Ax+\Adep},{\gy+\Adep})
+      -- (\Aedge,{\gy+\Adep});
+  \fi
+  \draw[ink,line width=0.4pt] ({\Ax-0.9},\gy) -- (\Ax,\gy);
+  \pgfmathsetmacro{\gl}{\i*0.5}
+  \node[anchor=east,inner sep=0pt,text=ink,font=\FigSmall] at ({\Ax-1.5},\gy)
+    {\pgfmathprintnumber[fixed,fixed zerofill,precision=1]{\gl}};
+}
+\draw[ink,line width=0.5pt] (\Ax,\Ay) -- (\Ax,\Atop);
+\draw[ink,line width=0.5pt] (\Ax,\Ay) -- (\Aright,\Ay);
+\draw[ghost,line width=0.35pt] (\Aright,\Ay) -- (\Aedge,{\Ay+\Adep})
+  -- ({\Ax+\Adep},{\Ay+\Adep});
+\node[rotate=90,anchor=south,inner sep=0pt,text=ink,font=\FigAxis] at (4.6,{\Ay+\Ah/2})
+  {\bfseries Number of records (\texttimes\,10\textsuperscript{6})};
+
+% bars ---------------------------------------------------------------
+\pgfmathsetmacro{\hSDBS}{\Nsdbs*\Ascale}
+\pgfmathsetmacro{\hNIST}{\Nnist*\Ascale}
+\pgfmathsetmacro{\hNMR}{\Nnmrexp*\Ascale}
+\pgfmathsetmacro{\hIR}{\Nirexp*\Ascale}
+\pgfmathsetmacro{\hSTR}{\Nstruct*\Ascale}
+\pgfmathsetmacro{\hCOM}{\Ncomm*\Ascale}
+
+\IsoBar{\Csdbs}{\Ay}{\hSDBS}{10}{\Adep}{ghost}
+\IsoBar{\Cnist}{\Ay}{\hNIST}{10}{\Adep}{ghost}
+% Pale blue, not the saturated nmrBlue used for the IRexp CC-BY/CC0 pool:
+% that colour is claimed by the legend, and the manuscript is explicit that
+% NMRexp is a different-modality reference point rather than an IR rival.
+\IsoBar{\Cnmrexp}{\Ay}{\hNMR}{10}{\Adep}{nmrBlueLight}
+\IsoBar{\CirexpL}{\Ay}{\hIR}{5}{\Adep}{nmrNavy}
+\IsoBar{\Cirexp}{\Ay}{\hSTR}{5}{\Adep}{nmrPeach}
+\IsoBar{\CirexpR}{\Ay}{\hCOM}{5}{\Adep}{nmrBlue}
+
+% value labels -------------------------------------------------------
+\node[anchor=south,inner sep=0pt,text=ink,font=\FigSmall]
+  at ({\Csdbs+\Adep/2},{\Ay+\hSDBS+\Adep+0.8}) {\Lsdbs};
+\node[anchor=south,inner sep=0pt,text=ink,font=\FigSmall]
+  at ({\Cnist+\Adep/2},{\Ay+\hNIST+\Adep+0.8}) {\Lnist};
+% Same weight as the other reference resources; only IRexp is set bold, so
+% the eye is not pulled to the tallest bar in the field.
+\node[anchor=south,inner sep=0pt,text=ink,font=\FigSmall]
+  at ({\Cnmrexp+\Adep/2},{\Ay+\hNMR+\Adep+0.8}) {\Lnmrexp};
+\node[anchor=south,inner sep=0pt,text=nmrNavy,font=\FigSmall]
+  at ({\CirexpL+\Adep/2},{\Ay+\hIR+\Adep+0.8}) {\bfseries\Lirexp};
+
+% access tags + hero marker -----------------------------------------
+\draw[faint,line width=0.4pt] (\Ax,74.2) -- (\Aedge,74.2);
+\node[anchor=south,inner sep=0pt,text=note,font=\FigBody]        at (\Csdbs,75.0)   {View-only};
+\node[anchor=south,inner sep=0pt,text=note,font=\FigBody]        at (\Cnist,75.0)   {View-only};
+\node[anchor=south,inner sep=0pt,text=nmrBlueDark,font=\FigBody] at (\Cnmrexp,75.0) {Open access};
+\node[anchor=south,inner sep=0pt,text=nmrNavy,font=\FigBody]     at (\Cirexp,75.0)  {\bfseries This work};
+\node[star,star points=5,star point ratio=2.15,fill=nmrNavy,draw=none,
+      inner sep=0pt,minimum size=3.3mm] at (\Cirexp,80.4) {};
+
+% category labels ----------------------------------------------------
+\node[anchor=north,align=center,inner sep=0pt,text=ink,font=\FigBody] at (\Csdbs,17.4)
+  {SDBS\\[0.15ex]{\FigSmall\textcolor{note}{FT-IR spectra}}};
+\node[anchor=north,align=center,inner sep=0pt,text=ink,font=\FigBody] at (\Cnist,17.4)
+  {NIST WebBook\\[0.15ex]{\FigSmall\textcolor{note}{gas-phase IR}}};
+\node[anchor=north,align=center,inner sep=0pt,text=ink,font=\FigBody] at (\Cnmrexp,17.4)
+  {NMRexp\\[0.15ex]{\FigSmall\textcolor{note}{NMR peak lists}}};
+\node[anchor=north,align=center,inner sep=0pt,text=nmrNavy,font=\FigBody] at (\Cirexp,17.4)
+  {\bfseries IRexp\\[0.15ex]{\FigSmall\textcolor{note}{IR band lists}}};
+
+% legend, set in the empty upper-left field of the plot ---------------
+\node[anchor=west,inner sep=0pt,text=ink,font=\FigSmall] at (19.5,62.5) {\bfseries IRexp series};
+\IsoKey{19.5,57.4}{nmrNavy}
+\node[anchor=west,inner sep=0pt,text=ink,font=\FigSmall] at (23.2,58.4) {All records};
+\IsoKey{19.5,53.4}{nmrPeach}
+\node[anchor=west,inner sep=0pt,text=ink,font=\FigSmall] at (23.2,54.4) {Structure-linked};
+\IsoKey{19.5,49.4}{nmrBlue}
+\node[anchor=west,inner sep=0pt,text=ink,font=\FigSmall] at (23.2,50.4) {CC-BY\,/\,CC0 pool};
+
+% =====================================================================
+%  Magnifier: tie the compressed baseline of A to panel B
+% =====================================================================
+\draw[ghost,line width=0.4pt,dash pattern=on 0.7mm off 0.5mm]
+  (\Ax,18.4) rectangle (\Aedge,22.4);
+\draw[ghost,line width=0.35pt,dash pattern=on 0.7mm off 0.5mm] (\Aedge,22.4) -- (116,46);
+\draw[ghost,line width=0.35pt,dash pattern=on 0.7mm off 0.5mm] (\Aedge,18.4) -- (116,14);
+
+% =====================================================================
+%  PANEL B  --  detail view, linear 0-130,000
+% =====================================================================
+\node[anchor=north west,inner sep=0pt] at (109.5,46.6) {\PanelLabel{B}};
+\fill[tintBlue,rounded corners=1.4pt] (116,14) rectangle (182,46);
+
+\node[anchor=north west,inner sep=0pt,text=ink,font=\FigBody] at (118.5,43.6)
+  {\bfseries Detail: the small end, expanded};
+\node[anchor=north west,inner sep=0pt,text=note,font=\FigSmall] at (118.5,40.6)
+  {Same linear units, 0--130,000 records};
+
+\def\rIRa{36.2}\def\rIRb{32.8}\def\rIRc{29.4}\def\rSD{24.2}\def\rNI{20.8}
+\draw[ink,line width=0.5pt] (\Dx,19.2) -- (\Dx,38.0);
+\draw[faint,line width=0.35pt] (118.5,26.8) -- (180,26.8);
+
+\DetailBar{\rIRa}{\Kirexp}{2.8}{nmrNavy}
+\DetailBar{\rIRb}{\Kcomm}{2.2}{nmrBlue}
+\DetailBar{\rIRc}{\Kstruct}{2.2}{nmrPeach}
+\DetailBar{\rSD}{\Ksdbs}{2.8}{ghost}
+\DetailBar{\rNI}{\Knist}{2.8}{ghost}
+
+\node[anchor=east,inner sep=0pt,text=nmrNavy,font=\FigSmall] at ({\Dx-1.4},\rIRa) {\bfseries IRexp};
+\node[anchor=east,inner sep=0pt,text=note,font=\FigSmall]    at ({\Dx-1.4},\rIRb) {CC-BY\,/\,CC0 pool};
+\node[anchor=east,inner sep=0pt,text=note,font=\FigSmall]    at ({\Dx-1.4},\rIRc) {structure-linked};
+\node[anchor=east,inner sep=0pt,text=ink,font=\FigSmall]     at ({\Dx-1.4},\rSD)  {SDBS};
+\node[anchor=east,inner sep=0pt,text=ink,font=\FigSmall]     at ({\Dx-1.4},\rNI)  {NIST WebBook};
+
+\DetailVal{\rIRa}{\Kirexp}{\Lirexp}{nmrNavy}{\bfseries}
+\DetailVal{\rIRb}{\Kcomm}{\Lcomm}{ink}{}
+\DetailVal{\rIRc}{\Kstruct}{\Lstruct}{ink}{}
+\DetailVal{\rSD}{\Ksdbs}{\Lsdbs}{ink}{}
+\DetailVal{\rNI}{\Knist}{\Lnist}{ink}{}
+
+% mini scale ruler
+\pgfmathsetmacro{\sfifty}{\Dx+50*\Dw/\Dmax}
+\pgfmathsetmacro{\shund}{\Dx+100*\Dw/\Dmax}
+\draw[note,line width=0.4pt] (\Dx,18.0) -- ({\Dx+\Dw},18.0);
+\foreach \tx in {\Dx,\sfifty,\shund}{\draw[note,line width=0.4pt] (\tx,18.0) -- (\tx,17.3);}
+\node[anchor=north,inner sep=0pt,text=note,font=\FigSmall] at (\Dx,17.0)     {0};
+\node[anchor=north,inner sep=0pt,text=note,font=\FigSmall] at (\sfifty,17.0) {50k};
+\node[anchor=north,inner sep=0pt,text=note,font=\FigSmall] at (\shund,17.0)  {100k};
+
+% =====================================================================
+%  PANEL C  --  sidebar callout
+% =====================================================================
+\node[anchor=north west,inner sep=0pt] at (109.5,87) {\PanelLabel{C}};
+\fill[ghost!45!white,rounded corners=1.8pt] (116.7,49.3) rectangle (182.7,83.3);
+\fill[white,rounded corners=1.8pt] (116,50) rectangle (182,84);
+\draw[ghost,line width=0.45pt,rounded corners=1.8pt] (116,50) rectangle (182,84);
+\begin{scope}
+  \clip[rounded corners=1.8pt] (116,50) rectangle (182,84);
+  \fill[nmrNavy] (116,77.6) rectangle (182,84);
+\end{scope}
+\node[anchor=west,inner sep=0pt,text=white,font=\FigBody] at (118.5,80.8)
+  {\bfseries IRexp --- what this work adds};
+
+% Raised 0.35 mm so the optical padding above the first item matches the
+% padding under the last one.
+\SideItem{75.95}{Large}%
+  {121,233 experimental IR band lists mined from the}{open literature, released as one bulk corpus}
+\SideItem{67.35}{Redistributable}%
+  {88,545 records sit in the CC-BY\,/\,CC0 pool ---}{commercial reuse without further clearance}
+\SideItem{58.75}{Traceable}%
+  {source DOI and a per-record licence pool are}{stamped on every single row}
+
+% =====================================================================
+%  Footnote
+% =====================================================================
+\draw[faint,line width=0.4pt] (2,11.2) -- (181,11.2);
+\node[anchor=north west,inner sep=0pt,text=note,font=\FigSmall,align=left,inner ysep=0pt]
+  at (2,10.4)
+  {SDBS: ca.\ 54,100 digitised FT-IR absorbance spectra (AIST, 2015). NIST WebBook:
+   ca.\ 17,000 gas-phase IR (approximate). Grey fills mark view-only interfaces with no
+   bulk export.\\[0.45ex]
+   NMRexp is the modality peer, holding literature-mined \emph{NMR} peak lists --- a
+   different object, not an IR competitor.
+   \textbf{IR band lists (cm\textsuperscript{-1} positions) are not absorbance traces.}};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,152 @@
+% Fig 3 — Distribution (data only; caption carries interpretation)
+\documentclass[border=0pt,tikz]{standalone}
+\makeatletter\@namedef{ver@sansmathfonts.sty}{2023/01/01}\makeatother
+\input{../nature_style.tex}
+\input{../plot_data.tex}
+\usepackage[helvet]{sfmath}
+\renewcommand{\familydefault}{\sfdefault}
+
+% title | orange stat | hist + elbow
+\newcommand{\vmini}[8]{%
+  \begin{scope}[shift={(#1,#2)}]
+    \node[anchor=north west,font=\FigTiny\bfseries,align=left,text width=29mm]
+      at (0,36) {#3};
+    \node[anchor=north west,font=\FigTiny,nmrOrange,align=left,text width=29mm]
+      at (0,29) {#8};
+    \begin{axis}[
+      nature axis,
+      at={(0mm,2.5mm)}, anchor=south west,
+      width=29mm, height=21mm,
+      xmin=0, xmax=#5, ymin=0, ymax=#6,
+      xtick={0,#5},
+      ytick=\empty,
+      axis y line=none,
+      tick label style={font=\FigTiny},
+      clip=true,
+    ]
+    \addplot[ybar, bar width=1.0pt, fill=nmrBlue, draw=nmrBlue, forget plot]
+      coordinates {#4};
+    \draw[nmrOrange, densely dashed, line width=0.6pt]
+      (axis cs:#7,0) -- (axis cs:#7,{0.92*#6});
+    \end{axis}
+  \end{scope}%
+}
+
+\begin{document}\NatureFont
+\begin{tikzpicture}[x=1mm,y=1mm]
+\useasboundingbox (0,0) rectangle (183,200);
+
+% ========== TOP ROW ==========
+\begin{scope}[shift={(2,118)}]
+  \node[anchor=north west] at (0,80) {\PanelLabel{a}};
+  \node[anchor=west,font=\FigTitle] at (9,77) {Source};
+  \node[anchor=east,font=\FigBody] at (17,54) {PMC OA};
+  \fill[faint] (18.5,50.5) rectangle (46,57.5);
+  \fill[nmrBlue] (18.5,50.5) rectangle (46,57.5);
+  \node[anchor=west,font=\FigSmall\bfseries] at (47.5,54) {119{,}345};
+  \node[anchor=east,font=\FigBody] at (17,36) {Chemotion};
+  \fill[faint] (18.5,32.5) rectangle (46,39.5);
+  \fill[nmrGreen] (18.5,32.5) rectangle (19.8,39.5);
+  \node[anchor=west,font=\FigSmall\bfseries] at (21.2,36) {1{,}888};
+  \draw[ink,line width=0.55pt] (18.5,26) -- (18.5,62);
+\end{scope}
+
+\begin{scope}[shift={(62,118)}]
+  \node[anchor=north west] at (0,80) {\PanelLabel{b}};
+  \node[anchor=west,font=\FigTitle] at (9,77) {Licence pool};
+  \node[anchor=west,font=\FigTiny\itshape,note] at (9,71.5) {log$_{10}$ lengths};
+  \newcommand{\lic}[5]{%
+    \node[anchor=east,font=\FigTiny] at (18,#1) {#2};
+    \fill[#5] (19,{#1-2.0}) rectangle ({19+#3},{#1+2.0});
+    \node[anchor=west,font=\FigTiny] at ({19+#3+0.8},#1) {#4};
+  }
+  \lic{56}{commercial}{29}{88{,}545}{nmrBlue}
+  \lic{45}{non-commercial}{24}{21{,}823}{nmrBlueLight}
+  \lic{34}{empty / unknown}{21}{8{,}963}{viewGrey}
+  \lic{23}{ShareAlike}{16}{1{,}897}{nmrGreen}
+  \lic{12}{other (ND)}{4}{5}{nmrOrange}
+  \draw[ink,line width=0.55pt] (19,6) -- (19,62);
+\end{scope}
+
+\begin{scope}[shift={(122,118)}]
+  \node[anchor=north west] at (0,80) {\PanelLabel{c}};
+  \node[anchor=west,font=\FigTitle] at (9,77) {Modality linkage};
+  \newcommand{\modr}[5]{%
+    \node[anchor=east,font=\FigTiny] at (22,#1) {#2};
+    \fill[faint] (23,{#1-2.1}) rectangle (50,{#1+2.1});
+    \fill[#5] (23,{#1-2.1}) rectangle ({23+#3},{#1+2.1});
+    \node[anchor=west,font=\FigTiny] at ({23+#3+0.8},#1) {#4};
+  }
+  \modr{54}{all records}{27}{121{,}233}{nmrNavy}
+  \modr{42}{+ NMR string}{19.4}{87{,}075}{nmrBlue}
+  \modr{30}{structure-linked}{9.6}{43{,}060}{nmrBlueLight}
+  \modr{18}{full quadruplet}{7.4}{33{,}201}{nmrOrange}
+  \draw[ink,line width=0.55pt] (23,8) -- (23,62);
+\end{scope}
+
+% ========== BOTTOM ROW ==========
+\begin{scope}[shift={(2,2)}]
+  \node[anchor=north west] at (0,108) {\PanelLabel{d}};
+  \node[anchor=west,font=\FigTitle] at (9,105) {Band-count distribution};
+  \begin{axis}[
+    nature axis,
+    at={(11mm,14mm)}, anchor=south west,
+    width=44mm, height=72mm,
+    ymin=0, ymax=28000, xmin=0, xmax=44,
+    xlabel={IR bands per record},
+    ylabel={Records ($\times 10^{3}$)},
+    ylabel style={font=\FigSmall\bfseries},
+    xlabel style={font=\FigSmall\bfseries},
+    ytick={0,10000,20000},
+    yticklabels={0,10,20},
+    xtick={0,10,20,30,40},
+    ymajorgrids=true,
+    tick label style={font=\FigTiny},
+  ]
+  \addplot[ybar, bar width=2.3pt, fill=nmrBlue, draw=none]
+    coordinates {\BandHistCoords};
+  \draw[nmrOrange, line width=0.75pt, densely dashed]
+    (axis cs:\BandMedian,0) -- (axis cs:\BandMedian,25500);
+  \node[font=\FigTiny\bfseries,nmrOrange,anchor=west,fill=white,inner sep=1.2pt]
+    at (axis cs:11.5,24800) {median 9};
+  \end{axis}
+\end{scope}
+
+\begin{scope}[shift={(58,2)}]
+  \node[anchor=north west] at (0,108) {\PanelLabel{e}};
+  \node[anchor=west,font=\FigTitle] at (9,105) {Elemental distribution};
+  \node[anchor=west,font=\FigTiny\bfseries,note] at (1,96) {Major};
+  \foreach \i/\sym/\ww/\txt in {
+    0/C/11.0/43{,}047,1/O/9.9/38{,}870,2/N/9.3/36{,}292,
+    3/S/3.1/12{,}258,4/Cl/2.0/7{,}675,5/F/1.5/5{,}939,
+    6/Br/1.0/3{,}923,7/Si/0.4/959,8/P/0.35/859
+  } {
+    \pgfmathsetmacro{\yy}{88-\i*8.2}
+    \node[anchor=east,font=\FigTiny] at (5.0,\yy) {\sym};
+    \fill[nmrBlue] (6.2,{\yy-1.65}) rectangle ({6.2+\ww},{\yy+1.65});
+    \node[anchor=west,font=\FigTiny] at ({6.2+\ww+0.65},\yy) {\txt};
+  }
+  \draw[ink,line width=0.5pt] (6.2,18) -- (6.2,92);
+  \node[anchor=west,font=\FigTiny\bfseries,note] at (32,96) {Trace};
+  \foreach \i/\sym/\ww/\txt in {
+    0/I/8.5/904,1/Se/3.6/384,2/B/2.5/270,3/Fe/1.1/119,
+    4/Te/0.7/73,5/Sn/0.6/64,6/K/0.35/24,7/Na/0.3/16,8/Ge/0.3/1
+  } {
+    \pgfmathsetmacro{\yy}{88-\i*8.2}
+    \node[anchor=east,font=\FigTiny] at (35.5,\yy) {\sym};
+    \fill[nmrBlue] (36.8,{\yy-1.65}) rectangle ({36.8+\ww},{\yy+1.65});
+    \node[anchor=west,font=\FigTiny] at ({36.8+\ww+0.65},\yy) {\txt};
+  }
+  \draw[ink,line width=0.5pt] (36.8,18) -- (36.8,92);
+\end{scope}
+
+\begin{scope}[shift={(118,2)}]
+  \node[anchor=north west] at (0,108) {\PanelLabel{f}};
+  \node[anchor=west,font=\FigTitle] at (9,105) {Automated validation};
+  \vmini{0}{58}{Transcription error ($n$=200)}{\TxErrCoords}{1}{210}{0.0049}{MAE 0.0049}
+  \vmini{33}{58}{Band recall ($n$=120)}{\PaperRecallCoords}{1}{130}{0.9903}{pool 0.9903}
+  \vmini{0}{4}{List match ($n$=120)}{\ListMatchCoords}{1}{125}{0.9848}{pool 0.9848}
+  \vmini{33}{4}{Chemist-proxy fails ($n$=280)}{\FailCtCoords}{2.5}{300}{0.0321}{rate 0.0321}
+\end{scope}
+\end{tikzpicture}
+\end{document}

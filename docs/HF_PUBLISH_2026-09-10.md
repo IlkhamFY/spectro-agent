@@ -58,5 +58,9 @@ All streamed commercial rows have `license_pool=commercial`. Licence fields reta
 
 ## Repo commit
 
-Git commit SHA for script/card/docs changes is recorded in this file after commit (see below / `git log`).
-
+| Field | Value |
+|-------|-------|
+| Git commit | 3af6f5af244cbec0c8f763973fedd5d93af3de20 |
+| Author | Ilkham Yabbarov <ilkhamfy@gmail.com> |
+| Message | Publish F1 commercial IRexp DoR to HF (flags kept). |
+| GitHub | https://github.com/IlkhamFY/spectro-agent/commit/3af6f5af244cbec0c8f763973fedd5d93af3de20 |

@@ -71,3 +71,4 @@ key vault, an answers file, or any path under the repository.
 | cross-model arm | `raw_fable/` | single_R18 | R18 | `claude-fable-5-1` |
 | expansion round | `raw/` | single_R49 | R49 | `claude-opus-5` |
 | expansion round | `raw/` | single_R50 | R50 | `claude-opus-5` |
+| expansion round | `raw/` | single_R57 | R57 | `claude-opus-5` |

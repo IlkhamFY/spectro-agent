@@ -3,7 +3,7 @@
 Pre-registration (frozen above the deviations line):
 `docs/EXPANSION_PREREGISTRATION_500.md`.
 
-**Opus deposits: 40/230.** Questions committed. Answer key withheld. No
+**Opus deposits: 42/230.** Questions committed. Answer key withheld. No
 `predictions2.jsonl`. **Do not score a partial. Do not write a top-1 / recall
 number for this round into the ICLR paper.** Headline stays **n=295** until
 this round is 100% deposited, validated (already snapshotted), and scored.
@@ -53,9 +53,9 @@ is the arithmetic of the draw + this audit, not a score.
 
 | arm | solver | compounds with a blind response | of 230 |
 |---|---|---:|---:|
-| expansion toward 500 | `claude-opus-5` | **40** | 17.4% |
+| expansion toward 500 | `claude-opus-5` | **42** | 18.3% |
 
-**190** Opus qids outstanding: `outstanding_opus.txt`.
+**188** Opus qids outstanding: `outstanding_opus.txt`.
 
 Banked (single-compound Cursor Task, `claude-opus-5-thinking-high`; three
 candidates each; RDKit formula check in-solver):
@@ -102,24 +102,26 @@ candidates each; RDKit formula check in-solver):
 | R45 | [Solve expand500 R45](bc-1b2102bd-af4b-5075-9324-0cb7f339da8c) |
 | R47 | [Solve expand500 R47](bc-123817ee-d875-5b63-a472-dcf75e670f68) |
 | R49 | [Solve expand500 R49](bc-fdb6db72-f15f-56a1-99f2-4f3287180deb) |
+| R48 | [Solve expand500 R48](bc-e899bd10-4deb-5b67-b989-7dd71ca5f6d3) |
+| R50 | [Solve expand500 R50](bc-9ac8a15d-bea8-5776-8236-cdd4c40661dc) |
 
 Still in flight:
 
 | qid | agent |
 |---|---|
-| R03 | [Solve expand500 R03 retry 3](bc-a1702eae-0ffb-5f47-8940-835cc5faff01) |
-| R06 | [Solve expand500 R06 retry 4](bc-bc31be3f-2abe-58d6-9086-ab1362180f0b) |
-| R09 | [Solve expand500 R09 retry 3](bc-f2123edc-8a83-52ef-b40b-ce76262b65d8) |
-| R16 | [Solve expand500 R16 retry 3](bc-a1ab7e90-1bdf-545d-bb80-dda2920ae5ca) |
-| R25 | [Solve expand500 R25 retry 2](bc-571f2499-225e-5855-bcf2-4b47bda807a8) |
-| R30 | [Solve expand500 R30 retry 2](bc-eefd3bac-879e-523f-aaa8-a28f00159fa6) |
+| R03 | [Solve expand500 R03 retry 4](bc-71783912-e22b-51f0-9d48-82404ec7d76d) |
+| R06 | [Solve expand500 R06 retry 5](bc-16d2284f-095c-521f-b221-84a6c278fcc4) |
+| R09 | [Solve expand500 R09 retry 4](bc-0af73435-1a46-5644-9790-1ab25ad7627f) |
+| R16 | [Solve expand500 R16 retry 4](bc-13896659-c874-5291-963b-3734725f22a7) |
+| R25 | [Solve expand500 R25 retry 3](bc-97af48f9-93db-5155-9b28-db762619e34a) |
+| R30 | [Solve expand500 R30 retry 3](bc-01f62bec-e70e-5d65-84a5-2bd5214dafdc) |
 | R44 | [Solve expand500 R44](bc-cc570487-c438-5b5c-bdb7-7c43bee03d7f) |
 | R46 | [Solve expand500 R46](bc-9946176f-67e5-5fc8-9d82-d6ce57bd5c8d) |
-| R48 | [Solve expand500 R48](bc-e899bd10-4deb-5b67-b989-7dd71ca5f6d3) |
-| R50 | [Solve expand500 R50](bc-9ac8a15d-bea8-5776-8236-cdd4c40661dc) |
+| R51 | [Solve expand500 R51](bc-e3ac2769-48a3-59a3-b9c1-9e8568d0743b) |
+| R52 | [Solve expand500 R52](bc-bedc8aad-616a-5163-b24a-30fb6a151a81) |
 
-Next after these return: **R51–R230**. Bank with `collect_round.py --partial`.
-No scores on the 40/230 subset.
+Next after these return: **R53–R230**. Bank with `collect_round.py --partial`.
+No scores on the 42/230 subset.
 
 R12 first launch ([Solve expand500 R12](bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a))
 died with an empty reply. Not banked. First retry
@@ -132,7 +134,9 @@ died with an activity-task timeout and no candidates. Not banked. First retry
 ([Solve expand500 R06 retry](bc-36007791-710e-5dab-8ff7-df7b62b755d9)) also
 timed out. Second retry
 ([Solve expand500 R06 retry 2](bc-7bbd758b-69ac-5bb6-b0bc-a01e38efc558)) died
-ERROR with an empty transcript. Not banked. Retried again as a single. R06
+ERROR with an empty transcript. Not banked. Fourth retry
+([Solve expand500 R06 retry 4](bc-bc31be3f-2abe-58d6-9086-ab1362180f0b))
+timed out with no candidates. Not banked. Retried again as a single. R06
 remains outstanding.
 
 R02, R03, and R09 first launches also died on activity-task timeout with no
@@ -143,14 +147,19 @@ R02's retry later deposited. R03 first retry
 ([Solve expand500 R03 retry](bc-c77a8696-bad2-55c4-8d2f-a220f54784a1)) died
 ERROR with an empty transcript. R09 first retry
 ([Solve expand500 R09 retry](bc-63afd52f-7a89-5fbd-9c79-4b7c6f1de075)) timed
-out with no candidates. Both retried again as singles. R03 and R09 remain
-outstanding.
+out with no candidates. Both retried again as singles. R03 retry 3
+([Solve expand500 R03 retry 3](bc-a1702eae-0ffb-5f47-8940-835cc5faff01)) died
+ERROR with an empty transcript. R09 retry 3
+([Solve expand500 R09 retry 3](bc-f2123edc-8a83-52ef-b40b-ce76262b65d8))
+timed out with no candidates. Neither banked. Both retried again as singles.
 
 R16 first launch ([Solve expand500 R16](bc-eeb4d9cf-2c1d-5402-8ab1-0ff2a3234cf6))
 died ERROR with an empty transcript (`{"messages": []}`). Not banked. First
 retry ([Solve expand500 R16 retry](bc-0c63eb31-d1a2-5979-858c-6ed6af8a180d))
-also died ERROR empty. Not banked. Retried again as a single. R16 remains
-outstanding.
+also died ERROR empty. Not banked. Retry 3
+([Solve expand500 R16 retry 3](bc-a1ab7e90-1bdf-545d-bb80-dda2920ae5ca))
+timed out with no candidates. Not banked. Retried again as a single. R16
+remains outstanding.
 
 R17 first launch ([Solve expand500 R17](bc-3a69da2c-4a4c-51a7-8bc2-3526ac6f3598))
 died ERROR with an empty transcript (`{"messages": []}`). Not banked. First
@@ -162,12 +171,16 @@ died with an activity-task timeout and no candidates. Not banked. Retry later
 deposited.
 
 R25 first launch ([Solve expand500 R25](bc-a04586aa-5c41-57ea-b7f3-df1b9d585810))
-died with an activity-task timeout and no candidates. Not banked. Retried as
-a single. R25 remains outstanding.
+died with an activity-task timeout and no candidates. Not banked. Retry 2
+([Solve expand500 R25 retry 2](bc-571f2499-225e-5855-bcf2-4b47bda807a8))
+timed out with no candidates. Not banked. Retried again as a single. R25
+remains outstanding.
 
 R30 first launch ([Solve expand500 R30](bc-927de401-0b66-5b0e-a538-3876c223ada0))
-died with an activity-task timeout and no candidates. Not banked. Retried as
-a single. R30 remains outstanding.
+died with an activity-task timeout and no candidates. Not banked. Retry 2
+([Solve expand500 R30 retry 2](bc-eefd3bac-879e-523f-aaa8-a28f00159fa6))
+timed out with no candidates. Not banked. Retried again as a single. R30
+remains outstanding.
 
 No Fable (or any other) arm is registered on this draw.
 
@@ -175,7 +188,7 @@ No Fable (or any other) arm is registered on this draw.
 
 | item | status |
 |---|---|
-| Opus deposits | **40/230** |
+| Opus deposits | **42/230** |
 | `predictions2.jsonl` | not written (`collect_round.py` writes it only at 100%) |
 | `score2` / top-1 / recall | **not run** — partial subsets are not scored |
 | `scripts/score_main.py` n=194 | **untouched** |
@@ -233,7 +246,7 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 
 ## Overnight / follow-up handoff
 
-**Draw committed. Key withheld. 40/230 Opus deposited. Persistent
+**Draw committed. Key withheld. 42/230 Opus deposited. Persistent
 timeout/empty retries still outstanding: R03, R06, R09, R16, R25, R30.
-10 in flight. Outstanding: 190 qids in `outstanding_opus.txt`. No scores. Do
+10 in flight. Outstanding: 188 qids in `outstanding_opus.txt`. No scores. Do
 not merge. Paper stays n=295.**

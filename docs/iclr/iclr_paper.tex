@@ -1,10 +1,12 @@
-% IRSpectra-Bench — ICLR conference manuscript (Overleaf / tectonic / XeLaTeX)
+% IRSpectra-Bench --- ICLR conference manuscript (Overleaf / tectonic / XeLaTeX)
 % Style: official ICLR 2026 conference macros (vendored as iclr2026_conference.sty).
-% Working notes: ICLR_PAPER.md  |  Do NOT edit docs/paper.tex / docs/PAPER.md
+% Working notes: ICLR_PAPER.md
 %
-% Overleaf: set main document to docs/iclr/iclr_paper.tex
+% Overleaf (this repo): set main document to docs/iclr/iclr_paper.tex
+% Postcard copy for IlkhamFY/IRSpectra-Bench: same file at repo root there.
 % Compile with pdfLaTeX or XeLaTeX + BibTeX (references.bib + iclr2026_conference.bst).
-% Uncomment \iclrfinalcopy for camera-ready (keeps authors visible).
+% \iclrfinalcopy is the only official sty flag that prints \author and drops
+% the left-margin submission ruler. KEEP IT COMMENTED for double-blind.
 \documentclass{article}
 \usepackage{iclr2026_conference,times}
 
@@ -20,34 +22,32 @@
 
 \title{Generation Recall, Not Verification, Binds LLM Structure Elucidation from Literature Spectra}
 
-% Anonymous for double-blind review. For camera-ready, uncomment \iclrfinalcopy and
-% replace the anonymous block with the author block below (same byline as the combined paper).
 \author{
-Anonymous authors\\
-Paper under double-blind review
+Ilkham Yabbarov\textsuperscript{1,$\dagger$},
+Rudra Sondhi\textsuperscript{1},
+Rodrigo A.\ Vargas-Hern\'andez\textsuperscript{1,2,3,$\dagger$}\\
+\textsuperscript{1}Department of Chemistry and Chemical Biology, McMaster University,
+Hamilton, Ontario L8S 4L8, Canada.\\
+\textsuperscript{2}Brockhouse Institute for Materials Research, McMaster University,
+Hamilton, Ontario L8S 4L8, Canada.\\
+\textsuperscript{3}School of Computational Science and Engineering, McMaster University,
+Hamilton, Ontario L8S 4L8, Canada.\\
+$\dagger$\,\textit{E-mail:} yabbaroi@mcmaster.ca, vargashr@mcmaster.ca
 }
-% Camera-ready byline (all three authors; R.\ Sondhi on benchmark / diagnosis):
-% \author{
-% Ilkham Yabbarov\textsuperscript{1,$\dagger$},
-% Rudra Sondhi\textsuperscript{1},
-% Rodrigo A.\ Vargas-Hern\'andez\textsuperscript{1,2,3,$\dagger$}\\
-% \textsuperscript{1}Department of Chemistry and Chemical Biology, McMaster University,
-% Hamilton, Ontario L8S 4L8, Canada.\\
-% \textsuperscript{2}Brockhouse Institute for Materials Research, McMaster University,
-% Hamilton, Ontario L8S 4L8, Canada.\\
-% \textsuperscript{3}School of Computational Science and Engineering, McMaster University,
-% Hamilton, Ontario L8S 4L8, Canada.\\
-% $\dagger$\,\textit{E-mail:} yabbaroi@mcmaster.ca, vargashr@mcmaster.ca
-% }
 
 \newcommand{\fix}{\marginpar{FIX}}
 \newcommand{\new}{\marginpar{NEW}}
 
-% \iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
-
+% Official ICLR 2026 switch: show \author and disable the submission linenumber
+% ruler. The same flag also sets the running header to "Published as...".
+% Double-blind (submit): keep \iclrfinalcopy commented; \maketitle then prints
+% "Anonymous authors / Paper under double-blind review". Camera-ready: uncomment
+% \iclrfinalcopy and delete the \lhead override below.
+% \iclrfinalcopy  % OFF for double-blind submission; re-enable for camera-ready
 \begin{document}
 
 \maketitle
+\lhead{Under review as a conference paper at ICLR 2026}
 
 \begin{abstract}
 Frontier large language models are often presented as near-solved structure elucidators on
@@ -66,8 +66,8 @@ The bottleneck is \textbf{candidate proposal, not verification}: the true struct
 pool for only \textbf{34\%} of compounds, and where it does, training-free forward-verification
 selects it \textbf{89\%} of the time (58/65).
 The same recall $\ll$ precision asymmetry replicates across \textbf{four vendor families}.
-A formula-only control drops top-1 from 23\% $\to$ 5\%; accuracy is flat in source-paper year.
-Generating wider lifts recall 32\% $\to$ 42\% and top-1 23\% $\to$ 30\% on 60 compounds, while
+A formula-only control ($n{=}60$) drops top-1 from 23\% $\to$ 5\%; accuracy is flat in source-paper year.
+Generate-wide sampling on that arm lifts recall 32\% $\to$ 42\% and top-1 23\% $\to$ 30\%, while
 verification alone moves whole-benchmark top-1 only 28\% $\to$ 30\%.
 Recovered from published top-$k$ figures, recall carries \textbf{68--83\%} of the accuracy
 collapse when systems move from curated or simulated data to real heterogeneous spectra.
@@ -84,8 +84,8 @@ LLM agents and puzzle benches report high recovery on curated or education
 spectra~\citep{kamber2026chemist,guo2024molpuzzle,zhuang2025treesearch,espejo2026agentic}.
 Cross-paper numbers swing wildly with harness (e.g.\ GPT-4o from 1.4\% to 57.8\% on MolPuzzle
 under different prompting~\citep{guo2024molpuzzle,zhuang2025treesearch}).
-What remains under-measured is the chemist's operational setting: \textbf{take peak lists as
-printed in open-access papers and recover constitution}, with a fixed molecular-representation
+What remains under-measured is the chemist's operational task: \textbf{taking peak lists as
+printed in open-access papers and recovering constitution}, with a fixed molecular-representation
 scoring contract and an honest account of \textbf{which stage of elucidation binds}.
 
 We argue that end-to-end top-1 alone is the wrong reporting primitive.
@@ -113,10 +113,13 @@ infrastructure at scale}.
         figures, showing recall carries most of the collapse on real heterogeneous data.
 \end{enumerate}
 
+A pre-registered expansion of 106 further compounds is scored as an
+\textbf{independent replication} in Section~\ref{sec:expansion}; it does not replace the
+$n{=}194$ headline in Table~\ref{tab:headline} or Figure~\ref{fig:fig-wall}.
+
 \paragraph{Dataset pointer (not this paper's primary object).}
 Experimental band lists come from \textbf{IRexp} (121,233 records; 43,060 structure-linked;
-33,201 full IR+$^1$H+$^{13}$C+structure quadruples), released on Hugging Face
-(\texttt{ilkhamfy/IRexp}).
+33,201 full IR+$^1$H+$^{13}$C+structure quadruples); an anonymised review copy is linked in Appendix~\ref{app:dataset}.
 Construction, licensing, and technical validation of the corpus are the subject of a companion
 \textit{Scientific Data} manuscript (in preparation)~\citep{yabbarov2026irexp}.
 This ICLR paper \textbf{cites} that resource and does not re-present a Data Descriptor.
@@ -154,7 +157,7 @@ Most prior suites use simulated or single-instrument spectra.
 IRSpectra-Bench uses literature-reported peak lists across thousands of laboratories and
 reports formula-only and recency controls (Section~\ref{sec:contamination}).
 Espejo Morales \textit{et al.}~\citep{espejo2026agentic} compare education vs industrial
-\emph{instrument files} (80.9\% $\to$ 20.6\%); they ask which architecture, we ask which stage
+\emph{instrument files} (80.9\% $\to$ 20.6\%); they ask which architecture, while we ask which stage
 binds on \textbf{published reports}.
 
 \paragraph{Forward verification and CASE.}
@@ -168,7 +171,7 @@ We decompose error rather than chase a single top-1.
 \paragraph{Positioning.}
 Concurrent 2026 suites (MolQuest~\citep{han2026molquest}, SpecX~\citep{xiang2026specx},
 NMRGym~\citep{fang2026nmrgym}) bound related tasks.
-Ours is an openly redistributable suite on literature peak lists with a \textbf{stage
+IRSpectra-Bench is an openly redistributable suite on literature peak lists with a \textbf{stage
 decomposition} measured on Claude and replicated across three other model families.
 
 \section{IRSpectra-Bench}
@@ -185,9 +188,9 @@ a different object from digitised-spectrum benchmarks~\citep{espejo2026agentic},
 matches how language models consume literature.
 
 Problems are drawn from the structure-complete split of IRexp (\texttt{irexp\_resolved}; see
-companion Data Descriptor / HF card)~\citep{yabbarov2026irexp}.
+companion Data Descriptor)~\citep{yabbarov2026irexp}.
 In 10/194, author peak assignments name a ring system; those are solved 1/10 vs 54/184 for
-the rest, so annotation does not carry the headline.
+the rest, so named-ring annotation does not drive the headline numbers.
 
 \subsection{Difficulty, balance, and scoring contract}
 
@@ -198,8 +201,8 @@ The released benchmark is \textbf{50/50 by design}; the eligible corpus is 17.5\
 82.5\% complex.
 Reweighted to corpus composition, top-1 falls 28.4\% $\to$ \textbf{15.2\%} and recall 33.5\%
 $\to$ \textbf{19.8\%}.
-We report both; the reweighted figure is the better estimate for an arbitrary paper, the
-50/50 figure the comparable leaderboard number.
+We report both: the reweighted figure is the better estimate for an arbitrary paper, and the
+50/50 figure is the comparable leaderboard number (Table~\ref{tab:headline}).
 
 \textbf{Scoring.} A prediction is correct if RDKit InChIKey \textbf{connectivity} (first 14
 characters) matches --- we score \emph{constitution}.
@@ -219,14 +222,7 @@ metric & definition \\
 \bottomrule
 \end{tabular}
 \end{center}
-CIs are bootstrap 95\%; paired model differences use McNemar with Holm correction.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{fig1_difficulty.png}
-  \caption{Top-1 and recovered accuracy by difficulty ($n{=}194$), with bootstrap 95\% CIs.}
-  \label{fig:fig1-difficulty}
-\end{figure}
+Confidence intervals are bootstrap 95\%; paired model differences use McNemar with Holm correction.
 
 \section{Experimental setup}
 \label{sec:setup}
@@ -236,8 +232,9 @@ Frontier LLM agent (Claude Opus via consumer subscription), closed-book, one sub
 batch, up to three ranked candidates, RDKit formula check only.
 No fine-tuning, no paid API for the core protocol.
 Inference is \textbf{not} exactly reproducible (no pinned snapshot, temperature or seed ---
-Section~\ref{sec:limitations}); \textbf{scoring is}: frozen predictions, ground truth and
-scorers regenerate every training-free number.
+Section~\ref{sec:limitations}).
+\textbf{Scoring is reproducible}: frozen predictions, ground truth and scorers regenerate every
+training-free number.
 
 \paragraph{Forward-verification loop}
 (Section~\ref{sec:forward-verify}).
@@ -247,7 +244,7 @@ $\to$ re-rank by symmetric chamfer distance between predicted and observed $^{13
 \paragraph{Controls and probes.}
 Formula-only / recency (Section~\ref{sec:contamination}); four-vendor replication on a
 60-compound arm (Section~\ref{sec:cross-vendor}); generate-wide sampling; HOSE lookup and GNN
-$^{13}$C verifiers; small IRexp-fine-tuned generator probe (fenced from headline claims).
+$^{13}$C verifiers; small IRexp-fine-tuned generator probe (excluded from headline claims).
 
 \section{Results}
 \label{sec:results}
@@ -256,7 +253,7 @@ $^{13}$C verifiers; small IRexp-fine-tuned generator probe (fenced from headline
 \label{sec:headline}
 
 \begin{table}[t]
-\caption{Headline elucidation on IRSpectra-Bench ($n{=}194$).}
+\caption{Headline elucidation on IRSpectra-Bench.}
 \label{tab:headline}
 \centering
 \begin{tabular}{@{}lrrr@{}}
@@ -280,6 +277,48 @@ A 24-compound four-model Claude comparison is capability-sensitive (strict nesti
 $\subset$ Sonnet $\subset$ Opus $\subset$ Fable) but underpowered for adjacent ranks and carries
 a disclosed protocol asymmetry (Section~\ref{sec:limitations}).
 A battery-electrolyte subset ($n{=}46$) matches the headline regime (26\% top-1; recall-bound).
+
+\subsection{Pre-registered expansion (independent replication)}
+\label{sec:expansion}
+
+$n{=}194$ is not a data limit.
+A pre-registered draw of 106 further compounds (seed 2026; 53 simple / 53 complex;
+InChIKey-14 disjoint from the headline cohort) was solved under the same protocol and
+scored under the same connectivity contract.
+We report it here as an \textbf{independent replication}.
+The pre-registration licenses pooling into a cohort of up to ${\sim}300$ after the round
+is complete; that pool, and the associated figure rebuilds, wait on the expansion
+forward-verification arm and author review, and are \textbf{not} performed in this draft.
+Table~\ref{tab:headline} and Figure~\ref{fig:fig-wall} therefore remain the $n{=}194$
+headline.
+
+\begin{table}[t]
+\caption{Independent pre-registered expansion round (Claude Opus, InChIKey-14).
+No bootstrap CIs are reported for this round.
+A reserved cross-model arm on the same draw is incomplete and is not scored.
+Pooling with $n{=}194$ is not claimed here.}
+\label{tab:expansion}
+\centering
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+set & $n$ & top-1 & recall (top-3) \\
+\midrule
+all deposited & 106 & \textbf{63/106 (59\%)} & \textbf{68/106 (64\%)} \\
+\quad simple & 53 & 41/53 (77\%) & 43/53 (81\%) \\
+\quad complex & 53 & 22/53 (42\%) & 25/53 (47\%) \\
+validate-clean subset & 101 & 61/101 (60\%) & 65/101 (64\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Ground-truth audit before scoring flagged 5/106 records as $^{13}$C-overread
+(R12, R22, R25, R82, R91); the remaining 101/106 are spectrally clean
+(simple 40/49 top-1; complex 21/52 top-1).
+Forward-verification of these candidates has not been run, so this round has no
+verification-precision number and cannot yet update Figure~\ref{fig:fig-wall}.
+Point estimates sit above the $n{=}194$ self-rank headline (63/106 vs.\ 55/194);
+we report that difference as found and do not replace Table~\ref{tab:headline}
+with a pooled point estimate.
 
 \subsection{Is the model reading the spectra?}
 \label{sec:contamination}
@@ -372,8 +411,8 @@ multi-candidate only --- forward-verification & 10/13 (77\%) & 30/37 (81\%) \\
 
 When the true structure is among the candidates, forward-verification selects it in 58/65
 cases (89\%).
-Where a choice existed ($n{=}37$), it gets 30/37 (81\%) against a 54.0\% derangement floor
-(+27.1 points).
+Where a choice existed ($n{=}37$), forward-verification is correct on 30/37 (81\%) against a
+54.0\% derangement floor (+27.1 points).
 The margin over self-ranking is \textbf{small and unresolved} (seven gained, four lost;
 McNemar $p{=}0.55$) --- we do \textbf{not} claim an accuracy advance.
 Precision is high while recall binds: no re-ranking repairs the 129/194 compounds where the
@@ -456,8 +495,8 @@ Corpus-reweighted top-1 (\textbf{15.2\%}) is the better estimate for an arbitrar
 draw.
 
 Training is not foreclosed: IRexp fine-tuning lifts recall to 54\%.
-What compounds is open experimental data, honest benchmarks, and inference scaffolding that
-rides each new model.
+Those gains compound with open experimental data, honest benchmarks, and inference scaffolding that
+transfers to each new model.
 
 \section{Limitations}
 \label{sec:limitations}
@@ -481,9 +520,15 @@ transformers and CASE were \textbf{not scored} on IRSpectra-Bench --- the LLM re
 not cleanly separated from harness or modality choice.
 \textbf{(vi) Cross-vendor scope.} Headline $n{=}194$ is Claude Opus; four-vendor replication is
 on 60 compounds; candidate budgets differ.
+A pre-registered expansion ($n{=}106$, same solver, InChIKey-14) is reported as an
+independent replication (Section~\ref{sec:expansion}); pooling into a ${\sim}300$-compound
+headline and rebuilding figures await the expansion forward-verification arm and author
+review.
+That round has no CIs and no verification-precision number in this draft.
 \textbf{(vii) Deferred arms.} Expert-chemist audit of elucidation outputs formally deferred
 (not run). Leave-one-modality-out ablation abandoned for this manuscript. Extraction-recall
 human audit of the mining parser is deferred to the \textit{Scientific Data} companion.
+Expansion forward-verification is not yet run (Section~\ref{sec:expansion}).
 \textbf{(viii) Scope.} Battery subset uses literature electrolyte chemistry, not operando
 spectra; single-sample scoring per compound; organic literature bias of PMC-OA sources.
 
@@ -493,16 +538,18 @@ spectra; single-sample scoring per compound; organic literature bias of PMC-OA s
 IRSpectra-Bench makes LLM structure elucidation from literature peak lists \textbf{measurable
 and decomposable}.
 On that protocol, generation recall --- not verification --- binds end-to-end accuracy; the
-diagnosis replicates across vendors and recovers from published top-$k$ figures.
+diagnosis replicates across vendors and is recovered from published top-$k$ figures.
+A pre-registered expansion of 106 compounds is reported as an independent replication
+(Section~\ref{sec:expansion}) and does not replace the $n{=}194$ headline.
 We release frozen predictions and a mechanical scorer so others can report the same three
 numbers.
 The redistributable experimental band-list corpus behind the bench is documented separately
-as a \textit{Scientific Data} Data Descriptor (in prep.)~\citep{yabbarov2026irexp} and mirrored
-at \texttt{ilkhamfy/IRexp}.
+as a \textit{Scientific Data} Data Descriptor (in preparation)~\citep{yabbarov2026irexp}, with an
+anonymised review copy linked in Appendix~\ref{app:dataset}.
 
 \section*{Reproducibility statement}
 Every training-free number regenerates from released questions, answers, frozen predictions
-and scripts in the project repository.
+and scripts in the code release.
 The sampler, InChIKey scorer and forward-verification harness are scripted end-to-end.
 Consumer-harness inference cannot be bit-exact replayed (Section~\ref{sec:limitations});
 distributional agreement is the intended claim.
@@ -518,37 +565,37 @@ Licensing of redistributed numeric extractions is documented in the companion Da
 and dataset notices (PMC-OA terms are mixed --- not uniformly CC-BY; Chemotion is CC-BY-SA).
 
 \section*{Acknowledgements}
-Deferred to camera-ready.
-
+We acknowledge support from the Natural Sciences and Engineering Research Council of Canada (NSERC) through a CREATE training program. Institutional details and named funding references are omitted for double-blind review and will be restored in the camera-ready version.
 \bibliography{references}
 \bibliographystyle{iclr2026_conference}
 
 \appendix
 
 \section{Dataset pointer (IRexp)}
+\label{app:dataset}
 
 IRexp is \textbf{not} re-described here as a Data Descriptor.
-For counts, provenance, licensing caveats, transcription audit (560/560 bands on $n{=}60$),
-and file schema, see:
+During double-blind review, the commercial redistributable pool is available from an anonymised review copy (no author-identifying host):
 \begin{itemize}
-  \item Hugging Face: \url{https://huggingface.co/datasets/ilkhamfy/IRexp}
-  \item Companion manuscript: \textit{Scientific Data} Data Descriptor (in
-        preparation)~\citep{yabbarov2026irexp}
-  \item Combined archive (pre-split JCIM-shaped paper): \texttt{docs/archive/combined\_PAPER.md}
-  \item Feasibility audit: \texttt{docs/irexp\_scientific\_data\_audit.md}
+  \item Anonymised dataset copy: \url{https://anonymous.4open.science/r/peaklist-corpus-review-10C4/}
+  \item Companion manuscript: anonymised \textit{Scientific Data} Data Descriptor (in preparation)~\citep{yabbarov2026irexp}
 \end{itemize}
+Named archival hosting will replace the review copy in the camera-ready version.
+File schema and aggregate counts ship with that copy (\texttt{SCHEMA.md}, \texttt{data/}).
 
 Benchmark construction details beyond Section~\ref{sec:benchmark} (spectral validation
-filters, prompt-leakage audit, electrolyte SMARTS) live in \texttt{docs/BENCHMARK.md} and the
-Electronic Supplementary Information of the combined archive.
+filters, prompt-leakage audit, electrolyte SMARTS) ship with the code release and the
+companion Data Descriptor~\citep{yabbarov2026irexp}; they are not re-presented here.
 
 \section{Extended tables and figures}
 
-Supplementary figures currently shared with the combined manuscript under
-\texttt{docs/figures/}: \texttt{fig0\_overview}, \texttt{fig2\_size}, \texttt{fig4\_dataset},
-\texttt{fig5\_models}, \texttt{fig6\_electrolyte}, \texttt{fig7\_crossvendor},
-\texttt{fig\_contamination}, \texttt{fig\_generator\_probe}, \texttt{fig\_verifier}.
-Full artefact inventory: repository README / \texttt{docs/archive/combined\_PAPER.md} Data
-availability.
+This conference version keeps four main-text figures: the diagnosis wall
+(Figure~\ref{fig:fig-wall}), robustness (Figure~\ref{fig:fig-robustness}), the
+forward-verification mechanism (Figure~\ref{fig:fig-mechanism}), and the inference
+ladder (Figure~\ref{fig:fig3-method}).
+Additional archive plates are omitted here; they do not change the headline $n{=}194$
+diagnosis.
+The pre-registered $n{=}106$ expansion (Section~\ref{sec:expansion}) is an independent
+replication in this draft; pooling and figure rebuilds are not claimed.
 
 \end{document}

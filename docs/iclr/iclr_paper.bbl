@@ -17,6 +17,12 @@ Marvin Alberts, Federico Zipoli, and Teodoro Laino.
 \newblock \emph{Digital Discovery}, 4:\penalty0 1936--1943, 2025.
 \newblock \doi{10.1039/d5dd00131e}.
 
+\bibitem[Anonymous(2026)]{yabbarov2026irexp}
+Anonymous.
+\newblock {IRexp}: experimental infrared band lists from open literature.
+\newblock \emph{Sci. Data}, 2026.
+\newblock Data Descriptor, in preparation; anonymised for double-blind review.
+
 \bibitem[Boiko et~al.(2023)Boiko, MacKnight, Kline, and
   Gomes]{boiko2023coscientist}
 Daniil~A. Boiko, Robert MacKnight, Ben Kline, and Gabe Gomes.
@@ -179,14 +185,6 @@ Chengrui Xiang, Tengfei Ma, Yujie Chen, Tong Wang, Haowen Chen, and Xiangxiang
   cross-paradigm evaluation.
 \newblock \emph{arXiv}, 2026.
 \newblock \doi{10.48550/arXiv.2605.18791}.
-
-\bibitem[Yabbarov et~al.(2026)Yabbarov, Sondhi, and
-  Vargas-Hern{\'a}ndez]{yabbarov2026irexp}
-Ilkham Yabbarov, Rudra Sondhi, and Rodrigo~A. Vargas-Hern{\'a}ndez.
-\newblock {IRexp} experimental infrared band lists from the {PMC} open access
-  subset and {Chemotion}.
-\newblock \emph{Sci. Data}, 2026.
-\newblock Data Descriptor, in preparation.
 
 \bibitem[Yang et~al.(2026)Yang, Yang, Xie, Wang, Gao, Wei, Sun, Wu, He, Li, and
   Gu]{yang2026nmrtrans}

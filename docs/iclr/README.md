@@ -15,6 +15,8 @@ This directory holds the **ICLR-facing research paper** (**Track 3** in
 4. Style: vendored `iclr2026_conference.sty` (+ `fancyhdr.sty`, `natbib.sty`,
    `iclr2026_conference.bst`) from the [ICLR Master-Template](https://github.com/ICLR/Master-Template).
 5. Keep `\iclrfinalcopy` **commented** for anonymous review; uncomment for camera-ready.
+   Companion bib `yabbarov2026irexp` is **Anonymous**. Dataset URL in the PDF is only
+   `https://anonymous.4open.science/r/peaklist-corpus-review-10C4/` — no `ilkhamfy/*`.
 6. Figures: `\graphicspath{{figures/}{../figures/}}` (symlink `figures → ../figures` in this dir).
 
 | file | role |
@@ -48,7 +50,7 @@ Compiles **`.tex` → PDF**. Does **not** touch `docs/paper.pdf`.
 3. §2 Related work
 4. §3 IRSpectra-Bench — task, difficulty, scoring contract
 5. §4 Experimental setup
-6. §5 Results (headline, contamination, cross-vendor, forward-verify, literature decomp)
+6. §5 Results (headline n=194, **independent expansion n=106**, contamination, cross-vendor, forward-verify, literature decomp)
 7. §6 Discussion — reporting contract
 8. §7 Limitations
 9. §8 Conclusion

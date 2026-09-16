@@ -22,7 +22,27 @@ Blind structure elucidation from **molecular formula + IR + ¹H + ¹³C** peak l
 
 Bootstrap 95% CIs for the headline row: top-1 **28.4% [22–35]**, recall **33.5% [27–40]**. Corpus-reweighted top-1 (17.5% simple / 82.5% complex): **15.2% [11–20]**.
 
+**Locked headline:** n=194. The +106 expansion is Opus-complete and scored as an
+**independent pre-registered replication** (next table). Do **not** rewrite the
+n=194 table to a pooled ~300 until expansion forward-verification has been run
+**and** Ilkham signs off. No CIs or vendor numbers were computed for the new round.
+
 **Key finding:** verification precision exceeds generation recall for every vendor tested — the binding constraint is *candidate proposal*, not spectral ranking.
+
+### Expansion round (Claude Opus, independent replication, n = 106)
+
+Copied from `data/benchmark_expand/STATUS.md` (2026-09-16). Solver self-rank only;
+forward-verify **not run**; Fable arm 68/106 **not scored**.
+
+| set | n | Top-1 | Recall (top-3) |
+|---|---:|--:|--:|
+| all deposited | 106 | **63/106 (59%)** | **68/106 (64%)** |
+| simple | 53 | 41/53 (77%) | 43/53 (81%) |
+| complex | 53 | 22/53 (42%) | 25/53 (47%) |
+| validate-clean | 101 | 61/101 (60%) | 65/101 (64%) |
+
+Validate flagged 13C-overread: R12, R22, R25, R82, R91. Pre-reg licenses pooling
+to ~300 after the round is complete; report as replication first.
 
 ### By difficulty (Claude Opus, n = 194)
 

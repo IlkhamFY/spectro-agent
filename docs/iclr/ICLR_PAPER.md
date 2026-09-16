@@ -1,17 +1,17 @@
 # Generation Recall, Not Verification, Binds LLM Structure Elucidation from Literature Spectra
 
-<!-- ICLR track draft (anonymous-ready). Source: docs/archive/combined_PAPER.md
-     (snapshot of the combined JCIM-shaped manuscript). Do not edit docs/paper.tex
-     or treat this file as a replacement for docs/PAPER.md.
-     Companion Data Descriptor: Scientific Data manuscript (in prep) for IRexp.
-     Figure paths still point at docs/figures/* pending a dedicated ICLR figure pack. -->
+<!-- STALE markdown snapshot. Source of truth for Overleaf / PDF is iclr_paper.tex.
+     Do not copy this file into the anonymous PDF zip. Expansion replication
+     (n=106 Opus) was added in TeX on 2026-09-16; this markdown is not kept in
+     lockstep. -->
 
 **Anonymous authors**
 
 Paper under double-blind review. Code, frozen predictions, and scoring scripts will be
-released with the camera-ready version. Dataset: Hugging Face mirror
-[`ilkhamfy/IRexp`](https://huggingface.co/datasets/ilkhamfy/IRexp); full Data Descriptor
-for the corpus is a companion *Scientific Data* manuscript (in preparation).
+released with the camera-ready version. Dataset (review copy):
+https://anonymous.4open.science/r/peaklist-corpus-review-10C4/ ;
+full Data Descriptor for the corpus is a companion *Scientific Data* manuscript
+(in preparation). Named hosting is restored at camera-ready.
 
 ---
 
@@ -81,7 +81,7 @@ supply the missing **measurement infrastructure at scale**.
 
 **Dataset pointer (not this paper's primary object).** Experimental band lists come from
 **IRexp** (121,233 records; 43,060 structure-linked; 33,201 full IR+¹H+¹³C+structure
-quadruples), released on Hugging Face (`ilkhamfy/IRexp`). Construction, licensing, and
+quadruples); an anonymised review copy is linked in Appendix A. Construction, licensing, and
 technical validation of the corpus are the subject of a companion *Scientific Data*
 manuscript (in preparation). This ICLR paper **cites** that resource and does not re-present
 a Data Descriptor.
@@ -362,8 +362,8 @@ decomposable**. On that protocol, generation recall — not verification — bin
 accuracy; the diagnosis replicates across vendors and recovers from published top-*k*
 figures. We release frozen predictions and a mechanical scorer so others can report the same
 three numbers. The redistributable experimental band-list corpus behind the bench is
-documented separately as a *Scientific Data* Data Descriptor (in prep.) and mirrored at
-`ilkhamfy/IRexp`.
+documented separately as a *Scientific Data* Data Descriptor (in prep.), with an
+anonymised review copy linked in Appendix A.
 
 ---
 
@@ -403,10 +403,9 @@ to the conference style file.
 IRexp is **not** re-described here as a Data Descriptor. For counts, provenance, licensing
 caveats, transcription audit (560/560 bands on n=60), and file schema, see:
 
-- Hugging Face: https://huggingface.co/datasets/ilkhamfy/IRexp
+- Anonymised review copy: https://anonymous.4open.science/r/peaklist-corpus-review-10C4/
 - Companion manuscript: *Scientific Data* Data Descriptor (in preparation)
-- Combined archive (pre-split JCIM-shaped paper): `docs/archive/combined_PAPER.md`
-- Feasibility audit: `docs/irexp_scientific_data_audit.md`
+- Named archival hosting is restored at camera-ready.
 
 Benchmark construction details beyond §3 (spectral validation filters, prompt-leakage
 audit, electrolyte SMARTS) live in `docs/BENCHMARK.md` and the Electronic Supplementary

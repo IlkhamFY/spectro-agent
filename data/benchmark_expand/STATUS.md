@@ -6,7 +6,7 @@ back), so no ground-truth audit has run and no accuracy number exists for these 
 
 ## Collected
 
-Reconciled 2026-09-16 02:45 UTC against `questions2.jsonl` vs `raw/` (and `raw_fable/`
+Reconciled 2026-09-16 02:54 UTC against `questions2.jsonl` vs `raw/` (and `raw_fable/`
 for the cross-model row only). No scores.
 
 | arm | solver | compounds with a blind response | of 106 |
@@ -29,20 +29,17 @@ met. Failure mode 2 (64k output-token ceiling) selects against compounds whose e
 takes the most reasoning. Scoring the solved subset would report an accuracy inflated by
 the exclusion of compounds the solver could not finish thinking about.
 
-## Overnight handoff (2026-09-16 02:54 UTC)
+## Overnight handoff (2026-09-16 02:56 UTC)
 
 **Opus headline: 92/106. Not scored. Key withheld. `predictions2.jsonl` not written.**
 
-R73 banked earlier this check (formula OK). First [Solve R69 blind Opus](https://cursor.com/agents/bc-774f7199-1153-5cd6-a6d9-ee3ee76b9449)
-hit **activity-task timeout** with empty transcript and no JSON — not banked. Relaunched
-into the freed slot. No Opus API/model blocker. Hard cap: **10 concurrent async
-subagents**.
+Timeouts with empty transcripts (not banked): first R69 and first R93. Both relaunched.
+No Opus API/model blocker. Hard cap: **10 concurrent async subagents**.
 
 **In flight (do not double-launch):**
 
 | qid | agent | started UTC |
 |---|---|---|
-| R93 | [Solve R93 blind Opus](https://cursor.com/agents/bc-0d25c801-ca30-5fce-9984-97236dee2c5e) | 02:26 |
 | R63 | [Solve R63 blind Opus](https://cursor.com/agents/bc-e43d9303-d942-5ffd-8621-113c2391a1ac) | 02:28 |
 | R91 | [Solve R91 blind Opus](https://cursor.com/agents/bc-f2989e74-aa33-5d96-a10d-859719d9c170) | 02:28 |
 | R94 | [Solve R94 blind Opus](https://cursor.com/agents/bc-a163ce61-9aef-5190-b0df-0f06a0e1be26) | 02:28 |
@@ -52,6 +49,7 @@ subagents**.
 | R97 | [Solve R97 blind Opus](https://cursor.com/agents/bc-ea0efdf1-11d9-5988-9192-5d2f1d5bee0c) | 02:40 |
 | R39 | [Solve R39 blind Opus](https://cursor.com/agents/bc-bee7fb47-d918-5673-8c94-b49002770c7a) | 02:44 |
 | R69 | [Solve R69 blind Opus](https://cursor.com/agents/bc-13df7926-9063-5ef3-8029-1679d7b0d7a6) | 02:54 (retry) |
+| R93 | [Solve R93 blind Opus](https://cursor.com/agents/bc-b02f0154-0b15-5e96-a2f7-b353ce281669) | 02:56 (retry) |
 
 **Need a free slot:** R76 R80 R92 R102
 

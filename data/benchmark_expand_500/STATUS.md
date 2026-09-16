@@ -3,7 +3,7 @@
 Pre-registration (frozen above the deviations line):
 `docs/EXPANSION_PREREGISTRATION_500.md`.
 
-**Opus deposits: 46/230.** Questions committed. Answer key withheld. No
+**Opus deposits: 47/230.** Questions committed. Answer key withheld. No
 `predictions2.jsonl`. **Do not score a partial. Do not write a top-1 / recall
 number for this round into the ICLR paper.** Headline stays **n=295** until
 this round is 100% deposited, validated (already snapshotted), and scored.
@@ -53,9 +53,9 @@ is the arithmetic of the draw + this audit, not a score.
 
 | arm | solver | compounds with a blind response | of 230 |
 |---|---|---:|---:|
-| expansion toward 500 | `claude-opus-5` | **46** | 20.0% |
+| expansion toward 500 | `claude-opus-5` | **47** | 20.4% |
 
-**184** Opus qids outstanding: `outstanding_opus.txt`.
+**183** Opus qids outstanding: `outstanding_opus.txt`.
 
 Banked (single-compound Cursor Task, `claude-opus-5-thinking-high`; three
 candidates each; RDKit formula check in-solver):
@@ -108,6 +108,7 @@ candidates each; RDKit formula check in-solver):
 | R46 | [Solve expand500 R46](bc-9946176f-67e5-5fc8-9d82-d6ce57bd5c8d) |
 | R53 | [Solve expand500 R53](bc-6181ea1d-ebe9-5806-981e-dfefbfc4f10b) |
 | R51 | [Solve expand500 R51](bc-e3ac2769-48a3-59a3-b9c1-9e8568d0743b) |
+| R56 | [Solve expand500 R56](bc-e82b8de1-0090-5a9e-ace4-7414864d8fce) |
 
 Still in flight:
 
@@ -122,10 +123,10 @@ Still in flight:
 | R44 | [Solve expand500 R44 retry](bc-885b85b5-ce1c-5192-ba33-f9a71fcf39b9) |
 | R54 | [Solve expand500 R54](bc-35b95323-5362-5810-981b-869be8ba74ae) |
 | R55 | [Solve expand500 R55](bc-6d350f14-6cf4-5202-a99f-423c12c5bbe0) |
-| R56 | [Solve expand500 R56](bc-e82b8de1-0090-5a9e-ace4-7414864d8fce) |
+| R57 | [Solve expand500 R57](bc-eeb007dd-46b5-578c-881e-4daef3b28a65) |
 
-Next after these return: **R57–R230**. Bank with `collect_round.py --partial`.
-No scores on the 46/230 subset.
+Next after these return: **R58–R230**. Bank with `collect_round.py --partial`.
+No scores on the 47/230 subset.
 
 R12 first launch ([Solve expand500 R12](bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a))
 died with an empty reply. Not banked. First retry
@@ -196,7 +197,7 @@ No Fable (or any other) arm is registered on this draw.
 
 | item | status |
 |---|---|
-| Opus deposits | **46/230** |
+| Opus deposits | **47/230** |
 | `predictions2.jsonl` | not written (`collect_round.py` writes it only at 100%) |
 | `score2` / top-1 / recall | **not run** — partial subsets are not scored |
 | `scripts/score_main.py` n=194 | **untouched** |
@@ -254,7 +255,7 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 
 ## Overnight / follow-up handoff
 
-**Draw committed. Key withheld. 46/230 Opus deposited. Persistent
+**Draw committed. Key withheld. 47/230 Opus deposited. Persistent
 timeout/empty retries still outstanding: R03, R06, R09, R16, R25, R30, R44.
-10 in flight. Outstanding: 184 qids in `outstanding_opus.txt`. No scores. Do
+10 in flight. Outstanding: 183 qids in `outstanding_opus.txt`. No scores. Do
 not merge. Paper stays n=295.**

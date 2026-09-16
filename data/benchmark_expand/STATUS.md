@@ -6,7 +6,7 @@ back), so no ground-truth audit has run and no accuracy number exists for these 
 
 ## Collected
 
-Reconciled 2026-09-16 03:19 UTC against `questions2.jsonl` vs `raw/` (and `raw_fable/`
+Reconciled 2026-09-16 03:25 UTC against `questions2.jsonl` vs `raw/` (and `raw_fable/`
 for the cross-model row only). No scores.
 
 | arm | solver | compounds with a blind response | of 106 |
@@ -29,11 +29,12 @@ met. Failure mode 2 (64k output-token ceiling) selects against compounds whose e
 takes the most reasoning. Scoring the solved subset would report an accuracy inflated by
 the exclusion of compounds the solver could not finish thinking about.
 
-## Overnight handoff (2026-09-16 03:19 UTC)
+## Overnight handoff (2026-09-16 03:25 UTC)
 
 **Opus headline: 103/106. Not scored. Key withheld. `predictions2.jsonl` not written.**
 
-R80 retry banked (formula OK). Three remaining, all in flight. No Opus API/model blocker.
+R80 retry banked (formula OK). R69 second attempt also timed out empty — not banked; third launch.
+Three remaining, all in flight. No Opus API/model blocker.
 
 **In flight (do not double-launch):**
 
@@ -41,7 +42,7 @@ R80 retry banked (formula OK). Three remaining, all in flight. No Opus API/model
 |---|---|---|
 | R79 | [Solve R79 blind Opus](https://cursor.com/agents/bc-792069e7-4c63-545a-b6a5-05379cec7dfb) | 03:07 (retry) |
 | R39 | [Solve R39 blind Opus](https://cursor.com/agents/bc-bd9831e7-c087-524b-a50d-4f0f82ed7cfe) | 03:14 (retry) |
-| R69 | [Solve R69 blind Opus](https://cursor.com/agents/bc-13df7926-9063-5ef3-8029-1679d7b0d7a6) | 02:54 (retry) |
+| R69 | [Solve R69 blind Opus](https://cursor.com/agents/bc-ce57bdb8-7a97-51ad-b6bb-8868bc7fdabd) | 03:25 (retry 2) |
 
 **Need a free slot:** none — every remaining qid is in flight.
 

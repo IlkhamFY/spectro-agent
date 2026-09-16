@@ -29,20 +29,19 @@ met. Failure mode 2 (64k output-token ceiling) selects against compounds whose e
 takes the most reasoning. Scoring the solved subset would report an accuracy inflated by
 the exclusion of compounds the solver could not finish thinking about.
 
-## Overnight handoff (2026-09-16 02:45 UTC)
+## Overnight handoff (2026-09-16 02:54 UTC)
 
 **Opus headline: 92/106. Not scored. Key withheld. `predictions2.jsonl` not written.**
 
-R73 banked this check (formula OK, three candidates, Cursor slug
-`claude-opus-5-thinking-high`). No Opus API/model blocker. Hard cap this session:
-**10 concurrent async subagents**. New launches return `Async subagent limit of 10
-reached` (spawn ERROR, no transcript) until an in-flight solver finishes.
+R73 banked earlier this check (formula OK). First [Solve R69 blind Opus](https://cursor.com/agents/bc-774f7199-1153-5cd6-a6d9-ee3ee76b9449)
+hit **activity-task timeout** with empty transcript and no JSON — not banked. Relaunched
+into the freed slot. No Opus API/model blocker. Hard cap: **10 concurrent async
+subagents**.
 
 **In flight (do not double-launch):**
 
 | qid | agent | started UTC |
 |---|---|---|
-| R69 | [Solve R69 blind Opus](https://cursor.com/agents/bc-774f7199-1153-5cd6-a6d9-ee3ee76b9449) | 02:24 |
 | R93 | [Solve R93 blind Opus](https://cursor.com/agents/bc-0d25c801-ca30-5fce-9984-97236dee2c5e) | 02:26 |
 | R63 | [Solve R63 blind Opus](https://cursor.com/agents/bc-e43d9303-d942-5ffd-8621-113c2391a1ac) | 02:28 |
 | R91 | [Solve R91 blind Opus](https://cursor.com/agents/bc-f2989e74-aa33-5d96-a10d-859719d9c170) | 02:28 |
@@ -52,6 +51,7 @@ reached` (spawn ERROR, no transcript) until an in-flight solver finishes.
 | R79 | [Solve R79 blind Opus](https://cursor.com/agents/bc-f7167d69-0557-504d-9c08-f99ae2d1a65c) | 02:37 |
 | R97 | [Solve R97 blind Opus](https://cursor.com/agents/bc-ea0efdf1-11d9-5988-9192-5d2f1d5bee0c) | 02:40 |
 | R39 | [Solve R39 blind Opus](https://cursor.com/agents/bc-bee7fb47-d918-5673-8c94-b49002770c7a) | 02:44 |
+| R69 | [Solve R69 blind Opus](https://cursor.com/agents/bc-13df7926-9063-5ef3-8029-1679d7b0d7a6) | 02:54 (retry) |
 
 **Need a free slot:** R76 R80 R92 R102
 

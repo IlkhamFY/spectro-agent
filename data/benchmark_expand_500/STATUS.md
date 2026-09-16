@@ -88,7 +88,7 @@ Still in flight:
 | qid | agent |
 |---|---|
 | R03 | [Solve expand500 R03 retry](bc-c77a8696-bad2-55c4-8d2f-a220f54784a1) |
-| R06 | [Solve expand500 R06 retry](bc-36007791-710e-5dab-8ff7-df7b62b755d9) |
+| R06 | [Solve expand500 R06 retry 2](bc-7bbd758b-69ac-5bb6-b0bc-a01e38efc558) |
 | R09 | [Solve expand500 R09 retry](bc-63afd52f-7a89-5fbd-9c79-4b7c6f1de075) |
 | R12 | [Solve expand500 R12 retry 2](bc-58d64272-b30a-5e42-af14-820dbc290efd) |
 | R17 | [Solve expand500 R17 retry](bc-6ca82f3d-9ce9-5ee9-8a4d-092b33a2d05c) |
@@ -108,8 +108,10 @@ activity-task timeout with no candidates. Not banked. Retried again as a
 single. R12 remains outstanding.
 
 R06 first launch ([Solve expand500 R06](bc-ddb8fee2-a02d-596e-acee-3c2743aae19f))
-died with an activity-task timeout and no candidates. Not banked. Retried as
-a single. R06 remains outstanding.
+died with an activity-task timeout and no candidates. Not banked. First retry
+([Solve expand500 R06 retry](bc-36007791-710e-5dab-8ff7-df7b62b755d9)) also
+timed out with no candidates. Not banked. Retried again as a single. R06
+remains outstanding.
 
 R02, R03, and R09 first launches also died on activity-task timeout with no
 candidates ([Solve expand500 R02](bc-625e9cda-d75a-5253-a3a4-cf508face9e2),

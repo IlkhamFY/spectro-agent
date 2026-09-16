@@ -1,0 +1,1 @@
+[{"qid": "R13", "candidates": ["O=C1Nc2ccc(Cl)cc2C1c1cccs1", "O=C1Nc2cc(Cl)ccc2C1c1cccs1", "O=C1Nc2ccccc2C1c1ccc(Cl)s1"]}, {"qid": "R14", "candidates": ["COc1ccc(cc1)-c1oc2ccc3ccccc3c2c1C#N", "COc1ccc(cc1)-c1oc2c(c1C#N)ccc1ccccc21", "COc1ccc(cc1)-c1oc2cc3ccccc3cc2c1C#N"]}, {"qid": "R15", "candidates": ["O=C1CSC(=NN=C(C)c2ccccc2O)N1CC=C", "O=C1C(C)SC(=NN=Cc2ccccc2O)N1CC=C"]}]

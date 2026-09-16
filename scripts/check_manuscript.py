@@ -103,12 +103,26 @@ def check_dataset_counts(md):
             near = md[max(0, m.start() - 60):m.end() + 45].replace("\n", " ")
             fail("A", f"count {m.group(1)} is presented as an IRexp record count but "
                       f"matches none of {sorted(truth)} — …{near.strip()}…")
-    # benchmark size
-    n_bench = (len(json.load(open("data/benchmark_main/clean_qids.json")))
-               + sum(1 for _ in open("data/benchmark_v3/answers2.jsonl"))
-               + sum(1 for _ in open("data/benchmark_v2_ctrl/answers2.jsonl")))
-    if n_bench != 194:
-        fail("A", f"benchmark cohort is {n_bench}, prose says 194")
+    # benchmark size. The cohort is derived from the round manifests, never asserted
+    # against a literal: a literal here would have to be edited in step with every other
+    # copy of the number, which is the failure this gate exists to catch. What is checked
+    # instead is that the three places that must agree do -- the manifests, the diagnosis
+    # counts the leading figure is drawn from, and the prose.
+    HEADLINE_ROUNDS = [("data/benchmark_main", "data/benchmark_main/clean_qids.json"),
+                       ("data/benchmark_v3", None),
+                       ("data/benchmark_v2_ctrl", None)]
+    n_bench = 0
+    for d, cleanf in HEADLINE_ROUNDS:
+        n_bench += (len(json.load(open(cleanf))) if cleanf
+                    else sum(1 for _ in open(f"{d}/answers2.jsonl")))
+    diag = json.load(open("data/diagnosis.json"))
+    if diag["n"] != n_bench:
+        fail("A", f"benchmark cohort is {n_bench} but data/diagnosis.json -- which the "
+                  f"leading figure is drawn from -- covers {diag['n']}; "
+                  f"re-run scripts/forward_verify_all.py")
+    if not re.search(rf'/{n_bench}\b', md):
+        fail("A", f"benchmark cohort is {n_bench} but no rate over {n_bench} appears in "
+                  f"the prose; the manuscript is still quoting an older cohort")
 
 
 # ---- B. fraction/percent agreement -------------------------------------------

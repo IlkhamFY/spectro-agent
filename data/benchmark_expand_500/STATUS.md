@@ -88,7 +88,7 @@ Still in flight:
 | R06 | [Solve expand500 R06 retry](bc-36007791-710e-5dab-8ff7-df7b62b755d9) |
 | R09 | [Solve expand500 R09 retry](bc-63afd52f-7a89-5fbd-9c79-4b7c6f1de075) |
 | R12 | [Solve expand500 R12 retry](bc-6c73b001-b1ce-5775-ae98-7f9a1944d3f5) |
-| R17 | [Solve expand500 R17](bc-3a69da2c-4a4c-51a7-8bc2-3526ac6f3598) |
+| R17 | [Solve expand500 R17 retry](bc-6ca82f3d-9ce9-5ee9-8a4d-092b33a2d05c) |
 | R16 | [Solve expand500 R16 retry](bc-0c63eb31-d1a2-5979-858c-6ed6af8a180d) |
 | R24 | [Solve expand500 R24](bc-fc0d4643-afa8-5471-864c-9bf179e07c41) |
 | R25 | [Solve expand500 R25](bc-a04586aa-5c41-57ea-b7f3-df1b9d585810) |
@@ -114,6 +114,10 @@ Retried as singles.
 R16 first launch ([Solve expand500 R16](bc-eeb4d9cf-2c1d-5402-8ab1-0ff2a3234cf6))
 died ERROR with an empty transcript (`{"messages": []}`). Not banked. Retried
 as a single. R16 remains outstanding.
+
+R17 first launch ([Solve expand500 R17](bc-3a69da2c-4a4c-51a7-8bc2-3526ac6f3598))
+died ERROR with an empty transcript (`{"messages": []}`). Not banked. Retried
+as a single. R17 remains outstanding.
 
 No Fable (or any other) arm is registered on this draw.
 
@@ -180,6 +184,6 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 ## Overnight / follow-up handoff
 
 **Draw committed. Key withheld. 16/230 Opus deposited. Empty/timeout/ERROR
-first launches (not banked; retried): R02, R03, R06, R09, R12, R16. 10 still
-in flight. Outstanding: 214 qids in `outstanding_opus.txt`. No scores. Do
-not merge. Paper stays n=295.**
+first launches (not banked; retried): R02, R03, R06, R09, R12, R16, R17. 10
+still in flight. Outstanding: 214 qids in `outstanding_opus.txt`. No scores.
+Do not merge. Paper stays n=295.**

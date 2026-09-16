@@ -6,7 +6,7 @@ back), so no ground-truth audit has run and no accuracy number exists for these 
 
 ## Collected
 
-Reconciled 2026-09-16 04:48 UTC against `questions2.jsonl` vs `raw/` (and `raw_fable/`
+Reconciled 2026-09-16 05:18 UTC against `questions2.jsonl` vs `raw/` (and `raw_fable/`
 for the cross-model row only). No scores.
 
 | arm | solver | compounds with a blind response | of 106 |
@@ -29,24 +29,25 @@ met. Failure mode 2 (64k output-token ceiling) selects against compounds whose e
 takes the most reasoning. Scoring the solved subset would report an accuracy inflated by
 the exclusion of compounds the solver could not finish thinking about.
 
-## Overnight handoff (2026-09-16 04:48 UTC)
+## Overnight handoff (2026-09-16 05:18 UTC)
 
 **Opus headline: 105/106. Not scored. Key withheld. `predictions2.jsonl` not written.**
 
-R39 is the only outstanding qid. Fourth launch
-[bc-0c2ff149](https://cursor.com/agents/bc-0c2ff149-d370-59a9-beda-17b5f6d81d31)
-ended ERROR after ~30 min with empty transcript `{"messages":[]}` (21 bytes) — the same
-activity-task timeout seen on earlier R39 / R79 / R69 empties. Not an Opus API or model
-quota blocker; the `claude-opus-5-thinking-high` slug still serves. Do **not** score this
+R39 is the only outstanding qid. Fifth launch
+[bc-c099a3e6](https://cursor.com/agents/bc-c099a3e6-388a-5ead-841d-d4efc3b41aaa)
+ended ERROR after ~30 min with empty transcript `{"messages":[]}` (21 bytes) — five
+consecutive empty activity-task timeouts on this qid (same leftover failure mode as
+R79/R69 empties, which later deposited on retry). Not an Opus API or model-quota
+blocker; the `claude-opus-5-thinking-high` slug still serves. Do **not** score this
 105-compound subset. Do **not** fill R39 with another model.
 
-Fifth launch in flight (emit-first prompt; retry 4):
+Sixth launch in flight (JSON-only prompt; retry 5):
 
 **In flight (do not double-launch):**
 
 | qid | agent | started UTC |
 |---|---|---|
-| R39 | [Solve R39 blind Opus](https://cursor.com/agents/bc-c099a3e6-388a-5ead-841d-d4efc3b41aaa) | 04:48 (retry 4) |
+| R39 | [Solve R39 blind Opus](https://cursor.com/agents/bc-88fa27ec-2283-5f7c-b55f-cd004f296eb0) | 05:18 (retry 5) |
 
 **Need a free slot:** none — the only remaining qid is in flight.
 

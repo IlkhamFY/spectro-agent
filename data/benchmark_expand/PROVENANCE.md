@@ -100,3 +100,4 @@ key vault, an answers file, or any path under the repository.
 | expansion round | `raw/` | single_R63 | R63 | `claude-opus-5` |
 | expansion round | `raw/` | single_R76 | R76 | `claude-opus-5` |
 | expansion round | `raw/` | single_R71 | R71 | `claude-opus-5` |
+| expansion round | `raw/` | single_R102 | R102 | `claude-opus-5` |

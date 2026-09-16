@@ -100,7 +100,7 @@ Still in flight:
 | R16 | [Solve expand500 R16 retry 2](bc-7edd0096-f654-5fa4-a3b1-81ad696a38c5) |
 | R24 | [Solve expand500 R24 retry](bc-bac6e539-40b1-5a49-a975-88e844cce172) |
 | R25 | [Solve expand500 R25 retry](bc-8192c234-d987-53b6-8d57-d98a1005401e) |
-| R30 | [Solve expand500 R30](bc-927de401-0b66-5b0e-a538-3876c223ada0) |
+| R30 | [Solve expand500 R30 retry](bc-d88cb6db-f1cb-5369-a35d-bea5f574574e) |
 | R35 | [Solve expand500 R35](bc-64c6ecb1-b99c-5aa2-ae86-5ac5d207c8f7) |
 | R36 | [Solve expand500 R36](bc-de38bebc-c871-59a5-8950-83ff193f845d) |
 
@@ -149,6 +149,10 @@ a single. R24 remains outstanding.
 R25 first launch ([Solve expand500 R25](bc-a04586aa-5c41-57ea-b7f3-df1b9d585810))
 died with an activity-task timeout and no candidates. Not banked. Retried as
 a single. R25 remains outstanding.
+
+R30 first launch ([Solve expand500 R30](bc-927de401-0b66-5b0e-a538-3876c223ada0))
+died with an activity-task timeout and no candidates. Not banked. Retried as
+a single. R30 remains outstanding.
 
 No Fable (or any other) arm is registered on this draw.
 
@@ -215,6 +219,6 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 ## Overnight / follow-up handoff
 
 **Draw committed. Key withheld. 26/230 Opus deposited. Empty/timeout/ERROR
-first launches (not banked; retried): R03, R06, R09, R16, R17, R24, R25. 10
+first launches (not banked; retried): R03, R06, R09, R16, R17, R24, R25, R30. 10
 still in flight. Outstanding: 204 qids in `outstanding_opus.txt`. No scores.
 Do not merge. Paper stays n=295.**

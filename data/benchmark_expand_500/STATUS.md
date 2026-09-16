@@ -122,18 +122,31 @@ Still in flight:
 
 | qid | agent |
 |---|---|
-| R03 | [Solve expand500 R03 retry 5](bc-9f104518-16e2-57ac-b24b-b86482f9f345) |
-| R06 | [Solve expand500 R06 retry 6](bc-e18f59ba-3766-561a-a873-1959c27b5078) |
-| R09 | [Solve expand500 R09 retry 5](bc-f994f196-d0ab-5685-9868-b5461eddfef7) |
-| R16 | [Solve expand500 R16 retry 5](bc-0f1f04fa-7c71-5cee-8fd8-ca34b10d33c8) |
-| R25 | [Solve expand500 R25 retry 4](bc-b9afc554-d63a-51f0-8d2f-c9fce7e9a751) |
-| R30 | [Solve expand500 R30 retry 4](bc-a67c0d6e-1277-503d-9cd6-4fe1652c1ad2) |
-| R44 | [Solve expand500 R44 retry 2](bc-737cbcc7-473b-561a-88fd-42d3c3df0881) |
-| R55 | [Solve expand500 R55 retry](bc-3cc12a26-04b3-5414-bb68-90ea47be4194) |
-| R64 | [Solve expand500 R64](bc-0c15d1cd-3c8f-56d8-826d-c11bbd54dd1e) |
 | R65 | [Solve expand500 R65](bc-4cc3c29b-ab0c-5962-90a5-3091828d627f) |
 
-Next after these return: **R66–R230**. Bank with `collect_round.py --partial`.
+**Opus usage cap.** Cursor Pro+ hit the monthly Opus limit (resets **2026-10-09**,
+or sooner if a spend limit is set). These in-flight singles died with that
+error and empty transcripts. **Not banked. Not retried with another model**
+— this round's headline arm is Opus-only.
+
+| qid | last agent | why not banked |
+|---|---|---|
+| R03 | [Solve expand500 R03 retry 5](bc-9f104518-16e2-57ac-b24b-b86482f9f345) | Opus usage limit, empty |
+| R06 | [Solve expand500 R06 retry 6](bc-e18f59ba-3766-561a-a873-1959c27b5078) | Opus usage limit, empty |
+| R09 | [Solve expand500 R09 retry 5](bc-f994f196-d0ab-5685-9868-b5461eddfef7) | Opus usage limit after empty final; resume also died |
+| R16 | [Solve expand500 R16 retry 5](bc-0f1f04fa-7c71-5cee-8fd8-ca34b10d33c8) | Opus usage limit, empty |
+| R25 | [Solve expand500 R25 retry 4](bc-b9afc554-d63a-51f0-8d2f-c9fce7e9a751) | Opus usage limit, empty |
+| R30 | [Solve expand500 R30 retry 4](bc-a67c0d6e-1277-503d-9cd6-4fe1652c1ad2) | Opus usage limit, empty |
+| R44 | [Solve expand500 R44 retry 2](bc-737cbcc7-473b-561a-88fd-42d3c3df0881) | Opus usage limit, empty |
+| R55 | [Solve expand500 R55 retry](bc-3cc12a26-04b3-5414-bb68-90ea47be4194) | Opus usage limit, empty |
+| R64 | [Solve expand500 R64](bc-0c15d1cd-3c8f-56d8-826d-c11bbd54dd1e) | Opus usage limit, empty |
+
+Do **not** fill those slots with Grok, Composer, or Fable. Follow-up Cursor
+runs should resume Opus singles from `outstanding_opus.txt` only after the
+limit resets or a spend limit is added.
+
+Next after Opus is available again: **R03, R06, R09, R16, R25, R30, R44, R55,
+R64, then R66–R230**. Bank with `collect_round.py --partial`.
 No scores on the 55/230 subset.
 
 R12 first launch ([Solve expand500 R12](bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a))
@@ -287,8 +300,8 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 
 ## Overnight / follow-up handoff
 
-**Draw committed. Key withheld. 55/230 Opus deposited. Persistent
-timeout/empty retries still outstanding: R03, R06, R09, R16, R25, R30, R44,
-R55.
-10 in flight. Outstanding: 175 qids in `outstanding_opus.txt`. No scores. Do
-not merge. Paper stays n=295.**
+**Draw committed. Key withheld. 55/230 Opus deposited. BLOCKED on Cursor
+Opus monthly usage (reset 2026-10-09 or spend limit). Do not substitute
+another model. Outstanding: 175 qids in `outstanding_opus.txt` (includes
+R03, R06, R09, R16, R25, R30, R44, R55, R64, R66–R230; R65 may still be
+in flight). No scores. Do not merge. Paper stays n=295.**

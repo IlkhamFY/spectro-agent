@@ -6,7 +6,7 @@ back), so no ground-truth audit has run and no accuracy number exists for these 
 
 ## Collected
 
-Reconciled 2026-09-16 05:49 UTC against `questions2.jsonl` vs `raw/` (and `raw_fable/`
+Reconciled 2026-09-16 06:19 UTC against `questions2.jsonl` vs `raw/` (and `raw_fable/`
 for the cross-model row only). No scores.
 
 | arm | solver | compounds with a blind response | of 106 |
@@ -29,25 +29,25 @@ met. Failure mode 2 (64k output-token ceiling) selects against compounds whose e
 takes the most reasoning. Scoring the solved subset would report an accuracy inflated by
 the exclusion of compounds the solver could not finish thinking about.
 
-## Overnight handoff (2026-09-16 05:49 UTC)
+## Overnight handoff (2026-09-16 06:19 UTC)
 
 **Opus headline: 105/106. Not scored. Key withheld. `predictions2.jsonl` not written.**
 
-R39 is the only outstanding qid. Sixth launch
-[bc-88fa27ec](https://cursor.com/agents/bc-88fa27ec-2283-5f7c-b55f-cd004f296eb0)
-ended ERROR after ~30 min with empty transcript `{"messages":[]}` (21 bytes) — six
-consecutive empty activity-task timeouts on this qid (R79/R69 later deposited on
+R39 is the only outstanding qid. Seventh launch
+[bc-98b6dfbb](https://cursor.com/agents/bc-98b6dfbb-be0a-5c07-8e10-41148030c526)
+ended ERROR after ~30 min with empty transcript `{"messages":[]}` (21 bytes) — seven
+consecutive empty activity-task timeouts on this qid (R79 deposited on its fourth
 retry after the same empty). Not an Opus API or model-quota blocker; the
 `claude-opus-5-thinking-high` slug still serves. Do **not** score this 105-compound
 subset. Do **not** fill R39 with another model.
 
-Seventh launch in flight (JSON-only prompt; retry 6):
+Eighth launch in flight (JSON-only prompt; retry 7):
 
 **In flight (do not double-launch):**
 
 | qid | agent | started UTC |
 |---|---|---|
-| R39 | [Solve R39 blind Opus](https://cursor.com/agents/bc-98b6dfbb-be0a-5c07-8e10-41148030c526) | 05:49 (retry 6) |
+| R39 | [Solve R39 blind Opus](https://cursor.com/agents/bc-0a25b5b0-4fb3-5564-9bbe-6a9c9b750304) | 06:19 (retry 7) |
 
 **Need a free slot:** none — the only remaining qid is in flight.
 

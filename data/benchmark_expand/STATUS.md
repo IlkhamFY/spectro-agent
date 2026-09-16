@@ -6,17 +6,17 @@ back), so no ground-truth audit has run and no accuracy number exists for these 
 
 ## Collected
 
-Reconciled 2026-09-16 03:08 UTC against `questions2.jsonl` vs `raw/` (and `raw_fable/`
+Reconciled 2026-09-16 03:09 UTC against `questions2.jsonl` vs `raw/` (and `raw_fable/`
 for the cross-model row only). No scores.
 
 | arm | solver | compounds with a blind response | of 106 |
 |---|---|---:|---:|
-| expansion round | `claude-opus-5` | **99** | 93% |
+| expansion round | `claude-opus-5` | **100** | 94% |
 | cross-model arm | `claude-fable-5-1` | 68 | 64% |
 
-**7** Opus qids still outstanding:
+**6** Opus qids still outstanding:
 
-R39 R69 R79 R80 R94 R97 R102
+R39 R69 R79 R80 R94 R97
 
 Every deposited batch was checked against its agent transcript (Claude Code deposits) or
 against the Cursor Task serving slug (post-pause singles; deviation 3) and served by the
@@ -29,11 +29,11 @@ met. Failure mode 2 (64k output-token ceiling) selects against compounds whose e
 takes the most reasoning. Scoring the solved subset would report an accuracy inflated by
 the exclusion of compounds the solver could not finish thinking about.
 
-## Overnight handoff (2026-09-16 03:08 UTC)
+## Overnight handoff (2026-09-16 03:09 UTC)
 
-**Opus headline: 99/106. Not scored. Key withheld. `predictions2.jsonl` not written.**
+**Opus headline: 100/106. Not scored. Key withheld. `predictions2.jsonl` not written.**
 
-R71 retry banked (formula OK). Seven remaining, all in flight. No Opus API/model blocker.
+R102 banked (formula OK). Six remaining, all in flight. No Opus API/model blocker.
 
 **In flight (do not double-launch):**
 
@@ -45,7 +45,6 @@ R71 retry banked (formula OK). Seven remaining, all in flight. No Opus API/model
 | R69 | [Solve R69 blind Opus](https://cursor.com/agents/bc-13df7926-9063-5ef3-8029-1679d7b0d7a6) | 02:54 (retry) |
 | R80 | [Solve R80 blind Opus](https://cursor.com/agents/bc-bea4e41f-d4d1-568a-92ba-daf91859832e) | 03:04 (retry) |
 | R94 | [Solve R94 blind Opus](https://cursor.com/agents/bc-8ba06d5a-c274-5085-aa55-78e341ccf064) | 02:58 (retry) |
-| R102 | [Solve R102 blind Opus](https://cursor.com/agents/bc-375acefb-b2cd-530c-88d5-1701b1a882e8) | 02:58 |
 
 **Need a free slot:** none — every remaining qid is in flight.
 

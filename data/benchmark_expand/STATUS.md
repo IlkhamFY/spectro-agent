@@ -8,13 +8,13 @@ back), so no ground-truth audit has run and no accuracy number exists for these 
 
 | arm | solver | compounds with a blind response | of 106 |
 |---|---|---:|---:|
-| expansion round | `claude-opus-5` | **88** | 83% |
+| expansion round | `claude-opus-5` | **89** | 84% |
 | cross-model arm | `claude-fable-5-1` | 40 | 38% |
 
 `outstanding_opus.txt` was stale at the pause (listed 44). Reconciled against
-`questions2.jsonl` vs `raw/`. **18** still outstanding:
+`questions2.jsonl` vs `raw/`. **17** still outstanding:
 
-R39 R62 R63 R69 R71 R73 R74 R76 R77 R79 R80 R91 R92 R93 R94 R96 R97 R102
+R39 R62 R63 R69 R71 R73 R74 R76 R77 R79 R80 R91 R92 R93 R94 R97 R102
 
 Every deposited batch was checked against its agent transcript (Claude Code deposits) or
 against the Cursor Task serving slug (post-pause singles; deviation 3) and served by the
@@ -36,7 +36,7 @@ Hard cap this session: **10 concurrent async subagents**. New launches return
 **Not yet launched this resume** (need a free slot):  
 R73 R74 R76 R80 R92 R97 R102
 
-**In flight** (do not double-launch): R39 R62 R63 R69 R71 R77 R79 R91 R93 R94 R96
+**In flight** (do not double-launch): R39 R62 R63 R69 R71 R77 R79 R91 R93 R94
 
 Bank with `/tmp/blind/bank_one.sh Rxx` (or `scripts/collect_round.py` + provenance row).
 Do **not** restore the key or write `predictions2.jsonl` until 106/106.

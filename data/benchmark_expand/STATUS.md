@@ -6,17 +6,17 @@ back), so no ground-truth audit has run and no accuracy number exists for these 
 
 ## Collected
 
-Reconciled 2026-09-16 02:59 UTC against `questions2.jsonl` vs `raw/` (and `raw_fable/`
+Reconciled 2026-09-16 03:02 UTC against `questions2.jsonl` vs `raw/` (and `raw_fable/`
 for the cross-model row only). No scores.
 
 | arm | solver | compounds with a blind response | of 106 |
 |---|---|---:|---:|
-| expansion round | `claude-opus-5` | **95** | 90% |
+| expansion round | `claude-opus-5` | **96** | 91% |
 | cross-model arm | `claude-fable-5-1` | 68 | 64% |
 
-**11** Opus qids still outstanding:
+**10** Opus qids still outstanding:
 
-R39 R63 R69 R71 R76 R79 R80 R93 R94 R97 R102
+R39 R63 R69 R71 R76 R79 R80 R94 R97 R102
 
 Every deposited batch was checked against its agent transcript (Claude Code deposits) or
 against the Cursor Task serving slug (post-pause singles; deviation 3) and served by the
@@ -29,13 +29,13 @@ met. Failure mode 2 (64k output-token ceiling) selects against compounds whose e
 takes the most reasoning. Scoring the solved subset would report an accuracy inflated by
 the exclusion of compounds the solver could not finish thinking about.
 
-## Overnight handoff (2026-09-16 02:59 UTC)
+## Overnight handoff (2026-09-16 03:02 UTC)
 
-**Opus headline: 95/106. Not scored. Key withheld. `predictions2.jsonl` not written.**
+**Opus headline: 96/106. Not scored. Key withheld. `predictions2.jsonl` not written.**
 
-R92 banked (formula OK). First R63/R94/R71 timed out empty — not banked. Relunched R63
-and R94; also launched the never-started R76 and R102. R71 retry is waiting for a slot.
-No Opus API/model blocker. Hard cap: **10 concurrent async subagents**.
+R93 retry banked (formula OK). R71 retry launched into the freed slot. All 10 remaining
+qids are now in flight. No Opus API/model blocker. Hard cap: **10 concurrent async
+subagents**.
 
 **In flight (do not double-launch):**
 
@@ -45,14 +45,14 @@ No Opus API/model blocker. Hard cap: **10 concurrent async subagents**.
 | R97 | [Solve R97 blind Opus](https://cursor.com/agents/bc-ea0efdf1-11d9-5988-9192-5d2f1d5bee0c) | 02:40 |
 | R39 | [Solve R39 blind Opus](https://cursor.com/agents/bc-bee7fb47-d918-5673-8c94-b49002770c7a) | 02:44 |
 | R69 | [Solve R69 blind Opus](https://cursor.com/agents/bc-13df7926-9063-5ef3-8029-1679d7b0d7a6) | 02:54 (retry) |
-| R93 | [Solve R93 blind Opus](https://cursor.com/agents/bc-b02f0154-0b15-5e96-a2f7-b353ce281669) | 02:56 (retry) |
 | R80 | [Solve R80 blind Opus](https://cursor.com/agents/bc-e7c07239-c604-5acd-9a13-c4fbf6511275) | 02:57 |
 | R63 | [Solve R63 blind Opus](https://cursor.com/agents/bc-45e1817e-3f89-5364-8b45-2c66cd536dda) | 02:58 (retry) |
 | R94 | [Solve R94 blind Opus](https://cursor.com/agents/bc-8ba06d5a-c274-5085-aa55-78e341ccf064) | 02:58 (retry) |
 | R76 | [Solve R76 blind Opus](https://cursor.com/agents/bc-d94dc464-ff57-58c7-a950-6bca4e36a75d) | 02:58 |
 | R102 | [Solve R102 blind Opus](https://cursor.com/agents/bc-375acefb-b2cd-530c-88d5-1701b1a882e8) | 02:58 |
+| R71 | [Solve R71 blind Opus](https://cursor.com/agents/bc-fdcf2d8c-11c1-5c0e-8813-1be533e01883) | 03:02 (retry) |
 
-**Need a free slot:** R71
+**Need a free slot:** none — every remaining qid is in flight.
 
 On any in-flight completion: formula-check the JSON, `/tmp/blind/bank_one.sh Rxx`, then
 immediately launch one waiting qid into the freed slot. Prompts are at

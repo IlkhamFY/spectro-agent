@@ -19,3 +19,5 @@ single-compound batches).
 | expansion toward 500 | `raw/` | single_R07 | R07 | `claude-opus-5` |
 | expansion toward 500 | `raw/` | single_R15 | R15 | `claude-opus-5` |
 | expansion toward 500 | `raw/` | single_R18 | R18 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R14 | R14 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R19 | R19 | `claude-opus-5` |

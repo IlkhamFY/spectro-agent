@@ -43,7 +43,7 @@ Compiles **`.tex` → PDF**. Does **not** touch `docs/paper.pdf`.
 
 ## Section outline
 
-1. Abstract — IRSpectra-Bench; 28% / 15% reweighted; recall 34% vs precision 89%
+1. Abstract — IRSpectra-Bench n=295 (194+101); 39% / 27% reweighted; recall 44%; fverify 89% (58/65) on n=194
 2. §1 Introduction — factorisation; contributions; short IRexp pointer
 3. §2 Related work
 4. §3 IRSpectra-Bench — task, difficulty, scoring contract

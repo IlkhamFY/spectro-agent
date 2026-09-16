@@ -33,9 +33,9 @@ the exclusion of compounds the solver could not finish thinking about.
 
 **Opus headline: 96/106. Not scored. Key withheld. `predictions2.jsonl` not written.**
 
-R93 retry banked (formula OK). R71 retry launched into the freed slot. All 10 remaining
-qids are now in flight. No Opus API/model blocker. Hard cap: **10 concurrent async
-subagents**.
+R93 retry banked (formula OK). First R80 returned an empty assistant message — not banked; relaunched.
+R71 retry launched. All 10 remaining qids are now in flight. No Opus API/model blocker. Hard cap:
+**10 concurrent async subagents**.
 
 **In flight (do not double-launch):**
 
@@ -45,7 +45,7 @@ subagents**.
 | R97 | [Solve R97 blind Opus](https://cursor.com/agents/bc-ea0efdf1-11d9-5988-9192-5d2f1d5bee0c) | 02:40 |
 | R39 | [Solve R39 blind Opus](https://cursor.com/agents/bc-bee7fb47-d918-5673-8c94-b49002770c7a) | 02:44 |
 | R69 | [Solve R69 blind Opus](https://cursor.com/agents/bc-13df7926-9063-5ef3-8029-1679d7b0d7a6) | 02:54 (retry) |
-| R80 | [Solve R80 blind Opus](https://cursor.com/agents/bc-e7c07239-c604-5acd-9a13-c4fbf6511275) | 02:57 |
+| R80 | [Solve R80 blind Opus](https://cursor.com/agents/bc-bea4e41f-d4d1-568a-92ba-daf91859832e) | 03:04 (retry) |
 | R63 | [Solve R63 blind Opus](https://cursor.com/agents/bc-45e1817e-3f89-5364-8b45-2c66cd536dda) | 02:58 (retry) |
 | R94 | [Solve R94 blind Opus](https://cursor.com/agents/bc-8ba06d5a-c274-5085-aa55-78e341ccf064) | 02:58 (retry) |
 | R76 | [Solve R76 blind Opus](https://cursor.com/agents/bc-d94dc464-ff57-58c7-a950-6bca4e36a75d) | 02:58 |

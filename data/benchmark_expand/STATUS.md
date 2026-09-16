@@ -8,14 +8,13 @@ back), so no ground-truth audit has run and no accuracy number exists for these 
 
 | arm | solver | compounds with a blind response | of 106 |
 |---|---|---:|---:|
-| expansion round | `claude-opus-5` | **78** | 74% |
+| expansion round | `claude-opus-5` | **80** | 75% |
 | cross-model arm | `claude-fable-5-1` | 40 | 38% |
 
 `outstanding_opus.txt` was stale at the pause (listed 44). Reconciled against
-`questions2.jsonl` vs `raw/`: 73 already deposited before this resume; R67, R68, R78,
-R83 and R98 banked since. **28** still outstanding:
+`questions2.jsonl` vs `raw/`. **26** still outstanding:
 
-R39 R62 R63 R69 R70 R71 R72 R73 R74 R75 R76 R77 R79 R80 R81 R82 R84 R91 R92 R93 R94 R95 R96 R97 R99 R100 R101 R102
+R39 R62 R63 R69 R70 R71 R72 R73 R74 R75 R76 R77 R79 R80 R81 R91 R92 R93 R94 R95 R96 R97 R99 R100 R101 R102
 
 Every deposited batch was checked against its agent transcript (Claude Code deposits) or
 against the Cursor Task serving slug (post-pause singles; deviation 3) and served by the

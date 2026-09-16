@@ -39,7 +39,8 @@ and what is already machine-verified.
 
 ```
 pip install -r requirements.txt
-python scripts/score_main.py            # Table 2  - headline accuracy (n=194)
+python scripts/score_main.py            # locked n=194 generation accuracy
+python scripts/score_pooled.py          # paper-facing pooled headline (n=295; 194+101)
 python scripts/score_submission.py --predictions yours.jsonl --name "YourModel"
 python scripts/build_train_no_bench.py  # IRexp training split without benchmark leakage
 python scripts/forward_verify_all.py    # Table 6  - recall/verification decomposition (n=194)

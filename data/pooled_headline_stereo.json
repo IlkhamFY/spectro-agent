@@ -1,0 +1,453 @@
+{
+ "date": "2026-09-16",
+ "scoring_layer": "full InChIKey (stereochemistry-sensitive)",
+ "headline": "pooled n=295 (194 + 101 validate-clean expansion)",
+ "headline_excludes_flagged": true,
+ "flagged_qids": [
+  "R12",
+  "R22",
+  "R25",
+  "R82",
+  "R91"
+ ],
+ "flagged_reason": "13C-overread; validate_benchmark.py before scoring",
+ "forward_verify_expansion": "not run",
+ "fable_expansion": "68/106 deposited; not scored; not pooled",
+ "blocks": [
+  {
+   "label": "n=194 (locked)",
+   "n": 194,
+   "slices": {
+    "ALL": {
+     "n": 194,
+     "top1_n": 41,
+     "top1_pct": 21.1340206185567,
+     "top1_ci": [
+      15.97938144329897,
+      27.31958762886598
+     ],
+     "recall_n": 50,
+     "recall_pct": 25.77319587628866,
+     "recall_ci": [
+      19.587628865979383,
+      31.95876288659794
+     ],
+     "scaffold_ge_0.45_pct": 56.18556701030928,
+     "mean_tanimoto": 0.5909164811622755
+    },
+    "simple": {
+     "n": 98,
+     "top1_n": 35,
+     "top1_pct": 35.714285714285715,
+     "top1_ci": [
+      26.53061224489796,
+      44.89795918367347
+     ],
+     "recall_n": 40,
+     "recall_pct": 40.816326530612244,
+     "recall_ci": [
+      30.612244897959183,
+      50.0
+     ],
+     "scaffold_ge_0.45_pct": 73.46938775510205,
+     "mean_tanimoto": 0.7276942972359981
+    },
+    "complex": {
+     "n": 96,
+     "top1_n": 6,
+     "top1_pct": 6.25,
+     "top1_ci": [
+      2.0833333333333335,
+      11.458333333333334
+     ],
+     "recall_n": 10,
+     "recall_pct": 10.416666666666666,
+     "recall_ci": [
+      5.208333333333333,
+      16.666666666666668
+     ],
+     "scaffold_ge_0.45_pct": 38.541666666666664,
+     "mean_tanimoto": 0.4512891272536835
+    }
+   },
+   "by_size": {
+    "<=15": {
+     "n": 38,
+     "top1_n": 17,
+     "top1_pct": 44.73684210526316,
+     "recall_n": 21,
+     "recall_pct": 55.26315789473684
+    },
+    "16-25": {
+     "n": 99,
+     "top1_n": 22,
+     "top1_pct": 22.22222222222222,
+     "recall_n": 26,
+     "recall_pct": 26.262626262626263
+    },
+    ">25": {
+     "n": 57,
+     "top1_n": 2,
+     "top1_pct": 3.508771929824561,
+     "recall_n": 3,
+     "recall_pct": 5.2631578947368425
+    }
+   }
+  },
+  {
+   "label": "expansion all",
+   "n": 106,
+   "slices": {
+    "ALL": {
+     "n": 106,
+     "top1_n": 53,
+     "top1_pct": 50.0,
+     "top1_ci": [
+      40.56603773584906,
+      59.43396226415094
+     ],
+     "recall_n": 60,
+     "recall_pct": 56.60377358490566,
+     "recall_ci": [
+      47.16981132075472,
+      66.0377358490566
+     ],
+     "scaffold_ge_0.45_pct": 78.30188679245283,
+     "mean_tanimoto": 0.785415866966078
+    },
+    "simple": {
+     "n": 53,
+     "top1_n": 35,
+     "top1_pct": 66.0377358490566,
+     "top1_ci": [
+      52.83018867924528,
+      77.35849056603773
+     ],
+     "recall_n": 39,
+     "recall_pct": 73.58490566037736,
+     "recall_ci": [
+      62.264150943396224,
+      84.90566037735849
+     ],
+     "scaffold_ge_0.45_pct": 90.56603773584905,
+     "mean_tanimoto": 0.9012013017776853
+    },
+    "complex": {
+     "n": 53,
+     "top1_n": 18,
+     "top1_pct": 33.9622641509434,
+     "top1_ci": [
+      22.641509433962263,
+      47.16981132075472
+     ],
+     "recall_n": 21,
+     "recall_pct": 39.62264150943396,
+     "recall_ci": [
+      28.30188679245283,
+      52.83018867924528
+     ],
+     "scaffold_ge_0.45_pct": 66.0377358490566,
+     "mean_tanimoto": 0.6696304321544707
+    }
+   },
+   "by_size": {
+    "<=15": {
+     "n": 16,
+     "top1_n": 12,
+     "top1_pct": 75.0,
+     "recall_n": 12,
+     "recall_pct": 75.0
+    },
+    "16-25": {
+     "n": 57,
+     "top1_n": 32,
+     "top1_pct": 56.14035087719298,
+     "recall_n": 39,
+     "recall_pct": 68.42105263157895
+    },
+    ">25": {
+     "n": 33,
+     "top1_n": 9,
+     "top1_pct": 27.272727272727273,
+     "recall_n": 9,
+     "recall_pct": 27.272727272727273
+    }
+   }
+  },
+  {
+   "label": "expansion clean",
+   "n": 101,
+   "slices": {
+    "ALL": {
+     "n": 101,
+     "top1_n": 52,
+     "top1_pct": 51.48514851485149,
+     "top1_ci": [
+      41.584158415841586,
+      61.386138613861384
+     ],
+     "recall_n": 58,
+     "recall_pct": 57.42574257425743,
+     "recall_ci": [
+      48.51485148514851,
+      67.32673267326733
+     ],
+     "scaffold_ge_0.45_pct": 78.21782178217822,
+     "mean_tanimoto": 0.787615483817994
+    },
+    "simple": {
+     "n": 49,
+     "top1_n": 34,
+     "top1_pct": 69.38775510204081,
+     "top1_ci": [
+      55.10204081632653,
+      81.63265306122449
+     ],
+     "recall_n": 37,
+     "recall_pct": 75.51020408163265,
+     "recall_ci": [
+      63.265306122448976,
+      85.71428571428571
+     ],
+     "scaffold_ge_0.45_pct": 91.83673469387755,
+     "mean_tanimoto": 0.9195663461516415
+    },
+    "complex": {
+     "n": 52,
+     "top1_n": 18,
+     "top1_pct": 34.61538461538461,
+     "top1_ci": [
+      21.153846153846153,
+      48.07692307692308
+     ],
+     "recall_n": 21,
+     "recall_pct": 40.38461538461539,
+     "recall_ci": [
+      26.923076923076923,
+      53.84615384615385
+     ],
+     "scaffold_ge_0.45_pct": 65.38461538461539,
+     "mean_tanimoto": 0.6632771712343644
+    }
+   },
+   "by_size": {
+    "<=15": {
+     "n": 15,
+     "top1_n": 11,
+     "top1_pct": 73.33333333333333,
+     "recall_n": 11,
+     "recall_pct": 73.33333333333333
+    },
+    "16-25": {
+     "n": 53,
+     "top1_n": 32,
+     "top1_pct": 60.37735849056604,
+     "recall_n": 38,
+     "recall_pct": 71.69811320754717
+    },
+    ">25": {
+     "n": 33,
+     "top1_n": 9,
+     "top1_pct": 27.272727272727273,
+     "recall_n": 9,
+     "recall_pct": 27.272727272727273
+    }
+   }
+  },
+  {
+   "label": "pooled n=300",
+   "n": 300,
+   "slices": {
+    "ALL": {
+     "n": 300,
+     "top1_n": 94,
+     "top1_pct": 31.333333333333332,
+     "top1_ci": [
+      26.0,
+      36.666666666666664
+     ],
+     "recall_n": 110,
+     "recall_pct": 36.666666666666664,
+     "recall_ci": [
+      31.333333333333332,
+      42.0
+     ],
+     "scaffold_ge_0.45_pct": 64.0,
+     "mean_tanimoto": 0.6596395974796191
+    },
+    "simple": {
+     "n": 151,
+     "top1_n": 70,
+     "top1_pct": 46.35761589403973,
+     "top1_ci": [
+      39.0728476821192,
+      54.3046357615894
+     ],
+     "recall_n": 79,
+     "recall_pct": 52.317880794701985,
+     "recall_ci": [
+      44.370860927152314,
+      60.264900662251655
+     ],
+     "scaffold_ge_0.45_pct": 79.47019867549669,
+     "mean_tanimoto": 0.7885941067771202
+    },
+    "complex": {
+     "n": 149,
+     "top1_n": 24,
+     "top1_pct": 16.107382550335572,
+     "top1_ci": [
+      10.738255033557047,
+      22.14765100671141
+     ],
+     "recall_n": 31,
+     "recall_pct": 20.80536912751678,
+     "recall_ci": [
+      14.765100671140939,
+      27.516778523489933
+     ],
+     "scaffold_ge_0.45_pct": 48.32214765100671,
+     "mean_tanimoto": 0.5289541551714132
+    }
+   },
+   "by_size": {
+    "<=15": {
+     "n": 54,
+     "top1_n": 29,
+     "top1_pct": 53.7037037037037,
+     "recall_n": 33,
+     "recall_pct": 61.111111111111114
+    },
+    "16-25": {
+     "n": 156,
+     "top1_n": 54,
+     "top1_pct": 34.61538461538461,
+     "recall_n": 65,
+     "recall_pct": 41.666666666666664
+    },
+    ">25": {
+     "n": 90,
+     "top1_n": 11,
+     "top1_pct": 12.222222222222221,
+     "recall_n": 12,
+     "recall_pct": 13.333333333333334
+    }
+   }
+  },
+  {
+   "label": "pooled n=295 HEADLINE",
+   "n": 295,
+   "slices": {
+    "ALL": {
+     "n": 295,
+     "top1_n": 93,
+     "top1_pct": 31.52542372881356,
+     "top1_ci": [
+      26.440677966101696,
+      36.94915254237288
+     ],
+     "recall_n": 108,
+     "recall_pct": 36.610169491525426,
+     "recall_ci": [
+      31.1864406779661,
+      42.3728813559322
+     ],
+     "scaffold_ge_0.45_pct": 63.728813559322035,
+     "mean_tanimoto": 0.658260885461352
+    },
+    "simple": {
+     "n": 147,
+     "top1_n": 69,
+     "top1_pct": 46.93877551020408,
+     "top1_ci": [
+      38.775510204081634,
+      55.10204081632653
+     ],
+     "recall_n": 77,
+     "recall_pct": 52.38095238095238,
+     "recall_ci": [
+      44.21768707482993,
+      60.54421768707483
+     ],
+     "scaffold_ge_0.45_pct": 79.59183673469387,
+     "mean_tanimoto": 0.7916516468745459
+    },
+    "complex": {
+     "n": 148,
+     "top1_n": 24,
+     "top1_pct": 16.216216216216218,
+     "top1_ci": [
+      10.81081081081081,
+      22.2972972972973
+     ],
+     "recall_n": 31,
+     "recall_pct": 20.945945945945947,
+     "recall_ci": [
+      14.18918918918919,
+      27.7027027027027
+     ],
+     "scaffold_ge_0.45_pct": 47.972972972972975,
+     "mean_tanimoto": 0.5257714129766254
+    }
+   },
+   "by_size": {
+    "<=15": {
+     "n": 53,
+     "top1_n": 28,
+     "top1_pct": 52.83018867924528,
+     "recall_n": 32,
+     "recall_pct": 60.37735849056604
+    },
+    "16-25": {
+     "n": 152,
+     "top1_n": 54,
+     "top1_pct": 35.526315789473685,
+     "recall_n": 64,
+     "recall_pct": 42.10526315789474
+    },
+    ">25": {
+     "n": 90,
+     "top1_n": 11,
+     "top1_pct": 12.222222222222221,
+     "recall_n": 12,
+     "recall_pct": 13.333333333333334
+    }
+   }
+  }
+ ],
+ "corpus_reweighted_headline_n295": {
+  "corpus_simple_weight": 0.175,
+  "top1_pct": 21.592664092664094,
+  "top1_ci": [
+   16.69481981981982,
+   26.966698841698843
+  ],
+  "recall_pct": 26.44707207207207,
+  "recall_ci": [
+   21.073037323037322,
+   32.10263835263835
+  ]
+ },
+ "fig_wall": {
+  "status": "NOT rebuilt",
+  "reason": "scripts/make_fig_wall.py reads data/diagnosis.json from scripts/forward_verify_all.py. That sidecar is n=194 (58/7/129). Expansion joins only when data/fverify_expand*/ exists; it does not. Do not invent pooled verified/misranked/wall.",
+  "current_diagnosis_json": {
+   "n": 194,
+   "verified": 58,
+   "misranked": 7,
+   "wall": 129,
+   "recalled": 65,
+   "self_ranked": 55
+  },
+  "to_regenerate": [
+   "Run scripts/forward_verify_main.py on data/benchmark_expand (blind 13C campaign)",
+   "Deposit data/fverify_expand/ {candidates.jsonl, anon_map.json, raw/}",
+   "Re-run scripts/forward_verify_all.py \u2192 data/diagnosis.json",
+   "Re-run scripts/make_fig_wall.py \u2192 docs/figures/fig_wall.png"
+  ]
+ },
+ "fig1_difficulty": {
+  "status": "NOT rebuilt",
+  "reason": "scripts/make_figures.py calls score_main.load() which is still the n=194 union. It has no pooled-cohort switch. Rebuild after score_main.load() includes the expansion (key must be present)."
+ }
+}

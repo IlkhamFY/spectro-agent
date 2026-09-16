@@ -119,12 +119,12 @@ Still in flight:
 
 | qid | agent |
 |---|---|
-| R03 | [Solve expand500 R03 retry 4](bc-71783912-e22b-51f0-9d48-82404ec7d76d) |
-| R06 | [Solve expand500 R06 retry 5](bc-16d2284f-095c-521f-b221-84a6c278fcc4) |
-| R09 | [Solve expand500 R09 retry 4](bc-0af73435-1a46-5644-9790-1ab25ad7627f) |
-| R16 | [Solve expand500 R16 retry 4](bc-13896659-c874-5291-963b-3734725f22a7) |
-| R25 | [Solve expand500 R25 retry 3](bc-97af48f9-93db-5155-9b28-db762619e34a) |
-| R30 | [Solve expand500 R30 retry 3](bc-01f62bec-e70e-5d65-84a5-2bd5214dafdc) |
+| R03 | [Solve expand500 R03 retry 5](bc-9f104518-16e2-57ac-b24b-b86482f9f345) |
+| R06 | [Solve expand500 R06 retry 6](bc-e18f59ba-3766-561a-a873-1959c27b5078) |
+| R09 | [Solve expand500 R09 retry 5](bc-f994f196-d0ab-5685-9868-b5461eddfef7) |
+| R16 | [Solve expand500 R16 retry 5](bc-0f1f04fa-7c71-5cee-8fd8-ca34b10d33c8) |
+| R25 | [Solve expand500 R25 retry 4](bc-b9afc554-d63a-51f0-8d2f-c9fce7e9a751) |
+| R30 | [Solve expand500 R30 retry 4](bc-a67c0d6e-1277-503d-9cd6-4fe1652c1ad2) |
 | R44 | [Solve expand500 R44 retry](bc-885b85b5-ce1c-5192-ba33-f9a71fcf39b9) |
 | R55 | [Solve expand500 R55](bc-6d350f14-6cf4-5202-a99f-423c12c5bbe0) |
 | R60 | [Solve expand500 R60](bc-e1e1eade-b7c4-5cc5-873a-306151fc160b) |
@@ -146,8 +146,10 @@ timed out. Second retry
 ([Solve expand500 R06 retry 2](bc-7bbd758b-69ac-5bb6-b0bc-a01e38efc558)) died
 ERROR with an empty transcript. Not banked. Fourth retry
 ([Solve expand500 R06 retry 4](bc-bc31be3f-2abe-58d6-9086-ab1362180f0b))
-timed out with no candidates. Not banked. Retried again as a single. R06
-remains outstanding.
+timed out with no candidates. Not banked. Retry 5
+([Solve expand500 R06 retry 5](bc-16d2284f-095c-521f-b221-84a6c278fcc4))
+timed out with an empty transcript. Not banked. Retried again as a single.
+R06 remains outstanding.
 
 R02, R03, and R09 first launches also died on activity-task timeout with no
 candidates ([Solve expand500 R02](bc-625e9cda-d75a-5253-a3a4-cf508face9e2),
@@ -162,14 +164,22 @@ out with no candidates. Both retried again as singles. R03 retry 3
 ERROR with an empty transcript. R09 retry 3
 ([Solve expand500 R09 retry 3](bc-f2123edc-8a83-52ef-b40b-ce76262b65d8))
 timed out with no candidates. Neither banked. Both retried again as singles.
+R03 retry 4
+([Solve expand500 R03 retry 4](bc-71783912-e22b-51f0-9d48-82404ec7d76d))
+and R09 retry 4
+([Solve expand500 R09 retry 4](bc-0af73435-1a46-5644-9790-1ab25ad7627f))
+timed out with empty transcripts (`{"messages": []}`). Neither banked. Both
+retried again as singles.
 
 R16 first launch ([Solve expand500 R16](bc-eeb4d9cf-2c1d-5402-8ab1-0ff2a3234cf6))
 died ERROR with an empty transcript (`{"messages": []}`). Not banked. First
 retry ([Solve expand500 R16 retry](bc-0c63eb31-d1a2-5979-858c-6ed6af8a180d))
 also died ERROR empty. Not banked. Retry 3
 ([Solve expand500 R16 retry 3](bc-a1ab7e90-1bdf-545d-bb80-dda2920ae5ca))
-timed out with no candidates. Not banked. Retried again as a single. R16
-remains outstanding.
+timed out with no candidates. Not banked. Retry 4
+([Solve expand500 R16 retry 4](bc-13896659-c874-5291-963b-3734725f22a7))
+timed out with an empty transcript. Not banked. Retried again as a single.
+R16 remains outstanding.
 
 R17 first launch ([Solve expand500 R17](bc-3a69da2c-4a4c-51a7-8bc2-3526ac6f3598))
 died ERROR with an empty transcript (`{"messages": []}`). Not banked. First
@@ -183,14 +193,18 @@ deposited.
 R25 first launch ([Solve expand500 R25](bc-a04586aa-5c41-57ea-b7f3-df1b9d585810))
 died with an activity-task timeout and no candidates. Not banked. Retry 2
 ([Solve expand500 R25 retry 2](bc-571f2499-225e-5855-bcf2-4b47bda807a8))
-timed out with no candidates. Not banked. Retried again as a single. R25
-remains outstanding.
+timed out with no candidates. Not banked. Retry 3
+([Solve expand500 R25 retry 3](bc-97af48f9-93db-5155-9b28-db762619e34a))
+timed out with an empty transcript. Not banked. Retried again as a single.
+R25 remains outstanding.
 
 R30 first launch ([Solve expand500 R30](bc-927de401-0b66-5b0e-a538-3876c223ada0))
 died with an activity-task timeout and no candidates. Not banked. Retry 2
 ([Solve expand500 R30 retry 2](bc-eefd3bac-879e-523f-aaa8-a28f00159fa6))
-timed out with no candidates. Not banked. Retried again as a single. R30
-remains outstanding.
+timed out with no candidates. Not banked. Retry 3
+([Solve expand500 R30 retry 3](bc-01f62bec-e70e-5d65-84a5-2bd5214dafdc))
+timed out with an empty transcript. Not banked. Retried again as a single.
+R30 remains outstanding.
 
 R44 first launch ([Solve expand500 R44](bc-cc570487-c438-5b5c-bdb7-7c43bee03d7f))
 died with an activity-task timeout and no candidates. Not banked. Retried as

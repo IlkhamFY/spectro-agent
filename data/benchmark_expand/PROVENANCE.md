@@ -1,0 +1,109 @@
+# Solver provenance — expansion draw
+
+Which model actually produced each deposited batch. Recorded from the agent transcripts
+at run time, because the runtime can fall back to a different model than the one
+requested; the two arms are only meaningful if each was served by the model its
+pre-registration names. Fallbacks were observed only on agents that died on a rate limit
+before producing anything, so no deposited batch below was served by a substitute.
+
+| arm | deposit | batch | compounds | model that produced every assistant turn |
+|---|---|---|---|---|
+| expansion round | `raw/` | 02 | R07–R12 | `claude-opus-5` |
+| expansion round | `raw/` | 06 | R31–R36 | `claude-opus-5` |
+| expansion round | `raw/` | 15 | R85–R90 | `claude-opus-5` |
+| expansion round | `raw/` | 18 | R103–R106 | `claude-opus-5` |
+| cross-model arm | `raw_fable/` | 02 | R07–R12 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | 04 | R19–R24 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | 06 | R31–R36 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | 07 | R37–R42 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | 08 | R43–R48 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | 15 | R85–R90 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | 18 | R103–R106 | `claude-fable-5-1` |
+
+Every deposited reply equals the agent's final message exactly. Agents used only the Read
+tool on their own batch file and Bash for RDKit formula checks; no transcript mentions the
+key vault, an answers file, or any path under the repository.
+| expansion round | `raw/` | 04a | R19–R21 | `claude-opus-5` |
+| expansion round | `raw/` | 03a | R13–R15 | `claude-opus-5` |
+| expansion round | `raw/` | 03b | R16–R18 | `claude-opus-5` |
+| expansion round | `raw/` | 05 | R25–R30 | `claude-opus-5` |
+| expansion round | `raw/` | 01a | R01–R03 | `claude-opus-5` |
+| expansion round | `raw/` | 07b | R40–R42 | `claude-opus-5` |
+| expansion round | `raw/` | 08b | R46–R48 | `claude-opus-5` |
+| expansion round | `raw/` | 01b | R04–R06 | `claude-opus-5` |
+| expansion round | `raw/` | 10b | R58–R60 | `claude-opus-5` |
+| expansion round | `raw/` | 09b | R52–R54 | `claude-opus-5` |
+| expansion round | `raw/` | 08a | R43–R45 | `claude-opus-5` |
+| expansion round | `raw/` | 11b | R64–R66 | `claude-opus-5` |
+| expansion round | `raw/` | 07a1 | R37 | `claude-opus-5` |
+| cross-model arm | `raw_fable/` | single_R01 | R01 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R02 | R02 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R04 | R04 | `claude-fable-5-1` |
+| expansion round | `raw/` | single_R24 | R24 | `claude-opus-5` |
+| cross-model arm | `raw_fable/` | single_R13 | R13 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R14 | R14 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R17 | R17 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R16 | R16 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R25 | R25 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R26 | R26 | `claude-fable-5-1` |
+| expansion round | `raw/` | single_R38 | R38 | `claude-opus-5` |
+| cross-model arm | `raw_fable/` | single_R15 | R15 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R28 | R28 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R29 | R29 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R06 | R06 | `claude-fable-5-1` |
+| expansion round | `raw/` | single_R51 | R51 | `claude-opus-5` |
+| cross-model arm | `raw_fable/` | single_R52 | R52 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R55 | R55 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R53 | R53 | `claude-fable-5-1` |
+| expansion round | `raw/` | single_R23 | R23 | `claude-opus-5` |
+| cross-model arm | `raw_fable/` | single_R30 | R30 | `claude-fable-5-1` |
+| expansion round | `raw/` | single_R56 | R56 | `claude-opus-5` |
+| cross-model arm | `raw_fable/` | single_R58 | R58 | `claude-fable-5-1` |
+| expansion round | `raw/` | single_R55 | R55 | `claude-opus-5` |
+| cross-model arm | `raw_fable/` | single_R60 | R60 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R59 | R59 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R61 | R61 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R64 | R64 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R67 | R67 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R70 | R70 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R66 | R66 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R72 | R72 | `claude-fable-5-1` |
+| cross-model arm | `raw_fable/` | single_R18 | R18 | `claude-fable-5-1` |
+| expansion round | `raw/` | single_R49 | R49 | `claude-opus-5` |
+| expansion round | `raw/` | single_R50 | R50 | `claude-opus-5` |
+| expansion round | `raw/` | single_R57 | R57 | `claude-opus-5` |
+| expansion round | `raw/` | single_R61 | R61 | `claude-opus-5` |
+| expansion round | `raw/` | single_R22 | R22 | `claude-opus-5` |
+| expansion round | `raw/` | single_R67 | R67 | `claude-opus-5` |
+| expansion round | `raw/` | single_R68 | R68 | `claude-opus-5` |
+| expansion round | `raw/` | single_R78 | R78 | `claude-opus-5` |
+| expansion round | `raw/` | single_R98 | R98 | `claude-opus-5` |
+| expansion round | `raw/` | single_R83 | R83 | `claude-opus-5` |
+| expansion round | `raw/` | single_R82 | R82 | `claude-opus-5` |
+| expansion round | `raw/` | single_R84 | R84 | `claude-opus-5` |
+| expansion round | `raw/` | single_R75 | R75 | `claude-opus-5` |
+| expansion round | `raw/` | single_R72 | R72 | `claude-opus-5` |
+| expansion round | `raw/` | single_R70 | R70 | `claude-opus-5` |
+| expansion round | `raw/` | single_R95 | R95 | `claude-opus-5` |
+| expansion round | `raw/` | single_R81 | R81 | `claude-opus-5` |
+| expansion round | `raw/` | single_R99 | R99 | `claude-opus-5` |
+| expansion round | `raw/` | single_R100 | R100 | `claude-opus-5` |
+| expansion round | `raw/` | single_R101 | R101 | `claude-opus-5` |
+| expansion round | `raw/` | single_R96 | R96 | `claude-opus-5` |
+| expansion round | `raw/` | single_R74 | R74 | `claude-opus-5` |
+| expansion round | `raw/` | single_R77 | R77 | `claude-opus-5` |
+| expansion round | `raw/` | single_R73 | R73 | `claude-opus-5` |
+| expansion round | `raw/` | single_R91 | R91 | `claude-opus-5` |
+| expansion round | `raw/` | single_R62 | R62 | `claude-opus-5` |
+| expansion round | `raw/` | single_R92 | R92 | `claude-opus-5` |
+| expansion round | `raw/` | single_R93 | R93 | `claude-opus-5` |
+| expansion round | `raw/` | single_R63 | R63 | `claude-opus-5` |
+| expansion round | `raw/` | single_R76 | R76 | `claude-opus-5` |
+| expansion round | `raw/` | single_R71 | R71 | `claude-opus-5` |
+| expansion round | `raw/` | single_R102 | R102 | `claude-opus-5` |
+| expansion round | `raw/` | single_R94 | R94 | `claude-opus-5` |
+| expansion round | `raw/` | single_R97 | R97 | `claude-opus-5` |
+| expansion round | `raw/` | single_R80 | R80 | `claude-opus-5` |
+| expansion round | `raw/` | single_R69 | R69 | `claude-opus-5` |
+| expansion round | `raw/` | single_R79 | R79 | `claude-opus-5` |
+| expansion round | `raw/` | single_R39 | R39 | `claude-opus-5` |

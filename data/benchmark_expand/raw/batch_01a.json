@@ -1,0 +1,1 @@
+[{"qid": "R01", "candidates": ["O=Cc1ccc(OC)cc1OCCC=C", "O=Cc1ccc(OCCC=C)cc1OC", "O=Cc1ccc(OCCC=C)c(OC)c1"]}, {"qid": "R02", "candidates": ["CCOC(=O)C(=O)c1ccc(O[Si](C)(C)C(C)(C)C)cc1", "CCOC(=O)c1ccc(C(=O)O[Si](C)(C)C(C)(C)C)cc1"]}, {"qid": "R03", "candidates": ["NCCNC1=[N+]([O-])c2ccccc2[N+]([O-])=N1", "NCCCNC1=[N+]([O-])c2ccccc2[N+]([O-])=N1"]}]

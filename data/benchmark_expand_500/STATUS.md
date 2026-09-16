@@ -53,25 +53,26 @@ is the arithmetic of the draw + this audit, not a score.
 
 | arm | solver | compounds with a blind response | of 230 |
 |---|---|---:|---:|
-| expansion toward 500 | `claude-opus-5` | **4** | 1.7% |
+| expansion toward 500 | `claude-opus-5` | **6** | 2.6% |
 
-**226** Opus qids outstanding: `outstanding_opus.txt`.
+**224** Opus qids outstanding: `outstanding_opus.txt`.
 
 Banked (single-compound Cursor Task, `claude-opus-5-thinking-high`; three
 candidates each; RDKit formula check in-solver):
 
 | qid | agent |
 |---|---|
+| R01 | [Solve expand500 R01](bc-495ba284-1c56-58fc-b282-82f8002aa376) |
 | R04 | [Solve expand500 R04](bc-da61804c-7d09-5f4f-9f05-4ed9ee78b904) |
 | R05 | [Solve expand500 R05](bc-b1cba293-8512-5db3-bafe-491f476c7015) |
 | R08 | [Solve expand500 R08](bc-c5ea5c74-2ef5-5121-835f-13a98ef270a2) |
 | R11 | [Solve expand500 R11](bc-2493c41e-114f-5c3a-93a5-8b29f9d0567f) |
+| R13 | [Solve expand500 R13](bc-d1ec949d-3ec1-5d2d-bee0-a0beafd07052) |
 
 Still in flight:
 
 | qid | agent |
 |---|---|
-| R01 | [Solve expand500 R01](bc-495ba284-1c56-58fc-b282-82f8002aa376) |
 | R02 | [Solve expand500 R02](bc-625e9cda-d75a-5253-a3a4-cf508face9e2) |
 | R03 | [Solve expand500 R03](bc-b4a52e6e-c60e-5a0b-ac22-004a38ee4c0e) |
 | R06 | [Solve expand500 R06](bc-ddb8fee2-a02d-596e-acee-3c2743aae19f) |
@@ -79,11 +80,12 @@ Still in flight:
 | R09 | [Solve expand500 R09](bc-fdd407c3-345e-554a-9cf8-9749d8402603) |
 | R10 | [Solve expand500 R10](bc-757d7b0e-7552-5f2e-a93f-0a7b587c1381) |
 | R12 | [Solve expand500 R12](bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a) |
-| R13 | [Solve expand500 R13](bc-d1ec949d-3ec1-5d2d-bee0-a0beafd07052) |
 | R14 | [Solve expand500 R14](bc-af952c84-6a46-5ecf-b1e6-7c3876a8b4a9) |
+| R15 | [Solve expand500 R15](bc-b9890aa4-9049-5b42-94b6-0599a667f1c3) |
+| R16 | [Solve expand500 R16](bc-eeb4d9cf-2c1d-5402-8ab1-0ff2a3234cf6) |
 
-Next after these return: **R15–R230**. Same prompt protocol; bank with
-`collect_round.py --partial`. No scores on the 4/230 subset.
+Next after these return: **R17–R230**. Bank with `collect_round.py --partial`.
+No scores on the 6/230 subset.
 
 No Fable (or any other) arm is registered on this draw.
 
@@ -91,7 +93,7 @@ No Fable (or any other) arm is registered on this draw.
 
 | item | status |
 |---|---|
-| Opus deposits | **4/230** (R04, R05, R08, R11) |
+| Opus deposits | **6/230** (R01, R04, R05, R08, R11, R13) |
 | `predictions2.jsonl` | not written (`collect_round.py` writes it only at 100%) |
 | `score2` / top-1 / recall | **not run** — partial subsets are not scored |
 | `scripts/score_main.py` n=194 | **untouched** |
@@ -149,6 +151,6 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 
 ## Overnight / follow-up handoff
 
-**Draw committed. Key withheld. 4/230 Opus deposited (R04, R05, R08, R11).
-10 still in flight (R01–R03, R06, R07, R09, R10, R12–R14). Outstanding: 226
-qids in `outstanding_opus.txt`. No scores. Do not merge. Paper stays n=295.**
+**Draw committed. Key withheld. 6/230 Opus deposited (R01, R04, R05, R08, R11,
+R13). 10 still in flight. Outstanding: 224 qids in `outstanding_opus.txt`.
+No scores. Do not merge. Paper stays n=295.**

@@ -27,6 +27,22 @@ met. Failure mode 2 (64k output-token ceiling) selects against compounds whose e
 takes the most reasoning. Scoring the solved subset would report an accuracy inflated by
 the exclusion of compounds the solver could not finish thinking about.
 
+## Overnight handoff (2026-09-16 ~02:30 UTC)
+
+Not a model/API blocker: Cursor Task `claude-opus-5-thinking-high` is serving deposits.
+Hard cap this session: **10 concurrent async subagents**. New launches return
+`Async subagent limit of 10 reached` until in-flight solvers finish.
+
+**Not yet launched this resume** (need a free slot):  
+R62 R73 R76 R77 R79 R80 R92 R97 R100 R102  
+plus retries of any in-flight agent that dies without a `/tmp/blind/replies/single_R*.json`.
+
+**In flight** (do not double-launch): R39? R63 R69 R71 R81 R91 R93 R94 R96 R99 R101
+(and possibly R74/R100 if a later slot opened). Check `/tmp/blind/replies/` before relaunching.
+
+Bank with `/tmp/blind/bank_one.sh Rxx` (or `scripts/collect_round.py` + provenance row).
+Do **not** restore the key or write `predictions2.jsonl` until 106/106.
+
 ## To resume
 
 Outstanding prompts are regenerable from the committed `questions2.jsonl`:

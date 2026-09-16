@@ -92,9 +92,9 @@ Still in flight:
 | R06 | [Solve expand500 R06 retry 2](bc-7bbd758b-69ac-5bb6-b0bc-a01e38efc558) |
 | R09 | [Solve expand500 R09 retry 2](bc-82ec9e46-d505-5f23-b650-0314018be317) |
 | R12 | [Solve expand500 R12 retry 2](bc-58d64272-b30a-5e42-af14-820dbc290efd) |
-| R17 | [Solve expand500 R17 retry](bc-6ca82f3d-9ce9-5ee9-8a4d-092b33a2d05c) |
+| R17 | [Solve expand500 R17 retry 2](bc-cc48324e-d026-5084-b2f9-ad7ba824dfeb) |
 | R16 | [Solve expand500 R16 retry 2](bc-7edd0096-f654-5fa4-a3b1-81ad696a38c5) |
-| R24 | [Solve expand500 R24](bc-fc0d4643-afa8-5471-864c-9bf179e07c41) |
+| R24 | [Solve expand500 R24 retry](bc-bac6e539-40b1-5a49-a975-88e844cce172) |
 | R25 | [Solve expand500 R25 retry](bc-8192c234-d987-53b6-8d57-d98a1005401e) |
 | R30 | [Solve expand500 R30](bc-927de401-0b66-5b0e-a538-3876c223ada0) |
 | R31 | [Solve expand500 R31](bc-4d322017-b0cf-5289-bce4-b6e249bd5f1d) |
@@ -132,8 +132,14 @@ also died ERROR empty. Not banked. Retried again as a single. R16 remains
 outstanding.
 
 R17 first launch ([Solve expand500 R17](bc-3a69da2c-4a4c-51a7-8bc2-3526ac6f3598))
-died ERROR with an empty transcript (`{"messages": []}`). Not banked. Retried
-as a single. R17 remains outstanding.
+died ERROR with an empty transcript (`{"messages": []}`). Not banked. First
+retry ([Solve expand500 R17 retry](bc-6ca82f3d-9ce9-5ee9-8a4d-092b33a2d05c))
+timed out with no candidates. Not banked. Retried again as a single. R17
+remains outstanding.
+
+R24 first launch ([Solve expand500 R24](bc-fc0d4643-afa8-5471-864c-9bf179e07c41))
+died with an activity-task timeout and no candidates. Not banked. Retried as
+a single. R24 remains outstanding.
 
 R25 first launch ([Solve expand500 R25](bc-a04586aa-5c41-57ea-b7f3-df1b9d585810))
 died with an activity-task timeout and no candidates. Not banked. Retried as
@@ -204,6 +210,6 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 ## Overnight / follow-up handoff
 
 **Draw committed. Key withheld. 21/230 Opus deposited. Empty/timeout/ERROR
-first launches (not banked; retried): R03, R06, R09, R12, R16, R17, R25. 10
+first launches (not banked; retried): R03, R06, R09, R12, R16, R17, R24, R25. 10
 still in flight. Outstanding: 209 qids in `outstanding_opus.txt`. No scores.
 Do not merge. Paper stays n=295.**

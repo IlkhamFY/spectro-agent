@@ -86,3 +86,4 @@ key vault, an answers file, or any path under the repository.
 | expansion round | `raw/` | single_R70 | R70 | `claude-opus-5` |
 | expansion round | `raw/` | single_R95 | R95 | `claude-opus-5` |
 | expansion round | `raw/` | single_R81 | R81 | `claude-opus-5` |
+| expansion round | `raw/` | single_R99 | R99 | `claude-opus-5` |

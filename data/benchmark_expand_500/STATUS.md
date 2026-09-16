@@ -3,7 +3,7 @@
 Pre-registration (frozen above the deviations line):
 `docs/EXPANSION_PREREGISTRATION_500.md`.
 
-**Opus deposits: 0/230.** Questions committed. Answer key withheld. No
+**Opus deposits: 4/230.** Questions committed. Answer key withheld. No
 `predictions2.jsonl`. **Do not score a partial. Do not write a top-1 / recall
 number for this round into the ICLR paper.** Headline stays **n=295** until
 this round is 100% deposited, validated (already snapshotted), and scored.
@@ -53,28 +53,37 @@ is the arithmetic of the draw + this audit, not a score.
 
 | arm | solver | compounds with a blind response | of 230 |
 |---|---|---:|---:|
-| expansion toward 500 | `claude-opus-5` | **0** | 0% |
+| expansion toward 500 | `claude-opus-5` | **4** | 1.7% |
 
-**230** Opus qids outstanding: `outstanding_opus.txt`.
+**226** Opus qids outstanding: `outstanding_opus.txt`.
 
-Wave 1 in flight (single-compound Cursor Task, `claude-opus-5-thinking-high`;
-async subagent cap is 10, so R07 and R10 were not launched):
+Banked (single-compound Cursor Task, `claude-opus-5-thinking-high`; three
+candidates each; RDKit formula check in-solver):
 
 | qid | agent |
 |---|---|
-| R01 | [bc-495ba284](https://cursor.com/agents/bc-495ba284-1c56-58fc-b282-82f8002aa376) |
-| R02 | [bc-625e9cda](https://cursor.com/agents/bc-625e9cda-d75a-5253-a3a4-cf508face9e2) |
-| R03 | [bc-b4a52e6e](https://cursor.com/agents/bc-b4a52e6e-c60e-5a0b-ac22-004a38ee4c0e) |
-| R04 | [bc-da61804c](https://cursor.com/agents/bc-da61804c-7d09-5f4f-9f05-4ed9ee78b904) |
-| R05 | [bc-b1cba293](https://cursor.com/agents/bc-b1cba293-8512-5db3-bafe-491f476c7015) |
-| R06 | [bc-ddb8fee2](https://cursor.com/agents/bc-ddb8fee2-a02d-596e-acee-3c2743aae19f) |
-| R08 | [bc-c5ea5c74](https://cursor.com/agents/bc-c5ea5c74-2ef5-5121-835f-13a98ef270a2) |
-| R09 | [bc-fdd407c3](https://cursor.com/agents/bc-fdd407c3-345e-554a-9cf8-9749d8402603) |
-| R11 | [bc-2493c41e](https://cursor.com/agents/bc-2493c41e-114f-5c3a-93a5-8b29f9d0567f) |
-| R12 | [bc-7d6926d3](https://cursor.com/agents/bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a) |
+| R04 | [Solve expand500 R04](bc-da61804c-7d09-5f4f-9f05-4ed9ee78b904) |
+| R05 | [Solve expand500 R05](bc-b1cba293-8512-5db3-bafe-491f476c7015) |
+| R08 | [Solve expand500 R08](bc-c5ea5c74-2ef5-5121-835f-13a98ef270a2) |
+| R11 | [Solve expand500 R11](bc-2493c41e-114f-5c3a-93a5-8b29f9d0567f) |
 
-Not yet launched in this wave: **R07, R10**, then R13–R230. Same prompt
-protocol; bank with `collect_round.py --partial` when a reply returns.
+Still in flight:
+
+| qid | agent |
+|---|---|
+| R01 | [Solve expand500 R01](bc-495ba284-1c56-58fc-b282-82f8002aa376) |
+| R02 | [Solve expand500 R02](bc-625e9cda-d75a-5253-a3a4-cf508face9e2) |
+| R03 | [Solve expand500 R03](bc-b4a52e6e-c60e-5a0b-ac22-004a38ee4c0e) |
+| R06 | [Solve expand500 R06](bc-ddb8fee2-a02d-596e-acee-3c2743aae19f) |
+| R07 | [Solve expand500 R07](bc-75763310-4365-51d7-a62e-19c1e1627bbc) |
+| R09 | [Solve expand500 R09](bc-fdd407c3-345e-554a-9cf8-9749d8402603) |
+| R10 | [Solve expand500 R10](bc-757d7b0e-7552-5f2e-a93f-0a7b587c1381) |
+| R12 | [Solve expand500 R12](bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a) |
+| R13 | [Solve expand500 R13](bc-d1ec949d-3ec1-5d2d-bee0-a0beafd07052) |
+| R14 | [Solve expand500 R14](bc-af952c84-6a46-5ecf-b1e6-7c3876a8b4a9) |
+
+Next after these return: **R15–R230**. Same prompt protocol; bank with
+`collect_round.py --partial`. No scores on the 4/230 subset.
 
 No Fable (or any other) arm is registered on this draw.
 
@@ -82,7 +91,7 @@ No Fable (or any other) arm is registered on this draw.
 
 | item | status |
 |---|---|
-| Opus deposits | 0/230 |
+| Opus deposits | **4/230** (R04, R05, R08, R11) |
 | `predictions2.jsonl` | not written (`collect_round.py` writes it only at 100%) |
 | `score2` / top-1 / recall | **not run** — partial subsets are not scored |
 | `scripts/score_main.py` n=194 | **untouched** |
@@ -140,6 +149,6 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 
 ## Overnight / follow-up handoff
 
-**Draw committed. Key withheld. 0/230 Opus deposited. Wave 1: 10 singles in
-flight (R01–R06, R08, R09, R11, R12). Outstanding: all 230 qids in
-`outstanding_opus.txt` until banked. No scores. Do not merge. Paper stays n=295.**
+**Draw committed. Key withheld. 4/230 Opus deposited (R04, R05, R08, R11).
+10 still in flight (R01–R03, R06, R07, R09, R10, R12–R14). Outstanding: 226
+qids in `outstanding_opus.txt`. No scores. Do not merge. Paper stays n=295.**

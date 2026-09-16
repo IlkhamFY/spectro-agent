@@ -10,3 +10,7 @@ single-compound batches).
 
 | arm | deposit | batch | compounds | model that produced every assistant turn |
 |---|---|---|---|---|
+| expansion toward 500 | `raw/` | single_R04 | R04 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R05 | R05 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R08 | R08 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R11 | R11 | `claude-opus-5` |

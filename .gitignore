@@ -51,6 +51,10 @@ data/modality/key.json
 # Cross-vendor sweep working files (prompts + held-out key) — regenerate via cross_vendor_sweep.py prepare
 data/cross_vendor/
 
+# Expansion answer key — withheld while the Fable arm is incomplete.
+# Reconstruct locally under /tmp (scripts/score_pooled.py); do not commit.
+data/benchmark_expand/answers2.jsonl
+
 # credentials — never commit
 .env
 .env.*

@@ -1,5 +1,9 @@
 # Expansion round results — 2026-09-16
 
+**Paper-facing pooled headline (n=295 generation) is
+`docs/POOLED_HEADLINE_2026-09-16.md`.** This file stays the frozen expansion-round
+snapshot (106/106 Opus, score2, validate flags). It is not the ICLR headline.
+
 Frozen snapshot of the pre-registered IRSpectra-Bench expansion round
 (`data/benchmark_expand/`), written after Opus 106/106 deposits were scored.
 **Every count below is copied from committed `data/benchmark_expand/STATUS.md`

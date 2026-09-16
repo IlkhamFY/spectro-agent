@@ -1,18 +1,23 @@
 # Expansion round — status
 
-**Do not merge this branch (PR #18) until Ilkham reviews.** Opus deposits are
-complete; the round is an **independent pre-registered replication**, not a silent
-replacement of the n=194 headline. Pooling to ~300 is licensed by the
-pre-registration *after* the round is complete, and is a **morning decision**, not
-an overnight merge.
+**Do not merge this branch (PR #18) to main** until Ilkham reviews — Fable is
+still 68/106 and `answers2.jsonl` is withheld. Opus 106/106 is scored.
+
+**Paper-facing headline is now the pooled generation cohort (n=295),** not n=194
+with expansion as a side note. Exact counts, CIs, flag handling, and what cannot
+yet be rebuilt (`fig_wall`): `docs/POOLED_HEADLINE_2026-09-16.md`. Reproduce with
+`python scripts/score_pooled.py`. Forward-verify on the expansion slice is still
+**pending**.
 
 **Opus deposits: 106/106.** `predictions2.jsonl` is committed. Scored locally under
 the pre-registered InChIKey-14 rule. `answers2.jsonl` is **not** in the tree (Fable
 arm still incomplete; addendum forbids restoring the key before that arm's
 predictions are committed).
 
-Source of the numbers below: committed `STATUS.md` / `score2` / `validate_benchmark.py`
-on 2026-09-16. **Do not invent CIs, vendor numbers, or pooled-cohort metrics.**
+Source of the expansion-round numbers below: committed `STATUS.md` / `score2` /
+`validate_benchmark.py` on 2026-09-16. Pooled n=295 metrics live in
+`docs/POOLED_HEADLINE_2026-09-16.md` (from `scripts/score_pooled.py`). Do not
+invent expansion forward-verify rates.
 
 Companion write-up: `docs/EXPANSION_RESULTS_2026-09-16.md`.
 Pre-registration (frozen above the deviations line): `docs/EXPANSION_PREREGISTRATION.md`.
@@ -110,32 +115,33 @@ is empty before any merge.
 | validate_benchmark.py | **done** (101/106 clean) |
 | Fable deposits | 68/106; **not scored** |
 | `forward_verify_main.py` on expansion | **not run** |
-| pooled cohort ~300 / `score_main.py` n=194 | **untouched**; pool is a review decision |
-| figure rebuilds (`fig_wall`, diagnosis.json) | **not done**; need forward-verify + Ilkham OK |
-| CIs on the 106 | **not computed**; do not invent |
+| pooled generation headline (n=295) | **done** — `docs/POOLED_HEADLINE_2026-09-16.md` / `scripts/score_pooled.py` |
+| `scripts/score_main.py` default | still n=194 (combined PAPER.md gate) |
+| figure rebuilds (`fig_wall`, diagnosis.json) | **not done**; need expansion forward-verify |
+| bootstrap CIs on expansion / pool | **computed** by `score_pooled.py` (same `boot` as n=194) |
 
 ## Pooling policy (pre-reg)
 
 The pre-registration licenses a pooled cohort of **up to 300** (194 + up to 106)
-**after** the expansion round is complete. Report the 106 as an **independent
-replication first**. Do not rewrite headline n=194 tables, CIs, or figures until
-forward-verification of the expansion round has been run **and** Ilkham signs off
-on pooling.
+after the expansion round is complete. Paper-facing **generation** headline is
+**n=295** (194 + 101 validate-clean; five ¹³C-overread flags excluded). n=300 is
+a sensitivity row. `fig_wall` / verification-precision stay n=194 until
+expansion forward-verify exists. Fable is never pooled. **Do not merge this
+branch to main** while Fable is incomplete and the key is withheld.
 
 ## Morning checklist (2026-09-16)
 
-Ilkham is reviewing; nothing below is overnight-mandatory except the first two.
-
-1. **Do not merge PR #18.** Key is out of tree; Fable arm incomplete; pool not decided.
+1. **Do not merge PR #18 to main.** Key is out of tree; Fable arm incomplete.
 2. Confirm `answers2.jsonl` is still absent from `data/benchmark_expand/` and from `git ls-files`.
 3. **Fable finish — optional.** Remaining 38 qids in `outstanding_fable.txt`. Do not restore the key until `predictions2_fable.jsonl` is committed. Do not pool Fable into the Opus cohort.
-4. **Forward-verify** the expansion Opus candidates (`scripts/forward_verify_main.py` generalised to this round). This is a separate blind ¹³C-prediction campaign; it has **not** been run. No expansion verification-precision number exists yet.
-5. **Pool decision (Ilkham).** After (4), decide whether to fold validate-clean expansion compounds into the headline cohort (up to ~300) and rebuild `fig_wall` / diagnosis sidecars / manuscript n=194 tables. Until that OK, keep n=194 as the headline and the 106 as replication.
-6. Manuscript draft lives on IRSpectra-Bench (separate PR): expansion numbers as independent round only; double-blind locks stay on; no invented CIs.
+4. **Forward-verify** the expansion Opus candidates. No expansion verification-precision number exists yet; `fig_wall` cannot be rebuilt honestly until that campaign finishes.
+5. Pooled **generation** numbers are in `docs/POOLED_HEADLINE_2026-09-16.md` (n=295 headline).
+6. ICLR draft (IRSpectra-Bench, separate PR) should use n=295 as the paper headline; keep double-blind locks; do not invent expansion fverify numbers.
 
 ## Overnight handoff (2026-09-16)
 
-**Opus headline: 106/106 deposited. `predictions2.jsonl` committed. Scored locally.
-Key re-withheld. Fable 68/106 unscored. n=194 untouched. Do not merge.**
+**Opus 106/106 deposited and scored. Pooled generation headline n=295
+(116/295 top-1, 130/295 recall). Key re-withheld. Fable 68/106 unscored.
+Expansion fverify pending. Do not merge #18 to main.**
 
 In flight: none.

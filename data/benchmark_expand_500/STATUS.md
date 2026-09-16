@@ -57,6 +57,25 @@ is the arithmetic of the draw + this audit, not a score.
 
 **230** Opus qids outstanding: `outstanding_opus.txt`.
 
+Wave 1 in flight (single-compound Cursor Task, `claude-opus-5-thinking-high`;
+async subagent cap is 10, so R07 and R10 were not launched):
+
+| qid | agent |
+|---|---|
+| R01 | [bc-495ba284](https://cursor.com/agents/bc-495ba284-1c56-58fc-b282-82f8002aa376) |
+| R02 | [bc-625e9cda](https://cursor.com/agents/bc-625e9cda-d75a-5253-a3a4-cf508face9e2) |
+| R03 | [bc-b4a52e6e](https://cursor.com/agents/bc-b4a52e6e-c60e-5a0b-ac22-004a38ee4c0e) |
+| R04 | [bc-da61804c](https://cursor.com/agents/bc-da61804c-7d09-5f4f-9f05-4ed9ee78b904) |
+| R05 | [bc-b1cba293](https://cursor.com/agents/bc-b1cba293-8512-5db3-bafe-491f476c7015) |
+| R06 | [bc-ddb8fee2](https://cursor.com/agents/bc-ddb8fee2-a02d-596e-acee-3c2743aae19f) |
+| R08 | [bc-c5ea5c74](https://cursor.com/agents/bc-c5ea5c74-2ef5-5121-835f-13a98ef270a2) |
+| R09 | [bc-fdd407c3](https://cursor.com/agents/bc-fdd407c3-345e-554a-9cf8-9749d8402603) |
+| R11 | [bc-2493c41e](https://cursor.com/agents/bc-2493c41e-114f-5c3a-93a5-8b29f9d0567f) |
+| R12 | [bc-7d6926d3](https://cursor.com/agents/bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a) |
+
+Not yet launched in this wave: **R07, R10**, then R13–R230. Same prompt
+protocol; bank with `collect_round.py --partial` when a reply returns.
+
 No Fable (or any other) arm is registered on this draw.
 
 ## Scoring (not done; do not invent)
@@ -121,5 +140,6 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 
 ## Overnight / follow-up handoff
 
-**Draw committed. Key withheld. 0/230 Opus. Outstanding: all 230 qids in
-`outstanding_opus.txt`. No scores. Do not merge. Paper stays n=295.**
+**Draw committed. Key withheld. 0/230 Opus deposited. Wave 1: 10 singles in
+flight (R01–R06, R08, R09, R11, R12). Outstanding: all 230 qids in
+`outstanding_opus.txt` until banked. No scores. Do not merge. Paper stays n=295.**

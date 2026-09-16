@@ -169,7 +169,10 @@ R03 retry 4
 and R09 retry 4
 ([Solve expand500 R09 retry 4](bc-0af73435-1a46-5644-9790-1ab25ad7627f))
 timed out with empty transcripts (`{"messages": []}`). Neither banked. Both
-retried again as singles.
+retried again as singles. R09 retry 5
+([Solve expand500 R09 retry 5](bc-f994f196-d0ab-5685-9868-b5461eddfef7))
+returned IDLE with thinking but an empty final message (no JSON). Not banked.
+Resumed the same agent to emit candidates.
 
 R16 first launch ([Solve expand500 R16](bc-eeb4d9cf-2c1d-5402-8ab1-0ff2a3234cf6))
 died ERROR with an empty transcript (`{"messages": []}`). Not banked. First

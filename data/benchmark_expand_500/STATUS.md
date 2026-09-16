@@ -127,7 +127,7 @@ Still in flight:
 | R16 | [Solve expand500 R16 retry 5](bc-0f1f04fa-7c71-5cee-8fd8-ca34b10d33c8) |
 | R25 | [Solve expand500 R25 retry 4](bc-b9afc554-d63a-51f0-8d2f-c9fce7e9a751) |
 | R30 | [Solve expand500 R30 retry 4](bc-a67c0d6e-1277-503d-9cd6-4fe1652c1ad2) |
-| R44 | [Solve expand500 R44 retry](bc-885b85b5-ce1c-5192-ba33-f9a71fcf39b9) |
+| R44 | [Solve expand500 R44 retry 2](bc-737cbcc7-473b-561a-88fd-42d3c3df0881) |
 | R55 | [Solve expand500 R55 retry](bc-3cc12a26-04b3-5414-bb68-90ea47be4194) |
 | R60 | [Solve expand500 R60](bc-e1e1eade-b7c4-5cc5-873a-306151fc160b) |
 | R64 | [Solve expand500 R64](bc-0c15d1cd-3c8f-56d8-826d-c11bbd54dd1e) |
@@ -212,8 +212,10 @@ timed out with an empty transcript. Not banked. Retried again as a single.
 R30 remains outstanding.
 
 R44 first launch ([Solve expand500 R44](bc-cc570487-c438-5b5c-bdb7-7c43bee03d7f))
-died with an activity-task timeout and no candidates. Not banked. Retried as
-a single. R44 remains outstanding.
+died with an activity-task timeout and no candidates. Not banked. First retry
+([Solve expand500 R44 retry](bc-885b85b5-ce1c-5192-ba33-f9a71fcf39b9)) timed
+out with an empty transcript. Not banked. Retried again as a single. R44
+remains outstanding.
 
 R55 first launch ([Solve expand500 R55](bc-6d350f14-6cf4-5202-a99f-423c12c5bbe0))
 died with an activity-task timeout and an empty transcript

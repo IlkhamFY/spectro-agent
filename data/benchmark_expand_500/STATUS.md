@@ -87,9 +87,9 @@ Still in flight:
 
 | qid | agent |
 |---|---|
-| R03 | [Solve expand500 R03 retry](bc-c77a8696-bad2-55c4-8d2f-a220f54784a1) |
+| R03 | [Solve expand500 R03 retry 2](bc-71a513ce-ecba-5bbc-bf12-9b228a53b853) |
 | R06 | [Solve expand500 R06 retry 2](bc-7bbd758b-69ac-5bb6-b0bc-a01e38efc558) |
-| R09 | [Solve expand500 R09 retry](bc-63afd52f-7a89-5fbd-9c79-4b7c6f1de075) |
+| R09 | [Solve expand500 R09 retry 2](bc-82ec9e46-d505-5f23-b650-0314018be317) |
 | R12 | [Solve expand500 R12 retry 2](bc-58d64272-b30a-5e42-af14-820dbc290efd) |
 | R17 | [Solve expand500 R17 retry](bc-6ca82f3d-9ce9-5ee9-8a4d-092b33a2d05c) |
 | R16 | [Solve expand500 R16 retry](bc-0c63eb31-d1a2-5979-858c-6ed6af8a180d) |
@@ -117,7 +117,12 @@ R02, R03, and R09 first launches also died on activity-task timeout with no
 candidates ([Solve expand500 R02](bc-625e9cda-d75a-5253-a3a4-cf508face9e2),
 [Solve expand500 R03](bc-b4a52e6e-c60e-5a0b-ac22-004a38ee4c0e),
 [Solve expand500 R09](bc-fdd407c3-345e-554a-9cf8-9749d8402603)). Not banked.
-Retried as singles.
+R02's retry later deposited. R03 first retry
+([Solve expand500 R03 retry](bc-c77a8696-bad2-55c4-8d2f-a220f54784a1)) died
+ERROR with an empty transcript. R09 first retry
+([Solve expand500 R09 retry](bc-63afd52f-7a89-5fbd-9c79-4b7c6f1de075)) timed
+out with no candidates. Both retried again as singles. R03 and R09 remain
+outstanding.
 
 R16 first launch ([Solve expand500 R16](bc-eeb4d9cf-2c1d-5402-8ab1-0ff2a3234cf6))
 died ERROR with an empty transcript (`{"messages": []}`). Not banked. Retried

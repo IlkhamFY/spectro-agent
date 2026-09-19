@@ -1,0 +1,17 @@
+Q187  C#CC(Cn1c2ccccc2c2ccccc21)N(Cn1c2ccccc2c2ccccc21)c1ccccc1
+Q188  Nc1ccc(-c2ccccc2)cc1
+Q189  N#Cc1c(N)nc(-c2cccnc2)c(C#N)c1C(C#N)C#N
+Q190  COc1cccc2[nH]cc(CNc3ccnc4ccccc34)c12
+Q191  c1ccc2c(c1)ncn2CCCn1c2ccccc2c2ccccc21
+Q192  CC1(C)CC(=O)C2=C(C1)NC(=O)NC2c1cccc(Cl)c1
+Q193  COc1cc([N+](=O)[O-])ccc1OC(C)(C)C
+Q194  CON=C(C)c1ccc(OC)cc1
+Q195  COc1ccc(OCc2cn(-c3c(OC)cc(C(C)=O)cc3OC)nn2)cc1
+Q196  C=C[C@H](C)[C@@H](C=O)OCOC
+Q197  C#CCN1CCCC(Cc2ccccc2)CC1
+Q198  CCCCON=c1sc(C)c(C)n1CC(O)c1ccccc1
+Q199  Cc1cc(Nc2ccc(Br)cc2)nc(C)n1
+Q200  Cc1ccc(S(=O)(=O)C2CCCC2O)cc1
+Q201  CC1(c2ccc3ccccc3c2)CO1
+Q202  C1CCC2NCCNC2C1
+Q203  CC1(C)OB(c2ccc(N)c(F)c2)OC1(C)C

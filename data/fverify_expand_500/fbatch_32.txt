@@ -1,0 +1,16 @@
+Q521  CCC1CC(O)C(OCOC)C1CCc1cnc(OCOC)cc1C(=O)OC
+Q522  CC(S(=O)c1ccccc1)C(F)(F)C(F)(F)C(F)(F)F
+Q523  CCOc1ccc(N=Nc2c3c(cc4ccccc24)C(c2ccc(F)cc2)C(C#N)=C(N)O3)cc1
+Q524  CCCCNC(=O)Cc1cc(Cl)cc2c1-c1ccc(Cl)cc1C2
+Q525  COc1cc(C(C)=O)ccc1-c1ccc(C#N)cc1
+Q526  O=C1c2ccccc2C(=O)N1c1cc2ccccc2n(-c2ccccc2)c1=O
+Q527  CC1=NNC(=O)C1=NNc1cccc2ccccc12
+Q528  CC(C)Nc1nc(NCC2CCCCC2)nc(Nc2ccc(S(=O)(=O)Nc3ccccn3)cc2)n1
+Q529  c1ccc2c(c1)-c1nnnn1Cc1cnnn1-2
+Q530  COc1ccc(CC2C=CCO2)cc1
+Q531  O=C1c2ccc(Cl)cc2C(=O)N1c1ccccc1
+Q532  CC(C)(C)OCCC(=O)OCCCl
+Q533  C=CC(=O)NCCSc1nc2c(=O)[nH]c(-c3ccccc3)nc2[nH]1
+Q534  N#CC1=C(N)Oc2ccccc2C1c1cc(N)ccc1Br
+Q535  O=Cc1ccc(CCOC2CCCCO2)cc1
+Q536  Cc1cc(NC(=O)c2cccc3c2[nH]c(=O)n3-c2ccccc2)c(C(C)C)cc1O

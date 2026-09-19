@@ -1,0 +1,17 @@
+Q272  CC1=C(/C=C/C(C)CO)CCCC1(C)C
+Q273  O=[N+]([O-])c1cc(C(O)(c2ccc3c(c2)Cc2ccccc2-3)C(F)(F)F)ccc1F
+Q274  CCCCCC/C=C/C(=O)OCC
+Q275  CC(C)(C)c1ccc(N(c2c(Br)ccc3ccccc23)c2c(Br)ccc3ccccc23)cc1
+Q276  COc1cccc(N(CCC(=O)NNC(=S)Nc2ccccc2)C(=S)Nc2ccccc2)c1
+Q277  CC(C)(C)[Si](C)(C)OC/C=C/CCC(=O)NCC1CCCC1
+Q278  Cc1cc(-c2cnnn2CC=[N+]([O-])C(C)(C)C)ccc1F
+Q279  COc1ccc(CCNC(=O)C(=O)c2cc(C(=O)c3ccccc3)n(-c3ccccc3)n2)cc1
+Q280  Nc1c(C2=NCCS2)cnn1-c1ccc(Cl)c(Cl)c1
+Q281  CCOC(=O)C1=C(C)OC(c2ccccc2)C1C(=O)OCC
+Q282  CC(=O)Nc1ccc(NS(=O)(=O)C2CCCCC2)cc1
+Q283  CCOC(=O)c1ccc(NC(=O)CCCCCO)cc1
+Q284  Cc1cc(C(F)(CCN(C)C)C(=O)OC(C)(C)C)ccc1Br
+Q285  NS(=O)(=O)c1ccc2c(c1)sc1nc(-c3ccccc3F)cn12
+Q286  COC(=O)CCCCCCCCCCCCCCO
+Q287  O=C(O)CCc1cc(-c2ccc(C(F)(F)F)cc2)on1
+Q288  O=c1c2ccccc2nc2n1CCC2CS

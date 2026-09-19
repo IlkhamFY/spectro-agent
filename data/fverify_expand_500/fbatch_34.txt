@@ -1,0 +1,16 @@
+Q553  CCCCCCCCCCCCN(I)S(=O)c1ccccc1
+Q554  C=C(C)C12CCC(=O)C1(C)COC1(C(=C)C)CCC(=O)C1(C)CO2
+Q555  CC(C)(C)n1nccc1N
+Q556  CN(C)c1ccc([N+](=O)[O-])cc1
+Q557  CCCCCCCCCCCc1ccc(C(=O)OC)cc1
+Q558  O=C(c1ccccc1Cl)C1C(=O)c2ccccc2OC1c1ccccc1
+Q559  O=Cc1cccc(OC/C=C/c2ccccc2)c1
+Q560  CC(C)c1nnc(NCc2ccccc2)[nH]1
+Q561  COc1c(O)cc(C=O)cc1-c1ccc(Cl)cc1
+Q562  Cc1ccc(NC(=O)CSc2nc3ccccc3c(=O)n2C(C)C)c(C)c1
+Q563  COC(=O)/C=C/c1ccc(C=O)n1CC(=O)OC
+Q564  CC(C)(C)c1cc(C(C)(C)C)c2nc(C(=O)N[C@H](Cc3ccc(O)cc3)C(=O)O)oc2c1
+Q565  CC(C)(C)OC(=O)N1CCC(=Cc2ccc(Cl)cc2)C1c1c[nH]c2ccc(Br)cc12
+Q566  O=c1n(C2CCCCC2)c2ccccc2c2ncnn12
+Q567  COc1cc(C(=O)c2oc3cc4ccccc4nc3c2C)cc(OC)c1OC
+Q568  Cc1c(-c2nc3ccccc3[nH]2)c(-c2ccccc2)nc2ccccc12

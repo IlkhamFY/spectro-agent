@@ -1,0 +1,16 @@
+Q585  C=C(C)CCC(=O)N1CCN(c2ccccc2)CC1
+Q586  COC(=O)/C(=C\c1ccc(Cl)cc1)C[Se]C#N
+Q587  O=[N+]([O-])/C=C/c1cc2ccccc2[nH]1
+Q588  C=C(CN1CCN(C(c2ccccc2)c2ccccc2)CC1)c1cccc(OC)c1
+Q589  CCn1c(N)nnc1SCC(=O)Nc1ccccn1
+Q590  C=CC(Oc1ccc(OC)cc1)C(C(=O)N(C)c1ccccc1)c1c[nH]c2ccccc12
+Q591  O=C1N=C(N2CCCCC2)NC1=Cc1csc2ccccc12
+Q592  O.O.c1ccc2nc(NCCCNc3nnc4ccccc4n3)nnc2c1
+Q593  CCOC(=O)/C=C(\C#Cc1ccccc1)CC(C)=O
+Q594  O=c1[nH]c2cc(Br)cc(I)c2[nH]1
+Q595  COc1cc2ncnc(NC3=C(Sc4cc(C)ccn4)C(=O)c4ccccc4C3=O)c2cc1OC
+Q596  COc1cccc(C/C=C(/C)CCC=C(C)C)c1OC(C)=O
+Q597  CCCc1cc(=O)cc(-c2ccccc2)o1
+Q598  CC(C)[C@H](NC(=O)OCC1c2ccccc2-c2ccccc21)C(=O)OCc1ccccc1
+Q599  C=C(CO)[C@@H]1CC[C@]2(C)CC[C@]3(C)[C@H](CC[C@@H]4[C@@]5(C)CC[C@H](OC(C)=O)C(C)(C)[C@@H]5CC[C@]43C)[C@@H]12
+Q600  CCOC(=O)/C(=C/c1ccc([N+](=O)[O-])cc1)C(C)=O

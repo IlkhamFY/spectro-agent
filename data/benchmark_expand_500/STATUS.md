@@ -3,11 +3,12 @@
 Pre-registration (frozen above the deviations line):
 `docs/EXPANSION_PREREGISTRATION_500.md`.
 
-**Opus deposits: 230/230 (100%).** Questions committed. Answer key withheld. No
-`predictions2.jsonl`. **Do not write a top-1 / recall number for this round
-into the ICLR paper until it is scored.** Headline stays **n=295** until this
-round is scored. Deposits are complete but a separate repair pass is
-reconciling formula mismatches in `raw/`, so scoring is still deferred.
+**Opus deposits: 230/230 (100%).** Questions committed. Answer key withheld.
+`predictions2.jsonl` written: **yes**, 230 lines (690 candidates). Formula
+repair done (R74, R80–R84, R91–R102). **Do not write a top-1 / recall number
+for this round into the ICLR paper until it is scored.** Headline stays
+**n=295** until this round is scored. Scoring is still deferred pending
+fverify.
 
 This branch is an independent pre-registered expansion, not a silent
 replacement of n=194 or n=295. Pooling via `scripts/score_pooled.py --expand
@@ -167,7 +168,11 @@ runs should resume Opus singles from `outstanding_opus.txt` only after the
 limit resets or a spend limit is added.
 
 Nothing left to launch: `outstanding_opus.txt` is empty and all 230 qids in
-`questions2.jsonl` have a file in `raw/`. No scores yet.
+`questions2.jsonl` have a file in `raw/`. Formula repair is done (R74,
+R80–R84, R91–R102). `collect_round.py` (no `--partial`; replies copied from
+`raw/`) wrote `predictions2.jsonl`: 230/230 compounds, 690 candidates. The
+collector reported no empty, unparseable, or off-formula candidates. No
+scores yet — scoring is still deferred pending fverify.
 
 R12 first launch ([Solve expand500 R12](bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a))
 died with an empty reply. Not banked. First retry
@@ -270,8 +275,9 @@ No Fable (or any other) arm is registered on this draw.
 | item | status |
 |---|---|
 | Opus deposits | **230/230 (100%)** |
-| `predictions2.jsonl` | not written |
-| `score2` / top-1 / recall | **not run** — deferred until the formula-mismatch repair pass lands |
+| formula repair | **done** (R74, R80–R84, R91–R102) |
+| `predictions2.jsonl` | **written** — 230 lines, 690 candidates |
+| `score2` / top-1 / recall | **not run** — deferred pending fverify |
 | `scripts/score_main.py` n=194 | **untouched** |
 | paper headline | **n=295** until 100% deposited + scored |
 | `scripts/score_pooled.py --expand-500` | unblocked by the 230/230 count, still not run |
@@ -327,7 +333,8 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 
 ## Overnight / follow-up handoff
 
-**Draw committed. Key withheld. 230/230 Opus deposited (100%). Zero in flight.
-Zero outstanding — `outstanding_opus.txt` is empty. A separate repair pass is
-reconciling formula mismatches inside `raw/`; do not overwrite deposits. No
+**Draw committed. Key withheld. 230/230 Opus deposited (100%). Formula repair
+done (R74, R80–R84, R91–R102). `predictions2.jsonl` written (230 lines, 690
+candidates). Scoring still deferred pending fverify. Zero in flight. Zero
+outstanding — `outstanding_opus.txt` is empty. Do not overwrite deposits. No
 scores. Do not merge. Paper stays n=295 until this round is scored.**

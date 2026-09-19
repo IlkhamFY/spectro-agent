@@ -1,1 +1,1 @@
-[{"qid": "R80", "candidates": ["CC1(C)c2cc(C#C)ccc2N(c2ccc(C#N)o2)c2ccc(C#C)cc21", "CC1(C)c2cc(C#N)ccc2-c2ccc(C(=O)c3ccc(C#N)cc3)cc21", "CC1(C)c2cc(C#N)ccc2N(c2ccc(C#C)o2)c2ccc(C#C)cc21"]}]
+[{"qid": "R80", "candidates": ["C=CS(=O)(=O)NCc1cc(CNS(=O)(=O)C=C)cc(CNS(=O)(=O)C=C)c1", "C=CCNS(=O)(=O)c1cc(S(=O)(=O)NCC=C)cc(S(=O)(=O)NCC=C)c1", "C=CNS(=O)(=O)Cc1cc(CS(=O)(=O)NC=C)cc(CS(=O)(=O)NC=C)c1"]}]

@@ -1,1 +1,1 @@
-[{"qid": "R84", "candidates": ["OCC/C=C(\\C)CCC(O)c1ccccc1", "OCC/C=C(/C)CCC(O)c1ccccc1", "OCCC/C=C(\\C)CC(O)c1ccccc1"]}]
+[{"qid": "R84", "candidates": ["COc1ccc(cc1)N(CCC(=O)NNC(=S)Nc2ccccc2)C(=S)Nc2ccccc2", "COc1ccc(cc1)NC(=S)NNC(=O)CCN(c2ccccc2)C(=S)Nc2ccccc2", "COc1ccc(cc1)NC(=S)N(CCC(=O)NNC(=S)Nc2ccccc2)c2ccccc2"]}]

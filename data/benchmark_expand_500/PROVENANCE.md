@@ -69,3 +69,17 @@ single-compound batches).
 | expansion toward 500 | `raw/` | single_R03 | R03 | `claude-opus-5` |
 | expansion toward 500 | `raw/` | single_R44 | R44 | `claude-opus-5` |
 | expansion toward 500 | `raw/` | single_R30 | R30 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R16 | R16 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R67 | R67 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R64 | R64 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R25 | R25 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R66 | R66 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R70 | R70 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R72 | R72 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R71 | R71 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R68 | R68 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R69 | R69 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R73 | R73 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R75 | R75 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R77 | R77 | `claude-opus-5` |
+| expansion toward 500 | `raw/` | single_R76 | R76 | `claude-opus-5` |

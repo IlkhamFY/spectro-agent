@@ -3,7 +3,7 @@
 Pre-registration (frozen above the deviations line):
 `docs/EXPANSION_PREREGISTRATION_500.md`.
 
-**Opus deposits: 62/230.** Questions committed. Answer key withheld. No
+**Opus deposits: 63/230.** Questions committed. Answer key withheld. No
 `predictions2.jsonl`. **Do not score a partial. Do not write a top-1 / recall
 number for this round into the ICLR paper.** Headline stays **n=295** until
 this round is 100% deposited, validated (already snapshotted), and scored.
@@ -53,9 +53,9 @@ is the arithmetic of the draw + this audit, not a score.
 
 | arm | solver | compounds with a blind response | of 230 |
 |---|---|---:|---:|
-| expansion toward 500 | `claude-opus-5` | **62** | 27.0% |
+| expansion toward 500 | `claude-opus-5` | **63** | 27.4% |
 
-**168** Opus qids outstanding: `outstanding_opus.txt`.
+**167** Opus qids outstanding: `outstanding_opus.txt`.
 
 Banked (single-compound Cursor Task, `claude-opus-5-thinking-high`; three
 candidates each; RDKit formula check in-solver):
@@ -124,6 +124,7 @@ candidates each; RDKit formula check in-solver):
 | R16 | deposited via PR #52 — Ultra resume 2026-09-19 |
 | R67 | deposited via PR #53 — Ultra resume 2026-09-19 |
 | R64 | deposited via PR #54 — Ultra resume 2026-09-19 |
+| R25 | deposited via PR #55 — Ultra resume 2026-09-19 |
 
 Still in flight:
 
@@ -137,7 +138,6 @@ error and empty transcripts. **Not banked. Not retried with another model**
 | qid | last agent | why not banked |
 |---|---|---|
 | R06 | [Solve expand500 R06 retry 6](bc-e18f59ba-3766-561a-a873-1959c27b5078) | Opus usage limit, empty |
-| R25 | [Solve expand500 R25 retry 4](bc-b9afc554-d63a-51f0-8d2f-c9fce7e9a751) | Opus usage limit, empty |
 | R55 | [Solve expand500 R55 retry](bc-3cc12a26-04b3-5414-bb68-90ea47be4194) | Opus usage limit, empty |
 | R65 | [Solve expand500 R65](bc-4cc3c29b-ab0c-5962-90a5-3091828d627f) | Opus usage limit, empty |
 
@@ -145,9 +145,9 @@ Do **not** fill those slots with Grok, Composer, or Fable. Follow-up Cursor
 runs should resume Opus singles from `outstanding_opus.txt` only after the
 limit resets or a spend limit is added.
 
-Next after Opus is available again: **R06, R25, R55,
+Next after Opus is available again: **R06, R55,
 R65, then R66–R230**. Bank with `collect_round.py --partial`.
-No scores on the 62/230 subset.
+No scores on the 63/230 subset.
 
 R12 first launch ([Solve expand500 R12](bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a))
 died with an empty reply. Not banked. First retry
@@ -219,7 +219,8 @@ died with an activity-task timeout and no candidates. Not banked. Retry 2
 timed out with no candidates. Not banked. Retry 3
 ([Solve expand500 R25 retry 3](bc-97af48f9-93db-5155-9b28-db762619e34a))
 timed out with an empty transcript. Not banked. Retried again as a single.
-R25 remains outstanding.
+R25 later deposited three candidates on 2026-09-19 (PR #55). **Banked**
+(Ultra resume).
 
 R30 first launch ([Solve expand500 R30](bc-927de401-0b66-5b0e-a538-3876c223ada0))
 died with an activity-task timeout and no candidates. Not banked. Retry 2
@@ -248,7 +249,7 @@ No Fable (or any other) arm is registered on this draw.
 
 | item | status |
 |---|---|
-| Opus deposits | **62/230** |
+| Opus deposits | **63/230** |
 | `predictions2.jsonl` | not written (`collect_round.py` writes it only at 100%) |
 | `score2` / top-1 / recall | **not run** — partial subsets are not scored |
 | `scripts/score_main.py` n=194 | **untouched** |
@@ -306,7 +307,7 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 
 ## Overnight / follow-up handoff
 
-**Draw committed. Key withheld. 62/230 Opus deposited. BLOCKED on Cursor
+**Draw committed. Key withheld. 63/230 Opus deposited. BLOCKED on Cursor
 Opus monthly usage (reset 2026-10-09 or spend limit). Do not substitute
-another model. Zero in flight. Outstanding: 168 qids in
+another model. Zero in flight. Outstanding: 167 qids in
 `outstanding_opus.txt`. No scores. Do not merge. Paper stays n=295.**

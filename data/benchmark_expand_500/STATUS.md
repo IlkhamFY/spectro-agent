@@ -3,7 +3,7 @@
 Pre-registration (frozen above the deviations line):
 `docs/EXPANSION_PREREGISTRATION_500.md`.
 
-**Opus deposits: 64/230.** Questions committed. Answer key withheld. No
+**Opus deposits: 65/230.** Questions committed. Answer key withheld. No
 `predictions2.jsonl`. **Do not score a partial. Do not write a top-1 / recall
 number for this round into the ICLR paper.** Headline stays **n=295** until
 this round is 100% deposited, validated (already snapshotted), and scored.
@@ -53,9 +53,9 @@ is the arithmetic of the draw + this audit, not a score.
 
 | arm | solver | compounds with a blind response | of 230 |
 |---|---|---:|---:|
-| expansion toward 500 | `claude-opus-5` | **64** | 27.8% |
+| expansion toward 500 | `claude-opus-5` | **65** | 28.3% |
 
-**166** Opus qids outstanding: `outstanding_opus.txt`.
+**165** Opus qids outstanding: `outstanding_opus.txt`.
 
 Banked (single-compound Cursor Task, `claude-opus-5-thinking-high`; three
 candidates each; RDKit formula check in-solver):
@@ -126,6 +126,7 @@ candidates each; RDKit formula check in-solver):
 | R64 | deposited via PR #54 — Ultra resume 2026-09-19 |
 | R25 | deposited via PR #55 — Ultra resume 2026-09-19 |
 | R66 | deposited via PR #56 — Ultra resume 2026-09-19 |
+| R70 | deposited via PR #58 — Ultra resume 2026-09-19 |
 
 Still in flight:
 
@@ -148,7 +149,7 @@ limit resets or a spend limit is added.
 
 Next after Opus is available again: **R06, R55,
 R65, then R68–R230**. Bank with `collect_round.py --partial`.
-No scores on the 64/230 subset.
+No scores on the 65/230 subset.
 
 R12 first launch ([Solve expand500 R12](bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a))
 died with an empty reply. Not banked. First retry
@@ -250,7 +251,7 @@ No Fable (or any other) arm is registered on this draw.
 
 | item | status |
 |---|---|
-| Opus deposits | **64/230** |
+| Opus deposits | **65/230** |
 | `predictions2.jsonl` | not written (`collect_round.py` writes it only at 100%) |
 | `score2` / top-1 / recall | **not run** — partial subsets are not scored |
 | `scripts/score_main.py` n=194 | **untouched** |
@@ -308,7 +309,7 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 
 ## Overnight / follow-up handoff
 
-**Draw committed. Key withheld. 64/230 Opus deposited. BLOCKED on Cursor
+**Draw committed. Key withheld. 65/230 Opus deposited. BLOCKED on Cursor
 Opus monthly usage (reset 2026-10-09 or spend limit). Do not substitute
-another model. Zero in flight. Outstanding: 166 qids in
+another model. Zero in flight. Outstanding: 165 qids in
 `outstanding_opus.txt`. No scores. Do not merge. Paper stays n=295.**

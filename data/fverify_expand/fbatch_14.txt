@@ -1,0 +1,17 @@
+Q221  C#CC(O)/C=C/CCCCCCCC(C)CCCCC(C)C
+Q222  COc1ccc2cc(O)c([Se]/C=C/c3ccc(Cl)cc3)cc2c1
+Q223  O=c1[nH]c(-c2c(-c3cc(F)c(Cl)cc3F)nc3ccccn23)nc2ccccc12
+Q224  C#CCCCSc1ccc(-c2ccc(SC)s2)s1
+Q225  O=C(/C=C/c1ccccc1)Nc1cc(Br)cc(Br)c1
+Q226  CCCCCCCCCCCc1cc(=O)c2cc(-c3cc(O)c4c(C)cc(=O)oc4c3F)c(O)cc2o1
+Q227  CC(C)OC(OC(C)C)C(=O)c1cccc([N+](=O)[O-])c1
+Q228  N#Cc1cc2c(cc1NC(=S)NC1(c3cccs3)CCCCC1)sc1ccccc12
+Q229  O=Cc1ccccc1Oc1cccc(F)c1C=O
+Q230  CCCn1c(=O)cc(N)n(Cc2ccccc2)c1=O
+Q231  C=C1CCC2(C)C(C)CC(=O)C3(C)CCC4(Cc5cocc5C(=O)OC)OC4C3C12
+Q232  Cc1cccc2c(C(=O)Nc3ccccc3Cl)c(/C=C/C(=O)c3ccccc3Cl)cnc12
+Q233  COc1cc(OC)c(/C=C/c2ccccc2C)c(OC)c1
+Q234  C/C(=C/CCO)CCC(O)c1ccccc1
+Q235  O=Cc1ccccc1Oc1cc(F)ccc1C=O
+Q236  CC(C)OC(OC(C)C)C(=O)c1ccc([N+](=O)[O-])cc1
+Q237  CON(C)C(=O)C(C)=C(C)C(C)O[Si](C)(C)C(C)(C)C

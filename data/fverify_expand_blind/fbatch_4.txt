@@ -1,0 +1,17 @@
+Q051  CC(C)=CCC(C)CCCCCCO
+Q052  N#CC12Cc3c(no[n+]3[O-])CC1C(c1ccccc1)=C2c1ccccc1
+Q053  CC(=NNC(=O)c1ccncc1)c1cccc(I)c1O
+Q054  O=[N+]([O-])c1ccc(C2C(c3ccccc3)N2Cn2cnnc2S)cc1
+Q055  O=[N+]([O-])c1cc(F)cc(CNc2ncccn2)c1O
+Q056  O=C(NN=Cc1ccccc1)c1ccc(OCc2cn(Cc3ccc(F)cc3)nn2)cc1
+Q057  CCCC1(CCC)COC(C)(C)OC1
+Q058  C=CC(=O)OC(C)C(=C)C
+Q059  Cc1n[nH]c2c1C1(C(=O)Nc3cc(Br)ccc31)C(C#N)=C(N)O2
+Q060  CC(C)(C)OC(=O)N1CCC(Oc2ccc(N)cn2)CC1
+Q061  CC(=O)Nc1cccc(NCCC(=O)O)c1
+Q062  COC(=O)c1c(O)c(/C=C/c2cc(OC)c(OC)c(OC)c2)c(C)n(CCc2ccc(F)cc2)c1=O
+Q063  COc1ccc2cc(CN3CCC(NCc4ccccc4)CC3)ccc2c1
+Q064  N#Cc1ccc(C=O)cc1O
+Q065  CCOC(=O)c1sc(N)c(C(=O)Nc2nccs2)c1C
+Q066  O=C(Cc1ccccc1)Nc1ccc2c(c1)Cc1cc(Cl)cc(Cl)c1-2
+Q067  O=[N+]([O-])c1ccc(C2C(c3ccccc3)CN2n2cnnc2S)cc1

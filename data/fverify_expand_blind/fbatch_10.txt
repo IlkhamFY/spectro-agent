@@ -1,0 +1,17 @@
+Q153  CSC1=C(SCCCN=[N+]=[N-])Sc2ccccc2S1
+Q154  CC(C)OC(OC(C)C)C(=O)c1ccccc1[N+](=O)[O-]
+Q155  CC1=C(C(=O)c2ccc(-c3ccccc3)cc2)C(Cc2ccccc2)NC(=S)N1
+Q156  COc1ccc(/C=C/C(=O)O)cc1OCCN1CCCCC1
+Q157  Cc1ccc(S(=O)(=O)N2CC(Cl)=CCC2c2cccc(Br)c2)cc1
+Q158  CC(C)(C)OC(=O)CC(O)c1ccc([N+](=O)[O-])cc1
+Q159  CCOC(=O)c1cc(O)nn1-c1ccc([N+](=O)[O-])cc1
+Q160  NC(=O)c1ccccc1-c1c(I)nnn1C1CCCCC1
+Q161  C=CCCOc1ccc(C=O)cc1OC
+Q162  C#CCOc1ccc2c(C)cc(=O)oc2c1
+Q163  N#CC(=O)Nc1ccc(I)cc1
+Q164  COc1ccc(-c2cn(CC(=O)Nc3cc([N+](=O)[O-])ccc3OCC(=O)Nc3ccc(-n4ncc5ccccc54)cc3[N+](=O)[O-])nn2)cc1C
+Q165  Cc1cccc2c(/C=C/C(=O)c3ccccc3Cl)c(C(=O)Nc3ccccc3Cl)cnc12
+Q166  COc1ccc(-n2c3c(sc2=O)CCC(C)(C)C3=O)cc1
+Q167  O=C(c1cccc(Nc2nc(Cl)nc3[nH]cnc23)c1)C12CC3CC(CC(C3)C1)C2
+Q168  CC(/C=C/c1ccccc1)Sc1nnn(C)n1
+Q169  N#Cc1ccc2ncnc(N3CCN(CC(=O)Nc4ccc(Br)cc4)CC3)c2c1

@@ -3,10 +3,11 @@
 Pre-registration (frozen above the deviations line):
 `docs/EXPANSION_PREREGISTRATION_500.md`.
 
-**Opus deposits: 222/230.** Questions committed. Answer key withheld. No
-`predictions2.jsonl`. **Do not score a partial. Do not write a top-1 / recall
-number for this round into the ICLR paper.** Headline stays **n=295** until
-this round is 100% deposited, validated (already snapshotted), and scored.
+**Opus deposits: 230/230 (100%).** Questions committed. Answer key withheld. No
+`predictions2.jsonl`. **Do not write a top-1 / recall number for this round
+into the ICLR paper until it is scored.** Headline stays **n=295** until this
+round is scored. Deposits are complete but a separate repair pass is
+reconciling formula mismatches in `raw/`, so scoring is still deferred.
 
 This branch is an independent pre-registered expansion, not a silent
 replacement of n=194 or n=295. Pooling via `scripts/score_pooled.py --expand
@@ -53,9 +54,9 @@ is the arithmetic of the draw + this audit, not a score.
 
 | arm | solver | compounds with a blind response | of 230 |
 |---|---|---:|---:|
-| expansion toward 500 | `claude-opus-5` | **222** | 96.5% |
+| expansion toward 500 | `claude-opus-5` | **230** | 100% |
 
-**8** Opus qids outstanding: `outstanding_opus.txt`.
+**0** Opus qids outstanding: `outstanding_opus.txt` is empty.
 
 Banked (single-compound Cursor Task, `claude-opus-5-thinking-high`; three
 candidates each; RDKit formula check in-solver):
@@ -146,6 +147,7 @@ candidates each; RDKit formula check in-solver):
 | R105–R120 | deposited on 2026-09-19 — no-PR push |
 | R121–R136, R153–R168, R207–R211, R213–R217, R219–R230 | deposited on 2026-09-19 — no-PR push |
 | R137–R144, R177–R192, R196–R206 | deposited on 2026-09-19 — no-PR push |
+| R145–R152, R169–R176, R193–R195, R212, R218 | deposited on 2026-09-19 — no-PR push; completes 230/230 |
 
 Still in flight:
 
@@ -164,8 +166,8 @@ Do **not** fill those slots with Grok, Composer, or Fable. Follow-up Cursor
 runs should resume Opus singles from `outstanding_opus.txt` only after the
 limit resets or a spend limit is added.
 
-Next after Opus is available again: **the qids in `outstanding_opus.txt`**. Bank with `collect_round.py --partial`.
-No scores on the 222/230 subset.
+Nothing left to launch: `outstanding_opus.txt` is empty and all 230 qids in
+`questions2.jsonl` have a file in `raw/`. No scores yet.
 
 R12 first launch ([Solve expand500 R12](bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a))
 died with an empty reply. Not banked. First retry
@@ -267,12 +269,12 @@ No Fable (or any other) arm is registered on this draw.
 
 | item | status |
 |---|---|
-| Opus deposits | **222/230** |
-| `predictions2.jsonl` | not written (`collect_round.py` writes it only at 100%) |
-| `score2` / top-1 / recall | **not run** — partial subsets are not scored |
+| Opus deposits | **230/230 (100%)** |
+| `predictions2.jsonl` | not written |
+| `score2` / top-1 / recall | **not run** — deferred until the formula-mismatch repair pass lands |
 | `scripts/score_main.py` n=194 | **untouched** |
 | paper headline | **n=295** until 100% deposited + scored |
-| `scripts/score_pooled.py --expand-500` | **illegal** until 230/230 |
+| `scripts/score_pooled.py --expand-500` | unblocked by the 230/230 count, still not run |
 | Fable | not part of this round |
 | `forward_verify_main.py` | not run; no verification-precision number exists |
 
@@ -325,7 +327,7 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 
 ## Overnight / follow-up handoff
 
-**Draw committed. Key withheld. 222/230 Opus deposited. BLOCKED on Cursor
-Opus monthly usage (reset 2026-10-09 or spend limit). Do not substitute
-another model. Zero in flight. Outstanding: 8 qids in
-`outstanding_opus.txt`. No scores. Do not merge. Paper stays n=295.**
+**Draw committed. Key withheld. 230/230 Opus deposited (100%). Zero in flight.
+Zero outstanding — `outstanding_opus.txt` is empty. A separate repair pass is
+reconciling formula mismatches inside `raw/`; do not overwrite deposits. No
+scores. Do not merge. Paper stays n=295 until this round is scored.**

@@ -1,1 +1,1 @@
-[{"qid": "R84", "candidates": ["COc1ccc(cc1)N(CCC(=O)NNC(=S)Nc2ccccc2)C(=S)Nc2ccccc2", "COc1ccc(cc1)NC(=S)NNC(=O)CCN(c2ccccc2)C(=S)Nc2ccccc2", "COc1ccc(cc1)NC(=S)N(CCC(=O)NNC(=S)Nc2ccccc2)c2ccccc2"]}]
+[{"qid": "R84", "candidates": ["COc1ccc(N(CCC(=O)NNC(=S)Nc2ccccc2)C(=S)Nc2ccccc2)cc1", "COc1cccc(N(CCC(=O)NNC(=S)Nc2ccccc2)C(=S)Nc2ccccc2)c1", "COc1ccccc1N(CCC(=O)NNC(=S)Nc1ccccc1)C(=S)Nc1ccccc1"]}]

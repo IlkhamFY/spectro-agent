@@ -1,1 +1,1 @@
-[{"qid": "R97", "candidates": ["O=C1C=C(c2csc3ccccc23)N=C(N2CCCCC2)N1", "O=C1C=C(c2cc3ccccc3s2)N=C(N2CCCCC2)N1", "O=C1NC(=NC1=Cc1csc2ccccc12)N1CCCCC1"]}]
+[{"qid": "R97", "candidates": ["O=C1NC(N2CCCCC2)=NC1=Cc1csc2ccccc12", "O=C1NC(N2CCCCC2)=NC1=Cc1scc2ccccc12", "O=C1N=C(N2CCCCC2)NC1=Cc1csc2ccccc12"]}]

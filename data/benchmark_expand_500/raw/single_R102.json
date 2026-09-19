@@ -1,1 +1,1 @@
-[{"qid": "R102", "candidates": ["CCOC(=O)C(C(=O)c1ccccc1)C1CCC(C)O1", "CCOC(=O)C(C(=O)c1ccccc1)C1CCCCO1", "CCOC(=O)C(C(=O)c1ccccc1)C1(C)CCCO1"]}]
+[{"qid": "R102", "candidates": ["CCOC(=O)C(C(C)=O)C(CC(C)=O)c1ccccc1", "CCOC(=O)C(CCC)(C(C)=O)C(=O)c1ccccc1", "CCOC(=O)C(CC=C)CC(=O)c1ccc(OC)cc1"]}]

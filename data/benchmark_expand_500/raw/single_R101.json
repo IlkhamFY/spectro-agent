@@ -1,1 +1,1 @@
-[{"qid": "R101", "candidates": ["COC(=O)/C(CBr)=C\\c1ccccc1Br", "COC(=O)C(=Cc1ccccc1Br)CBr", "COC(=O)/C(CBr)=C/c1ccccc1Br"]}]
+[{"qid": "R101", "candidates": ["COC(=O)/C(=C\\c1ccccc1Br)/CBr", "COC(=O)/C(=C/c1ccccc1Br)/CBr", "COC(=O)C(Br)=Cc1ccccc1CBr"]}]

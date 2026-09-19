@@ -3,7 +3,7 @@
 Pre-registration (frozen above the deviations line):
 `docs/EXPANSION_PREREGISTRATION_500.md`.
 
-**Opus deposits: 55/230.** Questions committed. Answer key withheld. No
+**Opus deposits: 59/230.** Questions committed. Answer key withheld. No
 `predictions2.jsonl`. **Do not score a partial. Do not write a top-1 / recall
 number for this round into the ICLR paper.** Headline stays **n=295** until
 this round is 100% deposited, validated (already snapshotted), and scored.
@@ -53,9 +53,9 @@ is the arithmetic of the draw + this audit, not a score.
 
 | arm | solver | compounds with a blind response | of 230 |
 |---|---|---:|---:|
-| expansion toward 500 | `claude-opus-5` | **55** | 23.9% |
+| expansion toward 500 | `claude-opus-5` | **59** | 25.7% |
 
-**175** Opus qids outstanding: `outstanding_opus.txt`.
+**171** Opus qids outstanding: `outstanding_opus.txt`.
 
 Banked (single-compound Cursor Task, `claude-opus-5-thinking-high`; three
 candidates each; RDKit formula check in-solver):
@@ -117,6 +117,10 @@ candidates each; RDKit formula check in-solver):
 | R62 | [Solve expand500 R62](bc-f9e803fb-b2cc-53d0-8d0b-bf938d94ce16) |
 | R63 | [Solve expand500 R63](bc-59552f8f-fb74-5e6f-bcf6-d42318495f2f) |
 | R60 | [Solve expand500 R60](bc-e1e1eade-b7c4-5cc5-873a-306151fc160b) |
+| R09 | [Solve expand500 R09 resume](https://cursor.com/agents/bc-d762859b-94de-55f5-8b7e-b3d148747657) — Ultra resume 2026-09-19 |
+| R03 | deposited via PR #48 — Ultra resume 2026-09-19 |
+| R44 | deposited via PR #49 — Ultra resume 2026-09-19 |
+| R30 | deposited via PR #51 — Ultra resume 2026-09-19 |
 
 Still in flight:
 
@@ -129,13 +133,9 @@ error and empty transcripts. **Not banked. Not retried with another model**
 
 | qid | last agent | why not banked |
 |---|---|---|
-| R03 | [Solve expand500 R03 retry 5](bc-9f104518-16e2-57ac-b24b-b86482f9f345) | Opus usage limit, empty |
 | R06 | [Solve expand500 R06 retry 6](bc-e18f59ba-3766-561a-a873-1959c27b5078) | Opus usage limit, empty |
-| R09 | [Solve expand500 R09 retry 5](bc-f994f196-d0ab-5685-9868-b5461eddfef7) | Opus usage limit after empty final; resume also died |
 | R16 | [Solve expand500 R16 retry 5](bc-0f1f04fa-7c71-5cee-8fd8-ca34b10d33c8) | Opus usage limit, empty |
 | R25 | [Solve expand500 R25 retry 4](bc-b9afc554-d63a-51f0-8d2f-c9fce7e9a751) | Opus usage limit, empty |
-| R30 | [Solve expand500 R30 retry 4](bc-a67c0d6e-1277-503d-9cd6-4fe1652c1ad2) | Opus usage limit, empty |
-| R44 | [Solve expand500 R44 retry 2](bc-737cbcc7-473b-561a-88fd-42d3c3df0881) | Opus usage limit, empty |
 | R55 | [Solve expand500 R55 retry](bc-3cc12a26-04b3-5414-bb68-90ea47be4194) | Opus usage limit, empty |
 | R64 | [Solve expand500 R64](bc-0c15d1cd-3c8f-56d8-826d-c11bbd54dd1e) | Opus usage limit, empty |
 | R65 | [Solve expand500 R65](bc-4cc3c29b-ab0c-5962-90a5-3091828d627f) | Opus usage limit, empty |
@@ -144,9 +144,9 @@ Do **not** fill those slots with Grok, Composer, or Fable. Follow-up Cursor
 runs should resume Opus singles from `outstanding_opus.txt` only after the
 limit resets or a spend limit is added.
 
-Next after Opus is available again: **R03, R06, R09, R16, R25, R30, R44, R55,
+Next after Opus is available again: **R06, R16, R25, R55,
 R64, R65, then R66–R230**. Bank with `collect_round.py --partial`.
-No scores on the 55/230 subset.
+No scores on the 59/230 subset.
 
 R12 first launch ([Solve expand500 R12](bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a))
 died with an empty reply. Not banked. First retry
@@ -184,10 +184,13 @@ R03 retry 4
 and R09 retry 4
 ([Solve expand500 R09 retry 4](bc-0af73435-1a46-5644-9790-1ab25ad7627f))
 timed out with empty transcripts (`{"messages": []}`). Neither banked. Both
-retried again as singles. R09 retry 5
+retried again as singles. R03 later deposited three candidates on 2026-09-19
+(PR #48). **Banked** (Ultra resume). R09 retry 5
 ([Solve expand500 R09 retry 5](bc-f994f196-d0ab-5685-9868-b5461eddfef7))
 returned IDLE with thinking but an empty final message (no JSON). Not banked.
-Resumed the same agent to emit candidates.
+Resumed the same agent
+([Solve expand500 R09 resume](https://cursor.com/agents/bc-d762859b-94de-55f5-8b7e-b3d148747657)),
+which emitted three candidates on 2026-09-19. **Banked** (Ultra resume).
 
 R16 first launch ([Solve expand500 R16](bc-eeb4d9cf-2c1d-5402-8ab1-0ff2a3234cf6))
 died ERROR with an empty transcript (`{"messages": []}`). Not banked. First
@@ -222,13 +225,15 @@ died with an activity-task timeout and no candidates. Not banked. Retry 2
 timed out with no candidates. Not banked. Retry 3
 ([Solve expand500 R30 retry 3](bc-01f62bec-e70e-5d65-84a5-2bd5214dafdc))
 timed out with an empty transcript. Not banked. Retried again as a single.
-R30 remains outstanding.
+R30 later deposited three candidates on 2026-09-19 (PR #51). **Banked**
+(Ultra resume).
 
 R44 first launch ([Solve expand500 R44](bc-cc570487-c438-5b5c-bdb7-7c43bee03d7f))
 died with an activity-task timeout and no candidates. Not banked. First retry
 ([Solve expand500 R44 retry](bc-885b85b5-ce1c-5192-ba33-f9a71fcf39b9)) timed
 out with an empty transcript. Not banked. Retried again as a single. R44
-remains outstanding.
+later deposited three candidates on 2026-09-19 (PR #49). **Banked**
+(Ultra resume).
 
 R55 first launch ([Solve expand500 R55](bc-6d350f14-6cf4-5202-a99f-423c12c5bbe0))
 died with an activity-task timeout and an empty transcript
@@ -241,7 +246,7 @@ No Fable (or any other) arm is registered on this draw.
 
 | item | status |
 |---|---|
-| Opus deposits | **55/230** |
+| Opus deposits | **59/230** |
 | `predictions2.jsonl` | not written (`collect_round.py` writes it only at 100%) |
 | `score2` / top-1 / recall | **not run** — partial subsets are not scored |
 | `scripts/score_main.py` n=194 | **untouched** |
@@ -299,7 +304,7 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 
 ## Overnight / follow-up handoff
 
-**Draw committed. Key withheld. 55/230 Opus deposited. BLOCKED on Cursor
+**Draw committed. Key withheld. 59/230 Opus deposited. BLOCKED on Cursor
 Opus monthly usage (reset 2026-10-09 or spend limit). Do not substitute
-another model. Zero in flight. Outstanding: 175 qids in
+another model. Zero in flight. Outstanding: 171 qids in
 `outstanding_opus.txt`. No scores. Do not merge. Paper stays n=295.**

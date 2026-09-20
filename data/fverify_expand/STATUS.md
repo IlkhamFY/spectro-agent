@@ -18,21 +18,21 @@ Counts below are from `scripts/inventory_fverify_expand.py`
 | compounds | **106** |
 | unique SMILES (target) | **301** |
 | kept candidate rows | **301** |
-| already have ¹³C under any `fverify*` / any `fverify_expand*` | **170** / **170** |
-| **still need blind ¹³C** | **131** |
-| `raw/f*.json` in this directory | **10** |
+| already have ¹³C under any `fverify*` / any `fverify_expand*` | **218** / **218** |
+| **still need blind ¹³C** | **83** |
+| `raw/f*.json` in this directory | **13** |
 | fbatch files | **18** |
-| qids with every candidate covered | **9** / 106 |
+| qids with every candidate covered | **23** / 106 |
 
-Deposited `raw/fN.json`: f1, f2, f3, f4, f5, f6, f7, f8, f9, f10.
-Missing: f11, f12, f13, f14, f15, f16, f17, f18.
+Deposited `raw/fN.json`: f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f16, f17, f18.
+Missing: f11, f12, f13, f14, f15.
 
 ## What is not done
 
 | item | status |
 |---|---|
 | keyless prep (`anon_map` + `fbatch_*.txt`) | present |
-| Opus ¹³C deposits | **170/301** |
+| Opus ¹³C deposits | **218/301** |
 | official chamfer score (`is_true` from /tmp key only) | not run |
 | `data/fverify_n500/WALL_n500.md` | absent — paper must not cite n=500 fverify wall |
 

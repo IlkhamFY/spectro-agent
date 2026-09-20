@@ -1,0 +1,11 @@
+# official chamfer arithmetic (forward_verify_main.py score()) — +106
+# is_true filled under /tmp only; committed candidates.jsonl unchanged.
+# prep was not run (would rewrite the keyless anon_map / fbatches).
+
+forward predictions loaded: 301/301 unique SMILES
+compounds: 106
+  recall (true in candidate set): 68/106 (64%)
+  top-1, solver self-rank:        63/106 (59%)
+  top-1, forward-verified rerank: 56/106 (53%)
+  conditional on recall (n=68): self 63/68 (93%) | verify 56/68 (82%)
+  multi-candidate only  (n=68): self 63/68 | verify 56

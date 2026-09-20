@@ -1,0 +1,35 @@
+{
+ "n": 500,
+ "verified": 204,
+ "misranked": 45,
+ "wall": 251,
+ "recalled": 249,
+ "arms": {
+  "locked_194": {
+   "n": 194,
+   "verified": 58,
+   "misranked": 7,
+   "wall": 129,
+   "recalled": 65
+  },
+  "plus_106": {
+   "n": 106,
+   "verified": 56,
+   "misranked": 12,
+   "wall": 38,
+   "recalled": 68,
+   "self_ranked": 63,
+   "verify_top1": 56
+  },
+  "expand500_200": {
+   "n": 200,
+   "verified": 90,
+   "misranked": 26,
+   "wall": 84,
+   "recalled": 116,
+   "self_ranked": 109,
+   "verify_top1": 90
+  }
+ },
+ "source": "scripts/fverify_n500_wall.py"
+}

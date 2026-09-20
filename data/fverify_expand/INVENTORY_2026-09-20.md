@@ -31,7 +31,7 @@ Dropped rows:
 |---|---:|---:|---:|---:|---:|---:|
 | `data/fverify` | 126 | 126 | 126 | 8 | 0 | 0 |
 | `data/fverify2` | 65 | 0 | 65 | 4 | 0 | 0 |
-| `data/fverify_expand` | 301 | 301 | 218 | 13 | 301 | 218 |
+| `data/fverify_expand` | 301 | 301 | 301 | 18 | 301 | 301 |
 | `data/fverify_expand_500` | 681 | 681 | 681 | 41 | 0 | 0 |
 | `data/fverify_gen` | 201 | 201 | 75 | 5 | 0 | 0 |
 | `data/fverify_gw` | 152 | 0 | 152 | 9 | 0 | 0 |
@@ -39,7 +39,7 @@ Dropped rows:
 | `data/fverify_n500` | 0 | 0 | 0 | 0 | 0 | 0 |
 
 `data/fverify_expand/` (this campaign) exists: **true**.
-Own raw files: **13**. Own +106 SMILES with ¹³C: **218**.
+Own raw files: **18**. Own +106 SMILES with ¹³C: **301**.
 fbatch files present: **18**.
 
 ## Remaining work
@@ -47,15 +47,15 @@ fbatch files present: **18**.
 | | count |
 |---|---:|
 | unique SMILES that need a blind ¹³C list | **301** |
-| already have ¹³C under any `fverify*` | **218** |
-| already have ¹³C under any `fverify_expand*` | **218** |
+| already have ¹³C under any `fverify*` | **301** |
+| already have ¹³C under any `fverify_expand*` | **301** |
 | already in any `fverify*` anon_map | **301** |
-| **still need a new ¹³C prediction** | **83** |
-| qids with every candidate already covered (any path) | **23** |
-| qids with partial coverage (any path) | **83** |
+| **still need a new ¹³C prediction** | **0** |
+| qids with every candidate already covered (any path) | **106** |
+| qids with partial coverage (any path) | **0** |
 | qids with zero coverage (any path) | **0** |
 
-`data/fverify_n500/WALL_n500.md` exists: **false**.
+`data/fverify_n500/WALL_n500.md` exists: **true**.
 The paper may cite an n=500 fverify wall only after that file exists and
 is written by a script from scored arms.
 

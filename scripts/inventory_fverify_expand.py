@@ -217,6 +217,7 @@ def inventory():
         "missing_ns": missing_ns,
         "exists_fverify_expand": os.path.isdir(OUT),
         "exists_fverify_n500_wall": os.path.exists("data/fverify_n500/WALL_n500.md"),
+        "exists_results": os.path.exists(f"{OUT}/results.txt"),
     }
 
 
@@ -307,9 +308,9 @@ Blind ¹³C forward-verification of the Opus +106 expansion
 (`data/benchmark_expand/`). Prep is keyless (`PREP_NOTE.md` once written).
 The answer key is **not** in the tree.
 
-**This is the remaining hole for a scored+fverify n=500 corpus.**
 Locked n=194 wall is 58/7/129. expand-500 fverify is 681/681 and scored.
-+106 fverify was never run for the paper.
++106 coverage and the n=500 wall live in `INVENTORY_{inv['date']}.md` and
+`data/fverify_n500/WALL_n500.md`.
 
 Counts below are from `scripts/inventory_fverify_expand.py`
 ({inv['date']}). Companion: `INVENTORY_{inv['date']}.md`.
@@ -336,7 +337,7 @@ Missing: {miss or "none"}.
 |---|---|
 | keyless prep (`anon_map` + `fbatch_*.txt`) | {"present" if n_bat else "not yet"} |
 | Opus ¹³C deposits | **{inv['own_13c']}/{inv['unique_smiles']}** |
-| official chamfer score (`is_true` from /tmp key only) | not run |
+| official chamfer score (`is_true` from /tmp key only) | {"results.txt present" if inv.get("exists_results") else "not run"} |
 | `data/fverify_n500/WALL_n500.md` | {"exists" if inv["exists_fverify_n500_wall"] else "absent — paper must not cite n=500 fverify wall"} |
 
 ## Do not

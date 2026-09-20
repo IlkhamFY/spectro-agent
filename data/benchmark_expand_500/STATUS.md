@@ -13,7 +13,7 @@ paper headline. Numbers: `data/benchmark_expand_500/NIGHT_POOL_2026-09-20.md`.
 This branch is an independent pre-registered expansion, not a silent
 replacement of n=194 or n=300. Pooling via `scripts/score_pooled.py --expand
 --expand-500` is licensed by the pre-registration (230/230 deposited).
-fverify coverage is **420/681** (25/41 batches); no verification-precision
+fverify coverage is **516/681** (31/41 batches); no verification-precision
 number exists.
 
 ## Draw (fixed before it ran)
@@ -175,7 +175,7 @@ Nothing left to launch: `outstanding_opus.txt` is empty and all 230 qids in
 R80–R84, R91–R102). `collect_round.py` (no `--partial`; replies copied from
 `raw/`) wrote `predictions2.jsonl`: 230/230 compounds, 690 candidates. The
 collector reported no empty, unparseable, or off-formula candidates.
-Generation `score2` is in NIGHT_POOL. fverify still incomplete (25/41);
+Generation `score2` is in NIGHT_POOL. fverify still incomplete (31/41);
 no verification-precision number.
 
 R12 first launch ([Solve expand500 R12](bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a))
@@ -320,7 +320,7 @@ Full transcript: `NIGHT_POOL_2026-09-20.md`.
 | paper headline | **n=300** (194 + all +106). expand-500 is scored, not the paper n |
 | `scripts/score_pooled.py --expand-500` | **run** — n=519 validate-clean pool in NIGHT_POOL |
 | Fable | not part of this round |
-| fverify expand-500 | **25/41** batches, **420/681** SMILES; missing f16–f20, f31–f41 |
+| fverify expand-500 | **31/41** batches, **516/681** SMILES; missing f16–f20, f31–f35 |
 | `forward_verify_main.py` score | not run; **no verification-precision number exists** |
 | CIs | **not computed**; do not invent |
 
@@ -378,7 +378,7 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 done. `predictions2.jsonl` written (230 lines, 690 candidates). Generation
 `score2` run 2026-09-20 and re-withheld (129/230 top-1, 138/230 recall).
 Paper headline stays n=300. expand-500 is not the paper headline. fverify
-25/41 (420/681); missing f16–f20, f31–f41. No verification precision. No
+31/41 (516/681); missing f16–f20, f31–f35. No verification precision. No
 CIs. Do not overwrite `raw/single_R*.json`. Do not merge PR #18. Do not
 commit `answers2.jsonl`.**
 

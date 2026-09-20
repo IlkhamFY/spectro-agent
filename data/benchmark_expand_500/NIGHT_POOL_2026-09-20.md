@@ -23,7 +23,7 @@ headline. No CIs. No fverify precision.
 | extra all-deposited pools (same InChIKey-14 rule as `score_pooled.py`) | yes |
 | `scripts/validate_benchmark.py` | **no** — would rewrite committed `clean_qids.json`; used the existing 224-qid snapshot |
 | `collect_round.py` | **no** — 230 `raw/single_R*.json` left untouched |
-| `forward_verify_main.py score` | **no** — fverify 25/41; no precision number |
+| `forward_verify_main.py score` | **no** — fverify 31/41; no precision number |
 | `--ci` / bootstrap | **no** — do not invent CIs |
 | merge PR #18 | **no** |
 
@@ -154,22 +154,22 @@ That matches the committed +106 `score2` footer (63/106, 68/106).
 
 See `data/fverify_expand_500/INVENTORY_2026-09-20.md`.
 
-- present: **f1–f15, f21–f30** (25/41)
-- missing: **f16–f20, f31–f41** (16/41)
-- unique SMILES: **420/681 (61.67%)**
+- present: **f1–f15, f21–f30, f36–f41** (31/41)
+- missing: **f16–f20, f31–f35** (10/41)
+- unique SMILES: **516/681 (75.77%)**
 - no verification-precision number
 
 ## Artifact paths
 
 | path | what |
 |---|---|
-| `data/fverify_expand_500/INVENTORY_2026-09-20.md` | f1–f41 exist / missing; 420/681 |
+| `data/fverify_expand_500/INVENTORY_2026-09-20.md` | f1–f41 exist / missing; 516/681 |
 | `data/benchmark_expand_500/NIGHT_POOL_2026-09-20.md` | this file |
 | `data/benchmark_expand_500/STATUS.md` | live status |
 | `data/benchmark_expand_500/predictions2.jsonl` | 230 lines, 690 candidates |
 | `data/benchmark_expand_500/clean_qids.json` | 224 validate-clean qids |
 | `data/benchmark_expand_500/raw/single_R*.json` | 230 provenance files (untouched tonight) |
-| `data/fverify_expand_500/raw/f1.json`… | 25 deposited ¹³C batches |
+| `data/fverify_expand_500/raw/f1.json`… | 31 deposited ¹³C batches |
 | `data/fverify_expand_500/fbatch_*.txt` | 41 keyless prompts |
 | `/tmp/night_score/score2_expand500.txt` | local `score2` transcript (not in tree) |
 | `/tmp/night_score/score_pooled.txt` | local pooled transcript (not in tree) |

@@ -1,0 +1,16 @@
+Q617  COc1ccc2c3ccnc(C)c3n(CCNC(=O)/C=C/c3ccc(Cl)cc3)c2c1
+Q618  COc1ccc(Oc2cccc(N)c2)cc1
+Q619  COc1cc(CC(C)C)c(C)cc1C(=O)NCc1ccccc1
+Q620  CCCCCC1OC(=O)c2c(O)c(C=O)cc(O)c2C1OC
+Q621  CCCCCCC(O)CBr
+Q622  NC(=S)N/N=C/C=C\c1ccccc1
+Q623  N#Cc1c(N)noc1-c1ccncc1
+Q624  CC(C(=O)OCc1ccccc1)C(=O)OCC(C)(C)C
+Q625  COc1cc2ncnc(Nc3ccc(F)c(Cl)c3)c2cc1-c1nc2cc(-c3ccccc3)ccc2s1
+Q626  CC(=O)OCc1cccc(F)c1
+Q627  CCOC(=O)c1sc(-c2nn(C(=O)Nc3ccc(C)cc3)c(=S)n2-c2ccccc2)nc1C
+Q628  COc1ccccc1NC(=S)NNC(=O)c1cc2ccccc2oc1=O
+Q629  C(=C\c1ccccc1)/C1=NN(c2ccccc2)C(c2ccccc2)C1
+Q630  COc1cccc(COC(=O)/C=C/c2ccc(OC)c(OC)c2)c1
+Q631  CCOC(=O)C(C)(F)c1ccccc1
+Q632  CCCCCCCCC#CCN1CCOCC1

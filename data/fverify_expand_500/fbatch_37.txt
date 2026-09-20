@@ -1,0 +1,16 @@
+Q601  C#CCOc1ccccc1
+Q602  Cc1cccc(OC2CCOC2)c1N
+Q603  CC(C)(C)OC(=O)N1CCN(C(=O)NCCOCCNC(=O)N2CCN(C(=O)OC(C)(C)C)CC2)CC1
+Q604  Cc1ccc(NC(=O)Cn2cc(COc3cccc4ccccc34)nn2)cc1
+Q605  CC#CCN(C/C=C/CO)S(=O)(=O)c1ccc(C)cc1
+Q606  CCCCCCCCc1cc(Sc2sc(-c3ccc4ccc5cccc6ccc3c4c56)cc2CCCCCCCC)sc1C=O
+Q607  COc1ccc2c(=O)c([Se]c3ccccc3)coc2c1
+Q608  C=CS(=O)(=O)NCc1ccc(CNS(=O)(=O)C=C)c(CNS(=O)(=O)C=C)c1
+Q609  Cn1c(S)nnc1-c1ccc(-c2nc3cc(F)ccc3[nH]2)cc1
+Q610  CNC(=O)c1cn(Cc2cccc(F)c2)nn1
+Q611  CCOC(=O)C12C(=O)Oc3ccc(O)cc3C1C(c1ccc(Br)cc1)NC21C(=O)N(Cc2ccccc2)c2ccccc21
+Q612  Nc1cccc(C(=O)N2CCN(C(=O)c3ccc(Oc4ccc([N+](=O)[O-])cc4)c(O)c3)CC2)c1
+Q613  CCCCCCC(=O)c1ccc(NS(=O)(=O)c2ccc(-c3ccccc3)cc2)cc1C(=O)NCCCCCNC(=O)OC(C)(C)C
+Q614  COC(=O)c1ccc(-c2cc(F)ccc2C(=O)OC)cc1C(=O)c1ccccc1
+Q615  CCOC(=O)Cn1c(N)nc2nnn(Cc3ccc(Cl)cc3Cl)c2c1=O
+Q616  C=CCC(C)(O)CC1CCC(=O)N1

@@ -1,0 +1,17 @@
+Q136  O=C1NC(N2CCCCC2)=NC1=Cc1csc2ccccc12
+Q137  ON1NC(NCCCNC2=Nc3ccccc3N(O)N2)=Nc2ccccc21
+Q138  CCOC(=O)C/C(C#Cc1ccccc1)=C\C(C)=O
+Q139  O=c1[nH]c2cc(I)cc(Br)c2[nH]1
+Q140  COc1cc2ncnc(SC3=C(Nc4cc(C)ccn4)C(=O)c4ccccc4C3=O)c2cc1OC
+Q141  COc1cccc(C/C=C(\C)CCC=C(C)C)c1OC(C)=O
+Q142  CCCc1ccc(-c2cc(=O)cco2)cc1
+Q143  CC(C)[C@@H](NC(=O)OCC1c2ccccc2-c2ccccc21)C(=O)OCc1ccccc1
+Q144  C=C(C)[C@@H]1CC[C@]2(CO)CC[C@]3(C)[C@H](CC[C@@H]4[C@@]5(C)CC[C@H](OC(C)=O)C(C)(C)[C@@H]5CC[C@]43C)[C@@H]12
+Q145  CCOC(=O)/C(=C/c1ccccc1[N+](=O)[O-])C(C)=O
+Q146  OCC#Cc1ccccc1
+Q147  Cc1cccc(OCC2COC2)c1N
+Q148  CC(C)(C)OC(=O)NNCCCCC(=O)N1CCCN(C(=O)CCC(=O)NNC(=O)OC(C)(C)C)CC1
+Q149  Cc1cccc(NC(=O)Cn2cc(COc3ccc4ccccc4c3)nn2)c1
+Q150  CC#CCOC/C=C\CNS(=O)(=O)c1ccc(C)cc1
+Q151  CCCCCCCCc1cc(C=O)sc1Sc1cc(CCCCCCCC)c(-c2ccc3ccc4cccc5ccc2c3c45)s1
+Q152  COc1ccc([Se]c2coc3ccccc3c2=O)cc1

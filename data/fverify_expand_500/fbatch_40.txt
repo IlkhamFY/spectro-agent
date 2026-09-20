@@ -1,0 +1,16 @@
+Q649  C=C[C@@H](C)[C@@H](C=O)OCOC
+Q650  C#CCN1CCCC(CCc2ccccc2)C1
+Q651  CCCCOc1c(C)sc(=NCc2ccccc2)n1CCO
+Q652  Cc1cc(C)nc(Nc2ccc(Br)cc2)n1
+Q653  Cc1ccc(S(=O)(=O)C2CCC(O)C2)cc1
+Q654  CC1(c2cccc3ccccc23)CO1
+Q655  C1CNC2CCCNC2C1
+Q656  CC1(C)OB(c2ccc(F)cc2N)OC1(C)C
+Q657  c1ccc2c(c1)c1ccccc1n2-c1nc2nsnc2nc1N1CCOCC1
+Q658  O=C(Nc1cccc([N+](=O)[O-])c1)c1cccc(-c2nc(N3CCOCC3)c3ncn(-c4ccccc4)c3n2)c1
+Q659  CCOC(=O)C1C(=O)N(O)C(=O)C1c1ccccc1O
+Q660  CCN(CC)C(=O)c1ccc(C)c(-c2ccc(-c3ccc4ccc5cccc6ccc3c4c56)cc2)c1
+Q661  CCCCCCCCCCCC([O-])C(CCCC(=O)NCc1ccc(OC)cc1)OCc1ccccc1
+Q662  CCCCCCCC(=O)c1c(CC(=O)OCCCC)cc(OC)c(OC)c1OC
+Q663  CCCCCCCCC(C)CO
+Q664  CC(=O)OCC1CCC2C(C)CC(C)=C(C)C2C1C

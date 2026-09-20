@@ -1,0 +1,16 @@
+Q489  CN(NC(=O)OC(C)(C)C)c1ccc(SC#N)cc1
+Q490  COc1ccc(/C=C/COc2ccccc2C=O)cc1
+Q491  Cc1nnc(C(NC(=O)OC(C)(C)C)(OCc2ccccc2)C(=O)OC(C)(C)C)n1-c1ccc(Cl)cc1
+Q492  COC(=O)C1(C)CC2C(=O)OC(C)(C)C2(C)C1=O
+Q493  CC1CCCCC(NC(=O)OC(C)(C)C)C(c2ccc3ncccc3c2)OC(=O)CC(O)C(C)(C)C(=O)C(C)C1O
+Q494  N#Cc1nccc(-c2ccccc2)c1O
+Q495  CC=C(CC(=O)OCC)O[Si](C)(C)C(C)(C)C
+Q496  COc1cc(OC)c2c(c1)C1C=CC2O1
+Q497  Cc1cc(C)nc(NC(N)=NCc2ccccc2)n1
+Q498  C=CCC1CCCCC1C(O)[Si](C)(C)C
+Q499  N#C/C(=N\O)c1ccc(OCc2ccccc2)cc1
+Q500  COc1ccc(S(=O)(=O)C(=Cc2ccccc2)C(=O)c2ccc(Cl)cc2I)cc1
+Q501  CC1=C(/C=C/C(C)CO)C(C)(C)CCC1
+Q502  O=[N+]([O-])c1cc(-c2ccccc2F)ccc1C1(C(F)(F)F)Cc2ccccc2O1
+Q503  CCCCCCC/C=C\C(=O)OC
+Q504  CC(C)(C)c1ccc(N(c2ccc(Br)c3ccccc23)c2ccc(Br)c3ccccc23)cc1

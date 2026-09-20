@@ -1,0 +1,17 @@
+Q153  COc1cc2c(cc1OC)C[N+]1(CCOCC1)Cc1cc(OC)c(OC)cc1C2.[Br-]
+Q154  C=CCNS(=O)(=O)c1cc(S(=O)(=O)NCC=C)cc(S(=O)(=O)NCC=C)c1
+Q155  Cn1c(-c2ccc(-c3nc4cc(F)ccc4[nH]3)cc2)n[nH]c1=S
+Q156  CNC(=O)c1cn(Cc2ccccc2F)nn1
+Q157  CCOC(=O)C1NC2(C(=O)N(Cc3ccccc3)c3ccc(O)cc32)C2(c3ccc(Br)cc3)C(=O)Oc3ccccc3C12
+Q158  COC(=O)c1ccc([N+](=O)[O-])c2ccc(C(=O)N3CCN(C(=O)c4cccc(N)c4)CC3)cc12
+Q159  CCCCCCCC(=O)Nc1ccc(S(=O)(=O)NCCCCNC(=O)OC(C)(C)C)cc1C(=O)c1ccc(-c2ccccc2)cc1
+Q160  COC(=O)c1cc(F)ccc1-c1c(C(=O)OC)cccc1C(=O)c1ccccc1
+Q161  CCOC(=O)Cn1nnc2c(=O)n(Cc3ccc(Cl)cc3Cl)c(N)nc21
+Q162  C=CCC(C)(O)C1CCCNC1=O
+Q163  COc1ccc2c3ccnc(C)c3n(CCNC(=O)/C=C/c3cccc(Cl)c3)c2c1
+Q164  COc1cccc(Nc2ccc(O)cc2)c1
+Q165  COc1cc(C)cc(CC(C)C)c1C(=O)NCc1ccccc1
+Q166  CCCCCC1OC(=O)c2c(O)cc(C=O)c(O)c2C1OC
+Q167  CCCCCC(O)CCBr
+Q168  N\C(S)=N/N=C/C=C/c1ccccc1
+Q169  N#Cc1c(-c2ccncc2)noc1N

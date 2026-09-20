@@ -13,8 +13,8 @@ paper headline. Numbers: `data/benchmark_expand_500/NIGHT_POOL_2026-09-20.md`.
 This branch is an independent pre-registered expansion, not a silent
 replacement of n=194 or n=300. Pooling via `scripts/score_pooled.py --expand
 --expand-500` is licensed by the pre-registration (230/230 deposited).
-fverify coverage is **516/681** (31/41 batches); no verification-precision
-number exists.
+fverify coverage is **681/681** (41/41 batches). Official chamfer score
+ran 2026-09-20 (see NIGHT_POOL / `data/fverify_expand_500/STATUS.md`).
 
 ## Draw (fixed before it ran)
 
@@ -175,8 +175,8 @@ Nothing left to launch: `outstanding_opus.txt` is empty and all 230 qids in
 R80–R84, R91–R102). `collect_round.py` (no `--partial`; replies copied from
 `raw/`) wrote `predictions2.jsonl`: 230/230 compounds, 690 candidates. The
 collector reported no empty, unparseable, or off-formula candidates.
-Generation `score2` is in NIGHT_POOL. fverify still incomplete (31/41);
-no verification-precision number.
+Generation `score2` is in NIGHT_POOL. fverify is complete (41/41,
+681/681); official `score()` numbers are in NIGHT_POOL.
 
 R12 first launch ([Solve expand500 R12](bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a))
 died with an empty reply. Not banked. First retry
@@ -320,8 +320,8 @@ Full transcript: `NIGHT_POOL_2026-09-20.md`.
 | paper headline | **n=300** (194 + all +106). expand-500 is scored, not the paper n |
 | `scripts/score_pooled.py --expand-500` | **run** — n=519 validate-clean pool in NIGHT_POOL |
 | Fable | not part of this round |
-| fverify expand-500 | **31/41** batches, **516/681** SMILES; missing f16–f20, f31–f35 |
-| `forward_verify_main.py` score | not run; **no verification-precision number exists** |
+| fverify expand-500 | **41/41** batches, **681/681** SMILES |
+| `forward_verify_main.py` score | **run 2026-09-20** — verify top-1 103/230 (44.8%); verify \| recall 103/138 (74.6%) |
 | CIs | **not computed**; do not invent |
 
 ## Key handling
@@ -378,9 +378,10 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 done. `predictions2.jsonl` written (230 lines, 690 candidates). Generation
 `score2` run 2026-09-20 and re-withheld (129/230 top-1, 138/230 recall).
 Paper headline stays n=300. expand-500 is not the paper headline. fverify
-31/41 (516/681); missing f16–f20, f31–f35. No verification precision. No
-CIs. Do not overwrite `raw/single_R*.json`. Do not merge PR #18. Do not
-commit `answers2.jsonl`.**
+41/41 (681/681). Official score: verify 103/230 (44.8%) top-1, 103/138
+(74.6%) | recall. No CIs. Do not overwrite `raw/single_R*.json`. Do not
+merge PR #18. Do not commit `answers2.jsonl`.**
 
 Night artifacts: `NIGHT_POOL_2026-09-20.md`,
-`data/fverify_expand_500/INVENTORY_2026-09-20.md`.
+`data/fverify_expand_500/INVENTORY_2026-09-20.md`,
+`data/fverify_expand_500/STATUS.md`.

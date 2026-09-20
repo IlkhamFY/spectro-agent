@@ -1,0 +1,20 @@
+# official forward_verify_main.py score() — expand-500
+# 2026-09-20. is_true filled under /tmp only; committed candidates.jsonl unchanged.
+# prep was not run (would rewrite the keyless anon_map / fbatches).
+
+forward predictions loaded: 681/681 unique SMILES
+compounds: 230
+  recall (true in candidate set): 138/230 (60%)
+  top-1, solver self-rank:        129/230 (56%)
+  top-1, forward-verified rerank: 103/230 (45%)
+  conditional on recall (n=138): self 129/138 (93%) | verify 103/138 (75%)
+  multi-candidate only  (n=137): self 128/137 | verify 102/137
+
+# validate-clean 224 (same chamfer, qids in clean_qids.json only)
+forward predictions loaded: 681/681 unique SMILES
+compounds: 224
+  recall (true in candidate set): 135/224 (60%)
+  top-1, solver self-rank:        127/224 (57%)
+  top-1, forward-verified rerank: 103/224 (46%)
+  conditional on recall (n=135): self 127/135 (94%) | verify 103/135 (76%)
+  multi-candidate only  (n=134): self 126/134 | verify 102/134

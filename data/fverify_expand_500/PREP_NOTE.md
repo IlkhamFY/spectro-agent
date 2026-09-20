@@ -48,6 +48,10 @@ restrict to `clean_qids.json` when the key is restored for scoring.
 ## Do not
 
 - restore `answers2.jsonl` onto this branch
-- run `forward_verify_main.py score` or `forward_verify_all.py` against this
-  bundle (score needs `is_true` and the key)
-- treat anything here as a verification-precision number
+- run official `prep` against this directory (would rewrite the keyless
+  `anon_map` / `fbatch_*.txt`)
+- run `forward_verify_all.py` (would rewrite the n=194 `diagnosis.json`)
+- write `is_true` into committed `candidates.jsonl`
+
+Score later ran 2026-09-20 with the key and `is_true` only under `/tmp`.
+Numbers: `STATUS.md`, `results.txt`.

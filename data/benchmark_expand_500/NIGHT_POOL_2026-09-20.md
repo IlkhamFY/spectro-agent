@@ -10,7 +10,8 @@ Companion inventory: `data/fverify_expand_500/INVENTORY_2026-09-20.md`.
 
 **Paper headline stays n=300** (locked 194 + all Opus +106). This
 expand-500 round is now scored, but it is **not** written into the paper
-headline. No CIs. No fverify precision.
+headline. No CIs. fverify coverage **41/41, 681/681**; score in the
+fverify section below.
 
 ## What ran (and what did not)
 
@@ -23,7 +24,7 @@ headline. No CIs. No fverify precision.
 | extra all-deposited pools (same InChIKey-14 rule as `score_pooled.py`) | yes |
 | `scripts/validate_benchmark.py` | **no** — would rewrite committed `clean_qids.json`; used the existing 224-qid snapshot |
 | `collect_round.py` | **no** — 230 `raw/single_R*.json` left untouched |
-| `forward_verify_main.py score` | **no** — fverify 31/41; no precision number |
+| `forward_verify_main.py score` | **yes** — official `score()` on the deposited 230-qid bundle (is_true filled under `/tmp`; prep not run) |
 | `--ci` / bootstrap | **no** — do not invent CIs |
 | merge PR #18 | **no** |
 
@@ -150,26 +151,56 @@ Validate-clean expansions only. Verbatim:
 
 That matches the committed +106 `score2` footer (63/106, 68/106).
 
-## fverify (coverage only)
+## fverify (coverage + official score)
 
-See `data/fverify_expand_500/INVENTORY_2026-09-20.md`.
+See `data/fverify_expand_500/INVENTORY_2026-09-20.md` and
+`data/fverify_expand_500/STATUS.md`.
 
-- present: **f1–f15, f21–f30, f36–f41** (31/41)
-- missing: **f16–f20, f31–f35** (10/41)
-- unique SMILES: **516/681 (75.77%)**
-- no verification-precision number
+- present: **f1–f41** (41/41)
+- missing: **none**
+- unique SMILES: **681/681 (100%)**
+- qids fully covered: **230/230**
+
+Key reconstructed again (230/230 unique; 0 prior-round InChIKey-14
+collisions) and written only to
+`/tmp/blind/_key/benchmark_expand_500.answers2.jsonl.withheld`. Generation
+sanity on that key: 129/230 top-1, 138/230 recall (matches committed
+`score2`). Official `prep` was not run. `score()` used a `/tmp` candidates
+copy with `is_true` filled; committed `candidates.jsonl` still omits it.
+
+Verbatim `scripts/forward_verify_main.py score()` footer (230 qids):
+
+```
+forward predictions loaded: 681/681 unique SMILES
+compounds: 230
+  recall (true in candidate set): 138/230 (60%)
+  top-1, solver self-rank:        129/230 (56%)
+  top-1, forward-verified rerank: 103/230 (45%)
+  conditional on recall (n=138): self 129/138 (93%) | verify 103/138 (75%)
+  multi-candidate only  (n=137): self 128/137 | verify 102/137
+```
+
+| set | n | recall | self top-1 | verify top-1 | verify \| recall |
+|---|---:|---|---|---|---|
+| all deposited | 230 | **138/230 (60.0%)** | **129/230 (56.1%)** | **103/230 (44.8%)** | **103/138 (74.6%)** |
+| validate-clean | 224 | **135/224 (60.3%)** | **127/224 (56.7%)** | **103/224 (46.0%)** | **103/135 (76.3%)** |
+
+Verify does not beat self-rank on this arm. `forward_verify_all.py` not
+run. No CIs.
 
 ## Artifact paths
 
 | path | what |
 |---|---|
-| `data/fverify_expand_500/INVENTORY_2026-09-20.md` | f1–f41 exist / missing; 516/681 |
+| `data/fverify_expand_500/INVENTORY_2026-09-20.md` | f1–f41 all present; 681/681 |
 | `data/benchmark_expand_500/NIGHT_POOL_2026-09-20.md` | this file |
 | `data/benchmark_expand_500/STATUS.md` | live status |
 | `data/benchmark_expand_500/predictions2.jsonl` | 230 lines, 690 candidates |
 | `data/benchmark_expand_500/clean_qids.json` | 224 validate-clean qids |
 | `data/benchmark_expand_500/raw/single_R*.json` | 230 provenance files (untouched tonight) |
-| `data/fverify_expand_500/raw/f1.json`… | 31 deposited ¹³C batches |
+| `data/fverify_expand_500/raw/f1.json`…`f41.json` | 41 deposited ¹³C batches |
+| `data/fverify_expand_500/STATUS.md` | coverage + official score |
+| `data/fverify_expand_500/results.txt` | verbatim `score()` footer |
 | `data/fverify_expand_500/fbatch_*.txt` | 41 keyless prompts |
 | `/tmp/night_score/score2_expand500.txt` | local `score2` transcript (not in tree) |
 | `/tmp/night_score/score_pooled.txt` | local pooled transcript (not in tree) |

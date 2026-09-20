@@ -6,9 +6,13 @@ Pre-registration (frozen above the deviations line):
 **Opus deposits: 230/230 (100%).** Questions committed. Answer key withheld.
 `predictions2.jsonl` written: **yes**, 230 lines (690 candidates). Formula
 repair done (R74, R80–R84, R91–R102). Generation `score2` ran 2026-09-20
-(key restored under `/tmp` only, then re-withheld). **Paper headline stays
-n=300** (locked 194 + all Opus +106). This expand-500 round is **not** the
-paper headline. Numbers: `data/benchmark_expand_500/NIGHT_POOL_2026-09-20.md`.
+(key restored under `/tmp` only, then re-withheld). **Locked paper n is
+still n=300** (194 + all Opus +106) until the manuscript is edited.
+**n=500 headline support** (194 + 106 + first 200 validate-clean of this
+round, `sorted(qid)`): **227/500** top-1, **249/500** recall@3. Cut list:
+`headline500_expand200_qids.json`. Integers:
+`HEADLINE_n500_2026-09-20.md`. Night-pool transcript:
+`NIGHT_POOL_2026-09-20.md`.
 
 This branch is an independent pre-registered expansion, not a silent
 replacement of n=194 or n=300. Pooling via `scripts/score_pooled.py --expand
@@ -48,11 +52,12 @@ was solved.
 Flagged qids (still **must be solved**; excluded only from a later headline
 pool): **R26, R31, R102, R105, R107, R138**. Snapshot: `clean_qids.json`.
 
-Clean strata: 110 simple / 114 complex. Pool *n* options after this night's
-score (see NIGHT_POOL): **300** (paper headline = 194+106), **524**
-(194+106+224), **519** (194+101+224 = what `score_pooled.py --expand
---expand-500` prints). 519 is a scored validate-clean pool, not a paper
-headline.
+Clean strata: 110 simple / 114 complex. Pool *n* options: **300** (locked
+paper n = 194+all 106), **500** (194+all 106+lex-first-200-of-clean;
+`HEADLINE_n500_2026-09-20.md`), **524** (194+106+224), **530**
+(194+106+230), **519** (194+101+224 = what `score_pooled.py --expand
+--expand-500` prints). 519 is a scored validate-clean pool, not the n=500
+cut.
 
 ## Collected
 
@@ -307,8 +312,11 @@ expansions only):
 
 All-deposited variants (same InChIKey-14 rule; not what `score_pooled.py`
 prints): **n=300** 118/300 (39.3%) top-1, 133/300 (44.3%) recall;
-**n=524** 245/524 (46.8%) / 268/524 (51.1%); n=530 247/530 / 271/530.
-Full transcript: `NIGHT_POOL_2026-09-20.md`.
+**n=500** = 194 + all-106 + lex-first-200-of-clean **227/500** (45.4%) /
+**249/500** (49.8%); **n=524** 245/524 (46.8%) / 268/524 (51.1%); n=530
+247/530 / 271/530. Headline 200 alone: **109/200** / **116/200**. Full
+integers: `HEADLINE_n500_2026-09-20.md`. Night transcript:
+`NIGHT_POOL_2026-09-20.md`.
 
 | item | status |
 |---|---|
@@ -317,7 +325,7 @@ Full transcript: `NIGHT_POOL_2026-09-20.md`.
 | `predictions2.jsonl` | **written** — 230 lines, 690 candidates |
 | `score2` / top-1 / recall | **run 2026-09-20** — table above; key re-withheld |
 | `scripts/score_main.py` n=194 | **untouched** |
-| paper headline | **n=300** (194 + all +106). expand-500 is scored, not the paper n |
+| paper headline | locked **n=300** (194 + all +106) until manuscript edit. n=500 support: **227/500** / **249/500** in `HEADLINE_n500_2026-09-20.md` |
 | `scripts/score_pooled.py --expand-500` | **run** — n=519 validate-clean pool in NIGHT_POOL |
 | Fable | not part of this round |
 | fverify expand-500 | **41/41** batches, **681/681** SMILES |

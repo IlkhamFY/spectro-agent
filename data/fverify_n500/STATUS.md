@@ -21,14 +21,14 @@ Those are InChIKey-14 generation numbers, not the fverify wall.
 
 ## In flight (2026-09-20)
 
-+106 f1–f5 deposited and verified 85/85 vs fbatches (carbon-count match).
-f6–f10 still in flight (85 SMILES). Not launched: f11–f18 (**131**
-SMILES). **216** unique SMILES still need a ¹³C list.
++106 f1–f10 deposited and verified 170/170 vs fbatches (carbon-count
+match). Next waves: f11–f15 and f16–f18. **131** unique SMILES still
+need a ¹³C list.
 
 ## Blocker
 
 `scripts/inventory_fverify_expand.py`: **301** unique +106 SMILES,
-**85** already have a ¹³C list, **216** still need one.
+**170** already have a ¹³C list, **131** still need one.
 
 ## Do not
 

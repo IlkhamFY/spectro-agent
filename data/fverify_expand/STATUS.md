@@ -21,14 +21,14 @@ Counts below are from `scripts/inventory_fverify_expand.py`
 | already have ¹³C under any `fverify*` / any `fverify_expand*` | **0** / **0** |
 | **still need blind ¹³C** | **301** |
 | `raw/f*.json` in this directory | **0** |
-| fbatch files | **0** |
+| fbatch files | **18** |
 | qids with every candidate covered | **0** / 106 |
 
 ## What is not done
 
 | item | status |
 |---|---|
-| keyless prep (`anon_map` + `fbatch_*.txt`) | not yet |
+| keyless prep (`anon_map` + `fbatch_*.txt`) | present |
 | Opus ¹³C deposits | **0/301** |
 | official chamfer score (`is_true` from /tmp key only) | not run |
 | `data/fverify_n500/WALL_n500.md` | absent — paper must not cite n=500 fverify wall |

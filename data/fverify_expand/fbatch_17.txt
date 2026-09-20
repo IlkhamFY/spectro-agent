@@ -1,0 +1,16 @@
+Q269  C=C(C)C(O[Si](C)(C)C(C)(C)C)C(C)C(=O)N(C)OC
+Q270  Nn1c(=O)cc(-c2ccc(F)cc2)n(CCBr)c1=[Se]
+Q271  CC(C)OC(OC(C)C)C(=O)c1cccc([N+](=O)[O-])c1
+Q272  CC(C)(C)OC(=O)CC(O)c1ccc([N+](=O)[O-])cc1
+Q273  COc1ccc(Cc2cnc(C(C)=NNC(N)=S)cn2)cc1
+Q274  C=CCCOc1ccc(C=O)cc1OC
+Q275  COc1ccc2cc(O)c([Se]/C=C/c3ccc(Cl)cc3)cc2c1
+Q276  COc1cc(-c2ccc(Cl)cc2)ccc1OC(C)Cn1cc(-c2ccccc2)nn1
+Q277  COC(=O)C(=CC(C#CCCCO[Si](c1ccccc1)(c1ccccc1)C(C)(C)C)OC(=O)OC(C)(C)C)c1ccccc1
+Q278  C#Cc1ccc2c(c1)C(C)(C)c1cc(C#C)ccc1N2c1ccc(C#N)o1
+Q279  C#CCN(C(C)=CC(=O)c1ccccc1)c1ccc(C)cc1
+Q280  CCOC(=O)c1cc(O)nn1-c1ccc([N+](=O)[O-])cc1
+Q281  N#Cc1ccc(O)c(C=O)c1
+Q282  CCCCC(CC)COC(=O)CC(C)=O
+Q283  N#Cc1ccc2ncnc(N3CCN(CC(=O)Nc4ccc(Br)cc4)CC3)c2c1
+Q284  C=C1CCC2(C)C(C)CC(=O)C3(C)CCC4(Cc5cocc5C(=O)OC)OC4C3C12

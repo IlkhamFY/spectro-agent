@@ -1,0 +1,17 @@
+Q187  CC(C)Oc1ccc(N2NC(c3ccc(C4NN(c5ccc(OC(C)C)cc5)C(=O)N(c5ccc(OC(C)C)cc5)N4)cc3)NN(c3ccc(OC(C)C)cc3)C2=O)cc1
+Q188  CCCCCCC(C)OC(=O)CC(C)=O
+Q189  N#Cc1nc2ccccc2nc1N1CCN(CC(=O)Nc2ccc(Br)cc2)CC1
+Q190  C=C1CC(C)C2CC(=O)C3(C)CCCC4(Cc5cocc5C(=O)OC)OC4C3(C)C12
+Q191  COc1ccccc1S(=O)N(C)I
+Q192  CCCC1(CCC)COC(C)(C)OC1
+Q193  N#Cc1c(NC(=S)NC2(c3cccs3)CCCCC2)ccc2sc3ccccc3c12
+Q194  C#CCCC(=O)N(C)OC
+Q195  O=C1Nc2cc(Cl)ccc2C1c1cccs1
+Q196  Oc1ccc(Nc2nc(Cc3nc4ccccc4s3)co2)cc1
+Q197  O=C(NN=Cc1ccc(OCc2cn(Cc3ccc(F)cc3)nn2)cc1)c1ccccc1
+Q198  O=C(c1cccc(Nc2ncnc3[nH]c(Cl)nc23)c1)C12CC3CC(CC(C3)C1)C2
+Q199  O=C(Cc1ccccc1)Nc1ccc2c(c1)Cc1cc(Cl)cc(Cl)c1-2
+Q200  C/C(=C/CCO)CCC(O)c1ccccc1
+Q201  COc1cc(OC)c(/C=C/c2ccc(C)cc2)c(OC)c1
+Q202  O=C(NCl)C(=O)Nc1ccccc1O
+Q203  Nc1ccc2c(c1)CCc1cc(N)ccc1N=N2

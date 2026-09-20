@@ -1,0 +1,17 @@
+Q068  C#CCOc1ccc2oc(=O)cc(C)c2c1
+Q069  CC(C)OC(OC(C)C)C(=O)c1ccc([N+](=O)[O-])cc1
+Q070  CC(C)(C)OC(=O)CC(O)c1cccc([N+](=O)[O-])c1
+Q071  COc1ccc(Cc2cncc(C(C)=NNC(N)=S)n2)cc1
+Q072  C=CCCOc1ccc(C=O)c(OC)c1
+Q073  COc1ccc2cc(/C=C/[Se]c3ccc(Cl)cc3)c(O)cc2c1
+Q074  COc1ccc(-c2ccc(Cl)cc2)cc1OC(C)Cn1cc(-c2ccccc2)nn1
+Q075  COC(=O)C(OC(=O)OC(C)(C)C)=C(CC#CCCCO[Si](c1ccccc1)(c1ccccc1)C(C)(C)C)c1ccccc1
+Q076  CC(Sc1nnnn1C)c1ccc(Cl)cc1
+Q077  C#Cc1ccc2c(c1)C(C)(C)c1cc(C#N)ccc1N2c1ccc(C#C)o1
+Q078  C#CCN(C)C(=CC(=O)c1ccc(C)cc1)c1ccccc1
+Q079  CCOC(=O)c1cc(O)n(-c2ccc([N+](=O)[O-])cc2)n1
+Q080  N#Cc1cc(C=O)ccc1O
+Q081  CC(C)Oc1ccc(N2NC(=O)NN(c3ccc(OC(C)C)cc3)C2c2ccc(C3N(c4ccc(OC(C)C)cc4)NC(=O)NN3c3ccc(OC(C)C)cc3)cc2)cc1
+Q082  CCCCCCCCOC(=O)CC(C)=O
+Q083  N#Cc1ccc2ncnc(N3CCN(CC(=O)Nc4cccc(Br)c4)CC3)c2c1
+Q084  C=C1CCC(C)C2CC(=O)C3(C)CCCC4(Cc5cocc5C(=O)OC)OC4C3C12

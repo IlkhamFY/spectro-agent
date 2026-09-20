@@ -1,0 +1,17 @@
+Q102  O=C(C(=O)c1c(-c2ccc(C(F)(F)F)cc2)nc2ccccn12)c1ccccc1
+Q103  O=C1C=C(Cl)c2ccccc2C1=O
+Q104  NCCCNc1n[n+]([O-])c2ccccc2[n+]1[O-]
+Q105  CCCC(Oc1ccc([N+](=O)[O-])cc1CNc1ccccc1)C(=O)OC
+Q106  NC(=O)c1nnn(C2CCCCC2)c1-c1ccccc1I
+Q107  C#CCCCSc1sccc1-c1ccc(SC)s1
+Q108  CC(=NNC(=O)c1ccncc1)c1cc(I)ccc1O
+Q109  CC(/C=C/c1ccccc1)Sc1nnn(C)n1
+Q110  CCOc1ccc(NC(=O)CSc2nnc(C3CCCN(S(=O)(=O)c4ccc(OC)cc4)C3)o2)cc1
+Q111  COc1ccc(-n2c3c(sc2=O)C(=O)CCC3(C)C)cc1
+Q112  C=CC(C)OC(=O)C(=C)C
+Q113  N#CNC(=O)c1ccc(I)cc1
+Q114  COc1cc(O)ccc1C(=O)CN1CCN(Cc2ccc([N+](=O)[O-])cc2)CC1
+Q115  CCCCCC(CC)Oc1ccc([N+](=O)[O-])cc1
+Q116  CSc1ccc(-c2ccc(SCCCN=[N+]=[N-])s2)s1
+Q117  CC/C=C\C(COCc1ccccc1)C(=O)N1CCCCC1
+Q118  CCC(CC)(CC(=O)N(C)c1ncco1)C(=O)N1CCN(Cc2ccc(-n3ccnc3CN3CC[N+](C)([O-])CC3)cc2[N+](=O)[O-])CC1

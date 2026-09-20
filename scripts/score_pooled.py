@@ -182,7 +182,7 @@ def main():
     a = ap.parse_args()
 
     print("score_pooled.py — does not rewrite score_main.py; does not read Fable arms.")
-    print("Paper headline stays n=295 until --expand-500 is legal (100% deposited).")
+    print("Paper headline stays n=300 (194 + all +106). expand-500 is not the paper n.")
 
     all_rows = load_main_194()
     report("locked n=194 (score_main cohort)", all_rows, with_ci=a.ci)

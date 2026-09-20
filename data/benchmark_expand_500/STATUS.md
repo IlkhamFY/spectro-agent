@@ -5,15 +5,16 @@ Pre-registration (frozen above the deviations line):
 
 **Opus deposits: 230/230 (100%).** Questions committed. Answer key withheld.
 `predictions2.jsonl` written: **yes**, 230 lines (690 candidates). Formula
-repair done (R74, R80–R84, R91–R102). **Do not write a top-1 / recall number
-for this round into the ICLR paper until it is scored.** Headline stays
-**n=295** until this round is scored. Scoring is still deferred pending
-fverify.
+repair done (R74, R80–R84, R91–R102). Generation `score2` ran 2026-09-20
+(key restored under `/tmp` only, then re-withheld). **Paper headline stays
+n=300** (locked 194 + all Opus +106). This expand-500 round is **not** the
+paper headline. Numbers: `data/benchmark_expand_500/NIGHT_POOL_2026-09-20.md`.
 
 This branch is an independent pre-registered expansion, not a silent
-replacement of n=194 or n=295. Pooling via `scripts/score_pooled.py --expand
---expand-500` is licensed by the pre-registration only after 230/230 Opus
-responses exist.
+replacement of n=194 or n=300. Pooling via `scripts/score_pooled.py --expand
+--expand-500` is licensed by the pre-registration (230/230 deposited).
+fverify coverage is **420/681** (25/41 batches); no verification-precision
+number exists.
 
 ## Draw (fixed before it ran)
 
@@ -47,9 +48,11 @@ was solved.
 Flagged qids (still **must be solved**; excluded only from a later headline
 pool): **R26, R31, R102, R105, R107, R138**. Snapshot: `clean_qids.json`.
 
-Clean strata: 110 simple / 114 complex. If 224/224 of those later have Opus
-responses, 295 + 224 = **519** (above 500). Do not treat 519 as a result; it
-is the arithmetic of the draw + this audit, not a score.
+Clean strata: 110 simple / 114 complex. Pool *n* options after this night's
+score (see NIGHT_POOL): **300** (paper headline = 194+106), **524**
+(194+106+224), **519** (194+101+224 = what `score_pooled.py --expand
+--expand-500` prints). 519 is a scored validate-clean pool, not a paper
+headline.
 
 ## Collected
 
@@ -171,8 +174,9 @@ Nothing left to launch: `outstanding_opus.txt` is empty and all 230 qids in
 `questions2.jsonl` have a file in `raw/`. Formula repair is done (R74,
 R80–R84, R91–R102). `collect_round.py` (no `--partial`; replies copied from
 `raw/`) wrote `predictions2.jsonl`: 230/230 compounds, 690 candidates. The
-collector reported no empty, unparseable, or off-formula candidates. No
-scores yet — scoring is still deferred pending fverify.
+collector reported no empty, unparseable, or off-formula candidates.
+Generation `score2` is in NIGHT_POOL. fverify still incomplete (25/41);
+no verification-precision number.
 
 R12 first launch ([Solve expand500 R12](bc-7d6926d3-93dd-503d-85c9-dac2ea9e1b5a))
 died with an empty reply. Not banked. First retry
@@ -270,19 +274,55 @@ and is now banked.
 
 No Fable (or any other) arm is registered on this draw.
 
-## Scoring (not done; do not invent)
+## Scoring (2026-09-20; copied from scripts, not invented)
+
+Key reconstructed by unique (formula, IR, ¹³C) match against
+`irexp_resolved.jsonl.gz` (230/230 unique; 0 prior-round InChIKey-14
+collisions), copied into the working tree only for the score, then deleted.
+The +106 reconstruction reproduced the committed 63/106 / 68/106 table.
+
+`python scripts/benchmark_v2.py score2 --outdir data/benchmark_expand_500`:
+
+```
+overall recovered (top-3): 138/230 (60%)   top-1 exact: 129/230 (56%)
+  simple  : recovered 87/115 (76%)  top1 82/115 (71%)  meanBestTani 0.863
+  complex : recovered 51/115 (44%)  top1 47/115 (41%)  meanBestTani 0.645
+```
+
+| set | n | top-1 | recall (top-3) |
+|---|---:|---|---|
+| all deposited Opus | 230 | **129/230 (56.1%)** | **138/230 (60.0%)** |
+| validate-clean subset | 224 | **127/224 (56.7%)** | **135/224 (60.3%)** |
+
+`python scripts/score_pooled.py --expand --expand-500` (validate-clean
+expansions only):
+
+| pool | n | top-1 | recall |
+|---|---:|---|---|
+| locked score_main | 194 | 55/194 (28.4%) | 65/194 (33.5%) |
+| +106 validate-clean | 101 | 61/101 (60.4%) | 65/101 (64.4%) |
+| 194 + 101 | 295 | 116/295 (39.3%) | 130/295 (44.1%) |
+| expand-500 validate-clean | 224 | 127/224 (56.7%) | 135/224 (60.3%) |
+| **194 + 101 + 224** | **519** | **243/519 (46.8%)** | **265/519 (51.1%)** |
+
+All-deposited variants (same InChIKey-14 rule; not what `score_pooled.py`
+prints): **n=300** 118/300 (39.3%) top-1, 133/300 (44.3%) recall;
+**n=524** 245/524 (46.8%) / 268/524 (51.1%); n=530 247/530 / 271/530.
+Full transcript: `NIGHT_POOL_2026-09-20.md`.
 
 | item | status |
 |---|---|
 | Opus deposits | **230/230 (100%)** |
 | formula repair | **done** (R74, R80–R84, R91–R102) |
 | `predictions2.jsonl` | **written** — 230 lines, 690 candidates |
-| `score2` / top-1 / recall | **not run** — deferred pending fverify |
+| `score2` / top-1 / recall | **run 2026-09-20** — table above; key re-withheld |
 | `scripts/score_main.py` n=194 | **untouched** |
-| paper headline | **n=295** until 100% deposited + scored |
-| `scripts/score_pooled.py --expand-500` | unblocked by the 230/230 count, still not run |
+| paper headline | **n=300** (194 + all +106). expand-500 is scored, not the paper n |
+| `scripts/score_pooled.py --expand-500` | **run** — n=519 validate-clean pool in NIGHT_POOL |
 | Fable | not part of this round |
-| `forward_verify_main.py` | not run; no verification-precision number exists |
+| fverify expand-500 | **25/41** batches, **420/681** SMILES; missing f16–f20, f31–f41 |
+| `forward_verify_main.py` score | not run; **no verification-precision number exists** |
+| CIs | **not computed**; do not invent |
 
 ## Key handling
 
@@ -315,7 +355,8 @@ python scripts/collect_round.py data/benchmark_expand_500 /tmp/blind/replies_500
 ```
 
 4. Append a provenance row. Commit `raw/` + STATUS + outstanding list. Do
-   **not** add `answers2.jsonl`. Do **not** run `score2` until 230/230.
+   **not** add `answers2.jsonl`. Do **not** overwrite existing
+   `raw/single_R*.json`. Generation `score2` already ran 2026-09-20.
 5. After each bank, rewrite `outstanding_opus.txt` as the qids in
    `questions2.jsonl` that are not yet in `raw/`.
 
@@ -334,7 +375,12 @@ It does not rewrite `score_main.py`. Re-withhold the key after the score.
 ## Overnight / follow-up handoff
 
 **Draw committed. Key withheld. 230/230 Opus deposited (100%). Formula repair
-done (R74, R80–R84, R91–R102). `predictions2.jsonl` written (230 lines, 690
-candidates). Scoring still deferred pending fverify. Zero in flight. Zero
-outstanding — `outstanding_opus.txt` is empty. Do not overwrite deposits. No
-scores. Do not merge. Paper stays n=295 until this round is scored.**
+done. `predictions2.jsonl` written (230 lines, 690 candidates). Generation
+`score2` run 2026-09-20 and re-withheld (129/230 top-1, 138/230 recall).
+Paper headline stays n=300. expand-500 is not the paper headline. fverify
+25/41 (420/681); missing f16–f20, f31–f41. No verification precision. No
+CIs. Do not overwrite `raw/single_R*.json`. Do not merge PR #18. Do not
+commit `answers2.jsonl`.**
+
+Night artifacts: `NIGHT_POOL_2026-09-20.md`,
+`data/fverify_expand_500/INVENTORY_2026-09-20.md`.

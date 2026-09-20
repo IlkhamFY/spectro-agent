@@ -1,0 +1,16 @@
+Q285  CN=S(=O)(I)c1ccccc1OC
+Q286  CCCCC1(CC)COC(C)(C)OC1
+Q287  N#Cc1cc2c(cc1NC(=S)NC1(c3cccs3)CCCCC1)sc1ccccc12
+Q288  O=C1Nc2ccccc2C1c1ccc(Cl)s1
+Q289  Oc1ccc(Nc2nnc(Cc3cc4ccccc4o3)s2)cc1
+Q290  O=C(NN=Cc1ccccc1)c1ccc(OCc2cn(Cc3ccc(F)cc3)nn2)cc1
+Q291  O=C(c1cccc(Nc2nc(Cl)nc3[nH]cnc23)c1)C12CC3CC(CC(C3)C1)C2
+Q292  O=C(NCc1ccccc1)c1cc(Cl)cc2c1-c1ccc(Cl)cc1C2
+Q293  C/C(=C\CCCO)CC(O)c1ccccc1
+Q294  COc1cc(OC)c(/C=C/c2ccccc2C)c(OC)c1
+Q295  O=C(CCl)Nc1ccccc1[N+](=O)[O-]
+Q296  Cc1ccc(-c2ccc(C(=O)O)o2)cc1C#N
+Q297  O=C(C=Cc1ccc(O)cc1)c1ccc(O)cc1
+Q298  C=CC(C/C=C\C(O)CCCC)O[Si](C)(C)C(C)(C)C
+Q299  O=C(C(=O)c1c(-c2ccccc2)nc2ccccn12)c1ccc(C(F)(F)F)cc1
+Q300  O=C1C(=O)c2ccccc2C=C1Cl

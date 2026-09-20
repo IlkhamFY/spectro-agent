@@ -18,29 +18,21 @@ Counts below are from `scripts/inventory_fverify_expand.py`
 | compounds | **106** |
 | unique SMILES (target) | **301** |
 | kept candidate rows | **301** |
-| already have ¹³C under any `fverify*` / any `fverify_expand*` | **0** / **0** |
-| **still need blind ¹³C** | **301** |
-| `raw/f*.json` in this directory | **0** |
+| already have ¹³C under any `fverify*` / any `fverify_expand*` | **85** / **85** |
+| **still need blind ¹³C** | **216** |
+| `raw/f*.json` in this directory | **5** |
 | fbatch files | **18** |
 | qids with every candidate covered | **0** / 106 |
 
-## In flight (2026-09-20)
-
-Two careful Opus waves (direct push to this branch, no extra PRs):
-
-| wave | batches | SMILES | agent |
-|---|---|---:|---|
-| 1 | f1–f5 | 85 | [bc-fe78d6bd](https://cursor.com/agents/bc-fe78d6bd-ce27-5a32-9817-9a3aa5687fef) |
-| 2 | f6–f10 | 85 | [bc-f8ee2653](https://cursor.com/agents/bc-f8ee2653-0b40-5c71-96af-c331a32159e4) |
-
-Not launched: f11–f18 (**131** SMILES). After these two waves deposit, **131** SMILES still need ¹³C. Until they land, **301** remain.
+Deposited `raw/fN.json`: f1, f2, f3, f4, f5.
+Missing: f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16, f17, f18.
 
 ## What is not done
 
 | item | status |
 |---|---|
 | keyless prep (`anon_map` + `fbatch_*.txt`) | present |
-| Opus ¹³C deposits | **0/301** |
+| Opus ¹³C deposits | **85/301** |
 | official chamfer score (`is_true` from /tmp key only) | not run |
 | `data/fverify_n500/WALL_n500.md` | absent — paper must not cite n=500 fverify wall |
 

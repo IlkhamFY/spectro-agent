@@ -172,8 +172,15 @@ def inventory():
     own_13c = (uniq & own_arm["predicted_smiles"]) if own_arm else set()
     own_raw = len(own_arm["raw_files"]) if own_arm else 0
     n_batches = 0
+    deposited_ns = []
+    missing_ns = []
     if os.path.isdir(OUT):
         n_batches = len(glob.glob(f"{OUT}/fbatch_*.txt"))
+        for i in range(1, n_batches + 1):
+            if os.path.exists(f"{OUT}/raw/f{i}.json"):
+                deposited_ns.append(i)
+            else:
+                missing_ns.append(i)
 
     hist = {k: sum(1 for q in src["qids"] if len(src["per_qid"][q]) == k)
             for k in range(4)}
@@ -206,6 +213,8 @@ def inventory():
         "own_raw_files": own_raw,
         "own_13c": len(own_13c),
         "n_batches": n_batches,
+        "deposited_ns": deposited_ns,
+        "missing_ns": missing_ns,
         "exists_fverify_expand": os.path.isdir(OUT),
         "exists_fverify_n500_wall": os.path.exists("data/fverify_n500/WALL_n500.md"),
     }
@@ -290,6 +299,8 @@ is written by a script from scored arms.
 def write_status(inv):
     os.makedirs(OUT, exist_ok=True)
     n_bat = inv["n_batches"]
+    dep = ", ".join(f"f{i}" for i in inv.get("deposited_ns", []))
+    miss = ", ".join(f"f{i}" for i in inv.get("missing_ns", []))
     body = f"""# fverify +106 — status
 
 Blind ¹³C forward-verification of the Opus +106 expansion
@@ -315,6 +326,9 @@ Counts below are from `scripts/inventory_fverify_expand.py`
 | `raw/f*.json` in this directory | **{inv['own_raw_files']}** |
 | fbatch files | **{n_bat}** |
 | qids with every candidate covered | **{inv['qids_full_any']}** / {inv['compounds']} |
+
+Deposited `raw/fN.json`: {dep or "none"}.
+Missing: {miss or "none"}.
 
 ## What is not done
 

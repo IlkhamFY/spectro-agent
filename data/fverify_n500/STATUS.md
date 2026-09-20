@@ -21,15 +21,14 @@ Those are InChIKey-14 generation numbers, not the fverify wall.
 
 ## In flight (2026-09-20)
 
-+106 waves f1–f5 and f6–f10 (85 SMILES each) launched as Opus cloud
-agents on `cursor/fverify-n500-unify-629c`. Remaining after those
-deposit: **131** SMILES (f11–f18). Until deposits land, **301** SMILES
-still need a ¹³C list.
++106 f1–f5 deposited and verified 85/85 vs fbatches (carbon-count match).
+f6–f10 still in flight (85 SMILES). Not launched: f11–f18 (**131**
+SMILES). **216** unique SMILES still need a ¹³C list.
 
 ## Blocker
 
-`scripts/inventory_fverify_expand.py` on 2026-09-20: **301** unique +106
-SMILES, **0** already have a ¹³C list under any `data/fverify*` path.
+`scripts/inventory_fverify_expand.py`: **301** unique +106 SMILES,
+**85** already have a ¹³C list, **216** still need one.
 
 ## Do not
 

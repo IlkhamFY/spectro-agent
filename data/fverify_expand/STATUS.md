@@ -24,6 +24,17 @@ Counts below are from `scripts/inventory_fverify_expand.py`
 | fbatch files | **18** |
 | qids with every candidate covered | **0** / 106 |
 
+## In flight (2026-09-20)
+
+Two careful Opus waves (direct push to this branch, no extra PRs):
+
+| wave | batches | SMILES | agent |
+|---|---|---:|---|
+| 1 | f1–f5 | 85 | [bc-fe78d6bd](https://cursor.com/agents/bc-fe78d6bd-ce27-5a32-9817-9a3aa5687fef) |
+| 2 | f6–f10 | 85 | [bc-f8ee2653](https://cursor.com/agents/bc-f8ee2653-0b40-5c71-96af-c331a32159e4) |
+
+Not launched: f11–f18 (**131** SMILES). After these two waves deposit, **131** SMILES still need ¹³C. Until they land, **301** remain.
+
 ## What is not done
 
 | item | status |

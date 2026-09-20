@@ -19,6 +19,13 @@ Addition check for generation (already committed, not fverify):
 55+63+109 = 227/500 top-1; 65+68+116 = 249/500 recall.
 Those are InChIKey-14 generation numbers, not the fverify wall.
 
+## In flight (2026-09-20)
+
++106 waves f1–f5 and f6–f10 (85 SMILES each) launched as Opus cloud
+agents on `cursor/fverify-n500-unify-629c`. Remaining after those
+deposit: **131** SMILES (f11–f18). Until deposits land, **301** SMILES
+still need a ¹³C list.
+
 ## Blocker
 
 `scripts/inventory_fverify_expand.py` on 2026-09-20: **301** unique +106

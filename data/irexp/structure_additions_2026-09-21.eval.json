@@ -1,0 +1,128 @@
+{
+ "papers": 2921,
+ "location_modes": {
+  "nmr": 10917,
+  "nmr+ir": 29766,
+  "ir:exact": 5970,
+  "unlocated": 1396,
+  "ir:fuzzy": 19
+ },
+ "per_pattern": {
+  "hdr": {
+   "eligible": 26810,
+   "eligible_ir_only": 297,
+   "chosen_nmr": 21379,
+   "agree_nmr": 20894,
+   "agree_frag_nmr": 20895,
+   "chosen_ir_only": 119,
+   "agree_ir_only": 103,
+   "agree_frag_ir_only": 103,
+   "precision_nmr": 0.9773,
+   "precision_frag_nmr": 0.9774,
+   "precision_ir_only": 0.8655,
+   "precision_frag_ir_only": 0.8655
+  },
+  "lbl": {
+   "eligible": 26810,
+   "eligible_ir_only": 297,
+   "chosen_nmr": 10,
+   "agree_nmr": 4,
+   "agree_frag_nmr": 4,
+   "chosen_ir_only": 2,
+   "agree_ir_only": 0,
+   "agree_frag_ir_only": 0,
+   "precision_nmr": 0.4,
+   "precision_frag_nmr": 0.4,
+   "precision_ir_only": 0.0,
+   "precision_frag_ir_only": 0.0
+  },
+  "sec": {
+   "eligible": 26810,
+   "eligible_ir_only": 297,
+   "chosen_nmr": 1100,
+   "agree_nmr": 1077,
+   "agree_frag_nmr": 1078,
+   "chosen_ir_only": 2,
+   "agree_ir_only": 2,
+   "agree_frag_ir_only": 2,
+   "precision_nmr": 0.9791,
+   "precision_frag_nmr": 0.98,
+   "precision_ir_only": 1.0,
+   "precision_frag_ir_only": 1.0
+  },
+  "was": {
+   "eligible": 26810,
+   "eligible_ir_only": 297,
+   "precision_nmr": null,
+   "precision_frag_nmr": null,
+   "precision_ir_only": null,
+   "precision_frag_ir_only": null
+  },
+  "chunk": {
+   "eligible": 26810,
+   "eligible_ir_only": 297,
+   "chosen_nmr": 5,
+   "agree_nmr": 0,
+   "agree_frag_nmr": 0,
+   "precision_nmr": 0.0,
+   "precision_frag_nmr": 0.0,
+   "precision_ir_only": null,
+   "precision_frag_ir_only": null
+  },
+  "ckh": {
+   "eligible": 26810,
+   "eligible_ir_only": 297,
+   "chosen_nmr": 19742,
+   "agree_nmr": 19530,
+   "agree_frag_nmr": 19530,
+   "precision_nmr": 0.9893,
+   "precision_frag_nmr": 0.9893,
+   "precision_ir_only": null,
+   "precision_frag_ir_only": null
+  },
+  "snap": {
+   "eligible": 26810,
+   "eligible_ir_only": 297,
+   "chosen_nmr": 14942,
+   "agree_nmr": 14902,
+   "agree_frag_nmr": 14902,
+   "precision_nmr": 0.9973,
+   "precision_frag_nmr": 0.9973,
+   "precision_ir_only": null,
+   "precision_frag_ir_only": null
+  },
+  "ALL": {
+   "eligible": 26810,
+   "eligible_ir_only": 297,
+   "chosen_nmr": 24745,
+   "agree_nmr": 24385,
+   "agree_frag_nmr": 24386,
+   "chosen_ir_only": 119,
+   "agree_ir_only": 101,
+   "agree_frag_ir_only": 101,
+   "precision_nmr": 0.9855,
+   "precision_frag_nmr": 0.9855,
+   "precision_ir_only": 0.8487,
+   "precision_frag_ir_only": 0.8487
+  },
+  "ALL-nochunk": {
+   "eligible": 26810,
+   "eligible_ir_only": 297,
+   "chosen_nmr": 24745,
+   "agree_nmr": 24385,
+   "agree_frag_nmr": 24386,
+   "chosen_ir_only": 119,
+   "agree_ir_only": 101,
+   "agree_frag_ir_only": 101,
+   "precision_nmr": 0.9855,
+   "precision_frag_nmr": 0.9855,
+   "precision_ir_only": 0.8487,
+   "precision_frag_ir_only": 0.8487
+  }
+ },
+ "opsin": {
+  "allow_acid": true,
+  "allow_bad_stereo": true
+ },
+ "note": "precision = chosen structure's InChIKey-14 equals the record's existing InChIKey-14 (records already resolved by the v1 header capture)"
+}

@@ -37,12 +37,14 @@ IRexp is an **openly redistributable** collection of **experimental infrared ban
 | Config / file | Records | Description |
 |---|---:|---|
 | `commercial` / `irexp_commercial.jsonl.gz` | **88,545** | **Dataset of record** — CC-BY + CC0; F1 bands; F2/F3 flags attached |
-| `resolved_commercial` / `irexp_resolved_commercial.jsonl.gz` | 28,899 | Structure-linked commercial subset |
-| `train_no_bench_commercial` / `train_no_bench_commercial.jsonl.gz` | 29,111 | Commercial `irexp_resolved` minus IRSpectra-Bench InChIKey-14 holdouts |
+| `resolved_commercial` / `irexp_resolved_commercial.jsonl.gz` | **40,117** | Structure-linked commercial subset (structure-resolution pass 2, 2026-09-21) |
+| `train_no_bench_commercial` / `train_no_bench_commercial.jsonl.gz` | **39,958** | `resolved_commercial` minus IRSpectra-Bench InChIKey-14 holdouts (subset invariant enforced) |
 
 **Not in this Hub primary upload:** non-commercial (CC-BY-NC*), empty/unknown, and multi-licence full dumps. Those remain on disk for research; they are intentionally omitted from `ilkhamfy/IRexp` this round.
 
 **Licence fields on every row:** `license`, `license_pool`, `license_raw`, `license_source` (plus `source_doi` / `pmcid` where available). Hub YAML license for the commercial DoR: **cc-by-4.0**.
+
+**Structure resolution pass 2 (2026-09-21):** 10,854 further commercial rows gained a SMILES/InChIKey/SELFIES by re-reading the PMC text with wider header conventions, OPSIN validation and structure-vs-NMR gates (see `docs/IREXP_STRUCTURE_RESOLUTION_V2_2026-09-21.md`; provenance per row in `data/irexp/structure_additions_2026-09-21.jsonl.gz`). Band lists, flags and licence fields are unchanged.
 
 **F1:** band lists re-parsed to fix thousands-separator / OCR digit artifacts (e.g. referee example PMC6268696). Pool size unchanged vs pre-F1 commercial stamp.
 

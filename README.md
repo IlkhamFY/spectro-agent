@@ -21,7 +21,9 @@ recall, not verification; a training-free generate-and-verify step lifts top-1 f
 - `docs/LEADERBOARD.md` - official benchmark leaderboard and submission instructions.
 - `docs/paper.pdf` (source `docs/PAPER.md`) - the manuscript.
 - `data/irexp/`, `data/irexp_resolved/` - IRexp: 121,233 experimental-IR records,
-  43,060 linked to a resolved structure, mined from open-access literature.
+  57,646 linked to a resolved structure (43,060 from the original header capture,
+  +14,586 from `scripts/extend_structure_resolution.py`, see
+  `docs/IREXP_STRUCTURE_RESOLUTION_V2_2026-09-21.md`), mined from open-access literature.
 - `data/irexp_release/` - training splits; **`train_no_bench.jsonl.gz`** (benchmark held out).
 - `data/benchmark_*/` - IRSpectra-Bench (194 compounds) and the battery-electrolyte
   subset: blind questions, answer keys, and model predictions.

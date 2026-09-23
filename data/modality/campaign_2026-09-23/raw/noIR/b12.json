@@ -1,0 +1,27 @@
+{
+  "M056": [
+    "CN1CCC(c2ccccc2[N+](=O)[O-])(C(=O)OC(C)(C)C)C1",
+    "CN1CCCC1(c1ccccc1[N+](=O)[O-])C(=O)OC(C)(C)C",
+    "CN1CC(C(=O)OC(C)(C)C)C(c2ccccc2[N+](=O)[O-])C1"
+  ],
+  "M057": [
+    "CC(=O)C(Cl)=NNc1ccc(C)cc1",
+    "CC(=O)NN=C(Cl)c1ccc(C)cc1",
+    "CC(=O)C(Cl)=NNc1cccc(C)c1"
+  ],
+  "M058": [
+    "Cc1ccc(S(=O)(=O)Nc2cc(Br)c(Br)cc2N)cc1",
+    "Cc1ccc(S(=O)(=O)Nc2cc(Br)cc(Br)c2N)cc1",
+    "Cc1ccc(S(=O)(=O)Nc2c(Br)cc(Br)cc2N)cc1"
+  ],
+  "M059": [
+    "CC(C)[C@@H](NC(=O)OC(C)(C)C)C(=O)NCc1ccccc1",
+    "CC(C)C(NC(=O)OC(C)(C)C)C(=O)NCc1ccccc1",
+    "CC(C)[C@H](NC(=O)OC(C)(C)C)C(=O)NCc1ccccc1"
+  ],
+  "M060": [
+    "O=C(OC/C=C/c1ccccc1)c1cnccn1",
+    "O=C(OC/C=C\\c1ccccc1)c1cnccn1",
+    "O=C(OC/C=C/c1ccccc1)c1ccncn1"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "M041": [
+    "COC(=O)C(=O)CCC#C[Si](C)(C)C",
+    "COC(=O)C(=O)CC/C=C/[Si](C)(C)C",
+    "COC(=O)C(=O)CC#CC[Si](C)(C)C"
+  ],
+  "M042": [
+    "Cc1ccc(cc1)S(=O)(=O)NC(CC(C)C)C(=O)O",
+    "Cc1ccc(cc1)S(=O)(=O)N[C@@H](CC(C)C)C(=O)O",
+    "Cc1cccc(c1)S(=O)(=O)NC(CC(C)C)C(=O)O"
+  ],
+  "M043": [
+    "COc1cccc(c1)C(=O)C1(C)CC1(Cl)Cl",
+    "COc1cccc(c1)C(=O)C1C(C)C1(Cl)Cl",
+    "COc1ccccc1C(=O)C1(C)CC1(Cl)Cl"
+  ],
+  "M044": [
+    "COCOc1cccc(C#CC)c1C=O",
+    "COCOc1ccc(C=O)c(C#CC)c1",
+    "COCOc1ccc(C#CC)c(C=O)c1"
+  ],
+  "M045": [
+    "COc1cc(CCC(=O)CCCCCCC)ccc1O",
+    "COc1ccc(CCC(=O)CCCCCCC)cc1O",
+    "COc1cc(CCCC(=O)CCCCCC)ccc1O"
+  ]
+}

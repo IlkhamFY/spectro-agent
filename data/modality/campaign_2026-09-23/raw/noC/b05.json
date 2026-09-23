@@ -1,0 +1,27 @@
+{
+  "M021": [
+    "O=C1NC(c2ccc(Cl)cc2)C=C(c2ccccc2)N1",
+    "O=C1NC(c2ccccc2)C=C(c2ccc(Cl)cc2)N1",
+    "O=C1NC(c2ccccc2Cl)C=C(c2ccccc2)N1"
+  ],
+  "M022": [
+    "O=C1NC(c2cccc([N+](=O)[O-])c2)Nc2ccccc21",
+    "O=C1NC(c2ccc([N+](=O)[O-])cc2)Nc2ccccc21",
+    "O=C1NC(c2ccccc2[N+](=O)[O-])Nc2ccccc21"
+  ],
+  "M023": [
+    "COC(=O)C(NC(=O)OCc1ccccc1)C(=O)c1cn(COCC[Si](C)(C)C)c2ccccc12",
+    "COC(=O)C(NC(=O)OCc1ccccc1)C(=O)c1cc2ccccc2n1COCC[Si](C)(C)C",
+    "O=C(OCc1ccccc1)C(NC(=O)OC)C(=O)c1cn(COCC[Si](C)(C)C)c2ccccc12"
+  ],
+  "M024": [
+    "COc1ccc(NC(=O)CSc2nnc(-c3ccc(Br)cc3)o2)cc1Cc1ccccc1",
+    "COc1ccc(Cc2ccccc2)c(NC(=O)CSc2nnc(-c3ccc(Br)cc3)o2)c1",
+    "COC(=O)c1ccc2sc(N(Cc3ccccc3)C(=O)NCc3ccc(Br)cc3)nc2c1"
+  ],
+  "M025": [
+    "COCn1c2ccccc2c2c1CN(C(=O)c1cc(OC)ccc1OCc1ccccc1)CC2",
+    "COCn1c2ccccc2c2c1CN(C(=O)c1ccc(OC)cc1OCc1ccccc1)CC2",
+    "COc1ccc2[nH]c3c(c2c1)CCN(C(=O)c1ccccc1-c1ccccc1)C3C(OC)OC"
+  ]
+}

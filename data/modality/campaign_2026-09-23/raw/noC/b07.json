@@ -1,0 +1,27 @@
+{
+  "M031": [
+    "COC(=O)n1c(=O)[nH]c2ccccc21",
+    "CON1C(=O)c2ccccc2NC1=O",
+    "CON1c2ccccc2C(=O)NC1=O"
+  ],
+  "M032": [
+    "C#CCOC(=O)N(C)S(=O)C(C)(C)C",
+    "C#CCOC(=O)N(C(C)(C)C)S(C)=O",
+    "C#CCN(C(=O)OC(C)(C)C)S(C)=O"
+  ],
+  "M033": [
+    "C=C1CCN(c2ccccn2)C1=O",
+    "C=C1CN(c2ccccn2)C(=O)C1",
+    "C=C1CCN(c2cccnc2)C1=O"
+  ],
+  "M034": [
+    "Cc1cc(SC#N)ccc1O",
+    "Cc1ccc(O)c(SC#N)c1",
+    "Cc1cc(N=C=S)ccc1O"
+  ],
+  "M035": [
+    "CC(C)NC(=NS(=O)(=O)c1ccc([N+](=O)[O-])cc1)NC(C)C",
+    "CC(C)N=C(NC(C)C)NS(=O)(=O)c1ccc([N+](=O)[O-])cc1",
+    "CC(C)N(C(C)C)C(N)=NS(=O)(=O)c1ccc([N+](=O)[O-])cc1"
+  ]
+}

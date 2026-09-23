@@ -1,0 +1,27 @@
+{
+  "M016": [
+    "CN1CCN(Cc2nc(-c3ccccn3)nn2CCCCCN2CCN(CCCCCn3cc(-c4ccccc4)nn3)CC2)CC1",
+    "c1ccc(-c2cn(CCCCN3CCN(CCCCN4CCN(CCCCn5cc(-c6ccccn6)nn5)CC4)CC3)nn2)cc1",
+    "CN1CCN(Cc2nc(-c3ccccc3)nn2CCCCCN2CCN(CCCCCn3cc(-c4ccccn4)nn3)CC2)CC1"
+  ],
+  "M017": [
+    "CCCn1c(-c2ccccc2)nc2ccccc21",
+    "CC(C)n1c(-c2ccccc2)nc2ccccc21",
+    "CCCn1nc(-c2ccccc2)c2ccccc21"
+  ],
+  "M018": [
+    "CCN(CC)C(=O)c1ccc2c3ccccc3ccc2c1-c1c(C)ccc2c3ccccc3ccc12",
+    "CCN(CC)C(=O)c1c(-c2c(C)c3ccccc3c3ccccc23)c2ccccc2c2ccccc12",
+    "CCN(CC)C(=O)c1c2ccccc2c(-c2c3ccccc3c(C)c3ccccc23)c2ccccc12"
+  ],
+  "M019": [
+    "CCCCCCCCCCCc1ccccc1S(=O)(=O)NC(=O)c1ccc(Cl)cc1",
+    "CCCCCCCCCCCc1ccccc1C(=O)NS(=O)(=O)c1ccc(Cl)cc1",
+    "CCCCCCCCCCCc1ccc(cc1)S(=O)(=O)NC(=O)c1ccccc1Cl"
+  ],
+  "M020": [
+    "C[Si](C)(C)c1cc(F)c(F)cc1OS(=O)(=O)c1ccc(Cl)cc1",
+    "C[Si](C)(C)c1ccc(F)c(F)c1OS(=O)(=O)c1ccc(Cl)cc1",
+    "C[Si](C)(C)c1cc(F)c(F)cc1OS(=O)(=O)c1ccccc1Cl"
+  ]
+}

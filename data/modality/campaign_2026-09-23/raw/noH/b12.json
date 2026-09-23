@@ -1,0 +1,27 @@
+{
+  "M056": [
+    "CCc1ccc(cc1)C(C[N+](=O)[O-])CC(=O)N1CCOCC1",
+    "CCCN1CCC(CC1)C(=O)OCc1ccc(cc1)[N+](=O)[O-]",
+    "CC(C)(C)OC(=O)N1CCC(CC1)c1cccc(c1)[N+](=O)[O-]"
+  ],
+  "M057": [
+    "O=C(Nc1ccc(Cl)cc1)NC1CC1",
+    "O=C1NCCCN1c1ccc(Cl)cc1",
+    "C=CCNC(=O)Nc1ccc(Cl)cc1"
+  ],
+  "M058": [
+    "Cc1ccc(cc1)S(=O)(=O)Nc1cc(Br)cc(Br)c1N",
+    "Cc1ccc(cc1)S(=O)(=O)Nc1cc(Br)c(Br)cc1N",
+    "Cc1ccc(cc1)S(=O)(=O)Nc1ccc(N)c(Br)c1Br"
+  ],
+  "M059": [
+    "CC(C)[C@@H](NC(=O)OC(C)(C)C)C(=O)NCc1ccccc1",
+    "CC(C)C(NC(=O)OC(C)(C)C)C(=O)NCc1ccccc1",
+    "CC(C)C[C@@H](NC(=O)OC(C)(C)C)C(=O)Nc1ccccc1"
+  ],
+  "M060": [
+    "O=C(OCc1ccccc1)/C=C/c1cnccn1",
+    "O=C(OCc1ccccc1)/C=C/c1ccncn1",
+    "O=C(OCc1ccccc1)/C=C/c1ccnnc1"
+  ]
+}

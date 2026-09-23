@@ -1,0 +1,27 @@
+{
+  "M051": [
+    "ClCC(=O)N/N=C/c1ccc(Br)cc1",
+    "BrCC(=O)N/N=C/c1ccc(Cl)cc1",
+    "O=C1NCCN1c1ccc(Br)c(Cl)c1"
+  ],
+  "M052": [
+    "COc1ccc(Oc2ccc(Br)cc2)cc1OC",
+    "COc1ccc(Oc2ccc(Br)c(OC)c2)cc1",
+    "COc1cc(OC)cc(Oc2ccc(Br)cc2)c1"
+  ],
+  "M053": [
+    "CC(C)(O)C#Cc1ccc(-c2ccc(F)cc2)cc1",
+    "C#CC(O)(c1ccc(F)cc1)c1ccc(CC)cc1",
+    "C#CC(O)(c1ccc(F)cc1)c1ccc(C)c(C)c1"
+  ],
+  "M054": [
+    "CCN(CC)C(=O)c1cccnc1",
+    "CCN(CC)C(=O)c1ccccn1",
+    "CN(C)C(=O)N(C)c1ccccc1"
+  ],
+  "M055": [
+    "FC(F)(F)c1cccc(CCCI)c1",
+    "FC(F)(F)c1ccc(CCCI)cc1",
+    "FC(F)(F)CCCc1ccc(I)cc1"
+  ]
+}

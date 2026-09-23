@@ -1,0 +1,27 @@
+{
+  "M056": [
+    "CN1CCC(c2ccccc2[N+](=O)[O-])(C(=O)OC(C)(C)C)C1",
+    "CN1CC(C(=O)OC(C)(C)C)C(c2ccccc2[N+](=O)[O-])C1",
+    "CC1CN(C(=O)OC(C)(C)C)CC1c1ccccc1[N+](=O)[O-]"
+  ],
+  "M057": [
+    "CC(=O)C(Cl)=NNc1ccc(C)cc1",
+    "CC(=O)NN=C(Cl)c1ccc(C)cc1",
+    "CC(Cl)=NNC(=O)c1ccc(C)cc1"
+  ],
+  "M058": [
+    "Cc1ccc(cc1)S(=O)(=O)Nc1cc(Br)c(Br)cc1N",
+    "Cc1ccc(cc1)S(=O)(=O)Nc1cc(Br)c(N)cc1Br",
+    "Cc1ccc(cc1)S(=O)(=O)Nc1cc(N)c(Br)cc1Br"
+  ],
+  "M059": [
+    "CC(C)[C@@H](NC(=O)OC(C)(C)C)C(=O)NCc1ccccc1",
+    "CC(C)C(NC(=O)OC(C)(C)C)C(=O)NCc1ccccc1",
+    "CC(C)NC(=O)[C@@H](Cc1ccccc1)NC(=O)OC(C)(C)C"
+  ],
+  "M060": [
+    "O=C1C=Cc2ccc(OC(=O)c3cnccn3)cc2O1",
+    "O=C1C=Cc2ccc(-n3nc(C)cc3C)cc2O1",
+    "O=C1C=Cc2cc(OC(=O)c3cnccn3)ccc2O1"
+  ]
+}

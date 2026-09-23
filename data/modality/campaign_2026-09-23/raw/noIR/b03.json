@@ -1,0 +1,27 @@
+{
+  "M011": [
+    "Cn1cc(C(=O)Nc2ccc([N+](=O)[O-])cc2)c(=O)c2cc(F)ccc21",
+    "Cn1c(=O)c(C(=O)Nc2ccc(F)cc2)cc2cc([N+](=O)[O-])ccc21",
+    "Cn1cc(C(=O)Nc2cccc([N+](=O)[O-])c2)c(=O)c2cc(F)ccc21"
+  ],
+  "M012": [
+    "Cc1ccc(C(=O)c2ccc(CC(=O)NN=Cc3ccccc3O)n2C)cc1",
+    "Cc1ccc(C(=O)c2ccc(CC(=O)N/N=C/c3ccccc3O)n2C)cc1",
+    "Cc1cccc(C(=O)c2ccc(CC(=O)NN=Cc3ccccc3O)n2C)c1"
+  ],
+  "M013": [
+    "CC(C)N1CC(=Cc2ccc(F)cc2)C(=O)C(=Cc2ccc(F)cc2)C1",
+    "CC(C)N1C/C(=C\\c2ccc(F)cc2)C(=O)/C(=C/c2ccc(F)cc2)C1",
+    "CC(C)N1CC(=Cc2ccccc2F)C(=O)C(=Cc2ccccc2F)C1"
+  ],
+  "M014": [
+    "O=C(Nc1nc2ccccc2s1)c1ccc(-c2ccc(C(F)(F)F)cc2)cc1",
+    "O=C(Nc1ccc(C(F)(F)F)s1)c1cc(-c2ccccc2)nc2ccccc12",
+    "O=C(Nc1ccc(C(F)(F)F)cc1)c1csc(-c2ccc3ccccc3c2)n1"
+  ],
+  "M015": [
+    "CCOc1ccc2ncc(cc2c1)C(O)(C(F)(F)F)Cc1cc2ccccc2oc1=O",
+    "CCOc1ccc2ncc(CC(O)(C(F)(F)F)c3cc4ccccc4oc3=O)cc2c1",
+    "CCOc1ccc2oc(=O)c(C(O)(C(F)(F)F)Cc3cnc4ccccc4c3)cc2c1"
+  ]
+}

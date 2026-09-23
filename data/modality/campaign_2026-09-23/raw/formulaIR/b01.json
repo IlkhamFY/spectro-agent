@@ -1,0 +1,27 @@
+{
+  "M001": [
+    "COC(=O)C1=C(Sc2ccc(OC)cc2)NC(N)=C(C#N)C1c1ccc(Cl)cc1",
+    "CCOC(=O)C1=C(Sc2cccc(C)n2)OC(N)=C(C#N)C1c1ccc(Cl)cc1",
+    "COC(=O)C1=C(Sc2ccccc2)NC(N)=C(C#N)C1c1ccc(Cl)c(OC)c1"
+  ],
+  "M002": [
+    "COc1ccc(cc1)-c1coc2cc(O)cc(O)c2c1=O",
+    "COc1ccc(cc1)-c1cc(=O)c2c(O)cc(O)cc2o1",
+    "Oc1ccc(cc1)-c1coc2cc(OC)cc(O)c2c1=O"
+  ],
+  "M003": [
+    "CCCCCCOC(=O)c1ccccc1C(=O)OCCCCCC",
+    "CC(=O)OC(C(C)(C)C)CCC(C)=CCC(=O)CCc1ccoc1",
+    "CCCCCCCCCOC(=O)CCC(=O)c1ccc(OC)cc1"
+  ],
+  "M004": [
+    "O=C(Cc1ccc(s1)-c1ccccc1)N1CCN(CC1)C(c1ccccc1)c1ccccc1",
+    "O=C(CSc1ccc2ccccc2c1)N1CCN(CC1)C(c1ccccc1)c1ccccc1",
+    "O=C(Cc1csc(n1)-c1ccccc1)N1CCC(CC1)C(c1ccccc1)c1ccccc1"
+  ],
+  "M005": [
+    "c1ccc(cc1)-c1ncc(o1)-c1ccccc1",
+    "c1ccc(cc1)-c1cc(on1)-c1ccccc1",
+    "O=Cc1c([nH]c2ccccc12)-c1ccccc1"
+  ]
+}

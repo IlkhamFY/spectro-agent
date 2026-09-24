@@ -1,0 +1,27 @@
+{
+  "M026": [
+    "O=C(c1ccccc1)C(N(Cc1ccccc1)Cc1ccccc1)C#Cc1ccccc1",
+    "O=C(c1ccccc1)C(Cc1ccccc1)N(Cc1ccccc1)C(=O)c1ccccc1",
+    "O=C(Cc1ccccc1)C(Cc1ccccc1)c1c[nH]c2ccccc12"
+  ],
+  "M027": [
+    "COc1ccc(NC(=O)c2ccc3ccccc3n2)cc1",
+    "Cc1nc2ccccc2cc1C(=O)Nc1ccc(OC)cc1",
+    "COc1ccc(NC(=O)c2ccc3ccccc3c2)cc1"
+  ],
+  "M028": [
+    "Cc1cc(C)c(OC(=O)c2cnc3ccccc3c2)c(C)c1",
+    "Cc1cc(C)c(OC(=O)c2ccc3[nH]c4ccccc4c3c2)c(C)c1",
+    "Cc1cc(C)c(OC(=O)c2ccc3ccccc3c2)c(C)c1"
+  ],
+  "M029": [
+    "CC(C)Cc1ccc(C(C)C(=O)Nc2ccc(Cl)c(Cl)c2)cc1",
+    "CC(C)Cc1ccc(C(C)C(=O)NNc2ccc(Cl)c(Cl)c2)cc1",
+    "CC(C)Cc1ccc(C(C)C(=O)Nc2ccc(Cl)cc2Cl)cc1"
+  ],
+  "M030": [
+    "O=C(c1ccccc1)C(=Cc1ccccc1)c1ccccc1",
+    "O=C1c2ccccc2C(=O)C(c2ccccc2)=C1c1ccccc1",
+    "c1ccc2cc3ccccc3c(C(=O)/C=C/c4ccccc4)c2c1"
+  ]
+}

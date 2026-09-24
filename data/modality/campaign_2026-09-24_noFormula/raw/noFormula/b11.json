@@ -1,0 +1,27 @@
+{
+  "M051": [
+    "CC(=S)Nc1ccc(F)cc1",
+    "CC(=O)c1ccc(-c2ccc(F)cc2)[nH]1",
+    "CC(=O)Nc1ccc(F)cc1"
+  ],
+  "M052": [
+    "COc1ccc(Oc2ccccc2Br)cc1OC",
+    "COc1ccc(OC)c(Oc2ccccc2Br)c1",
+    "COc1ccc(Oc2ccccc2Cl)cc1OC"
+  ],
+  "M053": [
+    "C#CC(C)c1ccc(-c2ccc(F)cc2)c(OC)c1",
+    "C#CC(C)c1cc(OC)ccc1-c1ccc(F)cc1",
+    "C#CC(C)c1ccc(F)cc1"
+  ],
+  "M054": [
+    "CC(C)(C)NC(=O)c1ccc2ccccc2c1",
+    "CC(C)(C)NC(=O)c1cccnc1",
+    "CC(C)(C)NC(=O)c1ccc2ccccc2n1"
+  ],
+  "M055": [
+    "ICCCc1cccc(C(F)(F)F)c1",
+    "BrCCCc1cccc(C(F)(F)F)c1",
+    "ICCCc1ccccc1C(F)(F)F"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "expand_sha": "48fcd30153df5e331fab43cfa514763db8ee3891",
+  "nmr_mismatch": 0,
+  "repeats": 0,
+  "modality_availability": {
+    "n": 500,
+    "missing_ir": 0,
+    "missing_h": 0,
+    "missing_c": 0
+  },
+  "near_miss": {
+    "n_miss": 273,
+    "n_tani": 271,
+    "median_tani": 0.3620689655172414,
+    "mean_tani": 0.388412212650959,
+    "tani_ge_0.7": 16,
+    "tani_ge_0.85": 4,
+    "n_mces": 264,
+    "median_mces_sim": 0.4791304347826087,
+    "median_mces_dist": 24.0,
+    "formula_ok_misses": 239,
+    "formula_ok_all": 466,
+    "right_structure_at_rank_2_or_3": 22
+  },
+  "wall_locked": {
+    "n": 500,
+    "verified": 204,
+    "misranked": 45,
+    "never_proposed": 251,
+    "recalled": 249,
+    "source": "data/fverify_n500/WALL_n500.md on cursor/fverify-n500-unify-629c"
+  },
+  "sensitivity": {
+    "n524": [
+      524,
+      245,
+      268
+    ],
+    "n530": [
+      530,
+      247,
+      271
+    ]
+  }
+}

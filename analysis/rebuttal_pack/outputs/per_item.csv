@@ -1,0 +1,501 @@
+uid,arm,difficulty,hac,hac_bin,ring,opus_top1,opus_rec,nmr_top1,nmr_rec,opus_formula_ok,tani
+locked-main:R01,locked194,complex,21,21-25,polycyclic aromatic,False,False,False,False,True,0.48148148148148145
+locked-main:R02,locked194,complex,20,16-20,polycyclic aromatic,False,False,True,True,True,0.20967741935483872
+locked-main:R04,locked194,simple,15,<=15,polycyclic aromatic,True,True,False,False,True,1.0
+locked-main:R05,locked194,complex,20,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+locked-main:R06,locked194,complex,33,>30,polycyclic aromatic,False,False,True,True,True,0.9047619047619048
+locked-main:R07,locked194,complex,22,21-25,polycyclic aromatic,False,False,False,False,True,0.48214285714285715
+locked-main:R08,locked194,complex,19,16-20,polycyclic aromatic,False,False,False,False,True,0.46808510638297873
+locked-main:R09,locked194,complex,22,21-25,polycyclic aromatic,False,False,False,False,False,0.3620689655172414
+locked-main:R10,locked194,simple,15,<=15,single aromatic ring,True,True,False,True,True,1.0
+locked-main:R11,locked194,simple,20,16-20,polycyclic aromatic,False,True,False,False,True,0.627906976744186
+locked-main:R12,locked194,simple,21,21-25,polycyclic aromatic,False,False,False,False,True,0.41379310344827586
+locked-main:R13,locked194,complex,25,21-25,polycyclic aromatic,False,False,True,True,True,0.5116279069767442
+locked-main:R15,locked194,complex,23,21-25,polycyclic aromatic,False,False,False,False,True,0.5
+locked-main:R16,locked194,complex,34,>30,polycyclic aromatic,False,False,False,False,True,0.2222222222222222
+locked-main:R17,locked194,complex,24,21-25,polycyclic aromatic,False,False,False,False,False,0.18666666666666668
+locked-main:R18,locked194,simple,17,16-20,polycyclic aromatic,False,False,False,False,True,0.45454545454545453
+locked-main:R19,locked194,simple,14,<=15,polycyclic aromatic,True,True,False,False,True,1.0
+locked-main:R20,locked194,complex,28,26-30,polycyclic aromatic,False,False,False,False,True,0.4166666666666667
+locked-main:R21,locked194,complex,18,16-20,polycyclic aromatic,False,False,False,False,True,0.288135593220339
+locked-main:R22,locked194,simple,19,16-20,polycyclic aromatic,False,False,False,False,True,0.3125
+locked-main:R23,locked194,simple,17,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+locked-main:R24,locked194,simple,16,16-20,single aromatic ring,True,True,True,True,True,1.0
+locked-main:R25,locked194,complex,24,21-25,polycyclic aromatic,False,False,False,False,False,0.13157894736842105
+locked-main:R26,locked194,simple,18,16-20,single aromatic ring,False,False,False,False,True,0.3148148148148148
+locked-main:R27,locked194,complex,30,26-30,polycyclic aromatic,False,False,False,False,False,0.4603174603174603
+locked-main:R28,locked194,complex,26,26-30,polycyclic aromatic,False,False,False,False,False,0.25
+locked-main:R29,locked194,simple,12,<=15,single aliphatic ring,False,False,False,False,False,0.35
+locked-main:R30,locked194,complex,29,26-30,polycyclic aromatic,False,False,False,False,False,
+locked-main:R31,locked194,complex,32,>30,polycyclic aromatic,False,False,False,False,False,0.2073170731707317
+locked-main:R32,locked194,simple,18,16-20,polycyclic aromatic,False,False,False,False,False,0.1694915254237288
+locked-main:R33,locked194,complex,32,>30,polycyclic aromatic,False,False,False,False,False,0.2894736842105263
+locked-main:R34,locked194,simple,18,16-20,polycyclic aromatic,False,False,False,False,True,0.875
+locked-main:R35,locked194,complex,27,26-30,polycyclic aromatic,False,False,False,False,False,0.21311475409836064
+locked-main:R36,locked194,simple,18,16-20,polycyclic aromatic,False,False,False,False,False,0.2777777777777778
+locked-main:R37,locked194,simple,20,16-20,polycyclic aromatic,False,False,False,False,False,0.34545454545454546
+locked-main:R38,locked194,simple,18,16-20,single aromatic ring,True,True,True,True,True,1.0
+locked-main:R39,locked194,complex,31,>30,polycyclic aromatic,False,False,False,False,True,0.3709677419354839
+locked-main:R40,locked194,simple,16,16-20,single aromatic ring,False,False,False,False,True,0.5142857142857142
+locked-main:R41,locked194,simple,9,<=15,single aliphatic ring,False,False,False,False,True,0.08108108108108109
+locked-main:R42,locked194,simple,18,16-20,polycyclic aromatic,False,False,False,False,True,0.125
+locked-main:R43,locked194,simple,22,21-25,polycyclic aromatic,False,False,False,False,True,0.21428571428571427
+locked-main:R44,locked194,simple,11,<=15,single aliphatic ring,False,False,False,False,True,0.28125
+locked-main:R45,locked194,complex,27,26-30,polycyclic aromatic,False,True,False,False,True,0.7457627118644068
+locked-main:R46,locked194,simple,22,21-25,polycyclic aromatic,False,False,False,False,True,0.21212121212121213
+locked-main:R47,locked194,complex,28,26-30,acyclic,False,False,False,False,True,0.8723404255319149
+locked-main:R48,locked194,complex,28,26-30,polycyclic aromatic,False,False,False,False,True,0.18840579710144928
+locked-main:R49,locked194,complex,24,21-25,polycyclic aromatic,False,False,False,False,True,0.36666666666666664
+locked-main:R50,locked194,simple,17,16-20,single aromatic ring,False,False,False,False,True,0.21818181818181817
+locked-main:R51,locked194,simple,14,<=15,single aromatic ring,True,True,True,True,True,1.0
+locked-main:R52,locked194,simple,11,<=15,acyclic,True,True,False,True,True,1.0
+locked-main:R53,locked194,complex,23,21-25,polycyclic aromatic,False,False,False,False,False,0.296875
+locked-main:R54,locked194,complex,20,16-20,polycyclic aromatic,False,False,False,False,True,0.28
+locked-main:R55,locked194,simple,15,<=15,single aromatic ring,True,True,True,True,True,1.0
+locked-main:R56,locked194,simple,8,<=15,acyclic,True,True,False,False,True,0.6111111111111112
+locked-main:R57,locked194,complex,25,21-25,polycyclic aromatic,False,False,False,False,True,0.38235294117647056
+locked-main:R58,locked194,simple,19,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+locked-main:R59,locked194,complex,28,26-30,polycyclic aromatic,False,False,False,False,True,0.31343283582089554
+locked-main:R60,locked194,simple,10,<=15,polycyclic aliphatic,True,True,False,False,True,1.0
+locked-main:R61,locked194,complex,43,>30,polycyclic aromatic,False,False,False,False,False,0.30303030303030304
+locked-main:R62,locked194,simple,20,16-20,polycyclic aromatic,False,False,False,False,True,0.3389830508474576
+locked-main:R63,locked194,simple,17,16-20,polycyclic aromatic,False,False,False,False,True,0.3333333333333333
+locked-main:R64,locked194,simple,14,<=15,single aliphatic ring,False,False,False,False,True,0.3469387755102041
+locked-main:R66,locked194,simple,19,16-20,acyclic,True,True,False,False,True,1.0
+locked-main:R68,locked194,complex,21,21-25,polycyclic aromatic,False,False,False,False,False,0.46
+locked-main:R69,locked194,simple,9,<=15,acyclic,True,True,False,False,True,1.0
+locked-main:R70,locked194,simple,13,<=15,single aromatic ring,True,True,False,True,True,1.0
+locked-main:R71,locked194,complex,43,>30,polycyclic aromatic,False,False,False,False,False,0.2222222222222222
+locked-main:R72,locked194,complex,34,>30,polycyclic aromatic,False,False,False,False,False,0.3382352941176471
+locked-main:R73,locked194,simple,14,<=15,polycyclic aromatic,False,False,False,False,False,
+locked-main:R74,locked194,complex,19,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+locked-main:R75,locked194,complex,27,26-30,polycyclic aromatic,False,False,False,False,False,0.2876712328767123
+locked-main:R76,locked194,simple,19,16-20,polycyclic aromatic,False,False,False,False,True,0.32558139534883723
+locked-main:R77,locked194,simple,10,<=15,acyclic,True,True,False,False,True,1.0
+locked-main:R78,locked194,simple,22,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+locked-main:R79,locked194,simple,17,16-20,polycyclic aromatic,False,False,False,False,True,0.42
+locked-main:R80,locked194,complex,24,21-25,polycyclic aromatic,False,False,False,False,False,0.41818181818181815
+locked-main:R81,locked194,complex,18,16-20,polycyclic aromatic,False,False,False,False,True,0.3125
+locked-main:R83,locked194,complex,33,>30,polycyclic aromatic,False,False,False,False,False,0.22972972972972974
+locked-main:R84,locked194,simple,17,16-20,single aromatic ring,True,True,True,True,True,1.0
+locked-main:R85,locked194,complex,24,21-25,polycyclic aromatic,False,False,False,False,True,0.4444444444444444
+locked-main:R86,locked194,complex,22,21-25,polycyclic aromatic,False,False,False,False,True,0.2978723404255319
+locked-main:R87,locked194,simple,15,<=15,polycyclic aromatic,True,True,False,False,True,1.0
+locked-main:R88,locked194,simple,19,16-20,polycyclic aromatic,False,False,False,False,True,0.4423076923076923
+locked-main:R89,locked194,complex,34,>30,polycyclic aromatic,False,False,False,False,True,0.27848101265822783
+locked-main:R90,locked194,complex,23,21-25,polycyclic aromatic,False,False,False,False,True,0.21621621621621623
+locked-main:R91,locked194,complex,32,>30,polycyclic aromatic,True,True,False,False,True,1.0
+locked-main:R92,locked194,simple,14,<=15,single aromatic ring,True,True,False,False,True,1.0
+locked-main:R93,locked194,simple,18,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+locked-main:R94,locked194,simple,12,<=15,polycyclic aromatic,True,True,True,True,True,1.0
+locked-main:R95,locked194,simple,16,16-20,polycyclic aromatic,False,False,False,False,True,0.5151515151515151
+locked-main:R96,locked194,complex,21,21-25,polycyclic aromatic,False,False,False,False,True,0.3389830508474576
+locked-main:R97,locked194,complex,30,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+locked-main:R98,locked194,simple,16,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+locked-main:R99,locked194,simple,21,21-25,single aromatic ring,False,True,False,False,True,0.46
+locked-main:R100,locked194,simple,15,<=15,polycyclic aromatic,True,True,True,True,True,1.0
+locked-main:R101,locked194,simple,21,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+locked-main:R102,locked194,simple,14,<=15,single aliphatic ring,True,True,False,False,True,1.0
+locked-main:R103,locked194,complex,23,21-25,single aromatic ring,False,False,False,False,True,0.47692307692307695
+locked-main:R104,locked194,complex,26,26-30,polycyclic aromatic,False,False,False,False,False,0.30985915492957744
+locked-main:R105,locked194,complex,30,26-30,polycyclic aromatic,False,False,False,False,True,0.3493975903614458
+locked-main:R106,locked194,simple,16,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+locked-main:R107,locked194,simple,15,<=15,single aliphatic ring,False,False,False,False,True,0.32
+locked-main:R108,locked194,simple,16,16-20,polycyclic aromatic,False,True,False,False,True,0.6060606060606061
+locked-main:R109,locked194,complex,25,21-25,polycyclic aromatic,False,False,False,False,True,0.6
+locked-main:R110,locked194,simple,15,<=15,single aromatic ring,True,True,True,True,True,1.0
+locked-main:R111,locked194,simple,20,16-20,polycyclic aromatic,False,False,False,False,True,0.47619047619047616
+locked-main:R112,locked194,complex,54,>30,polycyclic aromatic,False,False,False,False,False,0.3445378151260504
+locked-main:R113,locked194,simple,19,16-20,polycyclic aromatic,False,False,False,False,True,0.3137254901960784
+locked-main:R114,locked194,complex,22,21-25,polycyclic aromatic,False,False,False,False,False,0.30158730158730157
+locked-main:R115,locked194,simple,18,16-20,polycyclic aromatic,False,False,False,False,True,0.2
+locked-main:R116,locked194,complex,42,>30,polycyclic aromatic,False,False,False,False,False,0.33783783783783783
+locked-main:R117,locked194,complex,18,16-20,polycyclic aromatic,False,False,False,False,True,0.3018867924528302
+locked-main:R118,locked194,simple,14,<=15,acyclic,True,True,False,False,True,1.0
+locked-main:R119,locked194,complex,25,21-25,polycyclic aromatic,False,False,False,False,True,0.2786885245901639
+locked-main:R120,locked194,complex,23,21-25,polycyclic aromatic,False,False,False,False,True,0.38181818181818183
+locked-main:R121,locked194,complex,39,>30,polycyclic aromatic,False,False,False,False,False,0.40963855421686746
+locked-main:R122,locked194,complex,30,26-30,polycyclic aromatic,False,False,False,False,False,0.17073170731707318
+locked-main:R123,locked194,complex,29,26-30,polycyclic aromatic,False,False,False,False,False,0.208955223880597
+locked-main:R124,locked194,complex,55,>30,polycyclic aromatic,False,False,False,False,False,0.12380952380952381
+locked-main:R125,locked194,simple,17,16-20,single aromatic ring,True,True,True,True,True,1.0
+locked-main:R126,locked194,complex,23,21-25,polycyclic aromatic,False,True,False,True,True,0.5102040816326531
+locked-main:R127,locked194,complex,28,26-30,polycyclic aromatic,False,False,False,False,True,0.16304347826086957
+locked-main:R128,locked194,simple,18,16-20,single aromatic ring,True,True,True,True,True,1.0
+locked-main:R129,locked194,simple,17,16-20,single aromatic ring,True,True,False,False,True,1.0
+locked-main:R130,locked194,complex,17,16-20,polycyclic aromatic,False,False,False,False,True,0.22413793103448276
+locked-main:R132,locked194,complex,32,>30,polycyclic aromatic,False,False,False,False,True,0.24
+locked-main:R133,locked194,complex,30,26-30,polycyclic aromatic,False,False,False,False,True,0.1951219512195122
+locked-main:R134,locked194,complex,28,26-30,polycyclic aromatic,False,False,False,False,True,0.5365853658536586
+locked-main:R135,locked194,complex,34,>30,polycyclic aromatic,False,False,False,False,True,0.5308641975308642
+locked-main:R136,locked194,simple,19,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+locked-main:R137,locked194,simple,22,21-25,single aromatic ring,True,True,False,False,True,1.0
+locked-main:R138,locked194,simple,14,<=15,single aromatic ring,True,True,False,True,True,1.0
+locked-main:R139,locked194,simple,16,16-20,single aliphatic ring,True,True,False,False,True,1.0
+locked-main:R140,locked194,simple,16,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+locked-v3:R01,locked194,simple,14,<=15,acyclic,False,False,False,False,False,0.275
+locked-v3:R02,locked194,complex,25,21-25,polycyclic aromatic,False,False,False,False,True,0.23076923076923078
+locked-v3:R03,locked194,complex,28,26-30,polycyclic aromatic,False,False,False,False,True,0.3698630136986301
+locked-v3:R04,locked194,simple,19,16-20,single aromatic ring,True,True,True,True,True,1.0
+locked-v3:R05,locked194,simple,16,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+locked-v3:R06,locked194,simple,15,<=15,single aromatic ring,True,True,False,False,True,1.0
+locked-v3:R07,locked194,simple,20,16-20,single aromatic ring,True,True,True,True,True,1.0
+locked-v3:R08,locked194,simple,20,16-20,polycyclic aromatic,False,False,False,False,True,0.41509433962264153
+locked-v3:R09,locked194,simple,20,16-20,polycyclic aromatic,False,False,True,True,True,0.7777777777777778
+locked-v3:R10,locked194,complex,26,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+locked-v3:R11,locked194,complex,28,26-30,polycyclic aromatic,False,False,False,False,True,0.43548387096774194
+locked-v3:R12,locked194,complex,31,>30,polycyclic aromatic,False,False,False,False,True,0.2441860465116279
+locked-v3:R13,locked194,complex,46,>30,polycyclic aromatic,False,False,False,False,True,0.3108108108108108
+locked-v3:R14,locked194,simple,20,16-20,polycyclic aromatic,False,False,False,False,True,0.3333333333333333
+locked-v3:R15,locked194,complex,18,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+locked-v3:R16,locked194,simple,11,<=15,polycyclic aromatic,True,True,True,True,True,1.0
+locked-v3:R17,locked194,complex,36,>30,polycyclic aromatic,False,False,False,False,True,0.41935483870967744
+locked-v3:R18,locked194,simple,15,<=15,polycyclic aromatic,False,False,False,False,True,0.5
+locked-v3:R19,locked194,complex,30,26-30,polycyclic aromatic,False,False,False,False,True,0.64
+locked-v3:R20,locked194,simple,14,<=15,single aromatic ring,False,True,False,False,True,0.5135135135135135
+locked-v3:R21,locked194,complex,23,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+locked-v3:R22,locked194,complex,20,16-20,polycyclic aromatic,False,True,False,False,True,0.8823529411764706
+locked-v3:R23,locked194,simple,18,16-20,polycyclic aromatic,False,False,True,True,True,0.6666666666666666
+locked-v3:R24,locked194,simple,19,16-20,polycyclic aromatic,False,False,True,True,True,0.6585365853658537
+locked-v3:R25,locked194,simple,13,<=15,single aromatic ring,False,True,True,True,True,0.4864864864864865
+locked-v3:R26,locked194,complex,20,16-20,polycyclic aromatic,False,True,True,True,True,0.5681818181818182
+locked-v3:R27,locked194,complex,35,>30,polycyclic aromatic,False,False,False,False,True,0.2727272727272727
+locked-v3:R28,locked194,simple,14,<=15,single aromatic ring,False,True,True,True,True,0.4444444444444444
+locked-v3:R29,locked194,simple,22,21-25,polycyclic aromatic,False,False,False,False,True,0.4745762711864407
+locked-v3:R30,locked194,complex,32,>30,polycyclic aromatic,False,False,False,False,True,0.2926829268292683
+locked-v3:R31,locked194,complex,34,>30,polycyclic aromatic,False,False,False,False,True,0.22988505747126436
+locked-v3:R32,locked194,simple,14,<=15,single aromatic ring,True,True,False,False,True,1.0
+locked-v3:R33,locked194,complex,55,>30,polycyclic aromatic,False,False,False,False,True,0.1744186046511628
+locked-v3:R34,locked194,simple,20,16-20,polycyclic aromatic,True,True,False,True,True,1.0
+locked-v3:R35,locked194,simple,22,21-25,single aromatic ring,True,True,True,True,True,1.0
+locked-v3:R36,locked194,complex,36,>30,polycyclic aromatic,False,False,False,False,False,0.4691358024691358
+locked-v3:R37,locked194,complex,29,26-30,polycyclic aromatic,False,False,False,False,True,0.2753623188405797
+locked-v3:R38,locked194,complex,27,26-30,polycyclic aromatic,False,False,False,False,True,0.48333333333333334
+locked-v3:R39,locked194,complex,36,>30,polycyclic aromatic,False,False,False,False,True,0.2909090909090909
+locked-v3:R40,locked194,simple,18,16-20,polycyclic aromatic,False,False,False,False,True,0.5652173913043478
+locked-v2ctrl:R01,locked194,complex,29,26-30,polycyclic aromatic,False,False,False,False,True,0.7428571428571429
+locked-v2ctrl:R02,locked194,simple,14,<=15,polycyclic aromatic,False,False,False,False,True,0.16326530612244897
+locked-v2ctrl:R03,locked194,simple,14,<=15,acyclic,False,False,False,False,True,0.3902439024390244
+locked-v2ctrl:R04,locked194,complex,21,21-25,polycyclic aromatic,False,False,False,False,True,0.5
+locked-v2ctrl:R05,locked194,complex,24,21-25,single aromatic ring,False,False,False,False,True,0.5178571428571429
+locked-v2ctrl:R06,locked194,complex,33,>30,polycyclic aromatic,False,False,False,False,False,0.21176470588235294
+locked-v2ctrl:R07,locked194,simple,13,<=15,polycyclic aromatic,False,False,False,False,True,0.5128205128205128
+locked-v2ctrl:R08,locked194,simple,11,<=15,single aromatic ring,True,True,False,False,True,1.0
+locked-v2ctrl:R09,locked194,complex,17,16-20,polycyclic aromatic,False,False,True,True,True,0.5135135135135135
+locked-v2ctrl:R10,locked194,complex,33,>30,polycyclic aromatic,False,False,False,False,False,0.15476190476190477
+locked-v2ctrl:R11,locked194,simple,22,21-25,single aromatic ring,False,False,False,False,True,0.45652173913043476
+locked-v2ctrl:R12,locked194,simple,16,16-20,single aromatic ring,False,False,False,False,True,0.7407407407407407
+locked-v2ctrl:R13,locked194,simple,18,16-20,single aliphatic ring,False,False,False,False,True,0.2608695652173913
+locked-v2ctrl:R14,locked194,complex,31,>30,polycyclic aromatic,True,True,False,False,True,1.0
+locked-v2ctrl:R15,locked194,simple,11,<=15,single aromatic ring,False,False,False,False,True,0.45454545454545453
+locked-v2ctrl:R16,locked194,simple,21,21-25,single aromatic ring,True,True,False,False,True,1.0
+locked-v2ctrl:R17,locked194,simple,20,16-20,polycyclic aromatic,False,False,True,True,True,0.6595744680851063
+locked-v2ctrl:R18,locked194,complex,37,>30,polycyclic aromatic,False,False,False,False,True,0.38461538461538464
+locked-v2ctrl:R19,locked194,complex,29,26-30,polycyclic aromatic,False,False,False,True,True,0.18181818181818182
+locked-v2ctrl:R20,locked194,complex,60,>30,polycyclic aromatic,False,False,False,False,True,0.5636363636363636
+expand:R01,plus106,simple,15,<=15,single aromatic ring,True,True,True,True,True,1.0
+expand:R02,plus106,simple,21,21-25,single aromatic ring,True,True,False,False,True,1.0
+expand:R03,plus106,complex,16,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R04,plus106,simple,14,<=15,polycyclic aromatic,True,True,True,True,True,1.0
+expand:R05,plus106,complex,30,26-30,polycyclic aromatic,False,False,False,False,True,0.23469387755102042
+expand:R06,plus106,complex,26,26-30,polycyclic aromatic,False,False,False,False,True,0.2647058823529412
+expand:R07,plus106,simple,11,<=15,single aromatic ring,True,True,False,True,True,1.0
+expand:R08,plus106,complex,32,>30,polycyclic aromatic,False,False,False,False,True,0.3333333333333333
+expand:R09,plus106,simple,18,16-20,single aromatic ring,True,True,True,True,True,1.0
+expand:R10,plus106,complex,13,<=15,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R11,plus106,complex,18,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R12,plus106,simple,22,21-25,polycyclic aromatic,False,False,False,False,True,0.42857142857142855
+expand:R13,plus106,complex,16,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+expand:R14,plus106,complex,23,21-25,polycyclic aromatic,False,True,False,False,True,0.6956521739130435
+expand:R15,plus106,simple,20,16-20,polycyclic aromatic,False,False,False,False,True,0.48333333333333334
+expand:R16,plus106,simple,21,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R17,plus106,simple,18,16-20,polycyclic aromatic,True,True,False,True,True,1.0
+expand:R18,plus106,complex,37,>30,polycyclic aromatic,False,False,False,False,True,0.3176470588235294
+expand:R19,plus106,simple,12,<=15,single aromatic ring,True,True,False,False,True,1.0
+expand:R20,plus106,simple,21,21-25,polycyclic aromatic,True,True,True,True,True,1.0
+expand:R21,plus106,complex,28,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R22,plus106,complex,25,21-25,single aliphatic ring,True,True,False,False,True,1.0
+expand:R23,plus106,complex,24,21-25,polycyclic aromatic,False,True,False,False,True,0.6981132075471698
+expand:R24,plus106,simple,21,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R25,plus106,simple,15,<=15,acyclic,True,True,False,False,True,1.0
+expand:R26,plus106,simple,20,16-20,single aromatic ring,True,True,False,False,True,1.0
+expand:R27,plus106,complex,30,26-30,polycyclic aromatic,False,False,False,False,True,0.13829787234042554
+expand:R28,plus106,simple,20,16-20,polycyclic aromatic,False,False,False,False,True,0.813953488372093
+expand:R29,plus106,simple,14,<=15,acyclic,True,True,True,True,True,1.0
+expand:R30,plus106,complex,44,>30,polycyclic aromatic,False,False,False,False,True,0.5789473684210527
+expand:R31,plus106,simple,20,16-20,acyclic,True,True,False,False,True,1.0
+expand:R32,plus106,complex,36,>30,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R33,plus106,complex,23,21-25,polycyclic aromatic,True,True,True,True,True,1.0
+expand:R34,plus106,complex,32,>30,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R35,plus106,complex,13,<=15,polycyclic aromatic,True,True,True,True,True,1.0
+expand:R36,plus106,simple,16,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R37,plus106,simple,16,16-20,single aromatic ring,True,True,False,False,True,1.0
+expand:R38,plus106,complex,30,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R39,plus106,complex,30,26-30,polycyclic aromatic,False,False,False,False,True,0.21348314606741572
+expand:R40,plus106,complex,27,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R41,plus106,complex,33,>30,polycyclic aromatic,False,False,False,False,True,0.5138888888888888
+expand:R42,plus106,simple,17,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R43,plus106,complex,60,>30,polycyclic aromatic,False,False,False,False,True,0.5952380952380952
+expand:R44,plus106,complex,31,>30,polycyclic aromatic,False,False,False,False,True,0.5223880597014925
+expand:R45,plus106,simple,19,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R46,plus106,complex,29,26-30,polycyclic aromatic,False,False,False,False,True,0.5652173913043478
+expand:R47,plus106,complex,23,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R48,plus106,complex,36,>30,polycyclic aromatic,False,False,False,False,True,0.5405405405405406
+expand:R49,plus106,complex,21,21-25,polycyclic aromatic,False,False,False,False,True,0.3793103448275862
+expand:R50,plus106,complex,27,26-30,polycyclic aromatic,False,False,False,False,True,0.2923076923076923
+expand:R51,plus106,simple,20,16-20,polycyclic aromatic,False,True,False,False,True,0.74
+expand:R52,plus106,complex,35,>30,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R53,plus106,simple,20,16-20,single aromatic ring,False,False,False,False,True,0.6956521739130435
+expand:R54,plus106,complex,27,26-30,polycyclic aromatic,False,False,False,False,True,0.31746031746031744
+expand:R55,plus106,simple,22,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R56,plus106,simple,19,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R57,plus106,complex,29,26-30,polycyclic aromatic,False,False,False,False,True,0.21686746987951808
+expand:R58,plus106,complex,21,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R59,plus106,simple,16,16-20,single aromatic ring,True,True,False,False,True,1.0
+expand:R60,plus106,simple,19,16-20,single aromatic ring,True,True,False,False,True,1.0
+expand:R61,plus106,complex,27,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R62,plus106,complex,25,21-25,polycyclic aromatic,False,False,False,False,True,0.6122448979591837
+expand:R63,plus106,complex,23,21-25,polycyclic aromatic,False,False,False,False,True,0.44642857142857145
+expand:R64,plus106,simple,10,<=15,acyclic,True,True,False,True,True,1.0
+expand:R65,plus106,complex,29,26-30,polycyclic aromatic,False,False,False,False,True,0.17142857142857143
+expand:R66,plus106,simple,20,16-20,acyclic,False,False,False,False,True,0.6923076923076923
+expand:R67,plus106,simple,22,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R68,plus106,complex,27,26-30,polycyclic aromatic,False,False,False,False,True,0.2857142857142857
+expand:R69,plus106,simple,14,<=15,single aromatic ring,False,False,False,False,True,0.17391304347826086
+expand:R70,plus106,simple,22,21-25,polycyclic aromatic,True,True,True,True,True,1.0
+expand:R71,plus106,complex,24,21-25,polycyclic aromatic,False,False,False,False,True,0.46551724137931033
+expand:R72,plus106,simple,20,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R73,plus106,complex,29,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R74,plus106,complex,24,21-25,polycyclic aromatic,True,True,False,True,True,1.0
+expand:R75,plus106,simple,14,<=15,single aliphatic ring,True,True,False,False,True,1.0
+expand:R76,plus106,complex,49,>30,polycyclic aromatic,False,False,False,False,True,0.21839080459770116
+expand:R77,plus106,complex,25,21-25,polycyclic aromatic,False,False,False,False,True,0.29850746268656714
+expand:R78,plus106,simple,21,21-25,acyclic,True,True,True,True,True,1.0
+expand:R79,plus106,complex,29,26-30,polycyclic aromatic,False,False,False,False,True,0.16455696202531644
+expand:R80,plus106,complex,27,26-30,polycyclic aromatic,False,False,False,False,True,0.16417910447761194
+expand:R81,plus106,simple,18,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R82,plus106,simple,18,16-20,polycyclic aromatic,False,True,False,False,True,0.7894736842105263
+expand:R83,plus106,simple,16,16-20,polycyclic aromatic,True,True,False,True,True,1.0
+expand:R84,plus106,simple,16,16-20,single aromatic ring,True,True,False,True,True,1.0
+expand:R85,plus106,simple,15,<=15,single aliphatic ring,True,True,False,True,True,1.0
+expand:R86,plus106,complex,16,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+expand:R87,plus106,complex,29,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R88,plus106,complex,26,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R89,plus106,simple,19,16-20,polycyclic aromatic,True,True,False,True,True,1.0
+expand:R90,plus106,simple,10,<=15,acyclic,True,True,True,True,True,1.0
+expand:R91,plus106,simple,19,16-20,polycyclic aromatic,False,False,False,False,True,0.19047619047619047
+expand:R92,plus106,complex,27,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R93,plus106,simple,19,16-20,polycyclic aromatic,False,False,False,False,True,0.2923076923076923
+expand:R94,plus106,complex,23,21-25,polycyclic aromatic,False,False,False,False,True,0.2463768115942029
+expand:R95,plus106,simple,14,<=15,single aromatic ring,True,True,False,False,True,1.0
+expand:R96,plus106,simple,19,16-20,polycyclic aromatic,False,False,False,False,True,0.4074074074074074
+expand:R97,plus106,complex,50,>30,polycyclic aromatic,False,False,False,False,True,0.4434782608695652
+expand:R98,plus106,simple,12,<=15,single aromatic ring,False,False,False,False,True,0.3157894736842105
+expand:R99,plus106,simple,22,21-25,acyclic,True,True,False,False,True,1.0
+expand:R100,plus106,simple,20,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R101,plus106,complex,23,21-25,polycyclic aromatic,False,True,False,False,True,0.6078431372549019
+expand:R102,plus106,complex,47,>30,polycyclic aromatic,False,False,False,False,True,0.11320754716981132
+expand:R103,plus106,simple,17,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R104,plus106,simple,18,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand:R105,plus106,simple,13,<=15,single aromatic ring,True,True,False,False,True,1.0
+expand:R106,plus106,simple,22,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R01,expand200,simple,19,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R02,expand200,simple,17,16-20,single aromatic ring,False,False,False,False,True,0.5641025641025641
+expand500:R03,expand200,complex,43,>30,polycyclic aromatic,False,False,False,False,True,0.5444444444444444
+expand500:R04,expand200,complex,19,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R05,expand200,simple,16,16-20,polycyclic aromatic,True,True,False,True,True,1.0
+expand500:R06,expand200,complex,31,>30,polycyclic aromatic,False,False,False,False,True,0.38372093023255816
+expand500:R07,expand200,complex,28,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R08,expand200,simple,17,16-20,single aromatic ring,True,True,False,False,True,1.0
+expand500:R09,expand200,complex,27,26-30,polycyclic aromatic,False,False,False,False,True,0.12280701754385964
+expand500:R10,expand200,complex,18,16-20,polycyclic aliphatic,True,True,False,False,True,1.0
+expand500:R11,expand200,simple,19,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+expand500:R12,expand200,simple,16,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R13,expand200,simple,17,16-20,single aromatic ring,True,True,False,False,True,1.0
+expand500:R14,expand200,simple,15,<=15,single aliphatic ring,False,False,False,False,True,0.07894736842105263
+expand500:R15,expand200,complex,35,>30,polycyclic aromatic,False,False,False,False,True,0.26373626373626374
+expand500:R16,expand200,complex,29,26-30,polycyclic aromatic,False,False,False,False,True,0.1794871794871795
+expand500:R17,expand200,complex,33,>30,polycyclic aromatic,False,False,False,False,True,0.27380952380952384
+expand500:R18,expand200,simple,22,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R19,expand200,simple,12,<=15,single aromatic ring,True,True,False,False,True,1.0
+expand500:R20,expand200,complex,28,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R21,expand200,simple,20,16-20,single aromatic ring,True,True,True,True,True,1.0
+expand500:R22,expand200,simple,16,16-20,single aromatic ring,True,True,True,True,True,1.0
+expand500:R23,expand200,simple,20,16-20,single aromatic ring,True,True,True,True,True,1.0
+expand500:R24,expand200,simple,14,<=15,polycyclic aromatic,False,False,False,False,True,0.4883720930232558
+expand500:R25,expand200,complex,46,>30,polycyclic aromatic,False,False,False,False,True,0.5
+expand500:R27,expand200,complex,28,26-30,polycyclic aromatic,False,False,False,False,True,0.18181818181818182
+expand500:R28,expand200,simple,12,<=15,single aromatic ring,True,True,True,True,True,1.0
+expand500:R29,expand200,simple,16,16-20,polycyclic aromatic,True,True,False,True,True,1.0
+expand500:R30,expand200,complex,26,26-30,polycyclic aromatic,False,False,False,False,True,0.23214285714285715
+expand500:R32,expand200,simple,19,16-20,single aromatic ring,True,True,False,False,True,1.0
+expand500:R33,expand200,simple,19,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R34,expand200,simple,22,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R35,expand200,simple,21,21-25,polycyclic aromatic,False,False,False,False,True,0.48148148148148145
+expand500:R36,expand200,simple,17,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R37,expand200,complex,28,26-30,polycyclic aromatic,False,True,False,False,True,0.6976744186046512
+expand500:R38,expand200,complex,19,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R39,expand200,complex,35,>30,polycyclic aromatic,False,False,False,False,True,0.796875
+expand500:R40,expand200,complex,30,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R41,expand200,simple,16,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R42,expand200,complex,26,26-30,polycyclic aromatic,True,True,False,True,True,1.0
+expand500:R43,expand200,complex,17,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R44,expand200,complex,37,>30,single aliphatic ring,False,False,False,False,True,0.19117647058823528
+expand500:R45,expand200,simple,14,<=15,single aromatic ring,True,True,False,False,True,1.0
+expand500:R46,expand200,complex,36,>30,polycyclic aromatic,False,False,False,False,True,0.2376237623762376
+expand500:R47,expand200,complex,10,<=15,polycyclic aliphatic,True,True,False,False,True,1.0
+expand500:R48,expand200,simple,15,<=15,single aliphatic ring,True,True,False,False,True,1.0
+expand500:R49,expand200,simple,13,<=15,acyclic,True,True,True,True,True,1.0
+expand500:R50,expand200,simple,14,<=15,polycyclic aromatic,True,True,False,True,True,1.0
+expand500:R51,expand200,complex,33,>30,polycyclic aromatic,False,False,False,False,True,0.4430379746835443
+expand500:R52,expand200,complex,33,>30,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R53,expand200,simple,20,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R54,expand200,simple,18,16-20,polycyclic aromatic,False,False,False,False,True,0.5952380952380952
+expand500:R55,expand200,complex,34,>30,polycyclic aromatic,False,False,False,False,True,0.25806451612903225
+expand500:R56,expand200,simple,22,21-25,single aromatic ring,True,True,False,False,True,1.0
+expand500:R57,expand200,complex,28,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R58,expand200,simple,11,<=15,acyclic,True,True,True,True,True,1.0
+expand500:R59,expand200,simple,15,<=15,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R60,expand200,complex,24,21-25,polycyclic aromatic,False,False,False,False,True,0.22388059701492538
+expand500:R61,expand200,simple,15,<=15,single aromatic ring,True,True,False,False,True,1.0
+expand500:R62,expand200,complex,23,21-25,polycyclic aromatic,False,False,False,False,True,0.6153846153846154
+expand500:R63,expand200,simple,20,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R64,expand200,complex,22,21-25,polycyclic aromatic,False,False,False,False,True,0.38333333333333336
+expand500:R65,expand200,complex,22,21-25,polycyclic aromatic,False,False,False,False,True,0.22727272727272727
+expand500:R66,expand200,complex,45,>30,polycyclic aromatic,False,False,False,False,True,0.5362318840579711
+expand500:R67,expand200,simple,18,16-20,single aromatic ring,True,True,False,False,True,1.0
+expand500:R68,expand200,complex,23,21-25,polycyclic aromatic,False,False,False,False,True,0.3472222222222222
+expand500:R69,expand200,complex,32,>30,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R70,expand200,simple,13,<=15,polycyclic aromatic,True,True,True,True,True,1.0
+expand500:R71,expand200,complex,18,16-20,polycyclic aromatic,False,False,False,False,True,0.26666666666666666
+expand500:R72,expand200,simple,17,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R73,expand200,complex,36,>30,polycyclic aromatic,False,False,False,False,True,0.3181818181818182
+expand500:R74,expand200,simple,21,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R75,expand200,complex,23,21-25,single aromatic ring,True,True,False,False,True,1.0
+expand500:R100,expand200,complex,28,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R101,expand200,simple,15,<=15,single aromatic ring,True,True,False,True,True,1.0
+expand500:R103,expand200,complex,32,>30,polycyclic aromatic,True,True,True,True,True,1.0
+expand500:R104,expand200,simple,21,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R106,expand200,complex,29,26-30,polycyclic aromatic,False,False,False,False,True,0.6
+expand500:R108,expand200,complex,24,21-25,polycyclic aromatic,False,False,False,False,True,0.1518987341772152
+expand500:R109,expand200,simple,10,<=15,single aromatic ring,False,True,False,False,True,0.3548387096774194
+expand500:R110,expand200,simple,8,<=15,single aliphatic ring,True,True,True,True,True,1.0
+expand500:R111,expand200,complex,35,>30,polycyclic aromatic,False,False,False,False,True,0.17582417582417584
+expand500:R112,expand200,complex,29,26-30,polycyclic aromatic,False,False,False,False,True,0.2916666666666667
+expand500:R113,expand200,simple,12,<=15,single aromatic ring,True,True,True,True,True,1.0
+expand500:R114,expand200,complex,30,26-30,polycyclic aromatic,False,False,False,False,True,0.41935483870967744
+expand500:R115,expand200,simple,22,21-25,single aromatic ring,False,False,False,False,True,0.6274509803921569
+expand500:R116,expand200,complex,37,>30,polycyclic aromatic,False,False,False,False,True,0.5074626865671642
+expand500:R117,expand200,complex,26,26-30,polycyclic aromatic,False,False,False,False,True,0.2807017543859649
+expand500:R118,expand200,simple,21,21-25,single aromatic ring,True,True,True,True,True,1.0
+expand500:R119,expand200,complex,26,26-30,polycyclic aromatic,False,True,False,False,True,0.7142857142857143
+expand500:R120,expand200,complex,15,<=15,polycyclic aromatic,True,True,False,True,True,1.0
+expand500:R121,expand200,complex,38,>30,polycyclic aromatic,False,False,False,False,True,0.15789473684210525
+expand500:R122,expand200,simple,22,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R123,expand200,complex,29,26-30,polycyclic aromatic,False,False,False,False,True,0.46774193548387094
+expand500:R124,expand200,complex,35,>30,polycyclic aromatic,False,False,False,False,True,0.28735632183908044
+expand500:R125,expand200,complex,32,>30,polycyclic aromatic,False,False,False,False,True,0.1797752808988764
+expand500:R126,expand200,simple,12,<=15,single aromatic ring,True,True,True,True,True,1.0
+expand500:R127,expand200,complex,15,<=15,polycyclic aromatic,True,True,True,True,True,1.0
+expand500:R128,expand200,complex,41,>30,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R129,expand200,complex,34,>30,polycyclic aromatic,False,False,False,False,True,0.25842696629213485
+expand500:R130,expand200,complex,20,16-20,polycyclic aromatic,False,False,False,False,True,0.35714285714285715
+expand500:R131,expand200,simple,18,16-20,acyclic,False,False,False,False,True,0.38461538461538464
+expand500:R132,expand200,simple,17,16-20,polycyclic aromatic,False,False,False,False,True,0.3793103448275862
+expand500:R133,expand200,complex,29,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R134,expand200,simple,15,<=15,single aliphatic ring,True,True,False,False,True,1.0
+expand500:R135,expand200,simple,19,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R136,expand200,complex,18,16-20,polycyclic aromatic,False,False,False,True,True,0.25
+expand500:R137,expand200,simple,12,<=15,single aromatic ring,True,True,True,True,True,1.0
+expand500:R139,expand200,complex,35,>30,polycyclic aromatic,False,False,False,False,True,0.7272727272727273
+expand500:R140,expand200,complex,37,>30,polycyclic aromatic,False,False,False,False,True,0.4
+expand500:R141,expand200,simple,22,21-25,polycyclic aromatic,False,False,False,False,True,0.5178571428571429
+expand500:R142,expand200,complex,26,26-30,polycyclic aromatic,False,False,False,False,True,0.42857142857142855
+expand500:R143,expand200,simple,10,<=15,single aromatic ring,True,True,True,True,True,1.0
+expand500:R144,expand200,simple,17,16-20,single aromatic ring,True,True,False,False,True,1.0
+expand500:R145,expand200,complex,21,21-25,polycyclic aromatic,False,False,False,False,True,0.22388059701492538
+expand500:R146,expand200,complex,34,>30,polycyclic aromatic,False,False,False,False,True,0.4567901234567901
+expand500:R147,expand200,complex,28,26-30,polycyclic aromatic,False,False,False,False,True,0.2235294117647059
+expand500:R148,expand200,complex,29,26-30,polycyclic aromatic,False,False,False,False,True,0.32
+expand500:R149,expand200,complex,30,26-30,polycyclic aromatic,False,False,False,False,True,0.3048780487804878
+expand500:R150,expand200,complex,24,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R151,expand200,simple,20,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R152,expand200,simple,16,16-20,single aromatic ring,True,True,False,False,True,1.0
+expand500:R153,expand200,simple,13,<=15,acyclic,True,True,False,True,True,1.0
+expand500:R154,expand200,simple,20,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R155,expand200,simple,18,16-20,single aromatic ring,True,True,False,False,True,1.0
+expand500:R156,expand200,simple,20,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+expand500:R157,expand200,simple,22,21-25,polycyclic aromatic,False,False,False,False,True,0.48333333333333334
+expand500:R158,expand200,complex,21,21-25,polycyclic aromatic,False,True,False,False,True,0.7441860465116279
+expand500:R159,expand200,simple,20,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R160,expand200,simple,19,16-20,acyclic,True,True,True,True,True,1.0
+expand500:R161,expand200,complex,35,>30,polycyclic aliphatic,True,True,False,False,True,1.0
+expand500:R162,expand200,simple,18,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R163,expand200,complex,23,21-25,polycyclic aromatic,True,True,False,False,True,0.8222222222222222
+expand500:R164,expand200,complex,50,>30,polycyclic aromatic,False,False,False,False,True,0.336
+expand500:R165,expand200,complex,26,26-30,polycyclic aromatic,True,True,True,True,True,1.0
+expand500:R166,expand200,simple,11,<=15,single aromatic ring,True,True,False,False,True,1.0
+expand500:R167,expand200,simple,14,<=15,single aromatic ring,True,True,True,True,True,1.0
+expand500:R168,expand200,simple,14,<=15,single aliphatic ring,False,True,False,False,True,0.631578947368421
+expand500:R169,expand200,simple,19,16-20,single aromatic ring,False,False,False,False,True,0.37037037037037035
+expand500:R170,expand200,simple,19,16-20,polycyclic aromatic,False,False,False,False,True,0.390625
+expand500:R171,expand200,complex,33,>30,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R172,expand200,complex,41,>30,polycyclic aromatic,False,False,False,False,True,0.5888888888888889
+expand500:R173,expand200,simple,20,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R174,expand200,simple,19,16-20,polycyclic aromatic,False,False,False,False,True,0.38
+expand500:R175,expand200,simple,14,<=15,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R176,expand200,complex,29,26-30,single aromatic ring,True,True,False,False,True,1.0
+expand500:R177,expand200,simple,20,16-20,single aromatic ring,True,True,True,True,True,1.0
+expand500:R178,expand200,complex,27,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R179,expand200,complex,32,>30,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R180,expand200,simple,20,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+expand500:R181,expand200,complex,30,26-30,polycyclic aromatic,False,False,False,False,True,0.3269230769230769
+expand500:R182,expand200,simple,14,<=15,polycyclic aromatic,False,False,False,False,True,0.37209302325581395
+expand500:R183,expand200,complex,29,26-30,polycyclic aromatic,False,False,False,False,True,0.3132530120481928
+expand500:R184,expand200,complex,28,26-30,polycyclic aromatic,False,False,False,False,True,0.3880597014925373
+expand500:R185,expand200,simple,13,<=15,acyclic,True,True,True,True,True,1.0
+expand500:R186,expand200,complex,32,>30,polycyclic aromatic,False,False,False,False,True,0.07547169811320754
+expand500:R187,expand200,simple,10,<=15,acyclic,True,True,True,True,True,1.0
+expand500:R188,expand200,complex,14,<=15,polycyclic aromatic,True,True,True,True,True,1.0
+expand500:R189,expand200,simple,19,16-20,single aliphatic ring,False,False,True,True,True,0.22950819672131148
+expand500:R190,expand200,simple,12,<=15,acyclic,True,True,True,True,True,1.0
+expand500:R191,expand200,simple,20,16-20,single aromatic ring,True,True,True,True,True,1.0
+expand500:R192,expand200,complex,21,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R193,expand200,complex,26,26-30,polycyclic aliphatic,False,False,False,False,True,0.21951219512195122
+expand500:R194,expand200,complex,20,16-20,polycyclic aromatic,False,False,False,False,True,0.36666666666666664
+expand500:R195,expand200,complex,25,21-25,polycyclic aromatic,False,False,False,False,True,0.17721518987341772
+expand500:R196,expand200,complex,25,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R197,expand200,simple,17,16-20,single aromatic ring,False,False,False,False,True,0.40476190476190477
+expand500:R198,expand200,simple,21,21-25,polycyclic aromatic,False,False,False,False,True,0.41379310344827586
+expand500:R199,expand200,complex,24,21-25,polycyclic aliphatic,False,False,False,False,True,0.36585365853658536
+expand500:R200,expand200,complex,23,21-25,polycyclic aromatic,False,False,False,False,True,0.4482758620689655
+expand500:R201,expand200,simple,15,<=15,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R202,expand200,simple,19,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R203,expand200,simple,22,21-25,acyclic,True,True,False,False,True,1.0
+expand500:R204,expand200,simple,18,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+expand500:R205,expand200,complex,20,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R206,expand200,simple,22,21-25,polycyclic aromatic,False,False,False,False,True,0.296875
+expand500:R207,expand200,simple,15,<=15,single aliphatic ring,False,False,False,False,True,0.34146341463414637
+expand500:R208,expand200,complex,20,16-20,polycyclic aromatic,False,True,True,True,True,0.4634146341463415
+expand500:R209,expand200,simple,18,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+expand500:R210,expand200,complex,14,<=15,polycyclic aromatic,True,True,True,True,True,1.0
+expand500:R211,expand200,simple,16,16-20,polycyclic aromatic,True,True,True,True,True,1.0
+expand500:R212,expand200,complex,39,>30,polycyclic aromatic,False,False,False,False,True,0.8082191780821918
+expand500:R213,expand200,complex,36,>30,polycyclic aromatic,False,False,False,False,True,0.43333333333333335
+expand500:R214,expand200,simple,17,16-20,acyclic,True,True,False,False,True,1.0
+expand500:R215,expand200,complex,16,16-20,polycyclic aromatic,False,False,False,False,True,0.22413793103448276
+expand500:R216,expand200,complex,19,16-20,polycyclic aliphatic,False,False,False,False,True,0.3
+expand500:R217,expand200,complex,30,26-30,polycyclic aromatic,False,False,False,False,True,0.5967741935483871
+expand500:R218,expand200,complex,24,21-25,polycyclic aromatic,False,False,False,False,True,0.12790697674418605
+expand500:R219,expand200,complex,28,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R220,expand200,simple,22,21-25,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R221,expand200,simple,19,16-20,single aromatic ring,False,False,False,False,True,0.37037037037037035
+expand500:R222,expand200,simple,13,<=15,polycyclic aromatic,True,True,True,True,True,1.0
+expand500:R223,expand200,complex,56,>30,polycyclic aromatic,True,True,False,False,True,0.6326530612244898
+expand500:R224,expand200,complex,30,26-30,polycyclic aromatic,False,False,False,False,True,0.44776119402985076
+expand500:R225,expand200,complex,35,>30,polycyclic aromatic,False,False,False,False,True,0.4819277108433735
+expand500:R226,expand200,simple,20,16-20,single aromatic ring,False,True,True,True,True,0.6875
+expand500:R227,expand200,simple,17,16-20,single aliphatic ring,False,False,False,False,True,0.5526315789473685
+expand500:R228,expand200,simple,16,16-20,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R229,expand200,complex,30,26-30,polycyclic aromatic,True,True,False,False,True,1.0
+expand500:R230,expand200,complex,12,<=15,polycyclic aromatic,True,True,False,False,True,1.0

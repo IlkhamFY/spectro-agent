@@ -1,0 +1,5 @@
+group,n,exact_<1000,exact_1000_9999,exact_10000_49999,exact_ge_50000,censored_ge_50000,unsupported_charge,unavailable
+all,500,1,2,2,25,123,3,344
+top1,227,1,2,2,15,93,1,113
+in_pool,22,0,0,0,2,5,0,15
+never,251,0,0,0,8,25,2,216

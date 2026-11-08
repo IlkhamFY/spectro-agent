@@ -1,0 +1,27 @@
+model,subset,n,max_stored_raw,max_stored_unique,top1,recall,precision_given_recall,order,path,note
+"Claude Opus 4.8 (pilot, one context)",n21,21,1,1,1/21,1/21,1/1,single SMILES,data/benchmark/predictions.jsonl,docs/MODELS.md pilot. k=1 only. Not part of 227/500.
+Claude Opus (one long context),n20-long-context,20,3,3,0/20,1/20,0/1,model rank,data/benchmark_v2/predictions2.jsonl,§4.3 arm (a). Not the controlled 20 and not inside 227/500.
+Claude Opus (original ≤3),n60,60,3,3,14/60,19/60,14/19,model rank,data/benchmark_v3/predictions2.jsonl + data/benchmark_v2_ctrl/predictions2.jsonl,Vendor-comparison denominator. Nested inside the locked 194.
+Claude Opus generate-wide,n60,60,6,6,13/60,24/60,13/24,file order (g1..g10); confidence order was not stored,data/gw/raw/g1.json–g10.json,Asked for up to 6. Missing wide list: V3-R27. Empty list stays in the denominator. Prefixes past 3 are stored.
+Claude Opus original then generate-wide,n60,60,9,9,14/60,25/60,14/25,"original model rank, then wide file order","data/benchmark_v3 + data/benchmark_v2_ctrl predictions, then data/gw/raw/g*.json",Longest stored LLM pool on this 60. Not an ask for 10.
+Claude Sonnet generate-wide,n12,12,5,5,2/12,4/12,2/4,file order,data/gw/raw/sonnet_b1.json + sonnet_b2.json,Covers 12 of the 60. No forward-verify map. Prefixes past 3 are stored.
+grok-4.6,n60,60,3,3,23/60,32/60,23/32,model rank (M001.. order of cross_vendor_sweep.load_rows),sweep_out/grok-4.6,Asked for 3. No list longer than 3.
+grok-4.6-clean,n60,60,3,3,19/60,28/60,19/28,model rank (M001.. order of cross_vendor_sweep.load_rows),sweep_out/grok-4.6-clean,Clone. No verify log. No list longer than 3.
+gemini-3.7-flash,n60,60,3,3,23/60,30/60,23/30,model rank (M001.. order of cross_vendor_sweep.load_rows),sweep_out/gemini-3.7-flash,Asked for 3. No list longer than 3.
+gpt-5.6-sol,n60,60,3,3,21/60,25/60,21/25,model rank (M001.. order of cross_vendor_sweep.load_rows),sweep_out/gpt-5.6-sol,Asked for 3. No list longer than 3.
+gpt-5.6-luna,n60,60,3,3,6/60,9/60,6/9,model rank (M001.. order of cross_vendor_sweep.load_rows),sweep_out/gpt-5.6-luna,Asked for 3. No list longer than 3.
+composer-2.5,n60,60,3,3,10/60,12/60,10/12,model rank (M001.. order of cross_vendor_sweep.load_rows),sweep_out/composer-2.5,Asked for 3. Some lists are empty. No list longer than 3.
+Claude Opus modality full,n60,60,3,3,14/60,19/60,14/19,model rank,data/modality/out_full.json,"Same 60, M-id order as the vendor sweep. No list longer than 3."
+Claude Opus formula-only,n60,60,3,3,3/60,3/60,3/3,model rank,data/modality/out_formulaonly.json,"Same 60, M-id order as the vendor sweep. No list longer than 3."
+Claude Opus,main-clean,134,3,3,41/134,46/134,41/46,model rank,data/benchmark_main/raw/*.json,"Spectrally validated main round. Keys M-<qid>. Sorted paths, later file wins."
+Claude Sonnet,main24,24,3,3,5/24,6/24,5/6,model rank,data/benchmark_main/sonnet/*.json,Fixed 24-compound ladder. No list longer than 3.
+Claude Haiku,main24,24,2,2,0/24,1/24,0/1,model rank,data/benchmark_main/haiku/*.json,Fixed 24-compound ladder. No list longer than 3.
+Claude Fable 5,main24,24,3,3,11/24,13/24,11/13,model rank,data/benchmark_main/fable/*.json,Fixed 24-compound ladder. No list longer than 3.
+Claude Opus (rescored main-round lists),main24,24,3,3,6/24,7/24,6/7,model rank,data/benchmark_main/raw/*.json,Not a fresh 24-compound run. The §4.4 Opus column re-reads these lists. No list longer than 3.
+Claude Opus,electrolyte,46,3,3,12/46,13/46,12/13,model rank,data/benchmark_electrolyte/raw/*.json,Held out of 227/500. 48 curated questions; scored rows are those with a deposit.
+Claude Opus (expand +106),n106,106,3,3,63/106,68/106,63/68,model rank,48fcd30153df5e331fab43cfa514763db8ee3891:data/benchmark_expand/predictions2.jsonl,"All 106 deposited, including five 13C-overread flags. Answer key withheld; unique (formula, IR, 13C) join."
+"Claude Opus 5 thinking-high (expand-500, 200-cut)",n200,200,3,3,109/200,116/200,109/116,model rank,48fcd30153df5e331fab43cfa514763db8ee3891:data/benchmark_expand_500/predictions2.jsonl,String-sorted clean-qid prefix of 200. Inside the locked 500. Not an ask for 10.
+"Claude Opus 5 thinking-high (expand-500, all 230)",n230,230,3,3,129/230,138/230,129/138,model rank,48fcd30153df5e331fab43cfa514763db8ee3891:data/benchmark_expand_500/predictions2.jsonl,"Full draw. The locked headline keeps 200 of these, not 230."
+"Claude Opus family (locked headline, self-rank)",n500,500,3,3,227/500,249/500,227/249,model rank,main raw + v3 + v2_ctrl + expand 106 + expand-500 200-cut,Must reproduce 227/500 top-1 and 249/500 recall. Not a new arm.
+Claude Fable (partial +106),n68,68,3,3,56/68,57/68,56/57,model rank,473030fb9d046548ff1ad06d04d20915fc2943d2:data/benchmark_expand/raw_fable/,Incomplete round. Not in the locked 500. Later sorted path overwrites a repeated qid.
+trained SELFIES generator (4-config ensemble),n248,248,40,40,,94/248,,sorted canonical SMILES (rank destroyed),contrib/generator_probe/artifacts/gen_candidates.jsonl,"File has 248 keys, 248 joined to an answer key. Recall is the unordered full pool, not formula-filtered and not the published 60-compound generator figure. No k-curve: a prefix of a sorted list is not a budget."

@@ -1,0 +1,43 @@
+{
+  "benchmark_expand:R43": [
+    "CC(C)Oc1ccc(NN=Cc2c(O)c(C=NNc3ccc(OC(C)C)cc3)c(C=NNc3ccc(OC(C)C)cc3)c(O)c2C=NNc2ccc(OC(C)C)cc2)cc1",
+    "CC(C)Oc1ccc(NN=Cc2c(O)c(C=NNc3ccc(OC(C)C)cc3)c(C=NNc3ccc(OC(C)C)cc3)c(C=NNc3ccc(OC(C)C)cc3)c2O)cc1",
+    "CC(C)Oc1ccc(NN=Cc2c(O)c(O)c(C=NNc3ccc(OC(C)C)cc3)c(C=NNc3ccc(OC(C)C)cc3)c2C=NNc2ccc(OC(C)C)cc2)cc1"
+  ],
+  "benchmark_expand:R44": [
+    "CC(=O)Nc1ccc(CSc2nc3ccccc3cc2-c2nc3ccccc3s2)cc1",
+    "CC(=O)Nc1ccc(CSc2cc3ccccc3nc2-c2nc3ccccc3s2)cc1",
+    "CC(=O)Nc1cccc(CSc2nc3ccccc3cc2-c2nc3ccccc3s2)c1",
+    "CC(=O)Nc1ccccc1CSc1nc2ccccc2cc1-c1nc2ccccc2s1",
+    "Cc1ccc(NC(=O)CSc2nc3ccccc3cc2-c2nc3ccccc3s2)cc1",
+    "Cc1ccc2nc(-c3cc4ccccc4nc3SCC(=O)Nc3ccccc3)sc2c1",
+    "CC(=O)Nc1ccc2nc(-c3cc4ccccc4nc3SCc3ccccc3)sc2c1"
+  ],
+  "benchmark_expand:R46": [
+    "N#Cc1nc(Nc2ccccc2)nc(Nc2ccc(Br)cc2)c1N1CCOCC1",
+    "N#Cc1nc(Nc2ccc(Br)cc2)nc(Nc2ccccc2)c1N1CCOCC1",
+    "N#Cc1c(Nc2ccccc2)nc(Nc2ccc(Br)cc2)nc1N1CCOCC1",
+    "N#Cc1nc(Nc2ccc(Br)cc2)c(Nc2ccccc2)c(N2CCOCC2)n1",
+    "N#Cc1nc(Nc2ccc(Br)cc2)nc(N2CCOCC2)c1Nc1ccccc1"
+  ],
+  "benchmark_expand:R47": [
+    "Cc1n[nH]c2c1C1(C(=O)Nc3ccc(Br)cc31)C(C#N)=C(N)O2",
+    "Cc1n[nH]c2c1C1(C(=O)Nc3cccc(Br)c31)C(C#N)=C(N)O2",
+    "Cc1[nH]nc2c1C1(C(=O)Nc3ccc(Br)cc31)C(C#N)=C(N)O2",
+    "Cc1[nH]nc2c1C1(C(=O)Nc3cccc(Br)c31)C(C#N)=C(N)O2",
+    "Cc1n[nH]c2c1C1(C(=O)Nc3cc(Br)ccc31)C(C#N)=C(N)O2"
+  ],
+  "benchmark_expand:R48": [
+    "COc1cc(C(=O)/C=C/O)cc(OC)c1OCC#COC/C=C/N(CCc1ccc(F)cc1)C(C)=O",
+    "COc1cc(C(=O)/C=C/O)cc(OC)c1OCCOC/C=C/N(CC#Cc1ccc(F)cc1)C(C)=O",
+    "COc1cc(C(=O)/C=C/O)cc(OC)c1OC/C=C/OCCN(CC#Cc1ccc(F)cc1)C(C)=O",
+    "CC#CC(=O)N(/C=C/c1ccc(F)cc1)CCOCCOc1c(OC)cc(C(=O)/C=C/O)cc1OC",
+    "C#CC(=O)N(CCO/C=C/COc1c(OC)cc(C(=O)/C=C/O)cc1OC)CCc1ccc(F)cc1",
+    "COc1cc(C(=O)/C=C(\\O)C(=O)N2CC=C(C)C(=O)CC2)cc(OC)c1OCCc1ccc(F)cc1"
+  ],
+  "benchmark_expand:R49": [
+    "COc1ccc(C(=O)C2CC(C(=O)C#N)SC2(C)C)cc1",
+    "COc1ccc(C(=O)C2CC(C(=O)C#N)C(C)(C)S2)cc1",
+    "COc1ccc(C(=O)C2SC(C)(C)CC2C(=O)C#N)cc1"
+  ]
+}

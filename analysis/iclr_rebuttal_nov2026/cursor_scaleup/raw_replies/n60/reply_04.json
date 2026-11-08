@@ -1,0 +1,58 @@
+{
+  "benchmark_v3:R19": [
+    "CCCCCCCCCCCc1ccccc1S(=O)(=O)NC(=O)c1ccc(Cl)cc1",
+    "CCCCCCCCCCCc1ccccc1C(=O)NS(=O)(=O)c1ccc(Cl)cc1",
+    "CCCCCCCCCCCc1ccccc1NC(=O)S(=O)(=O)c1ccc(Cl)cc1",
+    "CCCCCCCCCCCc1ccccc1S(=O)(=O)NC(=O)c1cccc(Cl)c1",
+    "CCCCCCCCCCCc1ccccc1C(=O)NS(=O)(=O)c1cccc(Cl)c1",
+    "CCCCCCCCCCCc1ccccc1NS(=O)(=O)C(=O)c1ccc(Cl)cc1",
+    "CCCCCCCCCCCc1ccccc1S(=O)(=O)NC(=O)c1ccccc1Cl",
+    "CCCCCCCCCCCc1ccc(NC(=O)S(=O)(=O)c2ccc(Cl)cc2)cc1"
+  ],
+  "benchmark_v3:R21": [
+    "C[Si](C)(C)c1cc(F)c(F)cc1OS(=O)(=O)c1ccc(Cl)cc1",
+    "C[Si](C)(C)c1c(OS(=O)(=O)c2ccc(Cl)cc2)ccc(F)c1F",
+    "C[Si](C)(C)c1c(F)cc(F)cc1OS(=O)(=O)c1ccc(Cl)cc1",
+    "C[Si](C)(C)c1cc(F)cc(F)c1OS(=O)(=O)c1ccc(Cl)cc1",
+    "C[Si](C)(C)c1c(F)ccc(F)c1OS(=O)(=O)c1ccc(Cl)cc1",
+    "C[Si](C)(C)c1cc(F)c(OS(=O)(=O)c2ccc(Cl)cc2)cc1F",
+    "C[Si](C)(C)Oc1cc(F)c(F)cc1S(=O)(=O)c1ccc(Cl)cc1",
+    "C[Si](C)(C)Oc1ccc(F)c(F)c1S(=O)(=O)c1ccc(Cl)cc1"
+  ],
+  "benchmark_v3:R22": [
+    "O=C1NC(c2ccc(Cl)cc2)=CC(c2ccccc2)N1",
+    "O=C1NC(c2ccccc2)=CC(c2ccc(Cl)cc2)N1",
+    "O=C1NC(c2cccc(Cl)c2)=CC(c2ccccc2)N1",
+    "O=C1NC(c2ccccc2)=CC(c2cccc(Cl)c2)N1",
+    "O=C1NC(c2ccccc2Cl)=CC(c2ccccc2)N1",
+    "O=C1NC(c2ccccc2)=CC(c2ccccc2Cl)N1"
+  ],
+  "benchmark_v3:R26": [
+    "O=C1NC(c2cccc([N+](=O)[O-])c2)Nc2ccccc21",
+    "O=C1NC(c2ccccc2[N+](=O)[O-])Nc2ccccc21",
+    "O=C1NC(c2ccccc2)Nc2ccc([N+](=O)[O-])cc21",
+    "O=C1NC(c2ccccc2)Nc2cc([N+](=O)[O-])ccc21",
+    "O=C1NC(c2ccccc2)Nc2cccc([N+](=O)[O-])c21",
+    "O=C1NC(c2ccccc2)Nc2c1cccc2[N+](=O)[O-]"
+  ],
+  "benchmark_v3:R27": [
+    "COc1cc2nc(CC3C(=O)CN(COCC[Si](C)(C)C)C3C(=O)O)oc2cc1-c1ccccc1",
+    "COc1cc2oc(CC3C(=O)CN(COCC[Si](C)(C)C)C3C(=O)O)nc2cc1-c1ccccc1",
+    "COc1c(-c2ccccc2)ccc2nc(CC3C(=O)CN(COCC[Si](C)(C)C)C3C(=O)O)oc12",
+    "COc1cc(-c2ccccc2)c2oc(CC3C(=O)CN(COCC[Si](C)(C)C)C3C(=O)O)nc2c1",
+    "COc1cc(-c2ccccc2)cc2oc(CC3C(=O)CN(COCC[Si](C)(C)C)C3C(=O)O)nc12",
+    "COc1ccc2nc(CC3C(=O)CN(COCC[Si](C)(C)C)C3C(=O)O)oc2c1-c1ccccc1",
+    "COc1cc2nc(CC3C(=O)CC(C(=O)O)N3COCC[Si](C)(C)C)oc2cc1-c1ccccc1"
+  ],
+  "benchmark_v3:R30": [
+    "Cn1cc(CC(=O)/C=C/c2ccc(NS(=O)(=O)c3ccc(Br)cc3)nc2)c2ccccc21",
+    "Cn1cc(CC(=O)/C=C/c2ccnc(NS(=O)(=O)c3ccc(Br)cc3)c2)c2ccccc21",
+    "Cn1cc(CC(=O)/C=C/c2ccc(NS(=O)(=O)c3ccc(Br)cn3)cc2)c2ccccc21",
+    "Cn1cc(CC(=O)/C=C/c2ccc(NS(=O)(=O)c3cccc(Br)c3)nc2)c2ccccc21",
+    "Cn1cc(/C=C/C(=O)Nc2ccc(NS(=O)(=O)c3ccc(Br)cc3)cc2)c2ccccc21",
+    "Cn1cc(/C=C/C(=O)Nc2cccc(NS(=O)(=O)c3ccc(Br)cc3)c2)c2ccccc21",
+    "Cn1cc(/C=C/C(=O)Nc2ccc(NS(=O)(=O)c3ccccc3)cc2)c2ccc(Br)cc21",
+    "Cn1cc(/C=C/c2ccc(NC(=O)NS(=O)(=O)c3ccc(Br)cc3)cc2)c2ccccc21",
+    "Cn1cc(CC(=O)N2Cc3ccc(S(=O)(=O)Nc4ccc(Br)cc4)cc32)c2ccccc21"
+  ]
+}

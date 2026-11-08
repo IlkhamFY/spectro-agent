@@ -1,0 +1,44 @@
+{
+  "benchmark_expand_500:R158": [
+    "CC1(C)CC(=O)C2=C(C1)NC(=O)NC2c1ccc(Cl)cc1"
+  ],
+  "benchmark_expand_500:R16": [
+    "O=C1CC(O)(C(F)(F)F)c2cc(F)ccc2N1C(=O)c1ccc2ccccc2c1",
+    "O=C1CC(O)(C(F)(F)F)c2ccc(F)cc2N1C(=O)c1ccc2ccccc2c1",
+    "O=C1CC(O)(C(F)(F)F)c2c(F)cccc2N1C(=O)c1ccc2ccccc2c1",
+    "O=C1CC(O)(C(F)(F)F)c2cccc(F)c2N1C(=O)c1ccc2ccccc2c1",
+    "O=C1CC(O)(C(F)(F)F)c2ccccc2N1C(=O)c1ccc2cc(F)ccc2c1",
+    "O=C1CC(O)(C(F)(F)F)c2ccccc2N1C(=O)c1ccc2ccc(F)cc2c1",
+    "O=C1CC(O)(C(F)(F)F)c2ccccc2N1C(=O)c1ccc2c(F)cccc2c1",
+    "O=C(c1ccc2ccccc2c1)N1CC(O)(C(F)(F)F)c2cc(F)ccc2C1=O",
+    "O=C1CC(O)(C(F)(F)F)c2ccccc2N1C(=O)c1cc(F)cc2ccccc12"
+  ],
+  "benchmark_expand_500:R161": [
+    "C=C(C)C1CCC2(COC(C)=O)CCC3(C)C(CCC4C5(C)CCC(O)C(C)(C)C5CCC43C)C12"
+  ],
+  "benchmark_expand_500:R163": [
+    "Cn1c(S)nnc1-c1ccc(-c2nc3cc(F)ccc3[nH]2)cc1",
+    "Cn1c(S)nnc1-c1ccc(-c2nc3c(F)cccc3[nH]2)cc1",
+    "Cn1nc(-c2ccc(-c3nc4cc(F)ccc4[nH]3)cc2)nc1S",
+    "Cn1nc(S)nc1-c1ccc(-c2nc3cc(F)ccc3[nH]2)cc1",
+    "Cn1nnc(S)c1-c1ccc(-c2nc3cc(F)ccc3[nH]2)cc1",
+    "Cn1nc(-c2ccc(-c3nc4c(F)cccc4[nH]3)cc2)nc1S"
+  ],
+  "benchmark_expand_500:R164": [
+    "COc1c(OCc2ccccc2)cc(CNC(=O)c2nnn(-c3ccc([N+](=O)[O-])cc3[N+](=O)[O-])n2)cc1OCc1ccc(-c2c[nH]cn2)cc1",
+    "COc1c(OCc2ccccc2)cc(CNC(=O)c2nnn(-c3cc([N+](=O)[O-])cc([N+](=O)[O-])c3-c3c[nH]cn3)n2)cc1OCc1ccccc1",
+    "COc1c(OCc2ccccc2)cc(CNC(=O)c2nnn(-c3ccc([N+](=O)[O-])c(-c4c[nH]cn4)c3[N+](=O)[O-])n2)cc1OCc1ccccc1",
+    "COc1c(OCc2ccccc2)cc(CNC(=O)c2nnn(-c3ccc([N+](=O)[O-])cc3[N+](=O)[O-])n2)cc1OCc1cccc(-c2c[nH]cn2)c1"
+  ],
+  "benchmark_expand_500:R165": [
+    "O=C(CC(c1ccc(Cl)cc1)c1c[nH]c2ccccc12)c1ccccc1",
+    "O=C(CC(c1cccc(Cl)c1)c1c[nH]c2ccccc12)c1ccccc1",
+    "O=C(CC(c1ccccc1Cl)c1c[nH]c2ccccc12)c1ccccc1",
+    "O=C(CC(c1ccccc1)c1c[nH]c2ccc(Cl)cc12)c1ccccc1",
+    "O=C(CC(c1ccccc1)c1c[nH]c2cc(Cl)ccc12)c1ccccc1",
+    "O=C(CC(c1ccccc1)c1c[nH]c2cccc(Cl)c12)c1ccccc1",
+    "O=C(CC(c1ccccc1)c1c[nH]c2c(Cl)cccc12)c1ccccc1",
+    "O=C(CC(c1ccccc1)c1c[nH]c2ccccc12)c1ccc(Cl)cc1",
+    "O=C(CC(c1ccccc1)c1c[nH]c2ccccc12)c1cccc(Cl)c1"
+  ]
+}

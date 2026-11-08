@@ -1,0 +1,19 @@
+{
+  "locked_top1": "227/500",
+  "locked_recall": "249/500",
+  "locked_precision_given_recall": "227/249",
+  "n60_original_top1": "14/60",
+  "n60_original_recall": "19/60",
+  "wide_union_recall": "25/60",
+  "n_deposits": 26,
+  "n_prefix_rows": 83,
+  "n_prefix_rows_k_ge_4": 11,
+  "max_k_scored": 9,
+  "generator_unordered_recall": "94/248",
+  "generator_file_keys": 248,
+  "generator_max_stored": 40,
+  "missing_wide_keys": [
+    "V3-R27"
+  ],
+  "expand_sha": "48fcd30153df5e331fab43cfa514763db8ee3891"
+}

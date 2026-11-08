@@ -1,0 +1,54 @@
+{
+  "benchmark_expand_500:R181": [
+    "COc1cc(Br)c(CC2(C)c3cc(OC)c(OC)cc3CCN2CCO)cc1OC",
+    "COc1cc2c(cc1OC)C(C)(Cc1cc(Br)c(OC)c(OC)c1)N(CCO)CC2",
+    "COc1cc(CC2(C)c3cc(OC)c(OC)cc3CCN2CCO)c(Br)c(OC)c1",
+    "COc1cc(Br)c(OC)c(CC2(C)c3cc(OC)c(OC)cc3CCN2CCO)c1",
+    "COc1cc(OC)c2c(c1)C(C)(Cc1cc(Br)c(OC)c(OC)c1)N(CCO)CC2",
+    "COc1cc(OC)c(CC2(C)c3cc(OC)c(OC)cc3CCN2CCO)cc1Br"
+  ],
+  "benchmark_expand_500:R183": [
+    "CCCCCOc1ccc(C=NN(C(C)=O)c2nnc(-c3ccccc3)s2)cc1",
+    "CCCCCOc1ccc(-c2nnc(N(N=Cc3ccccc3)C(C)=O)s2)cc1",
+    "CCCCCOc1ccc(C=Nn2c(-c3ccccc3)nn(C(C)=O)c2=S)cc1",
+    "CCCCCOc1ccc(-c2nn(C(C)=O)c(=S)n2N=Cc2ccccc2)cc1",
+    "CCCCCOc1ccc(C=NN(C(C)=O)c2nc(-c3ccccc3)ns2)cc1",
+    "CCCCCOc1ccc(-c2nc(N(N=Cc3ccccc3)C(C)=O)ns2)cc1",
+    "CCCCCOc1ccc(-c2nc(=S)n(C(C)=O)n2N=Cc2ccccc2)cc1",
+    "CCCCCOc1ccc(C=Nn2c(SC(C)=O)nnc2-c2ccccc2)cc1"
+  ],
+  "benchmark_expand_500:R184": [
+    "COc1cc(C(=O)c2oc3nc4ccccc4cc3c2C)cc(OC)c1OC",
+    "COc1cc(C(=O)c2c(C)oc3nc4ccccc4cc23)cc(OC)c1OC",
+    "COc1cc(C(=O)c2c3ccccc3nc3occ(C)c23)cc(OC)c1OC",
+    "COc1cc(C(=O)c2c3ccccc3nc3oc(C)cc23)cc(OC)c1OC",
+    "COc1cc(C(=O)c2oc3cnc4ccccc4c3c2C)cc(OC)c1OC",
+    "COc1cc(C(=O)c2c(C)oc3cnc4ccccc4c23)cc(OC)c1OC",
+    "COc1cc(C(=O)c2oc3cc4ccccc4nc3c2C)cc(OC)c1OC",
+    "COc1cc(C(=O)c2c(C)oc3cc4ccccc4nc23)cc(OC)c1OC"
+  ],
+  "benchmark_expand_500:R186": [
+    "CCCCC1CN(C)CCN1C(=O)c1ccc(C(=O)N2CCN(C)CC2CCCC)cc1",
+    "CCCCC1CN(C(=O)c2ccc(C(=O)N3CCN(C)C(CCCC)C3)cc2)CCN1C",
+    "CCCCC1CN(C(=O)c2ccc(C(=O)N3CCN(C)CC3CCCC)cc2)CCN1C"
+  ],
+  "benchmark_expand_500:R188": [
+    "O=[N+]([O-])/C=C/c1c[nH]c2ccccc12",
+    "O=[N+]([O-])/C=C/c1ccc2[nH]ccc2c1",
+    "O=[N+]([O-])/C=C/c1cc2ccccc2[nH]1",
+    "O=[N+]([O-])/C=C/c1ccc2cc[nH]c2c1",
+    "O=[N+]([O-])/C=C/c1cccc2[nH]ccc12",
+    "O=[N+]([O-])/C=C/c1cccc2cc[nH]c12"
+  ],
+  "benchmark_expand_500:R192": [
+    "Cc1cc(-c2ccc(N)cc2)nc(-c2ccccc2O)n1",
+    "Cc1cc(-c2ccccc2O)nc(-c2ccc(N)cc2)n1",
+    "Cc1ccc(-c2cc(-c3ccccc3O)nc(N)n2)cc1",
+    "Cc1ccc(-c2cc(-c3ccc(N)cc3)nc(O)n2)cc1",
+    "Cc1ccc(-c2cc(O)nc(-c3ccc(N)cc3)n2)cc1",
+    "Cc1cc(-c2cccc(N)c2)nc(-c2ccccc2O)n1",
+    "Cc1nc(-c2ccc(N)cc2)cc(-c2ccccc2O)n1",
+    "Cc1cnc(-c2ccccc2O)nc1-c1ccc(N)cc1",
+    "Cc1ccc(/C=C/c2nc(O)c3cc(N)ccc3n2)cc1"
+  ]
+}

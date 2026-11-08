@@ -1,0 +1,55 @@
+{
+  "benchmark_expand_500:R193": [
+    "CCOC(=O)/C=C\\c1c(NC#N)sc(NC(=O)OC(C)(C)C)c1OCC",
+    "CCOC(=O)/C=C\\c1sc(NC#N)c(OCC)c1NC(=O)OC(C)(C)C",
+    "CCOC(=O)/C=C\\c1sc(NC(=O)OC(C)(C)C)c(OCC)c1NC#N",
+    "CCOC(=O)/C=C\\c1sc(NC#N)c(NC(=O)OC(C)(C)C)c1OCC",
+    "CCOC(=O)/C=C\\c1c(NC(=O)OC(C)(C)C)sc(NC#N)c1OCC",
+    "CCOC(=O)/C=C\\c1c(NC#N)sc(OCC)c1NC(=O)OC(C)(C)C",
+    "CCOC(=O)/C=C\\c1c(NC(=O)OC(C)(C)C)sc(OCC)c1NC#N",
+    "CCOC(=O)c1cc(N)c2nc(NC(=O)OC(C)(C)C)sc2c1OCC",
+    "CCOC(=O)c1c(N)cc2nc(NC(=O)OC(C)(C)C)sc2c1OCC",
+    "CCOC(=O)c1cc(OCC)c(N)c2sc(NC(=O)OC(C)(C)C)nc12"
+  ],
+  "benchmark_expand_500:R194": [
+    "CCOC(=O)c1c(NS(=O)(=O)CC)[nH]c2ncccc12",
+    "CCOC(=O)c1c(NS(=O)(=O)CC)[nH]c2cccnc12",
+    "CCOC(=O)c1c(NS(=O)(=O)CC)[nH]c2cnccc12",
+    "CCOC(=O)c1cccc2[nH]c(NS(=O)(=O)CC)nc12",
+    "CCOC(=O)c1ccc2[nH]c(NS(=O)(=O)CC)nc2c1",
+    "CCOC(=O)c1ccc2nc(NS(=O)(=O)CC)[nH]c2c1",
+    "CCOC(=O)c1nc2cc(NS(=O)(=O)CC)ccc2[nH]1",
+    "CCOC(=O)c1n[nH]c2ccc(NS(=O)(=O)CC)cc12",
+    "CCOC(=O)c1[nH]nc2cc(NS(=O)(=O)CC)ccc12",
+    "CCOC(=O)c1c(NS(=O)(=O)CC)nc2ccccn12"
+  ],
+  "benchmark_expand_500:R195": [
+    "O=C(NC(CO)c1ccccc1)c1c(O)c(O)c(Br)c2ncccc12",
+    "O=C(NC(CO)c1ccccc1)c1c(Br)c(O)c(O)c2ncccc12",
+    "O=C(NC(CO)c1ccccc1)c1c(O)c(O)c2ncccc2c1Br",
+    "O=C(NC(CO)c1ccccc1)c1c(Br)c(O)c2ncccc2c1O",
+    "O=C(NC(CO)c1ccccc1)c1c(O)c(Br)c2ncccc2c1O",
+    "O=C(NC(CO)c1ccccc1)c1c(O)c(Br)c(O)c2ncccc12",
+    "O=C(NC(CO)c1ccccc1Br)c1cc(O)c(O)c2ncccc12",
+    "O=C(NC(CO)c1ccccc1Br)c1c(O)cc(O)c2ncccc12"
+  ],
+  "benchmark_expand_500:R196": [
+    "C(=C\\c1ccccc1)/C1=NN(c2ccccc2)C(c2ccccc2)C1",
+    "C(=C\\N1N=C(c2ccccc2)CC1c1ccccc1)/c1ccccc1",
+    "C(=C\\C1CC(c2ccccc2)=NN1c1ccccc1)/c1ccccc1"
+  ],
+  "benchmark_expand_500:R199": [
+    "C=C(C)C1(C)CCC(=O)C12COC1(CCC(=O)C1(C)C(=C)C)CO2",
+    "C=C(C)C1(C)C(=O)CCC12COC1(CCC(=O)C1(C)C(=C)C)CO2"
+  ],
+  "benchmark_expand_500:R20": [
+    "COc1cc(Cl)c2c(c1C)OC1(C=C2)CCCc2c(-c3ccccc3)nnn21",
+    "COc1cc(C)c2c(c1Cl)C=CC1(CCCc3c(-c4ccccc4)nnn31)O2",
+    "COc1cc(C)c(Cl)c2c1OC1(C=C2)CCCc2c(-c3ccccc3)nnn21",
+    "COc1c(C)cc2c(c1Cl)C=CC1(CCCc3c(-c4ccccc4)nnn31)O2",
+    "COc1cc(Cl)c2c(c1C)C=CC1(CCCc3nc(-c4ccccc4)nn31)O2",
+    "COc1cc(Cl)c2c(c1C)OC1(C=C2)CCc2c(nnn2-c2ccccc2)C1",
+    "COc1cc(Cl)c2c(c1C)OC1(C=C2)CCc2nnn(-c3ccccc3)c2C1",
+    "COc1cc2c(cc1C)C=CC1(CCCc3c(-c4ccc(Cl)cc4)nnn31)O2"
+  ]
+}

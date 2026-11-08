@@ -1,0 +1,53 @@
+{
+  "benchmark_main:R45": [
+    "CC(=O)Nc1ccc(SCc2nc3ccccc3c(=O)n2C(C)C)c(C)c1",
+    "CC(=O)Nc1ccc(SCc2nc3ccccc3c(=O)n2C(C)C)cc1C",
+    "CC(=O)Nc1cccc(C)c1SCc1nc2ccccc2c(=O)n1C(C)C",
+    "CC(=O)Nc1cc(C)cc(SCc2nc3ccccc3c(=O)n2C(C)C)c1",
+    "CC(=O)Nc1cccc(SCc2nc3ccccc3c(=O)n2C(C)C)c1C",
+    "CC(=O)Nc1ccc(CSc2nc3ccccc3c(=O)n2C(C)C)c(C)c1",
+    "CC(=O)Nc1ccc(CSc2nc3ccccc3c(=O)n2C(C)C)cc1C",
+    "CC(=O)Nc1cc(C)ccc1CSc1nc2ccccc2c(=O)n1C(C)C"
+  ],
+  "benchmark_main:R47": [
+    "C#CCON(C(=O)OC(C)(C)C)C(=O)C(CCS(C)=O)NC(=O)OC(C)(C)C",
+    "C#CCOC(=O)N(C)S(=O)CCC(NC(=O)OC(C)(C)C)C(=O)OC(C)(C)C",
+    "C#CCOC(=O)NC(CC(NC(=O)OC(C)(C)C)C(=O)OC(C)(C)C)S(C)=O",
+    "C#CCOC(=O)NCS(=O)CCC(NC(=O)OC(C)(C)C)C(=O)OC(C)(C)C",
+    "C#CCOC(=O)NCCS(=O)CC(NC(=O)OC(C)(C)C)C(=O)OC(C)(C)C",
+    "C#CCN(C(=O)OC(C)(C)C)C(=O)C(CCS(C)(=O)=O)NC(=O)OC(C)(C)C"
+  ],
+  "benchmark_main:R48": [
+    "NC1N=C(/C=C/c2ccc(Sc3ccc(Cl)cc3Cl)cc2)Nc2ccccc21",
+    "NC1N=C(/C=C/c2ccc(Cl)cc2Cl)Nc2ccc(Sc3ccccc3)cc21",
+    "NC1N=C(/C=C/c2ccc(Cl)c(Cl)c2)Nc2ccc(Sc3ccccc3)cc21",
+    "NC1N=C(/C=C/c2ccc(Cl)cc2)Nc2ccc(Sc3ccc(Cl)cc3)cc21",
+    "NC1N=C(/C=C/c2ccc(Sc3ccccc3Cl)cc2)Nc2ccc(Cl)cc21",
+    "NC1N=C(/C=C/c2ccc(Sc3cccc(Cl)c3)cc2)Nc2ccc(Cl)cc21"
+  ],
+  "benchmark_main:R49": [
+    "Cc1ccc(S(=O)(=O)N2CCC(Cl)=CC2c2ccc(F)cc2)cc1",
+    "Cc1ccc(S(=O)(=O)N2CC(Cl)=CCC2c2ccc(F)cc2)cc1",
+    "Cc1ccc(S(=O)(=O)N2CCC=C(Cl)C2c2ccc(F)cc2)cc1",
+    "Cc1ccc(S(=O)(=O)N2CC=C(Cl)CC2c2ccc(F)cc2)cc1"
+  ],
+  "benchmark_main:R53": [
+    "CCCN1C=NCC1C1C(=O)N(C)C(=O)N1Cc1ccccc1",
+    "CCCN1C=NC(C2C(=O)N(C)C(=O)N2Cc2ccccc2)C1",
+    "CCCN1CN=C(C2C(=O)N(C)C(=O)N2Cc2ccccc2)C1",
+    "CCCN1CCC(C2C(=O)N(C)C(=O)N2Cc2ccccc2)=N1",
+    "CCCN1CCC(C2C(=O)N(Cc3ccccc3)C(=O)N2C)=N1",
+    "CCCN1N=CCC1C1C(=O)N(C)C(=O)N1Cc1ccccc1",
+    "CCCN1C=CC(C2C(=O)N(C)C(=O)N2Cc2ccccc2)N1"
+  ],
+  "benchmark_main:R54": [
+    "CC(=O)OCc1cc2ncc(C#N)c(NCCO)n2n1",
+    "CC(=O)OCc1cc2nc(NCCO)c(C#N)cn2n1",
+    "CC(=O)OCc1cc2ncc(NCCO)c(C#N)n2n1",
+    "CC(=O)OCc1cc2cnc(C#N)c(NCCO)n2n1",
+    "CC(=O)OCc1ncc(C#N)c2cc(NCCO)nn12",
+    "CC(=O)OCc1cc2cc(C#N)c(NCCO)nn2n1",
+    "CC(=O)OCc1cc2c(C#N)c(NCCO)ncn2n1",
+    "CC(=O)OCc1nc2c(C#N)c(NCCO)ccn2n1"
+  ]
+}

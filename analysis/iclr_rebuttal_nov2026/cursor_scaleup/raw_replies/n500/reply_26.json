@@ -1,0 +1,35 @@
+{
+  "benchmark_expand_500:R66": [
+    "CCCCCCCCSc1cc(-c2sc(-c3ccc4ccc5cccc6ccc3c4c56)cc2CCCCCCCC)sc1C=O",
+    "CCCCCCCCSc1cc(-c2ccc3ccc4cccc5ccc2c3c45)sc1-c1cc(CCCCCCCC)c(C=O)s1",
+    "CCCCCCCCSc1cc(C=O)sc1-c1sc(-c2ccc3ccc4cccc5ccc2c3c45)cc1CCCCCCCC",
+    "CCCCCCCCSc1cc(-c2csc(-c3ccc4ccc5cccc6ccc3c4c56)c2CCCCCCCC)sc1C=O",
+    "CCCCCCCCCCSc1cc(-c2sc(-c3ccc4ccc5cccc6ccc3c4c56)cc2CCCCCC)sc1C=O",
+    "CCCCCCCCCCc1cc(-c2ccc3ccc4cccc5ccc2c3c45)sc1-c1cc(SCCCCCC)c(C=O)s1"
+  ],
+  "benchmark_expand_500:R68": [
+    "CCCN1C2CCC(=CC(=O)OC)C1c1cccc(OC)c1C2",
+    "CCCN1C2CCC(=CC(=O)OC)C1c1c(cccc1OC)C2",
+    "CCCN1CC2CCC(=CC(=O)OC)C1c1cccc(OC)c12",
+    "CCCN1CC2CCC(=CC(=O)OC)C1c1c(OC)cccc12"
+  ],
+  "benchmark_expand_500:R69": [
+    "CC(C)(C)c1cc(C(C)(C)C)c2oc(C(=O)NC(Cc3ccc(O)cc3)C(=O)O)nc2c1",
+    "CC(C)(C)c1cc(C(C)(C)C)c2nc(C(=O)NC(Cc3ccc(O)cc3)C(=O)O)oc2c1",
+    "CC(C)(C)c1cc2nc(C(=O)NC(Cc3ccc(O)cc3)C(=O)O)oc2cc1C(C)(C)C"
+  ],
+  "benchmark_expand_500:R71": [
+    "Cc1cc(O)c2c(c1C)C(=O)C(O)=C(O)C(=O)C2",
+    "Cc1c(O)cc2c(c1C)C(=O)C(O)=C(O)C(=O)C2",
+    "Cc1cc(C)c2c(c1O)C(=O)C(O)=C(O)C(=O)C2"
+  ],
+  "benchmark_expand_500:R73": [
+    "O=c1c2cc(Cl)c(O)cc2nc(-c2ccc3ccccc3c2O)n1Cc1ccc2ccccc2c1Br",
+    "O=c1c2cc(Cl)ccc2nc(-c2ccc3ccccc3c2)n1Cc1ccc2c(O)c(O)ccc2c1Br"
+  ],
+  "benchmark_expand_500:R75": [
+    "COC(=O)C(C)=CCc1c(OC)c(OC)c(C)c(OC)c1OC",
+    "COC(=O)C(C)=CCc1c(OC)c(C)c(OC)c(OC)c1OC",
+    "COC(=O)C(C)=CCc1c(C)c(OC)c(OC)c(OC)c1OC"
+  ]
+}

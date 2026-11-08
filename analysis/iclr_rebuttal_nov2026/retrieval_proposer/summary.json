@@ -1,0 +1,495 @@
+{
+  "task": "IRexp nearest-neighbour library search. Not de novo elucidation.",
+  "roster_n": 500,
+  "locked_wall_reproduced": true,
+  "locked_wall": {
+    "exact_top1": "227/500",
+    "in_pool_not_top1": "22/500",
+    "never_proposed_k_le_3": "251/500",
+    "recall_k_le_3": "249/500"
+  },
+  "expand_inputs": {
+    "expand_sha": "48fcd30153df5e331fab43cfa514763db8ee3891",
+    "files": {
+      "data/benchmark_expand/questions2.jsonl": "dca44bba4a03885b2681a39e91a5bbb58ce030f5882fa9a1940b20258760c002",
+      "data/benchmark_expand/predictions2.jsonl": "7f3aa4d934ae8a6d9680a78a3c53f69af509cd45a770ab0a243523d3f81be3d9",
+      "data/benchmark_expand_500/questions2.jsonl": "6aaa3b93990b573e5b7b9031755e4ced50837f0858516f62502741dc987223ae",
+      "data/benchmark_expand_500/predictions2.jsonl": "ffcd073a53603f06cbbe07594496bccd848dd958084fa636c4115959b7dd1137",
+      "data/benchmark_expand_500/headline500_expand200_qids.json": "edc695e56b0efb575f8173c32c352cfd8992c19642082cb990140d6104e7f540"
+    },
+    "query_h1_parsed": 500,
+    "query_h1_n": 500
+  },
+  "index": {
+    "source": "data/irexp_resolved/irexp_resolved.jsonl.gz",
+    "rows_read": 43060,
+    "dropped_unparsed_smiles": 0,
+    "dropped_no_formula": 0,
+    "dropped_no_peak_list": 0,
+    "kept": 43060,
+    "with_ir": 43060,
+    "with_c13": 34147,
+    "with_h1": 39671,
+    "h1_field_nonempty": 39672,
+    "h1_unparsed": 1,
+    "stored_ik_disagrees_with_rdkit": 0,
+    "duplicate_record_ids": 0,
+    "unique_formulas": 26648,
+    "max_formula_rows": 19
+  },
+  "irexp_resolved_blob": "8115a3c51c0fc7fd780b60c4fd95ae1aba471ae1",
+  "query_row_exclusion": {
+    "source_rows_checked": 500,
+    "source_missing_from_index": 0,
+    "source_h1_comparable": 500,
+    "source_h1_distance_zero": 358,
+    "protocol_a_query_row_still_in_gallery": 0,
+    "protocol_a_top1_record_is_query_row": 0
+  },
+  "distance": {
+    "ir": "Monotone sorted L1 (rectangular Hungarian optimum on the line) of band positions in cm^-1, mean over the shorter list. No intensities.",
+    "c13": "Symmetric chamfer in ppm, hose_predict.chamfer / specmetrics.chamfer.",
+    "h1": "Symmetric chamfer on parsed ppm centres. Parsed on 500/500 queries.",
+    "combination": "Mean of per-channel competition ranks inside the formula-matched gallery. Ties share the minimum rank. Channels with no comparable candidate are dropped. Gold SMILES is not a feature.",
+    "formula_filter": "RDKit CalcMolFormula (Hill) must equal the printed formula.",
+    "identity": "InChIKey-14, the first 14 characters of the stored or RDKit InChIKey."
+  },
+  "protocol_a": {
+    "all": {
+      "n": 500,
+      "recall_at_1": {
+        "hits": 3,
+        "n": 500,
+        "rate": "3/500"
+      },
+      "recall_at_3": {
+        "hits": 3,
+        "n": 500,
+        "rate": "3/500"
+      },
+      "recall_at_10": {
+        "hits": 3,
+        "n": 500,
+        "rate": "3/500"
+      },
+      "top1": {
+        "hits": 3,
+        "n": 500,
+        "rate": "3/500"
+      },
+      "empty_gallery": {
+        "hits": 190,
+        "n": 500,
+        "rate": "190/500"
+      }
+    },
+    "top1": {
+      "n": 227,
+      "recall_at_1": {
+        "hits": 2,
+        "n": 227,
+        "rate": "2/227"
+      },
+      "recall_at_3": {
+        "hits": 2,
+        "n": 227,
+        "rate": "2/227"
+      },
+      "recall_at_10": {
+        "hits": 2,
+        "n": 227,
+        "rate": "2/227"
+      },
+      "top1": {
+        "hits": 2,
+        "n": 227,
+        "rate": "2/227"
+      },
+      "empty_gallery": {
+        "hits": 86,
+        "n": 227,
+        "rate": "86/227"
+      }
+    },
+    "in_pool": {
+      "n": 22,
+      "recall_at_1": {
+        "hits": 0,
+        "n": 22,
+        "rate": "0/22"
+      },
+      "recall_at_3": {
+        "hits": 0,
+        "n": 22,
+        "rate": "0/22"
+      },
+      "recall_at_10": {
+        "hits": 0,
+        "n": 22,
+        "rate": "0/22"
+      },
+      "top1": {
+        "hits": 0,
+        "n": 22,
+        "rate": "0/22"
+      },
+      "empty_gallery": {
+        "hits": 7,
+        "n": 22,
+        "rate": "7/22"
+      }
+    },
+    "never": {
+      "n": 251,
+      "recall_at_1": {
+        "hits": 1,
+        "n": 251,
+        "rate": "1/251"
+      },
+      "recall_at_3": {
+        "hits": 1,
+        "n": 251,
+        "rate": "1/251"
+      },
+      "recall_at_10": {
+        "hits": 1,
+        "n": 251,
+        "rate": "1/251"
+      },
+      "top1": {
+        "hits": 1,
+        "n": 251,
+        "rate": "1/251"
+      },
+      "empty_gallery": {
+        "hits": 97,
+        "n": 251,
+        "rate": "97/251"
+      }
+    }
+  },
+  "protocol_a_by_arm": {
+    "locked194": {
+      "n": 194,
+      "recall_at_1": {
+        "hits": 1,
+        "n": 194,
+        "rate": "1/194"
+      },
+      "recall_at_3": {
+        "hits": 1,
+        "n": 194,
+        "rate": "1/194"
+      },
+      "recall_at_10": {
+        "hits": 1,
+        "n": 194,
+        "rate": "1/194"
+      },
+      "top1": {
+        "hits": 1,
+        "n": 194,
+        "rate": "1/194"
+      },
+      "empty_gallery": {
+        "hits": 66,
+        "n": 194,
+        "rate": "66/194"
+      }
+    },
+    "plus106": {
+      "n": 106,
+      "recall_at_1": {
+        "hits": 0,
+        "n": 106,
+        "rate": "0/106"
+      },
+      "recall_at_3": {
+        "hits": 0,
+        "n": 106,
+        "rate": "0/106"
+      },
+      "recall_at_10": {
+        "hits": 0,
+        "n": 106,
+        "rate": "0/106"
+      },
+      "top1": {
+        "hits": 0,
+        "n": 106,
+        "rate": "0/106"
+      },
+      "empty_gallery": {
+        "hits": 36,
+        "n": 106,
+        "rate": "36/106"
+      }
+    },
+    "expand200": {
+      "n": 200,
+      "recall_at_1": {
+        "hits": 2,
+        "n": 200,
+        "rate": "2/200"
+      },
+      "recall_at_3": {
+        "hits": 2,
+        "n": 200,
+        "rate": "2/200"
+      },
+      "recall_at_10": {
+        "hits": 2,
+        "n": 200,
+        "rate": "2/200"
+      },
+      "top1": {
+        "hits": 2,
+        "n": 200,
+        "rate": "2/200"
+      },
+      "empty_gallery": {
+        "hits": 88,
+        "n": 200,
+        "rate": "88/200"
+      }
+    }
+  },
+  "protocol_a_same_molecule_still_in_gallery": {
+    "all": {
+      "queries_with_another_same_ik14_in_gallery": 3,
+      "queries_with_another_same_ik14_anywhere": 3,
+      "n": 500,
+      "rate": "3/500",
+      "anywhere_rate": "3/500"
+    },
+    "top1": {
+      "queries_with_another_same_ik14_in_gallery": 2,
+      "queries_with_another_same_ik14_anywhere": 2,
+      "n": 227,
+      "rate": "2/227",
+      "anywhere_rate": "2/227"
+    },
+    "in_pool": {
+      "queries_with_another_same_ik14_in_gallery": 0,
+      "queries_with_another_same_ik14_anywhere": 0,
+      "n": 22,
+      "rate": "0/22",
+      "anywhere_rate": "0/22"
+    },
+    "never": {
+      "queries_with_another_same_ik14_in_gallery": 1,
+      "queries_with_another_same_ik14_anywhere": 1,
+      "n": 251,
+      "rate": "1/251",
+      "anywhere_rate": "1/251"
+    }
+  },
+  "protocol_a_copy_ranking": {
+    "n": 3,
+    "ranked_first": 3,
+    "gallery_contains_a_different_constitution": 2,
+    "gallery_is_only_the_second_record": 1,
+    "second_copies_removed_by_formula_filter": 0
+  },
+  "protocol_a_papers": {
+    "top1_proposal": {
+      "n": 310,
+      "same": 122,
+      "different": 188,
+      "missing": 0,
+      "same_rate": "122/310",
+      "different_rate": "188/310",
+      "missing_rate": "0/310"
+    },
+    "top1_and_gold": {
+      "n": 3,
+      "same": 2,
+      "different": 1,
+      "missing": 0,
+      "same_rate": "2/3",
+      "different_rate": "1/3",
+      "missing_rate": "0/3"
+    },
+    "gold_recovered_at_10": {
+      "n": 3,
+      "same": 2,
+      "different": 1,
+      "missing": 0,
+      "same_rate": "2/3",
+      "different_rate": "1/3",
+      "missing_rate": "0/3"
+    },
+    "never_proposed_gold_at_1": {
+      "n": 1,
+      "same": 1,
+      "different": 0,
+      "missing": 0,
+      "same_rate": "1/1",
+      "different_rate": "0/1",
+      "missing_rate": "0/1"
+    },
+    "top1_not_gold": {
+      "n": 307,
+      "same": 120,
+      "different": 187,
+      "missing": 0,
+      "same_rate": "120/307",
+      "different_rate": "187/307",
+      "missing_rate": "0/307"
+    }
+  },
+  "protocol_b": {
+    "all": {
+      "n": 500,
+      "empty_gallery": {
+        "hits": 191,
+        "n": 500,
+        "rate": "191/500"
+      },
+      "with_neighbor": {
+        "hits": 309,
+        "n": 500,
+        "rate": "309/500"
+      },
+      "gallery_rows": {
+        "n": 500,
+        "minimum": 0,
+        "q1": 0.0,
+        "median": 1.0,
+        "q3": 3.0,
+        "maximum": 16
+      },
+      "gallery_unique_ik14": {
+        "n": 500,
+        "minimum": 0,
+        "q1": 0.0,
+        "median": 1.0,
+        "q3": 3.0,
+        "maximum": 16
+      },
+      "neighbor_tanimoto": {
+        "n": 309,
+        "minimum": 0.048387,
+        "q1": 0.148649,
+        "median": 0.244898,
+        "q3": 0.637931,
+        "maximum": 0.954545
+      },
+      "tanimoto_denominator_note": "Quartiles use queries with a neighbour. Empty galleries stay in the gallery-size distribution as 0 and are omitted from the Tanimoto quartiles."
+    },
+    "top1": {
+      "n": 227,
+      "empty_gallery": {
+        "hits": 87,
+        "n": 227,
+        "rate": "87/227"
+      },
+      "with_neighbor": {
+        "hits": 140,
+        "n": 227,
+        "rate": "140/227"
+      },
+      "gallery_rows": {
+        "n": 227,
+        "minimum": 0,
+        "q1": 0.0,
+        "median": 1,
+        "q3": 3.0,
+        "maximum": 16
+      },
+      "gallery_unique_ik14": {
+        "n": 227,
+        "minimum": 0,
+        "q1": 0.0,
+        "median": 1,
+        "q3": 3.0,
+        "maximum": 16
+      },
+      "neighbor_tanimoto": {
+        "n": 140,
+        "minimum": 0.048387,
+        "q1": 0.138462,
+        "median": 0.2058145,
+        "q3": 0.45113625,
+        "maximum": 0.909091
+      },
+      "tanimoto_denominator_note": "Quartiles use queries with a neighbour. Empty galleries stay in the gallery-size distribution as 0 and are omitted from the Tanimoto quartiles."
+    },
+    "in_pool": {
+      "n": 22,
+      "empty_gallery": {
+        "hits": 7,
+        "n": 22,
+        "rate": "7/22"
+      },
+      "with_neighbor": {
+        "hits": 15,
+        "n": 22,
+        "rate": "15/22"
+      },
+      "gallery_rows": {
+        "n": 22,
+        "minimum": 0,
+        "q1": 0.0,
+        "median": 2.5,
+        "q3": 4.0,
+        "maximum": 8
+      },
+      "gallery_unique_ik14": {
+        "n": 22,
+        "minimum": 0,
+        "q1": 0.0,
+        "median": 2.5,
+        "q3": 4.0,
+        "maximum": 8
+      },
+      "neighbor_tanimoto": {
+        "n": 15,
+        "minimum": 0.075472,
+        "q1": 0.1517795,
+        "median": 0.358491,
+        "q3": 0.638587,
+        "maximum": 0.780488
+      },
+      "tanimoto_denominator_note": "Quartiles use queries with a neighbour. Empty galleries stay in the gallery-size distribution as 0 and are omitted from the Tanimoto quartiles."
+    },
+    "never": {
+      "n": 251,
+      "empty_gallery": {
+        "hits": 97,
+        "n": 251,
+        "rate": "97/251"
+      },
+      "with_neighbor": {
+        "hits": 154,
+        "n": 251,
+        "rate": "154/251"
+      },
+      "gallery_rows": {
+        "n": 251,
+        "minimum": 0,
+        "q1": 0.0,
+        "median": 1,
+        "q3": 2.0,
+        "maximum": 16
+      },
+      "gallery_unique_ik14": {
+        "n": 251,
+        "minimum": 0,
+        "q1": 0.0,
+        "median": 1,
+        "q3": 2.0,
+        "maximum": 16
+      },
+      "neighbor_tanimoto": {
+        "n": 154,
+        "minimum": 0.072464,
+        "q1": 0.15640325,
+        "median": 0.3897695,
+        "q3": 0.721675,
+        "maximum": 0.954545
+      },
+      "tanimoto_denominator_note": "Quartiles use queries with a neighbour. Empty galleries stay in the gallery-size distribution as 0 and are omitted from the Tanimoto quartiles."
+    }
+  }
+}

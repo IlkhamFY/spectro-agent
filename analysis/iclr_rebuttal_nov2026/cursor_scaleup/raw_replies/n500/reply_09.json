@@ -1,0 +1,41 @@
+{
+  "benchmark_expand:R87": [
+    "O=C(c1cccc(Nc2nc(Cl)nc3[nH]cnc23)c1)C12CC3CC(CC(C3)C1)C2",
+    "O=C(c1nc(Nc2cccc(Cl)c2)c2[nH]cnc2n1)C12CC3CC(CC(C3)C1)C2",
+    "O=C(c1ccccc1Nc1nc(Cl)nc2[nH]cnc12)C12CC3CC(CC(C3)C1)C2",
+    "O=C(c1nc(Nc2ccccc2Cl)c2[nH]cnc2n1)C12CC3CC(CC(C3)C1)C2",
+    "O=C(c1cccc(Nc2nc(Cl)nc3nc[nH]c23)c1)C12CC3CC(CC(C3)C1)C2"
+  ],
+  "benchmark_expand:R88": [
+    "CCCC(Oc1ccc([N+](=O)[O-])cc1CNc1ccccc1)C(=O)OC",
+    "CCCC(Oc1ccc(CNc2ccccc2)cc1[N+](=O)[O-])C(=O)OC"
+  ],
+  "benchmark_expand:R92": [
+    "COc1ccc2cc(CNC3CCN(Cc4ccccc4)CC3)ccc2c1",
+    "COc1ccc2ccc(CNC3CCN(Cc4ccccc4)CC3)cc2c1",
+    "COc1ccc2cc(CN3CCC(NCc4ccccc4)CC3)ccc2c1",
+    "COc1ccc2c(CNC3CCN(Cc4ccccc4)CC3)cccc2c1",
+    "COc1ccc2ccc(CN3CCC(NCc4ccccc4)CC3)cc2c1",
+    "COc1cc(CNC2CCN(Cc3ccccc3)CC2)c2ccccc2c1",
+    "COc1ccc2c(CN3CCC(NCc4ccccc4)CC3)cccc2c1",
+    "COc1ccc2cccc(CNC3CCN(Cc4ccccc4)CC3)c2c1"
+  ],
+  "benchmark_expand:R94": [
+    "Oc1ccc(CSc2cc(-c3nc4ccccc4o3)[nH]n2)cc1",
+    "Oc1ccc(CSc2c[nH]nc2-c2nc3ccccc3o2)cc1",
+    "Oc1ccc(CSc2ncc(-c3nc4ccccc4o3)[nH]2)cc1",
+    "Oc1ccc(CSc2nc(-c3nc4ccccc4o3)c[nH]2)cc1",
+    "Oc1ccc(CSc2ncc(-c3nc4ccccc4[nH]3)o2)cc1",
+    "Oc1ccc(CSc2nc(-c3nc4ccccc4[nH]3)co2)cc1"
+  ],
+  "benchmark_expand:R97": [],
+  "benchmark_expand_500:R03": [
+    "CCOC(=O)C1N(Cc2ccccc2)C2(C(=O)Nc3ccccc32)C(Oc2ccc(Br)cc2)C12C(=O)Oc1ccccc12",
+    "CCOC(=O)C1N(Cc2ccc(Br)cc2)C2(C(=O)Nc3ccccc32)C(Oc2ccccc2)C12C(=O)Oc1ccccc12",
+    "CCOC(=O)C1N(Cc2ccccc2)C2(C(=O)Oc3ccccc32)C(Oc2ccc(Br)cc2)C12C(=O)Nc1ccccc12",
+    "CCOC(=O)C1N(Cc2ccc(Br)cc2)C2(C(=O)Oc3ccccc32)C(Oc2ccccc2)C12C(=O)Nc1ccccc12",
+    "CCOC(=O)C1C2(C(=O)Oc3ccccc32)C(Oc2ccc(Br)cc2)N(Cc2ccccc2)C12C(=O)Nc1ccccc12",
+    "CCOC(=O)C1C2(C(=O)Nc3ccccc32)C(Oc2ccc(Br)cc2)N(Cc2ccccc2)C12C(=O)Oc1ccccc12",
+    "CCOC(=O)C1C2(C(=O)Oc3ccccc32)C(Oc2ccccc2)N(Cc2ccc(Br)cc2)C12C(=O)Nc1ccccc12"
+  ]
+}

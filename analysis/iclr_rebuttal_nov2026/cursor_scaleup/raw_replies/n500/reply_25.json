@@ -1,0 +1,57 @@
+{
+  "benchmark_expand_500:R55": [
+    "COc1cccc(N2CCN(C(=O)c3ccc(C4=CC(=O)C([N+](=O)[O-])=C(N)C4=O)cc3)CC2)c1",
+    "COc1cccc(N2CCN(C(=O)c3ccc(C4=CC(=O)C(N)=C([N+](=O)[O-])C4=O)cc3)CC2)c1",
+    "COc1cccc(N2CCN(C(=O)c3ccc(C4=C(N)C(=O)C([N+](=O)[O-])=CC4=O)cc3)CC2)c1",
+    "COc1cccc(N2CCN(C(=O)c3ccc(C4=C([N+](=O)[O-])C(=O)C(N)=CC4=O)cc3)CC2)c1",
+    "COc1cccc(N2CCN(C(=O)c3ccc(C4=C(N)C(=O)C=C([N+](=O)[O-])C4=O)cc3)CC2)c1",
+    "COc1ccccc1N1CCN(C(=O)c2ccc(C3=CC(=O)C(N)=C([N+](=O)[O-])C3=O)cc2)CC1"
+  ],
+  "benchmark_expand_500:R57": [
+    "Cc1ccc(NC(=O)Cn2cc(COc3ccc4ccccc4c3)nn2)cc1",
+    "Cc1ccc(NC(=O)Cn2cc(COc3cccc4ccccc34)nn2)cc1",
+    "Cc1ccc(OCc2cn(CC(=O)Nc3ccc4ccccc4c3)nn2)cc1",
+    "Cc1ccc(OCc2cn(CC(=O)Nc3cccc4ccccc34)nn2)cc1",
+    "Cc1cccc(NC(=O)Cn2cc(COc3ccc4ccccc4c3)nn2)c1",
+    "Cc1ccccc1NC(=O)Cn1cc(COc2ccc3ccccc3c2)nn1",
+    "Cc1ccc(NC(=O)Cn2nncc2COc2ccc3ccccc3c2)cc1",
+    "Cc1ccc2cc(OCc3cn(CC(=O)Nc4ccccc4)nn3)ccc2c1"
+  ],
+  "benchmark_expand_500:R60": [
+    "CNC(=O)c1ccc(-c2cc3cc(Br)ccc3o2)c2ccccc12",
+    "CNC(=O)c1ccc(-c2cc3ccc(Br)cc3o2)c2ccccc12",
+    "CNC(=O)c1ccc(-c2cc3cccc(Br)c3o2)c2ccccc12",
+    "CNC(=O)c1ccc(-c2cc3c(Br)cccc3o2)c2ccccc12",
+    "CNC(=O)c1ccc(-c2cc3ccccc3o2)c2ccc(Br)cc12",
+    "CNC(=O)c1ccc(-c2cc3ccccc3o2)c2cc(Br)ccc12",
+    "CNC(=O)c1cccc2c(-c3cc4cc(Br)ccc4o3)cccc12",
+    "CNC(=O)c1ccc2ccccc2c1-c1cc2cc(Br)ccc2o1"
+  ],
+  "benchmark_expand_500:R62": [
+    "CCCCc1ccc2c(c1)Cc1cc(Cl)c(Cl)cc1NC(=O)C2",
+    "CCCCc1ccc2c(c1)Cc1ccc(Cl)c(Cl)c1NC(=O)C2",
+    "CCCCc1ccc2c(c1)Cc1c(Cl)cc(Cl)cc1NC(=O)C2",
+    "CCCCc1ccc2c(c1)Cc1cc(Cl)cc(Cl)c1NC(=O)C2",
+    "CCCCc1cccc2c1Cc1cc(Cl)c(Cl)cc1NC(=O)C2",
+    "CCCCc1cc2c(cc1Cl)Cc1cc(Cl)ccc1C(=O)NC2",
+    "CCCCc1ccc2c(c1)CC(=O)Nc1cc(Cl)c(Cl)cc1C2"
+  ],
+  "benchmark_expand_500:R64": [
+    "Nc1nc(-c2ccccc2)nc(=O)n1-c1cc(O)cc(=O)o1",
+    "Nc1nc(-c2ccccc2)nn(-c2cc(O)cc(=O)o2)c1=O",
+    "Nc1nn(-c2cc(O)cc(=O)o2)nc(-c2ccccc2)c1=O",
+    "Nc1nc(-c2cc(O)cc(=O)o2)nn(-c2ccccc2)c1=O",
+    "Nc1nn(-c2ccccc2)c(=O)nc1-c1cc(O)cc(=O)o1",
+    "Nn1nc(-c2cc(O)cc(=O)o2)nc(-c2ccccc2)c1=O",
+    "Nc1cc([N+](=O)[O-])cc2nc(-c3ccccc3)[n+]([O-])c(O)c12",
+    "Nc1ccc2nc(-c3ccccc3)[n+]([O-])c(O)c2c1[N+](=O)[O-]"
+  ],
+  "benchmark_expand_500:R65": [
+    "O=C1COCN2C(=O)C(c3ccc([N+](=O)[O-])cc3)=NC2CS1",
+    "O=C1COCN2C(=O)C(c3ccc([N+](=O)[O-])cc3)=NCC2S1",
+    "O=C1CC(N2C(=O)CSC2c2ccc([N+](=O)[O-])cc2)C(=O)N1",
+    "O=C1CN(C2SCCN2C(=O)c2ccc([N+](=O)[O-])cc2)C1=O",
+    "O=C1COCCN2C(=O)C(c3ccc([N+](=O)[O-])cc3)=NC2S1",
+    "O=C1NC(=O)C1CN1C(=O)CSC1c1ccc([N+](=O)[O-])cc1"
+  ]
+}

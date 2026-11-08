@@ -1,0 +1,48 @@
+{
+  "benchmark_v2_ctrl:R14": [
+    "CCOC(=O)CCCC(C)=CCCO[Si](c1ccccc1)(c1ccccc1)C(C)(C)C",
+    "CCOC(=O)CCCC=C(C)CCO[Si](c1ccccc1)(c1ccccc1)C(C)(C)C",
+    "CCOC(=O)CCC(C)=CCCCO[Si](c1ccccc1)(c1ccccc1)C(C)(C)C",
+    "CCOC(=O)CCC=C(C)CCCO[Si](c1ccccc1)(c1ccccc1)C(C)(C)C"
+  ],
+  "benchmark_v2_ctrl:R18": [
+    "CCCCn1c(-c2ccc(-c3ccccc3OC)cc2)nnc1-c1ccc(-c2ccccc2OC)cc1",
+    "CCCCn1nc(-c2ccc(-c3ccccc3OC)cc2)c(-c2ccc(-c3ccccc3OC)cc2)n1",
+    "CCCCn1c(-c2ccc(-c3cccc(OC)c3)cc2)nnc1-c1ccc(-c2cccc(OC)c2)cc1",
+    "CCCCn1nc(-c2ccc(-c3cccc(OC)c3)cc2)c(-c2ccc(-c3cccc(OC)c3)cc2)n1",
+    "CCCCn1c(-c2ccc(-c3ccc(OC)cc3)cc2)nnc1-c1ccc(-c2ccc(OC)cc2)cc1"
+  ],
+  "benchmark_v2_ctrl:R19": [
+    "C=C1C(=O)N(C)c2ccccc2C1(c1ccccc1)c1cc2cc(F)ccc2o1",
+    "C=C1C(=O)N(C)c2ccccc2C1(c1ccccc1)c1cc2ccc(F)cc2o1",
+    "C=C1C(=O)N(C)c2ccccc2C1(c1cc2ccccc2o1)c1ccccc1F",
+    "C=C1C(=O)N(C)c2ccccc2C1(c1cccc(F)c1)c1cc2ccccc2o1",
+    "C=C(c1ccccc1)C1(c2cc3cc(F)ccc3o2)C(=O)N(C)c2ccccc21",
+    "C=C(c1ccc2occc2c1)C1(c2ccccc2F)C(=O)N(C)c2ccccc21",
+    "C=C(c1cc2cc(F)ccc2o1)C1(c2ccccc2)C(=O)N(C)c2ccccc21",
+    "C=C1C(=O)N(C)c2ccccc2C1(c1ccccc1)c1cc2cccc(F)c2o1"
+  ],
+  "benchmark_v2_ctrl:R20": [
+    "O=C(CC(c1ccccc1)c1ccccc1)NCCCNCCCCNCCCNC(=O)CC(c1ccccc1)c1ccccc1.O=C(O)C(F)(F)F.O=C(O)C(F)(F)F",
+    "O=C(CC(c1ccccc1)c1ccccc1)NCCCCNCCNCCCCNC(=O)CC(c1ccccc1)c1ccccc1.O=C(O)C(F)(F)F.O=C(O)C(F)(F)F",
+    "O=C(CC(c1ccccc1)c1ccccc1)NCCNCCCCCCNCCNC(=O)CC(c1ccccc1)c1ccccc1.O=C(O)C(F)(F)F.O=C(O)C(F)(F)F"
+  ],
+  "benchmark_v3:R02": [
+    "Nc1ccc2c(N)c(-c3ccc([N+](=O)[O-])cc3F)c(C(=O)O)cc2c1",
+    "Nc1ccc2cc(C(=O)O)c(-c3ccc([N+](=O)[O-])cc3F)c(N)c2c1",
+    "Nc1cccc2c(N)c(C(=O)O)c(-c3ccc([N+](=O)[O-])cc3F)cc12",
+    "Nc1ccc2c(C(=O)O)cc(-c3ccc([N+](=O)[O-])cc3F)c(N)c2c1",
+    "Nc1cc(N)c2c(C(=O)O)c(-c3ccc([N+](=O)[O-])cc3F)ccc2c1",
+    "Nc1cc2ccc(C(=O)O)cc2c(-c2ccc([N+](=O)[O-])cc2F)c1N",
+    "Nc1ccc2c(N)c(-c3ccc(F)c([N+](=O)[O-])c3)c(C(=O)O)cc2c1",
+    "Nc1ccc2cc(C(=O)O)c(-c3ccc(F)c([N+](=O)[O-])c3)c(N)c2c1"
+  ],
+  "benchmark_v3:R03": [
+    "Cc1ccc(C(=O)c2ccc(CC(=O)NN=Cc3ccccc3O)n2C)cc1",
+    "Cc1cccc(C(=O)c2ccc(CC(=O)NN=Cc3ccccc3O)n2C)c1",
+    "Cc1ccccc1C(=O)c1ccc(CC(=O)NN=Cc2ccccc2O)n1C",
+    "Cc1ccc(C(=O)c2ccc(CC(=O)NN=Cc3ccc(O)cc3)n2C)cc1",
+    "Cc1ccc(C(=O)c2ccc(CC(=O)NN=Cc3cccc(O)c3)n2C)cc1",
+    "Cc1ccc(O)c(C=NNC(=O)c2ccc(CC(=O)c3cccn3C)cc2)c1"
+  ]
+}

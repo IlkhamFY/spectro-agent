@@ -1,0 +1,3390 @@
+{
+  "C14H16FN5O": {
+    "formula": "C14H16FN5O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H8N2O4": {
+    "formula": "C14H8N2O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H10FNO": {
+    "formula": "C12H10FNO",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C12H11Cl2N3O2S": {
+    "formula": "C12H11Cl2N3O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C29H30FNO2": {
+    "formula": "C29H30FNO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H13BrClNO": {
+    "formula": "C18H13BrClNO",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H11ClO2": {
+    "formula": "C16H11ClO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H20BrN3": {
+    "formula": "C18H20BrN3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H20O": {
+    "formula": "C14H20O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C13H11ClN2O3S": {
+    "formula": "C13H11ClN2O3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H15BrO3": {
+    "formula": "C17H15BrO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C22H17ClN2": {
+    "formula": "C22H17ClN2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C19H17BrO3": {
+    "formula": "C19H17BrO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C25H19N5O3S": {
+    "formula": "C25H19N5O3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H15N5O2S": {
+    "formula": "C16H15N5O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 2
+  },
+  "C14H19FOSi": {
+    "formula": "C14H19FOSi",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C9H9ClO3S": {
+    "formula": "C9H9ClO3S",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C22H21NO5": {
+    "formula": "C22H21NO5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H15NO2": {
+    "formula": "C15H15NO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H26OSi": {
+    "formula": "C17H26OSi",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 2
+  },
+  "C15H17NO": {
+    "formula": "C15H17NO",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C10H8Br4O2": {
+    "formula": "C10H8Br4O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C15H13Cl2N3O2S2": {
+    "formula": "C15H13Cl2N3O2S2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H19NO2": {
+    "formula": "C15H19NO2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C23H22Br2N2O3": {
+    "formula": "C23H22Br2N2O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C22H28N2O2": {
+    "formula": "C22H28N2O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C10H18O2": {
+    "formula": "C10H18O2",
+    "status": "ok",
+    "n_iso": 949780,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C23H18N2O4": {
+    "formula": "C23H18N2O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C27H26N2O3": {
+    "formula": "C27H26N2O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 2
+  },
+  "C14H16N2O2": {
+    "formula": "C14H16N2O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C24H25F3N2O3": {
+    "formula": "C24H25F3N2O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H12N2O2": {
+    "formula": "C14H12N2O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 2
+  },
+  "C22H15NO4": {
+    "formula": "C22H15NO4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H19N3O": {
+    "formula": "C14H19N3O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H14BrNO3S": {
+    "formula": "C14H14BrNO3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 2
+  },
+  "C13H15NO4": {
+    "formula": "C13H15NO4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C28H25NO2": {
+    "formula": "C28H25NO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H15NO3": {
+    "formula": "C12H15NO3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C6H13NO2": {
+    "formula": "C6H13NO2",
+    "status": "ok",
+    "n_iso": 23946,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C10H8ClN3O3S": {
+    "formula": "C10H8ClN3O3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H15BrN2OS": {
+    "formula": "C17H15BrN2OS",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C7H10O4": {
+    "formula": "C7H10O4",
+    "status": "ok",
+    "n_iso": 1428242,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C21H23N3O2S": {
+    "formula": "C21H23N3O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 2
+  },
+  "C20H20O2": {
+    "formula": "C20H20O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H30N2O7S": {
+    "formula": "C18H30N2O7S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C22H17Cl2N3S": {
+    "formula": "C22H17Cl2N3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H17ClFNO2S": {
+    "formula": "C18H17ClFNO2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C11H8N4O2": {
+    "formula": "C11H8N4O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C11H17NO2": {
+    "formula": "C11H17NO2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C6H8O5": {
+    "formula": "C6H8O5",
+    "status": "ok",
+    "n_iso": 802310,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C17H22N4O2": {
+    "formula": "C17H22N4O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H13N5O3": {
+    "formula": "C12H13N5O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C9H11NO4S": {
+    "formula": "C9H11NO4S",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C7H18Sn": {
+    "formula": "C7H18Sn",
+    "status": "ok",
+    "n_iso": 96,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C17H10ClN3O4": {
+    "formula": "C17H10ClN3O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C25H25NO2": {
+    "formula": "C25H25NO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C9H16O": {
+    "formula": "C9H16O",
+    "status": "ok",
+    "n_iso": 29172,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C34H28N4O4S": {
+    "formula": "C34H28N4O4S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H10BrN3O2S": {
+    "formula": "C13H10BrN3O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C11H12N2O2S2": {
+    "formula": "C11H12N2O2S2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H20O2": {
+    "formula": "C12H20O2",
+    "status": "ok",
+    "n_iso": 73839653,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C14H23NO4": {
+    "formula": "C14H23NO4",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 2
+  },
+  "C19H18O2": {
+    "formula": "C19H18O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C5H9N3S": {
+    "formula": "C5H9N3S",
+    "status": "ok",
+    "n_iso": 682547,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C9H8N2O2": {
+    "formula": "C9H8N2O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C30H28N4O8Sn": {
+    "formula": "C30H28N4O8Sn",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C28H23NO3SSe": {
+    "formula": "C28H23NO3SSe",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C8H7N5S": {
+    "formula": "C8H7N5S",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C18H29N": {
+    "formula": "C18H29N",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C22H21NO4": {
+    "formula": "C22H21NO4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H12N2O3S": {
+    "formula": "C13H12N2O3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C7H9NO2": {
+    "formula": "C7H9NO2",
+    "status": "ok",
+    "n_iso": 3237016,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C16H16N2O4": {
+    "formula": "C16H16N2O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 2
+  },
+  "C13H9FN2O": {
+    "formula": "C13H9FN2O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H14ClN3O3": {
+    "formula": "C17H14ClN3O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H9BrO2": {
+    "formula": "C15H9BrO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C27H22N2O3S": {
+    "formula": "C27H22N2O3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C11H14N2O4": {
+    "formula": "C11H14N2O4",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C17H14N2O3S2": {
+    "formula": "C17H14N2O3S2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H13N5": {
+    "formula": "C17H13N5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C10H12O4S": {
+    "formula": "C10H12O4S",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C14H15N3O2": {
+    "formula": "C14H15N3O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C25H18N2O7": {
+    "formula": "C25H18N2O7",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H19N3O2": {
+    "formula": "C18H19N3O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C24H21ClN4O2S": {
+    "formula": "C24H21ClN4O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C10H10N2O2": {
+    "formula": "C10H10N2O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C12H15NO4S": {
+    "formula": "C12H15NO4S",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C10H12N2": {
+    "formula": "C10H12N2",
+    "status": "ok",
+    "n_iso": 323016002,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C14H13NO": {
+    "formula": "C14H13NO",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H23N3O": {
+    "formula": "C17H23N3O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C22H15N3O5": {
+    "formula": "C22H15N3O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C10H12N4OS": {
+    "formula": "C10H12N4OS",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H18O5": {
+    "formula": "C16H18O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C11H8F3N": {
+    "formula": "C11H8F3N",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C14H16N4O2S": {
+    "formula": "C14H16N4O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H21NO": {
+    "formula": "C12H21NO",
+    "status": "ok",
+    "n_iso": 218924674,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C16H17N3O4": {
+    "formula": "C16H17N3O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C21H20N4O": {
+    "formula": "C21H20N4O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C23H20BrN3O2S": {
+    "formula": "C23H20BrN3O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H13N": {
+    "formula": "C15H13N",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H24O2": {
+    "formula": "C13H24O2",
+    "status": "ok",
+    "n_iso": 38662232,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C12H12ClN3": {
+    "formula": "C12H12ClN3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C23H31NO": {
+    "formula": "C23H31NO",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H18N2S": {
+    "formula": "C12H18N2S",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C19H22O": {
+    "formula": "C19H22O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C33H26N10O11": {
+    "formula": "C33H26N10O11",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H12BN3O3": {
+    "formula": "C12H12BN3O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H9ClN2O3": {
+    "formula": "C16H9ClN2O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H12N4O2": {
+    "formula": "C12H12N4O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C36H43N3O3": {
+    "formula": "C36H43N3O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H15N3": {
+    "formula": "C15H15N3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C11H24O2Si": {
+    "formula": "C11H24O2Si",
+    "status": "ok",
+    "n_iso": 12939792,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C17H19N3O4S": {
+    "formula": "C17H19N3O4S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H9ClN2O4": {
+    "formula": "C16H9ClN2O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C29H28N2O7S": {
+    "formula": "C29H28N2O7S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C24H20N4O2": {
+    "formula": "C24H20N4O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C25H15Cl2NO": {
+    "formula": "C25H15Cl2NO",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C45H46N4O4S2": {
+    "formula": "C45H46N4O4S2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H18O3": {
+    "formula": "C14H18O3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 2
+  },
+  "C17H20N2O3S": {
+    "formula": "C17H20N2O3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C20H21N5O2S": {
+    "formula": "C20H21N5O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H22N2O2": {
+    "formula": "C14H22N2O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C15H24OS": {
+    "formula": "C15H24OS",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C11H6ClN3O2": {
+    "formula": "C11H6ClN3O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C28H27NO2Si": {
+    "formula": "C28H27NO2Si",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C23H17NO6": {
+    "formula": "C23H17NO6",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H16N2O6Se2": {
+    "formula": "C18H16N2O6Se2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C24H25ClN6O3": {
+    "formula": "C24H25ClN6O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H18N2O": {
+    "formula": "C16H18N2O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H31NO3": {
+    "formula": "C18H31NO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C10H13NO3": {
+    "formula": "C10H13NO3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C13H25NO2": {
+    "formula": "C13H25NO2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C16H14": {
+    "formula": "C16H14",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C10H18O3Si": {
+    "formula": "C10H18O3Si",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C17H12FN3O4": {
+    "formula": "C17H12FN3O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C22H21N3O3": {
+    "formula": "C22H21N3O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H19NO4S": {
+    "formula": "C13H19NO4S",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C12H12Cl2O2": {
+    "formula": "C12H12Cl2O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C12H12O3": {
+    "formula": "C12H12O3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 2
+  },
+  "C17H26O3": {
+    "formula": "C17H26O3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C13H13ClN2O3S": {
+    "formula": "C13H13ClN2O3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C22H21F2NO": {
+    "formula": "C22H21F2NO",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C21H13F3N2OS": {
+    "formula": "C21H13F3N2OS",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C23H18F3NO4": {
+    "formula": "C23H18F3NO4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C35H51N11": {
+    "formula": "C35H51N11",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H14O2": {
+    "formula": "C18H14O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H16N2": {
+    "formula": "C16H16N2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C9H10N2": {
+    "formula": "C9H10N2",
+    "status": "ok",
+    "n_iso": 46004495,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C34H29NO": {
+    "formula": "C34H29NO",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 2
+  },
+  "C10H11NO4": {
+    "formula": "C10H11NO4",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C24H32ClNO3S": {
+    "formula": "C24H32ClNO3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C9H8BrClN2O": {
+    "formula": "C9H8BrClN2O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C15H15ClF2O3SSi": {
+    "formula": "C15H15ClF2O3SSi",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H13ClN2O": {
+    "formula": "C16H13ClN2O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H13BrO3": {
+    "formula": "C14H13BrO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H15FO": {
+    "formula": "C17H15FO",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C10H14N2O": {
+    "formula": "C10H14N2O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C14H11N3O3": {
+    "formula": "C14H11N3O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C26H32N2O6Si": {
+    "formula": "C26H32N2O6Si",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C10H10F3I": {
+    "formula": "C10H10F3I",
+    "status": "ok",
+    "n_iso": 37941261,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C16H22N2O4": {
+    "formula": "C16H22N2O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C24H20BrN3O3S": {
+    "formula": "C24H20BrN3O3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C28H28N2O4": {
+    "formula": "C28H28N2O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C10H11ClN2O": {
+    "formula": "C10H11ClN2O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C48H33Cl2NO4": {
+    "formula": "C48H33Cl2NO4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H12Br2N2O2S": {
+    "formula": "C13H12Br2N2O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H26N2O3": {
+    "formula": "C17H26N2O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C26H21N7O2S": {
+    "formula": "C26H21N7O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C22H18F3N3Se": {
+    "formula": "C22H18F3N3Se",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C19H22Cl2N2O3S": {
+    "formula": "C19H22Cl2N2O3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C31H16Cl2N2O": {
+    "formula": "C31H16Cl2N2O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C21H18ClN3O3S": {
+    "formula": "C21H18ClN3O3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C9H8N2O3": {
+    "formula": "C9H8N2O3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C9H15NO3S": {
+    "formula": "C9H15NO3S",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C16H12O5": {
+    "formula": "C16H12O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C20H30O4": {
+    "formula": "C20H30O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C29H28N2OS": {
+    "formula": "C29H28N2OS",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C10H10N2O": {
+    "formula": "C10H10N2O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C8H7NOS": {
+    "formula": "C8H7NOS",
+    "status": "ok",
+    "n_iso": 95345914,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C15H11NO": {
+    "formula": "C15H11NO",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C25H22N6S2": {
+    "formula": "C25H22N6S2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H20N4O4S": {
+    "formula": "C13H20N4O4S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H20O2": {
+    "formula": "C14H20O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 2
+  },
+  "C15H30N2O": {
+    "formula": "C15H30N2O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C27H38O3Si": {
+    "formula": "C27H38O3Si",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C9H9BrO": {
+    "formula": "C9H9BrO",
+    "status": "ok",
+    "n_iso": 4178414,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C17H30O3Si": {
+    "formula": "C17H30O3Si",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C14H10N2O3S": {
+    "formula": "C14H10N2O3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C32H31N3O2": {
+    "formula": "C32H31N3O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C25H18FNO2": {
+    "formula": "C25H18FNO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C44H52F6N4O6": {
+    "formula": "C44H52F6N4O6",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H14O3": {
+    "formula": "C12H14O3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C16H24O4Si": {
+    "formula": "C16H24O4Si",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C9H11N5O2": {
+    "formula": "C9H11N5O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C12H15BrO": {
+    "formula": "C12H15BrO",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C25H32O5": {
+    "formula": "C25H32O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C21H15N3O2": {
+    "formula": "C21H15N3O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C8H5NO2": {
+    "formula": "C8H5NO2",
+    "status": "ok",
+    "n_iso": 38433208,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C26H18Cl2N2O2": {
+    "formula": "C26H18Cl2N2O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H21NO3": {
+    "formula": "C14H21NO3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C10H5ClO2": {
+    "formula": "C10H5ClO2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C14H14N4": {
+    "formula": "C14H14N4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C19H27NO2": {
+    "formula": "C19H27NO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H8ClNOS": {
+    "formula": "C12H8ClNOS",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C20H13NO2": {
+    "formula": "C20H13NO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H15N3O2S": {
+    "formula": "C14H15N3O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H23N3O3": {
+    "formula": "C15H23N3O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H12O3": {
+    "formula": "C15H12O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C30H33FO6": {
+    "formula": "C30H33FO6",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C8H5IN2O": {
+    "formula": "C8H5IN2O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C16H13NO4": {
+    "formula": "C16H13NO4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C20H23N3O5": {
+    "formula": "C20H23N3O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C19H31NO5": {
+    "formula": "C19H31NO5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H17BrClNO2S": {
+    "formula": "C18H17BrClNO2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H20O3": {
+    "formula": "C18H20O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H22O3": {
+    "formula": "C12H22O3",
+    "status": "ok",
+    "n_iso": 96693861,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C14H19NO5": {
+    "formula": "C14H19NO5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C22H16FN3O3S": {
+    "formula": "C22H16FN3O3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H12IN3O2": {
+    "formula": "C14H12IN3O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H26O": {
+    "formula": "C13H26O",
+    "status": "ok",
+    "n_iso": 298363,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C37H44O6Si": {
+    "formula": "C37H44O6Si",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H34O2Si": {
+    "formula": "C17H34O2Si",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C24H28N4O6S2": {
+    "formula": "C24H28N4O6S2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C20H13IO2": {
+    "formula": "C20H13IO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C24H20FN5O2": {
+    "formula": "C24H20FN5O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C9H7ClN2O": {
+    "formula": "C9H7ClN2O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C13H18O3": {
+    "formula": "C13H18O3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 2
+  },
+  "C11H14N2O3": {
+    "formula": "C11H14N2O3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C24H22ClN3O2": {
+    "formula": "C24H22ClN3O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 2
+  },
+  "C24H21N3S3": {
+    "formula": "C24H21N3S3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C21H19N3O3": {
+    "formula": "C21H19N3O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C25H17FN4O2S": {
+    "formula": "C25H17FN4O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H14N4S": {
+    "formula": "C12H14N4S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C46H54N8O6": {
+    "formula": "C46H54N8O6",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C25H19N3OS2": {
+    "formula": "C25H19N3OS2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H13N3S4": {
+    "formula": "C12H13N3S4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C21H19BrN6O": {
+    "formula": "C21H19BrN6O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H10BrN5O2": {
+    "formula": "C15H10BrN5O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C27H28FNO7": {
+    "formula": "C27H28FNO7",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H17NO3S": {
+    "formula": "C16H17NO3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C23H14O4": {
+    "formula": "C23H14O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H13N3O3S2": {
+    "formula": "C12H13N3O3S2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C21H29NO13": {
+    "formula": "C21H29NO13",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H18O5": {
+    "formula": "C15H18O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C23H16ClN3": {
+    "formula": "C23H16ClN3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H17N5OS": {
+    "formula": "C15H17N5OS",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H17N3O2": {
+    "formula": "C14H17N3O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C21H11ClF2N4O": {
+    "formula": "C21H11ClF2N4O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H17IN4O": {
+    "formula": "C15H17IN4O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H17NO5": {
+    "formula": "C13H17NO5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H11BrN2O5S": {
+    "formula": "C18H11BrN2O5S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C21H15Cl2NO": {
+    "formula": "C21H15Cl2NO",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C19H15ClO2Se": {
+    "formula": "C19H15ClO2Se",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C8H12O2": {
+    "formula": "C8H12O2",
+    "status": "ok",
+    "n_iso": 254468,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C25H22N2OS": {
+    "formula": "C25H22N2OS",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H31NO3Si": {
+    "formula": "C15H31NO3Si",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C18H15F3O": {
+    "formula": "C18H15F3O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C24H18N2O": {
+    "formula": "C24H18N2O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C8H7ClN2O3": {
+    "formula": "C8H7ClN2O3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C20H19NO": {
+    "formula": "C20H19NO",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H15N3O3": {
+    "formula": "C18H15N3O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H14N2O3S": {
+    "formula": "C14H14N2O3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C22H13F3N2O2": {
+    "formula": "C22H13F3N2O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H18ClNO5": {
+    "formula": "C17H18ClNO5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H24O2": {
+    "formula": "C12H24O2",
+    "status": "ok",
+    "n_iso": 1181068,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C33H26Br2N4O10": {
+    "formula": "C33H26Br2N4O10",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H15N5O2S": {
+    "formula": "C17H15N5O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C20H38O": {
+    "formula": "C20H38O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C25H18ClNO2": {
+    "formula": "C25H18ClNO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C24H16N2O": {
+    "formula": "C24H16N2O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H14S4": {
+    "formula": "C14H14S4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H12FNO2": {
+    "formula": "C14H12FNO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C10H11ClN4S": {
+    "formula": "C10H11ClN4S",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C12H21NO2": {
+    "formula": "C12H21NO2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C13H10O3": {
+    "formula": "C13H10O3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C22H22ClN5O": {
+    "formula": "C22H22ClN5O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C19H22N2O5": {
+    "formula": "C19H22N2O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H11Br2NO": {
+    "formula": "C15H11Br2NO",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C7H11NO2": {
+    "formula": "C7H11NO2",
+    "status": "ok",
+    "n_iso": 1495599,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C12H11BrFN3OSe": {
+    "formula": "C12H11BrFN3OSe",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C24H28N2O": {
+    "formula": "C24H28N2O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H15NO4": {
+    "formula": "C14H15NO4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H13N3O2S": {
+    "formula": "C17H13N3O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C10H7Br2FO": {
+    "formula": "C10H7Br2FO",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C11H9FN4O3": {
+    "formula": "C11H9FN4O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C33H27N9O8": {
+    "formula": "C33H27N9O8",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 2
+  },
+  "C9H10O3": {
+    "formula": "C9H10O3",
+    "status": "ok",
+    "n_iso": 48484454,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C21H38O": {
+    "formula": "C21H38O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C12H11N3O5": {
+    "formula": "C12H11N3O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H18N4O2": {
+    "formula": "C17H18N4O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C32H45N9O6": {
+    "formula": "C32H45N9O6",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H9NO3": {
+    "formula": "C13H9NO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H9FO3": {
+    "formula": "C14H9FO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C8H10INO2S": {
+    "formula": "C8H10INO2S",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C17H23NO4": {
+    "formula": "C17H23NO4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H11BrN2O3": {
+    "formula": "C13H11BrN2O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C11H16NO3S2-": {
+    "formula": "C11H16NO3S2-",
+    "status": "error",
+    "n_iso": null,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C34H27BrN2O6": {
+    "formula": "C34H27BrN2O6",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H10Cl2N4S": {
+    "formula": "C12H10Cl2N4S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H12BrN3": {
+    "formula": "C12H12BrN3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C27H31NO3": {
+    "formula": "C27H31NO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C23H14N2O3": {
+    "formula": "C23H14N2O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H10ClNO2Se": {
+    "formula": "C12H10ClNO2Se",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H20N8O2": {
+    "formula": "C17H20N8O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H18O5": {
+    "formula": "C13H18O5",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C16H22N2O": {
+    "formula": "C16H22N2O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H12N4": {
+    "formula": "C12H12N4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H13BrO4": {
+    "formula": "C12H13BrO4",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C13H27NO": {
+    "formula": "C13H27NO",
+    "status": "ok",
+    "n_iso": 9380938,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C24H20Cl2N4O3S2": {
+    "formula": "C24H20Cl2N4O3S2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C21H13F4NO3": {
+    "formula": "C21H13F4NO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C25H20Cl2N4O2": {
+    "formula": "C25H20Cl2N4O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H17NO4": {
+    "formula": "C17H17NO4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C8H10N2O2": {
+    "formula": "C8H10N2O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 2
+  },
+  "C22H20ClN3O2": {
+    "formula": "C22H20ClN3O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H19NO3S": {
+    "formula": "C15H19NO3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H16O2": {
+    "formula": "C14H16O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C15H21NO4": {
+    "formula": "C15H21NO4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C11H15NO2": {
+    "formula": "C11H15NO2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C36H47N3O6S": {
+    "formula": "C36H47N3O6S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C22H17Cl2N3O": {
+    "formula": "C22H17Cl2N3O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C8H7N3O": {
+    "formula": "C8H7N3O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C13H13NO2": {
+    "formula": "C13H13NO2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C23H17N3": {
+    "formula": "C23H17N3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H13NO5": {
+    "formula": "C13H13NO5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H13F3N2S": {
+    "formula": "C13H13F3N2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H23NO3": {
+    "formula": "C18H23NO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H10ClN3O5": {
+    "formula": "C12H10ClN3O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C20H16N6OS": {
+    "formula": "C20H16N6OS",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H12N4O": {
+    "formula": "C14H12N4O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C28H21FN4O2": {
+    "formula": "C28H21FN4O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C24H24BrClN2O2": {
+    "formula": "C24H24BrClN2O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H14O2": {
+    "formula": "C14H14O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C22H15ClO3": {
+    "formula": "C22H15ClO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H7O2S2-": {
+    "formula": "C13H7O2S2-",
+    "status": "error",
+    "n_iso": null,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C24H44N6O7": {
+    "formula": "C24H44N6O7",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C10H11N3S": {
+    "formula": "C10H11N3S",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C28H18ClFN4OS": {
+    "formula": "C28H18ClFN4OS",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C8H16N2": {
+    "formula": "C8H16N2",
+    "status": "ok",
+    "n_iso": 151696,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C14H24O": {
+    "formula": "C14H24O",
+    "status": "ok",
+    "n_iso": 75808656,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C9H17ClO3": {
+    "formula": "C9H17ClO3",
+    "status": "ok",
+    "n_iso": 2309077,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C12H14O2": {
+    "formula": "C12H14O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C23H21N5O3S2": {
+    "formula": "C23H21N5O3S2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C30H25Br2N": {
+    "formula": "C30H25Br2N",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H18N2O5S": {
+    "formula": "C12H18N2O5S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C10H7ClF3N3O": {
+    "formula": "C10H7ClF3N3O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C24H22N4O6": {
+    "formula": "C24H22N4O6",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H30INOS": {
+    "formula": "C18H30INOS",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C22H20N4O2": {
+    "formula": "C22H20N4O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C8H14O3": {
+    "formula": "C8H14O3",
+    "status": "ok",
+    "n_iso": 443628,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C12H8N2O": {
+    "formula": "C12H8N2O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C20H14BrNO2": {
+    "formula": "C20H14BrNO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C11H12BrFO2": {
+    "formula": "C11H12BrFO2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C19H19Cl2NO": {
+    "formula": "C19H19Cl2NO",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H10ClN3O2S": {
+    "formula": "C13H10ClN3O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H10N4O4": {
+    "formula": "C14H10N4O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H11N3O5S": {
+    "formula": "C13H11N3O5S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C41H46OS3": {
+    "formula": "C41H46OS3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H13NO4S": {
+    "formula": "C12H13NO4S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C19H25NO3": {
+    "formula": "C19H25NO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C25H30N2O5": {
+    "formula": "C25H30N2O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H11N": {
+    "formula": "C12H11N",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C13H12O5": {
+    "formula": "C13H12O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H21N": {
+    "formula": "C16H21N",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C29H18BrClN2O3": {
+    "formula": "C29H18BrClN2O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H19FN4O": {
+    "formula": "C15H19FN4O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H24O6": {
+    "formula": "C17H24O6",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C20H21N3O5": {
+    "formula": "C20H21N3O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C11H10Br2O2": {
+    "formula": "C11H10Br2O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C27H27NO4": {
+    "formula": "C27H27NO4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H16O4": {
+    "formula": "C17H16O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C23H17FO5": {
+    "formula": "C23H17FO5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C7H13N3": {
+    "formula": "C7H13N3",
+    "status": "ok",
+    "n_iso": 1327095,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C6H8O2": {
+    "formula": "C6H8O2",
+    "status": "ok",
+    "n_iso": 10893,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C25H18ClN5O4": {
+    "formula": "C25H18ClN5O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C24H34BrNO3": {
+    "formula": "C24H34BrNO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C23H19N3O4": {
+    "formula": "C23H19N3O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H25BrFNO2": {
+    "formula": "C17H25BrFNO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C32H48NO4-": {
+    "formula": "C32H48NO4-",
+    "status": "error",
+    "n_iso": null,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C20H29NO4S": {
+    "formula": "C20H29NO4S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C19H30O2": {
+    "formula": "C19H30O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H15N3O4S": {
+    "formula": "C18H15N3O4S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C35H27N3": {
+    "formula": "C35H27N3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C22H16ClIO4S": {
+    "formula": "C22H16ClIO4S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C26H20N4O4S": {
+    "formula": "C26H20N4O4S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C7H4I2O3": {
+    "formula": "C7H4I2O3",
+    "status": "ok",
+    "n_iso": 6152411,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C11H10BrNO2": {
+    "formula": "C11H10BrNO2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C38H60O3": {
+    "formula": "C38H60O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C27H23N3O4": {
+    "formula": "C27H23N3O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H16N4O": {
+    "formula": "C15H16N4O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H30O3": {
+    "formula": "C15H30O3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C11H11FN4O": {
+    "formula": "C11H11FN4O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C27H32O2": {
+    "formula": "C27H32O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C9H14N2O4": {
+    "formula": "C9H14N2O4",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C16H13NO2": {
+    "formula": "C16H13NO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H8ClNO2": {
+    "formula": "C14H8ClNO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C9H9FO2": {
+    "formula": "C9H9FO2",
+    "status": "ok",
+    "n_iso": 42660224,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C24H32N8O2S": {
+    "formula": "C24H32N8O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C27H33ClN4O5": {
+    "formula": "C27H33ClN4O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H24N2O2S": {
+    "formula": "C17H24N2O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H14Cl2N6O3": {
+    "formula": "C15H14Cl2N6O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C9H8O": {
+    "formula": "C9H8O",
+    "status": "ok",
+    "n_iso": 1011987,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C14H22N2O": {
+    "formula": "C14H22N2O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C16H12BrN3O": {
+    "formula": "C16H12BrN3O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C25H18N4O5": {
+    "formula": "C25H18N4O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C20H31NO7": {
+    "formula": "C20H31NO7",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C20H18BrN5O2S": {
+    "formula": "C20H18BrN5O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C24H23N3O3": {
+    "formula": "C24H23N3O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C19H20O5": {
+    "formula": "C19H20O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H11BrN2O3": {
+    "formula": "C14H11BrN2O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C11H15NO4": {
+    "formula": "C11H15NO4",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C11H20O2": {
+    "formula": "C11H20O2",
+    "status": "ok",
+    "n_iso": 3322248,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C13H12BrClN2O2S": {
+    "formula": "C13H12BrClN2O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H13NO5": {
+    "formula": "C12H13NO5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H16O3": {
+    "formula": "C17H16O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H21NO3": {
+    "formula": "C18H21NO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H17ClN2O2": {
+    "formula": "C16H17ClN2O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H10F3NO3": {
+    "formula": "C13H10F3NO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H32O3": {
+    "formula": "C16H32O3",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C32H52O3": {
+    "formula": "C32H52O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H11ClO3": {
+    "formula": "C14H11ClO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H12FN5S": {
+    "formula": "C16H12FN5S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C23H18ClNO": {
+    "formula": "C23H18ClNO",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C9H14OSi": {
+    "formula": "C9H14OSi",
+    "status": "ok",
+    "n_iso": 14784096,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C11H13FO2": {
+    "formula": "C11H13FO2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C10H18O4": {
+    "formula": "C10H18O4",
+    "status": "ok",
+    "n_iso": 41052797,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C13H17N3O2S": {
+    "formula": "C13H17N3O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C11H14N6OS": {
+    "formula": "C11H14N6OS",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C28H30N2O3": {
+    "formula": "C28H30N2O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C32H46N2O7": {
+    "formula": "C32H46N2O7",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H13NO6": {
+    "formula": "C13H13NO6",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H22O2": {
+    "formula": "C17H22O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C9H6N4O": {
+    "formula": "C9H6N4O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C23H36O6": {
+    "formula": "C23H36O6",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H14N2O6": {
+    "formula": "C12H14N2O6",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C23H24BrN3O5": {
+    "formula": "C23H24BrN3O5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H20N2O3S": {
+    "formula": "C14H20N2O3S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C23H30BrNO5": {
+    "formula": "C23H30BrNO5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C9H7FN2O2": {
+    "formula": "C9H7FN2O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C22H24N4O2S": {
+    "formula": "C22H24N4O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C22H19NO5": {
+    "formula": "C22H19NO5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H22O": {
+    "formula": "C12H22O",
+    "status": "ok",
+    "n_iso": 977939,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C26H42N4O2": {
+    "formula": "C26H42N4O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C8H17BrO": {
+    "formula": "C8H17BrO",
+    "status": "ok",
+    "n_iso": 1157,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C10H8N2O2": {
+    "formula": "C10H8N2O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C11H24O": {
+    "formula": "C11H24O",
+    "status": "ok",
+    "n_iso": 2426,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C16H22O4": {
+    "formula": "C16H22O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H15N3O": {
+    "formula": "C17H15N3O",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C17H23N3O5S": {
+    "formula": "C17H23N3O5S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H15N3O4S": {
+    "formula": "C12H15N3O4S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H15BrN2O4": {
+    "formula": "C18H15BrN2O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C23H20N2": {
+    "formula": "C23H20N2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H19NO2S": {
+    "formula": "C13H19NO2S",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C18H21NO2": {
+    "formula": "C18H21NO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C20H28O4": {
+    "formula": "C20H28O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C20H25NO2": {
+    "formula": "C20H25NO2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C12H9NO2": {
+    "formula": "C12H9NO2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C14H17N5": {
+    "formula": "C14H17N5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C21H40O": {
+    "formula": "C21H40O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C15H14BrNO": {
+    "formula": "C15H14BrNO",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H12O3Se": {
+    "formula": "C16H12O3Se",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C18H19NO2Si": {
+    "formula": "C18H19NO2Si",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H26OSi": {
+    "formula": "C13H26OSi",
+    "status": "ok",
+    "n_iso": 123755356,
+    "lower_bound": null,
+    "n_molecules": 1
+  },
+  "C17H12O3": {
+    "formula": "C17H12O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H14O2": {
+    "formula": "C16H14O2",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H12O": {
+    "formula": "C13H12O",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C12H16O3S": {
+    "formula": "C12H16O3S",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C28H23N7O4": {
+    "formula": "C28H23N7O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C13H26O3Si": {
+    "formula": "C13H26O3Si",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C12H12N2OS": {
+    "formula": "C12H12N2OS",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C17H28O2": {
+    "formula": "C17H28O2",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C21H12BrClF3NO3": {
+    "formula": "C21H12BrClF3NO3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C14H17N7O2S": {
+    "formula": "C14H17N7O2S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C23H35N5": {
+    "formula": "C23H35N5",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C15H14Br2N2O3": {
+    "formula": "C15H14Br2N2O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C16H16O3": {
+    "formula": "C16H16O3",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C11H11NO": {
+    "formula": "C11H11NO",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C40H56F6N4O6": {
+    "formula": "C40H56F6N4O6",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C23H18BrN5S": {
+    "formula": "C23H18BrN5S",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C25H18FN5O4": {
+    "formula": "C25H18FN5O4",
+    "status": "timeout",
+    "n_iso": null,
+    "lower_bound": 0,
+    "n_molecules": 1
+  },
+  "C11H9F7OS": {
+    "formula": "C11H9F7OS",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C15H27NO": {
+    "formula": "C15H27NO",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C12H16N4": {
+    "formula": "C12H16N4",
+    "status": "proved_over",
+    "n_iso": null,
+    "lower_bound": 20001,
+    "n_molecules": 1
+  },
+  "C7H4BrIN2O": {
+    "formula": "C7H4BrIN2O",
+    "status": "ok",
+    "n_iso": 176332689,
+    "lower_bound": null,
+    "n_molecules": 1
+  }
+}

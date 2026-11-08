@@ -1,0 +1,71 @@
+{
+  "model": "claude-opus-5-5-high",
+  "arm": "n500_leftover",
+  "k_requested": 10,
+  "n_roster": 500,
+  "n_finished": 380,
+  "denominator": "380 finished leftover items. Empty lists stay in this denominator. This is not a 500-wide rate.",
+  "not_the_locked_headline": true,
+  "locked_headline_left_unchanged": {
+    "top1": "227/500",
+    "recall": "249/500",
+    "precision_given_recall": "227/249"
+  },
+  "not_a_scaled_500_headline": true,
+  "selection": "Locked n=500 roster from closed_book.py roster('n500'), sorted by (difficulty, qid). Removed the nested n=60 (benchmark_v3 and benchmark_v2_ctrl), which sit inside that roster. Removed the 60 qids already deposited in predictions/cursor_claude-opus-5-5-high_n500_k10.jsonl. Those deposited qids are the manifest slice exclude_arm=n60, skip=380, limit=60. They are 1-based full-roster positions 411-470, benchmark_main:R11 through benchmark_main:R99. The PR 150 prose window 410-469 is one position earlier and is not the deposited set.",
+  "export_call": {
+    "arm": "n500",
+    "exclude_arm": "n60",
+    "skip": 0,
+    "limit": 380,
+    "batch_size": 6,
+    "k": 10
+  },
+  "why_limit_380_matches_the_deposited_complement": "After dropping the nested 60, 440 items remain. The deposited slice is the last 60 of those 440. The first 380 are the leftover.",
+  "full_roster_runs_1based": [
+    {"first": 1, "last": 222, "n": 222},
+    {"first": 253, "last": 410, "n": 158}
+  ],
+  "index_audit": {
+    "prose_window_in_pr_150": "410-469",
+    "deposited_prediction_window_1based": "411-470",
+    "deposited_equals_roster_slice_0based": "[410:470]",
+    "prose_window_would_rescore": "benchmark_main:R99",
+    "prose_window_would_skip": "benchmark_main:R108",
+    "this_file_includes": "benchmark_main:R108",
+    "this_file_excludes": "benchmark_main:R99",
+    "leftover_count_either_window": 380,
+    "sets_differ": true
+  },
+  "disjoint_from_deposited_n500_slice": true,
+  "disjoint_from_nested_n60": true,
+  "nested_n60_inside_roster": true,
+  "union_with_nested_n60_and_deposited_slice_equals_roster": true,
+  "qid_first": "benchmark_expand:R03",
+  "qid_last": "benchmark_main:R108",
+  "difficulty": {"complex": 222, "simple": 158},
+  "cohorts": {
+    "benchmark_expand_500": 200,
+    "benchmark_expand": 106,
+    "benchmark_main": 74
+  },
+  "cross": {
+    "complex_benchmark_expand": 53,
+    "complex_benchmark_expand_500": 103,
+    "complex_benchmark_main": 66,
+    "simple_benchmark_expand": 53,
+    "simple_benchmark_expand_500": 97,
+    "simple_benchmark_main": 8
+  },
+  "simple_benchmark_main_qids": [
+    "benchmark_main:R04",
+    "benchmark_main:R10",
+    "benchmark_main:R100",
+    "benchmark_main:R101",
+    "benchmark_main:R102",
+    "benchmark_main:R106",
+    "benchmark_main:R107",
+    "benchmark_main:R108"
+  ],
+  "scores_not_added_to_the_other_two_files": true
+}

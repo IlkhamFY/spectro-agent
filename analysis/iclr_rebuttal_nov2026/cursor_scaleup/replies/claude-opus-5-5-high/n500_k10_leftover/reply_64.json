@@ -1,0 +1,1 @@
+{"benchmark_main:R107": ["O=CCCCC1(C)CCC(CCCC)O1", "O=CCCC1(C)CCC(CCCCC)O1", "CCCCC1(C)CCC(CCCC=O)O1", "O=CCCCCC1(C)CCC(CCC)O1", "O=CCCCC1(C)CCCC(CCC)O1", "O=CCCC1(C)CCCC(CCCC)O1", "CCCCCC1(C)CCC(CCC=O)O1"], "benchmark_main:R108": ["Cc1cc(C)nc(Nc2ccc(Cl)cc2)n1", "Cc1cc(Nc2ccc(Cl)cc2)nc(C)n1", "Cc1cc(C)nc(Nc2cccc(Cl)c2)n1", "Cc1cc(C)nc(Nc2ccccc2Cl)n1"]}

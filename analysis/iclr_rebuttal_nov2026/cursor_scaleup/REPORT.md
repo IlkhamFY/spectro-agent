@@ -94,3 +94,71 @@ On these same 60 compounds, the deposited Opus lists (stored length at most 3, s
 - `closed_book.py` (`export`, `check`, `collect`, `score`, `selftest`)
 
 `python3 analysis/iclr_rebuttal_nov2026/cursor_scaleup/closed_book.py selftest` passed. It checks deduplication, prefix arithmetic, and rejection of an InChIKey inside a prompt.
+
+## Leftover of the locked n=500 roster
+
+This section is a later run. It does not replace the nested n=60 table or the 60-item continuation table above, and it does not replace the locked Claude headline (top-1 227/500, recall 249/500, self-rank precision|recall 227/249). The denominator below is 380. It is not a 500-wide rate, and it is not a rescaling of 53/60.
+
+### Which 380
+
+`closed_book.py roster('n500')` is 500 questions. The nested n=60 is inside that roster: all 40 `benchmark_v3` and all 20 `benchmark_v2_ctrl`, in two blocks, 1-based positions 223–252 and 471–500. The two sets are disjoint from each other.
+
+The 60-item continuation already on disk is `predictions/cursor_claude-opus-5-5-high_n500_k10.jsonl`. Its qids are `benchmark_main:R11` through `benchmark_main:R99`. That file matches 1-based full-roster positions 411–470 (0-based slice `[410:470]`), which is also what the earlier manifest recorded: `exclude_arm=n60`, `skip=380`, `limit=60`. The prose in the previous section, and in `selection_claude-opus-5-5-high_n500.json`, says indices 410–469. That window is one position earlier. It would include `benchmark_main:R108` and exclude `benchmark_main:R99`. The deposited qids were not redone. `benchmark_main:R108` is in this leftover file. `benchmark_main:R99` stays in the earlier file.
+
+After those two exclusions the leftover is 380, in 1-based positions 1–222 (222) and 253–410 (158). The same 380 is `export --arm n500 --exclude-arm n60 --skip 0 --limit 380`, because the deposited slice is the last 60 of the 440 non-nested items. Pairwise overlap of the three qid sets is 0. Their union is the 500. A sum of the three files would be a post-hoc sum of complementary files, and it would count each roster item once only under this qid definition. This report does not add those numerators.
+
+### Composition
+
+| difficulty | cohort | n |
+|---|---|---:|
+| complex | benchmark_expand | 53 |
+| complex | benchmark_expand_500 | 103 |
+| complex | benchmark_main | 66 |
+| simple | benchmark_expand | 53 |
+| simple | benchmark_expand_500 | 97 |
+| simple | benchmark_main | 8 |
+| complex | total | 222 |
+| simple | total | 158 |
+
+Cohort totals: `benchmark_expand_500` 200, `benchmark_expand` 106, `benchmark_main` 74. No `benchmark_v3` and no `benchmark_v2_ctrl`. The eight simple `benchmark_main` qids are R04, R10, R100, R101, R102, R106, R107, R108.
+
+### Protocol
+
+Same harness as the sections above (`closed_book.py` export, check, collect, score, lengths). Solver model id: `claude-opus-5-5-high`. Sixty-four fresh contexts, one per batch, six compounds except the last batch (two). Requested budget: up to 10 distinct constitutions, best first, no padding. Each context was told to read only its batch file and to use RDKit only to test a SMILES it had already written. This run does not have a recorded tool-call log for those 64 contexts, so it does not repeat the tool-log claim from the earlier sections.
+
+Identity is `scripts/specmetrics.ik14`: `Chem.MolToInchiKey` truncated to 14 characters. Empty lists stay in the denominator. Prefixes are cuts of the single list. k=20 and k=50 were not run.
+
+### Leak scan
+
+`checks_claude-opus-5-5-high_n500_leftover.json`: 64 prompts, 380 qids, 380 gold keys, 380 gold SMILES, 0 InChIKey-pattern hits, 0 key leaks, 0 SMILES leaks. The check passed.
+
+### Scores
+
+Finished: 380. Empty lists: 3 (`benchmark_expand:R102`, `benchmark_expand_500:R121`, `benchmark_main:R124`). Returned strings: 1610. Parseable: 1610. Formula matches: 1610. Unique constitutions: 1598. The difference of 12 is repeated constitutions, not formula failures. No list is longer than the request. Three lists have 10 unique constitutions, so the k=10 row is identified. An independent recount of the same prediction file with `ik14` and `prefix_counts` reproduced the table.
+
+| k | n | n_lists_ge_k | top-1 | recall | precision\|recall | identified |
+|---:|---:|---:|---:|---:|---:|---|
+| 1 | 380 | 377 | 257/380 | 257/380 | 257/257 | yes |
+| 2 | 380 | 359 | 257/380 | 272/380 | 257/272 | yes |
+| 3 | 380 | 315 | 257/380 | 275/380 | 257/275 | yes |
+| 4 | 380 | 239 | 257/380 | 280/380 | 257/280 | yes |
+| 5 | 380 | 142 | 257/380 | 280/380 | 257/280 | yes |
+| 6 | 380 | 97 | 257/380 | 284/380 | 257/284 | yes |
+| 7 | 380 | 48 | 257/380 | 284/380 | 257/284 | yes |
+| 8 | 380 | 13 | 257/380 | 284/380 | 257/284 | yes |
+| 9 | 380 | 5 | 257/380 | 284/380 | 257/284 | yes |
+| 10 | 380 | 3 | 257/380 | 285/380 | 257/285 | yes |
+| 20 | 380 | 0 |  |  |  | no |
+| 50 | 380 | 0 |  |  |  | no |
+
+Unique-length histogram: 0 (3 lists), 1 (18), 2 (44), 3 (76), 4 (97), 5 (45), 6 (49), 7 (35), 8 (8), 9 (2), 10 (3). Top-1 stays 257/380. Recall moves from 257/380 at k=1 to 285/380 at k=10. The raw-unique table, which keeps a wrong-formula constitution if one had parsed, is identical at every k, which matches the formula-match count of 1610/1610.
+
+### Files added for this leftover run
+
+- `predictions/cursor_claude-opus-5-5-high_n500_leftover_k10.jsonl`
+- `scores_claude-opus-5-5-high_n500_leftover.csv`
+- `lengths_claude-opus-5-5-high_n500_leftover.json`
+- `checks_claude-opus-5-5-high_n500_leftover.json`
+- `selection_claude-opus-5-5-high_n500_leftover.json`
+- `prompts/claude-opus-5-5-high/n500_k10_leftover/`
+- `replies/claude-opus-5-5-high/n500_k10_leftover/`

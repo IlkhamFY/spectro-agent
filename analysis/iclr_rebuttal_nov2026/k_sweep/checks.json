@@ -1,0 +1,212 @@
+{
+  "checks": [
+    {
+      "name": "published_generate_wide_endpoint",
+      "got": "25/60 recall, 18/60 verify, 14/60 self",
+      "expect": "25/60 recall, 18/60 verify, 14/60 self",
+      "ok": true
+    },
+    {
+      "name": "claude_n60_mean_raw",
+      "got": "132/60 = 2.2000",
+      "expect": "132/60 = 2.20 if the published two-decimal figure is exact",
+      "ok": true
+    },
+    {
+      "name": "fverify_n60_full_pool",
+      "got": "recall 19/60 self 14/60 verify 16/60",
+      "expect": "19/60, 14/60, 16/60",
+      "ok": true
+    },
+    {
+      "name": "fverify_n194_full_pool",
+      "got": "recall 65/194 self 55 verify 58",
+      "expect": "65/194, 55, 58",
+      "ok": true
+    },
+    {
+      "name": "sweep_recall_grok-4.6",
+      "got": "32/60",
+      "expect": "32/60",
+      "ok": true
+    },
+    {
+      "name": "sweep_top1_grok-4.6",
+      "got": "23/60",
+      "expect": "23/60",
+      "ok": true
+    },
+    {
+      "name": "sweep_fv_grok-4.6",
+      "got": "verify 20/32",
+      "expect": "20/32",
+      "ok": true
+    },
+    {
+      "name": "sweep_recall_grok-4.6-clean",
+      "got": "28/60",
+      "expect": "28/60",
+      "ok": true
+    },
+    {
+      "name": "sweep_recall_gemini-3.7-flash",
+      "got": "30/60",
+      "expect": "30/60",
+      "ok": true
+    },
+    {
+      "name": "sweep_top1_gemini-3.7-flash",
+      "got": "23/60",
+      "expect": "23/60",
+      "ok": true
+    },
+    {
+      "name": "sweep_fv_gemini-3.7-flash",
+      "got": "verify 22/30",
+      "expect": "22/30",
+      "ok": true
+    },
+    {
+      "name": "sweep_recall_gpt-5.6-sol",
+      "got": "25/60",
+      "expect": "25/60",
+      "ok": true
+    },
+    {
+      "name": "sweep_top1_gpt-5.6-sol",
+      "got": "21/60",
+      "expect": "21/60",
+      "ok": true
+    },
+    {
+      "name": "sweep_fv_gpt-5.6-sol",
+      "got": "verify 17/25",
+      "expect": "17/25",
+      "ok": true
+    },
+    {
+      "name": "locked194_raw_top3",
+      "got": "top1 55/194 recall 65/194",
+      "expect": "55/194 and 65/194",
+      "ok": true
+    },
+    {
+      "name": "plus106_raw_top3",
+      "got": "63/106 and 68/106",
+      "expect": "63/106 and 68/106",
+      "ok": true
+    },
+    {
+      "name": "expand200_raw_top3",
+      "got": "109/200 and 116/200",
+      "expect": "109/200 and 116/200",
+      "ok": true
+    },
+    {
+      "name": "n500_raw_top3",
+      "got": "top1 227/500 recall 249/500",
+      "expect": "227/500 and 249/500",
+      "ok": true
+    },
+    {
+      "name": "plus106_fverify_full",
+      "got": "recall 68/106 self 63 verify 56",
+      "expect": "68/106, 63, 56",
+      "ok": true
+    },
+    {
+      "name": "expand200_fverify_full",
+      "got": "recall 116/200 self 109 verify 90",
+      "expect": "116/200, 109, 90",
+      "ok": true
+    },
+    {
+      "name": "n500_fverify_full",
+      "got": "n 500 recall 249 verify 204 rank_miss 45 gen_miss 251",
+      "expect": "500, recall 249, verify 204, rank_miss 45, gen_miss 251",
+      "ok": true
+    }
+  ],
+  "notes": [
+    "n=60 compounds with no generate-wide list: ['V3-R27']",
+    "generator probe: 248 qids, unique SMILES sum 8344, mean 33.65, median 35.0, max 40. gen_candidates.jsonl stores sorted canonical SMILES, not beam order. A prefix of that file is not a generation ranking, so no k curve is reported.",
+    "DeepSeek V4 Pro and Nemotron replies are not in the tree. docs/MODELS.md points at data/cross_vendor/, which is gitignored and absent here."
+  ],
+  "sweep_meta": {
+    "grok-4.6": {
+      "reply_files": 10,
+      "verify_files": 11,
+      "key_collisions": 0,
+      "answered": 60,
+      "verify_joined": 60
+    },
+    "grok-4.6-clean": {
+      "reply_files": 10,
+      "verify_files": 0,
+      "key_collisions": 0,
+      "answered": 60,
+      "verify_joined": 0
+    },
+    "gemini-3.7-flash": {
+      "reply_files": 10,
+      "verify_files": 11,
+      "key_collisions": 0,
+      "answered": 60,
+      "verify_joined": 59
+    },
+    "gpt-5.6-sol": {
+      "reply_files": 10,
+      "verify_files": 11,
+      "key_collisions": 0,
+      "answered": 60,
+      "verify_joined": 60
+    },
+    "composer-2.5": {
+      "reply_files": 10,
+      "verify_files": 0,
+      "key_collisions": 0,
+      "answered": 57,
+      "verify_joined": 0
+    },
+    "gpt-5.6-luna": {
+      "reply_files": 10,
+      "verify_files": 0,
+      "key_collisions": 0,
+      "answered": 60,
+      "verify_joined": 0
+    }
+  },
+  "fverify_sha": "473030fb9d046548ff1ad06d04d20915fc2943d2",
+  "raw_n60": {
+    "n": 60,
+    "sum": 132,
+    "mean": 2.2,
+    "median": 2.0,
+    "min": 1,
+    "max": 3,
+    "hist": {
+      "1": 11,
+      "2": 26,
+      "3": 23
+    }
+  },
+  "unique_n60": {
+    "n": 60,
+    "sum": 126,
+    "mean": 2.1,
+    "median": 2.0,
+    "min": 1,
+    "max": 3,
+    "hist": {
+      "1": 12,
+      "2": 30,
+      "3": 18
+    }
+  },
+  "published_union": {
+    "n": 60,
+    "recall": 25,
+    "self_top1": 14,
+    "verify_top1": 18
+  }
+}

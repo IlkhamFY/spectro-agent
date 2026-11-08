@@ -1,0 +1,55 @@
+{
+  "n_roster": 500,
+  "wall": {
+    "top1": 227,
+    "proposed_not_top1": 22,
+    "never": 251
+  },
+  "chosen_cutoff": 20000,
+  "start_cutoff": 5000,
+  "expand_cutoff": 20000,
+  "n_under_5000": 3,
+  "n_under_20000": 4,
+  "n_over": 38,
+  "n_timeout": 350,
+  "n_error": 3,
+  "n_formulas": 484,
+  "n_formulas_under_5000": 3,
+  "n_formulas_under_20000": 4,
+  "hose_mae": 3.23,
+  "hose_median": 1.73,
+  "hose_gate_source": "scripts/hose_predict.py build, random.seed(7), this environment",
+  "surge_sha256": "0910de00e9b7373184a62914e1c34bf26b5fefce4f487a4088b938c0c410e9c2",
+  "median_rank": 9.5,
+  "union_attempted": 0,
+  "union_enumerable": 0,
+  "union_over": 0,
+  "union_incomplete": 0,
+  "union_ranked": 0,
+  "union_ranked_stats": {
+    "n": 0,
+    "gold_in": 0,
+    "le10": 0,
+    "miss_le10": 0
+  },
+  "seconds": 2018.0,
+  "n_enumerable": 4,
+  "n_gold_in_pool": 4,
+  "n_exact_over": 38,
+  "n_proved_over": 105,
+  "min_exact_above": {
+    "formula": "C6H13NO2",
+    "n_iso": 23946,
+    "n_molecules": 1
+  },
+  "rank_gt50_spheres": [
+    {
+      "uid": "locked-main:R56",
+      "formula": "C7H18Sn",
+      "by_sphere": "r=2 2, r=1 5",
+      "n_carbon": 7,
+      "chamfer": 4.929589285714285,
+      "best": 2.062696428571429
+    }
+  ]
+}

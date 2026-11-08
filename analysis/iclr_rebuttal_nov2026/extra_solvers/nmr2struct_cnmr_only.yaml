@@ -1,0 +1,85 @@
+# Inference config for MarklandGroup/NMR2Struct checkpoints/cnmr_only_checkpoint.pt.
+# Token ids follow the README convention for example_configs/alphabet.npy (length 21):
+# pad = 21, start = 22, stop = 23, target_size = 24.
+# use_hnmr is false: the carbon-only checkpoint does not read a proton trace.
+# load_model and alphabet are overwritten with NMR2STRUCT_ROOT at runtime.
+global_args:
+  ngpus: 1
+  dtype: float32
+  savedir: "/tmp/nmr2struct_unused"
+  seed: 42
+
+model:
+  model_type: "MultiTaskModel"
+  load_model: null
+  model_args:
+    src_embed: ConvolutionalEmbedding
+    src_embed_options:
+      d_model: 128
+      n_hnmr_features: 28000
+      n_cnmr_features: 80
+      use_hnmr: false
+      use_cnmr: true
+    forward_fxn: src_fwd_fxn_conv_embedding
+    substructure_model: "EncoderModel"
+    substructure_model_args:
+      d_model: 128
+      d_out: 957
+      dim_feedforward: 1024
+      nhead: 4
+      num_layers: 4
+      output_head: SingleLinear
+      output_head_opts:
+        d_model: 128
+        d_out: 957
+      pooler: SeqPool
+      pooler_opts:
+        d_model: 128
+      source_size: 28045
+      src_embed: null
+      src_embed_options: {}
+      src_forward_function: src_fwd_fxn_packed_tensor
+      src_pad_token: null
+    structure_model: "TransformerModel"
+    structure_model_args:
+      src_embed: null
+      src_embed_options: {}
+      tgt_embed: "nn.embed"
+      tgt_embed_options: {}
+      src_forward_function: "src_fwd_fxn_packed_tensor"
+      tgt_forward_function: "tgt_fwd_fxn_basic"
+      source_size: 28080
+      target_size: 24
+      d_model: 128
+      dim_feedforward: 1024
+      nhead: 8
+      num_encoder_layers: 6
+      num_decoder_layers: 6
+      src_pad_token: null
+      tgt_pad_token: 21
+    substructure_model_ckpt: null
+    structure_model_ckpt: null
+
+inference:
+  model_selection: lowest
+  splits:
+    - null
+  train_size: 0.8
+  val_size: 0.1
+  test_size: 0.1
+  dloader_args:
+    shuffle: false
+    batch_size: 1
+  sets_to_run: ["test"]
+  run_inference_args:
+    pred_gen_fn: "infer_transformer_model"
+    pred_gen_opts:
+      num_pred_per_tgt: 15
+      sample_val: 5
+      tgt_start_token: 22
+      tgt_stop_token: 23
+      track_gradients: true
+      alphabet: alphabet.npy
+      decode: true
+      infer_fwd_fxn: multitask
+    write_freq: 100

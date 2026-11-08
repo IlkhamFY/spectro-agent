@@ -23,6 +23,51 @@ def md_table(rows: list[dict], columns: list[str]) -> str:
     return "\n".join([header, rule, *body])
 
 
+def pair(text: str) -> tuple[int, int]:
+    left, right = text.split("/")
+    return int(left), int(right)
+
+
+def frac(num: int, den: int) -> str:
+    return f"{num}/{den}" if den else "0/0"
+
+
+def empty_qids(name: str) -> list[str]:
+    found = []
+    for line in (HERE / "predictions" / name).read_text().splitlines():
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        if not row.get("candidates"):
+            found.append(row["qid"])
+    return found
+
+
+def reply_mismatches(reply_dir: Path, predictions: Path) -> int:
+    manifest = json.loads((reply_dir / "manifest.json").read_text())
+    by_qid = {}
+    for batch in manifest["batches"]:
+        text = (reply_dir / f"reply_{batch['batch']}.json").read_text()
+        try:
+            raw = json.loads(text)
+        except json.JSONDecodeError:
+            start, end = text.find("{"), text.rfind("}")
+            raw = json.loads(text[start:end + 1])
+        for qid in batch["qids"]:
+            cands = raw.get(qid) or []
+            if isinstance(cands, str):
+                cands = [cands]
+            by_qid[qid] = [item.strip() for item in cands if isinstance(item, str) and item.strip()]
+    mismatches = 0
+    for line in predictions.read_text().splitlines():
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        if list(row.get("candidates") or []) != by_qid.get(row["qid"]):
+            mismatches += 1
+    return mismatches
+
+
 def main() -> None:
     inventory = read_csv("inventory.csv")
     prefixes = read_csv("prefix_scores.csv")
@@ -56,7 +101,7 @@ def main() -> None:
     a("")
     a("Request: up to 10 distinct constitutions, best first. Closed book. The prompt fields were molecular formula, IR band list, printed 1H, and printed 13C. Gold SMILES and InChIKey were not in the prompt. `export` does not open an answer file.")
     a("")
-    a("Scoring is RDKit InChIKey connectivity (first 14 characters), offline, after the prediction JSONL was written. `list_kind=unique_constitutions` keeps the first parseable SMILES of each connectivity and drops later duplicates. Unparseable strings are dropped rather than promoted. Fractions below are copied from `scores_n60.csv`, `scores_n500.csv`, `inventory.csv`, and `prefix_scores.csv`.")
+    a("Scoring is RDKit InChIKey connectivity (first 14 characters), offline, after the prediction JSONL was written. `list_kind=unique_constitutions` keeps the first parseable SMILES of each connectivity and drops later duplicates. Unparseable strings are dropped rather than promoted. Fractions below are copied from `scores_n60.csv`, `scores_n500.csv`, `scores_n218.csv`, `scores_posthoc_sum500.csv`, `inventory.csv`, and `prefix_scores.csv`.")
     a("")
     a("## Locked Claude headline, unchanged")
     a("")
@@ -128,7 +173,7 @@ def main() -> None:
     a("")
     a(f"Finished items in `predictions/cursor_n500_k10.jsonl`: {n500_n}. Denominator is {n500_n}, the finished count. The other roster items are not scored and are not counted as misses. This is not a 500-wide rate.")
     a("")
-    a("The nested 60 are not repeated in that file and were not re-solved. Batches 01–37 of the n=500 prompt manifest are disjoint from those 60 and contain 222 compounds. All 37 replies were present at scoring time, so this file is that whole disjoint block, not a sample inside it. From batch 38 the manifest overlaps the nested 60; those prompts are not relaunched, so the scored n=60 arm is not replaced. The 218 roster items that sit in batches 38–84 are unscored.")
+    a("The nested 60 are not repeated in that file and were not re-solved. Batches 01–37 of the n=500 prompt manifest are disjoint from those 60 and contain 222 compounds. All 37 replies were present at scoring time, so this file is that whole disjoint block, not a sample inside it. From batch 38 that manifest overlaps the nested 60, so those prompts were not relaunched. This denominator stays 222. The non-nested simple items are scored in their own file and are not written into these fractions.")
     a("")
     if n500:
         empty500 = [
@@ -150,20 +195,111 @@ def main() -> None:
             "k", "n", "n_lists_ge_k", "top1", "recall", "precision_given_recall",
         ]))
         a("")
+    n218 = [r for r in read_csv("scores_n218.csv") if r["list_kind"] == "unique_constitutions"]
+    n218_raw = [r for r in read_csv("scores_n218.csv") if r["list_kind"] == "raw_slots"]
+    composition = json.loads((HERE / "composition_n218.json").read_text())
+    leaks = json.loads((HERE / "leak_scan_n218.json").read_text())
+    if composition["n"] != 218 or composition["n_simple"] != 218 or composition["n_not_simple"] != 0:
+        raise SystemExit("composition audit is not 218 simple items")
+    if composition["overlap_nested_n60"] != 0 or composition["overlap_complex_n222"] != 0:
+        raise SystemExit("composition audit overlap is not zero")
+    if composition["union_with_n60_and_n222"] != 500:
+        raise SystemExit("the three files do not union to 500")
+    if not n218 or n218[0]["n"] != "218":
+        raise SystemExit("n218 score file denominator is not 218")
+    cohort_bits = ", ".join(f"`{name}` {count}" for name, count in composition["cohorts"].items())
+    empty218 = empty_qids("cursor_n218_k10.jsonl")
+    pred218 = HERE / "predictions" / "cursor_n218_k10.jsonl"
+    mismatches = reply_mismatches(HERE / "raw_replies" / "n218", pred218)
+    a("## New arm: non-nested simple n = 218, requested k = 10")
+    a("")
+    a("Finished 218/218. File: `predictions/cursor_n218_k10.jsonl`. Raw replies are in `raw_replies/n218/`. "
+      "This block is every simple item in the n=500 roster outside the nested 60 "
+      f"(248 simple − 30 nested simple). `composition_n218.json` records n={composition['n']}, "
+      f"n_simple={composition['n_simple']}, overlap with the nested 60 = {composition['overlap_nested_n60']}, "
+      f"overlap with the finished complex file = {composition['overlap_complex_n222']}, "
+      f"union of the three files = {composition['union_with_n60_and_n222']}. "
+      f"The block is contiguous in the difficulty-then-qid roster, indices "
+      f"{composition['roster_index_start']} through {composition['roster_index_end']}. "
+      f"Cohorts: {cohort_bits}. The nested 60 and the 222 were not re-solved.")
+    a("")
+    a("Empty lists, kept in the denominator: "
+      + (", ".join(f"`{q}`" for q in empty218) if empty218 else "none")
+      + ". Rank-1 formula match on the raw first string is "
+      + f"{n218_raw[0]['n_formula_match_rank1']}. Rank-1 parseable is {n218_raw[0]['n_parseable_rank1']}.")
+    a("")
+    a("Unique-constitution prefixes. This is the curve to cite for this arm. "
+      "Shorter lists contribute the constitutions they have. k = 20 and k = 50 were not requested.")
+    a("")
+    a(md_table(n218, [
+        "k", "n", "n_lists_ge_k", "top1", "recall", "precision_given_recall",
+    ]))
+    a("")
+    k10_218 = at(n218, 10)
+    if k10_218 is None:
+        raise SystemExit("n218 was asked for k=10 and the score file has no k=10 row")
+    a(f"At k = 10, top-1 is {k10_218['top1']}, recall is {k10_218['recall']}, precision given recall is {k10_218['precision_given_recall']}, and n_lists_ge_k is {k10_218['n_lists_ge_k']}/218.")
+    if int(k10_218["n_lists_ge_k"]) == 0:
+        a("No returned list contains 10 unique constitutions, so n_lists_ge_k at k = 10 is 0. The k = 10 prefix is the stored list. No SMILES was added to fill a tenth slot.")
+    a("")
+    a("## Post-hoc sum of three complementary finished files")
+    a("")
+    a("Label: post-hoc sum of three complementary finished files of `grok-4.7-high-fast` under the same closed-book k=10 protocol. The files are the nested n=60 arm, the non-nested complex n=222 arm, and this non-nested simple n=218 arm. Their qids are disjoint and their union has 500 items. This is not a single 500-item run. No partial rate is scaled to 500. The locked Claude headline remains the deposited self-rank 227/500 top-1 and 249/500 recall at stored lists of maximum length 3.")
+    a("")
+    posthoc = []
+    missing_k = []
+    for k in range(1, 11):
+        parts_k = [at(n60, k), at(n500, k), at(n218, k)]
+        if any(row is None for row in parts_k):
+            missing_k.append(k)
+            continue
+        top_n = sum(pair(row["top1"])[0] for row in parts_k)
+        rec_n = sum(pair(row["recall"])[0] for row in parts_k)
+        ge_n = sum(int(row["n_lists_ge_k"]) for row in parts_k)
+        den = sum(int(row["n"]) for row in parts_k)
+        if den != 500:
+            raise SystemExit(f"post-hoc denominator at k={k} is {den}, expected 500")
+        posthoc.append({
+            "k": k,
+            "n": den,
+            "n_lists_ge_k": ge_n,
+            "top1": frac(top_n, den),
+            "recall": frac(rec_n, den),
+            "precision_given_recall": frac(top_n, rec_n),
+            "label": "posthoc_sum_of_three_complementary_files",
+        })
+    if missing_k:
+        a("No post-hoc row is written for k = " + ", ".join(str(k) for k in missing_k) + ", because that prefix is absent from at least one of the three score files.")
+        a("")
+    if posthoc:
+        a(md_table(posthoc, [
+            "k", "n", "n_lists_ge_k", "top1", "recall", "precision_given_recall",
+        ]))
+        a("")
+        fields = ["k", "n", "n_lists_ge_k", "top1", "recall", "precision_given_recall", "label"]
+        with (HERE / "scores_posthoc_sum500.csv").open("w", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fields)
+            writer.writeheader()
+            writer.writerows(posthoc)
     a("## Closed-book caveat")
     a("")
-    a("Each solver was instructed to read only its batch markdown, to skip the web, the repository, gold files, isomer databases, and NMR-Solver, and to use RDKit only after a proposal, to check that the SMILES parses and matches the formula. The same limit is stated in `scripts/manual_collect.py`: the harness cannot prove a solver obeyed it. Predictions were written before scoring. Collected SMILES were not edited by hand; `cursor_n60_k10.jsonl` matches `raw_replies/n60/` after whitespace stripping, 0 mismatches. The only metadata change after collection was the model string, from a placeholder to `grok-4.7-high-fast`.")
+    a("Each solver was instructed to read only its batch markdown, to skip the web, the repository, gold files, isomer databases, and NMR-Solver, and to use RDKit only after a proposal, to check that the SMILES parses and matches the formula. The same limit is stated in `scripts/manual_collect.py`: the harness cannot prove a solver obeyed it. Predictions were written before scoring. Collected SMILES were not edited by hand. "
+      f"`cursor_n60_k10.jsonl` matches `raw_replies/n60/` after whitespace stripping, 0 mismatches. "
+      f"`cursor_n218_k10.jsonl` matches `raw_replies/n218/` after whitespace stripping, {mismatches} mismatches. "
+      "The only metadata change after collection was the model string, set to `grok-4.7-high-fast`.")
+    a("")
+    a(f"Prompt leak scan on the 218 exported prompts (`leak_scan_n218.json`): InChIKey pattern matches {leaks['inchikey_pattern_matches']}, gold SMILES token matches {leaks['gold_smiles_token_matches']}, gold InChIKey matches {leaks['gold_inchikey_matches']}, gold InChIKey-14 matches {leaks['gold_inchikey14_matches']}, banned-token counts {json.dumps(leaks['banned_token_matches'])}. The prompt template uses the word SMILES as the requested output format. `export` does not open an answer file. Re-export of the existing n=60 and n=500 batch 01 prompts reproduced the deposited sha256 values in `renderer_check.json`.")
     a("")
     a("## What is still unidentified")
     a("")
-    a("- k = 20 and k = 50, on this model and on the deposited Claude lists. Not requested yet on this arm, and not stored in the old logs.")
-    a("- A finished 500-wide Cursor rate. The partial file must not be scaled to 500.")
+    a("- k = 20 and k = 50, on this model and on the deposited Claude lists. Not requested on this arm, and not stored in the old logs.")
+    a("- A single 500-item Cursor run. The post-hoc table is the sum of three finished files. The 222 file is not scaled to 500.")
     a("- Forward-verify of the new Cursor lists. No blind 13C prediction pass was run, so precision given recall here is self-rank, not chamfer.")
     a("")
     text = "\n".join(lines) + "\n"
     (HERE / "REPORT.md").write_text(text)
     parts = []
-    for name in ("scores_n60.csv", "scores_n500.csv"):
+    for name in ("scores_n60.csv", "scores_n500.csv", "scores_n218.csv"):
         blob = (HERE / name).read_text().splitlines()
         if not parts:
             parts.extend(blob)

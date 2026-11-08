@@ -1,0 +1,37 @@
+{
+  "benchmark_main:R32": [
+    "O=C1C(=C)C(NC)C1C(=O)NCc2ccccc2",
+    "O=C1C(=C)C(C(=O)NCc2ccccc2)C1NC",
+    "O=C1C=CC(NC)C1C(=O)NCc2ccccc2",
+    "O=C1C=CC(C(=O)NCc2ccccc2)C1NC"
+  ],
+  "benchmark_main:R34": [
+    "O=C(NN=Cc1ccc(O)cc1)c1ccccc1",
+    "O=C(NN=Cc1ccccc1)c1ccc(O)cc1"
+  ],
+  "benchmark_main:R36": [
+    "CC(OCC(C)C)n1cc(-c2ccccc2)nn1",
+    "CC(OCC(C)C)n1nc(-c2ccccc2)cn1",
+    "CC(OCC(C)C)n1c(-c2ccccc2)cnn1",
+    "CC(OCC(C)C)n1cnc(-c2ccccc2)n1",
+    "CC(OCC(C)C)n1c(-c2ccccc2)ncn1",
+    "CC(OCC(C)C)n1c(-c2ccccc2)nnc1"
+  ],
+  "benchmark_main:R37": [
+    "O=S(=O)(NCc1ccccc1)c1c(CO)cc(Br)cc1",
+    "O=S(=O)(NCc1ccccc1)c1c(CO)ccc(Br)c1",
+    "O=S(=O)(NCc1ccccc1)c1cc(Br)c(CO)cc1",
+    "O=S(=O)(NCc1ccccc1)c1cc(CO)c(Br)cc1",
+    "O=S(=O)(NCc1ccccc1)c1c(CO)c(Br)ccc1",
+    "O=S(=O)(NCc1ccccc1)c1c(Br)cc(CO)cc1",
+    "O=S(=O)(NCc1ccccc1)c1cc(CO)cc(Br)c1",
+    "O=S(=O)(NCc1ccccc1)c1c(CO)cccc1Br"
+  ],
+  "benchmark_main:R38": [
+    "CCc1ccc(C=C(C(=O)OCC)[N+](=O)[O-])cc1",
+    "CCc1ccc(C(=CC(=O)OCC)[N+](=O)[O-])cc1"
+  ],
+  "benchmark_main:R40": [
+    "O=C(O)CCCCC(=O)Nc1ccccc1"
+  ]
+}

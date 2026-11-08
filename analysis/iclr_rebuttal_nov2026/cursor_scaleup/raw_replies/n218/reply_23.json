@@ -1,0 +1,25 @@
+{
+  "benchmark_expand_500:R35": [
+    "O=C1NC(=O)C(C(C[N+](=O)[O-])c2ccc(Cl)cc2)C(=O)N1",
+    "O=c1[nH]c(O)c(C(C[N+](=O)[O-])c2ccc(Cl)cc2)c(=O)[nH]1",
+    "O=C1NC(=O)C(C(C[N+](=O)[O-])c2cccc(Cl)c2)C(=O)N1",
+    "O=C1NC(=O)C(C(C[N+](=O)[O-])c2ccccc2Cl)C(=O)N1",
+    "O=c1[nH]c(O)c(C(C[N+](=O)[O-])c2cccc(Cl)c2)c(=O)[nH]1",
+    "O=c1[nH]c(O)c(C(C[N+](=O)[O-])c2ccccc2Cl)c(=O)[nH]1"
+  ],
+  "benchmark_expand_500:R36": [
+    "O=Cc1ccc(CCOC2CCCCO2)cc1"
+  ],
+  "benchmark_expand_500:R41": [
+    "CCCc1cc(=O)cc(-c2ccccc2)o1"
+  ],
+  "benchmark_expand_500:R45": [
+    "NC(=S)N/N=C/C=C/c1ccccc1"
+  ],
+  "benchmark_expand_500:R48": [
+    "CC1=C(/C=C/C(C)CO)C(C)(C)CCC1"
+  ],
+  "benchmark_expand_500:R49": [
+    "CC(C)(C)C(=O)OCCOCCCl"
+  ]
+}

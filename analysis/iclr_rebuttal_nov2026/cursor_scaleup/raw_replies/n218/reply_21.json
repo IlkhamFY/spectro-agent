@@ -1,0 +1,29 @@
+{
+  "benchmark_expand_500:R221": [
+    "CCOC(=O)C=C(C)C(=O)C#CCc1ccccc1",
+    "CCOC(=O)C=C(C)C(=O)CC#Cc1ccccc1",
+    "CCOC(=O)C(C)=CC(=O)C#CCc1ccccc1",
+    "CCOC(=O)C(C)=CC(=O)CC#Cc1ccccc1",
+    "CCOC(=O)C(=O)C=C(C)C#CCc1ccccc1",
+    "CCOC(=O)C(=O)C(C)=CC#CCc1ccccc1",
+    "CCOC(=O)CC#CC(=O)C(C)=Cc1ccccc1"
+  ],
+  "benchmark_expand_500:R222": [
+    "O=C1C=C(Nc2ccccc2)CC1"
+  ],
+  "benchmark_expand_500:R226": [
+    "O=S(CCC(F)(C(F)(F)F)C(F)(F)F)c1ccccc1",
+    "O=S(CCc1ccccc1)C(F)(C(F)(F)F)C(F)(F)F"
+  ],
+  "benchmark_expand_500:R227": [
+    "CCCCCCCC#CC(C)N1CCOCC1"
+  ],
+  "benchmark_expand_500:R228": [
+    "CC(C)Nc1n[nH]c(Cc2ccccc2)n1",
+    "CC(C)c1n[nH]c(NCc2ccccc2)n1",
+    "CC(C)C1=NN=C(Cc2ccccc2)NN1"
+  ],
+  "benchmark_expand_500:R23": [
+    "CCOC(=O)c1ccc(NC(=O)CCCCCO)cc1"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "benchmark_main:R04": [
+    "OC(c1ccccc1)c1ncccc1F",
+    "OC(c1ccccc1)c1ccc(F)cn1",
+    "OC(c1ccccc1)c1ccncc1F"
+  ],
+  "benchmark_main:R10": [
+    "CCC(CC)CCC(=O)c1ccccc1"
+  ],
+  "benchmark_main:R100": [
+    "FC(F)(F)c1ccc(-c2ccc[nH]2)cc1",
+    "FC(F)(F)c1ccc(-c2cc[nH]c2)cc1"
+  ],
+  "benchmark_main:R101": [
+    "CCN1C(=O)C(=CNc2ccccn2)C(=O)N(CC)C1=S",
+    "CCN1C(=O)C(=CNc2cccnc2)C(=O)N(CC)C1=S"
+  ],
+  "benchmark_main:R102": [
+    "CCCC1CC(=O)C=C(C(C)(C)C)N1",
+    "CC(C)(C)C1CC(=O)C=C(CCC)N1",
+    "CCCC1CC(=O)C=C1NC(C)(C)C"
+  ],
+  "benchmark_main:R106": [
+    "CC(C#C)c1ccc(-c2ccccc2)nc1",
+    "CC(C#C)c1ccc(-c2ccccc2)cn1"
+  ]
+}

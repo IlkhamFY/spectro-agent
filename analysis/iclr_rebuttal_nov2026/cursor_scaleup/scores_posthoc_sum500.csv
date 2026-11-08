@@ -1,0 +1,11 @@
+k,n,n_lists_ge_k,top1,recall,precision_given_recall,label
+1,500,495,235/500,235/500,235/235,posthoc_sum_of_three_complementary_files
+2,500,396,235/500,264/500,235/264,posthoc_sum_of_three_complementary_files
+3,500,316,235/500,274/500,235/274,posthoc_sum_of_three_complementary_files
+4,500,248,235/500,278/500,235/278,posthoc_sum_of_three_complementary_files
+5,500,205,235/500,280/500,235/280,posthoc_sum_of_three_complementary_files
+6,500,161,235/500,282/500,235/282,posthoc_sum_of_three_complementary_files
+7,500,102,235/500,282/500,235/282,posthoc_sum_of_three_complementary_files
+8,500,77,235/500,282/500,235/282,posthoc_sum_of_three_complementary_files
+9,500,31,235/500,283/500,235/283,posthoc_sum_of_three_complementary_files
+10,500,16,235/500,283/500,235/283,posthoc_sum_of_three_complementary_files

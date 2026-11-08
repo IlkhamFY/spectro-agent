@@ -1,0 +1,21 @@
+{
+  "benchmark_expand:R70": [
+    "Cc1ccc(CN(C)C(C#C)=CC(=O)c2ccccc2)cc1"
+  ],
+  "benchmark_expand:R72": [
+    "CC(=O)Nc1ccc(S(=O)(=O)Nc2ccccc2)cc1"
+  ],
+  "benchmark_expand:R75": [
+    "CCCCC1(CC)COC(C)(C)OC1"
+  ],
+  "benchmark_expand:R78": [
+    "C#CC(O)CCCCCCCCCCCCCCCCC"
+  ],
+  "benchmark_expand:R81": [
+    "C#CCCCSc1ccc(-c2ccc(SC)s2)s1"
+  ],
+  "benchmark_expand:R82": [
+    "COc1cc(C=Nc2ccc(F)cc2)ccc1O",
+    "COc1ccc(C=Nc2ccc(F)cc2)cc1O"
+  ]
+}

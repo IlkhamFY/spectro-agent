@@ -1,0 +1,20 @@
+{
+  "model": "claude-opus-5-5-high",
+  "arm": "n500",
+  "k_requested": 10,
+  "n_roster": 500,
+  "n_finished": 60,
+  "denominator": "finished count only; unfinished roster items are not scored and are not counted as misses",
+  "not_the_locked_headline": true,
+  "locked_headline_left_unchanged": {
+    "top1": "227/500",
+    "recall": "249/500",
+    "precision_given_recall": "227/249"
+  },
+  "selection": "Full n=500 roster sorted by (difficulty, qid), the same order as closed_book.py roster('n500'). The nested n=60 (benchmark_v3 and benchmark_v2_ctrl) was solved in a separate file. At selection, the grok-4.7-high-fast arm had already dispatched full-roster batches 01-22 (positions 1-132). This arm took the last 60 non-nested items that were outside that prefix. They are full-roster indices 410-469 inclusive, all benchmark_main.",
+  "full_roster_index_first": 410,
+  "full_roster_index_last": 469,
+  "qid_first": "benchmark_main:R11",
+  "qid_last": "benchmark_main:R99",
+  "cohorts": {"benchmark_main": 60}
+}

@@ -1,0 +1,207 @@
+k,n,n_lists_ge_k,recall,self_top1,self_prec_num,verify_top1,verify_defined,verify_prec_num,recall_singletons,selected_unpredicted,gen_miss,rank_miss_self,rank_miss_verify,arm,subset,max_unique_in_arm,ranker_note,identified
+1,60,60,14,14,14,14,60,14,14,0,46,0,0,original,n60,3,chamfer re-rank of the prefix; self-rank is list position 0,True
+2,60,48,17,14,14,14,60,14,6,0,43,3,3,original,n60,3,chamfer re-rank of the prefix; self-rank is list position 0,True
+3,60,18,19,14,14,16,60,16,6,0,41,5,3,original,n60,3,chamfer re-rank of the prefix; self-rank is list position 0,True
+5,60,0,19,14,14,16,60,16,6,0,41,5,3,original,n60,3,chamfer re-rank of the prefix; self-rank is list position 0,False
+6,60,0,19,14,14,16,60,16,6,0,41,5,3,original,n60,3,chamfer re-rank of the prefix; self-rank is list position 0,False
+10,60,0,19,14,14,16,60,16,6,0,41,5,3,original,n60,3,chamfer re-rank of the prefix; self-rank is list position 0,False
+20,60,0,19,14,14,16,60,16,6,0,41,5,3,original,n60,3,chamfer re-rank of the prefix; self-rank is list position 0,False
+50,60,0,19,14,14,16,60,16,6,0,41,5,3,original,n60,3,chamfer re-rank of the prefix; self-rank is list position 0,False
+1,60,59,13,13,13,13,60,13,13,0,47,0,0,wide-only,n60,6,chamfer re-rank of the prefix; self-rank is list position 0,True
+2,60,59,19,13,13,16,60,16,0,0,41,6,3,wide-only,n60,6,chamfer re-rank of the prefix; self-rank is list position 0,True
+3,60,51,23,13,13,18,60,18,0,0,37,10,5,wide-only,n60,6,chamfer re-rank of the prefix; self-rank is list position 0,True
+4,60,35,24,13,13,18,60,18,0,0,36,11,6,wide-only,n60,6,chamfer re-rank of the prefix; self-rank is list position 0,True
+5,60,25,24,13,13,18,60,18,0,0,36,11,6,wide-only,n60,6,chamfer re-rank of the prefix; self-rank is list position 0,True
+6,60,9,24,13,13,18,60,18,0,0,36,11,6,wide-only,n60,6,chamfer re-rank of the prefix; self-rank is list position 0,True
+10,60,0,24,13,13,18,60,18,0,0,36,11,6,wide-only,n60,6,chamfer re-rank of the prefix; self-rank is list position 0,False
+20,60,0,24,13,13,18,60,18,0,0,36,11,6,wide-only,n60,6,chamfer re-rank of the prefix; self-rank is list position 0,False
+50,60,0,24,13,13,18,60,18,0,0,36,11,6,wide-only,n60,6,chamfer re-rank of the prefix; self-rank is list position 0,False
+1,60,60,14,14,14,14,60,14,14,0,46,0,0,pooled,n60,9,chamfer re-rank of the prefix; self-rank is list position 0,True
+2,60,60,18,14,14,14,60,14,0,0,42,4,4,pooled,n60,9,chamfer re-rank of the prefix; self-rank is list position 0,True
+3,60,57,22,14,14,18,60,18,0,0,38,8,4,pooled,n60,9,chamfer re-rank of the prefix; self-rank is list position 0,True
+4,60,46,22,14,14,17,60,17,0,0,38,8,5,pooled,n60,9,chamfer re-rank of the prefix; self-rank is list position 0,True
+5,60,40,24,14,14,18,60,18,0,0,36,10,6,pooled,n60,9,chamfer re-rank of the prefix; self-rank is list position 0,True
+6,60,28,25,14,14,18,60,18,0,0,35,11,7,pooled,n60,9,chamfer re-rank of the prefix; self-rank is list position 0,True
+7,60,20,25,14,14,18,60,18,0,0,35,11,7,pooled,n60,9,chamfer re-rank of the prefix; self-rank is list position 0,True
+8,60,6,25,14,14,18,60,18,0,0,35,11,7,pooled,n60,9,chamfer re-rank of the prefix; self-rank is list position 0,True
+9,60,1,25,14,14,18,60,18,0,0,35,11,7,pooled,n60,9,chamfer re-rank of the prefix; self-rank is list position 0,True
+10,60,0,25,14,14,18,60,18,0,0,35,11,7,pooled,n60,9,chamfer re-rank of the prefix; self-rank is list position 0,False
+20,60,0,25,14,14,18,60,18,0,0,35,11,7,pooled,n60,9,chamfer re-rank of the prefix; self-rank is list position 0,False
+50,60,0,25,14,14,18,60,18,0,0,35,11,7,pooled,n60,9,chamfer re-rank of the prefix; self-rank is list position 0,False
+1,60,60,14,14,14,14,60,14,14,0,46,0,0,fverify-deposited,n60,3,deposited candidates.jsonl order by self_rank,True
+2,60,48,17,14,14,14,60,14,6,0,43,3,3,fverify-deposited,n60,3,deposited candidates.jsonl order by self_rank,True
+3,60,18,19,14,14,16,60,16,6,0,41,5,3,fverify-deposited,n60,3,deposited candidates.jsonl order by self_rank,True
+5,60,0,19,14,14,16,60,16,6,0,41,5,3,fverify-deposited,n60,3,deposited candidates.jsonl order by self_rank,False
+6,60,0,19,14,14,16,60,16,6,0,41,5,3,fverify-deposited,n60,3,deposited candidates.jsonl order by self_rank,False
+10,60,0,19,14,14,16,60,16,6,0,41,5,3,fverify-deposited,n60,3,deposited candidates.jsonl order by self_rank,False
+20,60,0,19,14,14,16,60,16,6,0,41,5,3,fverify-deposited,n60,3,deposited candidates.jsonl order by self_rank,False
+50,60,0,19,14,14,16,60,16,6,0,41,5,3,fverify-deposited,n60,3,deposited candidates.jsonl order by self_rank,False
+1,134,132,41,41,41,41,134,41,41,0,93,0,0,fverify-deposited,n134,3,deposited candidates.jsonl order by self_rank,True
+2,134,90,45,41,41,42,134,42,22,0,89,4,3,fverify-deposited,n134,3,deposited candidates.jsonl order by self_rank,True
+3,134,25,46,41,41,42,134,42,22,0,88,5,4,fverify-deposited,n134,3,deposited candidates.jsonl order by self_rank,True
+5,134,0,46,41,41,42,134,42,22,0,88,5,4,fverify-deposited,n134,3,deposited candidates.jsonl order by self_rank,False
+6,134,0,46,41,41,42,134,42,22,0,88,5,4,fverify-deposited,n134,3,deposited candidates.jsonl order by self_rank,False
+10,134,0,46,41,41,42,134,42,22,0,88,5,4,fverify-deposited,n134,3,deposited candidates.jsonl order by self_rank,False
+20,134,0,46,41,41,42,134,42,22,0,88,5,4,fverify-deposited,n134,3,deposited candidates.jsonl order by self_rank,False
+50,134,0,46,41,41,42,134,42,22,0,88,5,4,fverify-deposited,n134,3,deposited candidates.jsonl order by self_rank,False
+1,194,192,55,55,55,55,194,55,55,0,139,0,0,fverify-deposited,n194,3,n60 and n134 deposited pools pooled,True
+2,194,138,62,55,55,56,194,56,28,0,132,7,6,fverify-deposited,n194,3,n60 and n134 deposited pools pooled,True
+3,194,43,65,55,55,58,194,58,28,0,129,10,7,fverify-deposited,n194,3,n60 and n134 deposited pools pooled,True
+5,194,0,65,55,55,58,194,58,28,0,129,10,7,fverify-deposited,n194,3,n60 and n134 deposited pools pooled,False
+6,194,0,65,55,55,58,194,58,28,0,129,10,7,fverify-deposited,n194,3,n60 and n134 deposited pools pooled,False
+10,194,0,65,55,55,58,194,58,28,0,129,10,7,fverify-deposited,n194,3,n60 and n134 deposited pools pooled,False
+20,194,0,65,55,55,58,194,58,28,0,129,10,7,fverify-deposited,n194,3,n60 and n134 deposited pools pooled,False
+50,194,0,65,55,55,58,194,58,28,0,129,10,7,fverify-deposited,n194,3,n60 and n134 deposited pools pooled,False
+1,60,60,23,23,23,23,60,23,23,0,37,0,0,grok-4.6,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+2,60,60,29,23,23,23,60,23,0,0,31,6,6,grok-4.6,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+3,60,58,32,23,23,20,60,20,0,0,28,9,12,grok-4.6,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+5,60,0,32,23,23,20,60,20,0,0,28,9,12,grok-4.6,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+6,60,0,32,23,23,20,60,20,0,0,28,9,12,grok-4.6,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+10,60,0,32,23,23,20,60,20,0,0,28,9,12,grok-4.6,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+20,60,0,32,23,23,20,60,20,0,0,28,9,12,grok-4.6,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+50,60,0,32,23,23,20,60,20,0,0,28,9,12,grok-4.6,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+1,60,59,19,19,19,,0,,19,,41,0,,grok-4.6-clean,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+2,60,59,25,19,19,,0,,0,,35,6,,grok-4.6-clean,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+3,60,52,28,19,19,,0,,0,,32,9,,grok-4.6-clean,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+5,60,0,28,19,19,,0,,0,,32,9,,grok-4.6-clean,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+6,60,0,28,19,19,,0,,0,,32,9,,grok-4.6-clean,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+10,60,0,28,19,19,,0,,0,,32,9,,grok-4.6-clean,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+20,60,0,28,19,19,,0,,0,,32,9,,grok-4.6-clean,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+50,60,0,28,19,19,,0,,0,,32,9,,grok-4.6-clean,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+1,60,59,23,23,23,23,60,23,23,0,37,0,0,gemini-3.7-flash,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+2,60,59,27,23,23,23,60,23,0,0,33,4,4,gemini-3.7-flash,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+3,60,58,30,23,23,22,60,22,0,0,30,7,8,gemini-3.7-flash,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+5,60,0,30,23,23,22,60,22,0,0,30,7,8,gemini-3.7-flash,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+6,60,0,30,23,23,22,60,22,0,0,30,7,8,gemini-3.7-flash,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+10,60,0,30,23,23,22,60,22,0,0,30,7,8,gemini-3.7-flash,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+20,60,0,30,23,23,22,60,22,0,0,30,7,8,gemini-3.7-flash,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+50,60,0,30,23,23,22,60,22,0,0,30,7,8,gemini-3.7-flash,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+1,60,60,21,21,21,21,60,21,21,0,39,0,0,gpt-5.6-sol,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+2,60,60,22,21,21,17,60,17,0,0,38,1,5,gpt-5.6-sol,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+3,60,60,25,21,21,17,60,17,0,0,35,4,8,gpt-5.6-sol,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+5,60,0,25,21,21,17,60,17,0,0,35,4,8,gpt-5.6-sol,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+6,60,0,25,21,21,17,60,17,0,0,35,4,8,gpt-5.6-sol,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+10,60,0,25,21,21,17,60,17,0,0,35,4,8,gpt-5.6-sol,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+20,60,0,25,21,21,17,60,17,0,0,35,4,8,gpt-5.6-sol,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+50,60,0,25,21,21,17,60,17,0,0,35,4,8,gpt-5.6-sol,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+1,60,57,10,10,10,,0,,10,,50,0,,composer-2.5,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+2,60,54,12,10,10,,0,,0,,48,2,,composer-2.5,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+3,60,44,12,10,10,,0,,0,,48,2,,composer-2.5,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+5,60,0,12,10,10,,0,,0,,48,2,,composer-2.5,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+6,60,0,12,10,10,,0,,0,,48,2,,composer-2.5,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+10,60,0,12,10,10,,0,,0,,48,2,,composer-2.5,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+20,60,0,12,10,10,,0,,0,,48,2,,composer-2.5,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+50,60,0,12,10,10,,0,,0,,48,2,,composer-2.5,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+1,60,57,6,6,6,,0,,6,,54,0,,gpt-5.6-luna,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+2,60,55,7,6,6,,0,,0,,53,1,,gpt-5.6-luna,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+3,60,44,9,6,6,,0,,0,,51,3,,gpt-5.6-luna,n60,3,sweep reply order; chamfer only if anon rebuild joined,True
+5,60,0,9,6,6,,0,,0,,51,3,,gpt-5.6-luna,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+6,60,0,9,6,6,,0,,0,,51,3,,gpt-5.6-luna,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+10,60,0,9,6,6,,0,,0,,51,3,,gpt-5.6-luna,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+20,60,0,9,6,6,,0,,0,,51,3,,gpt-5.6-luna,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+50,60,0,9,6,6,,0,,0,,51,3,,gpt-5.6-luna,n60,3,sweep reply order; chamfer only if anon rebuild joined,False
+1,24,24,6,6,6,,0,,6,,18,0,,Opus,n24,3,self-rank only; no forward-verify log on this subset,True
+2,24,19,6,6,6,,0,,1,,18,0,,Opus,n24,3,self-rank only; no forward-verify log on this subset,True
+3,24,5,7,6,6,,0,,1,,17,1,,Opus,n24,3,self-rank only; no forward-verify log on this subset,True
+5,24,0,7,6,6,,0,,1,,17,1,,Opus,n24,3,self-rank only; no forward-verify log on this subset,False
+6,24,0,7,6,6,,0,,1,,17,1,,Opus,n24,3,self-rank only; no forward-verify log on this subset,False
+10,24,0,7,6,6,,0,,1,,17,1,,Opus,n24,3,self-rank only; no forward-verify log on this subset,False
+20,24,0,7,6,6,,0,,1,,17,1,,Opus,n24,3,self-rank only; no forward-verify log on this subset,False
+50,24,0,7,6,6,,0,,1,,17,1,,Opus,n24,3,self-rank only; no forward-verify log on this subset,False
+1,24,24,5,5,5,,0,,5,,19,0,,Sonnet,n24,3,self-rank only; no forward-verify log on this subset,True
+2,24,17,6,5,5,,0,,4,,18,1,,Sonnet,n24,3,self-rank only; no forward-verify log on this subset,True
+3,24,9,6,5,5,,0,,4,,18,1,,Sonnet,n24,3,self-rank only; no forward-verify log on this subset,True
+5,24,0,6,5,5,,0,,4,,18,1,,Sonnet,n24,3,self-rank only; no forward-verify log on this subset,False
+6,24,0,6,5,5,,0,,4,,18,1,,Sonnet,n24,3,self-rank only; no forward-verify log on this subset,False
+10,24,0,6,5,5,,0,,4,,18,1,,Sonnet,n24,3,self-rank only; no forward-verify log on this subset,False
+20,24,0,6,5,5,,0,,4,,18,1,,Sonnet,n24,3,self-rank only; no forward-verify log on this subset,False
+50,24,0,6,5,5,,0,,4,,18,1,,Sonnet,n24,3,self-rank only; no forward-verify log on this subset,False
+1,24,21,0,0,0,,0,,0,,24,0,,Haiku,n24,2,self-rank only; no forward-verify log on this subset,True
+2,24,16,1,0,0,,0,,0,,23,1,,Haiku,n24,2,self-rank only; no forward-verify log on this subset,True
+3,24,0,1,0,0,,0,,0,,23,1,,Haiku,n24,2,self-rank only; no forward-verify log on this subset,False
+5,24,0,1,0,0,,0,,0,,23,1,,Haiku,n24,2,self-rank only; no forward-verify log on this subset,False
+6,24,0,1,0,0,,0,,0,,23,1,,Haiku,n24,2,self-rank only; no forward-verify log on this subset,False
+10,24,0,1,0,0,,0,,0,,23,1,,Haiku,n24,2,self-rank only; no forward-verify log on this subset,False
+20,24,0,1,0,0,,0,,0,,23,1,,Haiku,n24,2,self-rank only; no forward-verify log on this subset,False
+50,24,0,1,0,0,,0,,0,,23,1,,Haiku,n24,2,self-rank only; no forward-verify log on this subset,False
+1,24,24,11,11,11,,0,,11,,13,0,,Fable,n24,3,self-rank only; no forward-verify log on this subset,True
+2,24,20,13,11,11,,0,,4,,11,2,,Fable,n24,3,self-rank only; no forward-verify log on this subset,True
+3,24,15,13,11,11,,0,,4,,11,2,,Fable,n24,3,self-rank only; no forward-verify log on this subset,True
+5,24,0,13,11,11,,0,,4,,11,2,,Fable,n24,3,self-rank only; no forward-verify log on this subset,False
+6,24,0,13,11,11,,0,,4,,11,2,,Fable,n24,3,self-rank only; no forward-verify log on this subset,False
+10,24,0,13,11,11,,0,,4,,11,2,,Fable,n24,3,self-rank only; no forward-verify log on this subset,False
+20,24,0,13,11,11,,0,,4,,11,2,,Fable,n24,3,self-rank only; no forward-verify log on this subset,False
+50,24,0,13,11,11,,0,,4,,11,2,,Fable,n24,3,self-rank only; no forward-verify log on this subset,False
+1,12,12,2,2,2,,0,,2,,10,0,,sonnet-wide,n12,5,file order; no separate forward-verify map,True
+2,12,12,4,2,2,,0,,0,,8,2,,sonnet-wide,n12,5,file order; no separate forward-verify map,True
+3,12,10,4,2,2,,0,,0,,8,2,,sonnet-wide,n12,5,file order; no separate forward-verify map,True
+4,12,5,4,2,2,,0,,0,,8,2,,sonnet-wide,n12,5,file order; no separate forward-verify map,True
+5,12,2,4,2,2,,0,,0,,8,2,,sonnet-wide,n12,5,file order; no separate forward-verify map,True
+6,12,0,4,2,2,,0,,0,,8,2,,sonnet-wide,n12,5,file order; no separate forward-verify map,False
+10,12,0,4,2,2,,0,,0,,8,2,,sonnet-wide,n12,5,file order; no separate forward-verify map,False
+20,12,0,4,2,2,,0,,0,,8,2,,sonnet-wide,n12,5,file order; no separate forward-verify map,False
+50,12,0,4,2,2,,0,,0,,8,2,,sonnet-wide,n12,5,file order; no separate forward-verify map,False
+1,194,192,55,55,55,,0,,55,,139,0,,claude-opus-raw-top3-scorer,locked194,3,"first k raw strings, the score_main / rebuttal scorer; no chamfer",True
+2,194,138,62,55,55,,0,,28,,132,7,,claude-opus-raw-top3-scorer,locked194,3,"first k raw strings, the score_main / rebuttal scorer; no chamfer",True
+3,194,43,65,55,55,,0,,28,,129,10,,claude-opus-raw-top3-scorer,locked194,3,"first k raw strings, the score_main / rebuttal scorer; no chamfer",True
+5,194,0,65,55,55,,0,,28,,129,10,,claude-opus-raw-top3-scorer,locked194,3,"first k raw strings, the score_main / rebuttal scorer; no chamfer",False
+6,194,0,65,55,55,,0,,28,,129,10,,claude-opus-raw-top3-scorer,locked194,3,"first k raw strings, the score_main / rebuttal scorer; no chamfer",False
+10,194,0,65,55,55,,0,,28,,129,10,,claude-opus-raw-top3-scorer,locked194,3,"first k raw strings, the score_main / rebuttal scorer; no chamfer",False
+20,194,0,65,55,55,,0,,28,,129,10,,claude-opus-raw-top3-scorer,locked194,3,"first k raw strings, the score_main / rebuttal scorer; no chamfer",False
+50,194,0,65,55,55,,0,,28,,129,10,,claude-opus-raw-top3-scorer,locked194,3,"first k raw strings, the score_main / rebuttal scorer; no chamfer",False
+1,106,106,63,63,63,,0,,63,,43,0,,claude-opus-raw-top3-scorer,plus106,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,True
+2,106,106,67,63,63,,0,,0,,39,4,,claude-opus-raw-top3-scorer,plus106,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,True
+3,106,89,68,63,63,,0,,0,,38,5,,claude-opus-raw-top3-scorer,plus106,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,True
+5,106,0,68,63,63,,0,,0,,38,5,,claude-opus-raw-top3-scorer,plus106,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+6,106,0,68,63,63,,0,,0,,38,5,,claude-opus-raw-top3-scorer,plus106,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+10,106,0,68,63,63,,0,,0,,38,5,,claude-opus-raw-top3-scorer,plus106,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+20,106,0,68,63,63,,0,,0,,38,5,,claude-opus-raw-top3-scorer,plus106,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+50,106,0,68,63,63,,0,,0,,38,5,,claude-opus-raw-top3-scorer,plus106,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+1,200,200,109,109,109,,0,,109,,91,0,,claude-opus-raw-top3-scorer,expand200,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,True
+2,200,199,114,109,109,,0,,1,,86,5,,claude-opus-raw-top3-scorer,expand200,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,True
+3,200,193,116,109,109,,0,,1,,84,7,,claude-opus-raw-top3-scorer,expand200,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,True
+5,200,0,116,109,109,,0,,1,,84,7,,claude-opus-raw-top3-scorer,expand200,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+6,200,0,116,109,109,,0,,1,,84,7,,claude-opus-raw-top3-scorer,expand200,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+10,200,0,116,109,109,,0,,1,,84,7,,claude-opus-raw-top3-scorer,expand200,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+20,200,0,116,109,109,,0,,1,,84,7,,claude-opus-raw-top3-scorer,expand200,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+50,200,0,116,109,109,,0,,1,,84,7,,claude-opus-raw-top3-scorer,expand200,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+1,30,30,20,20,20,,0,,20,,10,0,,claude-opus-raw-top3-scorer,expand500_rest,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,True
+2,30,30,22,20,20,,0,,0,,8,2,,claude-opus-raw-top3-scorer,expand500_rest,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,True
+3,30,29,22,20,20,,0,,0,,8,2,,claude-opus-raw-top3-scorer,expand500_rest,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,True
+5,30,0,22,20,20,,0,,0,,8,2,,claude-opus-raw-top3-scorer,expand500_rest,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+6,30,0,22,20,20,,0,,0,,8,2,,claude-opus-raw-top3-scorer,expand500_rest,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+10,30,0,22,20,20,,0,,0,,8,2,,claude-opus-raw-top3-scorer,expand500_rest,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+20,30,0,22,20,20,,0,,0,,8,2,,claude-opus-raw-top3-scorer,expand500_rest,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+50,30,0,22,20,20,,0,,0,,8,2,,claude-opus-raw-top3-scorer,expand500_rest,3,first k raw strings; gold join on formula+IR+13C; no chamfer on this row,False
+1,500,498,227,227,227,,0,,227,,273,0,,claude-opus-raw-top3-scorer,n500,3,locked 194 + plus106 + expand200; first k raw strings,True
+2,500,443,243,227,227,,0,,29,,257,16,,claude-opus-raw-top3-scorer,n500,3,locked 194 + plus106 + expand200; first k raw strings,True
+3,500,325,249,227,227,,0,,29,,251,22,,claude-opus-raw-top3-scorer,n500,3,locked 194 + plus106 + expand200; first k raw strings,True
+5,500,0,249,227,227,,0,,29,,251,22,,claude-opus-raw-top3-scorer,n500,3,locked 194 + plus106 + expand200; first k raw strings,False
+6,500,0,249,227,227,,0,,29,,251,22,,claude-opus-raw-top3-scorer,n500,3,locked 194 + plus106 + expand200; first k raw strings,False
+10,500,0,249,227,227,,0,,29,,251,22,,claude-opus-raw-top3-scorer,n500,3,locked 194 + plus106 + expand200; first k raw strings,False
+20,500,0,249,227,227,,0,,29,,251,22,,claude-opus-raw-top3-scorer,n500,3,locked 194 + plus106 + expand200; first k raw strings,False
+50,500,0,249,227,227,,0,,29,,251,22,,claude-opus-raw-top3-scorer,n500,3,locked 194 + plus106 + expand200; first k raw strings,False
+1,106,106,63,63,63,63,106,63,63,0,43,0,0,fverify-expansion,plus106,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",True
+2,106,106,67,63,63,62,106,62,0,0,39,4,5,fverify-expansion,plus106,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",True
+3,106,89,68,63,63,56,106,56,0,0,38,5,12,fverify-expansion,plus106,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",True
+5,106,0,68,63,63,56,106,56,0,0,38,5,12,fverify-expansion,plus106,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",False
+6,106,0,68,63,63,56,106,56,0,0,38,5,12,fverify-expansion,plus106,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",False
+10,106,0,68,63,63,56,106,56,0,0,38,5,12,fverify-expansion,plus106,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",False
+20,106,0,68,63,63,56,106,56,0,0,38,5,12,fverify-expansion,plus106,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",False
+50,106,0,68,63,63,56,106,56,0,0,38,5,12,fverify-expansion,plus106,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",False
+1,200,200,109,109,109,109,200,109,109,0,91,0,0,fverify-expansion,expand200,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",True
+2,200,199,114,109,109,99,200,99,1,0,86,5,15,fverify-expansion,expand200,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",True
+3,200,193,116,109,109,90,200,90,1,0,84,7,26,fverify-expansion,expand200,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",True
+5,200,0,116,109,109,90,200,90,1,0,84,7,26,fverify-expansion,expand200,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",False
+6,200,0,116,109,109,90,200,90,1,0,84,7,26,fverify-expansion,expand200,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",False
+10,200,0,116,109,109,90,200,90,1,0,84,7,26,fverify-expansion,expand200,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",False
+20,200,0,116,109,109,90,200,90,1,0,84,7,26,fverify-expansion,expand200,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",False
+50,200,0,116,109,109,90,200,90,1,0,84,7,26,fverify-expansion,expand200,3,"deposited fverify candidates, self_rank order, chamfer on the prefix",False
+1,500,498,227,227,227,227,500,227,227,0,273,0,0,fverify-expansion,n500,3,n194 deposited + expansion fverify logs; chamfer on the prefix,True
+2,500,443,243,227,227,217,500,217,29,0,257,16,26,fverify-expansion,n500,3,n194 deposited + expansion fverify logs; chamfer on the prefix,True
+3,500,325,249,227,227,204,500,204,29,0,251,22,45,fverify-expansion,n500,3,n194 deposited + expansion fverify logs; chamfer on the prefix,True
+5,500,0,249,227,227,204,500,204,29,0,251,22,45,fverify-expansion,n500,3,n194 deposited + expansion fverify logs; chamfer on the prefix,False
+6,500,0,249,227,227,204,500,204,29,0,251,22,45,fverify-expansion,n500,3,n194 deposited + expansion fverify logs; chamfer on the prefix,False
+10,500,0,249,227,227,204,500,204,29,0,251,22,45,fverify-expansion,n500,3,n194 deposited + expansion fverify logs; chamfer on the prefix,False
+20,500,0,249,227,227,204,500,204,29,0,251,22,45,fverify-expansion,n500,3,n194 deposited + expansion fverify logs; chamfer on the prefix,False
+50,500,0,249,227,227,204,500,204,29,0,251,22,45,fverify-expansion,n500,3,n194 deposited + expansion fverify logs; chamfer on the prefix,False

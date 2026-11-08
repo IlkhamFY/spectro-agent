@@ -6,7 +6,7 @@ Model id: `grok-4.7-high-fast`. That is `originalModelName` on cloud run `bc-7b2
 
 Request: up to 10 distinct constitutions, best first. Closed book. The prompt fields were molecular formula, IR band list, printed 1H, and printed 13C. Gold SMILES and InChIKey were not in the prompt. `export` does not open an answer file.
 
-Scoring is RDKit InChIKey connectivity (first 14 characters), offline, after the prediction JSONL was written. `list_kind=unique_constitutions` keeps the first parseable SMILES of each connectivity and drops later duplicates. Unparseable strings are dropped rather than promoted. Fractions below are copied from `scores_n60.csv`, `scores_n500.csv`, `inventory.csv`, and `prefix_scores.csv`.
+Scoring is RDKit InChIKey connectivity (first 14 characters), offline, after the prediction JSONL was written. `list_kind=unique_constitutions` keeps the first parseable SMILES of each connectivity and drops later duplicates. Unparseable strings are dropped rather than promoted. Fractions below are copied from `scores_n60.csv`, `scores_n500.csv`, `scores_n218.csv`, `scores_posthoc_sum500.csv`, `inventory.csv`, and `prefix_scores.csv`.
 
 ## Locked Claude headline, unchanged
 
@@ -130,7 +130,7 @@ These 60 are the vendor-comparison arm (`benchmark_v3` 40 plus `benchmark_v2_ctr
 
 Finished items in `predictions/cursor_n500_k10.jsonl`: 222. Denominator is 222, the finished count. The other roster items are not scored and are not counted as misses. This is not a 500-wide rate.
 
-The nested 60 are not repeated in that file and were not re-solved. Batches 01–37 of the n=500 prompt manifest are disjoint from those 60 and contain 222 compounds. All 37 replies were present at scoring time, so this file is that whole disjoint block, not a sample inside it. From batch 38 the manifest overlaps the nested 60; those prompts are not relaunched, so the scored n=60 arm is not replaced. The 218 roster items that sit in batches 38–84 are unscored.
+The nested 60 are not repeated in that file and were not re-solved. Batches 01–37 of the n=500 prompt manifest are disjoint from those 60 and contain 222 compounds. All 37 replies were present at scoring time, so this file is that whole disjoint block, not a sample inside it. From batch 38 that manifest overlaps the nested 60, so those prompts were not relaunched. This denominator stays 222. The non-nested simple items are scored in their own file and are not written into these fractions.
 
 Empty lists inside this partial file, kept in its denominator: `benchmark_expand:R102`, `benchmark_expand:R97`, `benchmark_main:R112`, `benchmark_main:R124`.
 
@@ -149,13 +149,56 @@ Longest stored list among the finished 222 is 10. At k = 10, top-1 is 53/222, re
 | 9 | 222 | 20 | 53/222 | 72/222 | 53/72 |
 | 10 | 222 | 10 | 53/222 | 72/222 | 53/72 |
 
+## New arm: non-nested simple n = 218, requested k = 10
+
+Finished 218/218. File: `predictions/cursor_n218_k10.jsonl`. Raw replies are in `raw_replies/n218/`. This block is every simple item in the n=500 roster outside the nested 60 (248 simple − 30 nested simple). `composition_n218.json` records n=218, n_simple=218, overlap with the nested 60 = 0, overlap with the finished complex file = 0, union of the three files = 500. The block is contiguous in the difficulty-then-qid roster, indices 252 through 469. Cohorts: `benchmark_expand` 53, `benchmark_expand_500` 97, `benchmark_main` 68. The nested 60 and the 222 were not re-solved.
+
+Empty lists, kept in the denominator: none. Rank-1 formula match on the raw first string is 218/218. Rank-1 parseable is 218/218.
+
+Unique-constitution prefixes. This is the curve to cite for this arm. Shorter lists contribute the constitutions they have. k = 20 and k = 50 were not requested.
+
+| k | n | n_lists_ge_k | top1 | recall | precision_given_recall |
+|---|---|---|---|---|---|
+| 1 | 218 | 218 | 154/218 | 154/218 | 154/154 |
+| 2 | 218 | 136 | 154/218 | 170/218 | 154/170 |
+| 3 | 218 | 84 | 154/218 | 173/218 | 154/173 |
+| 4 | 218 | 54 | 154/218 | 173/218 | 154/173 |
+| 5 | 218 | 38 | 154/218 | 173/218 | 154/173 |
+| 6 | 218 | 24 | 154/218 | 174/218 | 154/174 |
+| 7 | 218 | 9 | 154/218 | 174/218 | 154/174 |
+| 8 | 218 | 4 | 154/218 | 174/218 | 154/174 |
+| 9 | 218 | 1 | 154/218 | 174/218 | 154/174 |
+| 10 | 218 | 0 | 154/218 | 174/218 | 154/174 |
+
+At k = 10, top-1 is 154/218, recall is 174/218, precision given recall is 154/174, and n_lists_ge_k is 0/218.
+No returned list contains 10 unique constitutions, so n_lists_ge_k at k = 10 is 0. The k = 10 prefix is the stored list. No SMILES was added to fill a tenth slot.
+
+## Post-hoc sum of three complementary finished files
+
+Label: post-hoc sum of three complementary finished files of `grok-4.7-high-fast` under the same closed-book k=10 protocol. The files are the nested n=60 arm, the non-nested complex n=222 arm, and this non-nested simple n=218 arm. Their qids are disjoint and their union has 500 items. This is not a single 500-item run. No partial rate is scaled to 500. The locked Claude headline remains the deposited self-rank 227/500 top-1 and 249/500 recall at stored lists of maximum length 3.
+
+| k | n | n_lists_ge_k | top1 | recall | precision_given_recall |
+|---|---|---|---|---|---|
+| 1 | 500 | 495 | 235/500 | 235/500 | 235/235 |
+| 2 | 500 | 396 | 235/500 | 264/500 | 235/264 |
+| 3 | 500 | 316 | 235/500 | 274/500 | 235/274 |
+| 4 | 500 | 248 | 235/500 | 278/500 | 235/278 |
+| 5 | 500 | 205 | 235/500 | 280/500 | 235/280 |
+| 6 | 500 | 161 | 235/500 | 282/500 | 235/282 |
+| 7 | 500 | 102 | 235/500 | 282/500 | 235/282 |
+| 8 | 500 | 77 | 235/500 | 282/500 | 235/282 |
+| 9 | 500 | 31 | 235/500 | 283/500 | 235/283 |
+| 10 | 500 | 16 | 235/500 | 283/500 | 235/283 |
+
 ## Closed-book caveat
 
-Each solver was instructed to read only its batch markdown, to skip the web, the repository, gold files, isomer databases, and NMR-Solver, and to use RDKit only after a proposal, to check that the SMILES parses and matches the formula. The same limit is stated in `scripts/manual_collect.py`: the harness cannot prove a solver obeyed it. Predictions were written before scoring. Collected SMILES were not edited by hand; `cursor_n60_k10.jsonl` matches `raw_replies/n60/` after whitespace stripping, 0 mismatches. The only metadata change after collection was the model string, from a placeholder to `grok-4.7-high-fast`.
+Each solver was instructed to read only its batch markdown, to skip the web, the repository, gold files, isomer databases, and NMR-Solver, and to use RDKit only after a proposal, to check that the SMILES parses and matches the formula. The same limit is stated in `scripts/manual_collect.py`: the harness cannot prove a solver obeyed it. Predictions were written before scoring. Collected SMILES were not edited by hand. `cursor_n60_k10.jsonl` matches `raw_replies/n60/` after whitespace stripping, 0 mismatches. `cursor_n218_k10.jsonl` matches `raw_replies/n218/` after whitespace stripping, 0 mismatches. The only metadata change after collection was the model string, set to `grok-4.7-high-fast`.
+
+Prompt leak scan on the 218 exported prompts (`leak_scan_n218.json`): InChIKey pattern matches 0, gold SMILES token matches 0, gold InChIKey matches 0, gold InChIKey-14 matches 0, banned-token counts {"true_smiles": 0, "inchikey": 0, "is_true": 0, "answers2": 0}. The prompt template uses the word SMILES as the requested output format. `export` does not open an answer file. Re-export of the existing n=60 and n=500 batch 01 prompts reproduced the deposited sha256 values in `renderer_check.json`.
 
 ## What is still unidentified
 
-- k = 20 and k = 50, on this model and on the deposited Claude lists. Not requested yet on this arm, and not stored in the old logs.
-- A finished 500-wide Cursor rate. The partial file must not be scaled to 500.
+- k = 20 and k = 50, on this model and on the deposited Claude lists. Not requested on this arm, and not stored in the old logs.
+- A single 500-item Cursor run. The post-hoc table is the sum of three finished files. The 222 file is not scaled to 500.
 - Forward-verify of the new Cursor lists. No blind 13C prediction pass was run, so precision given recall here is self-rank, not chamfer.
 

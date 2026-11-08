@@ -1,0 +1,30 @@
+{
+  "benchmark_expand_500:R157": [
+    "COc1ccc(C2(C#N)C=C(C(=O)OC(C)C)CCC2)cc1",
+    "COc1ccc(C2(C#N)CCCC=C2C(=O)OC(C)C)cc1",
+    "COc1ccc(C2(C#N)CC=C(C(=O)OC(C)C)CC2)cc1",
+    "COc1ccc(C2(C#N)CCC=C(C(=O)OC(C)C)C2)cc1",
+    "COc1ccc(C2=CC(C#N)(C(=O)OC(C)C)CCC2)cc1",
+    "COc1ccc(C2=CCCCC2(C#N)C(=O)OC(C)C)cc1"
+  ],
+  "benchmark_expand_500:R159": [
+    "O=C(O)CCc1cc(-c2ccc(C(F)(F)F)cc2)on1",
+    "O=C(O)CCc1cc(-c2ccc(C(F)(F)F)cc2)no1"
+  ],
+  "benchmark_expand_500:R160": [
+    "COC(=O)CCCCCCCCCCCCCCO"
+  ],
+  "benchmark_expand_500:R162": [
+    "COc1cc(C=O)cc(-c2ccc(Cl)cc2)c1O",
+    "COc1cc(C=O)cc(O)c1-c1ccc(Cl)cc1",
+    "COc1c(O)cc(C=O)cc1-c1ccc(Cl)cc1",
+    "COc1cc(-c2ccc(Cl)cc2)cc(C=O)c1O",
+    "COc1cc(C=O)c(O)c(-c2ccc(Cl)cc2)c1"
+  ],
+  "benchmark_expand_500:R166": [
+    "C[Si](C)(C)c1ccccc1O"
+  ],
+  "benchmark_expand_500:R167": [
+    "CCOC(=O)C(C)(F)c1ccccc1"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "n_prompts": 37,
+  "n_questions": 218,
+  "inchikey_pattern_matches": 0,
+  "banned_token_matches": {
+    "true_smiles": 0,
+    "inchikey": 0,
+    "is_true": 0,
+    "answers2": 0
+  },
+  "gold_smiles_token_matches": 0,
+  "gold_inchikey_matches": 0,
+  "gold_inchikey14_matches": 0,
+  "n_qids_with_a_gold_hit": 0,
+  "prompt_template_mentions_output_format_smiles": true
+}

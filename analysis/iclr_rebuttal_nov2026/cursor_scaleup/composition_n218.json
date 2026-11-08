@@ -1,0 +1,22 @@
+{
+  "arm": "n218",
+  "n": 218,
+  "n_simple": 218,
+  "n_not_simple": 0,
+  "overlap_nested_n60": 0,
+  "overlap_complex_n222": 0,
+  "union_with_n60_and_n222": 500,
+  "contiguous_in_n500_roster": true,
+  "roster_index_start": 252,
+  "roster_index_end": 469,
+  "cohorts": {
+    "benchmark_expand": 53,
+    "benchmark_expand_500": 97,
+    "benchmark_main": 68
+  },
+  "qid_sha256": "e4a7b97fc6a690dd91b4b1003e8a49202e85262fc93fbf1320f174d79772e1ac",
+  "finished_files_not_rescored": [
+    "predictions/cursor_n60_k10.jsonl",
+    "predictions/cursor_n500_k10.jsonl"
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "dataset": {
+    "repo": "ilkhamfy/IRexp",
+    "url": "https://huggingface.co/datasets/ilkhamfy/IRexp",
+    "hub_main_sha": "a60074e162dd5fc0b04af45c87eef206108bdf4b",
+    "release_commit": "9ee1aa9b2f462cef8cf18489e45a516a4b716193",
+    "release_commit_title": "release v0.2",
+    "data_sha256_identical_on_main_and_release_commit": true,
+    "counted_on": "2026-11-08",
+    "files_counted": [
+      "data/irexp_commercial.jsonl.gz",
+      "data/irexp_non_commercial.jsonl.gz",
+      "data/irexp_sharealike.jsonl.gz",
+      "data/irexp_other.jsonl.gz",
+      "data/irexp_resolved_commercial.jsonl.gz"
+    ],
+    "sha256": {
+      "irexp_commercial.jsonl.gz": "3c784a3b1b5aba753127c25ff256097bba6e3dd17e864af6671b6d68ccd66b2f",
+      "irexp_non_commercial.jsonl.gz": "6dfb27544a3b87feb2909e66614c884fde0c9ad61046eff9999c048a09fc220c",
+      "irexp_sharealike.jsonl.gz": "494d306dce39ced51089a3a3728054f993b220d282c77ce115c5305beea73596",
+      "irexp_other.jsonl.gz": "52e4a0a6ba1ba7136896df0015812973bffdf4b90c855af98a642b767cebcf25",
+      "irexp_resolved_commercial.jsonl.gz": "6d777812ce6625880040998bfd43fc421a4f215ba7e46519ebf478625da8b2be"
+    }
+  },
+  "definitions": {
+    "public_downloadable": "Disjoint union of irexp_commercial, irexp_non_commercial, irexp_sharealike, and irexp_other. These are the redistributed JSONL files on the Hub.",
+    "commercial_pool": "Every row in data/irexp_commercial.jsonl.gz. Each counted row has license_pool equal to commercial.",
+    "research_corpus": "The multi-licence accounting total on the dataset card (239,735): the four public pools plus 8,895 empty/unknown-licence rows. Those 8,895 rows are not a Hub file.",
+    "at_least_one_ir_band": "ir_bands_cm-1 is a list whose length is at least 1.",
+    "nonempty_nmr_string": "h_nmr or c_nmr is a Python str and strip() is not empty. Null, missing, and non-strings fail. Whitespace-only strings would fail; none occurred. The rule does not require a chemical shift, so a field whose entire text is 1H, 13C, 2CO, or 3 is still counts.",
+    "released_structure": "has_structure is true OR structure_tier is A, B, C, or D. Tier X is withheld. Null structure_tier is not a released structure.",
+    "complete_triple": "One row with at least one IR band, a non-empty 1H string, a non-empty 13C string, and a released structure. This is the four-way conjunction the previous ICLR manuscript called a quadruple (39,118 on the 121,233-record corpus).",
+    "inchikey14": "The connectivity block of inchikey: the substring before the first hyphen. On every complete-triple row the key matched ^[A-Z]{14}-[A-Z]{10}-[A-Z]$, so the block is the first 14 characters. Unique counts are the size of that set. A molecule in two licence pools is one key in the public union.",
+    "tier_none": "structure_tier is null. The string none does not appear. Null is reported as none so the counts line up with the dataset card."
+  },
+  "published_totals_check": {
+    "research_corpus_records_card": 239735,
+    "structure_linked_AD_card": 101624,
+    "tiers_card": {"A": 7366, "B": 48669, "C": 21455, "D": 24134, "X": 8473, "none": 129638},
+    "tiers_card_sum": 239735,
+    "tiers_AB_card": 56035,
+    "tiers_AB_sum": 56035,
+    "tiers_AD_sum": 101624,
+    "commercial_counted": 163931,
+    "resolved_commercial_counted": 67235,
+    "public_downloadable_counted": 230840,
+    "card_matches_counted_public_totals": true,
+    "empty_unknown_card_minus_public": 8895,
+    "public_tiers_counted": {
+      "commercial": {"A": 4498, "B": 31800, "C": 15791, "D": 15146, "X": 6170, "none": 90526},
+      "non_commercial": {"A": 2553, "B": 13986, "C": 4871, "D": 6507, "X": 1876, "none": 35214},
+      "sharealike": {"A": 0, "B": 2, "C": 0, "D": 1802, "X": 86, "none": 7},
+      "other": {"A": 0, "B": 0, "C": 0, "D": 0, "X": 0, "none": 5}
+    },
+    "public_tiers_sum": {"A": 7051, "B": 45788, "C": 20662, "D": 23455, "X": 8132, "none": 125752},
+    "public_tiers_match_release_build_stats_released_tiers": true,
+    "withheld_tier_residual_card_minus_public_recount": {"A": 315, "B": 2881, "C": 793, "D": 679, "X": 341, "none": 3886},
+    "withheld_tier_residual_sum": 8895,
+    "withheld_residual_note": "Arithmetic remainder of the card's research-corpus tier table minus tiers counted on the public files. The 8,895 empty/unknown rows were not opened.",
+    "source_set_public": {"pmc_v4": 107425, "si_2026": 121527, "chemotion": 1888},
+    "pmc_v4_card_research": 116320,
+    "pmc_v4_card_minus_public": 8895,
+    "pools_disjoint_and_license_pool_matches_file": true,
+    "resolved_ids_equal_commercial_released_structure_ids": true,
+    "has_structure_equals_tier_AD_equals_nonempty_smiles_on_every_public_row": true,
+    "tier_X_with_has_structure_true": 0,
+    "ir_bands_sum_public": 2770479
+  },
+  "counted": {
+    "public_downloadable": {
+      "rows": 230840,
+      "at_least_one_ir_band": 230840,
+      "ir_bands_at_least_3": 230840,
+      "h_nmr_nonempty": 113131,
+      "c_nmr_nonempty": 99976,
+      "h_or_c_nmr_nonempty": 116290,
+      "released_structure": 96956,
+      "released_structure_and_any_nmr": 59767,
+      "complete_triple_rows": 50668,
+      "complete_triple_unique_inchikey14": 47901,
+      "complete_triple_unique_full_inchikey": 48256,
+      "complete_triple_rows_with_label_or_fragment_nmr": 25
+    },
+    "commercial": {
+      "rows": 163931,
+      "at_least_one_ir_band": 163931,
+      "ir_bands_at_least_3": 163931,
+      "h_nmr_nonempty": 85006,
+      "c_nmr_nonempty": 74451,
+      "h_or_c_nmr_nonempty": 87210,
+      "released_structure": 67235,
+      "tiers_AB": 36298,
+      "released_structure_and_any_nmr": 43755,
+      "complete_triple_rows": 36927,
+      "complete_triple_unique_inchikey14": 34612,
+      "complete_triple_unique_full_inchikey": 34892,
+      "complete_triple_rows_with_label_or_fragment_nmr": 19,
+      "resolved_file_complete_triple_rows": 36927,
+      "resolved_file_complete_triple_unique_inchikey14": 34612
+    },
+    "by_pool": {
+      "commercial": {
+        "rows": 163931,
+        "at_least_one_ir_band": 163931,
+        "h_nmr_nonempty": 85006,
+        "c_nmr_nonempty": 74451,
+        "released_structure": 67235,
+        "complete_triple_rows": 36927,
+        "complete_triple_unique_inchikey14": 34612,
+        "complete_triple_unique_full_inchikey": 34892
+      },
+      "non_commercial": {
+        "rows": 65007,
+        "at_least_one_ir_band": 65007,
+        "h_nmr_nonempty": 28116,
+        "c_nmr_nonempty": 25516,
+        "released_structure": 27917,
+        "complete_triple_rows": 13739,
+        "complete_triple_unique_inchikey14": 13341,
+        "complete_triple_unique_full_inchikey": 13405
+      },
+      "sharealike": {
+        "rows": 1897,
+        "at_least_one_ir_band": 1897,
+        "h_nmr_nonempty": 9,
+        "c_nmr_nonempty": 9,
+        "released_structure": 1804,
+        "complete_triple_rows": 2,
+        "complete_triple_unique_inchikey14": 2,
+        "complete_triple_unique_full_inchikey": 2
+      },
+      "other": {
+        "rows": 5,
+        "at_least_one_ir_band": 5,
+        "h_nmr_nonempty": 0,
+        "c_nmr_nonempty": 0,
+        "released_structure": 0,
+        "complete_triple_rows": 0,
+        "complete_triple_unique_inchikey14": 0,
+        "complete_triple_unique_full_inchikey": 0
+      }
+    },
+    "label_or_fragment_nmr_inside_complete_triples": {
+      "rule": "Counted inside the primary complete-triple totals. A row is flagged when the stripped 1H field is exactly 1H, or the stripped 13C field is exactly 13C, 2CO, or 3 is.",
+      "public_rows": 25,
+      "commercial_rows": 19,
+      "non_commercial_rows": 6,
+      "sharealike_rows": 0,
+      "other_rows": 0,
+      "rows_with_both_fields_flagged": 0,
+      "observed_on_complete_rows": {"h_nmr": {"1H": 3}, "c_nmr": {"13C": 19, "2CO": 2, "3 is": 1}}
+    }
+  },
+  "research_corpus_modality": {
+    "status": "not_counted",
+    "rows_absent_from_public_files": 8895,
+    "reason": "The dataset card's research corpus is 239,735 records. The public JSONL files contain 230,840. The other 8,895 are the empty/unknown-licence rows, which the card says are not redistributed. 1H, 13C, IR-band, released-structure, and complete-triple counts for that slice were not estimated and are not taken from any other manuscript.",
+    "at_least_one_ir_band": null,
+    "h_nmr_nonempty": null,
+    "c_nmr_nonempty": null,
+    "released_structure": null,
+    "complete_triple_rows": null,
+    "complete_triple_unique_inchikey14": null
+  },
+  "predicate_agreement": {
+    "nonempty_strip_equals_python_truthy_string_on_public_rows": true,
+    "whitespace_only_nmr_strings": 0,
+    "non_string_nmr_values": 0,
+    "complete_triple_equals_build_script_full_quadruple_on_public_pools": true,
+    "build_script_full_quadruple_in_irexp_release_build_stats": {
+      "commercial": 36927,
+      "non_commercial": 13739,
+      "sharealike": 2,
+      "other": 0
+    }
+  },
+  "external_claims_not_recomputed": {
+    "source": "https://github.com/IlkhamFY/IRexp/blob/main/data/irexp_stats.json and scientific_data.tex on that repository",
+    "note": "These figures include the 8,895 rows that are not on the Hub. This recount did not recompute them.",
+    "research_corpus_records": 239735,
+    "all_experimental_IR": 239735,
+    "with_co_reported_NMR_1H_or_13C": 123667,
+    "with_structure": 101624,
+    "quadruples": 54429,
+    "unique_inchikey_structure_linked": 97374,
+    "previous_corpus_complete_triple_cited_by_user": {
+      "records": 121233,
+      "complete_triples": 39118
+    }
+  }
+}

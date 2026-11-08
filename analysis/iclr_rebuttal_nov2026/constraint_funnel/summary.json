@@ -1,0 +1,253 @@
+{
+  "expand_sha": "48fcd30153df5e331fab43cfa514763db8ee3891",
+  "model_id": "surge-2.0 -R valences N3/N5 S2/S4/S6 Se2/Se4/Se6 P3/P5 Sn4 B3 Si4 cap50000",
+  "surge": "/tmp/surge/src/surge",
+  "locked_wall": {
+    "top1": 227,
+    "in_pool_not_top1": 22,
+    "never_proposed_k_le_3": 251,
+    "n": 500
+  },
+  "lock_reproduced": true,
+  "n_formulas": 484,
+  "formula_status": {
+    "exact": 30,
+    "ge_50000": 116,
+    "unavailable": 335,
+    "unsupported_charge": 3
+  },
+  "completeness_all": {
+    "group": "all",
+    "n": 500,
+    "n_13C_eq_n_C": 96,
+    "n_13C_lt_n_C": 397,
+    "n_13C_gt_n_C": 7,
+    "median_n_C": 16.0,
+    "median_n_H": 17.0,
+    "median_n_13C": 13.0,
+    "median_n_ir": 10.0,
+    "median_n_1H_env": 8.0,
+    "median_n_13C_over_n_C": 0.8333333333333334,
+    "min_n_13C_over_n_C": 0.21739130434782608,
+    "max_n_13C_over_n_C": 1.9473684210526316,
+    "h_integral_complete": 471,
+    "h_integral_complete_integer": 465,
+    "h_sum_eq_n_H": 358,
+    "h_sum_lt_n_H": 85,
+    "h_sum_gt_n_H": 28,
+    "section_cut": 75,
+    "carbonyl_rule": 321,
+    "oh_nh_rule": 271,
+    "triple_rule": 48,
+    "top1": 227,
+    "recalled": 249
+  },
+  "figure_bins": [
+    {
+      "bin": "n_13C > n_C",
+      "n": 7,
+      "top1": 2,
+      "recall_k3": 3,
+      "in_pool_not_top1": 1,
+      "never": 4,
+      "simple": 5,
+      "complex": 2
+    },
+    {
+      "bin": "n_13C = n_C",
+      "n": 96,
+      "top1": 40,
+      "recall_k3": 44,
+      "in_pool_not_top1": 4,
+      "never": 52,
+      "simple": 54,
+      "complex": 42
+    },
+    {
+      "bin": "0.80-0.99",
+      "n": 214,
+      "top1": 89,
+      "recall_k3": 98,
+      "in_pool_not_top1": 9,
+      "never": 116,
+      "simple": 102,
+      "complex": 112
+    },
+    {
+      "bin": "0.60-0.79",
+      "n": 147,
+      "top1": 81,
+      "recall_k3": 89,
+      "in_pool_not_top1": 8,
+      "never": 58,
+      "simple": 78,
+      "complex": 69
+    },
+    {
+      "bin": "0.40-0.59",
+      "n": 29,
+      "top1": 11,
+      "recall_k3": 11,
+      "in_pool_not_top1": 0,
+      "never": 18,
+      "simple": 6,
+      "complex": 23
+    },
+    {
+      "bin": "<0.40",
+      "n": 7,
+      "top1": 4,
+      "recall_k3": 4,
+      "in_pool_not_top1": 0,
+      "never": 3,
+      "simple": 3,
+      "complex": 4
+    }
+  ],
+  "formula_by_wall": [
+    {
+      "group": "all",
+      "n": 500,
+      "exact_<1000": 1,
+      "exact_1000_9999": 2,
+      "exact_10000_49999": 2,
+      "exact_ge_50000": 25,
+      "censored_ge_50000": 123,
+      "unsupported_charge": 3,
+      "unavailable": 344
+    },
+    {
+      "group": "top1",
+      "n": 227,
+      "exact_<1000": 1,
+      "exact_1000_9999": 2,
+      "exact_10000_49999": 2,
+      "exact_ge_50000": 15,
+      "censored_ge_50000": 93,
+      "unsupported_charge": 1,
+      "unavailable": 113
+    },
+    {
+      "group": "in_pool",
+      "n": 22,
+      "exact_<1000": 0,
+      "exact_1000_9999": 0,
+      "exact_10000_49999": 0,
+      "exact_ge_50000": 2,
+      "censored_ge_50000": 5,
+      "unsupported_charge": 0,
+      "unavailable": 15
+    },
+    {
+      "group": "never",
+      "n": 251,
+      "exact_<1000": 0,
+      "exact_1000_9999": 0,
+      "exact_10000_49999": 0,
+      "exact_ge_50000": 8,
+      "censored_ge_50000": 25,
+      "unsupported_charge": 2,
+      "unavailable": 216
+    }
+  ],
+  "ir_rule_audit": [
+    {
+      "rule_id": "carbonyl_1650_1850",
+      "n_triggered": 321,
+      "gold_passes": 293,
+      "gold_fails": 28
+    },
+    {
+      "rule_id": "oh_nh_3200_3600",
+      "n_triggered": 271,
+      "gold_passes": 233,
+      "gold_fails": 38
+    },
+    {
+      "rule_id": "triple_or_cumulative_2100_2260",
+      "n_triggered": 48,
+      "gold_passes": 43,
+      "gold_fails": 5
+    }
+  ],
+  "audit": {
+    "carbonyl_n": 321,
+    "carbonyl_pass": 293,
+    "oh_n": 271,
+    "oh_pass": 233,
+    "triple_n": 48,
+    "triple_pass": 43,
+    "carbon_pass": 448,
+    "h_n": 438,
+    "h_pass": 334,
+    "h_fail": 104
+  },
+  "chance": {
+    "n": 29,
+    "n_filtered_denominator": 4,
+    "n_formula_denominator": 25,
+    "by_wall": {
+      "all": "n=29, median 3/N = 1.299e-06, mean 3/N = 7.891e-04",
+      "top1": "n=19, median 3/N = 2.964e-06, mean 3/N = 1.202e-03",
+      "in_pool": "n=2, median 3/N = 7.607e-08, mean 3/N = 7.607e-08",
+      "never": "n=8, median 3/N = 3.978e-07, mean 3/N = 6.938e-06"
+    }
+  },
+  "log10_N_formula": {
+    "all": "n=30, median 6.259, IQR 5.518 to 7.585, range 1.982 to 8.093",
+    "top1": "n=20, median 5.998, IQR 5.170 to 6.870, range 1.982 to 7.985",
+    "in_pool": "n=2, median 7.596, IQR 7.588 to 7.605, range 7.579 to 7.613",
+    "never": "n=8, median 7.104, IQR 6.111 to 7.731, range 4.784 to 8.093"
+  },
+  "log10_N_after_filters": {
+    "all": "n=4, median 2.858, IQR 2.627 to 3.268, range 2.336 to 4.091",
+    "top1": "n=4, median 2.858, IQR 2.627 to 3.268, range 2.336 to 4.091",
+    "in_pool": "n=0",
+    "never": "n=0"
+  },
+  "n_filter_applied": 5,
+  "n_13C_gt_n_C": [
+    {
+      "uid": "locked-v2ctrl:R02",
+      "formula": "C9H8N2O3",
+      "n_C": 9,
+      "n_13C": 11
+    },
+    {
+      "uid": "locked-v3:R03",
+      "formula": "C22H21N3O3",
+      "n_C": 22,
+      "n_13C": 38
+    },
+    {
+      "uid": "expand:R12",
+      "formula": "C19H27NO2",
+      "n_C": 19,
+      "n_13C": 32
+    },
+    {
+      "uid": "expand:R22",
+      "formula": "C19H31NO5",
+      "n_C": 19,
+      "n_13C": 37
+    },
+    {
+      "uid": "expand:R25",
+      "formula": "C12H22O3",
+      "n_C": 12,
+      "n_13C": 15
+    },
+    {
+      "uid": "expand:R82",
+      "formula": "C14H12FNO2",
+      "n_C": 14,
+      "n_13C": 15
+    },
+    {
+      "uid": "expand:R91",
+      "formula": "C12H11BrFN3OSe",
+      "n_C": 12,
+      "n_13C": 14
+    }
+  ]
+}

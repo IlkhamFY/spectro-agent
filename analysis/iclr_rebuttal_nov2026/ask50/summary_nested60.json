@@ -1,0 +1,166 @@
+{
+  "model": "claude-opus-5-5-high",
+  "thinking": "high",
+  "k_requested": 50,
+  "slice": "nested60",
+  "positions_1based": [
+    "223-252",
+    "471-500"
+  ],
+  "n_finished": 60,
+  "denominator": 60,
+  "coverage": {
+    "what_was_scored": "All 10 nested batches. This is the v3 + v2_ctrl nest.",
+    "scored_batches": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10"
+    ],
+    "n_not_returned": 0,
+    "simple60_solved": false,
+    "rest380_solved": false,
+    "is_500_wide": false,
+    "denominator_note": "Every rate below uses 60, the nested lists that were solved."
+  },
+  "empty_lists_stay_in_denominator": true,
+  "n_empty": "0/60",
+  "list_length": {
+    "mean": 11.7833,
+    "median": 12.0,
+    "max": 28,
+    "n_reach_20": "6/60",
+    "n_reach_50": "0/60",
+    "n_longer_than_requested": "0/60"
+  },
+  "prefixes": {
+    "1": {
+      "k": 1,
+      "n": "60/60",
+      "recall": "48/60",
+      "top1": "48/60",
+      "generation_misses": "12/60",
+      "n_lists_ge_k": "60/60"
+    },
+    "3": {
+      "k": 3,
+      "n": "60/60",
+      "recall": "51/60",
+      "top1": "48/60",
+      "generation_misses": "9/60",
+      "n_lists_ge_k": "57/60"
+    },
+    "5": {
+      "k": 5,
+      "n": "60/60",
+      "recall": "52/60",
+      "top1": "48/60",
+      "generation_misses": "8/60",
+      "n_lists_ge_k": "57/60"
+    },
+    "10": {
+      "k": 10,
+      "n": "60/60",
+      "recall": "52/60",
+      "top1": "48/60",
+      "generation_misses": "8/60",
+      "n_lists_ge_k": "36/60"
+    },
+    "20": {
+      "k": 20,
+      "n": "60/60",
+      "recall": "53/60",
+      "top1": "48/60",
+      "generation_misses": "7/60",
+      "n_lists_ge_k": "6/60"
+    },
+    "50": {
+      "k": 50,
+      "n": "60/60",
+      "recall": "53/60",
+      "top1": "48/60",
+      "generation_misses": "7/60",
+      "n_lists_ge_k": "0/60"
+    }
+  },
+  "recall_movement": {
+    "after_k10": {
+      "recall_left": "52/60",
+      "recall_right": "53/60",
+      "delta": "1/60",
+      "still_moves": true
+    },
+    "after_k20": {
+      "recall_left": "53/60",
+      "recall_right": "53/60",
+      "delta": "0/60",
+      "still_moves": false
+    },
+    "after_k50": {
+      "still_moves": false,
+      "reason": "The request stops at 50 distinct constitutions. There is no scored prefix past k=50."
+    }
+  },
+  "case_lite": {
+    "sha": "0bd7c7f750a95974ba7f2c50f3273ab942639c05",
+    "n_gold_ik_mismatch_vs_answer_key": 0,
+    "mismatch_qids": [],
+    "prefixes_if_scored_on_case_lite_gold_ik": {
+      "1": {
+        "k": 1,
+        "n": "60/60",
+        "recall": "48/60",
+        "top1": "48/60",
+        "generation_misses": "12/60",
+        "n_lists_ge_k": "60/60"
+      },
+      "3": {
+        "k": 3,
+        "n": "60/60",
+        "recall": "51/60",
+        "top1": "48/60",
+        "generation_misses": "9/60",
+        "n_lists_ge_k": "57/60"
+      },
+      "5": {
+        "k": 5,
+        "n": "60/60",
+        "recall": "52/60",
+        "top1": "48/60",
+        "generation_misses": "8/60",
+        "n_lists_ge_k": "57/60"
+      },
+      "10": {
+        "k": 10,
+        "n": "60/60",
+        "recall": "52/60",
+        "top1": "48/60",
+        "generation_misses": "8/60",
+        "n_lists_ge_k": "36/60"
+      },
+      "20": {
+        "k": 20,
+        "n": "60/60",
+        "recall": "53/60",
+        "top1": "48/60",
+        "generation_misses": "7/60",
+        "n_lists_ge_k": "6/60"
+      },
+      "50": {
+        "k": 50,
+        "n": "60/60",
+        "recall": "53/60",
+        "top1": "48/60",
+        "generation_misses": "7/60",
+        "n_lists_ge_k": "0/60"
+      }
+    }
+  },
+  "scoring": "InChIKey connectivity, first 14 characters, unique constitutions in model order. Shorter lists contribute the constitutions they contain. Rates use these nested lists only."
+}

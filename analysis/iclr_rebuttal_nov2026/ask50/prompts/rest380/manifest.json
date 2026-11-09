@@ -1,0 +1,1813 @@
+{
+  "arm": "rest380",
+  "slice": "rest380",
+  "n": 380,
+  "k_requested": 50,
+  "batch_size": 6,
+  "n_batches": 64,
+  "exclude_arm": null,
+  "skip": 0,
+  "limit": null,
+  "positions_1based": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    128,
+    129,
+    130,
+    131,
+    132,
+    133,
+    134,
+    135,
+    136,
+    137,
+    138,
+    139,
+    140,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152,
+    153,
+    154,
+    155,
+    156,
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    164,
+    165,
+    166,
+    167,
+    168,
+    169,
+    170,
+    171,
+    172,
+    173,
+    174,
+    175,
+    176,
+    177,
+    178,
+    179,
+    180,
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    187,
+    188,
+    189,
+    190,
+    191,
+    192,
+    193,
+    194,
+    195,
+    196,
+    197,
+    198,
+    199,
+    200,
+    201,
+    202,
+    203,
+    204,
+    205,
+    206,
+    207,
+    208,
+    209,
+    210,
+    211,
+    212,
+    213,
+    214,
+    215,
+    216,
+    217,
+    218,
+    219,
+    220,
+    221,
+    222,
+    253,
+    254,
+    255,
+    256,
+    257,
+    258,
+    259,
+    260,
+    261,
+    262,
+    263,
+    264,
+    265,
+    266,
+    267,
+    268,
+    269,
+    270,
+    271,
+    272,
+    273,
+    274,
+    275,
+    276,
+    277,
+    278,
+    279,
+    280,
+    281,
+    282,
+    283,
+    284,
+    285,
+    286,
+    287,
+    288,
+    289,
+    290,
+    291,
+    292,
+    293,
+    294,
+    295,
+    296,
+    297,
+    298,
+    299,
+    300,
+    301,
+    302,
+    303,
+    304,
+    305,
+    306,
+    307,
+    308,
+    309,
+    310,
+    311,
+    312,
+    313,
+    314,
+    315,
+    316,
+    317,
+    318,
+    319,
+    320,
+    321,
+    322,
+    323,
+    324,
+    325,
+    326,
+    327,
+    328,
+    329,
+    330,
+    331,
+    332,
+    333,
+    334,
+    335,
+    336,
+    337,
+    338,
+    339,
+    340,
+    341,
+    342,
+    343,
+    344,
+    345,
+    346,
+    347,
+    348,
+    349,
+    350,
+    351,
+    352,
+    353,
+    354,
+    355,
+    356,
+    357,
+    358,
+    359,
+    360,
+    361,
+    362,
+    363,
+    364,
+    365,
+    366,
+    367,
+    368,
+    369,
+    370,
+    371,
+    372,
+    373,
+    374,
+    375,
+    376,
+    377,
+    378,
+    379,
+    380,
+    381,
+    382,
+    383,
+    384,
+    385,
+    386,
+    387,
+    388,
+    389,
+    390,
+    391,
+    392,
+    393,
+    394,
+    395,
+    396,
+    397,
+    398,
+    399,
+    400,
+    401,
+    402,
+    403,
+    404,
+    405,
+    406,
+    407,
+    408,
+    409,
+    410
+  ],
+  "expand_sha": "48fcd30153df5e331fab43cfa514763db8ee3891",
+  "prompt_fields": [
+    "qid",
+    "formula",
+    "ir_bands_cm-1",
+    "h_nmr",
+    "c_nmr"
+  ],
+  "gold_fields_excluded": [
+    "candidates",
+    "inchikey",
+    "is_true",
+    "self_rank",
+    "smiles",
+    "source_doi",
+    "true_ik",
+    "true_smiles"
+  ],
+  "batches": [
+    {
+      "batch": "01",
+      "file": "solve_01.md",
+      "sha256": "40a02f1e2ed6850598e355324d2d21c3adefd6ab266368d5697bd4a6fa41f6a2",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R03",
+        "benchmark_expand:R05",
+        "benchmark_expand:R06",
+        "benchmark_expand:R08",
+        "benchmark_expand:R10",
+        "benchmark_expand:R101"
+      ],
+      "formulas": [
+        "C9H11N5O2",
+        "C25H32O5",
+        "C21H15N3O2",
+        "C26H18Cl2N2O2",
+        "C10H5ClO2",
+        "C17H18N4O2"
+      ]
+    },
+    {
+      "batch": "02",
+      "file": "solve_02.md",
+      "sha256": "e74f6e1b1cf4fd70d61b7ceb35fe11dbfb0af0d85e72393677d8ad2ac55659dd",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R102",
+        "benchmark_expand:R11",
+        "benchmark_expand:R13",
+        "benchmark_expand:R14",
+        "benchmark_expand:R18",
+        "benchmark_expand:R21"
+      ],
+      "formulas": [
+        "C32H45N9O6",
+        "C14H14N4",
+        "C12H8ClNOS",
+        "C20H13NO2",
+        "C30H33FO6",
+        "C20H23N3O5"
+      ]
+    },
+    {
+      "batch": "03",
+      "file": "solve_03.md",
+      "sha256": "413d755c9e66da2022e5a3e05e7a59975aea9f7e1a87b1363a8ee491f4e7326b",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R22",
+        "benchmark_expand:R23",
+        "benchmark_expand:R27",
+        "benchmark_expand:R30",
+        "benchmark_expand:R32",
+        "benchmark_expand:R33"
+      ],
+      "formulas": [
+        "C19H31NO5",
+        "C18H17BrClNO2S",
+        "C22H16FN3O3S",
+        "C37H44O6Si",
+        "C24H28N4O6S2",
+        "C20H13IO2"
+      ]
+    },
+    {
+      "batch": "04",
+      "file": "solve_04.md",
+      "sha256": "9304445692d3f6905024ebc22d268186adf14110982f7e2a532cf47a90807741",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R34",
+        "benchmark_expand:R35",
+        "benchmark_expand:R38",
+        "benchmark_expand:R39",
+        "benchmark_expand:R40",
+        "benchmark_expand:R41"
+      ],
+      "formulas": [
+        "C24H20FN5O2",
+        "C9H7ClN2O",
+        "C24H22ClN3O2",
+        "C24H21N3S3",
+        "C21H19N3O3",
+        "C25H17FN4O2S"
+      ]
+    },
+    {
+      "batch": "05",
+      "file": "solve_05.md",
+      "sha256": "ee7e65664d7b74f0038d98fff5653f91562be74e77fc502383dd408d74fc4d2e",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R43",
+        "benchmark_expand:R44",
+        "benchmark_expand:R46",
+        "benchmark_expand:R47",
+        "benchmark_expand:R48",
+        "benchmark_expand:R49"
+      ],
+      "formulas": [
+        "C46H54N8O6",
+        "C25H19N3OS2",
+        "C21H19BrN6O",
+        "C15H10BrN5O2",
+        "C27H28FNO7",
+        "C16H17NO3S"
+      ]
+    },
+    {
+      "batch": "06",
+      "file": "solve_06.md",
+      "sha256": "88d6bca85d579f38f8ef400404c23328d4c5987eb4a1ff789a6f11f81e0b5c3e",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R50",
+        "benchmark_expand:R52",
+        "benchmark_expand:R54",
+        "benchmark_expand:R57",
+        "benchmark_expand:R58",
+        "benchmark_expand:R61"
+      ],
+      "formulas": [
+        "C23H14O4",
+        "C21H29NO13",
+        "C23H16ClN3",
+        "C21H11ClF2N4O",
+        "C15H17IN4O",
+        "C18H11BrN2O5S"
+      ]
+    },
+    {
+      "batch": "07",
+      "file": "solve_07.md",
+      "sha256": "7be1416e7869f0f33ae4abca03a9c8f324a2d2ecdfa585177d4fbd0e2e9eeebb",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R62",
+        "benchmark_expand:R63",
+        "benchmark_expand:R65",
+        "benchmark_expand:R68",
+        "benchmark_expand:R71",
+        "benchmark_expand:R73"
+      ],
+      "formulas": [
+        "C21H15Cl2NO",
+        "C19H15ClO2Se",
+        "C25H22N2OS",
+        "C24H18N2O",
+        "C18H15N3O3",
+        "C22H13F3N2O2"
+      ]
+    },
+    {
+      "batch": "08",
+      "file": "solve_08.md",
+      "sha256": "8245f542791ab420d46feb45f004dee98d3325a01385fe79de35373ca02c1546",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R74",
+        "benchmark_expand:R76",
+        "benchmark_expand:R77",
+        "benchmark_expand:R79",
+        "benchmark_expand:R80",
+        "benchmark_expand:R86"
+      ],
+      "formulas": [
+        "C17H18ClNO5",
+        "C33H26Br2N4O10",
+        "C17H15N5O2S",
+        "C25H18ClNO2",
+        "C24H16N2O",
+        "C13H10O3"
+      ]
+    },
+    {
+      "batch": "09",
+      "file": "solve_09.md",
+      "sha256": "51d69835788481c87168dc103120074bf4a58e822bcb686976c4b2a1d128d697",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R87",
+        "benchmark_expand:R88",
+        "benchmark_expand:R92",
+        "benchmark_expand:R94",
+        "benchmark_expand:R97",
+        "benchmark_expand_500:R03"
+      ],
+      "formulas": [
+        "C22H22ClN5O",
+        "C19H22N2O5",
+        "C24H28N2O",
+        "C17H13N3O2S",
+        "C33H27N9O8",
+        "C34H27BrN2O6"
+      ]
+    },
+    {
+      "batch": "10",
+      "file": "solve_10.md",
+      "sha256": "79b39da2adac4328cca37a6611df47c5a33d990cea6b79d7945c9f149765b36b",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R04",
+        "benchmark_expand_500:R06",
+        "benchmark_expand_500:R07",
+        "benchmark_expand_500:R09",
+        "benchmark_expand_500:R10",
+        "benchmark_expand_500:R100"
+      ],
+      "formulas": [
+        "C12H10Cl2N4S",
+        "C27H31NO3",
+        "C23H14N2O3",
+        "C17H20N8O2",
+        "C13H18O5",
+        "C20H21N3O5"
+      ]
+    },
+    {
+      "batch": "11",
+      "file": "solve_11.md",
+      "sha256": "c9c144b0ad5a74522c3010650f99826e47df66bb088af45eade4e45168595faf",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R103",
+        "benchmark_expand_500:R106",
+        "benchmark_expand_500:R108",
+        "benchmark_expand_500:R111",
+        "benchmark_expand_500:R112",
+        "benchmark_expand_500:R114"
+      ],
+      "formulas": [
+        "C27H27NO4",
+        "C23H17FO5",
+        "C16H15N5O2S",
+        "C25H18ClN5O4",
+        "C24H34BrNO3",
+        "C23H19N3O4"
+      ]
+    },
+    {
+      "batch": "12",
+      "file": "solve_12.md",
+      "sha256": "e3b43d1420847a7da3dbbfacd4231b019fcd72e79a1098e8beb8921f5a0e57f9",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R116",
+        "benchmark_expand_500:R117",
+        "benchmark_expand_500:R119",
+        "benchmark_expand_500:R120",
+        "benchmark_expand_500:R121",
+        "benchmark_expand_500:R123"
+      ],
+      "formulas": [
+        "C32H48NO4-",
+        "C20H29NO4S",
+        "C18H15N3O4S",
+        "C12H12O3",
+        "C35H27N3",
+        "C22H16ClIO4S"
+      ]
+    },
+    {
+      "batch": "13",
+      "file": "solve_13.md",
+      "sha256": "c82365e7f48bf6a785fbf01f2054b5bf3041281fa1eb20de231b803980671557",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R124",
+        "benchmark_expand_500:R125",
+        "benchmark_expand_500:R127",
+        "benchmark_expand_500:R128",
+        "benchmark_expand_500:R129",
+        "benchmark_expand_500:R130"
+      ],
+      "formulas": [
+        "C26H20N4O4S",
+        "C27H26N2O3",
+        "C11H10BrNO2",
+        "C38H60O3",
+        "C27H23N3O4",
+        "C15H16N4O"
+      ]
+    },
+    {
+      "batch": "14",
+      "file": "solve_14.md",
+      "sha256": "144c2ab14620757714405dfab3f95dad79d68f7c61df0a30fb1fc464106b70d3",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R133",
+        "benchmark_expand_500:R136",
+        "benchmark_expand_500:R139",
+        "benchmark_expand_500:R140",
+        "benchmark_expand_500:R142",
+        "benchmark_expand_500:R145"
+      ],
+      "formulas": [
+        "C27H32O2",
+        "C14H8ClNO2",
+        "C24H32N8O2S",
+        "C27H33ClN4O5",
+        "C15H14Cl2N6O3",
+        "C16H12BrN3O"
+      ]
+    },
+    {
+      "batch": "15",
+      "file": "solve_15.md",
+      "sha256": "94c2b94d67d9de59615a445eccb1bbd66b837bb10ff5fc1b2160eb1922c8b6e6",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R146",
+        "benchmark_expand_500:R147",
+        "benchmark_expand_500:R148",
+        "benchmark_expand_500:R149",
+        "benchmark_expand_500:R15",
+        "benchmark_expand_500:R150"
+      ],
+      "formulas": [
+        "C25H18N4O5",
+        "C20H31NO7",
+        "C20H18BrN5O2S",
+        "C24H23N3O3",
+        "C24H20Cl2N4O3S2",
+        "C19H20O5"
+      ]
+    },
+    {
+      "batch": "16",
+      "file": "solve_16.md",
+      "sha256": "e7125eab529e1ec0fa26a0a2fd40f9c2d48ad2960d7738cdf4dfffe9d227ebc6",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R158",
+        "benchmark_expand_500:R16",
+        "benchmark_expand_500:R161",
+        "benchmark_expand_500:R163",
+        "benchmark_expand_500:R164",
+        "benchmark_expand_500:R165"
+      ],
+      "formulas": [
+        "C16H17ClN2O2",
+        "C21H13F4NO3",
+        "C32H52O3",
+        "C16H12FN5S",
+        "C33H27N9O8",
+        "C23H18ClNO"
+      ]
+    },
+    {
+      "batch": "17",
+      "file": "solve_17.md",
+      "sha256": "7a76790783fde8c5193a0e4816e3f05d5c52e51b45ac4462787c063f5a2fffd5",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R17",
+        "benchmark_expand_500:R171",
+        "benchmark_expand_500:R172",
+        "benchmark_expand_500:R176",
+        "benchmark_expand_500:R178",
+        "benchmark_expand_500:R179"
+      ],
+      "formulas": [
+        "C25H20Cl2N4O2",
+        "C28H30N2O3",
+        "C32H46N2O7",
+        "C23H36O6",
+        "C21H23N3O2S",
+        "C23H24BrN3O5"
+      ]
+    },
+    {
+      "batch": "18",
+      "file": "solve_18.md",
+      "sha256": "261e675996f88414d306354931f778adb1382b1754487d278a137fc2c926bc3f",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R181",
+        "benchmark_expand_500:R183",
+        "benchmark_expand_500:R184",
+        "benchmark_expand_500:R186",
+        "benchmark_expand_500:R188",
+        "benchmark_expand_500:R192"
+      ],
+      "formulas": [
+        "C23H30BrNO5",
+        "C22H24N4O2S",
+        "C22H19NO5",
+        "C26H42N4O2",
+        "C10H8N2O2",
+        "C17H15N3O"
+      ]
+    },
+    {
+      "batch": "19",
+      "file": "solve_19.md",
+      "sha256": "f35c344c35afc50416d0e39f973fb18acf617704a404566ed2bcefbf7c932dff",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R193",
+        "benchmark_expand_500:R194",
+        "benchmark_expand_500:R195",
+        "benchmark_expand_500:R196",
+        "benchmark_expand_500:R199",
+        "benchmark_expand_500:R20"
+      ],
+      "formulas": [
+        "C17H23N3O5S",
+        "C12H15N3O4S",
+        "C18H15BrN2O4",
+        "C23H20N2",
+        "C20H28O4",
+        "C22H20ClN3O2"
+      ]
+    },
+    {
+      "batch": "20",
+      "file": "solve_20.md",
+      "sha256": "97160b7035e82a9235e992d25dfc3f798f6757adb2674e2b27ced879d81749ac",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R200",
+        "benchmark_expand_500:R205",
+        "benchmark_expand_500:R208",
+        "benchmark_expand_500:R210",
+        "benchmark_expand_500:R212",
+        "benchmark_expand_500:R213"
+      ],
+      "formulas": [
+        "C20H25NO2",
+        "C16H12O3Se",
+        "C17H12O3",
+        "C13H12O",
+        "C28H23N7O4",
+        "C34H29NO"
+      ]
+    },
+    {
+      "batch": "21",
+      "file": "solve_21.md",
+      "sha256": "1ac9f95dafddbb8aeb88ab0801644896c66a54f99c6b04362dc1b0745593e5d0",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R215",
+        "benchmark_expand_500:R216",
+        "benchmark_expand_500:R217",
+        "benchmark_expand_500:R218",
+        "benchmark_expand_500:R219",
+        "benchmark_expand_500:R223"
+      ],
+      "formulas": [
+        "C12H12N2OS",
+        "C17H28O2",
+        "C21H12BrClF3NO3",
+        "C14H17N7O2S",
+        "C23H35N5",
+        "C40H56F6N4O6"
+      ]
+    },
+    {
+      "batch": "22",
+      "file": "solve_22.md",
+      "sha256": "dc41d23e617ea416896568030d57b0476127cbaa3a3f794a48ebd4a19d1d1c93",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R224",
+        "benchmark_expand_500:R225",
+        "benchmark_expand_500:R229",
+        "benchmark_expand_500:R230",
+        "benchmark_expand_500:R25",
+        "benchmark_expand_500:R27"
+      ],
+      "formulas": [
+        "C23H18BrN5S",
+        "C25H18FN5O4",
+        "C24H22ClN3O2",
+        "C7H4BrIN2O",
+        "C36H47N3O6S",
+        "C22H17Cl2N3O"
+      ]
+    },
+    {
+      "batch": "23",
+      "file": "solve_23.md",
+      "sha256": "2fe9592721d5d1ef55c253662b69da71d545f799a184740fb220bcb5a27644e8",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R30",
+        "benchmark_expand_500:R37",
+        "benchmark_expand_500:R38",
+        "benchmark_expand_500:R39",
+        "benchmark_expand_500:R40",
+        "benchmark_expand_500:R42"
+      ],
+      "formulas": [
+        "C23H17N3",
+        "C20H16N6OS",
+        "C14H12N4O",
+        "C28H21FN4O2",
+        "C24H24BrClN2O2",
+        "C22H15ClO3"
+      ]
+    },
+    {
+      "batch": "24",
+      "file": "solve_24.md",
+      "sha256": "cec5a5938aa7748b6e564ccd9a78c7a0f5d446fb4417f4387e67ee9db978f5dd",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R43",
+        "benchmark_expand_500:R44",
+        "benchmark_expand_500:R46",
+        "benchmark_expand_500:R47",
+        "benchmark_expand_500:R51",
+        "benchmark_expand_500:R52"
+      ],
+      "formulas": [
+        "C13H7O2S2-",
+        "C24H44N6O7",
+        "C28H18ClFN4OS",
+        "C8H16N2",
+        "C23H21N5O3S2",
+        "C30H25Br2N"
+      ]
+    },
+    {
+      "batch": "25",
+      "file": "solve_25.md",
+      "sha256": "71e76ea2436e2b1aebc460a40ed87151a83f2f5f2fa0df39b9a84fc1234d83e9",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R55",
+        "benchmark_expand_500:R57",
+        "benchmark_expand_500:R60",
+        "benchmark_expand_500:R62",
+        "benchmark_expand_500:R64",
+        "benchmark_expand_500:R65"
+      ],
+      "formulas": [
+        "C24H22N4O6",
+        "C22H20N4O2",
+        "C20H14BrNO2",
+        "C19H19Cl2NO",
+        "C14H10N4O4",
+        "C13H11N3O5S"
+      ]
+    },
+    {
+      "batch": "26",
+      "file": "solve_26.md",
+      "sha256": "b774dfc62ce8b1ad20b958521915878af58a2b5f75970e08959860fb408b2753",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R66",
+        "benchmark_expand_500:R68",
+        "benchmark_expand_500:R69",
+        "benchmark_expand_500:R71",
+        "benchmark_expand_500:R73",
+        "benchmark_expand_500:R75"
+      ],
+      "formulas": [
+        "C41H46OS3",
+        "C19H25NO3",
+        "C25H30N2O5",
+        "C13H12O5",
+        "C29H18BrClN2O3",
+        "C17H24O6"
+      ]
+    },
+    {
+      "batch": "27",
+      "file": "solve_27.md",
+      "sha256": "3772bde0ff01d4ba8bcb3d86471e84534016bbd8a6e01f0f91bea0348e5989ca",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_main:R01",
+        "benchmark_main:R02",
+        "benchmark_main:R05",
+        "benchmark_main:R06",
+        "benchmark_main:R07",
+        "benchmark_main:R08"
+      ],
+      "formulas": [
+        "C14H16FN5O",
+        "C14H8N2O4",
+        "C12H11Cl2N3O2S",
+        "C29H30FNO2",
+        "C18H13BrClNO",
+        "C16H11ClO2"
+      ]
+    },
+    {
+      "batch": "28",
+      "file": "solve_28.md",
+      "sha256": "c25c4e1618bc85622a1c0fa036763586ef3a7b611b3e2893735eedae2eee6617",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_main:R09",
+        "benchmark_main:R103",
+        "benchmark_main:R104",
+        "benchmark_main:R105",
+        "benchmark_main:R109",
+        "benchmark_main:R112"
+      ],
+      "formulas": [
+        "C18H20BrN3",
+        "C16H17N3O4",
+        "C21H20N4O",
+        "C23H20BrN3O2S",
+        "C23H31NO",
+        "C33H26N10O11"
+      ]
+    },
+    {
+      "batch": "29",
+      "file": "solve_29.md",
+      "sha256": "27c58e790122c0ead15e8f705da74690c1f50a857aad3999b85f94d5d89049b5",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_main:R114",
+        "benchmark_main:R116",
+        "benchmark_main:R117",
+        "benchmark_main:R119",
+        "benchmark_main:R120",
+        "benchmark_main:R121"
+      ],
+      "formulas": [
+        "C16H9ClN2O3",
+        "C36H43N3O3",
+        "C15H15N3",
+        "C17H19N3O4S",
+        "C16H9ClN2O4",
+        "C29H28N2O7S"
+      ]
+    },
+    {
+      "batch": "30",
+      "file": "solve_30.md",
+      "sha256": "fc8f3bf6f0a3d90e1a935b1c60f6f76fbcb919552df3ab9926551dfcd634c5aa",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_main:R122",
+        "benchmark_main:R123",
+        "benchmark_main:R124",
+        "benchmark_main:R126",
+        "benchmark_main:R127",
+        "benchmark_main:R13"
+      ],
+      "formulas": [
+        "C24H20N4O2",
+        "C25H15Cl2NO",
+        "C45H46N4O4S2",
+        "C17H20N2O3S",
+        "C20H21N5O2S",
+        "C22H17ClN2"
+      ]
+    },
+    {
+      "batch": "31",
+      "file": "solve_31.md",
+      "sha256": "07acf5123c18a4506805f7d1331add2d288d1ad508891393714d7d5b0d47f631",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_main:R130",
+        "benchmark_main:R132",
+        "benchmark_main:R133",
+        "benchmark_main:R134",
+        "benchmark_main:R135",
+        "benchmark_main:R15"
+      ],
+      "formulas": [
+        "C11H6ClN3O2",
+        "C28H27NO2Si",
+        "C23H17NO6",
+        "C18H16N2O6Se2",
+        "C24H25ClN6O3",
+        "C19H17BrO3"
+      ]
+    },
+    {
+      "batch": "32",
+      "file": "solve_32.md",
+      "sha256": "f4780afa9f37995a62e98a2458c83da7527b1fdc150861d5fb3a655e18e3bc9d",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_main:R16",
+        "benchmark_main:R17",
+        "benchmark_main:R20",
+        "benchmark_main:R21",
+        "benchmark_main:R25",
+        "benchmark_main:R27"
+      ],
+      "formulas": [
+        "C25H19N5O3S",
+        "C16H15N5O2S",
+        "C22H21NO5",
+        "C15H15NO2",
+        "C15H13Cl2N3O2S2",
+        "C23H22Br2N2O3"
+      ]
+    },
+    {
+      "batch": "33",
+      "file": "solve_33.md",
+      "sha256": "dd498576155bc0058ad0b47b8a8b3f2196fbaa491401772a921a84b6239b9d4f",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_main:R28",
+        "benchmark_main:R30",
+        "benchmark_main:R31",
+        "benchmark_main:R33",
+        "benchmark_main:R35",
+        "benchmark_main:R39"
+      ],
+      "formulas": [
+        "C22H28N2O2",
+        "C23H18N2O4",
+        "C27H26N2O3",
+        "C24H25F3N2O3",
+        "C22H15NO4",
+        "C28H25NO2"
+      ]
+    },
+    {
+      "batch": "34",
+      "file": "solve_34.md",
+      "sha256": "5266c0bcce11c18d121b30df36d09dec0a87fea57439f8feb7571eef85380b43",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_main:R45",
+        "benchmark_main:R47",
+        "benchmark_main:R48",
+        "benchmark_main:R49",
+        "benchmark_main:R53",
+        "benchmark_main:R54"
+      ],
+      "formulas": [
+        "C21H23N3O2S",
+        "C18H30N2O7S",
+        "C22H17Cl2N3S",
+        "C18H17ClFNO2S",
+        "C17H22N4O2",
+        "C12H13N5O3"
+      ]
+    },
+    {
+      "batch": "35",
+      "file": "solve_35.md",
+      "sha256": "233af89a792330526ccda4de7713d68135c96318b39caadaafb1aa7bc3248a73",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_main:R57",
+        "benchmark_main:R59",
+        "benchmark_main:R61",
+        "benchmark_main:R68",
+        "benchmark_main:R71",
+        "benchmark_main:R72"
+      ],
+      "formulas": [
+        "C17H10ClN3O4",
+        "C25H25NO2",
+        "C34H28N4O4S",
+        "C19H18O2",
+        "C30H28N4O8Sn",
+        "C28H23NO3SSe"
+      ]
+    },
+    {
+      "batch": "36",
+      "file": "solve_36.md",
+      "sha256": "fb6e75e974ae054f5a54c82c8572ab71755e46570f14533cffee08bd99e398d6",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_main:R74",
+        "benchmark_main:R75",
+        "benchmark_main:R80",
+        "benchmark_main:R81",
+        "benchmark_main:R83",
+        "benchmark_main:R85"
+      ],
+      "formulas": [
+        "C18H29N",
+        "C22H21NO4",
+        "C17H14ClN3O3",
+        "C15H9BrO2",
+        "C27H22N2O3S",
+        "C17H14N2O3S2"
+      ]
+    },
+    {
+      "batch": "37",
+      "file": "solve_37.md",
+      "sha256": "b6324e4b198e92967488b6c2d90300c43c75a368d0bc8cd78e6c69f41683c5ae",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_main:R86",
+        "benchmark_main:R89",
+        "benchmark_main:R90",
+        "benchmark_main:R91",
+        "benchmark_main:R96",
+        "benchmark_main:R97"
+      ],
+      "formulas": [
+        "C17H13N5",
+        "C25H18N2O7",
+        "C18H19N3O2",
+        "C24H21ClN4O2S",
+        "C17H23N3O",
+        "C22H15N3O5"
+      ]
+    },
+    {
+      "batch": "38",
+      "file": "solve_38.md",
+      "sha256": "0b18aeed723ec8062b236e8ceb14a39d22bde9862df557e12f5dd49e9c087473",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R01",
+        "benchmark_expand:R02",
+        "benchmark_expand:R04",
+        "benchmark_expand:R07",
+        "benchmark_expand:R09",
+        "benchmark_expand:R100"
+      ],
+      "formulas": [
+        "C12H14O3",
+        "C16H24O4Si",
+        "C12H15BrO",
+        "C8H5NO2",
+        "C14H21NO3",
+        "C12H11N3O5"
+      ]
+    },
+    {
+      "batch": "39",
+      "file": "solve_39.md",
+      "sha256": "ab0baffbe7ae0614a6826a4c8691b59e5c6bf61a9d245a80c651da8dcd56a7cc",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R103",
+        "benchmark_expand:R104",
+        "benchmark_expand:R105",
+        "benchmark_expand:R106",
+        "benchmark_expand:R12",
+        "benchmark_expand:R15"
+      ],
+      "formulas": [
+        "C13H9NO3",
+        "C14H9FO3",
+        "C8H10INO2S",
+        "C17H23NO4",
+        "C19H27NO2",
+        "C14H15N3O2S"
+      ]
+    },
+    {
+      "batch": "40",
+      "file": "solve_40.md",
+      "sha256": "2aaeff77df54be334d1e294ce23023c1f35a572c6ec5a00edb02a6d0427bdab0",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R16",
+        "benchmark_expand:R17",
+        "benchmark_expand:R19",
+        "benchmark_expand:R20",
+        "benchmark_expand:R24",
+        "benchmark_expand:R25"
+      ],
+      "formulas": [
+        "C15H23N3O3",
+        "C15H12O3",
+        "C8H5IN2O",
+        "C16H13NO4",
+        "C18H20O3",
+        "C12H22O3"
+      ]
+    },
+    {
+      "batch": "41",
+      "file": "solve_41.md",
+      "sha256": "ef0bae69e3687a085fce96c407e695a9f672f6622bba4f5feb41b1d854eb1760",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R26",
+        "benchmark_expand:R28",
+        "benchmark_expand:R29",
+        "benchmark_expand:R31",
+        "benchmark_expand:R36",
+        "benchmark_expand:R37"
+      ],
+      "formulas": [
+        "C14H19NO5",
+        "C14H12IN3O2",
+        "C13H26O",
+        "C17H34O2Si",
+        "C13H18O3",
+        "C11H14N2O3"
+      ]
+    },
+    {
+      "batch": "42",
+      "file": "solve_42.md",
+      "sha256": "a9481d3f7cc3c48e698ebf0b7878748f20d1c370f36835a13650e7dbda994a46",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R42",
+        "benchmark_expand:R45",
+        "benchmark_expand:R51",
+        "benchmark_expand:R53",
+        "benchmark_expand:R55",
+        "benchmark_expand:R56"
+      ],
+      "formulas": [
+        "C12H14N4S",
+        "C12H13N3S4",
+        "C12H13N3O3S2",
+        "C15H18O5",
+        "C15H17N5OS",
+        "C14H17N3O2"
+      ]
+    },
+    {
+      "batch": "43",
+      "file": "solve_43.md",
+      "sha256": "1ad6fa7d6af88d276ebfa7f187020f6f3de81f291203a195a1af8093a973edd3",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R59",
+        "benchmark_expand:R60",
+        "benchmark_expand:R64",
+        "benchmark_expand:R66",
+        "benchmark_expand:R67",
+        "benchmark_expand:R69"
+      ],
+      "formulas": [
+        "C13H18O3",
+        "C13H17NO5",
+        "C8H12O2",
+        "C15H31NO3Si",
+        "C18H15F3O",
+        "C8H7ClN2O3"
+      ]
+    },
+    {
+      "batch": "44",
+      "file": "solve_44.md",
+      "sha256": "a5c7289d26ed43a0754806a99cf290a68d2ae5d44de31616087668d249310c54",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R70",
+        "benchmark_expand:R72",
+        "benchmark_expand:R75",
+        "benchmark_expand:R78",
+        "benchmark_expand:R81",
+        "benchmark_expand:R82"
+      ],
+      "formulas": [
+        "C20H19NO",
+        "C14H14N2O3S",
+        "C12H24O2",
+        "C20H38O",
+        "C14H14S4",
+        "C14H12FNO2"
+      ]
+    },
+    {
+      "batch": "45",
+      "file": "solve_45.md",
+      "sha256": "240fd9b87465499be25f98f639d771a26571e4c4f75a20934a525b3e8bf3b46b",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R83",
+        "benchmark_expand:R84",
+        "benchmark_expand:R85",
+        "benchmark_expand:R89",
+        "benchmark_expand:R90",
+        "benchmark_expand:R91"
+      ],
+      "formulas": [
+        "C10H11ClN4S",
+        "C14H20O2",
+        "C12H21NO2",
+        "C15H11Br2NO",
+        "C7H11NO2",
+        "C12H11BrFN3OSe"
+      ]
+    },
+    {
+      "batch": "46",
+      "file": "solve_46.md",
+      "sha256": "2c66de3619ba1f631f267413bf5360e4716322f3e39adcb9cc22714854a95f34",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand:R93",
+        "benchmark_expand:R95",
+        "benchmark_expand:R96",
+        "benchmark_expand:R98",
+        "benchmark_expand:R99",
+        "benchmark_expand_500:R01"
+      ],
+      "formulas": [
+        "C14H15NO4",
+        "C10H7Br2FO",
+        "C11H9FN4O3",
+        "C9H10O3",
+        "C21H38O",
+        "C13H11BrN2O3"
+      ]
+    },
+    {
+      "batch": "47",
+      "file": "solve_47.md",
+      "sha256": "cba2726107bfd5c821f6f5249ad2c9eca3d2ae903eb3667a2a2fc946891446df",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R02",
+        "benchmark_expand_500:R05",
+        "benchmark_expand_500:R08",
+        "benchmark_expand_500:R101",
+        "benchmark_expand_500:R104",
+        "benchmark_expand_500:R109"
+      ],
+      "formulas": [
+        "C11H16NO3S2-",
+        "C12H12BrN3",
+        "C12H10ClNO2Se",
+        "C11H10Br2O2",
+        "C17H16O4",
+        "C7H13N3"
+      ]
+    },
+    {
+      "batch": "48",
+      "file": "solve_48.md",
+      "sha256": "1972623d4973dc0d7753059bcdabab36fb19db99cd023322e894400f653113f1",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R11",
+        "benchmark_expand_500:R110",
+        "benchmark_expand_500:R113",
+        "benchmark_expand_500:R115",
+        "benchmark_expand_500:R118",
+        "benchmark_expand_500:R12"
+      ],
+      "formulas": [
+        "C16H22N2O",
+        "C6H8O2",
+        "C8H10N2O2",
+        "C17H25BrFNO2",
+        "C19H30O2",
+        "C12H12N4"
+      ]
+    },
+    {
+      "batch": "49",
+      "file": "solve_49.md",
+      "sha256": "be3ca6ab02e1bc8da03d0976e18abf10c3bbd5bfc34ddcf21e15ce4cf9cafe9a",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R122",
+        "benchmark_expand_500:R126",
+        "benchmark_expand_500:R13",
+        "benchmark_expand_500:R131",
+        "benchmark_expand_500:R132",
+        "benchmark_expand_500:R134"
+      ],
+      "formulas": [
+        "C16H16N2O4",
+        "C7H4I2O3",
+        "C12H13BrO4",
+        "C15H30O3",
+        "C11H11FN4O",
+        "C9H14N2O4"
+      ]
+    },
+    {
+      "batch": "50",
+      "file": "solve_50.md",
+      "sha256": "77c31b1904c13e6567e6a49a81e68baca570d1cd8654490b2c49aeab6dd5b7e4",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R135",
+        "benchmark_expand_500:R137",
+        "benchmark_expand_500:R14",
+        "benchmark_expand_500:R141",
+        "benchmark_expand_500:R143",
+        "benchmark_expand_500:R144"
+      ],
+      "formulas": [
+        "C16H13NO2",
+        "C9H9FO2",
+        "C13H27NO",
+        "C17H24N2O2S",
+        "C9H8O",
+        "C14H22N2O"
+      ]
+    },
+    {
+      "batch": "51",
+      "file": "solve_51.md",
+      "sha256": "28bcf6a62bf91c9d325fba4ab8bc8561396a82c57f9b7ec6acdce6fce5ba31c0",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R151",
+        "benchmark_expand_500:R152",
+        "benchmark_expand_500:R153",
+        "benchmark_expand_500:R154",
+        "benchmark_expand_500:R155",
+        "benchmark_expand_500:R156"
+      ],
+      "formulas": [
+        "C14H11BrN2O3",
+        "C11H15NO4",
+        "C11H20O2",
+        "C13H12BrClN2O2S",
+        "C12H13NO5",
+        "C17H16O3"
+      ]
+    },
+    {
+      "batch": "52",
+      "file": "solve_52.md",
+      "sha256": "007c9dac5c2a02ad87f79e5a2081559f52fb843fdd2cb7933c4b96b85d418354",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R157",
+        "benchmark_expand_500:R159",
+        "benchmark_expand_500:R160",
+        "benchmark_expand_500:R162",
+        "benchmark_expand_500:R166",
+        "benchmark_expand_500:R167"
+      ],
+      "formulas": [
+        "C18H21NO3",
+        "C13H10F3NO3",
+        "C16H32O3",
+        "C14H11ClO3",
+        "C9H14OSi",
+        "C11H13FO2"
+      ]
+    },
+    {
+      "batch": "53",
+      "file": "solve_53.md",
+      "sha256": "2403339104df5d77a301e1b9a1acfb03466c6834a65ae4f243ead7c0f34dea06",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R168",
+        "benchmark_expand_500:R169",
+        "benchmark_expand_500:R170",
+        "benchmark_expand_500:R173",
+        "benchmark_expand_500:R174",
+        "benchmark_expand_500:R175"
+      ],
+      "formulas": [
+        "C10H18O4",
+        "C13H17N3O2S",
+        "C11H14N6OS",
+        "C13H13NO6",
+        "C17H22O2",
+        "C9H6N4O"
+      ]
+    },
+    {
+      "batch": "54",
+      "file": "solve_54.md",
+      "sha256": "acb3c286197626a83cd1e501ff412aafc4a11e403da115a4f7522db39f410a5c",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R177",
+        "benchmark_expand_500:R18",
+        "benchmark_expand_500:R180",
+        "benchmark_expand_500:R182",
+        "benchmark_expand_500:R185",
+        "benchmark_expand_500:R187"
+      ],
+      "formulas": [
+        "C12H14N2O6",
+        "C17H17NO4",
+        "C14H20N2O3S",
+        "C9H7FN2O2",
+        "C12H22O",
+        "C8H17BrO"
+      ]
+    },
+    {
+      "batch": "55",
+      "file": "solve_55.md",
+      "sha256": "9b73040728d1db70f166be466892dc858134afa171a0e2b4fe4143db81947933",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R189",
+        "benchmark_expand_500:R19",
+        "benchmark_expand_500:R190",
+        "benchmark_expand_500:R191",
+        "benchmark_expand_500:R197",
+        "benchmark_expand_500:R198"
+      ],
+      "formulas": [
+        "C14H23NO4",
+        "C8H10N2O2",
+        "C11H24O",
+        "C16H22O4",
+        "C13H19NO2S",
+        "C18H21NO2"
+      ]
+    },
+    {
+      "batch": "56",
+      "file": "solve_56.md",
+      "sha256": "6860e76a9f0615566bedfaaef41e3bf851ed34fd87ff0cd9852585e585cb46d0",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R201",
+        "benchmark_expand_500:R202",
+        "benchmark_expand_500:R203",
+        "benchmark_expand_500:R204",
+        "benchmark_expand_500:R206",
+        "benchmark_expand_500:R207"
+      ],
+      "formulas": [
+        "C12H9NO2",
+        "C14H17N5",
+        "C21H40O",
+        "C15H14BrNO",
+        "C18H19NO2Si",
+        "C13H26OSi"
+      ]
+    },
+    {
+      "batch": "57",
+      "file": "solve_57.md",
+      "sha256": "e711a6e3a3e6c8bac51ca750f2375f6e969bd60b1bf06d7147af8406a63fc1fc",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R209",
+        "benchmark_expand_500:R21",
+        "benchmark_expand_500:R211",
+        "benchmark_expand_500:R214",
+        "benchmark_expand_500:R22",
+        "benchmark_expand_500:R220"
+      ],
+      "formulas": [
+        "C16H14O2",
+        "C15H19NO3S",
+        "C12H16O3S",
+        "C13H26O3Si",
+        "C14H16O2",
+        "C15H14Br2N2O3"
+      ]
+    },
+    {
+      "batch": "58",
+      "file": "solve_58.md",
+      "sha256": "dbc51563cccefe8d09452a7d108a11e743ba660523e31c4842835418bf468446",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R221",
+        "benchmark_expand_500:R222",
+        "benchmark_expand_500:R226",
+        "benchmark_expand_500:R227",
+        "benchmark_expand_500:R228",
+        "benchmark_expand_500:R23"
+      ],
+      "formulas": [
+        "C16H16O3",
+        "C11H11NO",
+        "C11H9F7OS",
+        "C15H27NO",
+        "C12H16N4",
+        "C15H21NO4"
+      ]
+    },
+    {
+      "batch": "59",
+      "file": "solve_59.md",
+      "sha256": "202d4b65f6ae23b9c9a1f43e58943b62ed588539bffebd355d56c7210c26d322",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R24",
+        "benchmark_expand_500:R28",
+        "benchmark_expand_500:R29",
+        "benchmark_expand_500:R32",
+        "benchmark_expand_500:R33",
+        "benchmark_expand_500:R34"
+      ],
+      "formulas": [
+        "C11H15NO2",
+        "C8H7N3O",
+        "C13H13NO2",
+        "C13H13NO5",
+        "C13H13F3N2S",
+        "C18H23NO3"
+      ]
+    },
+    {
+      "batch": "60",
+      "file": "solve_60.md",
+      "sha256": "ecb2eef85ef2739e66eafa978a115c45c90de92003677510cdefc0f157b2bc87",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R35",
+        "benchmark_expand_500:R36",
+        "benchmark_expand_500:R41",
+        "benchmark_expand_500:R45",
+        "benchmark_expand_500:R48",
+        "benchmark_expand_500:R49"
+      ],
+      "formulas": [
+        "C12H10ClN3O5",
+        "C14H18O3",
+        "C14H14O2",
+        "C10H11N3S",
+        "C14H24O",
+        "C9H17ClO3"
+      ]
+    },
+    {
+      "batch": "61",
+      "file": "solve_61.md",
+      "sha256": "db198d37f688971a0daa6146bcd43aac9a606300485a30afe24c5c133d2ba01c",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R50",
+        "benchmark_expand_500:R53",
+        "benchmark_expand_500:R54",
+        "benchmark_expand_500:R56",
+        "benchmark_expand_500:R58",
+        "benchmark_expand_500:R59"
+      ],
+      "formulas": [
+        "C12H14O2",
+        "C12H18N2O5S",
+        "C10H7ClF3N3O",
+        "C18H30INOS",
+        "C8H14O3",
+        "C12H8N2O"
+      ]
+    },
+    {
+      "batch": "62",
+      "file": "solve_62.md",
+      "sha256": "723850cc127e441cdaead9d7a95f581eb51d7b36e61a77641b64d573c4cb13ab",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_expand_500:R61",
+        "benchmark_expand_500:R63",
+        "benchmark_expand_500:R67",
+        "benchmark_expand_500:R70",
+        "benchmark_expand_500:R72",
+        "benchmark_expand_500:R74"
+      ],
+      "formulas": [
+        "C11H12BrFO2",
+        "C13H10ClN3O2S",
+        "C12H13NO4S",
+        "C12H11N",
+        "C16H21N",
+        "C15H19FN4O"
+      ]
+    },
+    {
+      "batch": "63",
+      "file": "solve_63.md",
+      "sha256": "855128957c102c89bf1d80803dd155cc593f4f001ae4948b62af43b24ecc05a0",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_main:R04",
+        "benchmark_main:R10",
+        "benchmark_main:R100",
+        "benchmark_main:R101",
+        "benchmark_main:R102",
+        "benchmark_main:R106"
+      ],
+      "formulas": [
+        "C12H10FNO",
+        "C14H20O",
+        "C11H8F3N",
+        "C14H16N4O2S",
+        "C12H21NO",
+        "C15H13N"
+      ]
+    },
+    {
+      "batch": "64",
+      "file": "solve_64.md",
+      "sha256": "3805b51ea82f88ed6d3d4a276f7d4ceec5c0777106df4c199d4a7ce1568e89f7",
+      "k_requested": 50,
+      "qids": [
+        "benchmark_main:R107",
+        "benchmark_main:R108"
+      ],
+      "formulas": [
+        "C13H24O2",
+        "C12H12ClN3"
+      ]
+    }
+  ]
+}

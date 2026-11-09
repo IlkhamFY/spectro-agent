@@ -1,0 +1,64 @@
+{
+ "benchmark_v2_ctrl:R13": [
+  "O=C1NC(C(C)C)C(CC(C)C)NC1CC(C)C",
+  "O=C1NC(CC(C)C)C(C(C)C)NC1CC(C)C",
+  "O=C1NC(CC(C)C)C(CC(C)C)NC1C(C)C",
+  "O=C1NC(C(C)C)C(CC(C)C)NC1C(C)CC",
+  "O=C1NC(C(C)C)C(C(C)CC)NC1CC(C)C",
+  "O=C1NC(CC(C)C)C(C(C)C)NC1C(C)CC",
+  "O=C1NCC(CC(C)C)NC1(CC(C)C)C(C)C"
+ ],
+ "benchmark_v2_ctrl:R15": [
+  "Cc1ccccc1C(=O)CBr",
+  "Cc1cccc(C(=O)CBr)c1",
+  "Cc1ccc(C(=O)CBr)cc1",
+  "CC(=O)c1ccccc1CBr",
+  "CC(=O)c1cccc(CBr)c1",
+  "CC(=O)c1ccc(CBr)cc1",
+  "CCC(=O)c1ccccc1Br",
+  "CC(Br)C(=O)c1ccccc1",
+  "O=C(CCBr)c1ccccc1",
+  "O=Cc1ccccc1CCBr",
+  "Cc1ccc(Br)cc1C(C)=O",
+  "Cc1ccc(C(C)=O)c(Br)c1",
+  "CCC(=O)c1ccc(Br)cc1",
+  "CCC(=O)c1cccc(Br)c1"
+ ],
+ "benchmark_v2_ctrl:R16": [
+  "CC(=O)Cc1ccc(o1)C(O[Si](C)(C)C(C)(C)C)C(C)C",
+  "CC(=O)Cc1cc(C(O[Si](C)(C)C(C)(C)C)C(C)C)co1",
+  "CC(=O)Cc1occc1C(O[Si](C)(C)C(C)(C)C)C(C)C",
+  "CC(=O)Cc1ccc(o1)C(O[Si](C)(C)C(C)C)C(C)(C)C",
+  "CC(=O)Cc1coc(C(O[Si](C)(C)C(C)(C)C)C(C)C)c1"
+ ],
+ "benchmark_v2_ctrl:R17": [
+  "Cc1cc([N+](=O)[O-])ccc1Oc1ccc(SC#N)cc1",
+  "Cc1cc([N+](=O)[O-])ccc1Oc1ccc(N=C=S)cc1",
+  "Cc1ccc([N+](=O)[O-])cc1Oc1ccc(SC#N)cc1",
+  "Cc1ccc(Oc2ccc(SC#N)cc2)c([N+](=O)[O-])c1",
+  "Cc1cc(Oc2ccc(SC#N)cc2)ccc1[N+](=O)[O-]",
+  "Cc1cc(SC#N)ccc1Oc1ccc([N+](=O)[O-])cc1",
+  "Cc1cc([N+](=O)[O-])ccc1Oc1cccc(SC#N)c1",
+  "Cc1cc([N+](=O)[O-])ccc1Sc1ccc(OC#N)cc1"
+ ],
+ "benchmark_v3:R01": [
+  "COC(=O)C(=O)CCC=C[Si](C)(C)C",
+  "COC(=O)C(O)CCC#C[Si](C)(C)C",
+  "COC(O)C(=O)CCC#C[Si](C)(C)C",
+  "COC(=O)C(=O)CC=CC[Si](C)(C)C",
+  "COC(=O)OCCCC#C[Si](C)(C)C",
+  "COC(=O)C(=O)CCC(=C)[Si](C)(C)C"
+ ],
+ "benchmark_v3:R04": [
+  "CC(C)CC(NS(=O)(=O)c1ccc(C)cc1)C(=O)O",
+  "CCC(C)C(NS(=O)(=O)c1ccc(C)cc1)C(=O)O",
+  "CCCCC(NS(=O)(=O)c1ccc(C)cc1)C(=O)O",
+  "Cc1ccccc1S(=O)(=O)NC(CC(C)C)C(=O)O",
+  "Cc1cccc(S(=O)(=O)NC(CC(C)C)C(=O)O)c1",
+  "CC(C)C(CC(=O)O)NS(=O)(=O)c1ccc(C)cc1",
+  "CC(C)(C)C(NS(=O)(=O)c1ccc(C)cc1)C(=O)O",
+  "COC(=O)C(NS(=O)(=O)c1ccc(C)cc1)C(C)C",
+  "CN(C(C(=O)O)C(C)C)S(=O)(=O)c1ccc(C)cc1",
+  "CCc1ccc(S(=O)(=O)NC(C(=O)O)C(C)C)cc1"
+ ]
+}

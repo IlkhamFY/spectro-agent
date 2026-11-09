@@ -1,0 +1,13 @@
+slice,model,k_requested,k,n,recall,top1,generation_misses,n_lists_ge_k,source
+nested60,claude-opus-5-5-high,50,1,60,48/60,48/60,12/60,60/60,answer_key
+nested60,claude-opus-5-5-high,50,3,60,51/60,48/60,9/60,57/60,answer_key
+nested60,claude-opus-5-5-high,50,5,60,52/60,48/60,8/60,57/60,answer_key
+nested60,claude-opus-5-5-high,50,10,60,52/60,48/60,8/60,36/60,answer_key
+nested60,claude-opus-5-5-high,50,20,60,53/60,48/60,7/60,6/60,answer_key
+nested60,claude-opus-5-5-high,50,50,60,53/60,48/60,7/60,0/60,answer_key
+nested60,claude-opus-5-5-high,50,1,60,48/60,48/60,12/60,60/60,case_lite_gold_ik
+nested60,claude-opus-5-5-high,50,3,60,51/60,48/60,9/60,57/60,case_lite_gold_ik
+nested60,claude-opus-5-5-high,50,5,60,52/60,48/60,8/60,57/60,case_lite_gold_ik
+nested60,claude-opus-5-5-high,50,10,60,52/60,48/60,8/60,36/60,case_lite_gold_ik
+nested60,claude-opus-5-5-high,50,20,60,53/60,48/60,7/60,6/60,case_lite_gold_ik
+nested60,claude-opus-5-5-high,50,50,60,53/60,48/60,7/60,0/60,case_lite_gold_ik

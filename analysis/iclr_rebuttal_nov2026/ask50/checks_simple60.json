@@ -1,0 +1,12 @@
+{
+  "arm": "simple60",
+  "n_prompts": 10,
+  "n_qids": 60,
+  "n_gold_keys_scanned": 60,
+  "n_gold_smiles_scanned": 60,
+  "inchikey_regex_hits": 0,
+  "gold_key_leaks": 0,
+  "gold_smiles_leaks": 0,
+  "leaking_qids": [],
+  "passed": true
+}

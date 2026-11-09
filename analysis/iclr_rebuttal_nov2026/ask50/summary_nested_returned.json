@@ -3,11 +3,12 @@
   "thinking": "high",
   "k_requested": 50,
   "slice": "nested_returned",
-  "n_finished": 48,
-  "denominator": 48,
+  "n_finished": 54,
+  "denominator": 54,
   "coverage": {
-    "what_was_scored": "Returned nested batches only. Batches 01 and 05 did not return and were not replaced.",
+    "what_was_scored": "Returned nested batches only. Batch 05 did not return and was not replaced.",
     "scored_batches": [
+      "01",
       "02",
       "03",
       "04",
@@ -17,15 +18,9 @@
       "09",
       "10"
     ],
-    "n_scored": "48/48",
-    "n_not_returned": 12,
+    "n_scored": 54,
+    "n_not_returned": 6,
     "not_returned_qids": [
-      "benchmark_v2_ctrl:R01",
-      "benchmark_v2_ctrl:R04",
-      "benchmark_v2_ctrl:R05",
-      "benchmark_v2_ctrl:R06",
-      "benchmark_v2_ctrl:R09",
-      "benchmark_v2_ctrl:R10",
       "benchmark_v3:R31",
       "benchmark_v3:R33",
       "benchmark_v3:R36",
@@ -36,79 +31,79 @@
     "simple60_solved": false,
     "rest380_solved": false,
     "is_500_wide": false,
-    "denominator_note": "Every rate below uses 48, the number of returned lists."
+    "denominator_note": "Every rate below uses 54, the number of returned lists."
   },
   "empty_lists_stay_in_denominator": true,
-  "n_empty": "0/48",
+  "n_empty": "0/54",
   "list_length": {
-    "mean": 11.9792,
+    "mean": 12.2778,
     "median": 12.0,
-    "max": 26,
-    "n_reach_20": "4/48",
-    "n_reach_50": "0/48",
-    "n_longer_than_requested": "0/48"
+    "max": 28,
+    "n_reach_20": "6/54",
+    "n_reach_50": "0/54",
+    "n_longer_than_requested": "0/54"
   },
   "prefixes": {
     "1": {
       "k": 1,
-      "n": "48/48",
-      "recall": "42/48",
-      "top1": "42/48",
-      "generation_misses": "6/48",
-      "n_lists_ge_k": "48/48"
+      "n": "54/54",
+      "recall": "45/54",
+      "top1": "45/54",
+      "generation_misses": "9/54",
+      "n_lists_ge_k": "54/54"
     },
     "3": {
       "k": 3,
-      "n": "48/48",
-      "recall": "44/48",
-      "top1": "42/48",
-      "generation_misses": "4/48",
-      "n_lists_ge_k": "48/48"
+      "n": "54/54",
+      "recall": "47/54",
+      "top1": "45/54",
+      "generation_misses": "7/54",
+      "n_lists_ge_k": "53/54"
     },
     "5": {
       "k": 5,
-      "n": "48/48",
-      "recall": "45/48",
-      "top1": "42/48",
-      "generation_misses": "3/48",
-      "n_lists_ge_k": "48/48"
+      "n": "54/54",
+      "recall": "48/54",
+      "top1": "45/54",
+      "generation_misses": "6/54",
+      "n_lists_ge_k": "53/54"
     },
     "10": {
       "k": 10,
-      "n": "48/48",
-      "recall": "45/48",
-      "top1": "42/48",
-      "generation_misses": "3/48",
-      "n_lists_ge_k": "30/48"
+      "n": "54/54",
+      "recall": "48/54",
+      "top1": "45/54",
+      "generation_misses": "6/54",
+      "n_lists_ge_k": "33/54"
     },
     "20": {
       "k": 20,
-      "n": "48/48",
-      "recall": "45/48",
-      "top1": "42/48",
-      "generation_misses": "3/48",
-      "n_lists_ge_k": "4/48"
+      "n": "54/54",
+      "recall": "49/54",
+      "top1": "45/54",
+      "generation_misses": "5/54",
+      "n_lists_ge_k": "6/54"
     },
     "50": {
       "k": 50,
-      "n": "48/48",
-      "recall": "45/48",
-      "top1": "42/48",
-      "generation_misses": "3/48",
-      "n_lists_ge_k": "0/48"
+      "n": "54/54",
+      "recall": "49/54",
+      "top1": "45/54",
+      "generation_misses": "5/54",
+      "n_lists_ge_k": "0/54"
     }
   },
   "recall_movement": {
     "after_k10": {
-      "recall_left": "45/48",
-      "recall_right": "45/48",
-      "delta": "0/48",
-      "still_moves": false
+      "recall_left": "48/54",
+      "recall_right": "49/54",
+      "delta": "1/54",
+      "still_moves": true
     },
     "after_k20": {
-      "recall_left": "45/48",
-      "recall_right": "45/48",
-      "delta": "0/48",
+      "recall_left": "49/54",
+      "recall_right": "49/54",
+      "delta": "0/54",
       "still_moves": false
     },
     "after_k50": {
@@ -123,51 +118,51 @@
     "prefixes_if_scored_on_case_lite_gold_ik": {
       "1": {
         "k": 1,
-        "n": "48/48",
-        "recall": "42/48",
-        "top1": "42/48",
-        "generation_misses": "6/48",
-        "n_lists_ge_k": "48/48"
+        "n": "54/54",
+        "recall": "45/54",
+        "top1": "45/54",
+        "generation_misses": "9/54",
+        "n_lists_ge_k": "54/54"
       },
       "3": {
         "k": 3,
-        "n": "48/48",
-        "recall": "44/48",
-        "top1": "42/48",
-        "generation_misses": "4/48",
-        "n_lists_ge_k": "48/48"
+        "n": "54/54",
+        "recall": "47/54",
+        "top1": "45/54",
+        "generation_misses": "7/54",
+        "n_lists_ge_k": "53/54"
       },
       "5": {
         "k": 5,
-        "n": "48/48",
-        "recall": "45/48",
-        "top1": "42/48",
-        "generation_misses": "3/48",
-        "n_lists_ge_k": "48/48"
+        "n": "54/54",
+        "recall": "48/54",
+        "top1": "45/54",
+        "generation_misses": "6/54",
+        "n_lists_ge_k": "53/54"
       },
       "10": {
         "k": 10,
-        "n": "48/48",
-        "recall": "45/48",
-        "top1": "42/48",
-        "generation_misses": "3/48",
-        "n_lists_ge_k": "30/48"
+        "n": "54/54",
+        "recall": "48/54",
+        "top1": "45/54",
+        "generation_misses": "6/54",
+        "n_lists_ge_k": "33/54"
       },
       "20": {
         "k": 20,
-        "n": "48/48",
-        "recall": "45/48",
-        "top1": "42/48",
-        "generation_misses": "3/48",
-        "n_lists_ge_k": "4/48"
+        "n": "54/54",
+        "recall": "49/54",
+        "top1": "45/54",
+        "generation_misses": "5/54",
+        "n_lists_ge_k": "6/54"
       },
       "50": {
         "k": 50,
-        "n": "48/48",
-        "recall": "45/48",
-        "top1": "42/48",
-        "generation_misses": "3/48",
-        "n_lists_ge_k": "0/48"
+        "n": "54/54",
+        "recall": "49/54",
+        "top1": "45/54",
+        "generation_misses": "5/54",
+        "n_lists_ge_k": "0/54"
       }
     }
   },
